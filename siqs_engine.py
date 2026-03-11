@@ -628,7 +628,7 @@ def siqs_factor(n, verbose=True, time_limit=3600):
                                 hit_fb_arr, h_start, h_end):
         """
         Process a candidate using precomputed hit indices from batch JIT.
-        Avoids per-candidate Python→numba transition overhead.
+        Uses native Python int division (faster than gmpy2 for values < 2^128).
         """
         if gx_val == 0:
             g = gcd(mpz(ax_b_val), n)
@@ -637,40 +637,41 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             return None
 
         sign = 1 if gx_val < 0 else 0
-        v = mpz(abs(gx_val))
+        v = abs(gx_val)  # Native Python int — avoid mpz overhead
         exps = [0] * fb_size
 
-        # Trial divide using precomputed hit indices
+        # Trial divide using precomputed hit indices (native int divmod)
         for h in range(h_start, h_end):
             idx = hit_fb_arr[h]
             p = fb[idx]
             if v == 1:
                 break
-            q, r = gmpy2.f_divmod(v, p)
+            q, r = divmod(v, p)
             if r == 0:
                 e = 1
                 v = q
-                q, r = gmpy2.f_divmod(v, p)
+                q, r = divmod(v, p)
                 while r == 0:
                     e += 1
                     v = q
-                    q, r = gmpy2.f_divmod(v, p)
+                    q, r = divmod(v, p)
                 exps[idx] = e
 
-        remainder = int(v)
-
-        # Add a's prime contributions
-        for idx in a_prime_indices:
-            exps[idx] += 1
-
-        x_stored = int(mpz(ax_b_val) % n)
-
-        if remainder == 1:
+        if v == 1:
+            # Smooth relation
+            for idx in a_prime_indices:
+                exps[idx] += 1
+            x_stored = int(mpz(ax_b_val) % n)
             dlp_graph.add_smooth(x_stored, sign, exps)
-        elif remainder < lp_bound and gmpy2.is_prime(remainder):
-            result = dlp_graph.add_single_lp(x_stored, sign, exps, remainder)
+        elif v < lp_bound and is_prime(v):
+            # Single large prime relation
+            for idx in a_prime_indices:
+                exps[idx] += 1
+            x_stored = int(mpz(ax_b_val) % n)
+            result = dlp_graph.add_single_lp(x_stored, sign, exps, int(v))
             if result:
                 return result
+        # else: not smooth, discard (skip a_prime/x_stored computation)
         return None
 
     def process_candidate(ax_b_val, gx_val, a_prime_indices,
