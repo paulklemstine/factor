@@ -70,9 +70,15 @@ def tonelli_shanks(n, p):
 
 @njit(cache=True)
 def jit_sieve(sieve_arr, primes, logs, offsets1, offsets2, sz):
-    """Inner sieve loop: add log contributions at arithmetic progressions."""
+    """
+    Inner sieve loop: add log contributions at arithmetic progressions.
+    Skip primes < 32 — they contribute ~43% of sieve operations but
+    only ~4.5 bits of log. The threshold is adjusted to compensate.
+    """
     for i in range(len(primes)):
         p = primes[i]
+        if p < 32:
+            continue  # Skip small primes (threshold adjusted)
         lp = logs[i]
         o1 = offsets1[i]
         o2 = offsets2[i]
@@ -191,8 +197,8 @@ def siqs_params(nd):
         (55,  3500,  1500000),
         (60,  4500,  3000000),
         (65,  5500,  4000000),
-        (70,  7500,  6000000),
-        (75, 11000,  8000000),
+        (70,  6500,  5000000),
+        (75,  9000,  7000000),
         (80, 16000, 12000000),
         (85, 28000, 16000000),
         (90, 40000, 22000000),
@@ -494,6 +500,17 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     fb_np = np.array(fb, dtype=np.int64)
     fb_log = np.array([int(round(math.log2(p) * 1024)) for p in fb], dtype=np.int32)
     fb_index = {p: i for i, p in enumerate(fb)}
+
+    # Expected sieve contribution from small primes we skip in jit_sieve
+    # Each prime p hits ~2/p of positions (two roots), contributing log2(p)*1024
+    # p=2 has only 1 root, so factor is 1/p not 2/p
+    small_prime_correction = 0
+    for p in fb:
+        if p >= 32:
+            break
+        roots = 1 if p == 2 else 2
+        small_prime_correction += roots * math.log2(p) * 1024 / p
+    small_prime_correction = int(small_prime_correction)
 
     if verbose:
         print(f"    FB[{fb[0]}..{fb[-1]}] built ({time.time()-t0:.1f}s)")
@@ -977,9 +994,10 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             sieve_arr = _sieve_buf
             jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
 
-            # Threshold: log2(max|g(x)|) - T_bits
+            # Threshold: log2(max|g(x)|) - T_bits, minus small prime correction
+            # (small primes < 32 are skipped in jit_sieve for speed)
             log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-            thresh = int(max(0, (log_g_max - T_bits)) * 1024)
+            thresh = int(max(0, (log_g_max - T_bits)) * 1024) - small_prime_correction
 
             candidates = jit_find_smooth(sieve_arr, thresh)
             n_cand = len(candidates)

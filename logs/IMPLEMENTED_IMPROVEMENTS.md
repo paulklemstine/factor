@@ -47,3 +47,11 @@ Each entry: commit hash, optimization, percentage speedup, mathematical rational
   - `spectral_compass_select()`: replaces epsilon-based navigation with ratio-based targeting (minimize |C/B - R_target|) + depth-2 lookahead + modular pruning
   - Method A now runs multi-band Spectral Compass before falling back to greedy epsilon descent
 - **Math**: R_target = (n+Δ²)/(n-Δ²) = C/B for the target triple. Navigation minimizes spectral error with P-adic GPS pruning.
+
+### Small prime sieve skip + FB tuning for 65-80d — pending commit
+- **Bottleneck**: jit_sieve was 74% of sieve_and_collect runtime. Primes < 32 contribute ~43% of sieve loop iterations but only ~4.5 bits of expected log per position.
+- **Optimization 1**: Skip primes < 32 in jit_sieve (`if p < 32: continue`). Compensate by subtracting expected small prime log contribution from threshold: `small_prime_correction = sum(roots * log2(p) * 1024 / p for p in fb if p < 32)`.
+- **Optimization 2**: Reduce FB_size/M for 70d/75d to avoid memory pressure stalls (70d: 7500/6M → 6500/5M, 75d: 11000/8M → 9000/7M).
+- **Math**: Each prime p hits ~2/p of sieve positions (two QR roots). Expected contribution per position = sum(2*log2(p)/p). Threshold reduction compensates statistically — more false positives in trial division, but sieve runs ~2x faster, net positive.
+- **Speedup**: 1.2-1.9x across 48-66d range. 63d: 168s→89s (1.9x). 69d achieved at 538s.
+- **New scoreboard**: 48d/2.0s, 54d/12s, 57d/18s, 60d/48s, 63d/90s, 66d/244s, 69d/538s
