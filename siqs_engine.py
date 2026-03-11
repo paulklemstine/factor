@@ -129,6 +129,40 @@ def jit_find_hits(sieve_pos, fb, off1, off2, fb_size):
             hits[n_hits] = i
             n_hits += 1
     return hits[:n_hits]
+
+
+@njit(cache=True)
+def jit_batch_find_hits(candidates, n_cand, fb, off1, off2, fb_size):
+    """
+    Batch JIT hit detection for ALL candidates in a polynomial at once.
+    Eliminates Python→numba transition overhead per candidate.
+
+    Returns flat arrays:
+      hit_starts[ci] = index into hit_fb where candidate ci's hits begin
+      hit_fb[j] = FB index of j-th hit across all candidates
+      hit_count = total number of hits
+    """
+    # First pass: count hits per candidate to compute offsets
+    max_total = n_cand * 80  # ~80 hits per candidate upper bound
+    hit_fb = np.empty(max_total, dtype=np.int32)
+    hit_starts = np.empty(n_cand + 1, dtype=np.int32)
+    total = 0
+
+    for ci in range(n_cand):
+        hit_starts[ci] = total
+        pos = candidates[ci]
+        for i in range(fb_size):
+            p = fb[i]
+            o1 = off1[i]
+            if o1 < 0:
+                continue
+            r = pos % p
+            if r == o1 or (off2[i] >= 0 and r == off2[i]):
+                if total < max_total:
+                    hit_fb[total] = i
+                    total += 1
+    hit_starts[n_cand] = total
+    return hit_starts, hit_fb[:total]
     # because we need the prime values for modular arithmetic.
 
 
@@ -571,6 +605,55 @@ def siqs_factor(n, verbose=True, time_limit=3600):
 
         return exps, int(v)
 
+    def process_candidate_batch(ax_b_val, gx_val, a_prime_indices,
+                                hit_fb_arr, h_start, h_end):
+        """
+        Process a candidate using precomputed hit indices from batch JIT.
+        Avoids per-candidate Python→numba transition overhead.
+        """
+        if gx_val == 0:
+            g = gcd(mpz(ax_b_val), n)
+            if 1 < g < n:
+                return int(g)
+            return None
+
+        sign = 1 if gx_val < 0 else 0
+        v = mpz(abs(gx_val))
+        exps = [0] * fb_size
+
+        # Trial divide using precomputed hit indices
+        for h in range(h_start, h_end):
+            idx = hit_fb_arr[h]
+            p = fb[idx]
+            if v == 1:
+                break
+            q, r = gmpy2.f_divmod(v, p)
+            if r == 0:
+                e = 1
+                v = q
+                q, r = gmpy2.f_divmod(v, p)
+                while r == 0:
+                    e += 1
+                    v = q
+                    q, r = gmpy2.f_divmod(v, p)
+                exps[idx] = e
+
+        remainder = int(v)
+
+        # Add a's prime contributions
+        for idx in a_prime_indices:
+            exps[idx] += 1
+
+        x_stored = int(mpz(ax_b_val) % n)
+
+        if remainder == 1:
+            dlp_graph.add_smooth(x_stored, sign, exps)
+        elif remainder < lp_bound and gmpy2.is_prime(remainder):
+            result = dlp_graph.add_single_lp(x_stored, sign, exps, remainder)
+            if result:
+                return result
+        return None
+
     def process_candidate(ax_b_val, gx_val, a_prime_indices,
                           sieve_pos=None, off1=None, off2=None):
         """
@@ -885,7 +968,7 @@ def siqs_factor(n, verbose=True, time_limit=3600):
 
         # --- Sieve first polynomial ---
         def sieve_and_collect(b_val, c_val, off1, off2):
-            """Sieve one polynomial and collect relations."""
+            """Sieve one polynomial and collect relations using batch hit detection."""
             nonlocal poly_count, total_cands
             b_v = int(b_val)
             c_v = int(c_val)
@@ -895,22 +978,33 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
 
             # Threshold: log2(max|g(x)|) - T_bits
-            # max|g(x)| ~ a*M^2 for large M, but more precisely:
-            # |g(x)| = |a*x^2 + 2*b*x + c| <= a*M^2 + 2*b*M + |c|
             log_g_max = math.log2(max(M, 1)) + 0.5 * nb
             thresh = int(max(0, (log_g_max - T_bits)) * 1024)
 
             candidates = jit_find_smooth(sieve_arr, thresh)
-            total_cands += len(candidates)
+            n_cand = len(candidates)
+            total_cands += n_cand
 
-            for ci in range(len(candidates)):
+            if n_cand == 0:
+                poly_count += 1
+                return None
+
+            # Batch hit detection: single JIT call for ALL candidates
+            hit_starts, hit_fb = jit_batch_find_hits(
+                candidates, n_cand, fb_np, off1, off2, fb_size)
+
+            for ci in range(n_cand):
                 sieve_pos = int(candidates[ci])
                 x = sieve_pos - M
                 ax_b = int(a * x + b_val)
-                # g(x) = a*x^2 + 2*b*x + c  (sieve g(x), NOT Q(x) = ax^2 - n)
                 gx = a_int * x * x + 2 * b_v * x + c_v
-                result = process_candidate(ax_b, gx, a_prime_idx,
-                                           sieve_pos=sieve_pos, off1=off1, off2=off2)
+
+                # Use precomputed hits for this candidate
+                h_start = hit_starts[ci]
+                h_end = hit_starts[ci + 1]
+
+                result = process_candidate_batch(
+                    ax_b, gx, a_prime_idx, hit_fb, h_start, h_end)
                 if result:
                     return result
 
