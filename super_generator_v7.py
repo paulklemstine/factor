@@ -110,6 +110,161 @@ def passes_modular_filter(B, C, filters):
 
 
 ###############################################################################
+# MODULAR CARRY SQUEEZE (LSB Anchor — Delta Refinement Solution B)
+###############################################################################
+
+def build_carry_squeeze(n, k=16):
+    """
+    Build the Modular Carry Squeeze table.
+
+    For n = (C-B)(C+B), and candidate delta = C-B:
+      n ≡ delta * (delta + 2B) mod 2^k
+
+    For each possible delta mod 2^k, compute the set of valid
+    (C-B) mod 2^k values. This constrains which tree branches
+    can lead to a valid factorization.
+
+    Returns: set of allowed (delta mod 2^k) values.
+    """
+    m = 1 << k  # 2^k
+    n_mod = int(n % m)
+    allowed_deltas = set()
+
+    for delta in range(1, m):
+        # n ≡ delta * (delta + 2B) mod m
+        # So (delta + 2B) ≡ n * delta^(-1) mod m (if delta is odd)
+        # For even delta, check if n/gcd(delta, m) has a solution
+        if delta % 2 == 0:
+            # Even delta: more complex. Check all B values.
+            for b in range(m):
+                if (delta * (delta + 2 * b)) % m == n_mod:
+                    allowed_deltas.add(delta)
+                    break
+        else:
+            # Odd delta: delta is invertible mod 2^k
+            try:
+                d_inv = pow(delta, -1, m)
+                sum_val = (n_mod * d_inv) % m  # delta + 2B mod m
+                # B = (sum_val - delta) / 2 mod m
+                diff = (sum_val - delta) % m
+                if diff % 2 == 0:
+                    allowed_deltas.add(delta)
+            except (ValueError, ZeroDivisionError):
+                pass
+
+    return allowed_deltas, k
+
+
+def passes_carry_squeeze(C, B, allowed_deltas, k):
+    """
+    Check if the current node's delta = C - B passes the Carry Squeeze.
+    Returns True if (C-B) mod 2^k is in the allowed set.
+    """
+    m = 1 << k
+    delta_mod = int((C - B) % m)
+    return delta_mod in allowed_deltas
+
+
+###############################################################################
+# HYPERBOLIC CONVERGENCE TRACKER (Delta Refinement Solution A)
+###############################################################################
+
+class HyperbolicTracker:
+    """
+    Monitor the velocity of R = C/B convergence along the tree path.
+
+    If the ratio is converging too fast toward R_target, dynamically
+    stretch the delta estimate (increase R_target) to prevent overshoot.
+    If converging too slowly, compress (decrease R_target).
+
+    This acts as an Inverse Jacobian stabilizer.
+    """
+
+    def __init__(self, R_target, damping=0.8):
+        self.R_target_base = R_target
+        self.R_target = R_target
+        self.damping = damping
+        self.history = []  # (depth, R_current, error)
+
+    def update(self, R_current, depth):
+        """
+        Record current ratio and adjust R_target if needed.
+        Returns the (possibly adjusted) R_target.
+        """
+        error = R_current - self.R_target
+        self.history.append((depth, R_current, error))
+
+        if len(self.history) < 3:
+            return self.R_target
+
+        # Compute convergence velocity: dR/d(depth)
+        r_prev = self.history[-2][1]
+        r_curr = R_current
+        velocity = r_curr - r_prev  # Rate of change of R
+
+        # Compute expected velocity toward target
+        remaining_error = self.R_target - R_current
+        expected_velocity = remaining_error * 0.1  # Expect 10% convergence per step
+
+        if abs(velocity) > 0 and abs(remaining_error) > 0:
+            # If overshooting (velocity sign matches error but magnitude is too large)
+            if abs(velocity) > abs(expected_velocity) * 3:
+                # Converging too fast — stretch R_target to slow down
+                self.R_target = self.R_target + remaining_error * (1 - self.damping)
+            elif abs(velocity) < abs(expected_velocity) * 0.1 and len(self.history) > 10:
+                # Converging too slowly — compress R_target
+                self.R_target = self.R_target_base  # Reset to original
+
+        return self.R_target
+
+    def get_velocity(self):
+        """Get the most recent convergence velocity."""
+        if len(self.history) < 2:
+            return 0.0
+        return self.history[-1][1] - self.history[-2][1]
+
+
+###############################################################################
+# CAPTURE ZONE SNAP (Delta Refinement Solution C)
+###############################################################################
+
+def capture_zone_snap(n, C_approx, scan_range=10000):
+    """
+    When the Super-Generator reaches the "Capture Zone" where C ≈ √n,
+    perform an intensive Fermat scan around C_approx.
+
+    For each C_try in [C_approx - scan_range, C_approx + scan_range]:
+      B² = C_try² - n
+      If B² is a perfect square → factorization found.
+
+    This is the "gravity well" that snaps an approximate path to
+    the exact integer solution.
+
+    Returns factor or None.
+    """
+    n = mpz(n)
+    sqrt_n = isqrt(n)
+
+    # Ensure C_approx >= sqrt(n) + 1
+    C_start = max(mpz(C_approx) - scan_range, sqrt_n + 1)
+    C_end = mpz(C_approx) + scan_range
+
+    for C_val in range(int(C_start), int(C_end) + 1):
+        C_val = mpz(C_val)
+        B_sq = C_val * C_val - n
+        if B_sq < 0:
+            continue
+        B_val = isqrt(B_sq)
+        if B_val * B_val == B_sq and B_val > 0:
+            f1 = C_val - B_val
+            f2 = C_val + B_val
+            if f1 > 1 and f2 > 1 and f1 * f2 == n:
+                return int(min(f1, f2))
+
+    return None
+
+
+###############################################################################
 # VSDD Check (multiple delta extractions)
 ###############################################################################
 
@@ -741,7 +896,18 @@ def super_generator_v7(n, verbose=True, time_limit=60):
     roots = get_multi_roots(n, max_k=30)
     method_a_time = time_limit * 0.35  # 35% of time budget
 
+    # Build Modular Carry Squeeze table (Solution B: LSB Anchor)
+    # Use k=8 for speed (256 residues). Upgrade to k=12 for larger numbers.
+    squeeze_k = 12 if nb >= 150 else 8
+    allowed_deltas, sq_k = build_carry_squeeze(n, k=squeeze_k)
+
+    if verbose and allowed_deltas:
+        squeeze_ratio = len(allowed_deltas) / (1 << squeeze_k)
+        print(f"    Carry Squeeze: {len(allowed_deltas)}/{1 << squeeze_k} "
+              f"deltas survive mod 2^{squeeze_k} ({squeeze_ratio:.1%})")
+
     # Step 2: For each resonance band, run Spectral Compass navigation
+    # with Hyperbolic Convergence tracking + Carry Squeeze + Capture Zone
     for band_idx, (delta_est, R_target) in enumerate(resonance_bands):
         if time.time() - t0 > method_a_time:
             break
@@ -754,6 +920,7 @@ def super_generator_v7(n, verbose=True, time_limit=60):
 
             A, B, C = A0, B0, C0
             lyapunov = LyapunovTracker(consecutive_limit=5)
+            hyper = HyperbolicTracker(R_target, damping=0.8)
             max_depth = 500
 
             for depth in range(max_depth):
@@ -770,12 +937,46 @@ def super_generator_v7(n, verbose=True, time_limit=60):
                     return result
                 total_checks += 1
 
-                # Spectral Compass: navigate toward R_target
+                # Solution C: Capture Zone Snap
+                # When C approaches √n, do intensive Fermat scan
+                if C > 0 and abs(float(gmpy2.log2(C)) - float(gmpy2.log2(sqrt_n))) < 1.0:
+                    snap_result = capture_zone_snap(n, int(C), scan_range=5000)
+                    if snap_result is not None:
+                        elapsed = time.time() - t0
+                        if verbose:
+                            print(f"    HIT (Capture Zone Snap) at band {band_idx}, "
+                                  f"depth {depth}: factor={snap_result} ({elapsed:.3f}s)")
+                        return snap_result
+
+                # Solution A: Hyperbolic Convergence — get adjusted R_target
+                R_current = float(C) / float(B) if B > 0 else float('inf')
+                adj_R_target = hyper.update(R_current, depth)
+
+                # Spectral Compass: navigate toward (adjusted) R_target
                 sc_idx, sc_node, sc_err = spectral_compass_select(
-                    A, B, C, R_target, n, filters=filters)
+                    A, B, C, adj_R_target, n, filters=filters)
 
                 if sc_idx is None:
                     break
+
+                A_next, B_next, C_next = sc_node
+
+                # Solution B: Modular Carry Squeeze — check LSB consistency
+                if allowed_deltas and not passes_carry_squeeze(
+                        C_next, B_next, allowed_deltas, sq_k):
+                    # LSBs don't match. Try other matrices (Barning-Hall swerve).
+                    swerved = False
+                    for alt_idx, M_alt in enumerate(UNIQUE_MATRICES):
+                        if alt_idx == sc_idx:
+                            continue
+                        A_alt, B_alt, C_alt = mat_mul(M_alt, (A, B, C))
+                        if A_alt <= 0 or B_alt <= 0 or C_alt <= 0:
+                            continue
+                        if passes_carry_squeeze(C_alt, B_alt, allowed_deltas, sq_k):
+                            A_next, B_next, C_next = A_alt, B_alt, C_alt
+                            swerved = True
+                            break
+                    # If no swerve found, proceed anyway (squeeze is a heuristic)
 
                 # Lyapunov stability on spectral error
                 stable = lyapunov.update(sc_err)
@@ -785,7 +986,7 @@ def super_generator_v7(n, verbose=True, time_limit=60):
                 if sc_err < best_global_eps:
                     best_global_eps = sc_err
 
-                A, B, C = sc_node
+                A, B, C = A_next, B_next, C_next
 
     # Step 3: Fallback — greedy descent with epsilon minimization (original Method A)
     if time.time() - t0 < method_a_time:
