@@ -105,28 +105,30 @@ def jit_find_smooth(sieve_arr, threshold):
 
 
 @njit(cache=True)
-def jit_update_offsets_gray(offsets1, offsets2, deltas1, deltas2, sz, num_primes, flip_sign):
+def jit_find_hits(sieve_pos, fb, off1, off2, fb_size):
     """
-    Gray code B-switching: update sieve offsets by adding or subtracting
-    precomputed deltas. This is the core SIQS speedup.
+    JIT hit detection for sieve-informed trial division.
+    For a candidate at sieve_pos, find which FB primes have a sieve root
+    matching this position (i.e., sieve_pos % p == off1[i] or off2[i]).
 
-    When switching from b to b' = b +/- 2*B_values[j], the sieve roots
-    shift by +/- delta[i] for each prime p_i, where:
-        delta[i] = 2 * B_values[j] * a_inv[i] mod p_i
-
-    flip_sign: +1 or -1 (whether to add or subtract the delta)
+    Returns array of FB indices that are hits.
+    Much faster than numpy per-call dispatch for individual candidates.
     """
-    for i in range(num_primes):
-        if offsets1[i] >= 0:
-            if flip_sign > 0:
-                offsets1[i] = (offsets1[i] + deltas1[i]) % (deltas1[i] + deltas2[i] + 1)
-            else:
-                offsets1[i] = (offsets1[i] - deltas1[i])
-            # Wrap into [0, sz)
-            # Actually we need mod p, but p isn't passed here.
-            # We'll handle this in Python instead.
-            pass
-    # This kernel is a placeholder — the real update is done in Python
+    hits = np.empty(fb_size, dtype=np.int32)
+    n_hits = 0
+    for i in range(fb_size):
+        p = fb[i]
+        o1 = off1[i]
+        if o1 < 0:
+            continue
+        r = sieve_pos % p
+        if r == o1:
+            hits[n_hits] = i
+            n_hits += 1
+        elif off2[i] >= 0 and r == off2[i]:
+            hits[n_hits] = i
+            n_hits += 1
+    return hits[:n_hits]
     # because we need the prime values for modular arithmetic.
 
 
@@ -143,23 +145,25 @@ def siqs_params(nd):
         # (digits, FB_size, sieve_half_width_M)
         # Tuned to match/exceed v5 MPQS performance.
         # M values slightly larger than MPQS since SIQS poly switching is cheaper.
+        # FB_size tuned: smaller FB = fewer relations needed + faster LA,
+        # but lower smoothness probability per candidate.
         (20,    80,    20000),
         (25,   150,    40000),
         (30,   250,    80000),
         (35,   450,   150000),
         (40,   800,   300000),
         (45,  1200,   500000),
-        (50,  3000,  1500000),
-        (55,  4500,  2500000),
-        (60,  6500,  4000000),
-        (65,  7000,  6000000),
-        (70, 10000,  6000000),
-        (75, 15000,  8000000),
-        (80, 22000, 12000000),
-        (85, 32000, 16000000),
-        (90, 45000, 22000000),
-        (95, 60000, 28000000),
-        (100, 80000, 35000000),
+        (50,  2500,  1000000),
+        (55,  3500,  1500000),
+        (60,  4500,  3000000),
+        (65,  6000,  4000000),
+        (70,  9000,  6000000),
+        (75, 13000,  8000000),
+        (80, 20000, 12000000),
+        (85, 28000, 16000000),
+        (90, 40000, 22000000),
+        (95, 55000, 28000000),
+        (100, 75000, 35000000),
     ]
     for i in range(len(tbl) - 1):
         if tbl[i][0] <= nd < tbl[i + 1][0]:
@@ -481,8 +485,13 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     dlp_bound = fb[-1] ** 3  # Double LP bound: cofactor < FB_max^3
 
     # T_bits controls false-positive rate in sieve. Tighter = fewer candidates
-    # but risk missing smooth values. nb//4 was v5.0 default; nb//4-1 is tighter.
-    T_bits = max(15, nb // 4 - 2)
+    # but risk missing smooth values. nb//4 was v5.0 default.
+    # For larger numbers, tighter threshold is better because the candidate
+    # processing cost dominates (trial_divide_smart is 55% of runtime).
+    if nb >= 180:
+        T_bits = max(15, nb // 4 - 1)  # Tighter for 54d+
+    else:
+        T_bits = max(15, nb // 4 - 2)
     needed = fb_size + 30
 
     dlp_graph = DoubleLargePrimeGraph(n, fb_size, lp_bound)
@@ -527,25 +536,26 @@ def siqs_factor(n, verbose=True, time_limit=3600):
                 exps[i] = e
         return exps, int(v)
 
-    # Preallocate buffer for sieve-informed trial division
-    _pos_mod = np.empty(fb_size, dtype=np.int64)
+    # JIT warmup for hit detection
+    _warmup_fb = np.array([2, 3], dtype=np.int64)
+    _warmup_o = np.array([0, 1], dtype=np.int64)
+    jit_find_hits(0, _warmup_fb, _warmup_o, _warmup_o, 2)
 
     def trial_divide_smart(val, sieve_pos, off1, off2):
         """
         Sieve-informed trial division: only check primes whose sieve root
-        matches the candidate position. Uses numpy vectorized modulo for
-        hit detection, then gmpy2 only on hits.
+        matches the candidate position. Uses numba JIT for hit detection
+        (avoids numpy per-call dispatch overhead), then gmpy2 only on hits.
         """
         v = mpz(abs(val))
         exps = [0] * fb_size
 
-        # Vectorized hit detection (numpy is 10x faster than Python loop)
-        np.remainder(sieve_pos, fb_np, out=_pos_mod)
-        hit_mask = (_pos_mod == off1) | ((off2 >= 0) & (_pos_mod == off2))
-        hits = hit_mask.nonzero()[0]
+        # JIT hit detection (numba loop, no numpy dispatch overhead)
+        hits = jit_find_hits(sieve_pos, fb_np, off1, off2, fb_size)
 
-        for i in hits:
-            p = fb[i]
+        for i in range(len(hits)):
+            idx = hits[i]
+            p = fb[idx]
             if v == 1:
                 break
             q, r = gmpy2.f_divmod(v, p)
@@ -557,7 +567,7 @@ def siqs_factor(n, verbose=True, time_limit=3600):
                     e += 1
                     v = q
                     q, r = gmpy2.f_divmod(v, p)
-                exps[i] = e
+                exps[idx] = e
 
         return exps, int(v)
 
@@ -599,8 +609,8 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             result = dlp_graph.add_single_lp(x_stored, sign, exps, remainder)
             if result:
                 return result
-        # DLP (double large prime) disabled — costs 56% of runtime for
-        # marginal relation gain. SLP provides sufficient relations.
+        # DLP disabled — Pollard rho cofactor splitting overhead exceeds
+        # the value of extra relations (60d: 80s→122s with DLP).
         return None
 
     def _quick_split(n_val):
@@ -718,6 +728,8 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     # Main sieve loop
     # ------------------------------------------------------------------
     sz = 2 * M  # Sieve array size: x in [-M, M) mapped to [0, 2M)
+    # Preallocate sieve array (avoid 14MB+ allocation per polynomial)
+    _sieve_buf = np.zeros(sz, dtype=np.int32)
 
     for a_iter in range(200000):
         if dlp_graph.num_smooth >= needed or time.time() - t0 > time_limit:
@@ -878,7 +890,8 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             b_v = int(b_val)
             c_v = int(c_val)
 
-            sieve_arr = np.zeros(sz, dtype=np.int32)
+            _sieve_buf[:] = 0  # Zero in-place (faster than alloc+init)
+            sieve_arr = _sieve_buf
             jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
 
             # Threshold: log2(max|g(x)|) - T_bits

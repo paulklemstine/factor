@@ -30,3 +30,20 @@ Each entry: commit hash, optimization, percentage speedup, mathematical rational
 - **Math**: For prime p, g(x) divisible by p iff sieve_pos % p == offset[p]. Use numpy vectorized modulo to find hits, reducing trial division from O(FB_size) to O(hits_per_candidate)
 - **Speedup**: 4x at 39d, 8x at 48d, 10x at 54d (speedup grows with digit count)
 - **New scoreboard**: 39d/0.68s, 42d/1.19s, 45d/3.81s, 48d/8.37s, 51d/14.98s, 54d/49.18s, 57d/115.16s
+
+### JIT hit detection + FB tuning — pending commit
+- **Bottleneck**: numpy per-call dispatch overhead in trial_divide_smart (55% of runtime, 45μs/call)
+- **Optimization 1**: Replace numpy `np.remainder` + `nonzero` with numba `jit_find_hits` kernel. Eliminates Python→numpy dispatch overhead per candidate. Per-call cost: 45μs → 23μs.
+- **Optimization 2**: Preallocate sieve array (avoid 14MB allocation per polynomial)
+- **Optimization 3**: Tune FB_size downward (50d: 3000→2500, 55d: 4500→3500, 60d: 6500→4500). Fewer relations needed + faster GF(2) LA (O(n²) in FB_size).
+- **Math**: JIT loop does scalar `sieve_pos % p` for each FB prime at C speed without numpy array creation overhead. Smaller FB trades smoothness probability for fewer required relations — net positive because LA cost dominates at 60d+.
+- **Speedup**: 3-5x across 45-60d range
+- **New scoreboard**: 39d/0.33s, 42d/0.71s, 45d/1.01s, 48d/2.67s, 51d/6.62s, 54d/11.27s, 57d/23.74s, 60d/79.85s
+
+### Spectral Compass + Resonance Band Estimation — pending commit
+- **Description**: Path 1 (Super-Generator) now uses Beat Frequency Envelope to estimate Δ candidates, then navigates Pythagorean tree with Spectral Compass targeting R = C/B
+- **Key additions**:
+  - `resonance_band_estimate(n)`: probes candidate Δ values using logarithmic spacing, beat frequency sampling (small k), and n^(1/4) neighborhood
+  - `spectral_compass_select()`: replaces epsilon-based navigation with ratio-based targeting (minimize |C/B - R_target|) + depth-2 lookahead + modular pruning
+  - Method A now runs multi-band Spectral Compass before falling back to greedy epsilon descent
+- **Math**: R_target = (n+Δ²)/(n-Δ²) = C/B for the target triple. Navigation minimizes spectral error with P-adic GPS pruning.

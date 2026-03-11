@@ -190,6 +190,178 @@ def vsdd_multi_check(n, A, B, C):
 
 
 ###############################################################################
+# RESONANCE BAND ESTIMATION (Beat Frequency Envelope)
+###############################################################################
+
+def resonance_band_estimate(n, num_bands=5):
+    """
+    Estimate candidate Δ values (factor gap = C - B) using the Beat
+    Frequency Envelope E(x) = cos(π(√(x+n) - √x)).
+
+    Math: For n = C² - B², the resonance occurs at x = B² where
+    √(x+n) - √x = Δ = C - B exactly. Near this x, the envelope
+    amplitude peaks (cosine crosses ±1).
+
+    Since Δ is unknown, we probe multiple candidate bands:
+    1. For balanced semiprimes: Δ ≈ n^(1/4) to n^(1/2)
+    2. Use the derivative f'(x) = 0.5(1/√(x+n) - 1/√x) to find
+       regions where the beat frequency is minimized
+    3. Filter candidates using modular constraints
+
+    Returns list of (delta_estimate, R_target) pairs sorted by likelihood.
+    """
+    n = mpz(n)
+    sqrt_n = isqrt(n)
+    nb = int(gmpy2.log2(n)) + 1
+
+    candidates = []
+
+    # Strategy 1: Logarithmically spaced Δ probes
+    # For balanced semiprimes, Δ = p - q where p,q ≈ √n
+    # The gap (p-q) can range from ~n^(1/4) (very balanced) to ~√n (unbalanced)
+    # We probe ~num_bands * 3 candidates across this range
+    log_lo = max(1, nb // 4 - 4)   # ≈ n^(1/4) bits
+    log_hi = nb // 2               # ≈ √n bits
+
+    for i in range(num_bands * 3):
+        frac = i / max(1, num_bands * 3 - 1)
+        log_delta = log_lo + frac * (log_hi - log_lo)
+        delta = mpz(1) << int(log_delta)
+
+        # Refine: check if n is divisible by delta (direct hit)
+        g = gcd(n, delta)
+        if 1 < g < n:
+            candidates.append((int(g), float('inf')))  # Direct hit
+            continue
+
+        # Compute B = (n - Δ²) / (2Δ) — check if valid
+        delta_sq = delta * delta
+        if delta_sq >= n:
+            continue
+        num = n - delta_sq
+        denom = 2 * delta
+        if num % denom == 0:
+            # Exact! This delta is a factor
+            B = num // denom
+            C = B + delta
+            if C * C - B * B == n:
+                candidates.append((int(delta), float('inf')))
+                continue
+
+        # Compute R_target for this delta estimate
+        n_plus_d2 = n + delta_sq
+        n_minus_d2 = n - delta_sq
+        if n_minus_d2 <= 0:
+            continue
+        R_target = float(n_plus_d2) / float(n_minus_d2)
+        if R_target < 1.0 or R_target > 1e15:
+            continue
+
+        candidates.append((int(delta), R_target))
+
+    # Strategy 2: Beat frequency sampling near √n
+    # f(x) = √(x+n) - √x. We want f(x) close to integer k.
+    # For each small k, x_k = ((n-k²)/(2k))²
+    # These give the exact resonance points for factor gap k.
+    for k in range(1, min(10000, int(sqrt_n) + 1)):
+        k_mpz = mpz(k)
+        k_sq = k_mpz * k_mpz
+        if k_sq >= n:
+            break
+        num = n - k_sq
+        if num % (2 * k_mpz) != 0:
+            continue
+        B = num // (2 * k_mpz)
+        C = B + k_mpz
+        if B > 0 and C > 0 and C * C - B * B == n:
+            # Exact factorization!
+            f1 = int(k_mpz)
+            f2 = int(2 * B + k_mpz)
+            if f1 > 1 and f2 > 1:
+                candidates.append((min(f1, f2), float('inf')))
+
+    # Strategy 3: Probe near n^(1/4) ± small offsets (very balanced primes)
+    quarter_root, _ = gmpy2.iroot(n, 4)
+    for offset in range(-50, 51):
+        delta = quarter_root + offset
+        if delta <= 0:
+            continue
+        delta_sq = delta * delta
+        if delta_sq >= n:
+            continue
+        n_plus_d2 = n + delta_sq
+        n_minus_d2 = n - delta_sq
+        if n_minus_d2 <= 0:
+            continue
+        R_target = float(n_plus_d2) / float(n_minus_d2)
+        if 1.0 < R_target < 1e15:
+            candidates.append((int(delta), R_target))
+
+    # Deduplicate and sort by R_target closeness to reasonable range
+    seen = set()
+    unique = []
+    for delta, R in candidates:
+        if delta not in seen:
+            seen.add(delta)
+            unique.append((delta, R))
+
+    # Sort: exact hits first (inf score), then by R_target closeness to 1
+    unique.sort(key=lambda x: (-x[1] if x[1] == float('inf') else abs(x[1] - 2.0)))
+
+    return unique[:num_bands]
+
+
+def spectral_compass_select(A, B, C, R_target, n, matrices=None, filters=None):
+    """
+    Spectral Compass: select the matrix that minimizes |C'/B' - R_target|
+    with modular pruning.
+
+    R_target = C_target/B_target where C_target² - B_target² = n.
+    At each node, we evaluate all child branches and choose the one
+    whose C/B ratio is closest to R_target.
+
+    Returns (best_matrix_index, best_node, best_error) or (None, None, inf).
+    """
+    if matrices is None:
+        matrices = UNIQUE_MATRICES
+
+    best_idx = None
+    best_node = None
+    best_err = float('inf')
+
+    for i, M in enumerate(matrices):
+        A1, B1, C1 = mat_mul(M, (A, B, C))
+        if A1 <= 0 or B1 <= 0 or C1 <= 0:
+            continue
+
+        # Modular filter (P-adic GPS)
+        if filters and not passes_modular_filter(B1, C1, filters):
+            continue
+
+        # Spectral ratio error
+        R_current = float(C1) / float(B1)
+        err = abs(R_current - R_target)
+
+        # Depth-2 lookahead: check best child at depth 2
+        best_d2_err = err
+        for M2 in matrices:
+            A2, B2, C2 = mat_mul(M2, (A1, B1, C1))
+            if A2 <= 0 or B2 <= 0 or C2 <= 0:
+                continue
+            R2 = float(C2) / float(B2)
+            d2_err = abs(R2 - R_target)
+            if d2_err < best_d2_err:
+                best_d2_err = d2_err
+
+        if best_d2_err < best_err:
+            best_err = best_d2_err
+            best_idx = i
+            best_node = (A1, B1, C1)
+
+    return best_idx, best_node, best_err
+
+
+###############################################################################
 # Enhancement #1: Shannon Entropy Pruning
 ###############################################################################
 
@@ -540,72 +712,127 @@ def super_generator_v7(n, verbose=True, time_limit=60):
     best_global_eps = float('inf')
 
     # ══════════════════════════════════════════════════════════════════════
-    # METHOD A: Greedy Descent with Depth-2 Lookahead + Lyapunov + Entropy
+    # METHOD A: Spectral Compass Navigation with Resonance Band Targeting
     # ══════════════════════════════════════════════════════════════════════
+
+    # Step 1: Estimate Δ candidates via Beat Frequency Envelope
+    resonance_bands = resonance_band_estimate(n, num_bands=5)
+
     if verbose:
-        print(f"    Method A: Greedy descent with depth-2 lookahead")
+        if resonance_bands:
+            # Check for exact hits
+            for delta, R in resonance_bands:
+                if R == float('inf'):
+                    # Exact factorization found during band estimation
+                    elapsed = time.time() - t0
+                    if n % delta == 0 and delta > 1 and delta < n:
+                        print(f"    HIT (Resonance Band): factor={delta} ({elapsed:.3f}s)")
+                        return delta
+            print(f"    Method A: Spectral Compass with {len(resonance_bands)} "
+                  f"resonance bands (Δ={resonance_bands[0][0]}..{resonance_bands[-1][0]})")
+        else:
+            print(f"    Method A: Greedy descent (no resonance bands)")
+
+    # Check for exact hits from resonance estimation
+    for delta, R in resonance_bands:
+        if R == float('inf') and n % delta == 0 and 1 < delta < n:
+            return int(delta)
 
     roots = get_multi_roots(n, max_k=30)
     method_a_time = time_limit * 0.35  # 35% of time budget
 
-    for root_idx, (A0, B0, C0) in enumerate(roots):
+    # Step 2: For each resonance band, run Spectral Compass navigation
+    for band_idx, (delta_est, R_target) in enumerate(resonance_bands):
         if time.time() - t0 > method_a_time:
             break
+        if R_target == float('inf'):
+            continue  # Already checked exact hits above
 
-        A, B, C = A0, B0, C0
-        lyapunov = LyapunovTracker(consecutive_limit=3)
-        prev_entropy_score = -1000.0
-        max_depth = 300
-
-        for depth in range(max_depth):
+        for root_idx, (A0, B0, C0) in enumerate(roots[:10]):  # Top 10 roots
             if time.time() - t0 > method_a_time:
                 break
 
-            # ── Enhancement #6: VSDD multi-check at current node ──
-            result = vsdd_multi_check(n, A, B, C)
-            if result is not None:
-                elapsed = time.time() - t0
-                if verbose:
-                    print(f"    HIT (Method A) at root {root_idx}, depth {depth}: "
-                          f"factor={result} ({elapsed:.3f}s)")
-                return result
-            total_checks += 1
+            A, B, C = A0, B0, C0
+            lyapunov = LyapunovTracker(consecutive_limit=5)
+            max_depth = 500
 
-            # Compute current diff and epsilon
-            diff = C * C - B * B
-            if diff <= 0:
+            for depth in range(max_depth):
+                if time.time() - t0 > method_a_time:
+                    break
+
+                # VSDD multi-check at current node
+                result = vsdd_multi_check(n, A, B, C)
+                if result is not None:
+                    elapsed = time.time() - t0
+                    if verbose:
+                        print(f"    HIT (Method A, band {band_idx}) at root {root_idx}, "
+                              f"depth {depth}: factor={result} ({elapsed:.3f}s)")
+                    return result
+                total_checks += 1
+
+                # Spectral Compass: navigate toward R_target
+                sc_idx, sc_node, sc_err = spectral_compass_select(
+                    A, B, C, R_target, n, filters=filters)
+
+                if sc_idx is None:
+                    break
+
+                # Lyapunov stability on spectral error
+                stable = lyapunov.update(sc_err)
+                if not stable:
+                    break
+
+                if sc_err < best_global_eps:
+                    best_global_eps = sc_err
+
+                A, B, C = sc_node
+
+    # Step 3: Fallback — greedy descent with epsilon minimization (original Method A)
+    if time.time() - t0 < method_a_time:
+        for root_idx, (A0, B0, C0) in enumerate(roots[:20]):
+            if time.time() - t0 > method_a_time:
                 break
 
-            eps = compute_epsilon(diff, n, log2_n)
+            A, B, C = A0, B0, C0
+            lyapunov = LyapunovTracker(consecutive_limit=3)
+            prev_entropy_score = -1000.0
 
-            # ── Enhancement #2: Lyapunov stability check ──
-            stable = lyapunov.update(eps)
-            if not stable:
-                # Trajectory is diverging for 3+ steps, abandon this root
-                break
+            for depth in range(300):
+                if time.time() - t0 > method_a_time:
+                    break
 
-            # Track best global epsilon
-            if eps < best_global_eps:
-                best_global_eps = eps
+                result = vsdd_multi_check(n, A, B, C)
+                if result is not None:
+                    elapsed = time.time() - t0
+                    if verbose:
+                        print(f"    HIT (Method A fallback) at root {root_idx}, "
+                              f"depth {depth}: factor={result} ({elapsed:.3f}s)")
+                    return result
+                total_checks += 1
 
-            # ── Enhancement #1: Shannon entropy pruning ──
-            entropy_score = shannon_entropy_score(diff, n)
+                diff = C * C - B * B
+                if diff <= 0:
+                    break
 
-            # If entropy is getting worse AND we're not converging, skip
-            if (depth > 5 and entropy_score < prev_entropy_score - 3.0
-                    and eps > 2.0):
-                # Entropy degrading, prune this branch
-                break
-            prev_entropy_score = entropy_score
+                eps = compute_epsilon(diff, n, log2_n)
+                stable = lyapunov.update(eps)
+                if not stable:
+                    break
 
-            # ── Enhancement #3: Depth-2 Jacobian lookahead ──
-            best_idx, best_node, best_eps = jacobian_depth2_select(
-                A, B, C, n, log2_n)
+                if eps < best_global_eps:
+                    best_global_eps = eps
 
-            if best_idx is None:
-                break
+                entropy_score = shannon_entropy_score(diff, n)
+                if (depth > 5 and entropy_score < prev_entropy_score - 3.0
+                        and eps > 2.0):
+                    break
+                prev_entropy_score = entropy_score
 
-            A, B, C = best_node
+                best_idx_j, best_node_j, best_eps_j = jacobian_depth2_select(
+                    A, B, C, n, log2_n)
+                if best_idx_j is None:
+                    break
+                A, B, C = best_node_j
 
     # ══════════════════════════════════════════════════════════════════════
     # METHOD B: Inverse Matrix Climbing (Meet-in-the-Middle)
