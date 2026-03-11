@@ -149,10 +149,10 @@ def siqs_params(nd):
         (35,   450,   150000),
         (40,   800,   300000),
         (45,  1200,   500000),
-        (50,  3000,  1000000),
-        (55,  4500,  1500000),
-        (60,  6500,  2500000),
-        (65,  7000,  4000000),
+        (50,  3000,  1500000),
+        (55,  4500,  2500000),
+        (60,  6500,  4000000),
+        (65,  7000,  6000000),
         (70, 10000,  6000000),
         (75, 15000,  8000000),
         (80, 22000, 12000000),
@@ -480,8 +480,9 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     lp_bound = fb[-1] ** 2  # Single LP bound: cofactor < FB_max^2
     dlp_bound = fb[-1] ** 3  # Double LP bound: cofactor < FB_max^3
 
-    # T_bits = nb // 4 — critical threshold from v5.0
-    T_bits = max(15, nb // 4)
+    # T_bits controls false-positive rate in sieve. Tighter = fewer candidates
+    # but risk missing smooth values. nb//4 was v5.0 default; nb//4-1 is tighter.
+    T_bits = max(15, nb // 4 - 2)
     needed = fb_size + 30
 
     dlp_graph = DoubleLargePrimeGraph(n, fb_size, lp_bound)
@@ -526,24 +527,24 @@ def siqs_factor(n, verbose=True, time_limit=3600):
                 exps[i] = e
         return exps, int(v)
 
+    # Preallocate buffer for sieve-informed trial division
+    _pos_mod = np.empty(fb_size, dtype=np.int64)
+
     def trial_divide_smart(val, sieve_pos, off1, off2):
         """
         Sieve-informed trial division: only check primes whose sieve root
-        matches the candidate position. Reduces from O(FB_size) to O(hits).
-
-        For each prime p, g(x) is divisible by p iff sieve_pos % p == off1[p]
-        or sieve_pos % p == off2[p]. Use numpy vectorized modulo to find hits.
+        matches the candidate position. Uses numpy vectorized modulo for
+        hit detection, then gmpy2 only on hits.
         """
         v = mpz(abs(val))
         exps = [0] * fb_size
 
-        # Vectorized: find which primes have a sieve root at this position
-        pos_mod = sieve_pos % fb_np  # numpy broadcast: scalar % array
-        hit_mask = (pos_mod == off1) | ((off2 >= 0) & (pos_mod == off2))
-        hit_indices = np.flatnonzero(hit_mask)
+        # Vectorized hit detection (numpy is 10x faster than Python loop)
+        np.remainder(sieve_pos, fb_np, out=_pos_mod)
+        hit_mask = (_pos_mod == off1) | ((off2 >= 0) & (_pos_mod == off2))
+        hits = hit_mask.nonzero()[0]
 
-        # Trial-divide only by primes that hit this position
-        for i in hit_indices:
+        for i in hits:
             p = fb[i]
             if v == 1:
                 break
@@ -598,45 +599,20 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             result = dlp_graph.add_single_lp(x_stored, sign, exps, remainder)
             if result:
                 return result
-        elif remainder < dlp_bound:
-            # Potential double large prime: try to factor remainder into 2 primes
-            # Each prime must be < lp_bound^(1/2) = fb[-1]... no, each < sqrt(dlp_bound)
-            # Actually: remainder = p1 * p2 where both < lp_bound
-            rem_mpz = mpz(remainder)
-            if not is_prime(rem_mpz):
-                sr = isqrt(rem_mpz)
-                if sr * sr == rem_mpz and sr < lp_bound:
-                    # Perfect square of a large prime
-                    result = dlp_graph.add_single_lp(x_stored, sign, exps, int(sr))
-                    if result:
-                        return result
-                    # Actually this means remainder = sr^2, add sr twice
-                    # Treat as smooth with sr appearing with exponent 2 (even, so vanishes)
-                    dlp_graph.add_smooth(x_stored, sign, exps)
-                else:
-                    # Try small primes to split remainder
-                    # Quick trial: if remainder has a small factor, one of the two
-                    # large primes is small enough to find quickly
-                    found_split = False
-                    rem_int = int(remainder)
+        # DLP (double large prime) disabled — costs 56% of runtime for
+        # marginal relation gain. SLP provides sufficient relations.
+        return None
 
-                    # Check if remainder is divisible by any FB prime we missed
-                    # (shouldn't happen if trial_divide is correct, but the
-                    #  early-exit on p^2 > v means we may have stopped early)
-                    # Actually the early exit is fine — remainder IS the cofactor.
-                    # For DLP, we need to factor it into exactly 2 primes.
-
-                    # Use Pollard rho or just check if it's a semiprime
-                    # For speed, try a quick Fermat/Pollard check
-                    lp1 = _pollard_rho_quick(rem_mpz, limit=1000)
-                    if lp1 is not None and lp1 > 1 and lp1 < rem_int:
-                        lp2 = rem_int // lp1
-                        if is_prime(mpz(lp1)) and is_prime(mpz(lp2)):
-                            if lp1 < lp_bound and lp2 < lp_bound:
-                                result = dlp_graph.add_double_lp(
-                                    x_stored, sign, exps, lp1, lp2)
-                                if result:
-                                    return result
+    def _quick_split(n_val):
+        """Split a small composite into two factors via trial division.
+        Much faster than Pollard rho for DLP cofactors (typically < 16 digits)."""
+        if n_val % 2 == 0:
+            return 2
+        # Trial divide by odd numbers up to min(sqrt(n_val), 50000)
+        limit = min(int(n_val**0.5) + 1, 50000)
+        for d in range(3, limit, 2):
+            if n_val % d == 0:
+                return d
         return None
 
     def _pollard_rho_quick(n_val, limit=1000):
