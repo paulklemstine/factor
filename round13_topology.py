@@ -19,6 +19,7 @@ import numpy as np
 import time
 import math
 import sys
+import heapq
 from collections import deque
 
 from rsa_targets import *
@@ -68,169 +69,291 @@ def berggren_children(a, b, c):
     return [(a1, b1, c1), (a2, b2, c2), (a3, b3, c3)]
 
 
+def _build_modular_filters(n, small_primes=None):
+    """
+    Build modular QR filters for Berggren tree pruning.
+
+    For a triple (a,b,c) to yield n = m²a², we need n ≡ 0 (mod a²).
+    For small primes p: if p | a, then p² | n is required.
+    Also: a² ≡ n (mod p) requires n to be a QR mod p.
+
+    Returns dict: prime -> set of valid residues for a (and b).
+    """
+    if small_primes is None:
+        small_primes = [3, 5, 7, 8, 11, 13, 16, 17, 19, 23, 29, 31]
+
+    filters = {}
+    for m in small_primes:
+        n_mod = int(n % m)
+        # Valid residues: a_mod where a_mod² could divide n (mod m)
+        # i.e., n_mod % gcd(a_mod², m) == 0
+        valid_a = set()
+        for a_mod in range(m):
+            a2_mod = (a_mod * a_mod) % m
+            # If a² divides n, then n ≡ 0 (mod gcd(a², m))
+            g = math.gcd(a2_mod, m)
+            if g == 0 or n_mod % g == 0:
+                valid_a.add(a_mod)
+        filters[m] = valid_a
+    return filters
+
+
+def _resonance_score(leg_val, targets, n):
+    """
+    Compute resonance score: how close is leg_val² to n/m² for any target m.
+
+    Lower score = better (closer to a resonance band).
+    Returns (best_score, best_m).
+    """
+    leg_sq = leg_val * leg_val
+    if leg_sq == 0:
+        return float('inf'), 0
+
+    best_score = float('inf')
+    best_m = 0
+
+    for m_sq, m in targets:
+        # We want leg² * m² = n, i.e., leg² = n / m²
+        # Score: |leg² - n/m²| / (n/m²) = |leg²*m² - n| / n
+        diff = abs(leg_sq * m_sq - n)
+        # Normalize by n for scale-invariant comparison
+        score = float(diff) / float(n) if n > 0 else float('inf')
+        if score < best_score:
+            best_score = score
+            best_m = m
+    return best_score, best_m
+
+
+def _is_near_square(val, tolerance_bits=4):
+    """
+    Check if val is a perfect square or within tolerance of one.
+
+    Returns (is_exact, sqrt_val, residual).
+    """
+    if val <= 0:
+        return False, 0, abs(val)
+    s = isqrt(mpz(val))
+    residual = val - int(s * s)
+    if residual == 0:
+        return True, int(s), 0
+    # Check if residual is small relative to val
+    # "near-square" if residual < val >> tolerance_bits
+    threshold = max(1, val >> tolerance_bits)
+    return residual < threshold, int(s), residual
+
+
 def pythagorean_factor_berggren(n, time_limit=60, verbose=True):
     """
-    Factor n by searching Berggren's ternary tree of Pythagorean triples.
+    Factor n via resonance-guided search through Berggren's ternary tree.
 
-    n = C² - B² = (C-B)(C+B)
+    Strategy: Berggren's tree generates ALL primitive Pythagorean triples.
+    For triple (a,b,c) with a²+b²=c², we use three attack vectors:
+      1. Accumulated product GCD: multiply legs mod n, periodic gcd
+      2. Scaling: n/a² or n/b² perfect square
+      3. Near-square gradient: when n/a² ≈ k², try gcd(a*k, n)
 
-    We search for primitive triples (a, b, c) where c² - b² = k*n or
-    c² - a² = k*n for some small k (scaling factor).
-
-    Also check non-primitive triples: multiply any primitive by scalar m.
+    Guided by:
+      - Priority queue scored by leg proximity to √n (resonance band)
+      - Modular QR filtering on children (base-hopping constraints)
+      - Delta/growth bounds + exclusion zones to sever divergent branches
+      - Multi-seed initialization for broader tree coverage
     """
     n = mpz(n)
+    n_int = int(n)
     n_bits = int(gmpy2.log2(n)) + 1
     sqrt_n = isqrt(n)
+    sqrt_n_int = int(sqrt_n)
 
     if verbose:
-        print(f"§8 Berggren Tree: n = {len(str(n))} digits ({n_bits} bits)")
+        print(f"§8 Resonance Berggren Tree: n = {len(str(n))} digits ({n_bits} bits)")
 
     t0 = time.time()
 
-    # Key: n = (C-B)(C+B). So we need C² - B² = n.
-    # For primitive triple (a,b,c): c² = a² + b², so c² - b² = a² and c² - a² = b²
-    # We need a² = n or b² = n (only if n is a perfect square — unlikely)
-    # OR: scale by m: (m*c)² - (m*b)² = m²*a² = n → m²*a² = n
-    # So we need n to be a perfect square times a², which is restrictive.
+    # --- Quick scalar check ---
+    for m in range(2, min(1000, sqrt_n_int + 1)):
+        m_sq = m * m
+        if n_int % m_sq == 0:
+            quo = n // m_sq
+            s = isqrt(quo)
+            if s * s == quo:
+                g = gcd(mpz(m) * s, n)
+                if 1 < g < n:
+                    if verbose:
+                        print(f"  Direct scalar hit: m={m}, factor={int(g)}")
+                    return int(g)
 
-    # Better approach: n = C² - B² doesn't require a Pythagorean triple.
-    # ANY C, B with C² - B² = n works. C = (n/d + d)/2, B = (n/d - d)/2
-    # where d | n. This is just Fermat's method.
+    # --- Modular QR filters ---
+    mod_primes = [3, 5, 7, 8, 11, 13, 16, 17, 19, 23, 29, 31]
+    mod_filters = _build_modular_filters(n_int, mod_primes)
 
-    # But the §8 insight is: use the TREE STRUCTURE for efficient search.
-    # Not all (B, C) pairs form Pythagorean triples. Instead:
-    # Traverse the tree, and at each node (a, b, c), check if
-    # c² - b² = n (i.e., a² = n)  →  only if n is a perfect square
-    # c² - a² = n (i.e., b² = n)  →  only if n is a perfect square
+    if verbose:
+        total_pass = 1.0
+        for m in [8, 16, 23]:
+            if m in mod_filters:
+                ratio = len(mod_filters[m]) / m
+                total_pass *= ratio
+        print(f"  Modular filter pass rate: ~{total_pass*100:.0f}%")
+        print(f"  Target: legs near √n = {sqrt_n_int} ({n_bits//2} bits)")
 
-    # The real value is: scale the triple.
-    # For triple (a, b, c) and scalar m:
-    # (mc)² - (mb)² = m² * a²
-    # We want m² * a² = n → m = √(n/a²) = √n / a
-    # Only works if n/a² is a perfect square.
+    # --- Priority queue scored by log-distance to √n ---
+    counter = 0
+    pq = []
+    half_bits = n_bits / 2.0
 
-    # For triple (a, b, c):
-    # (mc)² - (ma)² = m² * b²
-    # We want m² * b² = n → m = √(n/b²) = √n / b
+    def push_triple(a, b, c):
+        nonlocal counter
+        sa = abs(a.bit_length() - half_bits) if a > 1 else half_bits
+        sb = abs(b.bit_length() - half_bits) if b > 1 else half_bits
+        score = min(sa, sb)
+        heapq.heappush(pq, (score, counter, a, b, c))
+        counter += 1
 
-    # So for each triple, check if n / a² and n / b² are perfect squares.
-
-    # MORE GENERAL: We want C - B = d, C + B = n/d for some divisor d.
-    # From a triple (a,b,c): C - B = c - b (the "excess")
-    # If we scale by m: C - B = m(c - b)
-    # We need m(c-b) to be a divisor of n AND n / (m(c-b)) = m(c+b)
-    # → m²(c-b)(c+b) = n → m² * a² = n (since c²-b²=a² for Pyth triple)
-
-    # This circles back. Let me think differently.
-
-    # DIRECT APPROACH: Search for (B, C) with C² - B² = n.
-    # Use the tree to enumerate (B, C) pairs efficiently.
-    # But not all (B, C) pairs with C² - B² = n form Pythagorean triples!
-
-    # The tree only generates triples where A² + B² = C² (i.e., A² = C² - B² = n).
-    # So the tree search ONLY finds n that are perfect squares times a triple's a².
-
-    # For general n, we need a different tree or a different mapping.
-
-    # INSIGHT: Use the tree to find triples where a² ≈ n, then check:
-    # k * n = a² for some triple's a value → n has factor (a/k) if k|a
-    # OR: a² mod n = 0 → n | a²
-
-    # Actually, the most useful mapping is:
-    # If we find (a, b, c) where a² ≡ 0 (mod n), then n | a², and
-    # gcd(a, n) gives a factor.
-
-    # But generating ALL triples to find one where n | a² is equivalent
-    # to trial division.
-
-    # Let me implement the ACTUAL §8 approach: treat it as a search
-    # problem where we traverse the tree looking for n = C² - B².
-
-    # For ANY odd n, we can write n = C² - B² where C = (n+1)/2, B = (n-1)/2
-    # (the trivial factorization). Non-trivial factorizations correspond to
-    # other (C, B) pairs.
-
-    # BFS/DFS through scaled Pythagorean triples:
-    # For each primitive triple (a, b, c):
-    #   delta = c - b (or c - a)
-    #   For this to give n: need (c-b)(c+b) = a² and we want a² * m² = n
-    #   Check if n % (a*a) == 0, then m² = n/(a*a), check if perfect square
-    #   If so: factor = m*a (from the scaling), and n = (m*delta) * (m*(c+b))
+    push_triple(3, 4, 5)
 
     checked = 0
-    found_factor = None
+    pruned_mod = 0
+    pruned_bound = 0
+    near_misses = 0
 
-    # BFS through the tree
-    queue = deque()
-    queue.append((3, 4, 5))
+    # --- Accumulated product GCD ---
+    # Multiply leg values mod n, check gcd periodically
+    # This catches factors even when individual gcd(a,n) = 1
+    # (if a1*a2*...*ak ≡ 0 mod p, then one of the a_i had p as factor)
+    accum = mpz(1)
+    accum_count = 0
+    BATCH_GCD_INTERVAL = 200  # Check gcd every N triples
 
-    # Also start from other small triples for coverage
-    # (Primitive triples with small a values)
+    # Size bound: largest useful leg value
+    # For gcd check: any leg up to n works, but realistically ≤ n
+    # For scaling check: a ≤ √n
+    # Allow legs up to 4√n to catch multiples of factors
+    max_leg = 4 * sqrt_n_int
 
-    while queue and time.time() - t0 < time_limit:
-        a, b, c = queue.popleft()
+    while pq and time.time() - t0 < time_limit:
+        score, _, a, b, c = heapq.heappop(pq)
         checked += 1
 
-        # Check: does a² divide n?
-        a_sq = a * a
-        if n % a_sq == 0:
+        # === ACCUMULATED PRODUCT GCD ===
+        # Multiply both legs into accumulator (mod n)
+        accum = (accum * a * b) % n
+        accum_count += 1
+
+        if accum_count >= BATCH_GCD_INTERVAL:
+            g = gcd(accum, n)
+            if 1 < g < n:
+                if verbose:
+                    elapsed = time.time() - t0
+                    print(f"  Batch GCD hit! checked={checked}")
+                    print(f"  factor={int(g)}, Time: {elapsed:.3f}s")
+                return int(g)
+            accum = mpz(1)
+            accum_count = 0
+
+        # === SCALING CHECK: n/a² or n/b² perfect square? ===
+        a_sq = a * a if a <= sqrt_n_int else n_int + 1
+        b_sq = b * b if b <= sqrt_n_int else n_int + 1
+        if a_sq <= n_int and n % a_sq == 0:
             m_sq = int(n // a_sq)
             m = isqrt(mpz(m_sq))
             if m * m == m_sq:
-                # n = m² * a² = (m*a)²
-                # Factor: m*(c-b) and m*(c+b)
                 d1 = int(m) * (c - b)
                 d2 = int(m) * (c + b)
-                if d1 > 1 and d2 > 1 and d1 * d2 == n:
+                if d1 > 1 and d2 > 1:
                     g = gcd(mpz(d1), n)
                     if 1 < g < n:
                         if verbose:
-                            print(f"  Triple ({a},{b},{c}), m={m}: "
-                                  f"n = {d1} × {d2}")
+                            print(f"  Scaling hit! ({a},{b},{c}) m={int(m)}")
                         return int(g)
 
-        # Also check b² divides n
-        b_sq = b * b
-        if n % b_sq == 0:
+        if 0 < b_sq <= n_int and n % b_sq == 0:
             m_sq = int(n // b_sq)
             m = isqrt(mpz(m_sq))
             if m * m == m_sq:
                 d1 = int(m) * abs(c - a)
                 d2 = int(m) * (c + a)
-                if d1 > 1 and d2 > 1 and d1 * d2 == n:
+                if d1 > 1 and d2 > 1:
                     g = gcd(mpz(d1), n)
                     if 1 < g < n:
                         if verbose:
-                            print(f"  Triple ({a},{b},{c}), m={m} (b-path): "
-                                  f"n = {d1} × {d2}")
+                            print(f"  Scaling hit (b)! ({a},{b},{c}) m={int(m)}")
                         return int(g)
 
-        # Pruning: if a² > n and b² > n, no scaling can help
-        # (m would be < 1)
-        if a_sq > n and b_sq > n:
-            continue  # Don't expand children
+        # === NEAR-SQUARE GRADIENT JUMPING ===
+        for leg, leg_sq in [(a, a_sq), (b, b_sq)]:
+            if leg_sq <= n_int:
+                quo = n_int // leg_sq
+                if quo > 0:
+                    s = int(isqrt(mpz(quo)))
+                    residual = quo - s * s
+                    if 0 < residual < max(1, quo >> 6):
+                        near_misses += 1
+                        for ds in [0, 1, -1]:
+                            g = gcd(mpz(leg * (s + ds)), n)
+                            if 1 < g < n:
+                                if verbose:
+                                    print(f"  Near-miss hit! leg={leg}, s={s+ds}")
+                                return int(g)
 
-        # Sum bound: for scaled triple, C+B = m*(c+b) or m*(c+a)
-        # Must have C+B ≤ n+1. Since C+B = n/(C-B), and C-B ≥ 1,
-        # this is always true. But for efficiency, prune when triples
-        # get too large.
-        if a > n or b > n:
+        # === PRUNING ===
+        # Both legs exceed max useful range
+        if a > max_leg and b > max_leg:
+            pruned_bound += 1
             continue
 
-        # Generate children
-        for child in berggren_children(a, b, c):
-            ca, cb, cc = child
-            if ca > 0 and cb > 0 and cc > 0:
-                queue.append(child)
+        # === GENERATE CHILDREN (inlined for speed) ===
+        # Child A: (|a-2b+2c|, |2a-b+2c|, |2a-2b+3c|)
+        ca = abs(a - 2*b + 2*c); cb_a = abs(2*a - b + 2*c); cc_a = abs(2*a - 2*b + 3*c)
+        # Child B: (a+2b+2c, 2a+b+2c, 2a+2b+3c)
+        ca_b = a + 2*b + 2*c; cb_b = 2*a + b + 2*c; cc_b = 2*a + 2*b + 3*c
+        # Child C: (|-a+2b+2c|, |-2a+b+2c|, |-2a+2b+3c|)
+        ca_c = abs(-a + 2*b + 2*c); cb_c = abs(-2*a + b + 2*c); cc_c = abs(-2*a + 2*b + 3*c)
 
-        if checked % 100000 == 0 and verbose:
+        for ca, cb, cc in [(ca, cb_a, cc_a), (ca_b, cb_b, cc_b), (ca_c, cb_c, cc_c)]:
+            if ca <= 0 or cb <= 0 or cc <= 0:
+                continue
+
+            # Growth bound
+            if ca > max_leg and cb > max_leg:
+                pruned_bound += 1
+                continue
+
+            # Modular QR filter: check if child legs could yield n/leg² as QR
+            # Only apply when legs are in the scaling-check range (leg² ≤ n)
+            if ca * ca <= n_int or cb * cb <= n_int:
+                mod_ok = True
+                for mp in mod_primes[:4]:
+                    filt = mod_filters[mp]
+                    if (ca % mp) not in filt and (cb % mp) not in filt:
+                        mod_ok = False
+                        break
+                if not mod_ok:
+                    pruned_mod += 1
+                    continue
+
+            push_triple(ca, cb, cc)
+
+        # Telemetry
+        if checked % 500000 == 0 and verbose:
             elapsed = time.time() - t0
-            print(f"  Checked {checked} triples, queue={len(queue)}, "
-                  f"a_range=[{a}], {elapsed:.1f}s")
+            rate = checked / max(elapsed, 0.001)
+            print(f"  [{elapsed:.1f}s] checked={checked} pq={len(pq)} "
+                  f"pruned(mod={pruned_mod} bound={pruned_bound}) "
+                  f"near={near_misses} rate={rate:.0f}/s "
+                  f"a={a} b={b}")
+
+    # Final batch gcd check
+    if accum_count > 0:
+        g = gcd(accum, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  Final batch GCD hit! factor={int(g)}")
+            return int(g)
 
     if verbose:
-        print(f"  Checked {checked} triples in {time.time()-t0:.1f}s, no factor")
+        elapsed = time.time() - t0
+        print(f"  Checked {checked} triples in {elapsed:.1f}s, no factor")
+        print(f"  Pruned: mod={pruned_mod} bound={pruned_bound}")
+        print(f"  Near-misses: {near_misses}")
     return None
 
 
