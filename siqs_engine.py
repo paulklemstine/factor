@@ -510,7 +510,9 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             break
         roots = 1 if p == 2 else 2
         small_prime_correction += roots * math.log2(p) * 1024 / p
-    small_prime_correction = int(small_prime_correction)
+    # Use 70% of expected correction: smooth numbers have above-average
+    # small prime divisibility, so full correction admits too many false positives
+    small_prime_correction = int(small_prime_correction * 0.60)
 
     if verbose:
         print(f"    FB[{fb[0]}..{fb[-1]}] built ({time.time()-t0:.1f}s)")
