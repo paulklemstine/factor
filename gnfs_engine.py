@@ -338,12 +338,38 @@ def norm_rational(a, b, m):
     return abs(a + b * m)
 
 
+@njit(cache=True)
+def _jit_norm_algebraic(a, b, coeffs, d):
+    """JIT algebraic norm computation for small values (int64)."""
+    result = np.int64(0)
+    neg_a_pow = np.int64(1)
+    b_pow = np.int64(1)
+    for _ in range(d):
+        b_pow *= b
+    for i in range(d + 1):
+        result += coeffs[i] * neg_a_pow * b_pow
+        neg_a_pow *= -a
+        if i < d:
+            b_pow //= b
+    return abs(result)
+
+
 def norm_algebraic(a, b, f_coeffs):
     """
     Algebraic norm: |resultant of (a + b*alpha) and f(alpha)|
     = |b^d * f(-a/b)| = |sum(f_i * (-a)^i * b^(d-i))|
     """
     d = len(f_coeffs) - 1
+    # Use JIT for small values that fit in int64
+    if abs(a) < 100000 and abs(b) < 100000 and d <= 5:
+        if not hasattr(norm_algebraic, '_coeffs'):
+            norm_algebraic._coeffs = np.array(f_coeffs, dtype=np.int64)
+        try:
+            return int(_jit_norm_algebraic(np.int64(a), np.int64(b),
+                                           norm_algebraic._coeffs, d))
+        except OverflowError:
+            pass
+    # Fallback to mpz for large values
     result = mpz(0)
     for i, c in enumerate(f_coeffs):
         term = mpz(c) * (mpz(-a) ** i) * (mpz(b) ** (d - i))
@@ -436,46 +462,73 @@ def sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb, rat_bound=0, alg_bound=0):
 # Phase 3b: Trial Division Verification
 ###############################################################################
 
+@njit(cache=True)
+def _jit_trial_divide_rat(val, primes, exps_out):
+    """JIT rational trial division. Returns remainder."""
+    for i in range(len(primes)):
+        p = primes[i]
+        while val % p == 0:
+            val //= p
+            exps_out[i] += 1
+    return val
+
+
+@njit(cache=True)
+def _jit_trial_divide_alg(val, primes, roots, a, b, exps_out):
+    """JIT algebraic trial division with divisibility pre-check."""
+    for i in range(len(primes)):
+        p = primes[i]
+        r = roots[i]
+        if (a + b * r) % p == 0:
+            while val % p == 0:
+                val //= p
+                exps_out[i] += 1
+    return val
+
+
 def trial_divide_rational(a, b, m, rat_fb):
     """
     Trial divide the rational norm |a + b*m| over the rational factor base.
     Returns (exponent_vector, remainder) or None if not smooth.
     """
-    val = abs(int(a) + int(b) * int(m))
+    raw = int(a) + int(b) * int(m)
+    val = abs(raw)
     if val == 0:
         return None
-    sign = 1 if (int(a) + int(b) * int(m)) < 0 else 0
-    exps = [0] * len(rat_fb)
-    for i, p in enumerate(rat_fb):
-        while val % p == 0:
-            val //= p
-            exps[i] += 1
-    if val == 1:
-        return (exps, sign)
-    return None  # not smooth
+    sign = 1 if raw < 0 else 0
+
+    if not hasattr(trial_divide_rational, '_primes'):
+        trial_divide_rational._primes = np.array(rat_fb, dtype=np.int64)
+    primes = trial_divide_rational._primes
+
+    exps = np.zeros(len(rat_fb), dtype=np.int64)
+    remainder = _jit_trial_divide_rat(np.int64(val), primes, exps)
+    if remainder == 1:
+        return ([int(e) for e in exps], sign)
+    return None
 
 
 def trial_divide_algebraic(a, b, f_coeffs, alg_fb):
     """
     Trial divide the algebraic norm over the algebraic factor base.
     Returns exponent_vector or None if not smooth.
-
-    The algebraic norm is N(a + b*alpha) = (-b)^d * f(a/(-b))
-    = sum(f_i * a^i * (-b)^(d-i))
     """
     val = abs(int(norm_algebraic(a, b, f_coeffs)))
     if val == 0:
         return None
-    exps = [0] * len(alg_fb)
-    for i, (p, r) in enumerate(alg_fb):
-        # (p, r) divides (a + b*alpha) iff a + b*r ≡ 0 (mod p)
-        if (int(a) + int(b) * r) % p == 0:
-            while val % p == 0:
-                val //= p
-                exps[i] += 1
-    if val == 1:
-        return exps
-    return None  # not smooth
+
+    if not hasattr(trial_divide_algebraic, '_primes'):
+        trial_divide_algebraic._primes = np.array([p for p, r in alg_fb], dtype=np.int64)
+        trial_divide_algebraic._roots = np.array([r for p, r in alg_fb], dtype=np.int64)
+    primes = trial_divide_algebraic._primes
+    roots = trial_divide_algebraic._roots
+
+    exps = np.zeros(len(alg_fb), dtype=np.int64)
+    remainder = _jit_trial_divide_alg(np.int64(val), primes, roots,
+                                       np.int64(a), np.int64(b), exps)
+    if remainder == 1:
+        return [int(e) for e in exps]
+    return None
 
 
 ###############################################################################
@@ -1282,6 +1335,17 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     sieve_candidates = []
     verified_relations = []
     A = min(params['A'], 500000)  # cap for memory
+
+    # Reset cached JIT arrays for this factorization
+    trial_divide_rational._primes = np.array(rat_fb, dtype=np.int64)
+    trial_divide_algebraic._primes = np.array([p for p, r in alg_fb], dtype=np.int64)
+    trial_divide_algebraic._roots = np.array([r for p, r in alg_fb], dtype=np.int64)
+    norm_algebraic._coeffs = np.array(f_coeffs, dtype=np.int64)
+    # Clear sieve_line caches (will be rebuilt on first call)
+    if hasattr(sieve_line, '_rat_primes'):
+        del sieve_line._rat_primes
+    if hasattr(sieve_line, '_alg_primes'):
+        del sieve_line._alg_primes
 
     # Estimate norm bounds for threshold
     rat_bound = A * abs(m) + 1
