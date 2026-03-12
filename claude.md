@@ -19,18 +19,11 @@
 | 66d | 216b | 141s | SIQS | 1.6x/3d |
 | 69d | 226b | 539s | SIQS | 3.8x/3d |
 
-## Scaling Model (updated)
-Growth rate: 1.5x→2.4x→2.0x→1.6x→3.8x per 3 digits
-- 69d stall: a=72 gap of 128s (GC or memory pressure, FB=6700 M=5200000)
-- 66d stall was fixed by FB reduction; 69d may need same treatment
-- Extrapolation: 72d ~1500-2000s, 75d ~5000-8000s
-- GNFS crossover point: ~80d
-
 ## Completed Optimizations
 1. JIT hit detection (numba jit_find_hits) — 2x per-call speedup
 2. Batch JIT (jit_batch_find_hits) — eliminates per-candidate dispatch
 3. FB_size reduction — fewer relations + faster GF(2) LA
-4. Adaptive T_bits — tighter threshold for 180b+
+4. Adaptive T_bits — threshold for 180b+
 5. Spectral Compass with exact rational arithmetic (Solution D)
 6. Modular Carry Squeeze (Solution B) — LSB anchoring
 7. Hyperbolic Convergence Tracker (Solution A)
@@ -47,21 +40,65 @@ Growth rate: 1.5x→2.4x→2.0x→1.6x→3.8x per 3 digits
 
 ## Failed Experiments (do NOT retry)
 1. Pure Python trial_divide_smart — 10x slower than numpy
-2. DLP with Pollard rho (limit=5000) — overhead exceeds relation gain
+2. DLP with Pollard rho (Python) — 13ms/candidate, 20-27x slower
 3. M value tuning (larger sieve widths) — no improvement
+4. TRF tree search (heap + greedy descent) — 0 factors for balanced semiprimes
+5. Knuth-Schroeppel multiplier — inconsistent
+6. Resonant 'a' queue / s-selection bonus / used_a dedup — all within noise
+7. int16 sieve array — inconsistent
+8. T_bits tuning (looser or tighter) — existing nb//4-1 is optimal
+9. DLP with BFS cycle detection (max_depth=10) — O(E) per insertion, 160s at 57d
+10. DLP with C Pollard rho + Union-Find + sparse exps — birthday paradox: 300M prime space, ~7 cycles from 20K edges
 
 ## Active Hypotheses (priority order)
-1. **FB tuning for 69d+** — Reduce FB_size/M to avoid memory stalls
-2. **Block Lanczos for LA** — Replace GF(2) Gaussian elimination
-   - Current LA: O(n²) with Python big ints
-   - Block Lanczos: O(n × weight) with 64-bit word operations
-3. **GNFS scaffold for 100d+** — Must implement for RSA-100
-   - Base-m polynomial selection already scaffolded
-   - Need: lattice sieve, algebraic factor base, norm computation
-4. **Hybrid Jump** — SIQS partials feed Super-Generator Δ estimates
-5. **Lattice Snapping (Coppersmith)** — LLL finishing move for Path 1
+
+### Priority 1: P-adic PID Controller for Delta Refinement
+- Use Modular Scent as error signal for Spectral Compass correction
+- Control loop: SP = n mod 2^k, PV = (C²-B²) mod 2^k, E = Hamming distance
+- PID tuning: P for bit-clash correction, I for long-term drift, D for overshoot prevention
+- Goal: Stable tree traversal even with >5% initial Δ error
+
+### Priority 2: Beat Frequency Spectrogram Analysis
+- Sample E(x) = cos(π(√(x+n) - √x)) over logarithmic range
+- FFT → Power Spectral Density → extract dominant 1/Δ frequencies
+- Band-pass filter to isolate fundamental frequency
+- Goal: Narrow Δ search from 10^15 to <10^5 candidates
+
+### Priority 3: Ternary-Geometric Isomorphism (Path 1)
+- Map Balanced Ternary {-1,0,1} to Berggren tree branches (M₁,M₂,M₃)
+- Path encoding: represent tree path as ternary string D = {d_k,...,d_1}
+- Hypothesis: factor gap Δ with sparse ternary representation → "Low-Entropy Drift" in tree
+- Statistical analysis: correlate Price matrices with factor's balanced ternary substrings
+- Goal: Predictive Navigator using Ternary-Bitmask (skip Jacobian at each level)
+
+### Priority 4: NAF Sparsity & "Zero-Field" Guillotine (Path 2)
+- NAF guarantees no two non-zero digits adjacent → deterministic "Zero-Fields" in carry squeeze
+- SAT constraint: (x_i · x_{i+1} = 0), (y_j · y_{j+1} = 0)
+- ~55% reduction in non-zero partial product terms
+- Goal: 30% false-positive reduction in RNS Guillotine
+
+### Priority 5: GF(3) Matrix Reduction
+- Ternary factor base: primes where p ≡ ±1 (mod 3)
+- Exponent vectors in F₃, Wiedemann solver over F₃
+- Cube identity: X³-Y³ = (X-Y)(X²+XY+Y²) → gcd(X-Y, n)
+- Goal: Test if smooth density is higher in ternary-prime field
+
+### Priority 6: Recursive Warm-Start for GNFS
+- Store smooth vectors from 60d-69d factorizations
+- Map residues to 100d target via n₁₀₀ ≡ n₆₉ (mod k)
+- Bias Kleinjung polynomial search toward known-good prime densities
+- Goal: Pre-aligned polynomials for faster GNFS relation collection
+
+### Priority 7: GNFS Full Implementation
+- Base-m polynomial selection already scaffolded
+- Need: lattice sieve, algebraic factor base, norm computation
+- Required for RSA-100 (100d/332b)
+
+### Priority 8: Block Lanczos for LA
+- Replace O(n²) GF(2) Gaussian elimination
+- Only significant at 75d+ where matrix density dominates
 
 ## Next Steps
-1. Investigate 69d stall — try FB_size reduction (6700→5900)
-2. Profile to confirm sieve is still the bottleneck post-optimization
-3. Begin GNFS implementation for 100d+ target
+1. Implement P-adic PID Controller (Priority 1) for Spectral Compass delta refinement
+2. Benchmark Beat Frequency Spectrogram (Priority 2) for Δ narrowing
+3. Begin GNFS scaffold for RSA-100 preparation

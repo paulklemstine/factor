@@ -166,6 +166,96 @@ def passes_carry_squeeze(C, B, allowed_deltas, k):
 
 
 ###############################################################################
+# P-ADIC PID CONTROLLER (Delta Refinement Solution F)
+###############################################################################
+
+class PadicPIDController:
+    """
+    P-adic PID Controller for delta refinement in Berggren tree navigation.
+
+    Uses modular residues as error signal:
+    - SP (setpoint): n mod 2^k
+    - PV (process variable): (C² - B²) mod 2^k
+    - Error: Hamming distance between SP and PV, normalized to [0,1]
+
+    PID output adjusts R_target to steer navigation toward nodes where
+    C²-B² matches n in low-order bits. This corrects for initial Δ
+    estimation errors that would otherwise cause the Spectral Compass
+    to navigate to the wrong region of the tree.
+    """
+
+    def __init__(self, n, k=32, Kp=0.02, Ki=0.002, Kd=0.008):
+        self.mask = (1 << k) - 1
+        self.k = k
+        self.sp = int(n) & self.mask  # setpoint: n mod 2^k
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+        self.integral = 0.0
+        self.prev_error = None
+        self.best_matching = 0
+
+    def _matching_lsbs(self, a, b):
+        """Count matching least-significant bits."""
+        xor = (a ^ b) & self.mask
+        if xor == 0:
+            return self.k
+        return (xor & -xor).bit_length() - 1
+
+    def update(self, C, B):
+        """
+        Compute PID output given current node (C, B).
+        Returns (R_adjustment, matching_lsbs).
+        R_adjustment is additive correction to R_target.
+        """
+        diff = int(C * C - B * B)
+        pv = diff & self.mask
+
+        matching = self._matching_lsbs(pv, self.sp)
+        if matching > self.best_matching:
+            self.best_matching = matching
+
+        # Error: fraction of bits that DON'T match (0 = perfect, 1 = worst)
+        hamming = bin((pv ^ self.sp) & self.mask).count('1')
+        norm_error = hamming / self.k
+
+        # PID terms
+        P = self.Kp * norm_error
+
+        self.integral += norm_error
+        self.integral = max(-100.0, min(100.0, self.integral))  # anti-windup
+        I = self.Ki * self.integral
+
+        D = 0.0
+        if self.prev_error is not None:
+            D = self.Kd * (norm_error - self.prev_error)
+        self.prev_error = norm_error
+
+        # Output: positive = increase R_target (stretch delta estimate),
+        # negative = decrease (compress). Sign chosen so high error pushes
+        # R_target outward to explore more of the tree.
+        adjustment = P + I + D
+        return adjustment, matching
+
+    def score_matrices(self, A, B, C, matrices):
+        """
+        Score each matrix by how many LSBs would match after applying it.
+        Returns list of (matching_lsbs, matrix_index) sorted best-first.
+        """
+        scores = []
+        for i, M in enumerate(matrices):
+            A1, B1, C1 = mat_mul(M, (A, B, C))
+            if A1 <= 0 or B1 <= 0 or C1 <= 0:
+                continue
+            diff = int(C1 * C1 - B1 * B1)
+            pv = diff & self.mask
+            matching = self._matching_lsbs(pv, self.sp)
+            scores.append((matching, i))
+        scores.sort(reverse=True)
+        return scores
+
+
+###############################################################################
 # HYPERBOLIC CONVERGENCE TRACKER (Delta Refinement Solution A)
 ###############################################################################
 
@@ -945,6 +1035,10 @@ def super_generator_v7(n, verbose=True, time_limit=60):
             A, B, C = A0, B0, C0
             lyapunov = LyapunovTracker(consecutive_limit=5)
             hyper = HyperbolicTracker(R_target, damping=0.8)
+            # Solution F: P-adic PID — use k=24 for moderate precision
+            # (2^24 = 16M residues, balances precision vs compute)
+            pid_k = min(24, nb // 4)
+            pid = PadicPIDController(n, k=pid_k, Kp=0.02, Ki=0.002, Kd=0.008)
             max_depth = 500
 
             for depth in range(max_depth):
@@ -972,11 +1066,18 @@ def super_generator_v7(n, verbose=True, time_limit=60):
                                   f"depth {depth}: factor={snap_result} ({elapsed:.3f}s)")
                         return snap_result
 
+                # Solution F: P-adic PID — compute error and R_target correction
+                pid_adj, pid_matching = pid.update(C, B)
+
                 # Solution A: Hyperbolic Convergence — get adjusted R_target
                 R_current = float(C) / float(B) if B > 0 else float('inf')
                 adj_R_target = hyper.update(R_current, depth)
 
-                # Spectral Compass: navigate toward (adjusted) R_target
+                # Apply PID correction: stretch/compress R_target based on
+                # p-adic alignment. High error → push R outward to explore.
+                adj_R_target *= (1.0 + pid_adj)
+
+                # Spectral Compass: navigate toward (PID-adjusted) R_target
                 sc_idx, sc_node, sc_err = spectral_compass_select(
                     A, B, C, adj_R_target, n, filters=filters)
 
@@ -988,12 +1089,14 @@ def super_generator_v7(n, verbose=True, time_limit=60):
                 # Solution B: Modular Carry Squeeze — check LSB consistency
                 if allowed_deltas and not passes_carry_squeeze(
                         C_next, B_next, allowed_deltas, sq_k):
-                    # LSBs don't match. Try other matrices (Barning-Hall swerve).
+                    # LSBs don't match. Use P-adic scoring to pick best swerve.
+                    padic_scores = pid.score_matrices(A, B, C, UNIQUE_MATRICES)
                     swerved = False
-                    for alt_idx, M_alt in enumerate(UNIQUE_MATRICES):
+                    for _score, alt_idx in padic_scores:
                         if alt_idx == sc_idx:
                             continue
-                        A_alt, B_alt, C_alt = mat_mul(M_alt, (A, B, C))
+                        A_alt, B_alt, C_alt = mat_mul(
+                            UNIQUE_MATRICES[alt_idx], (A, B, C))
                         if A_alt <= 0 or B_alt <= 0 or C_alt <= 0:
                             continue
                         if passes_carry_squeeze(C_alt, B_alt, allowed_deltas, sq_k):

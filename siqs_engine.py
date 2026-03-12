@@ -23,11 +23,86 @@ import gmpy2
 from gmpy2 import mpz, isqrt, is_prime, gcd, jacobi, next_prime
 import numpy as np
 from numba import njit
+import ctypes
 import time
 import math
 import random
 import bisect
+import os
 from collections import defaultdict
+
+###############################################################################
+# C EXTENSION: Fast Pollard rho for DLP cofactor splitting
+###############################################################################
+
+_c_rho_lib = None
+_c_rho_fn = None
+
+def _load_c_rho():
+    """Load the C Pollard rho shared library (lazy init)."""
+    global _c_rho_lib, _c_rho_fn
+    if _c_rho_fn is not None:
+        return _c_rho_fn
+    so_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pollard_rho_c.so')
+    if not os.path.exists(so_path):
+        return None
+    try:
+        _c_rho_lib = ctypes.CDLL(so_path)
+        _c_rho_lib.pollard_rho_split.argtypes = [ctypes.c_uint64, ctypes.c_int]
+        _c_rho_lib.pollard_rho_split.restype = ctypes.c_uint64
+        _c_rho_fn = _c_rho_lib.pollard_rho_split
+        return _c_rho_fn
+    except OSError:
+        return None
+
+
+###############################################################################
+# FAST POLLARD RHO for DLP cofactor splitting
+###############################################################################
+
+def _pollard_rho_split(n_val, limit=2000):
+    """
+    Brent's improvement of Pollard rho with batch GCD.
+    Split a composite n_val into a non-trivial factor.
+    Returns a factor, or None if limit exceeded.
+    """
+    if n_val <= 1:
+        return None
+    if n_val % 2 == 0:
+        return 2
+    # Try a few small c values
+    for c in (1, 3, 5, 7):
+        y, r, q = 1, 1, 1
+        x = y
+        g = 1
+        iters = 0
+        while g == 1 and iters < limit:
+            x = y
+            for _ in range(r):
+                y = (y * y + c) % n_val
+                iters += 1
+            k = 0
+            while k < r and g == 1:
+                ys = y
+                batch = min(128, r - k)
+                q = 1
+                for _ in range(batch):
+                    y = (y * y + c) % n_val
+                    q = q * abs(x - y) % n_val
+                    iters += 1
+                g = math.gcd(q, n_val)
+                k += batch
+            r *= 2
+        if g == n_val:
+            # Backtrack
+            while True:
+                ys = (ys * ys + c) % n_val
+                g = math.gcd(abs(x - ys), n_val)
+                if g > 1:
+                    break
+        if 1 < g < n_val:
+            return int(g)
+    return None
 
 
 ###############################################################################
@@ -282,8 +357,37 @@ class DoubleLargePrimeGraph:
         self.dlp_graph = defaultdict(list)
         self.dlp_count = 0
 
+        # Union-Find for O(α(n)) cycle detection
+        self._uf_parent = {}
+        self._uf_rank = {}
+
         # Full relations (smooth + combined)
         self.smooth = []
+
+    def _uf_find(self, x):
+        """Find with path compression."""
+        if x not in self._uf_parent:
+            self._uf_parent[x] = x
+            self._uf_rank[x] = 0
+            return x
+        root = x
+        while self._uf_parent[root] != root:
+            root = self._uf_parent[root]
+        # Path compression
+        while self._uf_parent[x] != root:
+            self._uf_parent[x], x = root, self._uf_parent[x]
+        return root
+
+    def _uf_union(self, a, b):
+        """Union by rank."""
+        ra, rb = self._uf_find(a), self._uf_find(b)
+        if ra == rb:
+            return  # Already same component
+        if self._uf_rank[ra] < self._uf_rank[rb]:
+            ra, rb = rb, ra
+        self._uf_parent[rb] = ra
+        if self._uf_rank[ra] == self._uf_rank[rb]:
+            self._uf_rank[ra] += 1
 
     def add_smooth(self, x, sign, exps):
         """Add a fully smooth relation."""
@@ -336,17 +440,27 @@ class DoubleLargePrimeGraph:
         if lp1 == lp2:
             return self.add_single_lp(x, sign, exps, lp1)
 
-        # Try to find path from lp1 to lp2 in existing graph (BFS, limited depth)
-        path = self._find_path(lp1, lp2, max_depth=10)
-        if path is not None:
-            # Found a cycle! Combine all relations along the path + this new edge
-            result = self._combine_cycle(path, x, sign, exps, lp1, lp2)
-            if result is not None:
-                return result
+        # Cap DLP graph to prevent memory explosion
+        # Each edge stores sparse exps (~20 entries vs fb_size=5000+)
+        if self.dlp_count > 20000:
+            return None
 
-        # No cycle found — just store the edge
-        self.dlp_graph[lp1].append((lp2, x, sign, exps))
-        self.dlp_graph[lp2].append((lp1, x, sign, exps))
+        # Sparse exps: only store non-zero entries as tuple of (idx, val) pairs
+        sparse = tuple((j, e) for j, e in enumerate(exps) if e != 0)
+
+        # Union-Find: O(α(n)) check if lp1 and lp2 are already connected
+        if self._uf_find(lp1) == self._uf_find(lp2):
+            # Cycle exists! Use BFS to find the path (only runs when cycle found)
+            path = self._find_path(lp1, lp2, max_depth=5)
+            if path is not None:
+                result = self._combine_cycle(path, x, sign, sparse, lp1, lp2)
+                if result is not None:
+                    return result
+
+        # Store edge with sparse exps and union the components
+        self.dlp_graph[lp1].append((lp2, x, sign, sparse))
+        self.dlp_graph[lp2].append((lp1, x, sign, sparse))
+        self._uf_union(lp1, lp2)
         return None
 
     def _find_path(self, start, end, max_depth=10):
@@ -379,46 +493,45 @@ class DoubleLargePrimeGraph:
                     queue.append(neighbor)
         return None
 
-    def _combine_cycle(self, path, new_x, new_sign, new_exps, lp1, lp2):
+    def _sparse_to_dense(self, sparse, size):
+        """Convert sparse exps tuple ((idx,val),...) to dense list."""
+        dense = [0] * size
+        for idx, val in sparse:
+            dense[idx] = val
+        return dense
+
+    def _add_sparse(self, combined, sparse):
+        """Add sparse exps into combined dense list in-place."""
+        for idx, val in sparse:
+            combined[idx] += val
+
+    def _combine_cycle(self, path, new_x, new_sign, new_sparse, lp1, lp2):
         """
         Combine relations along a cycle to produce a full relation.
-
-        Each edge contributes: x_i^2 = (-1)^s_i * prod(fb^e_i) * lp_a * lp_b (mod n)
-        Around the cycle, each large prime appears exactly twice (entering and leaving
-        a vertex), so they cancel in pairs.
-
-        Combined x = product of all x_i mod n
-        Combined exps = sum of all exps_i
-        For the large primes: each appears twice, so add 2 to their "exponent"
-        which is even and vanishes in GF(2).
+        Exps stored as sparse tuples; converted to dense only here.
         """
         combined_x = new_x
         combined_sign = new_sign
-        combined_exps = list(new_exps)
+        combined_exps = self._sparse_to_dense(new_sparse, self.fb_size)
 
-        # Collect all large primes that appear (each should appear exactly twice)
         lp_counts = defaultdict(int)
         lp_counts[lp1] += 1
         lp_counts[lp2] += 1
 
         for src, dst in path:
-            # Find the edge data
             edge_found = False
-            for neighbor, x, sign, exps in self.dlp_graph[src]:
+            for neighbor, x, sign, sparse in self.dlp_graph[src]:
                 if neighbor == dst:
                     combined_x = combined_x * x % int(self.n)
                     combined_sign = (combined_sign + sign) % 2
-                    for j in range(len(combined_exps)):
-                        combined_exps[j] += exps[j]
+                    self._add_sparse(combined_exps, sparse)
                     lp_counts[src] += 1
                     lp_counts[dst] += 1
                     edge_found = True
                     break
             if not edge_found:
-                return None  # Shouldn't happen
+                return None
 
-        # Each large prime should appear exactly twice — cancel them
-        # by multiplying x by lp^(-1) for each pair
         for lp, count in lp_counts.items():
             pairs = count // 2
             for _ in range(pairs):
@@ -533,16 +646,14 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     # Stage 2: Relation Collection with SIQS
     # ======================================================================
 
-    # Double large prime setup
-    lp_bound = fb[-1] ** 2  # Single LP bound: cofactor < FB_max^2
-    dlp_bound = fb[-1] ** 3  # Double LP bound: cofactor < FB_max^3
+    # Large prime bound: cofactor must be prime and < FB_max^2
+    lp_bound = fb[-1] ** 2
 
-    # T_bits controls false-positive rate in sieve. Tighter = fewer candidates
-    # but risk missing smooth values. nb//4 was v5.0 default.
-    # For larger numbers, tighter threshold is better because the candidate
-    # processing cost dominates (trial_divide_smart is 55% of runtime).
+    # T_bits controls sieve threshold: thresh = (log_g_max - T_bits) * 1024.
+    # Higher T_bits = lower threshold = more candidates (looser).
+    # For 54d+, slightly looser works because sieve is the bottleneck.
     if nb >= 180:
-        T_bits = max(15, nb // 4 - 1)  # Tighter for 54d+
+        T_bits = max(15, nb // 4 - 1)
     else:
         T_bits = max(15, nb // 4 - 2)
     needed = fb_size + 30
@@ -671,7 +782,8 @@ def siqs_factor(n, verbose=True, time_limit=3600):
             result = dlp_graph.add_single_lp(x_stored, sign, exps, int(v))
             if result:
                 return result
-        # else: not smooth, discard (skip a_prime/x_stored computation)
+        # DLP disabled — birthday paradox makes cycle yield near zero at this scale
+        # (20K edges → ~7 cycles in 300M prime space). See FAILED_EXPERIMENTS.md.
         return None
 
     def process_candidate(ax_b_val, gx_val, a_prime_indices,
