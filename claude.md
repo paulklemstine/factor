@@ -89,10 +89,11 @@
 - Bias Kleinjung polynomial search toward known-good prime densities
 - Goal: Pre-aligned polynomials for faster GNFS relation collection
 
-### Priority 7: GNFS Full Implementation (IN PROGRESS)
-- `gnfs_engine.py` scaffold: base-m poly selection, Murphy alpha, rational+algebraic FB, line sieve
-- Working: poly selection verified, 1057 relations from 39d test (needs 2566)
-- Need: trial division verification, GF(2) matrix, Block Lanczos, square root phase
+### Priority 7: GNFS Full Implementation (BLOCKED)
+- `gnfs_engine.py`: phases 1-4 working (poly selection, FB, sieve, LA)
+- QC columns fix QR issue, CRT algebraic sqrt scaffolded
+- **BLOCKED**: Algebraic square root sign consistency across CRT primes
+- Need: Couveignes sign matching or Montgomery's sqrt algorithm
 - Required for RSA-100 (100d/332b)
 
 ### Priority 8: Block Lanczos for LA
@@ -100,6 +101,6 @@
 - Only significant at 75d+ where matrix density dominates
 
 ## Next Steps
-1. Implement P-adic PID Controller (Priority 1) for Spectral Compass delta refinement
-2. Benchmark Beat Frequency Spectrogram (Priority 2) for Δ narrowing
-3. Begin GNFS scaffold for RSA-100 preparation
+1. Solve GNFS algebraic sqrt (sign consistency) — required for RSA-100
+2. Try remaining hypotheses: Ternary-Geometric (P3), NAF Sparsity (P4), GF(3) (P5)
+3. Alternatively: implement lattice sieve for GNFS relation speedup
