@@ -20,6 +20,7 @@ import math
 import time
 import numpy as np
 from collections import defaultdict
+from numba import njit
 
 
 ###############################################################################
@@ -212,21 +213,31 @@ def build_rational_fb(B_r):
     return fb
 
 
+@njit(cache=True)
+def _jit_find_roots(coeffs, d_plus_1, p):
+    """JIT brute-force root finding: evaluate polynomial at all x mod p."""
+    roots = np.empty(d_plus_1, dtype=np.int64)
+    count = 0
+    for r in range(p):
+        val = np.int64(0)
+        r_pow = np.int64(1)
+        for i in range(d_plus_1):
+            val = (val + coeffs[i] * r_pow) % p
+            r_pow = (r_pow * r) % p
+        if val == 0:
+            roots[count] = r
+            count += 1
+    return roots[:count]
+
+
 def find_poly_roots_mod_p(coeffs, p):
     """
     Find all roots of polynomial f(x) mod p.
-    Uses brute force for small p (adequate for factor base construction).
+    Uses JIT brute force for small p (adequate for factor base construction).
     """
-    roots = []
-    for r in range(p):
-        val = 0
-        r_pow = 1
-        for c in coeffs:
-            val = (val + c * r_pow) % p
-            r_pow = (r_pow * r) % p
-        if val == 0:
-            roots.append(r)
-    return roots
+    coeffs_arr = np.array(coeffs, dtype=np.int64)
+    result = _jit_find_roots(coeffs_arr, len(coeffs), p)
+    return [int(x) for x in result]
 
 
 def build_algebraic_fb(f_coeffs, B_a):
@@ -340,70 +351,83 @@ def norm_algebraic(a, b, f_coeffs):
     return abs(result)
 
 
+@njit(cache=True)
+def _jit_sieve_rat(sieve_arr, primes, log_ps, starts, size):
+    """JIT-compiled rational sieve: add log(p) at stride p."""
+    for i in range(len(primes)):
+        p = primes[i]
+        lp = log_ps[i]
+        idx = starts[i]
+        while idx < size:
+            sieve_arr[idx] += lp
+            idx += p
+
+
+@njit(cache=True)
+def _jit_sieve_alg(sieve_arr, primes, roots, log_ps, starts, size):
+    """JIT-compiled algebraic sieve: add log(p) at stride p for each (p,r)."""
+    for i in range(len(primes)):
+        p = primes[i]
+        lp = log_ps[i]
+        idx = starts[i]
+        while idx < size:
+            sieve_arr[idx] += lp
+            idx += p
+
+
 def sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb, rat_bound=0, alg_bound=0):
     """
     Sieve one line (fixed b) for a in [-A, A].
-
-    For each prime p in rational FB:
-      Mark positions where p | (a + b*m), i.e., a ≡ -b*m (mod p)
-    For each (p, r) in algebraic FB:
-      Mark positions where p | norm_alg(a,b), i.e., a ≡ -b*r (mod p)
-
-    Returns list of (a, b) pairs where both norms are likely smooth.
+    Uses numba JIT for the inner sieve loops.
     """
     size = 2 * A + 1
-
-    # Rational sieve array (log approximation)
     rat_log = np.zeros(size, dtype=np.float32)
-    # Algebraic sieve array
     alg_log = np.zeros(size, dtype=np.float32)
 
-    # Sieve rational side
+    # Precompute rational sieve starts (vectorized)
     bm = int(b) * int(m)
-    for p in rat_fb:
-        if p == 0:
-            continue
-        log_p = math.log(p)
-        # a ≡ -b*m (mod p)
-        start = (-bm) % p
-        idx = (start + A) % p  # first index in [0, size)
-        while idx < size:
-            rat_log[idx] += log_p
-            idx += p
+    if not hasattr(sieve_line, '_rat_primes') or len(sieve_line._rat_primes) != len(rat_fb):
+        sieve_line._rat_primes = np.array(rat_fb, dtype=np.int64)
+        sieve_line._rat_log_ps = np.log(sieve_line._rat_primes).astype(np.float32)
+    rat_primes = sieve_line._rat_primes
+    rat_log_ps = sieve_line._rat_log_ps
+    rat_starts = ((-bm) % rat_primes + A) % rat_primes
 
-    # Sieve algebraic side
-    for p, r in alg_fb:
-        if p == 0:
-            continue
-        log_p = math.log(p)
-        # a ≡ -b*r (mod p)
-        start = (-(int(b) * r)) % p
-        idx = (start + A) % p
-        while idx < size:
-            alg_log[idx] += log_p
-            idx += p
+    _jit_sieve_rat(rat_log, rat_primes, rat_log_ps, rat_starts, size)
 
-    # Adaptive threshold: based on typical norm for this b value
-    # Rational norm: |a + b*m| ≈ b*m for small a (center of sieve)
-    rat_typical = max(abs(bm), A)  # approximate
+    # Precompute algebraic sieve starts (vectorized)
+    if not hasattr(sieve_line, '_alg_primes') or len(sieve_line._alg_primes) != len(alg_fb):
+        sieve_line._alg_primes = np.array([p for p, r in alg_fb], dtype=np.int64)
+        sieve_line._alg_log_ps = np.log(sieve_line._alg_primes).astype(np.float32)
+        sieve_line._alg_roots = np.array([r for p, r in alg_fb], dtype=np.int64)
+    alg_primes_arr = sieve_line._alg_primes
+    alg_log_ps = sieve_line._alg_log_ps
+    alg_roots_arr = sieve_line._alg_roots
+    alg_starts = ((-int(b) * alg_roots_arr) % alg_primes_arr + A) % alg_primes_arr
+
+    _jit_sieve_alg(alg_log, alg_primes_arr, alg_roots_arr, alg_log_ps, alg_starts, size)
+
+    # Adaptive thresholds
+    rat_typical = max(abs(bm), A)
     rat_thresh = math.log(rat_typical) * 0.6 if rat_typical > 1 else 1.0
 
-    # Algebraic norm at center (a=0): |b^d * f(0)| = |b^d * f_coeffs[0]|
     d = len(f_coeffs) - 1
     alg_center = abs(int(b) ** d * f_coeffs[0]) if f_coeffs[0] != 0 else abs(int(b) ** d)
     alg_typical = max(alg_center, 1)
     alg_thresh = math.log(alg_typical) * 0.5 if alg_typical > 1 else 1.0
 
-    # Collect candidates
+    # Collect candidates (vectorized threshold check)
+    mask = (rat_log >= rat_thresh) & (alg_log >= alg_thresh)
+    candidates = np.nonzero(mask)[0]
+
     smooth_pairs = []
-    for idx in range(size):
-        if rat_log[idx] >= rat_thresh and alg_log[idx] >= alg_thresh:
-            a = idx - A
-            if a == 0:
-                continue
-            if gcd(mpz(abs(a)), mpz(b)) != 1:
-                continue  # require gcd(a,b) = 1
-            smooth_pairs.append((a, int(b)))
+    for idx in candidates:
+        a = int(idx) - A
+        if a == 0:
+            continue
+        if gcd(mpz(abs(a)), mpz(b)) != 1:
+            continue
+        smooth_pairs.append((a, int(b)))
 
     return smooth_pairs
 
