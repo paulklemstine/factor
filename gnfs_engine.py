@@ -443,21 +443,59 @@ def trial_divide_algebraic(a, b, f_coeffs, alg_fb):
 
 
 ###############################################################################
+# Phase 3c: Quadratic Characters
+###############################################################################
+
+def build_qc_primes(f_coeffs, num_qc=20, min_p=50000):
+    """
+    Select primes for quadratic character columns.
+    Choose primes q where f has a root mod q (so Legendre symbol is defined).
+    Returns list of (q, r) pairs where r is a root of f mod q.
+    """
+    qc = []
+    p = int(next_prime(min_p))
+    while len(qc) < num_qc:
+        roots = find_poly_roots_mod_p(f_coeffs, p)
+        if roots:
+            qc.append((p, roots[0]))
+        p = int(next_prime(p))
+    return qc
+
+
+def compute_qc_vector(a, b, qc_primes):
+    """
+    Compute quadratic character vector for relation (a, b).
+    For each QC prime (q, r): bit is 1 if (a + b*r) is a non-residue mod q.
+    """
+    bits = []
+    for q, r in qc_primes:
+        val = (int(a) + int(b) * r) % q
+        if val == 0:
+            bits.append(0)  # convention: 0 valuation
+        else:
+            # Legendre symbol
+            ls = pow(val, (q - 1) // 2, q)
+            bits.append(1 if ls == q - 1 else 0)
+    return bits
+
+
+###############################################################################
 # Phase 4: GF(2) Linear Algebra (Gaussian Elimination)
 ###############################################################################
 
-def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg):
+def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg, num_qc=0):
     """
     Build GF(2) matrix from relations and find null space vectors.
 
     Each relation has:
       - rational exponent vector (sign + exps_rat)
       - algebraic exponent vector (exps_alg)
+      - quadratic character vector (qc_bits) — ensures algebraic square
 
-    Matrix columns = 1 (sign) + ncols_rat + ncols_alg.
+    Matrix columns = 1 (sign) + ncols_rat + ncols_alg + num_qc.
     """
     nrows = len(relations)
-    ncols = 1 + ncols_rat + ncols_alg
+    ncols = 1 + ncols_rat + ncols_alg + num_qc
 
     # Build bit-vector matrix
     mat = []
@@ -469,6 +507,11 @@ def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg):
         for j, e in enumerate(rel['alg_exps']):
             if e % 2 == 1:
                 row |= (1 << (j + 1 + ncols_rat))
+        # Quadratic characters
+        qc_bits = rel.get('qc_bits', [])
+        for j, bit in enumerate(qc_bits):
+            if bit:
+                row |= (1 << (j + 1 + ncols_rat + ncols_alg))
         mat.append(row)
 
     # Gaussian elimination with combination tracking
@@ -509,26 +552,258 @@ def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg):
 
 
 ###############################################################################
-# Phase 5: Square Root and Factor Extraction
+# Phase 5: Algebraic Square Root (Couveignes-style)
 ###############################################################################
 
-def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb):
+def _poly_roots_mod_p_smart(coeffs, p):
+    """
+    Find roots of polynomial mod p using modular evaluation.
+    For small p (< 10^6), use brute force.
+    For larger p, use derivative-based Newton + random search.
+    """
+    if p < 1000000:
+        return find_poly_roots_mod_p(coeffs, p)
+
+    # For larger p: random search + GCD-based splitting
+    d = len(coeffs) - 1
+    roots = []
+
+    # Try random values; for degree d, expected ~d roots
+    # Use x^p - x ≡ 0 (mod f(x), p) to find roots via GCD
+    # Simplified: try random values and check
+    import random
+    rng = random.Random(42)
+    tried = set()
+    for _ in range(min(p, 100000)):
+        x = rng.randrange(p)
+        if x in tried:
+            continue
+        tried.add(x)
+        val = 0
+        x_pow = 1
+        for c in coeffs:
+            val = (val + c * x_pow) % p
+            x_pow = (x_pow * x) % p
+        if val == 0:
+            roots.append(x)
+            if len(roots) >= d:
+                break
+    return roots
+
+
+def _find_splitting_prime(f_coeffs, min_p=10000):
+    """
+    Find a prime q > min_p where f(x) splits completely (has d distinct roots mod q).
+    """
+    d = len(f_coeffs) - 1
+    p = int(next_prime(min_p))
+    for _ in range(100000):
+        roots = _poly_roots_mod_p_smart(f_coeffs, p)
+        if len(roots) == d:
+            if len(set(roots)) == d:
+                return p, roots
+        p = int(next_prime(p))
+    return None, None
+
+
+def _lagrange_interpolation(roots, values, q):
+    """
+    Lagrange interpolation: find polynomial P(x) of degree < len(roots)
+    such that P(roots[j]) = values[j] mod q.
+
+    Returns coefficients [a_0, a_1, ..., a_{d-1}].
+    """
+    d = len(roots)
+    # Start with zero polynomial
+    coeffs = [0] * d
+
+    for j in range(d):
+        # Compute basis polynomial L_j(x) = Π_{k≠j} (x - r_k) / (r_j - r_k)
+        # Denominator
+        denom = 1
+        for k in range(d):
+            if k != j:
+                denom = (denom * (roots[j] - roots[k])) % q
+        denom_inv = pow(denom, -1, q)
+        scale = (values[j] * denom_inv) % q
+
+        # Numerator polynomial: Π_{k≠j} (x - r_k)
+        # Build iteratively
+        num_coeffs = [1]  # start with constant 1
+        for k in range(d):
+            if k != j:
+                # Multiply by (x - r_k)
+                new_coeffs = [0] * (len(num_coeffs) + 1)
+                for i, c in enumerate(num_coeffs):
+                    new_coeffs[i + 1] = (new_coeffs[i + 1] + c) % q
+                    new_coeffs[i] = (new_coeffs[i] - c * roots[k]) % q
+                num_coeffs = new_coeffs
+
+        # Add scale * num_coeffs to result
+        for i in range(min(d, len(num_coeffs))):
+            coeffs[i] = (coeffs[i] + scale * num_coeffs[i]) % q
+
+    return coeffs
+
+
+def _modular_sqrt(a, p):
+    """Compute square root of a mod p using Tonelli-Shanks."""
+    a = a % p
+    if a == 0:
+        return 0
+    if pow(a, (p - 1) // 2, p) != 1:
+        return None  # not a QR
+
+    if p % 4 == 3:
+        return pow(a, (p + 1) // 4, p)
+
+    # Tonelli-Shanks
+    s, q = 0, p - 1
+    while q % 2 == 0:
+        s += 1
+        q //= 2
+
+    z = 2
+    while pow(z, (p - 1) // 2, p) != p - 1:
+        z += 1
+
+    M, c, t, R = s, pow(z, q, p), pow(a, q, p), pow(a, (q + 1) // 2, p)
+
+    while True:
+        if t == 1:
+            return R
+        i = 1
+        tmp = (t * t) % p
+        while tmp != 1:
+            tmp = (tmp * tmp) % p
+            i += 1
+        b = pow(c, 1 << (M - i - 1), p)
+        M, c, t, R = i, (b * b) % p, (t * b * b) % p, (R * b) % p
+
+
+def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes):
+    """
+    Compute the algebraic square root and map through φ(α) = m.
+
+    Uses CRT over precomputed splitting primes:
+    1. For each splitting prime q_i with roots r_1..r_d of f mod q_i
+    2. For each root: Π(a_j + b_j*r_k) mod q_i, take sqrt
+    3. Lagrange interpolate to get s(x) mod q_i
+    4. Evaluate s(m) mod q_i
+    5. CRT over all q_i to get s(m) mod (Πq_i)
+    6. Reduce mod n
+
+    Yields candidate y values (one per sign combination).
+    """
+    d = len(f_coeffs) - 1
+
+    # For each sign combination (2^d possibilities)
+    for sign_mask in range(1 << d):
+        # CRT accumulation: s(m) mod (product of primes)
+        crt_modulus = mpz(1)
+        crt_value = mpz(0)
+
+        success = True
+        for q, roots in splitting_primes:
+            # Compute product at each root
+            prod_at_roots = []
+            for r in roots:
+                prod = 1
+                for idx in indices:
+                    rel = relations[idx]
+                    val = (rel['a'] + rel['b'] * r) % q
+                    prod = (prod * val) % q
+                prod_at_roots.append(prod)
+
+            # Square root at each root
+            sqrt_vals = []
+            for j, prod in enumerate(prod_at_roots):
+                sr = _modular_sqrt(prod, q)
+                if sr is None:
+                    success = False
+                    break
+                if sign_mask & (1 << j):
+                    sr = (q - sr) % q
+                sqrt_vals.append(sr)
+
+            if not success:
+                break
+
+            # Lagrange interpolation to get s(x) mod q
+            s_coeffs = _lagrange_interpolation(roots, sqrt_vals, q)
+
+            # Evaluate s(m) mod q
+            sm_mod_q = 0
+            m_pow = 1
+            for c in s_coeffs:
+                sm_mod_q = (sm_mod_q + c * m_pow) % q
+                m_pow = (m_pow * int(m)) % q
+
+            # CRT combine
+            if crt_modulus == 1:
+                crt_value = mpz(sm_mod_q)
+                crt_modulus = mpz(q)
+            else:
+                # Combine: find x such that x ≡ crt_value (mod crt_modulus)
+                #                          and x ≡ sm_mod_q (mod q)
+                q_mpz = mpz(q)
+                inv = pow(crt_modulus, -1, q_mpz)
+                diff = (mpz(sm_mod_q) - crt_value) % q_mpz
+                crt_value = crt_value + crt_modulus * ((diff * inv) % q_mpz)
+                crt_modulus = crt_modulus * q_mpz
+                crt_value = crt_value % crt_modulus
+
+        if not success:
+            continue
+
+        # Reduce s(m) mod n
+        y = crt_value % n
+        if y == 0:
+            continue
+
+        yield y
+
+
+###############################################################################
+# Phase 5b: Factor Extraction
+###############################################################################
+
+def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
     """
     For each null space vector, compute x² ≡ y² (mod n) and extract gcd.
 
-    In GNFS, for a dependency set where both rational and algebraic exponent
-    vectors are even:
-      - Rational: Π(a_i + b_i·m) = (-1)^s · Π p_j^{e_j} where all e_j even
-      - x = Π(a_i + b_i·m) mod n (the "raw" product)
-      - y = Π p_j^{e_j/2} mod n (square root via half-exponents)
-      - gcd(x ± y, n) may give factor
-
-    Note: Full GNFS also needs algebraic square root (Couveignes/Montgomery).
-    This simplified approach uses only the rational side, which works when
-    the algebraic side happens to map correctly through φ(α)=m.
+    GNFS congruence of squares:
+      - Rational side: Π(a_i + b_i·m) = (-1)^s · Π p_j^{e_j}, all e_j even
+        → rational sqrt x = (-1)^(s/2) · Π p_j^{e_j/2}
+      - Algebraic side: Π(a_i + b_i·α) = s(α)² in Z[α]/(f(α))
+        → algebraic sqrt y = s(m) mod n via Couveignes' algorithm
+      - Factor from gcd(x ± y, n)
     """
-    for vi, indices in enumerate(null_vecs):
-        # Accumulate rational exponents and algebraic exponents
+    d = len(f_coeffs) - 1
+    nb = int(gmpy2.log2(n)) + 1
+
+    # Precompute splitting primes (only once for all null vecs)
+    num_sp = nb // 17 + 5
+    splitting_primes = []
+    min_p = 100000
+    for _ in range(num_sp * 3):
+        q, roots = _find_splitting_prime(f_coeffs, min_p=min_p)
+        if q is not None:
+            splitting_primes.append((q, roots))
+            min_p = q + 1
+        else:
+            min_p += 1000
+        if len(splitting_primes) >= num_sp:
+            break
+
+    if len(splitting_primes) < 3:
+        return None
+
+    # Limit: try at most 50 null vecs (most should work with QC columns)
+    max_tries = min(50, len(null_vecs))
+
+    for vi, indices in enumerate(null_vecs[:max_tries]):
+        # Accumulate exponents
         total_rat = [0] * len(rat_fb)
         total_alg = [0] * len(alg_fb)
         total_sign = 0
@@ -547,28 +822,17 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb):
         if any(e % 2 != 0 for e in total_alg):
             continue
 
-        # Compute x = Π(a_i + b_i·m) mod n
+        # Rational square root: x = (-1)^(s/2) · Π p_j^{e_j/2} mod n
         x_val = mpz(1)
-        for idx in indices:
-            rel = relations[idx]
-            val = mpz(rel['a']) + mpz(rel['b']) * mpz(m)
-            x_val = (x_val * val) % n
-
-        # Compute y from rational half-exponents
-        y_rat = mpz(1)
         for j, e in enumerate(total_rat):
             if e > 0:
-                y_rat = (y_rat * pow(mpz(rat_fb[j]), e // 2, n)) % n
+                x_val = (x_val * pow(mpz(rat_fb[j]), e // 2, n)) % n
+        if (total_sign // 2) % 2 == 1:
+            x_val = (-x_val) % n
 
-        # Compute z from algebraic half-exponents (using FB primes)
-        y_alg = mpz(1)
-        for j, e in enumerate(total_alg):
-            if e > 0:
-                p, r = alg_fb[j]
-                y_alg = (y_alg * pow(mpz(p), e // 2, n)) % n
-
-        # Try multiple combinations for gcd
-        for y_val in [y_rat, y_alg, (y_rat * y_alg) % n]:
+        # Algebraic square root via Couveignes: try all sign combinations
+        for y_val in algebraic_square_root(
+                relations, indices, f_coeffs, m, n, splitting_primes):
             for diff in [x_val - y_val, x_val + y_val]:
                 g = gcd(diff % n, n)
                 if 1 < g < n:
@@ -646,9 +910,13 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
         print(f"    Rational FB: {len(rat_fb)} primes up to {rat_fb[-1] if rat_fb else 0}")
         print(f"    Algebraic FB: {len(alg_fb)} ideals ({fb_time:.1f}s)")
 
-    needed = len(rat_fb) + len(alg_fb) + 10  # need more relations than FB size
+    # Quadratic character primes (ensure algebraic product is a true square)
+    num_qc = 20
+    qc_primes = build_qc_primes(f_coeffs, num_qc=num_qc, min_p=50000)
+
+    needed = len(rat_fb) + len(alg_fb) + num_qc + 10
     if verbose:
-        print(f"    Need {needed} relations")
+        print(f"    Need {needed} relations (incl. {num_qc} QC columns)")
 
     # Step 4: Line sieve + trial division verification
     t_sieve = time.time()
@@ -678,11 +946,13 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             if alg_exps is None:
                 continue
 
-            # Both sides smooth — verified relation
+            # Both sides smooth — compute QC bits and store
+            qc_bits = compute_qc_vector(a, b_val, qc_primes)
             verified_relations.append({
                 'a': a, 'b': b_val,
                 'rat_exps': rat_exps, 'rat_sign': rat_sign,
                 'alg_exps': alg_exps,
+                'qc_bits': qc_bits,
             })
 
         if verbose and b % 100 == 0:
@@ -703,11 +973,12 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
 
     # Step 5: GF(2) Linear Algebra
     la_t0 = time.time()
+    ncols_total = 1 + len(rat_fb) + len(alg_fb) + num_qc
     if verbose:
-        print(f"    LA: {len(verified_relations)} x {1 + len(rat_fb) + len(alg_fb)}")
+        print(f"    LA: {len(verified_relations)} x {ncols_total}")
 
     null_vecs = gf2_gaussian_elimination(
-        verified_relations, len(rat_fb), len(alg_fb))
+        verified_relations, len(rat_fb), len(alg_fb), num_qc=num_qc)
 
     if verbose:
         print(f"    LA: {time.time()-la_t0:.1f}s, {len(null_vecs)} null vecs")
@@ -721,7 +992,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     # Note: This simplified approach only uses the rational side square root.
     # A full GNFS would also need the algebraic side square root
     # (Couveignes/Montgomery), but for many cases the rational side suffices.
-    result = extract_factor(n, null_vecs, verified_relations, m, rat_fb, alg_fb)
+    result = extract_factor(n, null_vecs, verified_relations, m, rat_fb, alg_fb, f_coeffs)
 
     if result is not None:
         total = time.time() - t0
