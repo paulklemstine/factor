@@ -89,9 +89,10 @@
 - Bias Kleinjung polynomial search toward known-good prime densities
 - Goal: Pre-aligned polynomials for faster GNFS relation collection
 
-### Priority 7: GNFS Full Implementation
-- Base-m polynomial selection already scaffolded
-- Need: lattice sieve, algebraic factor base, norm computation
+### Priority 7: GNFS Full Implementation (IN PROGRESS)
+- `gnfs_engine.py` scaffold: base-m poly selection, Murphy alpha, rational+algebraic FB, line sieve
+- Working: poly selection verified, 1057 relations from 39d test (needs 2566)
+- Need: trial division verification, GF(2) matrix, Block Lanczos, square root phase
 - Required for RSA-100 (100d/332b)
 
 ### Priority 8: Block Lanczos for LA
