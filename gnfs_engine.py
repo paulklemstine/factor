@@ -555,40 +555,167 @@ def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg, num_qc=0):
 # Phase 5: Algebraic Square Root (Couveignes-style)
 ###############################################################################
 
+###############################################################################
+# Polynomial arithmetic mod p (for large-prime root finding)
+###############################################################################
+
+def _poly_mul_mod(a, b, mod_poly, p):
+    """Multiply polynomials a*b mod (mod_poly, p). Coefficients are lists."""
+    # Standard polynomial multiplication
+    result = [0] * (len(a) + len(b) - 1)
+    for i, ca in enumerate(a):
+        if ca == 0:
+            continue
+        for j, cb in enumerate(b):
+            result[i + j] = (result[i + j] + ca * cb) % p
+    # Reduce mod mod_poly
+    return _poly_mod(result, mod_poly, p)
+
+
+def _poly_mod(a, mod_poly, p):
+    """Reduce polynomial a mod (mod_poly, p)."""
+    a = list(a)
+    d = len(mod_poly) - 1
+    lc_inv = pow(mod_poly[-1], -1, p)
+    while len(a) >= len(mod_poly):
+        if a[-1] != 0:
+            coeff = (a[-1] * lc_inv) % p
+            offset = len(a) - len(mod_poly)
+            for i in range(len(mod_poly)):
+                a[offset + i] = (a[offset + i] - coeff * mod_poly[i]) % p
+        a.pop()
+    # Strip trailing zeros
+    while len(a) > 1 and a[-1] == 0:
+        a.pop()
+    return a
+
+
+def _poly_powmod(base, exp, mod_poly, p):
+    """Compute base^exp mod (mod_poly, p) using binary exponentiation."""
+    result = [1]  # constant 1
+    base = _poly_mod(list(base), mod_poly, p)
+    while exp > 0:
+        if exp & 1:
+            result = _poly_mul_mod(result, base, mod_poly, p)
+        base = _poly_mul_mod(base, base, mod_poly, p)
+        exp >>= 1
+    return result
+
+
+def _poly_gcd(a, b, p):
+    """GCD of two polynomials mod p."""
+    while len(b) > 1 or (len(b) == 1 and b[0] != 0):
+        a, b = b, _poly_mod(a, b, p) if len(b) > 0 and (len(b) > 1 or b[0] != 0) else [0]
+        if not b or (len(b) == 1 and b[0] == 0):
+            break
+    # Make monic
+    if len(a) > 0 and a[-1] != 0:
+        lc_inv = pow(a[-1], -1, p)
+        a = [(c * lc_inv) % p for c in a]
+    return a
+
+
 def _poly_roots_mod_p_smart(coeffs, p):
     """
-    Find roots of polynomial mod p using modular evaluation.
+    Find roots of polynomial mod p.
     For small p (< 10^6), use brute force.
-    For larger p, use derivative-based Newton + random search.
+    For larger p, use Cantor-Zassenhaus algorithm.
     """
     if p < 1000000:
         return find_poly_roots_mod_p(coeffs, p)
 
-    # For larger p: random search + GCD-based splitting
     d = len(coeffs) - 1
-    roots = []
+    if d <= 0:
+        return []
 
-    # Try random values; for degree d, expected ~d roots
-    # Use x^p - x ≡ 0 (mod f(x), p) to find roots via GCD
-    # Simplified: try random values and check
+    # Step 1: Compute gcd(x^p - x, f(x)) mod p
+    # This gives the product of all linear factors (splitting field)
+    # x^p mod f(x) using polynomial exponentiation
+    x_poly = [0, 1]  # x
+    xp = _poly_powmod(x_poly, p, coeffs, p)
+    # x^p - x
+    xp_minus_x = list(xp)
+    if len(xp_minus_x) < 2:
+        xp_minus_x.extend([0] * (2 - len(xp_minus_x)))
+    xp_minus_x[1] = (xp_minus_x[1] - 1) % p
+
+    # gcd(x^p - x, f)
+    g = _poly_gcd(xp_minus_x, list(coeffs), p)
+    num_roots = len(g) - 1
+    if num_roots <= 0:
+        return []
+
+    # Step 2: Extract roots using Cantor-Zassenhaus
+    roots = []
+    _cz_split(g, p, roots)
+    return sorted(roots[:d])
+
+
+def _cz_split(f, p, roots):
+    """
+    Cantor-Zassenhaus: split polynomial f (product of distinct linear factors)
+    into its linear factors mod p. Appends roots to the roots list.
+    """
+    deg = len(f) - 1
+    if deg <= 0:
+        return
+    if deg == 1:
+        # f = a1*x + a0, root = -a0/a1
+        root = (-f[0] * pow(f[1], -1, p)) % p
+        roots.append(root)
+        return
+
+    # Try random splits
     import random
-    rng = random.Random(42)
-    tried = set()
-    for _ in range(min(p, 100000)):
-        x = rng.randrange(p)
-        if x in tried:
-            continue
-        tried.add(x)
-        val = 0
-        x_pow = 1
-        for c in coeffs:
-            val = (val + c * x_pow) % p
-            x_pow = (x_pow * x) % p
-        if val == 0:
-            roots.append(x)
-            if len(roots) >= d:
-                break
-    return roots
+    rng = random.Random()
+    for _ in range(100):
+        # Pick random a, compute gcd(f, (x+a)^((p-1)/2) - 1)
+        a = rng.randrange(p)
+        t_poly = [a, 1]  # x + a
+        # (x+a)^((p-1)/2) mod f
+        tp = _poly_powmod(t_poly, (p - 1) // 2, f, p)
+        # subtract 1
+        tp[0] = (tp[0] - 1) % p
+
+        g = _poly_gcd(list(f), tp, p)
+        g_deg = len(g) - 1
+        if 0 < g_deg < deg:
+            # Split into g and f/g
+            _cz_split(g, p, roots)
+            # f / g
+            h = _poly_div(f, g, p)
+            _cz_split(h, p, roots)
+            return
+
+    # Fallback: brute force for very small remaining degree
+    if deg <= 3:
+        for x in range(min(p, 1000000)):
+            val = 0
+            x_pow = 1
+            for c in f:
+                val = (val + c * x_pow) % p
+                x_pow = (x_pow * x) % p
+            if val == 0:
+                roots.append(x)
+                if len(roots) >= deg:
+                    return
+
+
+def _poly_div(a, b, p):
+    """Polynomial division a / b mod p. Returns quotient."""
+    a = list(a)
+    b_deg = len(b) - 1
+    lc_inv = pow(b[-1], -1, p)
+    quotient = []
+    while len(a) - 1 >= b_deg:
+        coeff = (a[-1] * lc_inv) % p
+        quotient.append(coeff)
+        offset = len(a) - len(b)
+        for i in range(len(b)):
+            a[offset + i] = (a[offset + i] - coeff * b[i]) % p
+        a.pop()
+    quotient.reverse()
+    return quotient if quotient else [0]
 
 
 def _find_splitting_prime(f_coeffs, min_p=10000):
@@ -681,87 +808,283 @@ def _modular_sqrt(a, p):
         M, c, t, R = i, (b * b) % p, (t * b * b) % p, (R * b) % p
 
 
-def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes):
+def _poly_mul_mod_zx(a, b, f_coeffs):
     """
-    Compute the algebraic square root and map through φ(α) = m.
+    Multiply polynomials a*b in Z[x]/(f(x)) with exact integer arithmetic.
+    f must be monic (leading coefficient = 1).
+    Returns list of d coefficients [c_0, c_1, ..., c_{d-1}].
+    """
+    d = len(f_coeffs) - 1
+    # Pad inputs to length d
+    a = list(a) + [0] * max(0, d - len(a))
+    b = list(b) + [0] * max(0, d - len(b))
 
-    Uses CRT over precomputed splitting primes:
-    1. For each splitting prime q_i with roots r_1..r_d of f mod q_i
-    2. For each root: Π(a_j + b_j*r_k) mod q_i, take sqrt
-    3. Lagrange interpolate to get s(x) mod q_i
-    4. Evaluate s(m) mod q_i
-    5. CRT over all q_i to get s(m) mod (Πq_i)
-    6. Reduce mod n
+    # Standard polynomial multiplication
+    result = [0] * (2 * d - 1)
+    for i in range(d):
+        if a[i] == 0:
+            continue
+        for j in range(d):
+            result[i + j] += a[i] * b[j]
 
-    Yields candidate y values (one per sign combination).
+    # Reduce mod f(x) (monic): x^d = -(f_0 + f_1*x + ... + f_{d-1}*x^{d-1})
+    for k in range(len(result) - 1, d - 1, -1):
+        c = result[k]
+        if c == 0:
+            continue
+        result[k] = 0
+        for i in range(d):
+            result[k - d + i] -= c * f_coeffs[i]
+
+    return result[:d]
+
+
+def _compute_exact_product(relations, indices, f_coeffs):
+    """Compute ∏(a_i + b_i·x) mod f(x) with exact integer arithmetic."""
+    d = len(f_coeffs) - 1
+    product = [1] + [0] * (d - 1)  # constant 1
+
+    for idx in indices:
+        rel = relations[idx]
+        a_val, b_val = rel['a'], rel['b']
+        linear = [a_val, b_val] + [0] * (d - 2)  # a + b*x
+        product = _poly_mul_mod_zx(product, linear, f_coeffs)
+
+    return product
+
+
+def _poly_mul_mod_ring(a, b, f_coeffs, modulus):
+    """Multiply polynomials a*b mod (f(x), modulus). f must be monic."""
+    d = len(f_coeffs) - 1
+    a = [int(x) % modulus for x in a] + [0] * max(0, d - len(a))
+    b = [int(x) % modulus for x in b] + [0] * max(0, d - len(b))
+    result = [0] * (2 * d - 1)
+    for i in range(d):
+        if a[i] == 0:
+            continue
+        for j in range(d):
+            result[i + j] = (result[i + j] + a[i] * b[j]) % modulus
+    for k in range(len(result) - 1, d - 1, -1):
+        c = result[k]
+        if c == 0:
+            continue
+        result[k] = 0
+        for i in range(d):
+            result[k - d + i] = (result[k - d + i] - c * f_coeffs[i]) % modulus
+    return result[:d]
+
+
+def _poly_pow_mod_ring(base, exp, f_coeffs, modulus):
+    """Compute base^exp mod (f(x), modulus)."""
+    d = len(f_coeffs) - 1
+    result = [1] + [0] * (d - 1)
+    base = [int(x) % modulus for x in base] + [0] * max(0, d - len(base))
+    while exp > 0:
+        if exp & 1:
+            result = _poly_mul_mod_ring(result, base, f_coeffs, modulus)
+        base = _poly_mul_mod_ring(base, base, f_coeffs, modulus)
+        exp >>= 1
+    return result
+
+
+def _find_inert_prime(f_coeffs, min_p=100):
+    """Find a prime q where f has no roots mod q (irreducible for degree 3)."""
+    p = int(next_prime(min_p))
+    for _ in range(100000):
+        roots = find_poly_roots_mod_p(f_coeffs, p)
+        if len(roots) == 0:
+            return p
+        p = int(next_prime(p))
+    return None
+
+
+def _sqrt_in_fqd(P_coeffs, f_coeffs, q):
+    """
+    Compute sqrt(P) in F_q[x]/(f(x)) where f is irreducible mod q.
+    Returns polynomial coefficients or None if not a QR.
+    """
+    d = len(f_coeffs) - 1
+    f_mod = [c % q for c in f_coeffs]
+    P_fq = [int(c) % q for c in P_coeffs]
+    one = [1] + [0] * (d - 1)
+
+    if all(c == 0 for c in P_fq):
+        return [0] * d
+
+    # F_{q^d}^* has order q^d - 1
+    order = q ** d - 1
+
+    # Check QR: P^{(q^d-1)/2} should be 1
+    check = _poly_pow_mod_ring(P_fq, order // 2, f_mod, q)
+    if check != one:
+        return None
+
+    # Try simple case: (q^d + 1) divisible by 4
+    qd_plus_1 = q ** d + 1
+    if qd_plus_1 % 4 == 0:
+        return _poly_pow_mod_ring(P_fq, qd_plus_1 // 4, f_mod, q)
+
+    # Tonelli-Shanks for F_{q^d}
+    s, t = 0, order
+    while t % 2 == 0:
+        s += 1
+        t //= 2
+
+    # Find a non-residue
+    import random
+    rng = random.Random(42)
+    z = None
+    neg_one = [q - 1] + [0] * (d - 1)
+    for _ in range(1000):
+        z_coeffs = [rng.randrange(q) for _ in range(d)]
+        if _poly_pow_mod_ring(z_coeffs, order // 2, f_mod, q) == neg_one:
+            z = z_coeffs
+            break
+    if z is None:
+        return None
+
+    M = s
+    c = _poly_pow_mod_ring(z, t, f_mod, q)
+    tt = _poly_pow_mod_ring(P_fq, t, f_mod, q)
+    R = _poly_pow_mod_ring(P_fq, (t + 1) // 2, f_mod, q)
+
+    while True:
+        if tt == one:
+            return R
+        i = 1
+        tmp = _poly_mul_mod_ring(tt, tt, f_mod, q)
+        while tmp != one:
+            tmp = _poly_mul_mod_ring(tmp, tmp, f_mod, q)
+            i += 1
+        b = c
+        for _ in range(M - i - 1):
+            b = _poly_mul_mod_ring(b, b, f_mod, q)
+        M = i
+        c = _poly_mul_mod_ring(b, b, f_mod, q)
+        tt = _poly_mul_mod_ring(tt, c, f_mod, q)
+        R = _poly_mul_mod_ring(R, b, f_mod, q)
+
+
+def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=None):
+    """
+    Compute algebraic square root using Hensel lifting from an inert prime.
+
+    Algorithm:
+    1. Compute P(x) = ∏(a_i + b_i·x) mod f(x) with EXACT integer arithmetic
+    2. Find inert prime q (f irreducible mod q, so F_q[x]/(f) is a field)
+    3. Compute s_0 = sqrt(P) in F_q[x]/(f) — unique up to sign (±)
+    4. Hensel lift: s_{k+1} from s_k using Newton iteration mod q^{2^{k+1}}
+    5. When modulus > 2·max|s_i|, balanced reduction gives exact s(x)
+    6. Verify s² = P, evaluate s(m) mod n
+
+    Hensel lifting avoids the sign consistency problem of CRT with splitting
+    primes — there is only ONE sign choice (±) at the inert prime.
     """
     d = len(f_coeffs) - 1
 
-    # For each sign combination (2^d possibilities)
-    for sign_mask in range(1 << d):
-        # CRT accumulation: s(m) mod (product of primes)
-        crt_modulus = mpz(1)
-        crt_value = mpz(0)
+    # Step 1: Compute exact product P(x) in Z[x]/(f(x))
+    P = _compute_exact_product(relations, indices, f_coeffs)
+    max_P = max(abs(c) for c in P)
+    if max_P == 0:
+        return
 
-        success = True
-        for q, roots in splitting_primes:
-            # Compute product at each root
-            prod_at_roots = []
-            for r in roots:
-                prod = 1
-                for idx in indices:
-                    rel = relations[idx]
-                    val = (rel['a'] + rel['b'] * r) % q
-                    prod = (prod * val) % q
-                prod_at_roots.append(prod)
+    # Coefficient bound for sqrt
+    f_norm = max(abs(c) for c in f_coeffs) + 1
+    coeff_bound = int(isqrt(mpz(max_P))) * f_norm ** d + 1
+    target = mpz(2) * mpz(coeff_bound) + 1
 
-            # Square root at each root
-            sqrt_vals = []
-            for j, prod in enumerate(prod_at_roots):
-                sr = _modular_sqrt(prod, q)
-                if sr is None:
-                    success = False
-                    break
-                if sign_mask & (1 << j):
-                    sr = (q - sr) % q
-                sqrt_vals.append(sr)
+    # Step 2: Find inert prime
+    q = _find_inert_prime(f_coeffs, min_p=100)
+    if q is None:
+        return
 
-            if not success:
-                break
+    # Step 3: Compute sqrt in F_q[x]/(f(x))
+    s0 = _sqrt_in_fqd(P, f_coeffs, q)
+    if s0 is None:
+        # P not a QR in this field — product is not a perfect square
+        return
 
-            # Lagrange interpolation to get s(x) mod q
-            s_coeffs = _lagrange_interpolation(roots, sqrt_vals, q)
+    # Verify initial sqrt: s0² ≡ P mod (f, q)
+    s0_check = _poly_mul_mod_ring(s0, s0, f_coeffs, q)
+    P_mod_q = [int(c) % q for c in P]
+    if s0_check != P_mod_q:
+        return
 
-            # Evaluate s(m) mod q
-            sm_mod_q = 0
-            m_pow = 1
-            for c in s_coeffs:
-                sm_mod_q = (sm_mod_q + c * m_pow) % q
-                m_pow = (m_pow * int(m)) % q
+    # Step 4: Hensel lift
+    # Newton iteration for sqrt: given s with s² ≡ P mod q^k,
+    # compute s' with s'² ≡ P mod q^{2k}:
+    #   δ = (P - s²) / q^k   (exact integer division)
+    #   inv_2s = (2s)^{-1} mod (f, q^k)
+    #   s' = s + δ · inv_2s · q^k mod q^{2k}
+    #
+    # For the inverse, we lift it alongside:
+    #   t₀ = (2·s₀)^{-1} mod (f, q)  (Fermat: (2s)^{q^d-2} in F_{q^d})
+    #   t_{k+1} = t_k · (2 - 2·s_k · t_k) mod (f, q^{2^{k+1}})
 
-            # CRT combine
-            if crt_modulus == 1:
-                crt_value = mpz(sm_mod_q)
-                crt_modulus = mpz(q)
-            else:
-                # Combine: find x such that x ≡ crt_value (mod crt_modulus)
-                #                          and x ≡ sm_mod_q (mod q)
-                q_mpz = mpz(q)
-                inv = pow(crt_modulus, -1, q_mpz)
-                diff = (mpz(sm_mod_q) - crt_value) % q_mpz
-                crt_value = crt_value + crt_modulus * ((diff * inv) % q_mpz)
-                crt_modulus = crt_modulus * q_mpz
-                crt_value = crt_value % crt_modulus
+    # Compute initial inverse of 2·s₀ in F_q[x]/(f(x))
+    two_s0 = [(2 * c) % q for c in s0]
+    # Inverse via Fermat's little theorem: (2s)^{q^d - 2} mod (f, q)
+    inv_2s = _poly_pow_mod_ring(two_s0, q ** d - 2, f_coeffs, q)
 
-        if not success:
-            continue
+    # Current state
+    s = [int(c) for c in s0]
+    t = [int(c) for c in inv_2s]  # t ≈ (2s)^{-1}
+    modulus = q
 
-        # Reduce s(m) mod n
-        y = crt_value % n
-        if y == 0:
-            continue
+    while modulus < target:
+        new_modulus = modulus * modulus  # quadratic convergence
 
-        yield y
+        # Compute residual: (P - s²) in Z[x]/(f(x)), then divide by modulus
+        s2 = _poly_mul_mod_zx(s, s, f_coeffs)
+        residual = [(P[i] - s2[i]) for i in range(d)]
+
+        # All residual coefficients should be divisible by modulus
+        delta = [r // modulus for r in residual]
+
+        # Correction: δ · t mod (f, modulus)  [t ≈ (2s)^{-1} mod modulus]
+        corr = _poly_mul_mod_ring(delta, t, f_coeffs, modulus)
+
+        # Update s: s' = s + corr · modulus
+        s = [(s[i] + corr[i] * modulus) % new_modulus for i in range(d)]
+
+        # Update t (inverse of 2s): t' = t · (2 - 2s' · t) mod new_modulus
+        two_s = [(2 * s[i]) % new_modulus for i in range(d)]
+        two_s_t = _poly_mul_mod_ring(two_s, t, f_coeffs, new_modulus)
+        two_minus = [(2 - two_s_t[0]) % new_modulus] + \
+                    [(-two_s_t[i]) % new_modulus for i in range(1, d)]
+        t = _poly_mul_mod_ring(t, two_minus, f_coeffs, new_modulus)
+
+        modulus = new_modulus
+
+    # Step 5: Balanced reduction
+    half = modulus // 2
+    s_balanced = [c - modulus if c > half else c for c in s]
+
+    # Verify: s² = P exactly
+    s2 = _poly_mul_mod_zx(s_balanced, s_balanced, f_coeffs)
+    if s2 == P:
+        sm = mpz(0)
+        m_pow = mpz(1)
+        for c in s_balanced:
+            sm = (sm + mpz(c) * m_pow) % n
+            m_pow = (m_pow * mpz(m)) % n
+        if sm != 0:
+            yield sm
+            yield (-sm) % n
+        return
+
+    # Try negation (the other sign)
+    s_neg = [-c for c in s_balanced]
+    s2_neg = _poly_mul_mod_zx(s_neg, s_neg, f_coeffs)
+    if s2_neg == P:
+        sm = mpz(0)
+        m_pow = mpz(1)
+        for c in s_neg:
+            sm = (sm + mpz(c) * m_pow) % n
+            m_pow = (m_pow * mpz(m)) % n
+        if sm != 0:
+            yield sm
+            yield (-sm) % n
 
 
 ###############################################################################
