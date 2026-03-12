@@ -58,11 +58,11 @@
 - PID tuning: P for bit-clash correction, I for long-term drift, D for overshoot prevention
 - Goal: Stable tree traversal even with >5% initial Δ error
 
-### Priority 2: Beat Frequency Spectrogram Analysis
-- Sample E(x) = cos(π(√(x+n) - √x)) over logarithmic range
-- FFT → Power Spectral Density → extract dominant 1/Δ frequencies
-- Band-pass filter to isolate fundamental frequency
-- Goal: Narrow Δ search from 10^15 to <10^5 candidates
+### Priority 2: Beat Frequency Spectrogram Analysis — TESTED
+- FFT approach infeasible: float64 precision (15 digits) can't resolve Δ for 60d+ numbers
+- Replaced with Fermat near-miss scan (a² - n = b²?) in resonance_band_estimate
+- Works for close-prime balanced semiprimes (Δ < ~10K·√(2√n)), marginal for 60d+
+- Kept as Strategy 4 in resonance_band_estimate (fast, occasionally catches easy cases)
 
 ### Priority 3: Ternary-Geometric Isomorphism (Path 1)
 - Map Balanced Ternary {-1,0,1} to Berggren tree branches (M₁,M₂,M₃)

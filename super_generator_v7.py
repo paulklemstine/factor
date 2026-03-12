@@ -542,6 +542,26 @@ def resonance_band_estimate(n, num_bands=5):
         if 1.0 < R_target < 1e15:
             candidates.append((int(delta), R_target))
 
+    # Strategy 4: Fermat near-miss scan at √n
+    # Fermat: if n = a² - b², then a = (p+q)/2 starts at isqrt(n)+1.
+    # For balanced semiprimes, a - isqrt(n) is small.
+    # Scan a values near √n and check if a² - n is a perfect square.
+    seen = set(d for d, _ in candidates)  # track already-found deltas
+
+    a_start = isqrt(n) + 1
+    for a_off in range(min(10000, int(isqrt(isqrt(n))) + 100)):
+        a = a_start + a_off
+        b2 = a * a - n
+        if b2 < 0:
+            continue
+        b = isqrt(b2)
+        if b * b == b2:
+            # Perfect square! n = (a-b)(a+b)
+            f1 = int(a - b)
+            f2 = int(a + b)
+            if f1 > 1 and f2 > 1 and f1 * f2 == n:
+                candidates.append((min(f1, f2), float('inf')))
+
     # Deduplicate and sort by R_target closeness to reasonable range
     seen = set()
     unique = []
