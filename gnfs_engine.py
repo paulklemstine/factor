@@ -281,20 +281,32 @@ def gnfs_params(n):
     ln_ln_n = math.log(ln_n) if ln_n > 1 else 1.0
     L = math.exp(0.5 * (ln_n ** (1/3)) * (ln_ln_n ** (2/3)))
 
-    # Factor base bounds scale as L^(2/3)
-    fb_bound = int(L ** 0.667)
-    fb_bound = max(fb_bound, 10000)
+    # Factor base bounds — use practical table for small n, L-formula for large
+    if nd < 25:
+        fb_bound = 10000
+    elif nd < 40:
+        fb_bound = 20000
+    elif nd < 55:
+        fb_bound = 100000
+    elif nd < 75:
+        fb_bound = 500000
+    elif nd < 100:
+        fb_bound = 2000000
+    else:
+        fb_bound = int(L ** 0.667)
+        fb_bound = max(fb_bound, 5000000)
     fb_bound = min(fb_bound, 50_000_000)  # cap for memory
 
-    # Sieve region: A must be small enough that algebraic norms stay smooth-able
-    # For degree d, alg_norm ~ A^d, so A ~ fb_bound^(2/d) to get ~fb_bound^2 norms
+    # Sieve region: A should keep norms smooth-able
+    # Rational norm ≈ A·m, algebraic norm ≈ A^d for small b
+    # Want norms < fb_bound^2 roughly
     A = int(fb_bound ** (2.0 / d))
-    A = max(A, 1000)
+    A = max(A, 5000)
     A = min(A, 5_000_000)  # cap for memory
 
-    # B_max: more b values compensates for smaller A
-    B_max = max(fb_bound // 5, 500)
-    B_max = min(B_max, 50000)
+    # B_max: generous — more b values is cheap and relation yield drops slowly
+    B_max = max(fb_bound, 5000)
+    B_max = min(B_max, 200000)
 
     return {
         'd': d,
@@ -1225,8 +1237,8 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
 
     # Step 3: Factor bases
     t_fb = time.time()
-    rat_fb = build_rational_fb(min(params['B_r'], 100000))  # cap for now
-    alg_fb = build_algebraic_fb(f_coeffs, min(params['B_a'], 100000))
+    rat_fb = build_rational_fb(params['B_r'])
+    alg_fb = build_algebraic_fb(f_coeffs, params['B_a'])
     fb_time = time.time() - t_fb
 
     if verbose:
