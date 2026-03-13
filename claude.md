@@ -1,12 +1,51 @@
 # Claude State: Resonance Sieve v7.0
 
 ## Current Research State
-**Date**: 2026-03-11
+**Date**: 2026-03-13
 **Target Threshold**: 66d/218b (stabilized via SIQS)
 **GNFS Status**: WORKING — algebraic sqrt solved via Hensel lifting
+**ECDLP Status**: C Kangaroo with batch inversion + 2-step comb table
 **Architecture**: Triple-path (Path 1: Super-Generator, Path 2: SIQS, Path 3: GNFS)
 
+## R&D Iteration Protocol
+
+### Workflow
+1. **Brainstorm** → log ideas to `ecdlp_ideas.md` (or equivalent per-domain file)
+2. **Pick highest-impact idea** with lowest risk
+3. **Implement in worktree** (`isolation: worktree`) — never modify main directly
+4. **Benchmark** (< 5 minutes total, use `bench_kangaroo.py` or inline benchmark)
+5. **If faster**: merge to main, commit, push, update scoreboard
+6. **If slower or broken**: log failure in "Failed Experiments", discard worktree
+7. **Repeat**
+
+### Benchmark Standard (ECDLP)
+```
+python3 -c "
+from ecdlp_pythagorean import ecdlp_pythagorean_kangaroo_c, secp256k1_curve
+import time, random
+curve = secp256k1_curve()
+G = curve.G
+random.seed(42)
+for bits in [20, 28, 36, 40, 44]:
+    times = []
+    for trial in range(3):
+        k = random.randint(2**(bits-1), 2**bits-1)
+        P = curve.scalar_mult(k, G)
+        t0 = time.time()
+        r = ecdlp_pythagorean_kangaroo_c(curve, G, P, 1<<(bits+1))
+        t = time.time() - t0
+        times.append(t)
+        if r != k: print(f'  {bits}b FAIL')
+    print(f'  {bits}b: avg {sum(times)/len(times):.3f}s')
+"
+```
+- Seed 42 for reproducibility
+- 3 trials per bit size
+- Abort any single trial > 120s
+
 ## Active Scoreboard
+
+### Factoring (SIQS/GNFS)
 | Digits | Bits | Time | Method | Growth |
 |-------:|-----:|-----:|--------|-------:|
 | 39d | 128b | 0.30s | SIQS | - |
@@ -18,12 +57,42 @@
 | 63d | 206b | 86s | SIQS | 2.0x/3d |
 | 66d | 216b | 141s | SIQS | 1.6x/3d |
 | 69d | 226b | 539s | SIQS | 3.8x/3d |
-| 19d | 61b | 8.7s | GNFS | - |
-| 21d | 67b | 9.0s | GNFS | - |
-| 25d | 81b | 10.3s | GNFS | - |
-| 31d | 101b | 107s | GNFS | - |
+| 33d | 108b | 180s | GNFS | - |
 
-## Completed Optimizations
+### ECDLP (secp256k1 Kangaroo)
+| Bits | Time (avg) | Version | Date |
+|------|-----------|---------|------|
+| 20 | 0.025s | batch+comb | 2026-03-13 |
+| 28 | 0.060s | batch+comb | 2026-03-13 |
+| 32 | 0.159s | batch+comb | 2026-03-13 |
+| 36 | 0.381s | batch+comb | 2026-03-13 |
+| 40 | 1.955s | batch+comb | 2026-03-13 |
+| 44 | 3.884s | batch+comb | 2026-03-13 |
+
+## ECDLP Improvement Ideas (prioritized)
+See `ecdlp_ideas.md` for full details and analysis.
+
+### Ready to Try
+1. **GMP mpn_ fixed-limb hot path** — replace mpz_t with mp_limb_t[4] in inner loop, secp256k1-specific reduction. Expected: 2-2.5x. Risk: medium.
+2. **Multiprocessing (6 workers)** — independent kangaroo processes, first-to-finish wins. Expected: ~5x wall-clock. Risk: low.
+3. **GLV equivalence class walk** — 6-fold equivalence via phi(x,y)=(beta*x,y) + negation. Expected: 1.6x. Risk: medium-high (cycle risk).
+
+### Completed (merged)
+- **Batch Montgomery inversion** — 1 mpz_invert per step for NK kangaroos. 1.4-1.8x.
+- **2-step comb table** — precompute jump_pts[i]+jump_pts[j] for 4096 pairs. ~1.5-3x.
+- **Multi-kangaroo (NK=4)** — adaptive 2 tame + 2 wild. ~1.3x from birthday paradox.
+- **Parallel multiprocessing wrapper** — ec_kang_solve_ex with tame_start parameter.
+
+### Failed (do NOT retry)
+- **GLV 3x DP lookup** — verification overhead (6 scalar mults) negated 3x collision rate. Net: SLOWER.
+- **Jacobian coordinates** — need affine x every step for jump index and DP check. No benefit.
+- **Custom 256-bit field arithmetic (__int128)** — GMP's assembly-optimized mpn_* beats C __int128.
+- **Pthreads parallelism** — GMP malloc contention + mutex overhead = 10x per-step slowdown.
+- **fast_mod_p secp256k1 reduction** — only 6% gain, not worth the complexity/bug risk.
+- **8-kangaroo (NK=8)** — total work increases as sqrt(NK), worse single-threaded.
+- **Hybrid Kangaroo-BSGS** — reduces to standard BSGS, no algorithmic advantage.
+
+## Completed Optimizations (Factoring)
 1. JIT hit detection (numba jit_find_hits) — 2x per-call speedup
 2. Batch JIT (jit_batch_find_hits) — eliminates per-candidate dispatch
 3. FB_size reduction — fewer relations + faster GF(2) LA
@@ -35,26 +104,21 @@
 9. Scalar Scaling (Solution E)
 10. Small prime sieve skip (p<32) with threshold correction — ~2x speedup
 11. **GNFS algebraic sqrt via Hensel lifting** — solved the blocking issue
+12. **GNFS C sieve extension** — 100x faster sieve via gnfs_sieve_c.c
+13. **GNFS batch JIT verify** — single numba call for all candidates
+14. **GNFS batch JIT split QC** — vectorized quadratic character computation
+15. **GNFS convergence-check Hensel** — no precomputed coeff_bound needed
 
 ## GNFS Implementation Status
 - **Phase 1**: Polynomial selection (base-m, Murphy alpha) — WORKING
 - **Phase 2**: Factor base (rational + algebraic + QC) — WORKING
-- **Phase 3**: Line sieve + trial division — WORKING (slow Python sieve)
+- **Phase 3**: C sieve + batch JIT verify — WORKING
 - **Phase 4**: GF(2) Gaussian elimination — WORKING
 - **Phase 5**: Algebraic square root (Hensel lifting) — WORKING
-- **Tested**: 19d-31d successfully factored
-- **Bottleneck**: Python line sieve too slow for 40d+ (need lattice sieve or C extension)
-- **Key insight**: CRT with splitting primes fails (greedy sign selection picks wrong combos).
-  Hensel lifting from inert prime avoids sign consistency entirely (only ±1 ambiguity).
+- **Tested**: 21d-33d successfully factored
+- **Bottleneck**: LA at 33d+; lattice sieve needed for 49d+
 
-## Bottleneck Analysis (69d SIQS)
-- Relation collection: ~95% of runtime (~527s of 539s)
-  - jit_sieve dominates sieve_and_collect
-  - Stall at a=72: 128s gap (memory pressure with 10.4M sieve array)
-- GF(2) LA: ~2.3% (12.4s)
-- FB construction: <1%
-
-## Failed Experiments (do NOT retry)
+## Failed Experiments — Factoring (do NOT retry)
 1. Pure Python trial_divide_smart — 10x slower than numpy
 2. DLP with Pollard rho (Python) — 13ms/candidate, 20-27x slower
 3. M value tuning (larger sieve widths) — no improvement
@@ -63,37 +127,39 @@
 6. Resonant 'a' queue / s-selection bonus / used_a dedup — all within noise
 7. int16 sieve array — inconsistent
 8. T_bits tuning (looser or tighter) — existing nb//4-1 is optimal
-9. DLP with BFS cycle detection (max_depth=10) — O(E) per insertion, 160s at 57d
-10. DLP with C Pollard rho + Union-Find + sparse exps — birthday paradox: 300M prime space, ~7 cycles from 20K edges
-11. GNFS algebraic sqrt via CRT with splitting primes — greedy min-score sign selection fails when true sqrt has large coefficients (~455 digits vs ~18 digit fake minima)
+9. DLP with BFS cycle detection — O(E) per insertion, 160s at 57d
+10. DLP with C Pollard rho + Union-Find — birthday paradox: too few cycles
+11. GNFS CRT with splitting primes — greedy sign selection fails
 
-## Active Hypotheses (priority order)
+## Active Hypotheses — Factoring (priority order)
 
-### Priority 1: GNFS Lattice Sieve (Path 3 optimization)
+### Priority 1: GNFS Lattice Sieve
 - Current line sieve is O(A × |FB|) per b-line — too slow for 40d+
-- Lattice sieve: sieve in (a, b) lattice reduced by each prime
 - Expected: 10-100x speedup in relation collection
-- Required for RSA-100 (100d/332b)
 
 ### Priority 2: Block Lanczos for LA
 - Replace O(n²) GF(2) Gaussian elimination
-- Only significant at 75d+ where matrix density dominates
+- Only significant at 75d+
 
-### Priority 3: Ternary-Geometric Isomorphism (Path 1)
-- Map Balanced Ternary {-1,0,1} to Berggren tree branches (M₁,M₂,M₃)
-- Path encoding: represent tree path as ternary string D = {d_k,...,d_1}
-- Hypothesis: factor gap Δ with sparse ternary representation → "Low-Entropy Drift" in tree
+## Key Files
+- `siqs_engine.py` — SIQS engine (Path 2)
+- `gnfs_engine.py` — GNFS engine (Path 3)
+- `gnfs_sieve_c.c` / `.so` — C sieve+verify extension
+- `ec_kangaroo_c.c` / `.so` — C Pythagorean Kangaroo (batch inv + comb table)
+- `ec_bsgs_c.c` / `.so` — C Baby-Step Giant-Step
+- `ecdlp_pythagorean.py` — Python ECDLP solvers + parallel wrapper
+- `test_bitcoin_search.py` — Bitcoin address key search test
+- `ecdlp_ideas.md` — ECDLP improvement ideas log
+- `resonance_v7.py` — Unified v7.0 driver
+- `benchmark_suite.py` — Standardized benchmarks
 
-### Priority 4: NAF Sparsity & "Zero-Field" Guillotine (Path 2)
-- NAF guarantees no two non-zero digits adjacent → deterministic "Zero-Fields"
-- ~55% reduction in non-zero partial product terms
+## User Preferences
+- **Benchmarks < 5 minutes** per iteration cycle
+- **Use worktrees** for experimental changes
+- **Autonomous R&D loop**: brainstorm → implement → benchmark → merge/discard → repeat
+- **Log all ideas** to ideas file, track successes and failures
+- **Commit successes immediately**, push to remote
 
-### Priority 5: GF(3) Matrix Reduction
-- Ternary factor base: primes where p ≡ ±1 (mod 3)
-- Cube identity: X³-Y³ = (X-Y)(X²+XY+Y²) → gcd(X-Y, n)
-
-## Next Steps
-1. Implement GNFS lattice sieve — required for 50d+ GNFS
-2. Test GNFS at 40-50d with larger FB and optimized sieve
-3. Try remaining hypotheses: Ternary-Geometric (P3), NAF Sparsity (P4)
-4. Push toward RSA-100 via GNFS + lattice sieve
+## Environment
+- WSL2 with ~7.4GB RAM + 2GB swap
+- gmpy2, numba, numpy installed
