@@ -156,10 +156,12 @@ static const unsigned long PYTH_HYPS[] = {
  * search_bound_hex: search [0, search_bound)
  * Returns 1 on success, 0 on failure.
  */
-int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
-                  const char *Px_hex, const char *Py_hex,
-                  const char *search_bound_hex,
-                  char *result, size_t result_size) {
+/* tame_start_hex: if NULL, use bound/4. Otherwise, use the given value. */
+int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
+                     const char *Px_hex, const char *Py_hex,
+                     const char *search_bound_hex,
+                     const char *tame_start_hex,
+                     char *result, size_t result_size) {
     if (!inited) return 0;
 
     mpz_t bound, half;
@@ -167,8 +169,6 @@ int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
     mpz_set_str(bound, search_bound_hex, 16);
     mpz_tdiv_q_2exp(half, bound, 1);
 
-    /* Scale jumps: target mean = √(half)/4, matching Python.
-       With raw hyp mean ~12756, scale=1 for up to ~33 bits. */
     mpz_t sqrt_half;
     mpz_init(sqrt_half);
     mpz_sqrt(sqrt_half, half);
@@ -183,12 +183,8 @@ int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
 
     unsigned long jumps[NUM_JUMPS];
     for (int i = 0; i < NUM_JUMPS; i++) jumps[i] = PYTH_HYPS[i] * scale;
-    /* Ensure GCD(jumps) = 1: when scale > 1, all jumps are multiples of scale,
-       making collision impossible unless (k - tame_start) % scale == 0.
-       Fix: set first jump to 1, guaranteeing GCD = 1. */
     if (scale > 1) jumps[0] = 1;
 
-    /* Precompute jump_i * G */
     apt G_pt, P_pt;
     ap_init(&G_pt); ap_init(&P_pt);
     mpz_set_str(G_pt.x, Gx_hex, 16);
@@ -204,7 +200,6 @@ int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
         mpz_clear(jk);
     }
 
-    /* Distinguished point mask: D = bit_length(bound) / 4 */
     int D = 0;
     { mpz_t tmp; mpz_init_set(tmp, bound);
       while (mpz_sgn(tmp) > 0) { D++; mpz_tdiv_q_2exp(tmp, tmp, 1); }
@@ -215,10 +210,13 @@ int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
     if (D > 20) D = 20;
     unsigned long dp_mask = (1UL << D) - 1;
 
-    /* Tame starts at bound/4 (middle of [0, half]) */
     mpz_t tame_pos, wild_pos, tame_start;
     mpz_init(tame_pos); mpz_init(wild_pos); mpz_init(tame_start);
-    mpz_tdiv_q_2exp(tame_start, bound, 2);
+    if (tame_start_hex && tame_start_hex[0]) {
+        mpz_set_str(tame_start, tame_start_hex, 16);
+    } else {
+        mpz_tdiv_q_2exp(tame_start, bound, 2);
+    }
     mpz_set(tame_pos, tame_start);
 
     apt tame_pt, wild_pt, tmp;
@@ -328,4 +326,13 @@ int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
     mpz_clear(tame_pos); mpz_clear(wild_pos); mpz_clear(tame_start);
     mpz_clear(max_steps_z);
     return found;
+}
+
+/* Original API: tame starts at bound/4 */
+int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
+                  const char *Px_hex, const char *Py_hex,
+                  const char *search_bound_hex,
+                  char *result, size_t result_size) {
+    return ec_kang_solve_ex(Gx_hex, Gy_hex, Px_hex, Py_hex,
+                            search_bound_hex, NULL, result, result_size);
 }

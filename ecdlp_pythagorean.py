@@ -983,6 +983,72 @@ def ecdlp_pythagorean_kangaroo_c(curve, G, P, search_bound, verbose=False):
         return ecdlp_pythagorean_kangaroo(curve, G, P, search_bound, verbose)
 
 
+def _kangaroo_worker(args):
+    """Worker for parallel kangaroo: runs C solver with given tame_start."""
+    Gx, Gy, Px, Py, bound_hex, tame_start_hex, p_hex, n_hex = args
+    import ctypes, os
+    _lib_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "ec_kangaroo_c.so")
+    _lib = ctypes.CDLL(_lib_path)
+    _lib.ec_kang_init(p_hex.encode(), n_hex.encode())
+    result_buf = ctypes.create_string_buffer(256)
+    ts = tame_start_hex.encode() if tame_start_hex else None
+    ret = _lib.ec_kang_solve_ex(
+        Gx.encode(), Gy.encode(), Px.encode(), Py.encode(),
+        bound_hex.encode(), ts, result_buf, ctypes.c_size_t(256))
+    if ret == 1:
+        return int(result_buf.value.decode(), 16)
+    return None
+
+
+def ecdlp_pythagorean_kangaroo_c_parallel(curve, G, P, search_bound,
+                                           num_workers=8, verbose=False):
+    """
+    Parallel C Pythagorean Kangaroo using multiprocessing.
+    Each worker runs an independent kangaroo with a different tame start.
+    First worker to find k wins; others are terminated.
+    """
+    if P.is_infinity:
+        return 0
+    if P == G:
+        return 1
+
+    import concurrent.futures
+    p_val = int(curve.p) if not isinstance(curve.p, int) else curve.p
+    n_val = curve.n
+    p_hex = hex(p_val)[2:]
+    n_hex = hex(n_val)[2:]
+    Gx = hex(G.x)[2:]
+    Gy = hex(G.y)[2:]
+    Px_hex = hex(P.x)[2:]
+    Py_hex = hex(P.y)[2:]
+    bound_hex = hex(search_bound)[2:]
+
+    # Generate different tame starts spread across [0, bound/2]
+    quarter = search_bound // 4
+    spread = search_bound // (4 * num_workers)
+    tasks = []
+    for i in range(num_workers):
+        ts = quarter + i * spread
+        ts_hex = hex(ts)[2:]
+        tasks.append((Gx, Gy, Px_hex, Py_hex, bound_hex, ts_hex, p_hex, n_hex))
+
+    with concurrent.futures.ProcessPoolExecutor(max_workers=num_workers) as pool:
+        futures = {pool.submit(_kangaroo_worker, t): i for i, t in enumerate(tasks)}
+        for f in concurrent.futures.as_completed(futures):
+            result = f.result()
+            if result is not None:
+                if verbose:
+                    print(f"  Worker {futures[f]} found k={result}")
+                # Cancel remaining workers
+                for other in futures:
+                    if other is not f:
+                        other.cancel()
+                pool.shutdown(wait=False, cancel_futures=True)
+                return result
+    return None
+
+
 def ecdlp_pythagorean_kangaroo(curve, G, P, search_bound, verbose=False):
     """
     Pollard kangaroo with Pythagorean jump table.
