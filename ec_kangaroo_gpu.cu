@@ -938,9 +938,9 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
         if (dp_count > dp_buf_size) dp_count = dp_buf_size;
 
         /* Debug: uncomment to monitor DP rate
-        if (launch < 3 || (launch % 100 == 0))
-            fprintf(stderr, "  launch %llu: dp_count=%d dp_mask=0x%llx D=%d\n",
-                    (unsigned long long)launch, dp_count, (unsigned long long)dp_mask, D);
+        if (launch < 5 || (launch % 2000 == 0))
+            fprintf(stderr, "  L%llu: dp=%d D=%d\n",
+                    (unsigned long long)launch, dp_count, D);
         */
 
         if (dp_count > 0) {
@@ -953,23 +953,19 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
                 cpu_dp_entry_t *match = cpu_dp_find(cpu_dpt, ex, is_tame);
                 if (match) {
-                    /* Try both signs for k */
-                    int64_t diff;
-                    if (is_tame) diff = (int64_t)e->pos - (int64_t)match->pos;
-                    else diff = (int64_t)match->pos - (int64_t)e->pos;
+                    /* Compute tame_pos - wild_pos using unsigned arithmetic.
+                     * Avoids int64 overflow for 64b+ searches. */
+                    uint64_t tame_pos = is_tame ? e->pos : match->pos;
+                    uint64_t wild_pos = is_tame ? match->pos : e->pos;
 
-                    /* Try k_cand = |diff| and also bound_val - |diff| */
                     uint64_t candidates[4];
                     int ncand = 0;
-                    if (diff >= 0) {
-                        candidates[ncand++] = (uint64_t)diff;
-                        if ((uint64_t)diff <= bound_val)
-                            candidates[ncand++] = bound_val - (uint64_t)diff;
-                    } else {
-                        candidates[ncand++] = (uint64_t)(-diff);
-                        if ((uint64_t)(-diff) <= bound_val)
-                            candidates[ncand++] = bound_val - (uint64_t)(-diff);
-                    }
+                    /* k = tame_pos - wild_pos (unsigned, may wrap) */
+                    uint64_t d1 = tame_pos - wild_pos;
+                    if (d1 > 0 && d1 <= bound_val) candidates[ncand++] = d1;
+                    /* k = wild_pos - tame_pos (if wild walked past tame) */
+                    uint64_t d2 = wild_pos - tame_pos;
+                    if (d2 > 0 && d2 <= bound_val) candidates[ncand++] = d2;
 
                     for (int ci = 0; ci < ncand && !found; ci++) {
                         uint64_t k_cand = candidates[ci];
