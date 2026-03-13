@@ -3,8 +3,9 @@
  *
  * Each CUDA thread runs one independent kangaroo walk (tame or wild).
  * Field arithmetic: 256-bit using 4x uint64_t limbs with secp256k1 fast reduction.
- * Inversion: Fermat's little theorem a^(p-2) mod p (~255 squarings + ~15 muls).
- * Jump table: 64 Pythagorean hypotenuse jumps in __constant__ memory.
+ * Coordinates: JACOBIAN (X, Y, Z) during walk — eliminates per-step inversion.
+ *   Fermat inversion only at DP hits (~1 in 2^D steps).
+ * Jump table: 64 Pythagorean hypotenuse jumps in __constant__ memory (affine).
  * DP detection: distinguished points written to global buffer, CPU checks collisions.
  *
  * Compile:
@@ -171,7 +172,93 @@ __device__ void fe_mul(fe_t *r, const fe_t *a, const fe_t *b) {
     }
 }
 
-__device__ __forceinline__ void fe_sqr(fe_t *r, const fe_t *a) { fe_mul(r, a, a); }
+/*
+ * Dedicated squaring: exploits a*a symmetry.
+ * Computes cross-terms once, doubles them, then adds squared diagonals.
+ * Uses a clean two-pass approach: first build cross*2, then add diag.
+ */
+__device__ void fe_sqr(fe_t *r, const fe_t *a) {
+    unsigned __int128 uv;
+    uint64_t t[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    uint64_t carry;
+
+    /* Pass 1: upper triangle cross-terms (i < j only) */
+    for (int i = 0; i < 4; i++) {
+        carry = 0;
+        for (int j = i + 1; j < 4; j++) {
+            uv = (unsigned __int128)a->v[i] * a->v[j] + t[i + j] + carry;
+            t[i + j] = (uint64_t)uv;
+            carry = (uint64_t)(uv >> 64);
+        }
+        t[i + 4] += carry;
+    }
+
+    /* Double the cross-terms */
+    t[7] = (t[7] << 1) | (t[6] >> 63);
+    t[6] = (t[6] << 1) | (t[5] >> 63);
+    t[5] = (t[5] << 1) | (t[4] >> 63);
+    t[4] = (t[4] << 1) | (t[3] >> 63);
+    t[3] = (t[3] << 1) | (t[2] >> 63);
+    t[2] = (t[2] << 1) | (t[1] >> 63);
+    t[1] = t[1] << 1;
+
+    /* Pass 2: add diagonal terms a[i]*a[i] */
+    uint64_t cc = 0;
+    for (int i = 0; i < 4; i++) {
+        uv = (unsigned __int128)a->v[i] * a->v[i];
+        uint64_t dlo = (uint64_t)uv, dhi = (uint64_t)(uv >> 64);
+        uv = (unsigned __int128)t[2*i] + dlo + cc;
+        t[2*i] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+        uv = (unsigned __int128)t[2*i+1] + dhi + cc;
+        t[2*i+1] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+    }
+
+    /* Reduce using secp256k1 fast reduction (same as fe_mul) */
+    uint64_t h[5];
+    uv = (unsigned __int128)t[4] * FE_PC; h[0] = (uint64_t)uv; carry = (uint64_t)(uv >> 64);
+    uv = (unsigned __int128)t[5] * FE_PC + carry; h[1] = (uint64_t)uv; carry = (uint64_t)(uv >> 64);
+    uv = (unsigned __int128)t[6] * FE_PC + carry; h[2] = (uint64_t)uv; carry = (uint64_t)(uv >> 64);
+    uv = (unsigned __int128)t[7] * FE_PC + carry; h[3] = (uint64_t)uv; h[4] = (uint64_t)(uv >> 64);
+
+    uint64_t a5[5];
+    uv = (unsigned __int128)t[0] + h[0]; a5[0] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+    uv = (unsigned __int128)t[1] + h[1] + cc; a5[1] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+    uv = (unsigned __int128)t[2] + h[2] + cc; a5[2] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+    uv = (unsigned __int128)t[3] + h[3] + cc; a5[3] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+    a5[4] = h[4] + cc;
+
+    if (a5[4]) {
+        uv = (unsigned __int128)a5[4] * FE_PC;
+        uint64_t ov_lo = (uint64_t)uv, ov_hi = (uint64_t)(uv >> 64);
+        uv = (unsigned __int128)a5[0] + ov_lo; a5[0] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+        uv = (unsigned __int128)a5[1] + ov_hi + cc; a5[1] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+        if (cc) { uv = (unsigned __int128)a5[2] + cc; a5[2] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+        if (cc) { uv = (unsigned __int128)a5[3] + cc; a5[3] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+        if (cc) { uv = (unsigned __int128)a5[0] + FE_PC; a5[0] = (uint64_t)uv; cc = (uint64_t)(uv >> 64);
+        if (cc) { a5[1]++; if (a5[1] == 0) { a5[2]++; if (a5[2] == 0) a5[3]++; } } } } }
+    }
+
+    r->v[0] = a5[0]; r->v[1] = a5[1]; r->v[2] = a5[2]; r->v[3] = a5[3];
+
+    int ge_p = 0;
+    if (r->v[3] > FE_P[3]) ge_p = 1;
+    else if (r->v[3] == FE_P[3]) {
+        if (r->v[2] > FE_P[2]) ge_p = 1;
+        else if (r->v[2] == FE_P[2]) {
+            if (r->v[1] > FE_P[1]) ge_p = 1;
+            else if (r->v[1] == FE_P[1]) {
+                if (r->v[0] >= FE_P[0]) ge_p = 1;
+            }
+        }
+    }
+    if (ge_p) {
+        unsigned __int128 d; uint64_t bw = 0;
+        d = (unsigned __int128)r->v[0] - FE_P[0]; r->v[0] = (uint64_t)d; bw = (d >> 127) ? 1 : 0;
+        d = (unsigned __int128)r->v[1] - FE_P[1] - bw; r->v[1] = (uint64_t)d; bw = (d >> 127) ? 1 : 0;
+        d = (unsigned __int128)r->v[2] - FE_P[2] - bw; r->v[2] = (uint64_t)d; bw = (d >> 127) ? 1 : 0;
+        d = (unsigned __int128)r->v[3] - FE_P[3] - bw; r->v[3] = (uint64_t)d;
+    }
+}
 
 /*
  * Fermat inversion: r = a^(p-2) mod p
@@ -213,46 +300,60 @@ __device__ void fe_inv(fe_t *r, const fe_t *a) {
 }
 
 /* ================================================================
- * EC point addition (affine, for device)
+ * Jacobian mixed addition: (X1,Y1,Z1) + affine (x2,y2)
+ *
+ * Given Jacobian P1=(X1,Y1,Z1) and affine P2=(x2,y2):
+ *   U1 = X1,  U2 = x2*Z1^2,  S1 = Y1,  S2 = y2*Z1^3
+ *   H = U2-U1,  R = S2-S1
+ *   X3 = R^2 - H^3 - 2*U1*H^2
+ *   Y3 = R*(U1*H^2 - X3) - S1*H^3
+ *   Z3 = Z1 * H
+ *
+ * Cost: ~8 mul + 3 sqr.  No inversion!
  * ================================================================ */
 
-__device__ void ec_add_affine(fe_t *rx, fe_t *ry, int *rinf,
-                               const fe_t *px, const fe_t *py,
-                               const fe_t *qx, const fe_t *qy) {
-    fe_t dx, dy, inv, lam, lam2, xr, yr;
-    fe_sub(&dx, qx, px);
+__device__ void ec_madd_jacobian(fe_t *X3, fe_t *Y3, fe_t *Z3,
+                                  const fe_t *X1, const fe_t *Y1, const fe_t *Z1,
+                                  const fe_t *x2, const fe_t *y2) {
+    fe_t Z1sq, Z1cu, U2, S2, H, Hsq, Hcu, R, Rsq, U1H2, t;
 
-    if (fe_is_zero(&dx)) {
-        fe_sub(&dy, qy, py);
-        if (fe_is_zero(&dy)) {
-            if (fe_is_zero(py)) { *rinf = 1; return; }
-            fe_t x2, num, den;
-            fe_sqr(&x2, px);
-            fe_add(&num, &x2, &x2); fe_add(&num, &num, &x2); /* 3*x^2 */
-            fe_add(&den, py, py);                              /* 2*y */
-            fe_inv(&inv, &den);
-            fe_mul(&lam, &num, &inv);
-        } else { *rinf = 1; return; }
-    } else {
-        fe_sub(&dy, qy, py);
-        fe_inv(&inv, &dx);
-        fe_mul(&lam, &dy, &inv);
-    }
+    fe_sqr(&Z1sq, Z1);           /* Z1^2 */
+    fe_mul(&Z1cu, &Z1sq, Z1);    /* Z1^3 */
+    fe_mul(&U2, x2, &Z1sq);      /* U2 = x2 * Z1^2 */
+    fe_mul(&S2, y2, &Z1cu);      /* S2 = y2 * Z1^3 */
 
-    fe_sqr(&lam2, &lam);
-    fe_sub(&xr, &lam2, px); fe_sub(&xr, &xr, qx);
-    fe_sub(&yr, px, &xr);
-    fe_mul(&yr, &lam, &yr);
-    fe_sub(&yr, &yr, py);
-    fe_set(rx, &xr); fe_set(ry, &yr); *rinf = 0;
+    fe_sub(&H, &U2, X1);         /* H = U2 - U1 (U1 = X1) */
+    fe_sub(&R, &S2, Y1);         /* R = S2 - S1 (S1 = Y1) */
+
+    fe_sqr(&Hsq, &H);            /* H^2 */
+    fe_mul(&Hcu, &Hsq, &H);      /* H^3 */
+    fe_mul(&U1H2, X1, &Hsq);     /* U1 * H^2 */
+
+    fe_sqr(&Rsq, &R);            /* R^2 */
+    fe_sub(X3, &Rsq, &Hcu);      /* X3 = R^2 - H^3 */
+    fe_sub(X3, X3, &U1H2);       /* X3 -= U1*H^2 */
+    fe_sub(X3, X3, &U1H2);       /* X3 -= U1*H^2 (second time: -2*U1*H^2) */
+
+    fe_sub(&t, &U1H2, X3);       /* U1*H^2 - X3 */
+    fe_mul(Y3, &R, &t);          /* R * (U1*H^2 - X3) */
+    fe_mul(&t, Y1, &Hcu);        /* S1 * H^3 */
+    fe_sub(Y3, Y3, &t);          /* Y3 = R*(U1*H^2-X3) - S1*H^3 */
+
+    fe_mul(Z3, Z1, &H);          /* Z3 = Z1 * H */
 }
 
 /* ================================================================
- * Main kangaroo kernel
+ * Main kangaroo kernel — JACOBIAN coordinates
+ *
+ * Each kangaroo stores (X, Y, Z) in Jacobian form.
+ * Walk uses mixed addition (Jacobian + affine jump point).
+ * DP prefilter: check X[0] & dp_mask == 0 (cheap).
+ * On prefilter hit: compute affine x via Fermat inversion, check real DP.
  * ================================================================ */
 
 __global__ void kangaroo_walk_kernel(
-    uint64_t *kang_x, uint64_t *kang_y, uint64_t *kang_pos, int *kang_inf,
+    uint64_t *kang_x, uint64_t *kang_y, uint64_t *kang_z,
+    uint64_t *kang_pos, int *kang_inf,
     int num_kangaroos, int n_tame, uint64_t dp_mask,
     dp_entry_t *dp_buf, int *dp_count, int dp_buf_size,
     int *found_flag, int steps_per_launch)
@@ -261,20 +362,35 @@ __global__ void kangaroo_walk_kernel(
     if (tid >= num_kangaroos) return;
     if (*found_flag) return;
 
-    fe_t cx, cy;
-    cx.v[0] = kang_x[tid * 4 + 0]; cx.v[1] = kang_x[tid * 4 + 1];
-    cx.v[2] = kang_x[tid * 4 + 2]; cx.v[3] = kang_x[tid * 4 + 3];
-    cy.v[0] = kang_y[tid * 4 + 0]; cy.v[1] = kang_y[tid * 4 + 1];
-    cy.v[2] = kang_y[tid * 4 + 2]; cy.v[3] = kang_y[tid * 4 + 3];
+    fe_t cX, cY, cZ;
+    cX.v[0] = kang_x[tid * 4 + 0]; cX.v[1] = kang_x[tid * 4 + 1];
+    cX.v[2] = kang_x[tid * 4 + 2]; cX.v[3] = kang_x[tid * 4 + 3];
+    cY.v[0] = kang_y[tid * 4 + 0]; cY.v[1] = kang_y[tid * 4 + 1];
+    cY.v[2] = kang_y[tid * 4 + 2]; cY.v[3] = kang_y[tid * 4 + 3];
+    cZ.v[0] = kang_z[tid * 4 + 0]; cZ.v[1] = kang_z[tid * 4 + 1];
+    cZ.v[2] = kang_z[tid * 4 + 2]; cZ.v[3] = kang_z[tid * 4 + 3];
     uint64_t pos = kang_pos[tid];
     int is_inf = kang_inf[tid];
     int is_tame = (tid < n_tame) ? 1 : 0;
+
+    /* Walk in Jacobian coordinates. Every NORM_INTERVAL steps, normalize
+     * to affine (1 inversion) and check DP on the true affine x.
+     * This amortizes the inversion cost over NORM_INTERVAL steps.
+     * Between normalizations, the walk uses affine x for jump index
+     * (since Z=1 at the start of each interval). */
+    /* Normalization interval: every N steps, convert Jacobian -> affine.
+     * This costs 1 inversion per N steps but enables walk merging.
+     * N=8 is a good balance: saves 7/8 inversions vs affine walk,
+     * at the cost of walk divergence within 8-step windows. */
+    #define NORM_INTERVAL 8
 
     for (int step = 0; step < steps_per_launch; step++) {
         if (*found_flag) break;
         if (is_inf) break;
 
-        int ji = (int)(cx.v[0] & 63);
+        /* Jump index: at start of interval Z=1, so X=affine x.
+         * Within interval Z grows, but X[0] is still pseudorandom. */
+        int ji = (int)(cX.v[0] & 63);
         fe_t jx, jy;
         jx.v[0] = JUMP_X[ji][0]; jx.v[1] = JUMP_X[ji][1];
         jx.v[2] = JUMP_X[ji][2]; jx.v[3] = JUMP_X[ji][3];
@@ -283,28 +399,59 @@ __global__ void kangaroo_walk_kernel(
 
         pos += JUMP_DIST[ji];
 
-        fe_t nx, ny; int new_inf = 0;
-        ec_add_affine(&nx, &ny, &new_inf, &cx, &cy, &jx, &jy);
-        if (new_inf) { is_inf = 1; break; }
-        fe_set(&cx, &nx); fe_set(&cy, &ny);
+        /* Mixed Jacobian + affine addition — NO inversion needed */
+        fe_t nX, nY, nZ;
+        ec_madd_jacobian(&nX, &nY, &nZ, &cX, &cY, &cZ, &jx, &jy);
 
-        if ((cx.v[0] & dp_mask) == 0) {
-            int idx = atomicAdd(dp_count, 1);
-            if (idx < dp_buf_size) {
-                dp_buf[idx].x_hash = cx.v[0];
-                dp_buf[idx].x1 = cx.v[0]; dp_buf[idx].x2 = cx.v[1];
-                dp_buf[idx].x3 = cx.v[2]; dp_buf[idx].x4 = cx.v[3];
-                dp_buf[idx].pos = pos;
-                dp_buf[idx].is_tame = is_tame ? 1 : 0;
-                dp_buf[idx].thread_id = (uint32_t)tid;
+        /* Check for degenerate result (Z3 == 0 means point at infinity) */
+        if (fe_is_zero(&nZ)) { is_inf = 1; break; }
+
+        fe_set(&cX, &nX); fe_set(&cY, &nY); fe_set(&cZ, &nZ);
+
+        /* Periodic normalization + DP check */
+        if (((step + 1) % NORM_INTERVAL) == 0) {
+            /* Normalize to affine: x = X/Z^2, y = Y/Z^3 */
+            fe_t Zinv, Zinv2, Zinv3;
+            fe_inv(&Zinv, &cZ);
+            fe_sqr(&Zinv2, &Zinv);
+            fe_mul(&Zinv3, &Zinv2, &Zinv);
+            fe_mul(&cX, &cX, &Zinv2);
+            fe_mul(&cY, &cY, &Zinv3);
+            cZ.v[0] = 1; cZ.v[1] = 0; cZ.v[2] = 0; cZ.v[3] = 0;
+
+            /* DP check on true affine x */
+            if ((cX.v[0] & dp_mask) == 0) {
+                int idx = atomicAdd(dp_count, 1);
+                if (idx < dp_buf_size) {
+                    dp_buf[idx].x_hash = cX.v[0];
+                    dp_buf[idx].x1 = cX.v[0]; dp_buf[idx].x2 = cX.v[1];
+                    dp_buf[idx].x3 = cX.v[2]; dp_buf[idx].x4 = cX.v[3];
+                    dp_buf[idx].pos = pos;
+                    dp_buf[idx].is_tame = is_tame ? 1 : 0;
+                    dp_buf[idx].thread_id = (uint32_t)tid;
+                }
             }
         }
     }
 
-    kang_x[tid * 4 + 0] = cx.v[0]; kang_x[tid * 4 + 1] = cx.v[1];
-    kang_x[tid * 4 + 2] = cx.v[2]; kang_x[tid * 4 + 3] = cx.v[3];
-    kang_y[tid * 4 + 0] = cy.v[0]; kang_y[tid * 4 + 1] = cy.v[1];
-    kang_y[tid * 4 + 2] = cy.v[2]; kang_y[tid * 4 + 3] = cy.v[3];
+    /* Final normalization at end of batch */
+    if (!is_inf && !fe_is_zero(&cZ)) {
+        fe_t Zinv, Zinv2, Zinv3;
+        fe_inv(&Zinv, &cZ);
+        fe_sqr(&Zinv2, &Zinv);
+        fe_mul(&Zinv3, &Zinv2, &Zinv);
+        fe_mul(&cX, &cX, &Zinv2);
+        fe_mul(&cY, &cY, &Zinv3);
+        cZ.v[0] = 1; cZ.v[1] = 0; cZ.v[2] = 0; cZ.v[3] = 0;
+    }
+
+    /* Write back normalized affine state (Z=1) */
+    kang_x[tid * 4 + 0] = cX.v[0]; kang_x[tid * 4 + 1] = cX.v[1];
+    kang_x[tid * 4 + 2] = cX.v[2]; kang_x[tid * 4 + 3] = cX.v[3];
+    kang_y[tid * 4 + 0] = cY.v[0]; kang_y[tid * 4 + 1] = cY.v[1];
+    kang_y[tid * 4 + 2] = cY.v[2]; kang_y[tid * 4 + 3] = cY.v[3];
+    kang_z[tid * 4 + 0] = cZ.v[0]; kang_z[tid * 4 + 1] = cZ.v[1];
+    kang_z[tid * 4 + 2] = cZ.v[2]; kang_z[tid * 4 + 3] = cZ.v[3];
     kang_pos[tid] = pos;
     kang_inf[tid] = is_inf;
 }
@@ -648,52 +795,90 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     /* DP parameters */
     int bound_bits = 0;
     { uint64_t t = bound_val; while (t > 0) { bound_bits++; t >>= 1; } }
-    int D = bound_bits / 4;
-    if (D < 1) D = 1;
+    /* DP density: smaller D = faster collision detection after merge, but more
+     * CPU-side hash table work. Old formula (bits/4) was too sparse.
+     * New: (bits-8)/4 — keeps post-merge walk < 10% of total expected walk. */
+    int D = (bound_bits - 8) / 4;
+    if (D < 6) D = 6;
     if (D > 20) D = 20;
+    const char *dp_env = getenv("GPU_DP_BITS");
+    if (dp_env) D = atoi(dp_env);
     uint64_t dp_mask = (1ULL << D) - 1;
 
-    /* Kangaroo count */
+    /* Kangaroo count — scale with problem size */
     int num_kangaroos = 4096;
     if (bound_bits <= 24) num_kangaroos = 512;
     else if (bound_bits <= 32) num_kangaroos = 1024;
     else if (bound_bits <= 40) num_kangaroos = 2048;
+    /* Allow override via env var for tuning */
+    const char *nk_env = getenv("GPU_NK");
+    if (nk_env) num_kangaroos = atoi(nk_env);
     int n_tame = num_kangaroos / 2;
 
-    /* Host arrays */
+    /* Host arrays — Jacobian coordinates (X, Y, Z). Z=1 initially (affine). */
     uint64_t *h_kx = (uint64_t *)calloc(num_kangaroos * 4, sizeof(uint64_t));
     uint64_t *h_ky = (uint64_t *)calloc(num_kangaroos * 4, sizeof(uint64_t));
+    uint64_t *h_kz = (uint64_t *)calloc(num_kangaroos * 4, sizeof(uint64_t));
     uint64_t *h_kpos = (uint64_t *)calloc(num_kangaroos, sizeof(uint64_t));
     int *h_kinf = (int *)calloc(num_kangaroos, sizeof(int));
 
-    /* Tame kangaroos: evenly spaced */
-    for (int i = 0; i < n_tame; i++) {
-        uint64_t tpos = half * (uint64_t)(i + 1) / (uint64_t)(n_tame + 1);
-        h_fe_t tx, ty; int tinf;
-        h_ec_smul(&tx, &ty, &tinf, tpos, &Gx, &Gy);
-        if (tinf) { h_kinf[i] = 1; }
-        else { memcpy(&h_kx[i * 4], tx.v, 32); memcpy(&h_ky[i * 4], ty.v, 32); }
-        h_kpos[i] = tpos;
-    }
+    /* Tame kangaroos: evenly spaced, initialized incrementally.
+     * T_0 = delta*G, T_i = T_{i-1} + delta_G where delta = half/(n_tame+1) */
+    {
+        uint64_t delta = half / (uint64_t)(n_tame + 1);
+        if (delta < 1) delta = 1;
+        h_fe_t dGx, dGy; int dGinf;
+        h_ec_smul(&dGx, &dGy, &dGinf, delta, &Gx, &Gy);
 
-    /* Wild kangaroos: P + offset*G */
-    for (int i = 0; i < num_kangaroos - n_tame; i++) {
-        int idx = n_tame + i;
-        h_fe_t wx, wy; int winf;
-        if (i == 0) {
-            h_fe_set(&wx, &Px); h_fe_set(&wy, &Py); winf = 0;
-        } else {
-            h_fe_t ox, oy; int oinf;
-            h_ec_smul(&ox, &oy, &oinf, (uint64_t)i, &Gx, &Gy);
-            h_ec_add(&wx, &wy, &winf, &Px, &Py, 0, &ox, &oy, oinf);
+        h_fe_t cx, cy; int cinf;
+        h_fe_set(&cx, &dGx); h_fe_set(&cy, &dGy); cinf = dGinf;
+        uint64_t tpos = delta;
+
+        for (int i = 0; i < n_tame; i++) {
+            if (cinf) { h_kinf[i] = 1; }
+            else {
+                memcpy(&h_kx[i * 4], cx.v, 32);
+                memcpy(&h_ky[i * 4], cy.v, 32);
+                h_kz[i * 4 + 0] = 1; h_kz[i * 4 + 1] = 0;
+                h_kz[i * 4 + 2] = 0; h_kz[i * 4 + 3] = 0;
+            }
+            h_kpos[i] = tpos;
+            /* Advance: next = current + delta_G */
+            if (i < n_tame - 1) {
+                h_fe_t nx, ny; int ninf;
+                h_ec_add(&nx, &ny, &ninf, &cx, &cy, cinf, &dGx, &dGy, dGinf);
+                h_fe_set(&cx, &nx); h_fe_set(&cy, &ny); cinf = ninf;
+                tpos += delta;
+            }
         }
-        if (winf) { h_kinf[idx] = 1; }
-        else { memcpy(&h_kx[idx * 4], wx.v, 32); memcpy(&h_ky[idx * 4], wy.v, 32); }
-        h_kpos[idx] = (uint64_t)i;
     }
 
-    /* Device memory */
-    uint64_t *d_kx, *d_ky, *d_kpos;
+    /* Wild kangaroos: P + i*G, initialized incrementally */
+    {
+        h_fe_t cx, cy; int cinf;
+        h_fe_set(&cx, &Px); h_fe_set(&cy, &Py); cinf = 0;
+
+        for (int i = 0; i < num_kangaroos - n_tame; i++) {
+            int idx = n_tame + i;
+            if (cinf) { h_kinf[idx] = 1; }
+            else {
+                memcpy(&h_kx[idx * 4], cx.v, 32);
+                memcpy(&h_ky[idx * 4], cy.v, 32);
+                h_kz[idx * 4 + 0] = 1; h_kz[idx * 4 + 1] = 0;
+                h_kz[idx * 4 + 2] = 0; h_kz[idx * 4 + 3] = 0;
+            }
+            h_kpos[idx] = (uint64_t)i;
+            /* Advance: next = current + G */
+            if (i < num_kangaroos - n_tame - 1) {
+                h_fe_t nx, ny; int ninf;
+                h_ec_add(&nx, &ny, &ninf, &cx, &cy, cinf, &Gx, &Gy, 0);
+                h_fe_set(&cx, &nx); h_fe_set(&cy, &ny); cinf = ninf;
+            }
+        }
+    }
+
+    /* Device memory — now includes Z coordinate */
+    uint64_t *d_kx, *d_ky, *d_kz, *d_kpos;
     int *d_kinf, *d_found;
     dp_entry_t *d_dp_buf;
     int *d_dp_count;
@@ -701,6 +886,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
     cudaMalloc(&d_kx, num_kangaroos * 4 * sizeof(uint64_t));
     cudaMalloc(&d_ky, num_kangaroos * 4 * sizeof(uint64_t));
+    cudaMalloc(&d_kz, num_kangaroos * 4 * sizeof(uint64_t));
     cudaMalloc(&d_kpos, num_kangaroos * sizeof(uint64_t));
     cudaMalloc(&d_kinf, num_kangaroos * sizeof(int));
     cudaMalloc(&d_found, sizeof(int));
@@ -709,6 +895,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
     cudaMemcpy(d_kx, h_kx, num_kangaroos * 4 * sizeof(uint64_t), cudaMemcpyHostToDevice);
     cudaMemcpy(d_ky, h_ky, num_kangaroos * 4 * sizeof(uint64_t), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_kz, h_kz, num_kangaroos * 4 * sizeof(uint64_t), cudaMemcpyHostToDevice);
     cudaMemcpy(d_kpos, h_kpos, num_kangaroos * sizeof(uint64_t), cudaMemcpyHostToDevice);
     cudaMemcpy(d_kinf, h_kinf, num_kangaroos * sizeof(int), cudaMemcpyHostToDevice);
     int zero = 0;
@@ -731,7 +918,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
         cudaMemcpy(d_dp_count, &zero, sizeof(int), cudaMemcpyHostToDevice);
 
         kangaroo_walk_kernel<<<num_blocks, threads_per_block>>>(
-            d_kx, d_ky, d_kpos, d_kinf,
+            d_kx, d_ky, d_kz, d_kpos, d_kinf,
             num_kangaroos, n_tame, dp_mask,
             d_dp_buf, d_dp_count, dp_buf_size,
             d_found, STEPS_PER_LAUNCH);
@@ -740,6 +927,12 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
         int dp_count = 0;
         cudaMemcpy(&dp_count, d_dp_count, sizeof(int), cudaMemcpyDeviceToHost);
         if (dp_count > dp_buf_size) dp_count = dp_buf_size;
+
+        /* Debug: uncomment to monitor DP rate
+        if (launch < 3 || (launch % 100 == 0))
+            fprintf(stderr, "  launch %llu: dp_count=%d dp_mask=0x%llx D=%d\n",
+                    (unsigned long long)launch, dp_count, (unsigned long long)dp_mask, D);
+        */
 
         if (dp_count > 0) {
             cudaMemcpy(h_dp_buf, d_dp_buf, dp_count * sizeof(dp_entry_t), cudaMemcpyDeviceToHost);
@@ -790,8 +983,8 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
     cpu_dp_destroy(cpu_dpt);
     free(h_dp_buf);
-    free(h_kx); free(h_ky); free(h_kpos); free(h_kinf);
-    cudaFree(d_kx); cudaFree(d_ky); cudaFree(d_kpos);
+    free(h_kx); free(h_ky); free(h_kz); free(h_kpos); free(h_kinf);
+    cudaFree(d_kx); cudaFree(d_ky); cudaFree(d_kz); cudaFree(d_kpos);
     cudaFree(d_kinf); cudaFree(d_found);
     cudaFree(d_dp_buf); cudaFree(d_dp_count);
 
