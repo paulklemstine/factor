@@ -1057,6 +1057,52 @@ def ecdlp_pythagorean_kangaroo_c_parallel(curve, G, P, search_bound,
     return None
 
 
+def ecdlp_pythagorean_kangaroo_gpu(curve, G, P, search_bound, verbose=False):
+    """
+    GPU-accelerated Pythagorean Kangaroo for secp256k1 ECDLP.
+
+    Launches thousands of independent kangaroo walks on the GPU using CUDA.
+    Falls back to the C CPU kangaroo if the GPU library is unavailable.
+
+    O(sqrt(N)) time, O(log N) space. Uses Berggren hypotenuses as jump table.
+    """
+    if P.is_infinity:
+        return 0
+    if P == G:
+        return 1
+
+    try:
+        import ctypes, os
+        _lib_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "ec_kangaroo_gpu.so")
+        _lib = ctypes.CDLL(_lib_path)
+
+        result_buf = ctypes.create_string_buffer(256)
+        ret = _lib.ec_kang_gpu_solve(
+            hex(int(G.x))[2:].encode(),
+            hex(int(G.y))[2:].encode(),
+            hex(int(P.x))[2:].encode(),
+            hex(int(P.y))[2:].encode(),
+            hex(int(search_bound))[2:].encode(),
+            result_buf, ctypes.c_size_t(256)
+        )
+
+        if ret == 1:
+            k = int(result_buf.value.decode(), 16)
+            if verbose:
+                print(f"  GPU-PythKangaroo: k={k}")
+            return k
+        else:
+            if verbose:
+                print("  GPU-PythKangaroo: not found")
+            return None
+
+    except (OSError, AttributeError) as e:
+        if verbose:
+            print(f"  GPU kangaroo not available ({e}), falling back to C CPU")
+        return ecdlp_pythagorean_kangaroo_c(curve, G, P, search_bound, verbose)
+
+
 def ecdlp_pythagorean_kangaroo(curve, G, P, search_bound, verbose=False):
     """
     Pollard kangaroo with Pythagorean jump table.
