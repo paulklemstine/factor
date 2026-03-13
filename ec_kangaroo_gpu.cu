@@ -50,7 +50,8 @@ __constant__ uint64_t JUMP_X[64][4];
 __constant__ uint64_t JUMP_Y[64][4];
 __constant__ uint64_t JUMP_DIST[64];
 
-#define STEPS_PER_LAUNCH 2048
+/* Steps per kernel launch — set by host based on problem size */
+static int g_steps_per_launch = 2048;
 
 /* ================================================================
  * Device field arithmetic
@@ -907,9 +908,17 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
     cpu_dp_table_t *cpu_dpt = cpu_dp_create();
 
+    /* Adaptive steps per launch: more steps for larger problems reduces
+     * kernel launch overhead. Scale with sqrt(bound). */
+    g_steps_per_launch = 2048;
+    if (bound_bits >= 48) g_steps_per_launch = 4096;
+    if (bound_bits >= 56) g_steps_per_launch = 8192;
+    const char *spl_env = getenv("GPU_SPL");
+    if (spl_env) g_steps_per_launch = atoi(spl_env);
+
     uint64_t max_total_steps = sqrt_half * 32 + 20000;
-    if (max_total_steps > 500000000ULL) max_total_steps = 500000000ULL;
-    uint64_t max_launches = max_total_steps / STEPS_PER_LAUNCH + 1;
+    if (max_total_steps > 2000000000ULL) max_total_steps = 2000000000ULL;
+    uint64_t max_launches = max_total_steps / g_steps_per_launch + 1;
 
     int found = 0;
     dp_entry_t *h_dp_buf = (dp_entry_t *)malloc(dp_buf_size * sizeof(dp_entry_t));
@@ -921,7 +930,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
             d_kx, d_ky, d_kz, d_kpos, d_kinf,
             num_kangaroos, n_tame, dp_mask,
             d_dp_buf, d_dp_count, dp_buf_size,
-            d_found, STEPS_PER_LAUNCH);
+            d_found, g_steps_per_launch);
         cudaDeviceSynchronize();
 
         int dp_count = 0;
