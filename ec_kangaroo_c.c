@@ -1,11 +1,11 @@
 /*
  * ec_kangaroo_c.c — Pythagorean Kangaroo for secp256k1 ECDLP.
  *
- * Pollard's kangaroo (lambda) method with jump table derived from
- * Berggren tree hypotenuses. Distinguished-point collision detection.
+ * Multi-kangaroo with batch Montgomery inversion.
+ * Adaptive NK: 2 for small searches, 4 for larger.
+ * Batch-inverts all NK denominators per step with 1 inversion.
  *
- * Affine GMP arithmetic. secp256k1 (a=0, b=7).
- * Negation map: search [0, N/2], reflect if needed.
+ * secp256k1 (a=0, b=7). Negation map: search [0, N/2].
  *
  * Compile: gcc -O3 -shared -fPIC -o ec_kangaroo_c.so ec_kangaroo_c.c -lgmp
  */
@@ -15,15 +15,29 @@
 #include <string.h>
 #include <gmp.h>
 
+#define NK_MAX 8
+#define NUM_JUMPS 64
+
 static mpz_t PM, ORD;
-static mpz_t T_dx, T_dy, T_inv, T_lam, T_x3, T_y3, T_nm;
 static int inited = 0;
+
+/* Scratch for ap_add */
+static mpz_t T_dx, T_dy, T_inv, T_lam, T_x3, T_y3, T_nm;
+/* Scratch for batch hot loop */
+static mpz_t H_d[NK_MAX], H_dy[NK_MAX], H_lam[NK_MAX], H_xr[NK_MAX], H_yr[NK_MAX];
+static mpz_t H_prod[NK_MAX], H_dinv[NK_MAX], H_binv;
 
 void ec_kang_init(const char *p_hex, const char *order_hex) {
     if (!inited) {
         mpz_init(PM); mpz_init(ORD);
         mpz_init(T_dx); mpz_init(T_dy); mpz_init(T_inv);
         mpz_init(T_lam); mpz_init(T_x3); mpz_init(T_y3); mpz_init(T_nm);
+        for (int i = 0; i < NK_MAX; i++) {
+            mpz_init(H_d[i]); mpz_init(H_dy[i]); mpz_init(H_lam[i]);
+            mpz_init(H_xr[i]); mpz_init(H_yr[i]);
+            mpz_init(H_prod[i]); mpz_init(H_dinv[i]);
+        }
+        mpz_init(H_binv);
         inited = 1;
     }
     mpz_set_str(PM, p_hex, 16);
@@ -77,68 +91,37 @@ static void ap_smul(apt *R, const mpz_t k, const apt *P) {
     ap_clear(&acc); ap_clear(&addend); ap_clear(&tmp);
 }
 
-/* --- Distinguished point hash table --- */
+/* --- DP hash table --- */
 typedef struct dp_entry {
     unsigned long long x_hash;
-    mpz_t x_full;
-    mpz_t pos;
+    mpz_t x_full, pos;
     int is_tame;
     struct dp_entry *next;
 } dp_entry;
-
 #define DP_TABLE_SIZE 65536
-
-typedef struct {
-    dp_entry *buckets[DP_TABLE_SIZE];
-} dp_table;
-
-static dp_table *dp_create(void) {
-    return calloc(1, sizeof(dp_table));
-}
-
+typedef struct { dp_entry *buckets[DP_TABLE_SIZE]; } dp_table;
+static dp_table *dp_create(void) { return calloc(1, sizeof(dp_table)); }
 static void dp_destroy(dp_table *t) {
     for (int i = 0; i < DP_TABLE_SIZE; i++) {
         dp_entry *e = t->buckets[i];
-        while (e) {
-            dp_entry *next = e->next;
-            mpz_clear(e->x_full);
-            mpz_clear(e->pos);
-            free(e);
-            e = next;
-        }
+        while (e) { dp_entry *n=e->next; mpz_clear(e->x_full); mpz_clear(e->pos); free(e); e=n; }
     }
     free(t);
 }
-
 static void dp_insert(dp_table *t, const mpz_t x, const mpz_t pos, int is_tame) {
     unsigned long long h = mpz_get_ui(x);
-    int idx = h % DP_TABLE_SIZE;
     dp_entry *e = malloc(sizeof(dp_entry));
-    e->x_hash = h;
-    mpz_init_set(e->x_full, x);
-    mpz_init_set(e->pos, pos);
-    e->is_tame = is_tame;
-    e->next = t->buckets[idx];
-    t->buckets[idx] = e;
+    e->x_hash=h; mpz_init_set(e->x_full,x); mpz_init_set(e->pos,pos);
+    e->is_tame=is_tame; e->next=t->buckets[h%DP_TABLE_SIZE]; t->buckets[h%DP_TABLE_SIZE]=e;
 }
-
 static dp_entry *dp_find(dp_table *t, const mpz_t x, int is_tame) {
     unsigned long long h = mpz_get_ui(x);
-    int idx = h % DP_TABLE_SIZE;
-    dp_entry *e = t->buckets[idx];
-    while (e) {
-        if (e->x_hash == h && e->is_tame != is_tame &&
-            mpz_cmp(e->x_full, x) == 0) return e;
-        e = e->next;
-    }
+    dp_entry *e = t->buckets[h%DP_TABLE_SIZE];
+    while (e) { if (e->x_hash==h && e->is_tame!=is_tame && mpz_cmp(e->x_full,x)==0) return e; e=e->next; }
     return NULL;
 }
 
 /* --- Pythagorean hypotenuse jump table --- */
-
-/* Berggren tree hypotenuses, geometrically spaced.
-   Generated from BFS of ~640 hypotenuses, picking 64 with geometric spacing.
-   Range [5, 67901], mean ~ 12756. */
 static const unsigned long PYTH_HYPS[] = {
     5, 109, 233, 373, 509, 685, 853, 1025, 1189, 1429,
     1649, 1825, 2045, 2273, 2533, 2749, 2953, 3233, 3485, 3697,
@@ -148,15 +131,11 @@ static const unsigned long PYTH_HYPS[] = {
     19501, 20813, 22229, 24217, 25805, 27449, 30005, 32657, 34285, 37013,
     42025, 47413, 53057, 67901
 };
-#define NUM_JUMPS 64
 
 /*
- * Pythagorean Kangaroo solver.
- *
- * search_bound_hex: search [0, search_bound)
- * Returns 1 on success, 0 on failure.
+ * Multi-kangaroo solver with batch Montgomery inversion.
+ * tame_start_hex: if NULL, use evenly-spaced tame starts.
  */
-/* tame_start_hex: if NULL, use bound/4. Otherwise, use the given value. */
 int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
                      const char *Px_hex, const char *Py_hex,
                      const char *search_bound_hex,
@@ -210,25 +189,50 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     if (D > 20) D = 20;
     unsigned long dp_mask = (1UL << D) - 1;
 
-    mpz_t tame_pos, wild_pos, tame_start;
-    mpz_init(tame_pos); mpz_init(wild_pos); mpz_init(tame_start);
-    if (tame_start_hex && tame_start_hex[0]) {
-        mpz_set_str(tame_start, tame_start_hex, 16);
-    } else {
-        mpz_tdiv_q_2exp(tame_start, bound, 2);
-    }
-    mpz_set(tame_pos, tame_start);
+    /* Adaptive NK: 2 for tiny searches, 4 for larger */
+    int bound_bits = (int)mpz_sizeinbase(bound, 2);
+    int nk = (bound_bits <= 28) ? 2 : 4;
+    /* If tame_start_hex given, use 2-kangaroo (for parallel multiprocessing) */
+    if (tame_start_hex && tame_start_hex[0]) nk = 2;
+    int n_tame = nk / 2;
 
-    apt tame_pt, wild_pt, tmp;
-    ap_init(&tame_pt); ap_init(&wild_pt); ap_init(&tmp);
-    ap_smul(&tame_pt, tame_start, &G_pt);
-    ap_copy(&wild_pt, &P_pt);
-    mpz_set_ui(wild_pos, 0);
+    apt kpt[NK_MAX];
+    mpz_t kpos[NK_MAX];
+    int kji[NK_MAX];
+    for (int i = 0; i < nk; i++) { ap_init(&kpt[i]); mpz_init(kpos[i]); }
+
+    /* Tame kangaroo starting positions */
+    if (tame_start_hex && tame_start_hex[0]) {
+        /* Single tame at given position (for parallel wrapper) */
+        mpz_set_str(kpos[0], tame_start_hex, 16);
+        ap_smul(&kpt[0], kpos[0], &G_pt);
+    } else {
+        /* Evenly spaced in [0, half] */
+        for (int i = 0; i < n_tame; i++) {
+            mpz_mul_ui(kpos[i], half, i + 1);
+            mpz_tdiv_q_ui(kpos[i], kpos[i], n_tame + 1);
+            ap_smul(&kpt[i], kpos[i], &G_pt);
+        }
+    }
+
+    /* Wild kangaroo starting positions: P + small offsets */
+    for (int i = 0; i < nk - n_tame; i++) {
+        int idx = n_tame + i;
+        mpz_set_ui(kpos[idx], i);
+        if (i == 0) {
+            ap_copy(&kpt[idx], &P_pt);
+        } else {
+            mpz_t off; mpz_init_set_ui(off, i);
+            apt oG; ap_init(&oG);
+            ap_smul(&oG, off, &G_pt);
+            ap_add(&kpt[idx], &P_pt, &oG);
+            ap_clear(&oG); mpz_clear(off);
+        }
+    }
 
     dp_table *dpt = dp_create();
     int found = 0;
 
-    /* max_steps: 32√(half) + 20000 */
     mpz_t max_steps_z;
     mpz_init(max_steps_z);
     mpz_mul_ui(max_steps_z, sqrt_half, 32);
@@ -237,98 +241,112 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     if (max_steps > 500000000UL) max_steps = 500000000UL;
 
     for (unsigned long step = 0; step < max_steps && !found; step++) {
-        /* Tame step */
-        {
-            int ji = tame_pt.inf ? 0 : (int)(mpz_fdiv_ui(tame_pt.x, NUM_JUMPS));
-            mpz_add_ui(tame_pos, tame_pos, jumps[ji]);
-            ap_add(&tmp, &tame_pt, &jump_pts[ji]);
-            ap_copy(&tame_pt, &tmp);
+        /* Phase 1: compute denominators for batch inversion */
+        int bn = 0;
+        int bmap[NK_MAX];
+        int special[NK_MAX];
 
-            if (!tame_pt.inf && (mpz_get_ui(tame_pt.x) & dp_mask) == 0) {
-                dp_entry *match = dp_find(dpt, tame_pt.x, 1);
-                if (match) {
-                    mpz_t k_cand;
-                    mpz_init(k_cand);
-                    mpz_sub(k_cand, tame_pos, match->pos);
-                    mpz_mod(k_cand, k_cand, ORD);
+        for (int k = 0; k < nk; k++) {
+            kji[k] = kpt[k].inf ? 0 : (int)(mpz_fdiv_ui(kpt[k].x, NUM_JUMPS));
+            mpz_add_ui(kpos[k], kpos[k], jumps[kji[k]]);
+            special[k] = 0;
+            if (kpt[k].inf || jump_pts[kji[k]].inf) { special[k]=1; continue; }
+            mpz_sub(H_d[bn], jump_pts[kji[k]].x, kpt[k].x);
+            mpz_mod(H_d[bn], H_d[bn], PM);
+            if (mpz_sgn(H_d[bn])==0) { special[k]=1; continue; }
+            mpz_sub(H_dy[bn], jump_pts[kji[k]].y, kpt[k].y);
+            mpz_mod(H_dy[bn], H_dy[bn], PM);
+            bmap[bn] = k;
+            bn++;
+        }
 
-                    apt vR; ap_init(&vR);
-                    ap_smul(&vR, k_cand, &G_pt);
-                    if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0) {
-                        if (mpz_cmp(k_cand, bound) < 0) {
-                            gmp_snprintf(result, result_size, "%Zx", k_cand);
-                            found = 1;
-                        }
-                    }
-                    if (!found) {
-                        mpz_sub(k_cand, ORD, k_cand);
-                        ap_smul(&vR, k_cand, &G_pt);
-                        if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0) {
-                            if (mpz_cmp(k_cand, bound) < 0) {
-                                gmp_snprintf(result, result_size, "%Zx", k_cand);
-                                found = 1;
-                            }
-                        }
-                    }
-                    ap_clear(&vR);
-                    mpz_clear(k_cand);
-                }
-                if (!found) dp_insert(dpt, tame_pt.x, tame_pos, 1);
+        /* Phase 2: batch Montgomery inversion */
+        if (bn >= 2) {
+            mpz_set(H_prod[0], H_d[0]);
+            for (int i = 1; i < bn; i++) {
+                mpz_mul(H_prod[i], H_prod[i-1], H_d[i]);
+                mpz_mod(H_prod[i], H_prod[i], PM);
+            }
+            mpz_invert(H_binv, H_prod[bn-1], PM);
+            for (int i = bn-1; i > 0; i--) {
+                mpz_mul(H_dinv[i], H_binv, H_prod[i-1]);
+                mpz_mod(H_dinv[i], H_dinv[i], PM);
+                mpz_mul(H_binv, H_binv, H_d[i]);
+                mpz_mod(H_binv, H_binv, PM);
+            }
+            mpz_set(H_dinv[0], H_binv);
+        } else if (bn == 1) {
+            mpz_invert(H_dinv[0], H_d[0], PM);
+        }
+
+        /* Phase 3: complete EC additions using batch inverses */
+        for (int bi = 0; bi < bn; bi++) {
+            int k = bmap[bi];
+            int j = kji[k];
+            mpz_mul(H_lam[bi], H_dy[bi], H_dinv[bi]); mpz_mod(H_lam[bi], H_lam[bi], PM);
+            mpz_mul(H_xr[bi], H_lam[bi], H_lam[bi]); mpz_mod(H_xr[bi], H_xr[bi], PM);
+            mpz_sub(H_xr[bi], H_xr[bi], kpt[k].x);
+            mpz_sub(H_xr[bi], H_xr[bi], jump_pts[j].x);
+            mpz_mod(H_xr[bi], H_xr[bi], PM);
+            mpz_sub(H_yr[bi], kpt[k].x, H_xr[bi]);
+            mpz_mul(H_yr[bi], H_lam[bi], H_yr[bi]); mpz_mod(H_yr[bi], H_yr[bi], PM);
+            mpz_sub(H_yr[bi], H_yr[bi], kpt[k].y); mpz_mod(H_yr[bi], H_yr[bi], PM);
+            mpz_set(kpt[k].x, H_xr[bi]); mpz_set(kpt[k].y, H_yr[bi]); kpt[k].inf=0;
+        }
+
+        /* Handle special cases (doubling, infinity) with standard ap_add */
+        for (int k = 0; k < nk; k++) {
+            if (special[k]) {
+                apt ts; ap_init(&ts);
+                ap_add(&ts, &kpt[k], &jump_pts[kji[k]]);
+                ap_copy(&kpt[k], &ts);
+                ap_clear(&ts);
             }
         }
 
-        /* Wild step */
-        {
-            int ji = wild_pt.inf ? 0 : (int)(mpz_fdiv_ui(wild_pt.x, NUM_JUMPS));
-            mpz_add_ui(wild_pos, wild_pos, jumps[ji]);
-            ap_add(&tmp, &wild_pt, &jump_pts[ji]);
-            ap_copy(&wild_pt, &tmp);
-
-            if (!wild_pt.inf && (mpz_get_ui(wild_pt.x) & dp_mask) == 0) {
-                dp_entry *match = dp_find(dpt, wild_pt.x, 0);
-                if (match) {
-                    mpz_t k_cand;
-                    mpz_init(k_cand);
-                    mpz_sub(k_cand, match->pos, wild_pos);
-                    mpz_mod(k_cand, k_cand, ORD);
-
-                    apt vR; ap_init(&vR);
-                    ap_smul(&vR, k_cand, &G_pt);
-                    if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0) {
-                        if (mpz_cmp(k_cand, bound) < 0) {
-                            gmp_snprintf(result, result_size, "%Zx", k_cand);
-                            found = 1;
-                        }
-                    }
-                    if (!found) {
-                        mpz_sub(k_cand, ORD, k_cand);
-                        ap_smul(&vR, k_cand, &G_pt);
-                        if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0) {
-                            if (mpz_cmp(k_cand, bound) < 0) {
-                                gmp_snprintf(result, result_size, "%Zx", k_cand);
-                                found = 1;
-                            }
-                        }
-                    }
-                    ap_clear(&vR);
-                    mpz_clear(k_cand);
+        /* Phase 4: DP checks and collision detection */
+        for (int k = 0; k < nk && !found; k++) {
+            if (kpt[k].inf) continue;
+            if ((mpz_get_ui(kpt[k].x) & dp_mask) != 0) continue;
+            int is_tame = (k < n_tame) ? 1 : 0;
+            dp_entry *match = dp_find(dpt, kpt[k].x, is_tame);
+            if (match) {
+                mpz_t k_cand; mpz_init(k_cand);
+                if (is_tame) mpz_sub(k_cand, kpos[k], match->pos);
+                else         mpz_sub(k_cand, match->pos, kpos[k]);
+                mpz_mod(k_cand, k_cand, ORD);
+                apt vR; ap_init(&vR);
+                ap_smul(&vR, k_cand, &G_pt);
+                if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0 &&
+                    mpz_cmp(k_cand, bound) < 0) {
+                    gmp_snprintf(result, result_size, "%Zx", k_cand);
+                    found = 1;
                 }
-                if (!found) dp_insert(dpt, wild_pt.x, wild_pos, 0);
+                if (!found) {
+                    mpz_sub(k_cand, ORD, k_cand);
+                    ap_smul(&vR, k_cand, &G_pt);
+                    if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0 &&
+                        mpz_cmp(k_cand, bound) < 0) {
+                        gmp_snprintf(result, result_size, "%Zx", k_cand);
+                        found = 1;
+                    }
+                }
+                ap_clear(&vR); mpz_clear(k_cand);
             }
+            if (!found) dp_insert(dpt, kpt[k].x, kpos[k], is_tame);
         }
     }
 
     /* Cleanup */
     dp_destroy(dpt);
     for (int i = 0; i < NUM_JUMPS; i++) ap_clear(&jump_pts[i]);
-    ap_clear(&G_pt); ap_clear(&P_pt); ap_clear(&tame_pt); ap_clear(&wild_pt); ap_clear(&tmp);
-    mpz_clear(bound); mpz_clear(half); mpz_clear(sqrt_half);
-    mpz_clear(tame_pos); mpz_clear(wild_pos); mpz_clear(tame_start);
-    mpz_clear(max_steps_z);
+    ap_clear(&G_pt); ap_clear(&P_pt);
+    for (int i = 0; i < nk; i++) { ap_clear(&kpt[i]); mpz_clear(kpos[i]); }
+    mpz_clear(bound); mpz_clear(half); mpz_clear(sqrt_half); mpz_clear(max_steps_z);
     return found;
 }
 
-/* Original API: tame starts at bound/4 */
+/* Original API: uses default tame starts */
 int ec_kang_solve(const char *Gx_hex, const char *Gy_hex,
                   const char *Px_hex, const char *Py_hex,
                   const char *search_bound_hex,
