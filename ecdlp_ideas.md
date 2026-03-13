@@ -37,7 +37,28 @@ Cost: 2 field multiplications per step for canonicalization.
 **Danger**: Equivalence class walks can form short cycles. Need Brent cycle
 detection and perturbation jumps.
 
-### 4. Robin Hood / Cuckoo DP Hash Table [READY]
+### 4. GPU Projective Coordinates [READY]
+**Expected**: 2-5x GPU speedup
+**Risk**: Medium
+**Description**: Current GPU uses affine coords with Fermat inversion (255 squarings
++ 15 muls) EVERY step. Switch to Jacobian (X,Y,Z) coords: 11 muls + 5 squarings
+per step, NO inversion. Only convert to affine at DP hits (1 in 2^dp_bits steps).
+Jump index uses Z-independent hash of (X,Z) or approximation.
+**Why**: Fermat inversion is ~70% of per-step GPU cost. Eliminating it for non-DP
+steps should be a massive throughput improvement.
+
+### 5. Negation Map / X-only Walk [FAILED 2026-03-13]
+**Result**: No speedup for bounded kangaroo
+**Risk**: Medium (2-cycle risk)
+**Description**: Treat P=(x,y) and -P=(x,-y) as the same point. Walk based only on
+x-coordinate. Halves the effective search space.
+**Why failed**: Only works when search interval is a significant fraction of group
+order. In bounded kangaroo searching [0, 2^48] on secp256k1 (order 2^256), opposite-y
+collisions give k = n - t - w ≈ 2^256, far outside the search bound. Walk
+canonicalization (negate to even y) also disrupts walk dynamics, causing 10x slowdown.
+Same-y collisions (the only useful ones) happen at the same rate without negation.
+
+### 6. Robin Hood / Cuckoo DP Hash Table [READY]
 **Expected**: 1.1-1.2x
 **Risk**: Low
 **Description**: Replace chained hash (65536 buckets, linked lists) with
@@ -71,6 +92,21 @@ stays as mpz_t with fe↔mpz conversion at boundary.
 **Description**: Replace mpz_mul+mpz_mod in batch inversion product tree with
 fe_mul. Eliminates NK fe_to_mpz + NK fe_from_mpz conversions per step.
 Only 1 mpz_invert call remains (via fe↔mpz conversion at the boundary).
+
+### CUDA GPU Kangaroo [MERGED 2026-03-13]
+**Result**: 10-23x speedup (44b: 10x, 48b: 23x, 52b: 20x)
+**Description**: RTX 4050 GPU implementation with 4096 parallel kangaroo walks.
+Jacobian coordinates with NORM_INTERVAL=8 normalization, fe_sqr optimization.
+DP density tuned: D=(bits-8)/4 instead of bits/4 (reduces post-merge waste from 50% to 10%).
+Incremental initialization (repeated EC addition instead of per-kangaroo scalar mult).
+Adaptive steps-per-launch (2048/4096/8192 based on problem size).
+56b: ~20s, 60b: ~34s. 64b+ limited by uint64 position overflow.
+
+### GPU SM-Aware Kangaroo Count [MERGED 2026-03-13]
+**Result**: ~20% speedup (48b: 1.23x, 52b: 1.32x)
+**Description**: Query GPU SM count at runtime, set NK = SM_count × threads_per_block
+for 100% SM utilization. Old NK=4096 gave 16 blocks / 20 SMs = 80% fill. New NK=5120
+gives 20 blocks / 20 SMs = 1 block per SM. Portable across different GPU models.
 
 ### Multi-Kangaroo NK=4 [MERGED 2026-03-13]
 **Result**: ~1.3x from birthday paradox with 4 walks
@@ -125,6 +161,21 @@ walk makes jumps deterministic on equivalence classes, but tame/wild can only
 collide when they independently reach the same class by chance — no reduction in
 expected steps vs standard kangaroo. Per-step overhead of 2 fe_mul for x_canon
 computation (~30-40% more per step) is not compensated.
+
+### GPU Shared Memory Jump Table [FAILED 2026-03-13]
+**Result**: No improvement (40b: 1.4x slower, 44b: 1.2x slower, 52b: within noise)
+**Why failed**: __constant__ memory L1 cache on Ada Lovelace (RTX 4050) is already
+fast for the 4.6KB jump table. __shared__ memory loading + __syncthreads() overhead
+negates any benefit from avoiding constant cache serialization. EC arithmetic (11 field
+ops per step) dominates; jump table reads are <5% of step time.
+
+### Negation Map on GPU [FAILED 2026-03-13]
+**Result**: No speedup (bounded search interval too small relative to group order)
+**Why failed**: Negation map halves the search space by identifying (x,y)~(x,-y).
+For bounded kangaroo searching [0, 2^48] within group order 2^256, opposite-y
+collisions give k = n - pos_t - pos_w ≈ 2^256, outside [1, bound]. Only same-y
+collisions are useful, and those happen at the same rate without negation.
+Walk canonicalization (negate to even y at each normalization) disrupted walk dynamics.
 
 ### 2-Step Comb Table [FAILED 2026-03-13]
 **Result**: No benefit with mpn_ code (was 1.5x with old mpz-only code)

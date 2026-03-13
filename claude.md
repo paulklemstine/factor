@@ -4,7 +4,7 @@
 **Date**: 2026-03-13
 **Target Threshold**: 66d/218b (stabilized via SIQS)
 **GNFS Status**: WORKING — algebraic sqrt solved via Hensel lifting
-**ECDLP Status**: C Kangaroo with batch inversion + 2-step comb table
+**ECDLP Status**: C Kangaroo (fe_invert) + CUDA GPU Kangaroo (7-17x)
 **Architecture**: Triple-path (Path 1: Super-Generator, Path 2: SIQS, Path 3: GNFS)
 
 ## R&D Iteration Protocol
@@ -60,22 +60,27 @@ for bits in [20, 28, 36, 40, 44]:
 | 33d | 108b | 180s | GNFS | - |
 
 ### ECDLP (secp256k1 Kangaroo)
-| Bits | Time (avg) | Version | Date |
-|------|-----------|---------|------|
-| 20 | 0.016s | fe_invert | 2026-03-13 |
-| 28 | 0.010s | fe_invert | 2026-03-13 |
-| 32 | 0.105s | fe_invert | 2026-03-13 |
-| 36 | 0.329s | fe_invert | 2026-03-13 |
-| 40 | 0.693s | fe_invert | 2026-03-13 |
-| 44 | 4.215s | fe_invert | 2026-03-13 |
+| Bits | CPU (fe_invert) | GPU (CUDA) | Speedup | Date |
+|------|----------------|------------|---------|------|
+| 20 | 0.016s | — | — | 2026-03-13 |
+| 28 | 0.010s | — | — | 2026-03-13 |
+| 36 | 0.329s | — | — | 2026-03-13 |
+| 40 | 0.693s | 0.19s | 3.6x | 2026-03-13 |
+| 44 | 4.215s | 0.36s | 12x | 2026-03-13 |
+| 48 | ~37s | 1.17s | 32x | 2026-03-13 |
+| 52 | ~100s | 6.0s | 17x | 2026-03-13 |
+| 56 | — | ~20s | — | 2026-03-13 |
+| 60 | — | ~34s | — | 2026-03-13 |
+| 64 | — | ~5-10min | — | 2026-03-13 |
 
 ## ECDLP Improvement Ideas (prioritized)
 See `ecdlp_ideas.md` for full details and analysis.
 
 ### Ready to Try
-1. **uint64 position tracking** — replace mpz_add_ui with uint64_t for searches ≤64b. Expected: 5-10%. Risk: low.
-2. **Robin Hood DP hash table** — open-addressing for cache-friendly DP lookups. Expected: 1.1x. Risk: low.
-3. **Fermat fe_t inversion** — replace mpz_invert with a^(p-2) using optimized addition chain. Expected: uncertain. Risk: medium.
+1. **Robin Hood DP hash table (CPU)** — open-addressing for cache-friendly DP lookups. Expected: 1.1x. Risk: low.
+2. **GPU 128-bit positions** — enable 64b+ search by using __int128 for position tracking. Risk: low.
+3. **GPU 32-bit limb arithmetic** — use native 32-bit MUL (1 cycle) instead of 64-bit MUL (~4 cycles). Expected: 1.2-1.5x GPU. Risk: medium (major rewrite).
+4. **GPU block size tuning** — try 128 threads/block for better SM occupancy. Expected: 1.05-1.1x. Risk: low.
 
 ### Completed (merged)
 - **Batch Montgomery inversion** — 1 mpz_invert per step for NK kangaroos. 1.4-1.8x.
@@ -83,6 +88,13 @@ See `ecdlp_ideas.md` for full details and analysis.
 - **fe_t batch inversion product tree** — fe_mul replaces mpz_mul in Phase 2. 1.2x.
 - **Multi-kangaroo (NK=4)** — adaptive 2 tame + 2 wild. ~1.3x from birthday paradox.
 - **Parallel multiprocessing wrapper** — ec_kang_solve_ex with tame_start parameter.
+- **fe_invert via mpn_gcdext** — zero mpz in hot loop. 7.5%.
+- **uint64 position tracking** — native uint64 replaces mpz_t for positions.
+- **CUDA GPU kangaroo** — 4096 parallel walks on RTX 4050. 10-23x speedup.
+- **GPU DP density tuning** — D=(bits-8)/4 reduces post-merge waste. 1.3-5x GPU.
+- **GPU adaptive steps-per-launch** — 2048/4096/8192 based on problem size.
+- **GPU uint64 collision fix** — unsigned subtraction for 64b+ positions.
+- **GPU SM-aware NK** — query SM count, set NK=SM×256 for 100% utilization. ~20% speedup.
 
 ### Failed (do NOT retry)
 - **2-step comb table** — no benefit with mpn_ (original gain was mpz_mod elimination, already done by fe_t).
@@ -94,6 +106,8 @@ See `ecdlp_ideas.md` for full details and analysis.
 - **fast_mod_p secp256k1 reduction** — only 6% gain, not worth the complexity/bug risk.
 - **8-kangaroo (NK=8)** — total work increases as sqrt(NK), worse single-threaded.
 - **Hybrid Kangaroo-BSGS** — reduces to standard BSGS, no algorithmic advantage.
+- **GPU shared memory jump table** — __constant__ cache already fast on Ada Lovelace; __syncthreads__ overhead negates benefit.
+- **GPU negation map** — bounded search [0,2^48] in group order 2^256: opposite-y collisions give k≈2^256, useless.
 
 ## Completed Optimizations (Factoring)
 1. JIT hit detection (numba jit_find_hits) — 2x per-call speedup
@@ -148,7 +162,8 @@ See `ecdlp_ideas.md` for full details and analysis.
 - `siqs_engine.py` — SIQS engine (Path 2)
 - `gnfs_engine.py` — GNFS engine (Path 3)
 - `gnfs_sieve_c.c` / `.so` — C sieve+verify extension
-- `ec_kangaroo_c.c` / `.so` — C Pythagorean Kangaroo (batch inv + comb table)
+- `ec_kangaroo_c.c` / `.so` — C Pythagorean Kangaroo (fe_invert, zero mpz hot loop)
+- `ec_kangaroo_gpu.cu` / `.so` — CUDA GPU Kangaroo (Fermat inv, 512-4096 walks)
 - `ec_bsgs_c.c` / `.so` — C Baby-Step Giant-Step
 - `ecdlp_pythagorean.py` — Python ECDLP solvers + parallel wrapper
 - `test_bitcoin_search.py` — Bitcoin address key search test

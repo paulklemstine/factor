@@ -300,6 +300,12 @@ __device__ void fe_inv(fe_t *r, const fe_t *a) {
     fe_set(r, &t);
 }
 
+/* Negation: r = -a mod p */
+__device__ __forceinline__ void fe_neg(fe_t *r, const fe_t *a) {
+    fe_t zero = {{0, 0, 0, 0}};
+    fe_sub(r, &zero, a);
+}
+
 /* ================================================================
  * Jacobian mixed addition: (X1,Y1,Z1) + affine (x2,y2)
  *
@@ -806,11 +812,16 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     if (dp_env) D = atoi(dp_env);
     uint64_t dp_mask = (1ULL << D) - 1;
 
-    /* Kangaroo count — scale with problem size */
-    int num_kangaroos = 4096;
-    if (bound_bits <= 24) num_kangaroos = 512;
-    else if (bound_bits <= 32) num_kangaroos = 1024;
-    else if (bound_bits <= 40) num_kangaroos = 2048;
+    /* Kangaroo count — align to GPU SM count for full utilization.
+     * 1 block/SM for small problems, 2 blocks/SM for 52b+. */
+    int sm_count = 0;
+    cudaDeviceGetAttribute(&sm_count, cudaDevAttrMultiProcessorCount, 0);
+    if (sm_count <= 0) sm_count = 20; /* fallback for RTX 4050 */
+    int threads_pb = 256;
+    int num_kangaroos;
+    if (bound_bits <= 24) num_kangaroos = sm_count * threads_pb / 4;
+    else if (bound_bits <= 32) num_kangaroos = sm_count * threads_pb / 2;
+    else num_kangaroos = sm_count * threads_pb;     /* 1 block/SM */
     /* Allow override via env var for tuning */
     const char *nk_env = getenv("GPU_NK");
     if (nk_env) num_kangaroos = atoi(nk_env);
@@ -903,7 +914,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     cudaMemcpy(d_found, &zero, sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(d_dp_count, &zero, sizeof(int), cudaMemcpyHostToDevice);
 
-    int threads_per_block = 256;
+    int threads_per_block = threads_pb;
     int num_blocks = (num_kangaroos + threads_per_block - 1) / threads_per_block;
 
     cpu_dp_table_t *cpu_dpt = cpu_dp_create();
@@ -938,7 +949,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
         if (dp_count > dp_buf_size) dp_count = dp_buf_size;
 
         /* Debug: uncomment to monitor DP rate
-        if (launch < 5 || (launch % 2000 == 0))
+        if (launch < 5 || (launch % 500 == 0))
             fprintf(stderr, "  L%llu: dp=%d D=%d\n",
                     (unsigned long long)launch, dp_count, D);
         */
@@ -955,8 +966,8 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
                 if (match) {
                     /* Compute tame_pos - wild_pos using unsigned arithmetic.
                      * Avoids int64 overflow for 64b+ searches. */
-                    uint64_t tame_pos = is_tame ? e->pos : match->pos;
-                    uint64_t wild_pos = is_tame ? match->pos : e->pos;
+                    uint64_t tame_pos = is_tame ? (uint64_t)e->pos : (uint64_t)match->pos;
+                    uint64_t wild_pos = is_tame ? (uint64_t)match->pos : (uint64_t)e->pos;
 
                     uint64_t candidates[4];
                     int ncand = 0;
