@@ -192,11 +192,11 @@ static void ap_smul(apt *R, const mpz_t k, const apt *P) {
     ap_clear(&acc); ap_clear(&addend); ap_clear(&tmp);
 }
 
-/* --- DP hash table (fe_t keys for zero-conversion lookups) --- */
+/* --- DP hash table (fe_t keys, uint64 positions) --- */
 typedef struct dp_entry {
     unsigned long long x_hash;
     fe_t x_fe;
-    mpz_t pos;
+    unsigned long long pos;
     int is_tame;
     struct dp_entry *next;
 } dp_entry;
@@ -206,14 +206,14 @@ static dp_table *dp_create(void) { return calloc(1, sizeof(dp_table)); }
 static void dp_destroy(dp_table *t) {
     for (int i = 0; i < DP_TABLE_SIZE; i++) {
         dp_entry *e = t->buckets[i];
-        while (e) { dp_entry *n=e->next; mpz_clear(e->pos); free(e); e=n; }
+        while (e) { dp_entry *n=e->next; free(e); e=n; }
     }
     free(t);
 }
-static void dp_insert(dp_table *t, const fe_t x, const mpz_t pos, int is_tame) {
+static void dp_insert(dp_table *t, const fe_t x, unsigned long long pos, int is_tame) {
     unsigned long long h = x[0];
     dp_entry *e = malloc(sizeof(dp_entry));
-    e->x_hash=h; fe_set(e->x_fe,x); mpz_init_set(e->pos,pos);
+    e->x_hash=h; fe_set(e->x_fe,x); e->pos=pos;
     e->is_tame=is_tame; e->next=t->buckets[h%DP_TABLE_SIZE]; t->buckets[h%DP_TABLE_SIZE]=e;
 }
 static dp_entry *dp_find(dp_table *t, const fe_t x, int is_tame) {
@@ -299,28 +299,34 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     int n_tame = nk / 2;
 
     apt kpt[NK_MAX];
-    mpz_t kpos[NK_MAX];
+    unsigned long long kpos[NK_MAX];
     int kji[NK_MAX];
-    for (int i = 0; i < nk; i++) { ap_init(&kpt[i]); mpz_init(kpos[i]); }
+    for (int i = 0; i < nk; i++) { ap_init(&kpt[i]); kpos[i] = 0; }
 
     /* Tame kangaroo starting positions */
-    if (tame_start_hex && tame_start_hex[0]) {
-        /* Single tame at given position (for parallel wrapper) */
-        mpz_set_str(kpos[0], tame_start_hex, 16);
-        ap_smul(&kpt[0], kpos[0], &G_pt);
-    } else {
-        /* Evenly spaced in [0, half] */
-        for (int i = 0; i < n_tame; i++) {
-            mpz_mul_ui(kpos[i], half, i + 1);
-            mpz_tdiv_q_ui(kpos[i], kpos[i], n_tame + 1);
-            ap_smul(&kpt[i], kpos[i], &G_pt);
+    {
+        mpz_t tpos; mpz_init(tpos);
+        if (tame_start_hex && tame_start_hex[0]) {
+            /* Single tame at given position (for parallel wrapper) */
+            mpz_set_str(tpos, tame_start_hex, 16);
+            kpos[0] = mpz_get_ui(tpos);
+            ap_smul(&kpt[0], tpos, &G_pt);
+        } else {
+            /* Evenly spaced in [0, half] */
+            for (int i = 0; i < n_tame; i++) {
+                mpz_mul_ui(tpos, half, i + 1);
+                mpz_tdiv_q_ui(tpos, tpos, n_tame + 1);
+                kpos[i] = mpz_get_ui(tpos);
+                ap_smul(&kpt[i], tpos, &G_pt);
+            }
         }
+        mpz_clear(tpos);
     }
 
     /* Wild kangaroo starting positions: P + small offsets */
     for (int i = 0; i < nk - n_tame; i++) {
         int idx = n_tame + i;
-        mpz_set_ui(kpos[idx], i);
+        kpos[idx] = i;
         if (i == 0) {
             ap_copy(&kpt[idx], &P_pt);
         } else {
@@ -369,7 +375,7 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
         for (int k = 0; k < nk; k++) {
             special[k] = 0;
             kji[k] = kpt[k].inf ? 0 : (int)(kfe_x[k][0] % NUM_JUMPS);
-            mpz_add_ui(kpos[k], kpos[k], jumps[kji[k]]);
+            kpos[k] += jumps[kji[k]];
             if (kpt[k].inf || jump_pts[kji[k]].inf) { special[k]=1; continue; }
             const fe_t *qx = &jp_x[kji[k]], *qy = &jp_y[kji[k]];
 
@@ -449,8 +455,10 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
             dp_entry *match = dp_find(dpt, kfe_x[k], is_tame);
             if (match) {
                 mpz_t k_cand; mpz_init(k_cand);
-                if (is_tame) mpz_sub(k_cand, kpos[k], match->pos);
-                else         mpz_sub(k_cand, match->pos, kpos[k]);
+                long long diff;
+                if (is_tame) diff = (long long)kpos[k] - (long long)match->pos;
+                else         diff = (long long)match->pos - (long long)kpos[k];
+                mpz_set_si(k_cand, diff);
                 mpz_mod(k_cand, k_cand, ORD);
                 apt vR; ap_init(&vR);
                 ap_smul(&vR, k_cand, &G_pt);
@@ -478,7 +486,7 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     dp_destroy(dpt);
     for (int i = 0; i < NUM_JUMPS; i++) ap_clear(&jump_pts[i]);
     ap_clear(&G_pt); ap_clear(&P_pt);
-    for (int i = 0; i < nk; i++) { ap_clear(&kpt[i]); mpz_clear(kpos[i]); }
+    for (int i = 0; i < nk; i++) { ap_clear(&kpt[i]); }
     mpz_clear(bound); mpz_clear(half); mpz_clear(sqrt_half); mpz_clear(max_steps_z);
     return found;
 }

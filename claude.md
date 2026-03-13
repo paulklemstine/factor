@@ -73,9 +73,9 @@ for bits in [20, 28, 36, 40, 44]:
 See `ecdlp_ideas.md` for full details and analysis.
 
 ### Ready to Try
-1. **GMP mpn_ fixed-limb hot path** — replace mpz_t with mp_limb_t[4] in inner loop, secp256k1-specific reduction. Expected: 2-2.5x. Risk: medium.
-2. **Multiprocessing (6 workers)** — independent kangaroo processes, first-to-finish wins. Expected: ~5x wall-clock. Risk: low.
-3. **GLV equivalence class walk** — 6-fold equivalence via phi(x,y)=(beta*x,y) + negation. Expected: 1.6x. Risk: medium-high (cycle risk).
+1. **uint64 position tracking** — replace mpz_add_ui with uint64_t for searches ≤64b. Expected: 5-10%. Risk: low.
+2. **Robin Hood DP hash table** — open-addressing for cache-friendly DP lookups. Expected: 1.1x. Risk: low.
+3. **Fermat fe_t inversion** — replace mpz_invert with a^(p-2) using optimized addition chain. Expected: uncertain. Risk: medium.
 
 ### Completed (merged)
 - **Batch Montgomery inversion** — 1 mpz_invert per step for NK kangaroos. 1.4-1.8x.
@@ -87,6 +87,7 @@ See `ecdlp_ideas.md` for full details and analysis.
 ### Failed (do NOT retry)
 - **2-step comb table** — no benefit with mpn_ (original gain was mpz_mod elimination, already done by fe_t).
 - **GLV 3x DP lookup** — verification overhead (6 scalar mults) negated 3x collision rate. Net: SLOWER.
+- **GLV equivalence class walk** — tame/wild in different cosets, no step reduction. 2 fe_mul overhead per step.
 - **Jacobian coordinates** — need affine x every step for jump index and DP check. No benefit.
 - **Custom 256-bit field arithmetic (__int128)** — GMP's assembly-optimized mpn_* beats C __int128.
 - **Pthreads parallelism** — GMP malloc contention + mutex overhead = 10x per-step slowdown.

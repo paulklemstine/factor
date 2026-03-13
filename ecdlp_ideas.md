@@ -117,6 +117,15 @@ total, and batch inversion already near-optimal at NK=4.
 **Why failed**: Analysis showed it reduces to standard BSGS with extra overhead.
 The baby-step table doesn't help the kangaroo's random walk convergence.
 
+### GLV Equivalence Class Walk [FAILED 2026-03-13]
+**Result**: No speedup (40b: 0.89x slower, 44b: 1.02x even)
+**Why failed**: Tame walks from pos*G (known scalars) and wild walks from P+pos*G
+(unknown scalars) occupy different cosets of the endomorphism action. Canonical x
+walk makes jumps deterministic on equivalence classes, but tame/wild can only
+collide when they independently reach the same class by chance — no reduction in
+expected steps vs standard kangaroo. Per-step overhead of 2 fe_mul for x_canon
+computation (~30-40% more per step) is not compensated.
+
 ### 2-Step Comb Table [FAILED 2026-03-13]
 **Result**: No benefit with mpn_ code (was 1.5x with old mpz-only code)
 **Why failed**: Comb doubles mean jump size but doesn't reduce EC additions to
