@@ -62,12 +62,12 @@ for bits in [20, 28, 36, 40, 44]:
 ### ECDLP (secp256k1 Kangaroo)
 | Bits | Time (avg) | Version | Date |
 |------|-----------|---------|------|
-| 20 | 0.018s | mpn+fe_batch | 2026-03-13 |
-| 28 | 0.010s | mpn+fe_batch | 2026-03-13 |
-| 32 | 0.110s | mpn+fe_batch | 2026-03-13 |
-| 36 | 0.346s | mpn+fe_batch | 2026-03-13 |
-| 40 | 1.745s | mpn+fe_batch | 2026-03-13 |
-| 44 | 4.505s | mpn+fe_batch | 2026-03-13 |
+| 20 | 0.016s | fe_invert | 2026-03-13 |
+| 28 | 0.010s | fe_invert | 2026-03-13 |
+| 32 | 0.105s | fe_invert | 2026-03-13 |
+| 36 | 0.329s | fe_invert | 2026-03-13 |
+| 40 | 0.693s | fe_invert | 2026-03-13 |
+| 44 | 4.215s | fe_invert | 2026-03-13 |
 
 ## ECDLP Improvement Ideas (prioritized)
 See `ecdlp_ideas.md` for full details and analysis.

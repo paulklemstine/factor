@@ -99,6 +99,21 @@ static inline void fe_mul(fe_t r, const fe_t a, const fe_t b) {
     fe_reduce(r, t);
 }
 
+/* Modular inverse via mpn_gcdext (no mpz overhead) */
+static void fe_invert(fe_t r, const fe_t a) {
+    mp_limb_t u[5], v[5], g[5], s[5];
+    mp_size_t sn;
+    memcpy(u, a, 4 * sizeof(mp_limb_t)); u[4] = 0;
+    memcpy(v, FE_P, 4 * sizeof(mp_limb_t)); v[4] = 0;
+    mpn_gcdext(g, s, &sn, u, 4, v, 4);
+    mp_size_t abs_sn = sn < 0 ? -sn : sn;
+    for (mp_size_t i = abs_sn; i < 4; i++) s[i] = 0;
+    if (sn < 0)
+        mpn_sub_n(r, FE_P, s, 4);
+    else
+        memcpy(r, s, 4 * sizeof(mp_limb_t));
+}
+
 /* Convert mpz -> fe (assumes 0 <= a < p) */
 static inline void fe_from_mpz(fe_t r, const mpz_t a) {
     size_t n;
@@ -130,15 +145,14 @@ static int inited = 0;
 
 /* Scratch for ap_add */
 static mpz_t T_dx, T_dy, T_inv, T_lam, T_x3, T_y3, T_nm;
-/* Scratch for batch hot loop — single mpz_invert only */
-static mpz_t H_binv;
+/* (batch inversion now uses fe_invert — no mpz scratch needed) */
 
 void ec_kang_init(const char *p_hex, const char *order_hex) {
     if (!inited) {
         mpz_init(PM); mpz_init(ORD);
         mpz_init(T_dx); mpz_init(T_dy); mpz_init(T_inv);
         mpz_init(T_lam); mpz_init(T_x3); mpz_init(T_y3); mpz_init(T_nm);
-        mpz_init(H_binv);
+        /* H_binv removed — fe_invert used instead */
         inited = 1;
     }
     mpz_set_str(PM, p_hex, 16);
@@ -392,10 +406,8 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
             fe_set(fe_prod[0], fe_dx[0]);
             for (int i = 1; i < bn; i++)
                 fe_mul(fe_prod[i], fe_prod[i-1], fe_dx[i]);
-            /* Single inversion via mpz */
-            fe_to_mpz(H_binv, fe_prod[bn-1]);
-            mpz_invert(H_binv, H_binv, PM);
-            fe_from_mpz(fe_binv, H_binv);
+            /* Single inversion via mpn_gcdext (no mpz overhead) */
+            fe_invert(fe_binv, fe_prod[bn-1]);
             /* Recovery: extract individual inverses */
             for (int i = bn-1; i > 0; i--) {
                 fe_mul(fe_dinv[i], fe_binv, fe_prod[i-1]);
@@ -403,9 +415,7 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
             }
             fe_set(fe_dinv[0], fe_binv);
         } else if (bn == 1) {
-            fe_to_mpz(H_binv, fe_dx[0]);
-            mpz_invert(H_binv, H_binv, PM);
-            fe_from_mpz(fe_dinv[0], H_binv);
+            fe_invert(fe_dinv[0], fe_dx[0]);
         }
 
         /* Phase 3: complete EC additions using fe_t arithmetic */
