@@ -296,8 +296,6 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     /* Adaptive NK: 2 for tiny searches, 4 for larger */
     int bound_bits = (int)mpz_sizeinbase(bound, 2);
     int nk = (bound_bits <= 28) ? 2 : 4;
-    /* If tame_start_hex given, use 2-kangaroo (for parallel multiprocessing) */
-    if (tame_start_hex && tame_start_hex[0]) nk = 2;
     int n_tame = nk / 2;
 
     apt kpt[NK_MAX];
