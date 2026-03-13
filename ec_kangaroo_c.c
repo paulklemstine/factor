@@ -5,6 +5,8 @@
  * Adaptive NK: 2 for small searches, 4 for larger.
  * Batch-inverts all NK denominators per step with 1 inversion.
  *
+ * Hot loop uses mpn_ fixed-limb (fe_t) arithmetic for phases 1 & 3.
+ *
  * secp256k1 (a=0, b=7). Negation map: search [0, N/2].
  *
  * Compile: gcc -O3 -shared -fPIC -o ec_kangaroo_c.so ec_kangaroo_c.c -lgmp
@@ -18,14 +20,115 @@
 #define NK_MAX 8
 #define NUM_JUMPS 64
 
+/* ================================================================
+ * Fixed-limb field arithmetic for secp256k1 (256-bit)
+ * ================================================================ */
+typedef mp_limb_t fe_t[4];
+
+/* secp256k1 prime: p = 2^256 - 2^32 - 977 */
+static const mp_limb_t FE_P[4] = {
+    0xFFFFFFFEFFFFFC2FULL, 0xFFFFFFFFFFFFFFFFULL,
+    0xFFFFFFFFFFFFFFFFULL, 0xFFFFFFFFFFFFFFFFULL
+};
+/* 2^256 - p = 0x1000003D1 */
+static const mp_limb_t FE_PC = 0x1000003D1ULL;
+
+static inline void fe_set(fe_t r, const fe_t a) {
+    r[0] = a[0]; r[1] = a[1]; r[2] = a[2]; r[3] = a[3];
+}
+
+static inline int fe_is_zero(const fe_t a) {
+    return (a[0] | a[1] | a[2] | a[3]) == 0;
+}
+
+/* r = (a - b) mod p.  a,b must be in [0,p). */
+static inline void fe_sub(fe_t r, const fe_t a, const fe_t b) {
+    mp_limb_t borrow = mpn_sub_n(r, a, b, 4);
+    if (borrow) {
+        mpn_add_n(r, r, FE_P, 4);  /* r += p */
+    }
+}
+
+/*
+ * Reduce 8-limb product t[0..7] mod p where p = 2^256 - c, c = FE_PC.
+ *
+ * Strategy: use a 5-limb accumulator.
+ *   acc = t[0..3] + t[4..7] * c           (round 1)
+ *   If acc has a 5th limb, fold: acc = acc[0..3] + acc[4] * c  (round 2)
+ *   acc[4] after round 1 is at most ~c (~2^33), so acc[4]*c ~2^66 (2 limbs).
+ *   After round 2, any carry is 0 or 1, so one more add of c suffices.
+ *   Final: if acc >= p, subtract p.
+ */
+static inline void fe_reduce(fe_t r, mp_limb_t t[8]) {
+    mp_limb_t hi[5];
+    mp_limb_t acc[5];
+
+    /* Round 1: acc = t[0..3] + t[4..7] * c */
+    hi[4] = mpn_mul_1(hi, t + 4, 4, FE_PC);
+    memcpy(acc, t, 4 * sizeof(mp_limb_t));
+    acc[4] = 0;
+    mpn_add_n(acc, acc, hi, 5);
+
+    /* Round 2: fold acc[4] back in.  acc[4]*c can be up to ~66 bits. */
+    if (acc[4]) {
+        mp_limb_t ov_prod[2];
+        ov_prod[1] = mpn_mul_1(ov_prod, &acc[4], 1, FE_PC);
+        acc[4] = 0;
+        mp_limb_t carry = mpn_add(acc, acc, 4, ov_prod, ov_prod[1] ? 2 : 1);
+        /* carry is 0 or 1; 1*c < 2^34 so this terminates */
+        if (carry) {
+            mpn_add_1(acc, acc, 4, FE_PC);
+        }
+    }
+
+    memcpy(r, acc, 4 * sizeof(mp_limb_t));
+
+    /* Final: if r >= p, subtract p */
+    if (mpn_cmp(r, FE_P, 4) >= 0) {
+        mpn_sub_n(r, r, FE_P, 4);
+    }
+}
+
+/* r = a * b mod p */
+static inline void fe_mul(fe_t r, const fe_t a, const fe_t b) {
+    mp_limb_t t[8];
+    mpn_mul_n(t, a, b, 4);
+    fe_reduce(r, t);
+}
+
+/* Convert mpz -> fe (assumes 0 <= a < p) */
+static inline void fe_from_mpz(fe_t r, const mpz_t a) {
+    size_t n;
+    memset(r, 0, 4 * sizeof(mp_limb_t));
+    n = mpz_size(a);
+    if (n > 4) n = 4;
+    if (n > 0) {
+        const mp_limb_t *limbs = mpz_limbs_read(a);
+        memcpy(r, limbs, n * sizeof(mp_limb_t));
+    }
+}
+
+/* Convert fe -> mpz */
+static inline void fe_to_mpz(mpz_t r, const fe_t a) {
+    mp_limb_t *p = mpz_limbs_write(r, 4);
+    memcpy(p, a, 4 * sizeof(mp_limb_t));
+    /* find actual size (strip leading zeros) */
+    int sz = 4;
+    while (sz > 0 && a[sz - 1] == 0) sz--;
+    mpz_limbs_finish(r, sz);
+}
+
+/* ================================================================
+ * Original mpz infrastructure (setup, DP table, scalar mult, etc.)
+ * ================================================================ */
+
 static mpz_t PM, ORD;
 static int inited = 0;
 
 /* Scratch for ap_add */
 static mpz_t T_dx, T_dy, T_inv, T_lam, T_x3, T_y3, T_nm;
-/* Scratch for batch hot loop */
-static mpz_t H_d[NK_MAX], H_dy[NK_MAX], H_lam[NK_MAX], H_xr[NK_MAX], H_yr[NK_MAX];
-static mpz_t H_prod[NK_MAX], H_dinv[NK_MAX], H_binv;
+/* Scratch for batch hot loop (phase 2 still uses mpz for inversion) */
+static mpz_t H_d_mpz[NK_MAX], H_prod[NK_MAX], H_dinv_mpz[NK_MAX], H_binv;
 
 void ec_kang_init(const char *p_hex, const char *order_hex) {
     if (!inited) {
@@ -33,9 +136,8 @@ void ec_kang_init(const char *p_hex, const char *order_hex) {
         mpz_init(T_dx); mpz_init(T_dy); mpz_init(T_inv);
         mpz_init(T_lam); mpz_init(T_x3); mpz_init(T_y3); mpz_init(T_nm);
         for (int i = 0; i < NK_MAX; i++) {
-            mpz_init(H_d[i]); mpz_init(H_dy[i]); mpz_init(H_lam[i]);
-            mpz_init(H_xr[i]); mpz_init(H_yr[i]);
-            mpz_init(H_prod[i]); mpz_init(H_dinv[i]);
+            mpz_init(H_d_mpz[i]);
+            mpz_init(H_prod[i]); mpz_init(H_dinv_mpz[i]);
         }
         mpz_init(H_binv);
         inited = 1;
@@ -134,6 +236,8 @@ static const unsigned long PYTH_HYPS[] = {
 
 /*
  * Multi-kangaroo solver with batch Montgomery inversion.
+ * Hot loop phases 1 & 3 use fe_t (mpn_ fixed-limb) arithmetic.
+ * Phase 2 (batch inversion) uses mpz_t for mpz_invert.
  * tame_start_hex: if NULL, use evenly-spaced tame starts.
  */
 int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
@@ -230,6 +334,24 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
         }
     }
 
+    /* Pre-compute fe_t arrays for jump_pts (constant during main loop) */
+    fe_t jp_x[NUM_JUMPS], jp_y[NUM_JUMPS];
+    for (int i = 0; i < NUM_JUMPS; i++) {
+        fe_from_mpz(jp_x[i], jump_pts[i].x);
+        fe_from_mpz(jp_y[i], jump_pts[i].y);
+    }
+
+    /* fe_t scratch arrays for the hot loop */
+    fe_t fe_dx[NK_MAX], fe_dy[NK_MAX];
+    fe_t fe_lam[NK_MAX], fe_xr[NK_MAX], fe_yr[NK_MAX];
+    fe_t fe_dinv[NK_MAX];
+    /* fe_t mirrors for kangaroo point coords */
+    fe_t kfe_x[NK_MAX], kfe_y[NK_MAX];
+    for (int i = 0; i < nk; i++) {
+        fe_from_mpz(kfe_x[i], kpt[i].x);
+        fe_from_mpz(kfe_y[i], kpt[i].y);
+    }
+
     dp_table *dpt = dp_create();
     int found = 0;
 
@@ -241,57 +363,82 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     if (max_steps > 500000000UL) max_steps = 500000000UL;
 
     for (unsigned long step = 0; step < max_steps && !found; step++) {
-        /* Phase 1: compute denominators for batch inversion */
+        /* Phase 1: compute denominators for batch inversion (fe_t) */
         int bn = 0;
         int bmap[NK_MAX];
         int special[NK_MAX];
 
         for (int k = 0; k < nk; k++) {
-            kji[k] = kpt[k].inf ? 0 : (int)(mpz_fdiv_ui(kpt[k].x, NUM_JUMPS));
+            /* Jump index from low bits of x coordinate */
+            kji[k] = kpt[k].inf ? 0 : (int)(kfe_x[k][0] % NUM_JUMPS);
             mpz_add_ui(kpos[k], kpos[k], jumps[kji[k]]);
             special[k] = 0;
             if (kpt[k].inf || jump_pts[kji[k]].inf) { special[k]=1; continue; }
-            mpz_sub(H_d[bn], jump_pts[kji[k]].x, kpt[k].x);
-            mpz_mod(H_d[bn], H_d[bn], PM);
-            if (mpz_sgn(H_d[bn])==0) { special[k]=1; continue; }
-            mpz_sub(H_dy[bn], jump_pts[kji[k]].y, kpt[k].y);
-            mpz_mod(H_dy[bn], H_dy[bn], PM);
+
+            /* dx = jump_x - kpt_x  (mod p) using fe_t */
+            fe_sub(fe_dx[bn], jp_x[kji[k]], kfe_x[k]);
+            if (fe_is_zero(fe_dx[bn])) { special[k]=1; continue; }
+
+            /* dy = jump_y - kpt_y  (mod p) using fe_t */
+            fe_sub(fe_dy[bn], jp_y[kji[k]], kfe_y[k]);
+
+            /* Convert dx to mpz for batch inversion in Phase 2 */
+            fe_to_mpz(H_d_mpz[bn], fe_dx[bn]);
+
             bmap[bn] = k;
             bn++;
         }
 
-        /* Phase 2: batch Montgomery inversion */
+        /* Phase 2: batch Montgomery inversion (mpz_t — only 1 invert call) */
         if (bn >= 2) {
-            mpz_set(H_prod[0], H_d[0]);
+            mpz_set(H_prod[0], H_d_mpz[0]);
             for (int i = 1; i < bn; i++) {
-                mpz_mul(H_prod[i], H_prod[i-1], H_d[i]);
+                mpz_mul(H_prod[i], H_prod[i-1], H_d_mpz[i]);
                 mpz_mod(H_prod[i], H_prod[i], PM);
             }
             mpz_invert(H_binv, H_prod[bn-1], PM);
             for (int i = bn-1; i > 0; i--) {
-                mpz_mul(H_dinv[i], H_binv, H_prod[i-1]);
-                mpz_mod(H_dinv[i], H_dinv[i], PM);
-                mpz_mul(H_binv, H_binv, H_d[i]);
+                mpz_mul(H_dinv_mpz[i], H_binv, H_prod[i-1]);
+                mpz_mod(H_dinv_mpz[i], H_dinv_mpz[i], PM);
+                mpz_mul(H_binv, H_binv, H_d_mpz[i]);
                 mpz_mod(H_binv, H_binv, PM);
             }
-            mpz_set(H_dinv[0], H_binv);
+            mpz_set(H_dinv_mpz[0], H_binv);
         } else if (bn == 1) {
-            mpz_invert(H_dinv[0], H_d[0], PM);
+            mpz_invert(H_dinv_mpz[0], H_d_mpz[0], PM);
         }
 
-        /* Phase 3: complete EC additions using batch inverses */
+        /* Convert inverses back to fe_t for Phase 3 */
+        for (int i = 0; i < bn; i++) {
+            fe_from_mpz(fe_dinv[i], H_dinv_mpz[i]);
+        }
+
+        /* Phase 3: complete EC additions using fe_t arithmetic */
         for (int bi = 0; bi < bn; bi++) {
             int k = bmap[bi];
             int j = kji[k];
-            mpz_mul(H_lam[bi], H_dy[bi], H_dinv[bi]); mpz_mod(H_lam[bi], H_lam[bi], PM);
-            mpz_mul(H_xr[bi], H_lam[bi], H_lam[bi]); mpz_mod(H_xr[bi], H_xr[bi], PM);
-            mpz_sub(H_xr[bi], H_xr[bi], kpt[k].x);
-            mpz_sub(H_xr[bi], H_xr[bi], jump_pts[j].x);
-            mpz_mod(H_xr[bi], H_xr[bi], PM);
-            mpz_sub(H_yr[bi], kpt[k].x, H_xr[bi]);
-            mpz_mul(H_yr[bi], H_lam[bi], H_yr[bi]); mpz_mod(H_yr[bi], H_yr[bi], PM);
-            mpz_sub(H_yr[bi], H_yr[bi], kpt[k].y); mpz_mod(H_yr[bi], H_yr[bi], PM);
-            mpz_set(kpt[k].x, H_xr[bi]); mpz_set(kpt[k].y, H_yr[bi]); kpt[k].inf=0;
+
+            /* lam = dy * dinv mod p */
+            fe_mul(fe_lam[bi], fe_dy[bi], fe_dinv[bi]);
+
+            /* xr = lam^2 - kpt_x - jump_x  mod p */
+            fe_mul(fe_xr[bi], fe_lam[bi], fe_lam[bi]);
+            fe_sub(fe_xr[bi], fe_xr[bi], kfe_x[k]);
+            fe_sub(fe_xr[bi], fe_xr[bi], jp_x[j]);
+
+            /* yr = lam * (kpt_x - xr) - kpt_y  mod p */
+            fe_sub(fe_yr[bi], kfe_x[k], fe_xr[bi]);
+            fe_mul(fe_yr[bi], fe_lam[bi], fe_yr[bi]);
+            fe_sub(fe_yr[bi], fe_yr[bi], kfe_y[k]);
+
+            /* Update kangaroo point fe_t mirrors */
+            fe_set(kfe_x[k], fe_xr[bi]);
+            fe_set(kfe_y[k], fe_yr[bi]);
+
+            /* Sync back to apt (needed for DP check and special cases) */
+            fe_to_mpz(kpt[k].x, fe_xr[bi]);
+            fe_to_mpz(kpt[k].y, fe_yr[bi]);
+            kpt[k].inf = 0;
         }
 
         /* Handle special cases (doubling, infinity) with standard ap_add */
@@ -301,13 +448,16 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
                 ap_add(&ts, &kpt[k], &jump_pts[kji[k]]);
                 ap_copy(&kpt[k], &ts);
                 ap_clear(&ts);
+                /* Re-sync fe mirrors */
+                fe_from_mpz(kfe_x[k], kpt[k].x);
+                fe_from_mpz(kfe_y[k], kpt[k].y);
             }
         }
 
         /* Phase 4: DP checks and collision detection */
         for (int k = 0; k < nk && !found; k++) {
             if (kpt[k].inf) continue;
-            if ((mpz_get_ui(kpt[k].x) & dp_mask) != 0) continue;
+            if ((kfe_x[k][0] & dp_mask) != 0) continue;
             int is_tame = (k < n_tame) ? 1 : 0;
             dp_entry *match = dp_find(dpt, kpt[k].x, is_tame);
             if (match) {
