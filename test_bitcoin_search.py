@@ -2,14 +2,14 @@
 """
 Bitcoin private key search test.
 
-Generates real 256-bit secp256k1 private keys where the key is known to lie
-in a specific bit range [2^(b-1), 2^b). This mirrors the Bitcoin Puzzle
-Transaction challenge format. Uses our ECDLP Kangaroo solver to recover keys.
+Generates random Bitcoin addresses (with public keys in a solvable range),
+then attempts to find the private key using our ECDLP Kangaroo solver.
+Verifies any found key by re-deriving the address and checking it matches.
 
-Logs found keys with round-trip verification to found_keys.txt.
+Logs found keys to found_keys.txt.
 
 Usage: python3 test_bitcoin_search.py [max_bits] [max_attempts]
-  max_bits: maximum key bit-length (default: 48)
+  max_bits: search range in bits (default: 48)
   max_attempts: stop after N attempts (default: unlimited)
 """
 
@@ -20,6 +20,7 @@ import signal
 import sys
 import time
 from ecdlp_pythagorean import (
+    ECPoint,
     ecdlp_pythagorean_kangaroo_c,
     secp256k1_curve,
 )
@@ -57,13 +58,8 @@ def base58check_encode(payload):
     return b'1' * leading_zeros + b''.join(result)
 
 
-def privkey_to_pubpoint(k, curve, G):
-    """Compute public key point from private key."""
-    return curve.scalar_mult(k, G)
-
-
 def pubpoint_to_address(P, compressed=True):
-    """Derive Bitcoin P2PKH address from public key point."""
+    """Derive Bitcoin P2PKH address from a public key point."""
     if compressed:
         prefix = b'\x02' if P.y % 2 == 0 else b'\x03'
         pubkey = prefix + P.x.to_bytes(32, 'big')
@@ -74,24 +70,12 @@ def pubpoint_to_address(P, compressed=True):
     return address.decode()
 
 
-def privkey_to_address(k, curve, G, compressed=True):
-    """Derive Bitcoin P2PKH address from private key k."""
-    P = privkey_to_pubpoint(k, curve, G)
-    return pubpoint_to_address(P, compressed), P
-
-
 def privkey_to_wif(k, compressed=True):
     """Convert private key integer to WIF format."""
     raw = b'\x80' + k.to_bytes(32, 'big')
     if compressed:
         raw += b'\x01'
     return base58check_encode(raw).decode()
-
-
-def round_trip_verify(found_key, expected_address, curve, G):
-    """Verify that the found key generates the expected address."""
-    addr, _ = privkey_to_address(found_key, curve, G)
-    return addr == expected_address
 
 
 def log_found_key(k, address, wif, bits, elapsed, attempt):
@@ -106,7 +90,21 @@ def log_found_key(k, address, wif, bits, elapsed, attempt):
         f.write(f"Bits:        {bits}\n")
         f.write(f"Time:        {elapsed:.2f}s\n")
         f.write(f"Attempt:     {attempt}\n")
-        f.write(f"Verified:    YES (round-trip)\n")
+        f.write(f"Verified:    YES (key -> address round-trip)\n")
+
+
+def generate_target_address(curve, G, max_bits):
+    """
+    Generate a random Bitcoin address whose private key is in a solvable range.
+    Returns (address, public_key_point, bit_length).
+    The private key is NOT returned — it's the unknown we're searching for.
+    """
+    bits = random.randint(max(16, max_bits - 16), max_bits)
+    # Generate a random key in [2^(bits-1), 2^bits) — but we don't keep it
+    secret = random.randint(2**(bits-1), 2**bits - 1)
+    P = curve.scalar_mult(secret, G)
+    address = pubpoint_to_address(P)
+    return address, P, bits
 
 
 def main():
@@ -116,10 +114,9 @@ def main():
 
     curve = secp256k1_curve()
     G = curve.G
-    n = curve.n
 
-    print(f"Bitcoin Puzzle Key Search")
-    print(f"Key range: up to {max_bits} bits")
+    print(f"Bitcoin Address -> Private Key Search")
+    print(f"Search range: up to {max_bits} bits ({2**max_bits:,} keys)")
     print(f"Timeout: {timeout}s per attempt")
     print(f"Keys logged to: {KEYS_FILE}")
     print(f"{'='*60}")
@@ -135,33 +132,22 @@ def main():
 
     while max_attempts == 0 or attempt < max_attempts:
         attempt += 1
-        # Pick a random bit-length, weighted toward harder (larger) keys
-        bits = random.randint(max(16, max_bits - 16), max_bits)
-        # Generate a real full-range key in [2^(bits-1), 2^bits)
-        k = random.randint(2**(bits-1), 2**bits - 1)
 
-        address, P = privkey_to_address(k, curve, G)
-        wif = privkey_to_wif(k)
+        # Step 1: Pick a random Bitcoin address (public key known, private key unknown)
+        target_addr, P, bits = generate_target_address(curve, G, max_bits)
 
-        print(f"\nAttempt {attempt}: {bits}-bit key")
-        print(f"  Address:    {address}")
-        print(f"  WIF:        {wif}")
-        print(f"  Key (hex):  {hex(k)}")
-        print(f"  Searching range [2^{bits-1}, 2^{bits})...")
+        print(f"\nAttempt {attempt}: target {bits}-bit address")
+        print(f"  Address: {target_addr}")
+        print(f"  Pubkey:  ({hex(P.x)[:20]}..., {hex(P.y)[:20]}...)")
+        print(f"  Searching [2^{bits-1}, 2^{bits})...")
 
-        # Search the exact bit-range [2^(bits-1), 2^bits)
-        # Kangaroo searches [0, search_bound), so subtract the base and
-        # adjust the target point: P' = P - 2^(bits-1)*G
+        # Step 2: Search for the private key
+        # Offset the point so kangaroo searches [0, 2^(bits-1))
         lo = 2**(bits-1)
-        hi = 2**bits
-        search_bound = hi - lo  # = 2^(bits-1)
+        search_bound = lo  # range width = 2^(bits-1)
 
-        # Compute offset point: P' = P - lo*G
         loG = curve.scalar_mult(lo, G)
-        # P' = P + (-loG)
-        neg_loG_y = curve.p - loG.y
-        from ecdlp_pythagorean import ECPoint
-        neg_loG = ECPoint(loG.x, neg_loG_y)
+        neg_loG = ECPoint(loG.x, curve.p - loG.y)
         P_offset = curve.add(P, neg_loG)
 
         t0 = time.time()
@@ -174,28 +160,33 @@ def main():
             signal.alarm(0)
 
             if result is not None:
-                # Recover the full key: k = result + lo
+                # Step 3: Recover full key and VERIFY by re-deriving address
                 found_key = result + lo
-                # Also try negation
-                if not round_trip_verify(found_key, address, curve, G):
-                    found_key = lo + (search_bound - result)
-                    if not round_trip_verify(found_key, address, curve, G):
-                        # Try raw result as-is
-                        found_key = result
-                        if not round_trip_verify(found_key, address, curve, G):
-                            found_key = n - result
-                            if not round_trip_verify(found_key, address, curve, G):
-                                print(f"  WRONG KEY! result={result}, expected k={k}")
-                                print(f"  Round-trip verification FAILED")
-                                continue
 
-                found_count += 1
-                found_wif = privkey_to_wif(found_key)
-                print(f"  FOUND in {elapsed:.2f}s! (round-trip VERIFIED)")
-                print(f"  Recovered: {hex(found_key)}")
-                print(f"  WIF:       {found_wif}")
-                log_found_key(found_key, address, found_wif, bits, elapsed, attempt)
-                print(f"  Logged to {KEYS_FILE} (total found: {found_count})")
+                # Verify: does this key produce the target address?
+                verify_P = curve.scalar_mult(found_key, G)
+                verify_addr = pubpoint_to_address(verify_P)
+
+                if verify_addr != target_addr:
+                    # Try other recovery: lo + (search_bound - result)
+                    found_key = lo + (search_bound - result)
+                    verify_P = curve.scalar_mult(found_key, G)
+                    verify_addr = pubpoint_to_address(verify_P)
+
+                if verify_addr == target_addr:
+                    found_count += 1
+                    wif = privkey_to_wif(found_key)
+                    print(f"  FOUND in {elapsed:.2f}s!")
+                    print(f"  Private Key: {hex(found_key)}")
+                    print(f"  WIF:         {wif}")
+                    print(f"  Verify addr: {verify_addr}")
+                    print(f"  VERIFIED: address matches!")
+                    log_found_key(found_key, target_addr, wif, bits, elapsed, attempt)
+                    print(f"  Logged to {KEYS_FILE} (total found: {found_count})")
+                else:
+                    print(f"  Found key {hex(found_key)} but address mismatch!")
+                    print(f"  Expected: {target_addr}")
+                    print(f"  Got:      {verify_addr}")
             else:
                 print(f"  Not found in {elapsed:.2f}s (step limit reached)")
 
