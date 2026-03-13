@@ -1002,18 +1002,18 @@ def _kangaroo_worker(args):
 
 
 def ecdlp_pythagorean_kangaroo_c_parallel(curve, G, P, search_bound,
-                                           num_workers=8, verbose=False):
+                                           num_workers=4, verbose=False):
     """
     Parallel C Pythagorean Kangaroo using multiprocessing.
     Each worker runs an independent kangaroo with a different tame start.
-    First worker to find k wins; others are terminated.
+    First worker to find k wins; others are terminated via pool.terminate().
     """
     if P.is_infinity:
         return 0
     if P == G:
         return 1
 
-    import concurrent.futures
+    import multiprocessing
     p_val = int(curve.p) if not isinstance(curve.p, int) else curve.p
     n_val = curve.n
     p_hex = hex(p_val)[2:]
@@ -1024,28 +1024,36 @@ def ecdlp_pythagorean_kangaroo_c_parallel(curve, G, P, search_bound,
     Py_hex = hex(P.y)[2:]
     bound_hex = hex(search_bound)[2:]
 
-    # Generate different tame starts spread across [0, bound/2]
-    quarter = search_bound // 4
-    spread = search_bound // (4 * num_workers)
+    # Evenly spread tame starts across [0, bound/2] for maximum coverage
+    half = search_bound // 2
     tasks = []
     for i in range(num_workers):
-        ts = quarter + i * spread
+        ts = half * (i + 1) // (num_workers + 1)
         ts_hex = hex(ts)[2:]
         tasks.append((Gx, Gy, Px_hex, Py_hex, bound_hex, ts_hex, p_hex, n_hex))
 
-    with concurrent.futures.ProcessPoolExecutor(max_workers=num_workers) as pool:
-        futures = {pool.submit(_kangaroo_worker, t): i for i, t in enumerate(tasks)}
-        for f in concurrent.futures.as_completed(futures):
-            result = f.result()
-            if result is not None:
-                if verbose:
-                    print(f"  Worker {futures[f]} found k={result}")
-                # Cancel remaining workers
-                for other in futures:
-                    if other is not f:
-                        other.cancel()
-                pool.shutdown(wait=False, cancel_futures=True)
-                return result
+    pool = multiprocessing.Pool(processes=num_workers)
+    try:
+        async_results = [pool.apply_async(_kangaroo_worker, (t,)) for t in tasks]
+        # Poll until one worker finds the answer
+        while True:
+            for idx, ar in enumerate(async_results):
+                if ar.ready():
+                    result = ar.get()
+                    if result is not None:
+                        if verbose:
+                            print(f"  Worker {idx} found k={result}")
+                        pool.terminate()
+                        pool.join()
+                        return result
+            # Check if all workers finished without finding
+            if all(ar.ready() for ar in async_results):
+                break
+            import time
+            time.sleep(0.01)
+    finally:
+        pool.terminate()
+        pool.join()
     return None
 
 

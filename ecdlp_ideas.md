@@ -8,7 +8,7 @@
 
 ## Ideas
 
-### 1. GMP mpn_ Fixed-Limb Hot Path [READY]
+### 1. GMP mpn_ Fixed-Limb Hot Path [MERGED 2026-03-13]
 **Expected**: 2-2.5x speedup
 **Risk**: Medium
 **Description**: Replace mpz_t with mp_limb_t[4] fixed arrays in the batch-inversion
@@ -59,6 +59,12 @@ GMP division overhead and reduces short-cycle probability.
 **Result**: 1.4-1.8x speedup
 **Description**: Batch all NK kangaroo inversions into 1 mpz_invert per step
 using Montgomery's trick: accumulate product, invert once, recover individuals.
+
+### GMP mpn_ Fixed-Limb Hot Path [MERGED 2026-03-13]
+**Result**: 1.3-1.6x speedup
+**Description**: Replace mpz_t with mp_limb_t[4] (fe_t) in Phases 1+3 of hot loop.
+secp256k1-specific reduction via p = 2^256 - (2^32+977). Phase 2 batch inversion
+stays as mpz_t with fe↔mpz conversion at boundary.
 
 ### 2-Step Comb Table [MERGED 2026-03-13]
 **Result**: 1.5-3x speedup (varies by bit range)
