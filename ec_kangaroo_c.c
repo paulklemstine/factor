@@ -40,6 +40,9 @@ static inline void fe_set(fe_t r, const fe_t a) {
 static inline int fe_is_zero(const fe_t a) {
     return (a[0] | a[1] | a[2] | a[3]) == 0;
 }
+static inline int fe_eq(const fe_t a, const fe_t b) {
+    return (a[0]==b[0]) & (a[1]==b[1]) & (a[2]==b[2]) & (a[3]==b[3]);
+}
 
 /* r = (a - b) mod p.  a,b must be in [0,p). */
 static inline void fe_sub(fe_t r, const fe_t a, const fe_t b) {
@@ -189,10 +192,11 @@ static void ap_smul(apt *R, const mpz_t k, const apt *P) {
     ap_clear(&acc); ap_clear(&addend); ap_clear(&tmp);
 }
 
-/* --- DP hash table --- */
+/* --- DP hash table (fe_t keys for zero-conversion lookups) --- */
 typedef struct dp_entry {
     unsigned long long x_hash;
-    mpz_t x_full, pos;
+    fe_t x_fe;
+    mpz_t pos;
     int is_tame;
     struct dp_entry *next;
 } dp_entry;
@@ -202,20 +206,20 @@ static dp_table *dp_create(void) { return calloc(1, sizeof(dp_table)); }
 static void dp_destroy(dp_table *t) {
     for (int i = 0; i < DP_TABLE_SIZE; i++) {
         dp_entry *e = t->buckets[i];
-        while (e) { dp_entry *n=e->next; mpz_clear(e->x_full); mpz_clear(e->pos); free(e); e=n; }
+        while (e) { dp_entry *n=e->next; mpz_clear(e->pos); free(e); e=n; }
     }
     free(t);
 }
-static void dp_insert(dp_table *t, const mpz_t x, const mpz_t pos, int is_tame) {
-    unsigned long long h = mpz_get_ui(x);
+static void dp_insert(dp_table *t, const fe_t x, const mpz_t pos, int is_tame) {
+    unsigned long long h = x[0];
     dp_entry *e = malloc(sizeof(dp_entry));
-    e->x_hash=h; mpz_init_set(e->x_full,x); mpz_init_set(e->pos,pos);
+    e->x_hash=h; fe_set(e->x_fe,x); mpz_init_set(e->pos,pos);
     e->is_tame=is_tame; e->next=t->buckets[h%DP_TABLE_SIZE]; t->buckets[h%DP_TABLE_SIZE]=e;
 }
-static dp_entry *dp_find(dp_table *t, const mpz_t x, int is_tame) {
-    unsigned long long h = mpz_get_ui(x);
+static dp_entry *dp_find(dp_table *t, const fe_t x, int is_tame) {
+    unsigned long long h = x[0];
     dp_entry *e = t->buckets[h%DP_TABLE_SIZE];
-    while (e) { if (e->x_hash==h && e->is_tame!=is_tame && mpz_cmp(e->x_full,x)==0) return e; e=e->next; }
+    while (e) { if (e->x_hash==h && e->is_tame!=is_tame && fe_eq(e->x_fe,x)) return e; e=e->next; }
     return NULL;
 }
 
@@ -417,19 +421,17 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
             fe_mul(fe_yr[bi], fe_lam[bi], fe_yr[bi]);
             fe_sub(fe_yr[bi], fe_yr[bi], kfe_y[k]);
 
-            /* Update kangaroo point fe_t mirrors */
+            /* Update kangaroo point fe_t (no mpz sync — lazy) */
             fe_set(kfe_x[k], fe_xr[bi]);
             fe_set(kfe_y[k], fe_yr[bi]);
-
-            /* Sync back to apt (needed for DP check and special cases) */
-            fe_to_mpz(kpt[k].x, fe_xr[bi]);
-            fe_to_mpz(kpt[k].y, fe_yr[bi]);
-            kpt[k].inf = 0;
         }
 
         /* Handle special cases (doubling, infinity) with standard ap_add */
         for (int k = 0; k < nk; k++) {
             if (special[k]) {
+                /* Lazy sync: update kpt from fe_t before ap_add */
+                fe_to_mpz(kpt[k].x, kfe_x[k]);
+                fe_to_mpz(kpt[k].y, kfe_y[k]);
                 apt ts; ap_init(&ts);
                 ap_add(&ts, &kpt[k], &jump_pts[kji[k]]);
                 ap_copy(&kpt[k], &ts);
@@ -444,7 +446,7 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
             if (kpt[k].inf) continue;
             if ((kfe_x[k][0] & dp_mask) != 0) continue;
             int is_tame = (k < n_tame) ? 1 : 0;
-            dp_entry *match = dp_find(dpt, kpt[k].x, is_tame);
+            dp_entry *match = dp_find(dpt, kfe_x[k], is_tame);
             if (match) {
                 mpz_t k_cand; mpz_init(k_cand);
                 if (is_tame) mpz_sub(k_cand, kpos[k], match->pos);
@@ -468,7 +470,7 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
                 }
                 ap_clear(&vR); mpz_clear(k_cand);
             }
-            if (!found) dp_insert(dpt, kpt[k].x, kpos[k], is_tame);
+            if (!found) dp_insert(dpt, kfe_x[k], kpos[k], is_tame);
         }
     }
 
