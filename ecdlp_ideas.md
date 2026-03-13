@@ -66,11 +66,11 @@ using Montgomery's trick: accumulate product, invert once, recover individuals.
 secp256k1-specific reduction via p = 2^256 - (2^32+977). Phase 2 batch inversion
 stays as mpz_t with fe↔mpz conversion at boundary.
 
-### 2-Step Comb Table [MERGED 2026-03-13]
-**Result**: 1.5-3x speedup (varies by bit range)
-**Description**: Precompute comb_pts[i*64+j] = jump_pts[i] + jump_pts[j] for
-all 4096 pairs. Each iteration uses 2 indices from x (bits 0-5 and 6-11) to
-advance by 2 logical steps with a single EC addition.
+### fe_t Batch Inversion Product Tree [MERGED 2026-03-13]
+**Result**: 1.2x speedup (consistent across 36-44b)
+**Description**: Replace mpz_mul+mpz_mod in batch inversion product tree with
+fe_mul. Eliminates NK fe_to_mpz + NK fe_from_mpz conversions per step.
+Only 1 mpz_invert call remains (via fe↔mpz conversion at the boundary).
 
 ### Multi-Kangaroo NK=4 [MERGED 2026-03-13]
 **Result**: ~1.3x from birthday paradox with 4 walks
@@ -116,3 +116,11 @@ total, and batch inversion already near-optimal at NK=4.
 **Result**: No algorithmic advantage
 **Why failed**: Analysis showed it reduces to standard BSGS with extra overhead.
 The baby-step table doesn't help the kangaroo's random walk convergence.
+
+### 2-Step Comb Table [FAILED 2026-03-13]
+**Result**: No benefit with mpn_ code (was 1.5x with old mpz-only code)
+**Why failed**: Comb doubles mean jump size but doesn't reduce EC additions to
+convergence — birthday paradox depends on #points visited, not distance covered.
+Original benefit was from eliminating mpz_mod for jump index, which mpn_ (fe_t)
+already provides via direct limb read. Precomputation cost (~1s for 4096 ap_add)
+dominates at medium bit sizes with no convergence benefit.

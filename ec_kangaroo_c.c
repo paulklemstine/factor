@@ -127,18 +127,14 @@ static int inited = 0;
 
 /* Scratch for ap_add */
 static mpz_t T_dx, T_dy, T_inv, T_lam, T_x3, T_y3, T_nm;
-/* Scratch for batch hot loop (phase 2 still uses mpz for inversion) */
-static mpz_t H_d_mpz[NK_MAX], H_prod[NK_MAX], H_dinv_mpz[NK_MAX], H_binv;
+/* Scratch for batch hot loop — single mpz_invert only */
+static mpz_t H_binv;
 
 void ec_kang_init(const char *p_hex, const char *order_hex) {
     if (!inited) {
         mpz_init(PM); mpz_init(ORD);
         mpz_init(T_dx); mpz_init(T_dy); mpz_init(T_inv);
         mpz_init(T_lam); mpz_init(T_x3); mpz_init(T_y3); mpz_init(T_nm);
-        for (int i = 0; i < NK_MAX; i++) {
-            mpz_init(H_d_mpz[i]);
-            mpz_init(H_prod[i]); mpz_init(H_dinv_mpz[i]);
-        }
         mpz_init(H_binv);
         inited = 1;
     }
@@ -367,48 +363,39 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
         int special[NK_MAX];
 
         for (int k = 0; k < nk; k++) {
-            /* Jump index from low bits of x coordinate */
+            special[k] = 0;
             kji[k] = kpt[k].inf ? 0 : (int)(kfe_x[k][0] % NUM_JUMPS);
             mpz_add_ui(kpos[k], kpos[k], jumps[kji[k]]);
-            special[k] = 0;
             if (kpt[k].inf || jump_pts[kji[k]].inf) { special[k]=1; continue; }
+            const fe_t *qx = &jp_x[kji[k]], *qy = &jp_y[kji[k]];
 
-            /* dx = jump_x - kpt_x  (mod p) using fe_t */
-            fe_sub(fe_dx[bn], jp_x[kji[k]], kfe_x[k]);
+            fe_sub(fe_dx[bn], *qx, kfe_x[k]);
             if (fe_is_zero(fe_dx[bn])) { special[k]=1; continue; }
-
-            /* dy = jump_y - kpt_y  (mod p) using fe_t */
-            fe_sub(fe_dy[bn], jp_y[kji[k]], kfe_y[k]);
-
-            /* Convert dx to mpz for batch inversion in Phase 2 */
-            fe_to_mpz(H_d_mpz[bn], fe_dx[bn]);
-
+            fe_sub(fe_dy[bn], *qy, kfe_y[k]);
             bmap[bn] = k;
             bn++;
         }
 
-        /* Phase 2: batch Montgomery inversion (mpz_t — only 1 invert call) */
+        /* Phase 2: batch inversion — fe_t product tree, single mpz_invert */
         if (bn >= 2) {
-            mpz_set(H_prod[0], H_d_mpz[0]);
-            for (int i = 1; i < bn; i++) {
-                mpz_mul(H_prod[i], H_prod[i-1], H_d_mpz[i]);
-                mpz_mod(H_prod[i], H_prod[i], PM);
-            }
-            mpz_invert(H_binv, H_prod[bn-1], PM);
+            fe_t fe_prod[NK_MAX], fe_binv;
+            fe_set(fe_prod[0], fe_dx[0]);
+            for (int i = 1; i < bn; i++)
+                fe_mul(fe_prod[i], fe_prod[i-1], fe_dx[i]);
+            /* Single inversion via mpz */
+            fe_to_mpz(H_binv, fe_prod[bn-1]);
+            mpz_invert(H_binv, H_binv, PM);
+            fe_from_mpz(fe_binv, H_binv);
+            /* Recovery: extract individual inverses */
             for (int i = bn-1; i > 0; i--) {
-                mpz_mul(H_dinv_mpz[i], H_binv, H_prod[i-1]);
-                mpz_mod(H_dinv_mpz[i], H_dinv_mpz[i], PM);
-                mpz_mul(H_binv, H_binv, H_d_mpz[i]);
-                mpz_mod(H_binv, H_binv, PM);
+                fe_mul(fe_dinv[i], fe_binv, fe_prod[i-1]);
+                fe_mul(fe_binv, fe_binv, fe_dx[i]);
             }
-            mpz_set(H_dinv_mpz[0], H_binv);
+            fe_set(fe_dinv[0], fe_binv);
         } else if (bn == 1) {
-            mpz_invert(H_dinv_mpz[0], H_d_mpz[0], PM);
-        }
-
-        /* Convert inverses back to fe_t for Phase 3 */
-        for (int i = 0; i < bn; i++) {
-            fe_from_mpz(fe_dinv[i], H_dinv_mpz[i]);
+            fe_to_mpz(H_binv, fe_dx[0]);
+            mpz_invert(H_binv, H_binv, PM);
+            fe_from_mpz(fe_dinv[0], H_binv);
         }
 
         /* Phase 3: complete EC additions using fe_t arithmetic */
@@ -419,10 +406,11 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
             /* lam = dy * dinv mod p */
             fe_mul(fe_lam[bi], fe_dy[bi], fe_dinv[bi]);
 
-            /* xr = lam^2 - kpt_x - jump_x  mod p */
+            /* xr = lam^2 - kpt_x - q_x  mod p */
+            const fe_t *qx_p3 = &jp_x[j];
             fe_mul(fe_xr[bi], fe_lam[bi], fe_lam[bi]);
             fe_sub(fe_xr[bi], fe_xr[bi], kfe_x[k]);
-            fe_sub(fe_xr[bi], fe_xr[bi], jp_x[j]);
+            fe_sub(fe_xr[bi], fe_xr[bi], *qx_p3);
 
             /* yr = lam * (kpt_x - xr) - kpt_y  mod p */
             fe_sub(fe_yr[bi], kfe_x[k], fe_xr[bi]);
@@ -446,7 +434,6 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
                 ap_add(&ts, &kpt[k], &jump_pts[kji[k]]);
                 ap_copy(&kpt[k], &ts);
                 ap_clear(&ts);
-                /* Re-sync fe mirrors */
                 fe_from_mpz(kfe_x[k], kpt[k].x);
                 fe_from_mpz(kfe_y[k], kpt[k].y);
             }

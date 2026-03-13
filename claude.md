@@ -62,12 +62,12 @@ for bits in [20, 28, 36, 40, 44]:
 ### ECDLP (secp256k1 Kangaroo)
 | Bits | Time (avg) | Version | Date |
 |------|-----------|---------|------|
-| 20 | 0.025s | batch+comb | 2026-03-13 |
-| 28 | 0.060s | batch+comb | 2026-03-13 |
-| 32 | 0.159s | batch+comb | 2026-03-13 |
-| 36 | 0.381s | batch+comb | 2026-03-13 |
-| 40 | 1.955s | batch+comb | 2026-03-13 |
-| 44 | 3.884s | batch+comb | 2026-03-13 |
+| 20 | 0.018s | mpn+fe_batch | 2026-03-13 |
+| 28 | 0.010s | mpn+fe_batch | 2026-03-13 |
+| 32 | 0.110s | mpn+fe_batch | 2026-03-13 |
+| 36 | 0.346s | mpn+fe_batch | 2026-03-13 |
+| 40 | 1.745s | mpn+fe_batch | 2026-03-13 |
+| 44 | 4.505s | mpn+fe_batch | 2026-03-13 |
 
 ## ECDLP Improvement Ideas (prioritized)
 See `ecdlp_ideas.md` for full details and analysis.
@@ -79,11 +79,13 @@ See `ecdlp_ideas.md` for full details and analysis.
 
 ### Completed (merged)
 - **Batch Montgomery inversion** — 1 mpz_invert per step for NK kangaroos. 1.4-1.8x.
-- **2-step comb table** — precompute jump_pts[i]+jump_pts[j] for 4096 pairs. ~1.5-3x.
+- **GMP mpn_ fixed-limb hot path** — fe_t in Phases 1+3. 1.3-1.6x.
+- **fe_t batch inversion product tree** — fe_mul replaces mpz_mul in Phase 2. 1.2x.
 - **Multi-kangaroo (NK=4)** — adaptive 2 tame + 2 wild. ~1.3x from birthday paradox.
 - **Parallel multiprocessing wrapper** — ec_kang_solve_ex with tame_start parameter.
 
 ### Failed (do NOT retry)
+- **2-step comb table** — no benefit with mpn_ (original gain was mpz_mod elimination, already done by fe_t).
 - **GLV 3x DP lookup** — verification overhead (6 scalar mults) negated 3x collision rate. Net: SLOWER.
 - **Jacobian coordinates** — need affine x every step for jump index and DP check. No benefit.
 - **Custom 256-bit field arithmetic (__int128)** — GMP's assembly-optimized mpn_* beats C __int128.
