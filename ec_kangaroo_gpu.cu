@@ -30,7 +30,8 @@ typedef struct { uint64_t v[4]; } fe_t;
 typedef struct {
     uint64_t x_hash;
     uint64_t x1, x2, x3, x4;
-    uint64_t pos;
+    uint64_t pos_lo;
+    uint64_t pos_hi;
     uint32_t is_tame;
     uint32_t thread_id;
 } dp_entry_t;
@@ -647,7 +648,7 @@ __device__ void ec_madd_jacobian(fe_t *X3, fe_t *Y3, fe_t *Z3,
 
 __global__ void kangaroo_walk_kernel(
     uint64_t *kang_x, uint64_t *kang_y, uint64_t *kang_z,
-    uint64_t *kang_pos, int *kang_inf,
+    uint64_t *kang_pos, uint64_t *kang_pos_hi, int *kang_inf,
     int num_kangaroos, int n_tame, uint64_t dp_mask,
     dp_entry_t *dp_buf, int *dp_count, int dp_buf_size,
     int *found_flag, int steps_per_launch)
@@ -663,7 +664,8 @@ __global__ void kangaroo_walk_kernel(
     cY.v[2] = kang_y[tid * 4 + 2]; cY.v[3] = kang_y[tid * 4 + 3];
     cZ.v[0] = kang_z[tid * 4 + 0]; cZ.v[1] = kang_z[tid * 4 + 1];
     cZ.v[2] = kang_z[tid * 4 + 2]; cZ.v[3] = kang_z[tid * 4 + 3];
-    uint64_t pos = kang_pos[tid];
+    uint64_t pos_lo = kang_pos[tid];
+    uint64_t pos_hi = kang_pos_hi[tid];
     int is_inf = kang_inf[tid];
     int is_tame = (tid < n_tame) ? 1 : 0;
 
@@ -698,7 +700,7 @@ __global__ void kangaroo_walk_kernel(
         jy.v[0] = JUMP_Y[ji][0]; jy.v[1] = JUMP_Y[ji][1];
         jy.v[2] = JUMP_Y[ji][2]; jy.v[3] = JUMP_Y[ji][3];
 
-        pos += JUMP_DIST[ji];
+        { uint64_t old_lo = pos_lo; pos_lo += JUMP_DIST[ji]; if (pos_lo < old_lo) pos_hi++; }
 
         /* Mixed Jacobian + affine addition — NO inversion needed */
         fe_t nX, nY, nZ;
@@ -727,7 +729,8 @@ __global__ void kangaroo_walk_kernel(
                     dp_buf[idx].x_hash = cX.v[0];
                     dp_buf[idx].x1 = cX.v[0]; dp_buf[idx].x2 = cX.v[1];
                     dp_buf[idx].x3 = cX.v[2]; dp_buf[idx].x4 = cX.v[3];
-                    dp_buf[idx].pos = pos;
+                    dp_buf[idx].pos_lo = pos_lo;
+                    dp_buf[idx].pos_hi = pos_hi;
                     dp_buf[idx].is_tame = is_tame ? 1 : 0;
                     dp_buf[idx].thread_id = (uint32_t)tid;
                 }
@@ -753,7 +756,8 @@ __global__ void kangaroo_walk_kernel(
     kang_y[tid * 4 + 2] = cY.v[2]; kang_y[tid * 4 + 3] = cY.v[3];
     kang_z[tid * 4 + 0] = cZ.v[0]; kang_z[tid * 4 + 1] = cZ.v[1];
     kang_z[tid * 4 + 2] = cZ.v[2]; kang_z[tid * 4 + 3] = cZ.v[3];
-    kang_pos[tid] = pos;
+    kang_pos[tid] = pos_lo;
+    kang_pos_hi[tid] = pos_hi;
     kang_inf[tid] = is_inf;
 }
 
@@ -929,9 +933,9 @@ static void h_ec_add(h_fe_t *rx, h_fe_t *ry, int *rinf,
     h_fe_set(rx, &xr); h_fe_set(ry, &yr); *rinf = 0;
 }
 
-/* Host scalar mult */
+/* Host scalar mult — 128-bit scalar for 68b+ ECDLP searches */
 static void h_ec_smul(h_fe_t *rx, h_fe_t *ry, int *rinf,
-                       uint64_t k, const h_fe_t *gx, const h_fe_t *gy) {
+                       unsigned __int128 k, const h_fe_t *gx, const h_fe_t *gy) {
     h_fe_t ax = {}, ay = {}; int ainf = 1;
     h_fe_t bx, by; int binf = 0;
     h_fe_set(&bx, gx); h_fe_set(&by, gy);
@@ -994,7 +998,8 @@ static const uint64_t PYTH_HYPS[64] = {
 
 typedef struct cpu_dp_entry {
     uint64_t x[4];
-    uint64_t pos;
+    uint64_t pos_lo;
+    uint64_t pos_hi;
     int is_tame;
     struct cpu_dp_entry *next;
 } cpu_dp_entry_t;
@@ -1015,11 +1020,11 @@ static void cpu_dp_destroy(cpu_dp_table_t *t) {
     free(t);
 }
 
-static void cpu_dp_insert(cpu_dp_table_t *t, const uint64_t x[4], uint64_t pos, int is_tame) {
+static void cpu_dp_insert(cpu_dp_table_t *t, const uint64_t x[4], uint64_t pos_lo, uint64_t pos_hi, int is_tame) {
     uint64_t h = x[0] % CPU_DP_TABLE_SIZE;
     cpu_dp_entry_t *e = (cpu_dp_entry_t *)malloc(sizeof(cpu_dp_entry_t));
     e->x[0] = x[0]; e->x[1] = x[1]; e->x[2] = x[2]; e->x[3] = x[3];
-    e->pos = pos; e->is_tame = is_tame;
+    e->pos_lo = pos_lo; e->pos_hi = pos_hi; e->is_tame = is_tame;
     e->next = t->buckets[h]; t->buckets[h] = e;
 }
 
@@ -1052,23 +1057,30 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
     h_fe_t bound_fe;
     h_fe_from_hex(&bound_fe, bound_hex);
-    uint64_t bound_val = bound_fe.v[0];
-    if (bound_fe.v[1]) bound_val = 0xFFFFFFFFFFFFFFFFULL;
+    unsigned __int128 bound_val = (unsigned __int128)bound_fe.v[1] << 64 | bound_fe.v[0];
+    if (bound_fe.v[2] || bound_fe.v[3])
+        bound_val = ((unsigned __int128)1 << 127) - 1;
 
-    uint64_t half = bound_val >> 1;
+    unsigned __int128 half = bound_val >> 1;
 
-    /* Newton's method sqrt */
+    /* Newton's method sqrt — works for 128-bit half */
     uint64_t sqrt_half = 1;
     {
-        uint64_t x = 1ULL << 32;
-        if (half < x) x = half;
+        unsigned __int128 hv = half;
+        unsigned __int128 x = 1;
+        /* Initial guess: 2^(bits/2) */
+        int hbits = 0;
+        { unsigned __int128 t = hv; while (t > 0) { hbits++; t >>= 1; } }
+        if (hbits > 1) x = (unsigned __int128)1 << (hbits / 2);
         if (x == 0) x = 1;
-        for (int i = 0; i < 64; i++) {
-            uint64_t nx = (x + half / x) / 2;
+        for (int i = 0; i < 200; i++) {
+            unsigned __int128 nx = (x + hv / x) / 2;
             if (nx >= x) break;
             x = nx;
         }
-        sqrt_half = x;
+        /* sqrt_half fits in uint64 since half <= 2^127, sqrt <= 2^63.5 */
+        sqrt_half = (uint64_t)x;
+        if (sqrt_half == 0) sqrt_half = 1;
     }
 
     /* Jump scaling */
@@ -1099,7 +1111,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
     /* DP parameters */
     int bound_bits = 0;
-    { uint64_t t = bound_val; while (t > 0) { bound_bits++; t >>= 1; } }
+    { unsigned __int128 t = bound_val; while (t > 0) { bound_bits++; t >>= 1; } }
     /* DP density: smaller D = faster collision detection after merge, but more
      * CPU-side hash table work. Old formula (bits/4) was too sparse.
      * New: (bits-8)/4 — keeps post-merge walk < 10% of total expected walk. */
@@ -1130,19 +1142,20 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     uint64_t *h_ky = (uint64_t *)calloc(num_kangaroos * 4, sizeof(uint64_t));
     uint64_t *h_kz = (uint64_t *)calloc(num_kangaroos * 4, sizeof(uint64_t));
     uint64_t *h_kpos = (uint64_t *)calloc(num_kangaroos, sizeof(uint64_t));
+    uint64_t *h_kpos_hi = (uint64_t *)calloc(num_kangaroos, sizeof(uint64_t));
     int *h_kinf = (int *)calloc(num_kangaroos, sizeof(int));
 
     /* Tame kangaroos: evenly spaced, initialized incrementally.
      * T_0 = delta*G, T_i = T_{i-1} + delta_G where delta = half/(n_tame+1) */
     {
-        uint64_t delta = half / (uint64_t)(n_tame + 1);
+        unsigned __int128 delta = half / (unsigned __int128)(n_tame + 1);
         if (delta < 1) delta = 1;
         h_fe_t dGx, dGy; int dGinf;
         h_ec_smul(&dGx, &dGy, &dGinf, delta, &Gx, &Gy);
 
         h_fe_t cx, cy; int cinf;
         h_fe_set(&cx, &dGx); h_fe_set(&cy, &dGy); cinf = dGinf;
-        uint64_t tpos = delta;
+        unsigned __int128 tpos = delta;
 
         for (int i = 0; i < n_tame; i++) {
             if (cinf) { h_kinf[i] = 1; }
@@ -1152,7 +1165,8 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
                 h_kz[i * 4 + 0] = 1; h_kz[i * 4 + 1] = 0;
                 h_kz[i * 4 + 2] = 0; h_kz[i * 4 + 3] = 0;
             }
-            h_kpos[i] = tpos;
+            h_kpos[i] = (uint64_t)tpos;
+            h_kpos_hi[i] = (uint64_t)(tpos >> 64);
             /* Advance: next = current + delta_G */
             if (i < n_tame - 1) {
                 h_fe_t nx, ny; int ninf;
@@ -1178,6 +1192,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
                 h_kz[idx * 4 + 2] = 0; h_kz[idx * 4 + 3] = 0;
             }
             h_kpos[idx] = (uint64_t)i;
+            h_kpos_hi[idx] = 0;
             /* Advance: next = current + G */
             if (i < num_kangaroos - n_tame - 1) {
                 h_fe_t nx, ny; int ninf;
@@ -1188,7 +1203,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     }
 
     /* Device memory — now includes Z coordinate */
-    uint64_t *d_kx, *d_ky, *d_kz, *d_kpos;
+    uint64_t *d_kx, *d_ky, *d_kz, *d_kpos, *d_kpos_hi;
     int *d_kinf, *d_found;
     dp_entry_t *d_dp_buf;
     int *d_dp_count;
@@ -1198,6 +1213,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     cudaMalloc(&d_ky, num_kangaroos * 4 * sizeof(uint64_t));
     cudaMalloc(&d_kz, num_kangaroos * 4 * sizeof(uint64_t));
     cudaMalloc(&d_kpos, num_kangaroos * sizeof(uint64_t));
+    cudaMalloc(&d_kpos_hi, num_kangaroos * sizeof(uint64_t));
     cudaMalloc(&d_kinf, num_kangaroos * sizeof(int));
     cudaMalloc(&d_found, sizeof(int));
     cudaMalloc(&d_dp_buf, dp_buf_size * sizeof(dp_entry_t));
@@ -1207,6 +1223,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     cudaMemcpy(d_ky, h_ky, num_kangaroos * 4 * sizeof(uint64_t), cudaMemcpyHostToDevice);
     cudaMemcpy(d_kz, h_kz, num_kangaroos * 4 * sizeof(uint64_t), cudaMemcpyHostToDevice);
     cudaMemcpy(d_kpos, h_kpos, num_kangaroos * sizeof(uint64_t), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_kpos_hi, h_kpos_hi, num_kangaroos * sizeof(uint64_t), cudaMemcpyHostToDevice);
     cudaMemcpy(d_kinf, h_kinf, num_kangaroos * sizeof(int), cudaMemcpyHostToDevice);
     int zero = 0;
     cudaMemcpy(d_found, &zero, sizeof(int), cudaMemcpyHostToDevice);
@@ -1236,7 +1253,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
         cudaMemcpy(d_dp_count, &zero, sizeof(int), cudaMemcpyHostToDevice);
 
         kangaroo_walk_kernel<<<num_blocks, threads_per_block>>>(
-            d_kx, d_ky, d_kz, d_kpos, d_kinf,
+            d_kx, d_ky, d_kz, d_kpos, d_kpos_hi, d_kinf,
             num_kangaroos, n_tame, dp_mask,
             d_dp_buf, d_dp_count, dp_buf_size,
             d_found, g_steps_per_launch);
@@ -1262,22 +1279,23 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
                 cpu_dp_entry_t *match = cpu_dp_find(cpu_dpt, ex, is_tame);
                 if (match) {
-                    /* Compute tame_pos - wild_pos using unsigned arithmetic.
-                     * Avoids int64 overflow for 64b+ searches. */
-                    uint64_t tame_pos = is_tame ? (uint64_t)e->pos : (uint64_t)match->pos;
-                    uint64_t wild_pos = is_tame ? (uint64_t)match->pos : (uint64_t)e->pos;
+                    /* Compute tame_pos - wild_pos using 128-bit unsigned arithmetic. */
+                    unsigned __int128 tame_pos = ((unsigned __int128)(is_tame ? e->pos_hi : match->pos_hi) << 64)
+                                                | (is_tame ? e->pos_lo : match->pos_lo);
+                    unsigned __int128 wild_pos = ((unsigned __int128)(is_tame ? match->pos_hi : e->pos_hi) << 64)
+                                                | (is_tame ? match->pos_lo : e->pos_lo);
 
-                    uint64_t candidates[4];
+                    unsigned __int128 candidates[4];
                     int ncand = 0;
                     /* k = tame_pos - wild_pos (unsigned, may wrap) */
-                    uint64_t d1 = tame_pos - wild_pos;
+                    unsigned __int128 d1 = tame_pos - wild_pos;
                     if (d1 > 0 && d1 <= bound_val) candidates[ncand++] = d1;
                     /* k = wild_pos - tame_pos (if wild walked past tame) */
-                    uint64_t d2 = wild_pos - tame_pos;
+                    unsigned __int128 d2 = wild_pos - tame_pos;
                     if (d2 > 0 && d2 <= bound_val) candidates[ncand++] = d2;
 
                     for (int ci = 0; ci < ncand && !found; ci++) {
-                        uint64_t k_cand = candidates[ci];
+                        unsigned __int128 k_cand = candidates[ci];
                         if (k_cand == 0 || k_cand > bound_val) continue;
                         h_fe_t vx, vy; int vinf;
                         h_ec_smul(&vx, &vy, &vinf, k_cand, &Gx, &Gy);
@@ -1285,20 +1303,26 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
                             vx.v[2] == Px.v[2] && vx.v[3] == Px.v[3] &&
                             vy.v[0] == Py.v[0] && vy.v[1] == Py.v[1] &&
                             vy.v[2] == Py.v[2] && vy.v[3] == Py.v[3]) {
-                            snprintf(result, result_size, "%llx", (unsigned long long)k_cand);
+                            uint64_t k_hi = (uint64_t)(k_cand >> 64);
+                            uint64_t k_lo = (uint64_t)k_cand;
+                            if (k_hi)
+                                snprintf(result, result_size, "%llx%016llx",
+                                         (unsigned long long)k_hi, (unsigned long long)k_lo);
+                            else
+                                snprintf(result, result_size, "%llx", (unsigned long long)k_lo);
                             found = 1;
                         }
                     }
                 }
-                if (!found) cpu_dp_insert(cpu_dpt, ex, e->pos, is_tame);
+                if (!found) cpu_dp_insert(cpu_dpt, ex, e->pos_lo, e->pos_hi, is_tame);
             }
         }
     }
 
     cpu_dp_destroy(cpu_dpt);
     free(h_dp_buf);
-    free(h_kx); free(h_ky); free(h_kz); free(h_kpos); free(h_kinf);
-    cudaFree(d_kx); cudaFree(d_ky); cudaFree(d_kz); cudaFree(d_kpos);
+    free(h_kx); free(h_ky); free(h_kz); free(h_kpos); free(h_kpos_hi); free(h_kinf);
+    cudaFree(d_kx); cudaFree(d_ky); cudaFree(d_kz); cudaFree(d_kpos); cudaFree(d_kpos_hi);
     cudaFree(d_kinf); cudaFree(d_found);
     cudaFree(d_dp_buf); cudaFree(d_dp_count);
 
