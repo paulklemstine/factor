@@ -8,6 +8,140 @@
 
 ## Ideas
 
+### H1. Tree-Path Correlated Jump Sequences [READY]
+**Expected**: 1.1-1.4x (better walk mixing from structured jumps)
+**Risk**: Medium
+**Description**: Replace the flat 64-entry jump table with **dynamic jumps generated
+by walking down the Pythagorean tree**. Each kangaroo carries a (m,n) state initialized
+from a different tree node. At each step, the branch is selected by `x_bits & 3`
+(choose Berggren matrix T1, T2, or T3), the 2×2 matrix is applied to get (m',n'),
+and the jump distance is c = m'²+n'² (scaled). The kangaroo's (m,n) state advances
+down the tree.
+**Why**: Current flat table gives 64 possible jumps → walk period bounded by table size.
+Tree-path jumps are infinite and non-repeating, with geometrically growing distances
+(each tree level roughly doubles m,n). This creates walks with better coverage — the
+structured growth avoids the clustering that fixed tables can produce. Two walks at
+the same EC point take the same branch (same x → same branch selection) and thus stay
+merged, satisfying the kangaroo determinism requirement.
+**Key**: The walk function must be deterministic on x only. Branch = `x & 3` (3 branches
++ 1 "stay at current level" to prevent unbounded growth). The (m,n) state is
+per-kangaroo but the branch selection is point-determined.
+
+### H2. Fibonacci-Optimal Jump Spacing (Price Tree) [READY]
+**Expected**: 1.05-1.15x (better equidistribution)
+**Risk**: Low
+**Description**: The Price tree's unique matrix P3=[[2,0],[1,1]] generates (m,n) pairs
+whose ratios converge to the golden ratio φ. Fibonacci numbers provide the **worst-case
+equidistribution** among all integer sequences (3-distance theorem / Steinhaus conjecture).
+Generate all 64 jump distances by walking the Price tree to depth 6-7, extracting the
+hypotenuses c = m²+n² at each node. These jumps have maximally uniform spacing in
+the multiplicative sense, preventing the walk from having "blind spots."
+**Why**: Standard Pythagorean hypotenuses (5, 13, 25, 29, ...) cluster at certain
+residues mod small primes. Fibonacci-related hypotenuses from the Price tree are
+proven to avoid this clustering. Better equidistribution → faster birthday paradox
+convergence.
+**Implementation**: Simple — just change the jump distance precomputation. Generate
+Price tree to depth 7 (3^7 = 2187 nodes), take 64 evenly-spaced leaves, extract
+hypotenuses, scale to target mean.
+
+### H3. Lévy Flight via Multi-Scale Tree Depths [READY]
+**Expected**: 1.2-1.5x (optimal search strategy for unknown target location)
+**Risk**: Medium
+**Description**: Lévy flights (heavy-tailed step distributions) are mathematically
+proven optimal for blind search problems (Viswanathan et al., Nature 1999). Currently
+all 64 jumps are scaled to similar magnitude. Instead, use the Pythagorean tree to
+create a **power-law distribution** of jump sizes:
+- 32 jumps from tree depth 3-4 (small, c ~ 50-200)
+- 16 jumps from depth 5-6 (medium, c ~ 500-2000)
+- 8 jumps from depth 7-8 (large, c ~ 5000-20000)
+- 8 jumps from depth 9-12 (very large, c ~ 50000-1000000)
+Jump index still uses `x & 63`. The heavy tail means most steps are local (good for
+birthday paradox after merge) but occasional large leaps explore new territory fast.
+**Why**: Standard kangaroo uses uniform jump sizes, which is suboptimal for the
+"exploration vs exploitation" tradeoff. Lévy flights with exponent α≈2 maximize the
+territory covered per step while maintaining walk merging.
+
+### H4. Triple-Tree Diversity Jump Table [READY]
+**Expected**: 1.05-1.1x (maximum jump diversity)
+**Risk**: Low
+**Description**: Use ALL THREE Pythagorean tree systems (Berggren, Price, Firstov)
+to generate the 64 jump distances. Each tree tiles the (m,n) space differently —
+Berggren by ratio, Price by parity, Firstov by leg-swapping. Taking ~21 jumps from
+each tree gives maximum diversity in jump distances, since the three trees visit
+completely disjoint paths through (m,n) space.
+**Why**: Current jumps all come from one traversal, which may cluster at certain
+residue classes. Three independent tilings provide complementary statistical properties.
+More diverse jumps → more random walk → faster convergence.
+
+### H5. 2×2 Matrix State Walk (Evolving Jumps) [READY]
+**Expected**: Unknown (structural change to walk dynamics)
+**Risk**: High
+**Description**: Each kangaroo carries a 2×2 matrix state M (initialized to a tree
+matrix). At each step: (1) compute (m,n) = M × (2,1), get jump c = m²+n²;
+(2) select next matrix based on `x & 3` (T1, T2, or T3 from Berggren);
+(3) update M = T_selected × M. The jump distances EVOLVE as the kangaroo walks,
+growing geometrically with each step. This creates an accelerating walk.
+**Why**: Standard fixed-jump kangaroo has O(√N) expected steps. An accelerating walk
+covers exponentially more ground per step but risks overshooting. With proper damping
+(periodically reset M to identity), this could approach O(N^{1/3}) behavior by trading
+walk quality for coverage speed.
+**Danger**: Evolving jumps break the "two walks at same point stay merged" property
+unless the M state is also derived deterministically from the EC point. The M state
+must be a function of x only, not of walk history.
+
+### H6. Modular Group Walk via Γ(2) [READY]
+**Expected**: Unknown (fundamentally different walk structure)
+**Risk**: Very High (moonshot)
+**Description**: The Pythagorean trees live in Γ(2), a subgroup of the modular group
+PSL(2,Z). Elliptic curves are parametrized by the modular curve X₀(N) via Wiles'
+modularity theorem. This means there is a **direct algebraic map** from Γ(2) actions
+to the elliptic curve. Instead of walking on the EC group with random jumps, define
+the walk as a sequence of Möbius transformations in Γ(2) and map each step back to
+an EC point via the modular parametrization.
+**Why**: Random walks on the hyperbolic plane (where Γ(2) acts) have different mixing
+properties than walks on the EC group. The modular surface has constant negative
+curvature → spectral gap → exponentially fast mixing (Selberg's theorem). If the
+mapping preserves enough structure, this could fundamentally change the convergence
+rate from O(√N) to something better.
+**Reality check**: The modular parametrization is transcendental (involves q-expansions
+and eta functions) — computing it is far more expensive than EC arithmetic. This is
+a theoretical direction, not a practical one without major mathematical breakthrough.
+
+### H7. Coprime-Pair Jump Generation via Stern-Brocot [READY]
+**Expected**: 1.05-1.1x (optimal rational spacing)
+**Risk**: Low
+**Description**: The Stern-Brocot tree generates ALL positive rationals exactly once,
+in "maximally spread" order. Each node m/n gives coprime (m,n) with m²+n² as a jump
+distance. Walk the Stern-Brocot tree in BFS order to depth 7 (255 nodes), take 64
+evenly-spaced nodes. These (m,n) pairs are guaranteed to be maximally spread among
+all rationals — no two are "close" in the mediant sense.
+**Why**: Stern-Brocot ordering is the unique ordering of rationals that minimizes the
+maximum gap between consecutive entries at every finite truncation. This translates
+directly to jump distances that optimally cover the integer range without clustering.
+**Connection**: The Stern-Brocot tree IS the Farey sequence tree, which IS the
+fundamental domain decomposition of PSL(2,Z) — the same group the Pythagorean trees
+live in. So this is the natural way to select jump distances from the modular group.
+
+### H8. Pythagorean Decomposition Shortcut [READY]
+**Expected**: Unknown (could be transformative if it works)
+**Risk**: Very High (moonshot)
+**Description**: By Fermat's theorem on sums of two squares, every prime p ≡ 1 mod 4
+has a unique representation p = m² + n². The scalar k we're searching for might have
+a decomposition path through the Pythagorean tree that encodes its structure. If
+k = c₁ · c₂ · ... · cₗ (product of Pythagorean hypotenuses), then the tree paths
+to each cᵢ give a "factorization" of the walk to k·G.
+**Why**: Instead of random-walking to k·G, we'd be tree-searching for the path that
+decomposes k into Pythagorean hypotenuses. The tree has depth O(log k) and branching
+factor 3, so exhaustive tree search is 3^(log k) = k^(log 3) ≈ k^1.58 — WORSE than
+√k. BUT: if we can prune branches using information from the EC point (e.g., checking
+partial products against partial scalar multiplications), we might prune to O(k^{1/3})
+or better.
+**Key insight**: The Pythagorean tree gives a STRUCTURED decomposition of integers,
+unlike the random walk's UNSTRUCTURED search. Structure enables pruning. Pruning
+enables sub-√N search.
+
+---
+
 ### 1. GMP mpn_ Fixed-Limb Hot Path [MERGED 2026-03-13]
 **Expected**: 2-2.5x speedup
 **Risk**: Medium
@@ -162,6 +296,13 @@ collide when they independently reach the same class by chance — no reduction 
 expected steps vs standard kangaroo. Per-step overhead of 2 fe_mul for x_canon
 computation (~30-40% more per step) is not compensated.
 
+### NORM_INTERVAL=16 [FAILED 2026-03-13]
+**Result**: 2.2x slower at 48b (3.2s vs 1.2s baseline)
+**Why failed**: Longer Jacobian windows (16 steps without normalization) degrade walk
+pseudorandomness. The jump index cX.v[0]&63 uses Jacobian X (not affine x) between
+normalizations. After many steps, Jacobian X diverges from uniform distribution,
+causing biased walks and slower convergence. NORM_INTERVAL=8 is optimal.
+
 ### GPU Shared Memory Jump Table [FAILED 2026-03-13]
 **Result**: No improvement (40b: 1.4x slower, 44b: 1.2x slower, 52b: within noise)
 **Why failed**: __constant__ memory L1 cache on Ada Lovelace (RTX 4050) is already
@@ -176,6 +317,56 @@ For bounded kangaroo searching [0, 2^48] within group order 2^256, opposite-y
 collisions give k = n - pos_t - pos_w ≈ 2^256, outside [1, bound]. Only same-y
 collisions are useful, and those happen at the same rate without negation.
 Walk canonicalization (negate to even y at each normalization) disrupted walk dynamics.
+
+### H1: Berggren Tree Hypotenuses [FAILED 2026-03-13]
+**Result**: Same performance as Lévy table (within noise at 40-52b)
+**Why failed**: Same distribution shape as exponential table. Specific number-theoretic
+values don't matter for walk quality — only the spread shape matters.
+
+### H2: Price Tree Fibonacci Jumps [FAILED 2026-03-13]
+**Result**: No improvement over baseline
+**Why failed**: Same class as H1. Jump value source doesn't matter; spread does.
+
+### H3: Lévy Flight Exponential Spread [MERGED 2026-03-13]
+**Result**: 1.2-1.45x faster at 48-56b
+**Why it worked**: 10^7 spread (1 to 10M) compensates for weak hash `x & 63`,
+ensuring correlated indices produce diverse walks.
+
+### Murmur3 Jump Hash [MERGED 2026-03-13]
+**Result**: Reduces tail outliers at 52-56b
+**Why it worked**: Bijective mixing of Jacobian X produces uniform jump selection
+even when X has correlated low bits within normalization intervals.
+
+### Bernstein-Yang Divstep Inversion [MERGED 2026-03-13]
+**Result**: 1.3-1.6x faster overall
+**Why it worked**: Replaces Fermat inversion (255 sqr + 16 mul = 271 field ops)
+with shift/add divstep algorithm. 9 batches of 62 scalar divsteps with 2x2
+transition matrices. Constant-time (no warp divergence). Inversion was 75% of runtime.
+
+### H9-H16 Analysis [ALL FAILED 2026-03-13]
+**H9 Endomorphism 2D**: λ*k ≈ 2^255, outside bounded search [0, 2^48].
+**H10 EC Index Calculus**: No prime-field EC index calculus exists.
+**H11 Degenerate Traps**: Probability 1/2^256 per step — vanishing.
+**H12 Attractor Basins**: Can't engineer attractors without losing walk diversity.
+**H13 Telescoping**: No "approximate k" in discrete groups.
+**H14 256 Generators**: Spread matters, not count. 64 already optimal.
+**H15 Pythagorean Descent**: No algebraic map between EC (genus 1) and unit circle (genus 0).
+**H16 Rainbow Table**: Just precomputed BSGS, already have that.
+**Root cause**: Pollard kangaroo at O(√N) is optimal for generic group DLP.
+All improvements must be constant-factor (hardware/engineering).
+
+### __launch_bounds__ + #pragma unroll [FAILED 2026-03-13]
+**Result**: 7-22% slower at 44-52b
+**Why failed**: Increased register pressure caused spills to local memory,
+negating any benefit from unrolling. Compiler's default was already near-optimal.
+
+### DP Density Sweep [CONFIRMED 2026-03-13]
+**Result**: D=(bits-8)/4 is optimal (tested D=8..13 at 48b and 52b)
+
+### NORM_INTERVAL with Murmur3 [FAILED 2026-03-13]
+**Result**: N=12 catastrophic (108s at 52b), N=16 worse (9.1s at 52b)
+**Why failed**: Higher N = fewer merge opportunities (walks can only merge at
+normalization boundaries). This is a fundamental limitation, not a hash quality issue.
 
 ### 2-Step Comb Table [FAILED 2026-03-13]
 **Result**: No benefit with mpn_ code (was 1.5x with old mpz-only code)
