@@ -17,7 +17,7 @@
 #include <string.h>
 #include <gmp.h>
 
-#define NK_MAX 8
+#define NK_MAX 16
 #define NUM_JUMPS 64
 
 /* ================================================================
@@ -307,9 +307,13 @@ int ec_kang_solve_ex(const char *Gx_hex, const char *Gy_hex,
     if (D > 20) D = 20;
     unsigned long dp_mask = (1UL << D) - 1;
 
-    /* Adaptive NK: 2 for tiny searches, 4 for larger */
+    /* Adaptive NK: more walkers for larger searches (H27 population effect) */
     int bound_bits = (int)mpz_sizeinbase(bound, 2);
-    int nk = (bound_bits <= 28) ? 2 : 4;
+    int nk;
+    if (bound_bits <= 24)      nk = 2;
+    else if (bound_bits <= 32) nk = 4;
+    else if (bound_bits <= 40) nk = 8;
+    else                       nk = 16;
     int n_tame = nk / 2;
 
     apt kpt[NK_MAX];
