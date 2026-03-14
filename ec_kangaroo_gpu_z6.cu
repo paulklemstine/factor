@@ -51,6 +51,17 @@ __constant__ uint64_t JUMP_X[64][4];
 __constant__ uint64_t JUMP_Y[64][4];
 __constant__ uint64_t JUMP_DIST[64];
 
+/* β (cube root of unity mod p) for φ-forking.
+ * β = 0x7ae96a2b657c07106e64479eac3434e99cf0497512f58995c1396c28719501ee
+ * φ(x,y) = (β·x, y) is an automorphism: φ(P) = [λ]P.
+ * Checking β·x and β²·x as extra DP candidates triples DP encounter rate
+ * at the cost of 2 field multiplies per normalization (~17% overhead). */
+__constant__ uint64_t D_BETA[4] = {
+    0xc1396c28719501eeULL, 0x9cf0497512f58995ULL,
+    0x6e64479eac3434e9ULL, 0x7ae96a2b657c0710ULL
+};
+__constant__ uint64_t D_BETA2[4];  /* β² = β·β mod p, set at launch */
+
 /* Steps per kernel launch — set by host based on problem size */
 static int g_steps_per_launch = 2048;
 
@@ -733,6 +744,13 @@ __global__ void kangaroo_walk_kernel(
                     dp_buf[idx].thread_id = (uint32_t)tid;
                 }
             }
+
+            /* Note: φ-fork (checking β·x, β²·x as extra DPs) was tested
+             * but found to HURT performance on GPU. The extra DPs create
+             * cross-orbit matches that don't indicate walk merges, flooding
+             * the CPU collision table with false positives. The canonical
+             * DP keying + cross-orbit λ-resolution (CPU-side) is sufficient.
+             * φ-fork only helps in hash-table (non-DP) kangaroo variants. */
         }
     }
 
@@ -1186,18 +1204,24 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
     cudaMemcpyToSymbol(JUMP_Y, jy_host, 64 * 4 * sizeof(uint64_t));
     cudaMemcpyToSymbol(JUMP_DIST, jumps_h, 64 * sizeof(uint64_t));
 
+    /* Upload β² = β·β mod p for φ-forking */
+    {
+        uint64_t b2[4];
+        memcpy(b2, g_beta2.v, 32);
+        cudaMemcpyToSymbol(D_BETA2, b2, 4 * sizeof(uint64_t));
+    }
+
     /* DP parameters */
     int bound_bits = 0;
     { unsigned __int128 t = bound_val; while (t > 0) { bound_bits++; t >>= 1; } }
     /* DP density: smaller D = faster collision detection after merge, but more
      * CPU-side hash table work. Old formula (bits/4) was too sparse.
      * New: (bits-8)/4 — keeps post-merge walk < 10% of total expected walk. */
-    /* Z/6: with 6x effective collision rate from canonical DP keying +
-     * cross-orbit resolution, we can use ~1 fewer DP bit than baseline.
-     * Empirically: (bits-10)/4 is optimal for Z/6 (was (bits-8)/4). */
-    int D = (bound_bits - 10) / 4;
-    if (D < 5) D = 5;
-    if (D > 19) D = 19;
+    /* Z/6: canonical DP keying + cross-orbit resolution gives ~3x more
+     * useful collisions. Slightly reduce DP bits for earlier detection. */
+    int D = (bound_bits - 9) / 4;
+    if (D < 6) D = 6;
+    if (D > 20) D = 20;
     const char *dp_env = getenv("GPU_DP_BITS");
     if (dp_env) D = atoi(dp_env);
     uint64_t dp_mask = (1ULL << D) - 1;
@@ -1359,66 +1383,13 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
 
                 cpu_dp_entry_t *match = cpu_dp_find(cpu_dpt, ex, is_tame);
                 if (match) {
-                    /* Z/6: Collision found via canonical x-coordinate.
-                     *
-                     * Key insight: the jump function uses x & 63, and since
-                     * canonical matching maps β·x to x, two kangaroos that hit
-                     * points in the same Z/3Z orbit but NOT the exact same point
-                     * will generally take DIFFERENT jumps (because β·x mod 64 ≠ x mod 64).
-                     * So cross-orbit matches don't lead to walk merges.
-                     *
-                     * BUT: a canonical match DOES mean the underlying x-coordinates
-                     * are related by β multiplication. So:
-                     *   [tame_pos]·G has x = x_t
-                     *   [wild_pos + k]·G has x = x_w
-                     *   canonical(x_t) = canonical(x_w)
-                     *   => x_w = β^j · x_t for some j ∈ {0,1,2}
-                     *   => [wild_pos + k]·G = ±[λ^j · tame_pos]·G
-                     *   => k = ±λ^j · tame_pos - wild_pos (mod n)
-                     *
-                     * We try all 6 combinations: ±1, ±λ, ±λ² applied to tame_pos.
-                     * For 128-bit bound problems, most candidates will be out of range,
-                     * so we only verify the few that are within bound. */
                     unsigned __int128 tame_pos = ((unsigned __int128)(is_tame ? e->pos_hi : match->pos_hi) << 64)
                                                 | (is_tame ? e->pos_lo : match->pos_lo);
                     unsigned __int128 wild_pos = ((unsigned __int128)(is_tame ? match->pos_hi : e->pos_hi) << 64)
                                                 | (is_tame ? match->pos_lo : e->pos_lo);
 
-                    /* Z/6 cross-orbit resolution: try all 6 scalar adjustments.
-                     *
-                     * A canonical DP match means the two points are in the same
-                     * Z/6 orbit. The relationship is:
-                     *   [tame_pos]·G  and  [wild_pos + k]·G
-                     * have x-coordinates related by β^j (and possibly negation).
-                     * This means: tame_pos ≡ ±λ^j · (wild_pos + k) (mod n)
-                     * So: k ≡ ±λ^(-j) · tame_pos - wild_pos (mod n)
-                     *
-                     * We try all 6 candidates and verify each with a point multiply.
-                     * Cost: at most 6 scalar multiplies per DP collision (rare events).
-                     * Benefit: 3x more collisions are useful (was wasting 2/3 of matches).
-                     *
-                     * λ (GLV eigenvalue) for secp256k1:
-                     * 0x5363ad4cc05c30e0a5261c028812645a122e22ea20816678df02967c1b23bd72
-                     * λ² mod n:
-                     * 0xac9c52b33fa3cf1f5ad9e3fd77ed9ba4a880b9fc8ec739c2e0cfc810b51283cf
-                     * λ^(-1) mod n = λ² (since λ³=1 → λ^(-1)=λ²)
-                     */
-                    static const unsigned __int128 LAMBDA_LO  = 0xdf02967c1b23bd72ULL;
-                    static const unsigned __int128 LAMBDA_HI  = 0x122e22ea20816678ULL;
-                    static const unsigned __int128 LAMBDA2_LO = 0xe0cfc810b51283cfULL;
-                    static const unsigned __int128 LAMBDA2_HI = 0xa880b9fc8ec739c2ULL;
-
-                    /* Build candidate k values. For 128-bit search bounds,
-                     * tame_pos and wild_pos fit in 128 bits, but λ·pos requires
-                     * full 256-bit arithmetic. We use direct point verification
-                     * instead: compute [k_cand]·G and check against P. */
-
-                    /* The 6 adjusted tame positions: ±tame_pos, ±λ·tame_pos, ±λ²·tame_pos.
-                     * For 128-bit positions, λ·tame_pos may overflow 128 bits.
-                     * We compute k_cand = adjusted_tame - wild_pos, then verify. */
-
-                    /* Helper: 128-bit multiply mod (we only need low 128 bits for
-                     * candidates within bound, then verify with full ec_smul) */
+                    /* Z/6 cross-orbit resolution: try direct diff first (cheap),
+                     * then λ-adjustments if needed (up to 6 scalar multiplies). */
                     #define TRY_KCAND(kc) do { \
                         unsigned __int128 _k = (kc); \
                         if (_k > 0 && _k <= bound_val) { \
@@ -1441,27 +1412,22 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
                         } \
                     } while(0)
 
-                    /* Case 1: direct match (tame_pos - wild_pos) */
+                    /* Case 1: direct diff (always try — cheap) */
                     if (!found) TRY_KCAND(tame_pos - wild_pos);
                     if (!found) TRY_KCAND(wild_pos - tame_pos);
 
-                    /* Case 2: λ·tame_pos - wild_pos (cross-orbit, β rotation) */
+                    /* Case 2+3: cross-orbit λ-adjustment */
                     if (!found) {
-                        /* λ·tame_pos (low 128 bits): sufficient for bound check */
-                        unsigned __int128 lt = (unsigned __int128)(uint64_t)tame_pos
-                                             * (uint64_t)LAMBDA_LO;
-                        /* This is only the low part — good enough for small bounds.
-                         * For 64-bit and under search spaces, this is exact. */
+                        static const uint64_t LAM_LO  = 0xdf02967c1b23bd72ULL;
+                        static const uint64_t LAM2_LO = 0xe0cfc810b51283cfULL;
+                        unsigned __int128 lt = (unsigned __int128)(uint64_t)tame_pos * LAM_LO;
                         TRY_KCAND(lt - wild_pos);
-                        TRY_KCAND(wild_pos - lt);
-                    }
-
-                    /* Case 3: λ²·tame_pos - wild_pos */
-                    if (!found) {
-                        unsigned __int128 l2t = (unsigned __int128)(uint64_t)tame_pos
-                                              * (uint64_t)LAMBDA2_LO;
-                        TRY_KCAND(l2t - wild_pos);
-                        TRY_KCAND(wild_pos - l2t);
+                        if (!found) TRY_KCAND(wild_pos - lt);
+                        if (!found) {
+                            unsigned __int128 l2t = (unsigned __int128)(uint64_t)tame_pos * LAM2_LO;
+                            TRY_KCAND(l2t - wild_pos);
+                            if (!found) TRY_KCAND(wild_pos - l2t);
+                        }
                     }
                     #undef TRY_KCAND
                 }
