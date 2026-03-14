@@ -262,42 +262,329 @@ __device__ void fe_sqr(fe_t *r, const fe_t *a) {
 }
 
 /*
- * Fermat inversion: r = a^(p-2) mod p
- * p-2 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2D
+ * Bernstein-Yang constant-time modular inversion via divsteps.
+ * Replaces Fermat inversion (a^(p-2) mod p) with shift/add algorithm.
  *
- * Bits 255..33: all 1 (223 ones) -> x223
- * Bit 32: 0
- * Bits 31..10: all 1 (22 ones) -> x22
- * Bits 9..6: 0000
- * Bit 5: 1, Bit 4: 0, Bit 3: 1, Bit 2: 1, Bit 1: 0, Bit 0: 1
+ * Reference: "Fast constant-time gcd computation and modular inversion"
+ *            Daniel J. Bernstein, Bo-Yin Yang, 2019
+ * Adapted from libsecp256k1 src/modinv64_impl.h
+ *
+ * Uses 5-limb signed representation (4x62 bits + overflow limb).
+ * 12 batches of 62 divsteps = 744 total (need >= 2*256+1 = 513).
+ */
+
+/* Signed 5-limb representation: value = sum(v[i] * 2^(62*i)) */
+typedef struct { int64_t v[5]; } sd_t;
+
+/* Transition matrix from 62 divsteps */
+typedef struct { int64_t u, v, q, r; } trans_t;
+
+/* Compute 62 divsteps on low bits of f, g.
+ * Produces transition matrix T such that [f',g'] = T * [f,g] / 2^62.
+ * All operations are branchless via bitwise masking.
+ *
+ * Uses the Bernstein-Yang divstep:
+ *   if delta > 0 and g odd: (delta,f,g) = (1-delta, g, (g-f)/2)
+ *   elif g odd:             (delta,f,g) = (1+delta, f, (g+f)/2)
+ *   else:                   (delta,f,g) = (1+delta, f, g/2)
+ *
+ * After conditional swap, g is conditionally negated before adding f
+ * to implement the subtract-when-swapped semantics. */
+__device__ void divsteps_62(int64_t *delta, uint64_t f0, uint64_t g0,
+                            trans_t *t) {
+    int64_t du = 1, dv = 0, dq = 0, dr = 1;
+    int64_t d = *delta;
+    uint64_t f = f0, g = g0;
+
+    for (int i = 0; i < 62; i++) {
+        /* cond = -1 if (delta > 0 AND g is odd), else 0 */
+        int64_t g_odd = -((int64_t)(g & 1));
+        int64_t d_pos = -((int64_t)((uint64_t)(-d) >> 63)); /* -1 if d > 0, 0 if d <= 0 */
+        int64_t swap = g_odd & d_pos; /* -1 if should swap */
+
+        /* Conditional negate delta: if swap, delta = -delta */
+        d = (d ^ swap) - swap;
+
+        /* Conditional swap f <-> g */
+        uint64_t tf = ((f ^ g) & (uint64_t)swap);
+        f ^= tf; g ^= tf;
+
+        /* Conditional swap (du,dv) <-> (dq,dr) */
+        int64_t tt;
+        tt = (du ^ dq) & swap; du ^= tt; dq ^= tt;
+        tt = (dv ^ dr) & swap; dv ^= tt; dr ^= tt;
+
+        /* When g is odd: conditionally negate g then add f.
+         * Implements g-f when swapped, g+f when not swapped.
+         * neg_g = swap ? -g : g = (g ^ swap) - swap
+         * When g is even (g_odd=0): g stays unchanged, no addition needed. */
+        uint64_t neg_g = (g ^ (uint64_t)swap) - (uint64_t)swap;
+        g = ((neg_g + f) & (uint64_t)g_odd) | (g & ~(uint64_t)g_odd);
+        /* Matrix: same logic for (dq,dr) row */
+        int64_t neg_dq = (dq ^ swap) - swap;
+        int64_t neg_dr = (dr ^ swap) - swap;
+        dq = ((neg_dq + du) & g_odd) | (dq & ~g_odd);
+        dr = ((neg_dr + dv) & g_odd) | (dr & ~g_odd);
+
+        /* g >>= 1, scale matrix row */
+        g >>= 1;
+        du <<= 1;
+        dv <<= 1;
+
+        d++;
+    }
+
+    *delta = d;
+    t->u = du; t->v = dv; t->q = dq; t->r = dr;
+}
+
+/* Update (f, g) using transition matrix: [f,g] = T * [f,g] / 2^62.
+ * f, g are signed 5-limb (62-bit limbs). Result is exact (no mod). */
+__device__ void modinv_update_fg(sd_t *f, sd_t *g, const trans_t *t) {
+    /* Compute cf = u*f + v*g and cg = q*f + r*g using 128-bit intermediates.
+     * Each limb is 62 bits; matrix entries are at most 62 bits magnitude. */
+    int64_t u = t->u, v = t->v, q = t->q, rr = t->r;
+    __int128 cf0, cf1, cf2, cf3, cf4;
+    __int128 cg0, cg1, cg2, cg3, cg4;
+
+    cf0 = (__int128)u * f->v[0] + (__int128)v * g->v[0];
+    cf1 = (__int128)u * f->v[1] + (__int128)v * g->v[1];
+    cf2 = (__int128)u * f->v[2] + (__int128)v * g->v[2];
+    cf3 = (__int128)u * f->v[3] + (__int128)v * g->v[3];
+    cf4 = (__int128)u * f->v[4] + (__int128)v * g->v[4];
+
+    cg0 = (__int128)q * f->v[0] + (__int128)rr * g->v[0];
+    cg1 = (__int128)q * f->v[1] + (__int128)rr * g->v[1];
+    cg2 = (__int128)q * f->v[2] + (__int128)rr * g->v[2];
+    cg3 = (__int128)q * f->v[3] + (__int128)rr * g->v[3];
+    cg4 = (__int128)q * f->v[4] + (__int128)rr * g->v[4];
+
+    /* Divide by 2^62: shift right, propagating carries between limbs */
+    cf0 >>= 62; cf0 += cf1;
+    cf1 = cf0 >> 62; cf1 += cf2;
+    cf2 = cf1 >> 62; cf2 += cf3;
+    cf3 = cf2 >> 62; cf3 += cf4;
+    cf4 = cf3 >> 62;
+
+    f->v[0] = (int64_t)cf0 & 0x3FFFFFFFFFFFFFFFLL;
+    f->v[1] = (int64_t)cf1 & 0x3FFFFFFFFFFFFFFFLL;
+    f->v[2] = (int64_t)cf2 & 0x3FFFFFFFFFFFFFFFLL;
+    f->v[3] = (int64_t)cf3 & 0x3FFFFFFFFFFFFFFFLL;
+    f->v[4] = (int64_t)cf4;
+
+    cg0 >>= 62; cg0 += cg1;
+    cg1 = cg0 >> 62; cg1 += cg2;
+    cg2 = cg1 >> 62; cg2 += cg3;
+    cg3 = cg2 >> 62; cg3 += cg4;
+    cg4 = cg3 >> 62;
+
+    g->v[0] = (int64_t)cg0 & 0x3FFFFFFFFFFFFFFFLL;
+    g->v[1] = (int64_t)cg1 & 0x3FFFFFFFFFFFFFFFLL;
+    g->v[2] = (int64_t)cg2 & 0x3FFFFFFFFFFFFFFFLL;
+    g->v[3] = (int64_t)cg3 & 0x3FFFFFFFFFFFFFFFLL;
+    g->v[4] = (int64_t)cg4;
+}
+
+/* Update (d, e) mod p using transition matrix.
+ * d_new = (u*d + v*e) mod p, e_new = (q*d + r*e) mod p.
+ *
+ * We need to compute (u*d + v*e) / 2^62 mod p.
+ * Since u*d + v*e ≡ 0 (mod 2^62) by construction,
+ * we compute the exact quotient then reduce mod p.
+ *
+ * To divide by 2^62 mod p, we multiply the low 62 bits
+ * by p's inverse mod 2^62, add the correction, then shift.
+ */
+__device__ void modinv_update_de(sd_t *d, sd_t *e, const trans_t *t) {
+    /* secp256k1 p in 62-bit limbs (5 limbs), precomputed */
+    const int64_t M62 = 0x3FFFFFFFFFFFFFFFLL;  /* (1 << 62) - 1 */
+    const int64_t p0 = 0x3FFFFFFEFFFFFC2FLL;
+    const int64_t p1 = 0x3FFFFFFFFFFFFFFFLL;
+    const int64_t p2 = 0x3FFFFFFFFFFFFFFFLL;
+    const int64_t p3 = 0x3FFFFFFFFFFFFFFFLL;
+    const int64_t p4 = 0x00000000000000FFLL;
+
+    int64_t u = t->u, v = t->v, q = t->q, rr = t->r;
+
+    /* Compute u*d + v*e and q*d + r*e (each up to ~320 bits) */
+    __int128 cd0 = (__int128)u * d->v[0] + (__int128)v * e->v[0];
+    __int128 cd1 = (__int128)u * d->v[1] + (__int128)v * e->v[1];
+    __int128 cd2 = (__int128)u * d->v[2] + (__int128)v * e->v[2];
+    __int128 cd3 = (__int128)u * d->v[3] + (__int128)v * e->v[3];
+    __int128 cd4 = (__int128)u * d->v[4] + (__int128)v * e->v[4];
+
+    __int128 ce0 = (__int128)q * d->v[0] + (__int128)rr * e->v[0];
+    __int128 ce1 = (__int128)q * d->v[1] + (__int128)rr * e->v[1];
+    __int128 ce2 = (__int128)q * d->v[2] + (__int128)rr * e->v[2];
+    __int128 ce3 = (__int128)q * d->v[3] + (__int128)rr * e->v[3];
+    __int128 ce4 = (__int128)q * d->v[4] + (__int128)rr * e->v[4];
+
+    /* Compute md = -(cd mod 2^62) * (p_inv mod 2^62) mod 2^62.
+     * For secp256k1, p^(-1) mod 2^62 = 0x27C7F6E22DDACACF (precomputed).
+     * md * p will cancel the low 62 bits of cd. */
+    /* (-p)^(-1) mod 2^62, so that cd0 + md*p ≡ 0 (mod 2^62) */
+    const int64_t modp_inv62 = (int64_t)0x1838091DD2253531LL;
+
+    int64_t md = (int64_t)cd0 * modp_inv62;
+    md &= M62;
+    int64_t me = (int64_t)ce0 * modp_inv62;
+    me &= M62;
+
+    /* Add md*p to cd, me*p to ce */
+    cd0 += (__int128)md * p0;
+    cd1 += (__int128)md * p1;
+    cd2 += (__int128)md * p2;
+    cd3 += (__int128)md * p3;
+    cd4 += (__int128)md * p4;
+
+    ce0 += (__int128)me * p0;
+    ce1 += (__int128)me * p1;
+    ce2 += (__int128)me * p2;
+    ce3 += (__int128)me * p3;
+    ce4 += (__int128)me * p4;
+
+    /* Now cd0 and ce0 are divisible by 2^62. Shift right and propagate. */
+    cd0 >>= 62; cd0 += cd1;
+    cd1 = cd0 >> 62; cd1 += cd2;
+    cd2 = cd1 >> 62; cd2 += cd3;
+    cd3 = cd2 >> 62; cd3 += cd4;
+    cd4 = cd3 >> 62;
+
+    d->v[0] = (int64_t)cd0 & M62;
+    d->v[1] = (int64_t)cd1 & M62;
+    d->v[2] = (int64_t)cd2 & M62;
+    d->v[3] = (int64_t)cd3 & M62;
+    d->v[4] = (int64_t)cd4;
+
+    ce0 >>= 62; ce0 += ce1;
+    ce1 = ce0 >> 62; ce1 += ce2;
+    ce2 = ce1 >> 62; ce2 += ce3;
+    ce3 = ce2 >> 62; ce3 += ce4;
+    ce4 = ce3 >> 62;
+
+    e->v[0] = (int64_t)ce0 & M62;
+    e->v[1] = (int64_t)ce1 & M62;
+    e->v[2] = (int64_t)ce2 & M62;
+    e->v[3] = (int64_t)ce3 & M62;
+    e->v[4] = (int64_t)ce4;
+}
+
+/* Normalize a signed 5-limb number mod p to a 4-limb fe_t.
+ * Input may be negative or larger than p. */
+__device__ void sd_to_fe(fe_t *r, const sd_t *a) {
+    const int64_t M62 = 0x3FFFFFFFFFFFFFFFLL;
+
+    /* First normalize limbs so each is in [0, 2^62) */
+    int64_t v0 = a->v[0], v1 = a->v[1], v2 = a->v[2], v3 = a->v[3], v4 = a->v[4];
+
+    /* Propagate carries */
+    v1 += v0 >> 62; v0 &= M62;
+    v2 += v1 >> 62; v1 &= M62;
+    v3 += v2 >> 62; v2 &= M62;
+    v4 += v3 >> 62; v3 &= M62;
+
+    /* Convert from 62-bit limbs to 64-bit limbs */
+    /* 62-bit layout: bits [0..61] in v0, [62..123] in v1, [124..185] in v2, [186..247] in v3, [248..] in v4 */
+    uint64_t r0 = ((uint64_t)v0) | (((uint64_t)v1) << 62);
+    uint64_t r1 = (((uint64_t)v1) >> 2) | (((uint64_t)v2) << 60);
+    uint64_t r2 = (((uint64_t)v2) >> 4) | (((uint64_t)v3) << 58);
+    uint64_t r3 = (((uint64_t)v3) >> 6) | (((uint64_t)v4) << 56);
+
+    /* If the number is negative (v4's sign bit set), add p */
+    int64_t neg = v4 >> 63;  /* -1 if negative, 0 if positive */
+    if (neg) {
+        unsigned __int128 acc;
+        uint64_t carry = 0;
+        acc = (unsigned __int128)r0 + FE_P[0]; r0 = (uint64_t)acc; carry = (uint64_t)(acc >> 64);
+        acc = (unsigned __int128)r1 + FE_P[1] + carry; r1 = (uint64_t)acc; carry = (uint64_t)(acc >> 64);
+        acc = (unsigned __int128)r2 + FE_P[2] + carry; r2 = (uint64_t)acc; carry = (uint64_t)(acc >> 64);
+        acc = (unsigned __int128)r3 + FE_P[3] + carry; r3 = (uint64_t)acc;
+    }
+
+    r->v[0] = r0; r->v[1] = r1; r->v[2] = r2; r->v[3] = r3;
+
+    /* Final reduction: if r >= p, subtract p */
+    int ge_p = 0;
+    if (r->v[3] > FE_P[3]) ge_p = 1;
+    else if (r->v[3] == FE_P[3]) {
+        if (r->v[2] > FE_P[2]) ge_p = 1;
+        else if (r->v[2] == FE_P[2]) {
+            if (r->v[1] > FE_P[1]) ge_p = 1;
+            else if (r->v[1] == FE_P[1]) {
+                if (r->v[0] >= FE_P[0]) ge_p = 1;
+            }
+        }
+    }
+    if (ge_p) {
+        unsigned __int128 dd; uint64_t bw = 0;
+        dd = (unsigned __int128)r->v[0] - FE_P[0]; r->v[0] = (uint64_t)dd; bw = (dd >> 127) ? 1 : 0;
+        dd = (unsigned __int128)r->v[1] - FE_P[1] - bw; r->v[1] = (uint64_t)dd; bw = (dd >> 127) ? 1 : 0;
+        dd = (unsigned __int128)r->v[2] - FE_P[2] - bw; r->v[2] = (uint64_t)dd; bw = (dd >> 127) ? 1 : 0;
+        dd = (unsigned __int128)r->v[3] - FE_P[3] - bw; r->v[3] = (uint64_t)dd;
+    }
+}
+
+/* Convert fe_t (4x64-bit limbs) to sd_t (5x62-bit signed limbs) */
+__device__ void fe_to_sd(sd_t *r, const fe_t *a) {
+    const int64_t M62 = 0x3FFFFFFFFFFFFFFFLL;
+    r->v[0] = (int64_t)(a->v[0] & (uint64_t)M62);
+    r->v[1] = (int64_t)((a->v[0] >> 62) | ((a->v[1] & 0x0FFFFFFFFFFFFFFFULL) << 2));
+    r->v[2] = (int64_t)((a->v[1] >> 60) | ((a->v[2] & 0x03FFFFFFFFFFFFFFULL) << 4));
+    r->v[3] = (int64_t)((a->v[2] >> 58) | ((a->v[3] & 0x00FFFFFFFFFFFFFFULL) << 6));
+    r->v[4] = (int64_t)(a->v[3] >> 56);
+}
+
+/*
+ * Bernstein-Yang divstep modular inversion: r = a^(-1) mod p.
+ * Uses 9 batches of 62 divsteps (558 total, need >= 513).
  */
 __device__ void fe_inv(fe_t *r, const fe_t *a) {
-    fe_t x2, x3, x6, x9, x11, x22, x44, x88, x176, x220, x223, t;
+    /* Initialize: f = p, g = a, d = 0, e = 1 */
+    sd_t f, g, d, e;
 
-    fe_sqr(&t, a); fe_mul(&x2, &t, a);                                          /* x2 = a^3 = a^(2^2-1) */
-    fe_sqr(&t, &x2); fe_mul(&x3, &t, a);                                        /* x3 = a^7 = a^(2^3-1) */
-    fe_set(&t, &x3); for (int i = 0; i < 3; i++) fe_sqr(&t, &t); fe_mul(&x6, &t, &x3);
-    fe_set(&t, &x6); for (int i = 0; i < 3; i++) fe_sqr(&t, &t); fe_mul(&x9, &t, &x3);
-    fe_set(&t, &x9); for (int i = 0; i < 2; i++) fe_sqr(&t, &t); fe_mul(&x11, &t, &x2);
-    fe_set(&t, &x11); for (int i = 0; i < 11; i++) fe_sqr(&t, &t); fe_mul(&x22, &t, &x11);
-    fe_set(&t, &x22); for (int i = 0; i < 22; i++) fe_sqr(&t, &t); fe_mul(&x44, &t, &x22);
-    fe_set(&t, &x44); for (int i = 0; i < 44; i++) fe_sqr(&t, &t); fe_mul(&x88, &t, &x44);
-    fe_set(&t, &x88); for (int i = 0; i < 88; i++) fe_sqr(&t, &t); fe_mul(&x176, &t, &x88);
-    fe_set(&t, &x176); for (int i = 0; i < 44; i++) fe_sqr(&t, &t); fe_mul(&x220, &t, &x44);
-    fe_set(&t, &x220); for (int i = 0; i < 3; i++) fe_sqr(&t, &t); fe_mul(&x223, &t, &x3);
+    /* f = p in 62-bit limbs (precomputed) */
+    f.v[0] = 0x3FFFFFFEFFFFFC2FLL;
+    f.v[1] = 0x3FFFFFFFFFFFFFFFLL;
+    f.v[2] = 0x3FFFFFFFFFFFFFFFLL;
+    f.v[3] = 0x3FFFFFFFFFFFFFFFLL;
+    f.v[4] = 0x00000000000000FFLL;
 
-    fe_set(&t, &x223);
-    fe_sqr(&t, &t);                                                               /* bit 32: 0 */
-    for (int i = 0; i < 22; i++) fe_sqr(&t, &t); fe_mul(&t, &t, &x22);           /* bits 31..10 */
-    for (int i = 0; i < 4; i++) fe_sqr(&t, &t);                                   /* bits 9..6: 0000 */
-    fe_sqr(&t, &t); fe_mul(&t, &t, a);                                            /* bit 5: 1 */
-    fe_sqr(&t, &t);                                                               /* bit 4: 0 */
-    fe_sqr(&t, &t); fe_mul(&t, &t, a);                                            /* bit 3: 1 */
-    fe_sqr(&t, &t); fe_mul(&t, &t, a);                                            /* bit 2: 1 */
-    fe_sqr(&t, &t);                                                               /* bit 1: 0 */
-    fe_sqr(&t, &t); fe_mul(&t, &t, a);                                            /* bit 0: 1 */
+    fe_to_sd(&g, a);
 
-    fe_set(r, &t);
+    /* d = 0 */
+    d.v[0] = 0; d.v[1] = 0; d.v[2] = 0; d.v[3] = 0; d.v[4] = 0;
+    /* e = 1 */
+    e.v[0] = 1; e.v[1] = 0; e.v[2] = 0; e.v[3] = 0; e.v[4] = 0;
+
+    int64_t delta = 1;
+
+    for (int i = 0; i < 9; i++) {
+        trans_t t;
+
+        /* Get low 62 bits of f and g for the scalar divsteps.
+         * f and g have signed limbs, so reconstruct the low 64 bits. */
+        uint64_t f0 = (uint64_t)f.v[0] | ((uint64_t)f.v[1] << 62);
+        uint64_t g0 = (uint64_t)g.v[0] | ((uint64_t)g.v[1] << 62);
+
+        divsteps_62(&delta, f0, g0, &t);
+        modinv_update_fg(&f, &g, &t);
+        modinv_update_de(&d, &e, &t);
+    }
+
+    /* At this point, |f| = 1 (the GCD).
+     * If f = 1, result = d. If f = -1, result = -d mod p. */
+    /* Check sign of f: reconstruct from limbs. f should be ±1.
+     * For signed-digit representation, check if the value is negative
+     * by looking at the top limb's sign. */
+    int64_t f_neg = f.v[4] >> 63;  /* -1 if f is negative, 0 if positive */
+    /* If f < 0, negate d: value = sum(v[i] * 2^(62*i)), so negate each limb */
+    d.v[0] = (d.v[0] ^ f_neg) - f_neg;
+    d.v[1] = (d.v[1] ^ f_neg) - f_neg;
+    d.v[2] = (d.v[2] ^ f_neg) - f_neg;
+    d.v[3] = (d.v[3] ^ f_neg) - f_neg;
+    d.v[4] = (d.v[4] ^ f_neg) - f_neg;
+
+    sd_to_fe(r, &d);
 }
 
 /* Negation: r = -a mod p */
