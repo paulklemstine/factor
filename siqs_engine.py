@@ -376,6 +376,24 @@ def gray_code_sequence(num_bits):
     return seq
 
 
+def _quick_factor(n, limit=200):
+    """Quick Pollard rho to split a cofactor into two primes. Returns a factor or None."""
+    if n < 4:
+        return None
+    if n % 2 == 0:
+        return 2
+    x, y, c, d = 2, 2, 1, 1
+    while d == 1 and limit > 0:
+        x = (x * x + c) % n
+        y = (y * y + c) % n
+        y = (y * y + c) % n
+        d = math.gcd(abs(x - y), n)
+        limit -= 1
+    if 1 < d < n:
+        return int(d)
+    return None
+
+
 ###############################################################################
 # DOUBLE LARGE PRIME GRAPH
 ###############################################################################
@@ -725,8 +743,8 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
     # Stage 2: Relation Collection with SIQS
     # ======================================================================
 
-    # Large prime bound: cofactor must be prime and < FB_max^2
-    lp_bound = fb[-1] ** 2
+    # Large prime bound: min(B*100, B^2) — B^2 gives LP space too large for DLP combining
+    lp_bound = min(fb[-1] * 100, fb[-1] ** 2)
 
     # T_bits controls sieve threshold: thresh = (log_g_max - T_bits) * 1024.
     # Higher T_bits = lower threshold = more candidates (looser).
@@ -861,8 +879,26 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
             result = dlp_graph.add_single_lp(x_stored, sign, exps, int(v))
             if result:
                 return result
-        # DLP disabled — birthday paradox makes cycle yield near zero at this scale
-        # (20K edges → ~7 cycles in 300M prime space). See FAILED_EXPERIMENTS.md.
+        # DLP: try to split cofactor into two large primes
+        elif v < lp_bound * lp_bound and v > 1:
+            # Quick divisibility check by small primes first
+            sq = gmpy2.isqrt(mpz(v))
+            if sq * sq == v and is_prime(sq):
+                lp1 = lp2 = int(sq)
+            else:
+                # Try Pollard rho for quick split (limit iterations)
+                lp1 = _quick_factor(v, limit=200)
+                if lp1 and lp1 > 1 and v // lp1 > 1:
+                    lp2 = v // lp1
+                else:
+                    return None
+            if lp1 < lp_bound and lp2 < lp_bound and is_prime(mpz(lp1)) and is_prime(mpz(lp2)):
+                for idx in a_prime_indices:
+                    exps[idx] += 1
+                x_stored = int(mpz(ax_b_val) % n)
+                result = dlp_graph.add_double_lp(x_stored, sign, exps, lp1, lp2)
+                if result:
+                    return result
         return None
 
     def process_candidate(ax_b_val, gx_val, a_prime_indices,
@@ -903,8 +939,21 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
             result = dlp_graph.add_single_lp(x_stored, sign, exps, remainder)
             if result:
                 return result
-        # DLP disabled — Pollard rho cofactor splitting overhead exceeds
-        # the value of extra relations (60d: 80s→122s with DLP).
+        # DLP: try to split remainder into two large primes
+        elif remainder < lp_bound * lp_bound and remainder > 1:
+            sq = gmpy2.isqrt(mpz(remainder))
+            if sq * sq == remainder and gmpy2.is_prime(sq):
+                lp1 = lp2 = int(sq)
+            else:
+                lp1 = _quick_factor(remainder, limit=200)
+                if lp1 and lp1 > 1 and remainder // lp1 > 1:
+                    lp2 = remainder // lp1
+                else:
+                    return None
+            if lp1 < lp_bound and lp2 < lp_bound and gmpy2.is_prime(mpz(lp1)) and gmpy2.is_prime(mpz(lp2)):
+                result = dlp_graph.add_double_lp(x_stored, sign, exps, lp1, lp2)
+                if result:
+                    return result
         return None
 
     def _quick_split(n_val):
