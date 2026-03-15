@@ -206,9 +206,10 @@ def b3mpqs_params(nd):
         (45,  1500,  250000),
         (50,  2800,  500000),
         (55,  4000,  800000),
-        (60,  5500, 1500000),
-        (65,  7500, 2500000),
-        (70, 10000, 4000000),
+        (60,  4500, 1500000),
+        (65,  5500, 3000000),
+        (70,  7000, 5000000),
+        (75, 10000, 7000000),
     ]
     for i in range(len(tbl) - 1):
         if tbl[i][0] <= nd < tbl[i + 1][0]:
@@ -292,7 +293,7 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
             sqrt_N_mod[p] = tonelli_shanks(int(N % p), p)
 
     # Large prime bound: fb[-1]^2 gives huge LP space; cap reasonably
-    lp_bound = min(fb[-1] ** 2, fb[-1] * 500)
+    lp_bound = min(fb[-1] ** 2, fb[-1] * 100)
 
     # Sieve threshold
     if nb >= 180:
