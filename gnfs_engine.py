@@ -132,23 +132,32 @@ def base_m_poly(n, d=None):
         return coeffs
 
     def _poly_norm_score(coeffs, d):
-        """Quick score: lower = better sieve norms.
-        Estimates average algebraic norm size over sieve region.
-        We want small norms for high smoothness probability."""
+        """Score polynomial by expected norm size over skewed sieve region.
+        Lower = better. Uses skewness-adjusted evaluation points.
+        Key: norms = |f(a/b)*b^d| = |sum c_i * a^i * b^(d-i)|
+        Optimal skewness s balances c_0*s^d ~ c_d, so s ~ (|c_0|/|c_d|)^(1/d)
+        Then evaluate at (a, b) ~ (s*t, t) for typical sieve points."""
         if coeffs is None:
             return float('inf')
         lc = abs(coeffs[-1])
         if lc == 0:
             return float('inf')
-        # Estimate norm at typical sieve point (a=A, b=1) where A ~ m^(1/2)
-        # Norm = sum |c_i * a^i * b^(d-i)| ≈ sum |c_i * A^i|
-        # Use geometric mean of norm at a=1000 and a=100000
+        # Compute optimal skewness
+        c0 = abs(coeffs[0]) if coeffs[0] != 0 else 1
+        skew = max(1.0, float(c0 / lc) ** (1.0 / d)) if lc > 0 else 1.0
+        # Score: sum of log norms at multiple skewed test points
+        # (a, b) = (skew * t, t) for various t
         score = 0.0
-        for test_a in [1000, 50000, 100000]:
-            norm_est = sum(abs(c) * test_a**i for i, c in enumerate(coeffs))
-            score += math.log(norm_est + 1)
-        # Penalize large leading coefficient (ideally 1)
-        score += 3.0 * math.log(lc + 1)
+        for t in [10, 100, 1000, 10000]:
+            a_test = max(1, int(skew * t))
+            b_test = max(1, t)
+            norm_est = sum(abs(coeffs[i]) * a_test**i * b_test**(d-i) for i in range(d+1))
+            score += math.log(max(norm_est, 1))
+        # Penalize large leading coefficient (harder to find smooth alg norms)
+        score += 2.0 * math.log(lc + 1)
+        # Penalize large max coefficient (causes overflow issues)
+        max_coeff = max(abs(c) for c in coeffs)
+        score += 0.5 * math.log(max_coeff + 1)
         return score
 
     # Try multiple m values near m0 and pick the best polynomial
@@ -321,15 +330,28 @@ def build_algebraic_fb(f_coeffs, B_a):
     For each prime p <= B_a, find roots r of f(x) mod p.
     Each (p, r) pair is a first-degree prime ideal.
 
+    Uses JIT brute force for small p, gmpy2-based root finding for large p.
     Returns list of (p, r) pairs.
     """
     fb = []
+    d = len(f_coeffs) - 1
+    # Use brute force for small p, switch to modular approach for large p
+    # Brute force is O(p) per prime; for p > threshold, use Hensel/modular
+    brute_limit = min(B_a, 50000)  # brute force up to 50K
     p = 2
-    while p <= B_a:
+    while p <= brute_limit:
         roots = find_poly_roots_mod_p(f_coeffs, p)
         for r in roots:
             fb.append((p, r))
         p = int(next_prime(p))
+
+    # For larger primes, use Cantor-Zassenhaus (O(d^2 log p) per prime)
+    if B_a > brute_limit:
+        while p <= B_a:
+            roots = _poly_roots_mod_p_smart(f_coeffs, p)
+            for r in roots:
+                fb.append((p, int(r)))
+            p = int(next_prime(p))
     return fb
 
 
@@ -368,6 +390,9 @@ def gnfs_params(n):
     L = math.exp(0.5 * (ln_n ** (1/3)) * (ln_ln_n ** (2/3)))
 
     # Factor base bounds — use practical table for small n, L-formula for large
+    # Key insight: FB must be large enough that smoothness probability is
+    # reasonable. For alg norm of B bits over FB of F bits, u = B/F.
+    # Need u < 4 ideally, u < 5 workable.
     if nd < 23:
         fb_bound = 10000
     elif nd < 27:
@@ -375,37 +400,54 @@ def gnfs_params(n):
     elif nd < 32:
         fb_bound = 40000
     elif nd < 37:
-        fb_bound = 50000
+        fb_bound = 60000
     elif nd < 40:
-        fb_bound = 70000
-    elif nd < 45:
+        fb_bound = 80000
+    elif nd < 43:
         fb_bound = 100000
+    elif nd < 46:
+        fb_bound = 150000
     elif nd < 50:
-        fb_bound = 200000
+        fb_bound = 250000
     elif nd < 55:
-        fb_bound = 300000
-    elif nd < 75:
-        fb_bound = 500000
-    elif nd < 100:
+        fb_bound = 400000
+    elif nd < 60:
+        fb_bound = 600000
+    elif nd < 65:
+        fb_bound = 800000
+    elif nd < 70:
+        fb_bound = 1200000
+    elif nd < 80:
         fb_bound = 2000000
+    elif nd < 100:
+        fb_bound = 4000000
     else:
         fb_bound = int(L ** 0.667)
-        fb_bound = max(fb_bound, 5000000)
+        fb_bound = max(fb_bound, 8000000)
     fb_bound = min(fb_bound, 50_000_000)  # cap for memory
 
-    # Sieve region: A should keep norms smooth-able
-    # For degree d, algebraic norms ~ |a|^d, so smaller A = better smoothness
-    A = max(fb_bound // 2, int(fb_bound ** (2.0 / d)))
-    if nd >= 35:
-        A = max(A, fb_bound)  # wider sieve for harder numbers
+    # Sieve region: A controls algebraic norm size (norm ~ A^d for large a)
+    # Balance: bigger A = more sieve points but larger norms = lower smoothness
+    # Optimal: A such that u_alg = d*log2(A) / log2(B) ~ 3.5-4.0
+    # This gives a good balance of yield per sieve point
+    fb_bits = math.log2(max(fb_bound, 2))
+    target_u = 3.8  # optimal for SLP-enhanced sieving
+    A_smooth = int(2 ** (target_u * fb_bits / d))
+    # But also need A >= some minimum for sieve density
+    A_min = max(10000, int(math.sqrt(fb_bound)))
+    A = min(A_smooth, fb_bound)  # don't go wider than FB bound
+    A = max(A, A_min)
     A = min(A, 5_000_000)  # cap for memory
 
     # B_max: generous — more b values is cheap with C sieve
-    if nd >= 40:
+    # For larger numbers, need more b values to find enough relations
+    if nd >= 50:
+        B_max = max(fb_bound * 20, 10000)
+    elif nd >= 40:
         B_max = max(fb_bound * 15, 5000)
     else:
         B_max = max(fb_bound * 4, 5000)
-    B_max = min(B_max, 2000000)
+    B_max = min(B_max, 5000000)
 
     return {
         'd': d,
@@ -1441,7 +1483,7 @@ def _poly_roots_mod_p_smart(coeffs, p):
     For small p (< 10^6), use brute force.
     For larger p, use Cantor-Zassenhaus algorithm.
     """
-    if p < 1000000:
+    if p < 50000:
         return find_poly_roots_mod_p(coeffs, p)
 
     d = len(coeffs) - 1
@@ -2175,15 +2217,19 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             d = len(f_coeffs) - 1
             f0_abs = abs(f_coeffs[0]) if f_coeffs[0] != 0 else 1
 
-            # Cap max_cands to fit verify buffers in ~1.5GB
+            # Cap max_cands to fit verify buffers in ~800MB (leave room for other data)
             n_fb_total = len(rat_fb) + len(alg_fb)
             mem_per_cand = n_fb_total * 8  # bytes for exponent arrays
-            max_cands = max(2000, min(200000, int(1_500_000_000 / max(mem_per_cand, 1))))
+            max_cands_verify = max(2000, min(50000, int(800_000_000 / max(mem_per_cand, 1))))
+            # Sieve buffer can be larger since it's just int pairs
+            max_cands_sieve = max(max_cands_verify, 200000)
+            max_cands = max_cands_sieve
             out_a = (ctypes.c_int * max_cands)()
             out_b = (ctypes.c_int * max_cands)()
 
             B_max = params['B_max']
-            batch_size = 500  # b-lines per batch
+            # Larger batch for efficiency: more b-lines per C sieve call
+            batch_size = min(1000, max(100, B_max // 100))
             f_coeffs_arr = np.array(f_coeffs, dtype=np.int64)
 
             # Compute max safe b for int64 batch JIT (avoid overflow in norm)
@@ -2205,19 +2251,19 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
 
             lp_bound = np.int64(min(params['B_r'] * 100, params['B_r'] ** 2))  # LP bound: 100*B for SLP combining
 
-            # C verify buffers (flattened, always needed)
-            c_verify_rat_exps = np.zeros(max_cands * len(rat_fb), dtype=np.int64)
-            c_verify_alg_exps = np.zeros(max_cands * len(alg_fb), dtype=np.int64)
-            c_verify_signs = (ctypes.c_int * max_cands)()
-            c_verify_mask = (ctypes.c_int * max_cands)()
-            c_verify_rat_lp = np.zeros(max_cands, dtype=np.int64)
-            c_verify_alg_lp = np.zeros(max_cands, dtype=np.int64)
+            # C verify buffers (flattened, sized to max_cands_verify)
+            c_verify_rat_exps = np.zeros(max_cands_verify * len(rat_fb), dtype=np.int64)
+            c_verify_alg_exps = np.zeros(max_cands_verify * len(alg_fb), dtype=np.int64)
+            c_verify_signs = (ctypes.c_int * max_cands_verify)()
+            c_verify_mask = (ctypes.c_int * max_cands_verify)()
+            c_verify_rat_lp = np.zeros(max_cands_verify, dtype=np.int64)
+            c_verify_alg_lp = np.zeros(max_cands_verify, dtype=np.int64)
 
             # JIT buffers only if needed (2D views for numba)
-            batch_rat_exps = c_verify_rat_exps.reshape(max_cands, len(rat_fb))
-            batch_alg_exps = c_verify_alg_exps.reshape(max_cands, len(alg_fb))
-            batch_signs = np.zeros(max_cands, dtype=np.int64)
-            batch_mask = np.zeros(max_cands, dtype=np.int64)
+            batch_rat_exps = c_verify_rat_exps.reshape(max_cands_verify, len(rat_fb))
+            batch_alg_exps = c_verify_alg_exps.reshape(max_cands_verify, len(alg_fb))
+            batch_signs = np.zeros(max_cands_verify, dtype=np.int64)
+            batch_mask = np.zeros(max_cands_verify, dtype=np.int64)
             batch_rat_lp = c_verify_rat_lp
             batch_alg_lp = c_verify_alg_lp
 
@@ -2232,7 +2278,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             qc_q_arr = np.array([q for q, r in qc_primes], dtype=np.int64)
             qc_r_arr = np.array([r for q, r in qc_primes], dtype=np.int64)
             n_split_qc = len(qc_primes)
-            batch_qc = np.zeros((max_cands, n_split_qc), dtype=np.int64)
+            batch_qc = np.zeros((max_cands_verify, n_split_qc), dtype=np.int64)
 
             # If JIT covers < 10% of b-range, use C verify for everything
             use_c_verify_only = (max_safe_b < B_max * 0.1)
@@ -2281,7 +2327,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                     alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     len(alg_fb),
-                    max(600, 1000 - nd * 5), max(500, 850 - nd * 5),
+                    max(550, 950 - nd * 6), max(450, 800 - nd * 6),
                     d, ctypes.c_int64(f0_abs),
                     out_a, out_b, max_cands)
 
@@ -2351,82 +2397,88 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                                 partials_dlp.append(rel)
                             total_partials += 1
 
-                a_np = np.array(out_a[:n_cands], dtype=np.int64)
-                b_np = np.array(out_b[:n_cands], dtype=np.int64)
+                a_np_full = np.array(out_a[:n_cands], dtype=np.int64)
+                b_np_full = np.array(out_b[:n_cands], dtype=np.int64)
 
-                if b_end <= max_safe_b and A_use == A:
-                    _process_batch_jit(a_np, b_np, n_cands)
-                else:
-                    # C __int128 verify path for large b values
-                    # Buffers are preallocated; C function zeroes them internally
-                    c_lib.verify_candidates_c(
-                        out_a, out_b, n_cands,
-                        ctypes.c_int64(int(m)),
-                        f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        d,
-                        rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        len(rat_fb),
-                        alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        len(alg_fb),
-                        ctypes.c_int64(int(lp_bound)),
-                        c_verify_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        c_verify_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        c_verify_signs, c_verify_mask,
-                        c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                    )
+                # Process in chunks of max_cands_verify to stay within memory
+                for chunk_start in range(0, n_cands, max_cands_verify):
+                    chunk_end = min(chunk_start + max_cands_verify, n_cands)
+                    chunk_n = chunk_end - chunk_start
+                    a_np = a_np_full[chunk_start:chunk_end]
+                    b_np = b_np_full[chunk_start:chunk_end]
 
-                    have_enough_full = len(verified_relations) >= needed
-                    n_rat_fb = len(rat_fb)
-                    n_alg_fb = len(alg_fb)
-                    for ci in range(n_cands):
-                        mtype = c_verify_mask[ci]
-                        if mtype == 0:
-                            continue
-                        a_val = int(a_np[ci])
-                        b_val = int(b_np[ci])
-                        # Read from 2D view (same memory as flattened)
-                        rat_exps = batch_rat_exps[ci].tolist()
-                        alg_exps = batch_alg_exps[ci].tolist()
-                        rat_sign = int(c_verify_signs[ci])
+                    if b_end <= max_safe_b and A_use == A:
+                        _process_batch_jit(a_np, b_np, chunk_n)
+                    else:
+                        # C __int128 verify path for large b values
+                        # Need ctypes arrays for the chunk
+                        chunk_out_a = (ctypes.c_int * chunk_n)(*[out_a[chunk_start + i] for i in range(chunk_n)])
+                        chunk_out_b = (ctypes.c_int * chunk_n)(*[out_b[chunk_start + i] for i in range(chunk_n)])
 
-                        if mtype == 1:
-                            # Full relation
-                            qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
-                            if inert_qc_primes:
-                                qc_bits += compute_inert_qc_vector(
-                                    a_val, b_val, inert_qc_primes, f_coeffs)
-                            verified_relations.append({
-                                'a': a_val, 'b': b_val,
-                                'rat_exps': rat_exps, 'rat_sign': rat_sign,
-                                'alg_exps': alg_exps,
-                                'qc_bits': qc_bits,
-                            })
-                        elif not have_enough_full and total_partials < max_partials:
-                            # Partial relation (SLP) — compact int8 exps
-                            qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
-                            rel = {
-                                'a': a_val, 'b': b_val,
-                                'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
-                                'rat_sign': rat_sign,
-                                'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
-                                'qc_bits': qc_bits,
-                                '_needs_inert_qc': True,
-                            }
-                            if mtype == 3:
-                                # Group by ideal (p, r) not just p
-                                alp = int(c_verify_alg_lp[ci])
-                                r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
-                                partials_alg[(alp, r_ideal)].append(rel)
-                            elif mtype == 2:
-                                partials_rat[int(c_verify_rat_lp[ci])].append(rel)
-                            elif mtype == 4:
-                                # DLP: both sides have LP
-                                rel['rat_lp'] = int(c_verify_rat_lp[ci])
-                                rel['alg_lp'] = int(c_verify_alg_lp[ci])
-                                partials_dlp.append(rel)
-                            total_partials += 1
+                        c_lib.verify_candidates_c(
+                            chunk_out_a, chunk_out_b, chunk_n,
+                            ctypes.c_int64(int(m)),
+                            f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            d,
+                            rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            len(rat_fb),
+                            alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            len(alg_fb),
+                            ctypes.c_int64(int(lp_bound)),
+                            c_verify_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            c_verify_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            c_verify_signs, c_verify_mask,
+                            c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        )
+
+                        have_enough_full = len(verified_relations) >= needed
+                        for ci in range(chunk_n):
+                            mtype = c_verify_mask[ci]
+                            if mtype == 0:
+                                continue
+                            a_val = int(a_np[ci])
+                            b_val = int(b_np[ci])
+                            # Read from 2D view (same memory as flattened)
+                            rat_exps = batch_rat_exps[ci].tolist()
+                            alg_exps = batch_alg_exps[ci].tolist()
+                            rat_sign = int(c_verify_signs[ci])
+
+                            if mtype == 1:
+                                # Full relation
+                                qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
+                                if inert_qc_primes:
+                                    qc_bits += compute_inert_qc_vector(
+                                        a_val, b_val, inert_qc_primes, f_coeffs)
+                                verified_relations.append({
+                                    'a': a_val, 'b': b_val,
+                                    'rat_exps': rat_exps, 'rat_sign': rat_sign,
+                                    'alg_exps': alg_exps,
+                                    'qc_bits': qc_bits,
+                                })
+                            elif not have_enough_full and total_partials < max_partials:
+                                # Partial relation (SLP) — compact int8 exps
+                                qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
+                                rel = {
+                                    'a': a_val, 'b': b_val,
+                                    'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
+                                    'rat_sign': rat_sign,
+                                    'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
+                                    'qc_bits': qc_bits,
+                                    '_needs_inert_qc': True,
+                                }
+                                if mtype == 3:
+                                    alp = int(c_verify_alg_lp[ci])
+                                    r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
+                                    partials_alg[(alp, r_ideal)].append(rel)
+                                elif mtype == 2:
+                                    partials_rat[int(c_verify_rat_lp[ci])].append(rel)
+                                elif mtype == 4:
+                                    rel['rat_lp'] = int(c_verify_rat_lp[ci])
+                                    rel['alg_lp'] = int(c_verify_alg_lp[ci])
+                                    partials_dlp.append(rel)
+                                total_partials += 1
 
                 # Estimate total with SLP + DLP matching
                 n_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values())
