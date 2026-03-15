@@ -57,6 +57,48 @@ def _load_gnfs_sieve():
         ]
     return _gnfs_sieve_lib
 
+# Load C lattice sieve extension
+_lattice_sieve_lib = None
+def _load_lattice_sieve():
+    global _lattice_sieve_lib
+    if _lattice_sieve_lib is not None:
+        return _lattice_sieve_lib
+    so_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lattice_sieve_c.so')
+    if os.path.exists(so_path):
+        _lattice_sieve_lib = ctypes.CDLL(so_path)
+        # lattice_sieve_batch: process multiple special-q in one C call
+        _lattice_sieve_lib.lattice_sieve_batch.restype = ctypes.c_int
+        _lattice_sieve_lib.lattice_sieve_batch.argtypes = [
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # q_primes, q_roots, n_q
+            ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,  # rat_primes, n_rat, m
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
+            ctypes.c_double, ctypes.c_double,  # rat_frac, alg_frac
+            ctypes.c_int,  # poly_degree
+            ctypes.c_int, ctypes.c_int,  # sieve_radius, sieve_height
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_a, out_b
+            ctypes.POINTER(ctypes.c_int64),  # out_q
+            ctypes.c_int,  # max_cands
+        ]
+        # Single-q sieve (lower level)
+        _lattice_sieve_lib.lattice_sieve_q.restype = ctypes.c_int
+        _lattice_sieve_lib.lattice_sieve_q.argtypes = [
+            ctypes.c_int64, ctypes.c_int64, ctypes.c_int64, ctypes.c_int64,  # e1x, e1y, e2x, e2y
+            ctypes.c_int, ctypes.c_int,  # I_max, J_max
+            ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,  # rat_primes, n_rat, m
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
+            ctypes.c_double, ctypes.c_double,  # rat_frac, alg_frac
+            ctypes.c_int64, ctypes.c_int,  # q, poly_degree
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_i, out_j
+            ctypes.c_int,  # max_cands
+        ]
+        # Gauss reduce
+        _lattice_sieve_lib.gauss_reduce_c.restype = None
+        _lattice_sieve_lib.gauss_reduce_c.argtypes = [
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),
+        ]
+    return _lattice_sieve_lib
+
 
 ###############################################################################
 # Phase 1: Polynomial Selection (Base-m Method)
@@ -609,9 +651,12 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
     """
     Collect relations using special-q lattice sieve on algebraic side.
 
+    Uses C lattice sieve when available (lattice_sieve_c.so) for 10-50x
+    speedup on candidate generation. Falls back to Python/JIT sieve.
+
     For each special-q prime q (above FB bound):
-      - Find roots r of f(x) ≡ 0 (mod q)
-      - Lattice L = {(a,b) : a + b·r ≡ 0 (mod q)}, Gauss-reduce
+      - Find roots r of f(x) = 0 (mod q)
+      - Lattice L = {(a,b) : a + b*r = 0 (mod q)}, Gauss-reduce
       - Sieve in reduced (i,j) coordinates
       - Algebraic norm divisible by q; trial-divide cofactor norm/q
     """
@@ -621,7 +666,7 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
     d = len(f_coeffs) - 1
     fb_bound = params['B_r']
 
-    # Arrays for JIT sieve
+    # Arrays for sieve
     rat_primes = np.array(rat_fb, dtype=np.int64)
     rat_log_ps = np.log(rat_primes).astype(np.float32)
     alg_primes = np.array([p for p, r in alg_fb], dtype=np.int64)
@@ -642,135 +687,255 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
     q = int(next_prime(fb_bound))
     q_max = fb_bound * 200
 
+    # Try to load C lattice sieve
+    c_lattice_lib = _load_lattice_sieve()
+    use_c_sieve = c_lattice_lib is not None
+
+    if verbose and use_c_sieve:
+        print("    Using C lattice sieve (lattice_sieve_c.so)")
+
+    # Batch special-q collection for C sieve
+    Q_BATCH_SIZE = 50  # process this many (q, root) pairs per C call
+
     while q <= q_max and len(verified) < needed:
         if time.time() - t0 > time_limit:
             break
 
-        roots = find_poly_roots_mod_p(f_coeffs, q)
-        if not roots:
-            q = int(next_prime(q))
-            continue
+        # Collect a batch of (q, root) pairs
+        q_batch_primes = []
+        q_batch_roots = []
+        q_batch_q_vals = []  # track which q each root belongs to
 
-        for r in roots:
-            if len(verified) >= needed:
-                break
+        batch_q = q
+        while len(q_batch_primes) < Q_BATCH_SIZE and batch_q <= q_max:
+            roots = find_poly_roots_mod_p(f_coeffs, batch_q)
+            if roots:
+                for r in roots:
+                    q_batch_primes.append(int(batch_q))
+                    q_batch_roots.append(int(r))
+                    if len(q_batch_primes) >= Q_BATCH_SIZE:
+                        break
+            batch_q = int(next_prime(batch_q))
 
-            # Lattice: a ≡ -b*r (mod q)
-            v1 = (q, 0)
-            v2 = (int((-r) % q), 1)
-            e1, e2 = gauss_reduce_2d(v1, v2)
+        if not q_batch_primes:
+            break
 
-            len_e1 = math.sqrt(e1[0]**2 + e1[1]**2)
-            len_e2 = math.sqrt(e2[0]**2 + e2[1]**2)
+        # Update q for next iteration
+        q = int(next_prime(q_batch_primes[-1]))
 
-            # Sieve region: keep norms manageable
-            I_max = max(int(50000 / max(len_e1, 1)), 50)
-            J_max = max(int(200 / max(len_e2, 1)), 2)
-            I_max = min(I_max, 500000)
-            J_max = min(J_max, 2000)
-            size = 2 * I_max + 1
+        if use_c_sieve:
+            # === C LATTICE SIEVE PATH ===
+            # Phase 1: C sieve generates (a,b) candidates
+            # Phase 2: C verify_candidates_c does bulk trial division with LP
+            # Phase 3: Python handles special-q exponents + QC for verified rels
+            n_q = len(q_batch_primes)
+            max_cands = 200000
 
-            # Precompute per-prime sieve constants for this lattice
-            # Rational: R1 = (e1[0] + e1[1]*m) mod p, R2 = (e2[0] + e2[1]*m) mod p
-            e1_m = e1[0] + e1[1] * int(m)
-            e2_m = e2[0] + e2[1] * int(m)
-            R1 = np.array([e1_m % p for p in rat_fb], dtype=np.int64)
-            R2 = np.array([e2_m % p for p in rat_fb], dtype=np.int64)
-            # Modular inverse of R1 (Fermat): pow(R1, p-2, p)
-            R1_inv = np.array([pow(int(R1[i]), int(rat_primes[i]) - 2,
-                                   int(rat_primes[i])) if R1[i] != 0 else 0
-                               for i in range(len(rat_fb))], dtype=np.int64)
-            rat_valid = R1 != 0
-            # Precompute R2*R1_inv mod p (constant per q, reused across rows)
-            R2_R1inv = np.array([(int(R2[i]) * int(R1_inv[i])) % int(rat_primes[i])
-                                 if rat_valid[i] else 0
-                                 for i in range(len(rat_fb))], dtype=np.int64)
+            # Prepare ctypes arrays for sieve
+            c_q_primes = (ctypes.c_int64 * n_q)(*q_batch_primes)
+            c_q_roots = (ctypes.c_int64 * n_q)(*q_batch_roots)
+            c_out_a = (ctypes.c_int * max_cands)()
+            c_out_b = (ctypes.c_int * max_cands)()
+            c_out_q = (ctypes.c_int64 * max_cands)()
 
-            # Algebraic: U = (e1[0] + e1[1]*r_p) mod p, V = (e2[0] + e2[1]*r_p) mod p
-            U = np.array([(e1[0] + e1[1] * int(alg_roots[i])) % int(alg_primes[i])
-                          for i in range(len(alg_fb))], dtype=np.int64)
-            V = np.array([(e2[0] + e2[1] * int(alg_roots[i])) % int(alg_primes[i])
-                          for i in range(len(alg_fb))], dtype=np.int64)
-            U_inv = np.array([pow(int(U[i]), int(alg_primes[i]) - 2,
-                                  int(alg_primes[i])) if U[i] != 0 else 0
-                              for i in range(len(alg_fb))], dtype=np.int64)
-            alg_valid = U != 0
-            V_Uinv = np.array([(int(V[i]) * int(U_inv[i])) % int(alg_primes[i])
-                                if alg_valid[i] else 0
-                                for i in range(len(alg_fb))], dtype=np.int64)
+            n_cands = c_lattice_lib.lattice_sieve_batch(
+                c_q_primes, c_q_roots, n_q,
+                rat_primes.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                len(rat_fb), ctypes.c_int64(int(m)),
+                alg_primes.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                alg_roots.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                len(alg_fb),
+                ctypes.c_double(0.55), ctypes.c_double(0.45),
+                d,
+                500000, 2000,  # sieve_radius, sieve_height max
+                c_out_a, c_out_b, c_out_q, max_cands)
 
-            q_rels = []
-            for j in range(0, J_max + 1):
-                if time.time() - t0 > time_limit:
-                    break
+            total_candidates += n_cands
 
-                rat_sieve = np.zeros(size, dtype=np.float32)
-                alg_sieve = np.zeros(size, dtype=np.float32)
+            if n_cands == 0:
+                if verbose:
+                    elapsed = time.time() - t0
+                    print(f"    [C batch {n_q}q] 0 cands ({elapsed:.1f}s)")
+                continue
 
-                # Vectorized sieve start computation for row j
-                # rat: i_start = (-j * R2_R1inv) mod p, shifted by I_max
-                rat_starts = np.empty(len(rat_fb), dtype=np.int64)
-                for pi in range(len(rat_fb)):
-                    if not rat_valid[pi]:
-                        rat_starts[pi] = size  # skip
-                    else:
-                        p = int(rat_primes[pi])
-                        rat_starts[pi] = ((-j * int(R2_R1inv[pi])) % p + I_max) % p
-                _jit_sieve_rat(rat_sieve, rat_primes, rat_log_ps, rat_starts, size)
+            # Phase 2: Use C verify for bulk trial division with LP support
+            c_verify_lib = _load_gnfs_sieve()
+            # LP bound must be large enough to accept q values as LP cofactors
+            # q can be up to q_max = fb_bound * 200, so set LP bound accordingly
+            lp_bound = max(fb_bound * 200 + 1, min(fb_bound * 100, fb_bound ** 2))
 
-                alg_starts = np.empty(len(alg_fb), dtype=np.int64)
-                for pi in range(len(alg_fb)):
-                    if not alg_valid[pi]:
-                        alg_starts[pi] = size
-                    else:
-                        p = int(alg_primes[pi])
-                        alg_starts[pi] = ((-j * int(V_Uinv[pi])) % p + I_max) % p
-                _jit_sieve_alg(alg_sieve, alg_primes, alg_roots, alg_log_ps,
-                               alg_starts, size)
+            if c_verify_lib is not None:
+                # Process in chunks to limit memory
+                chunk_size = min(n_cands, 20000)
+                n_rat_fb = len(rat_fb)
+                n_alg_fb = len(alg_fb)
+                f_coeffs_arr = np.array(f_coeffs, dtype=np.int64)
 
-                # Adaptive threshold for this row
-                # Rational norm ≈ |i*e1_m + j*e2_m|
-                rat_typical = max(abs(I_max * e1_m + j * e2_m), abs(e1_m), 2)
-                rat_thresh = math.log(rat_typical) * 0.55
+                for chunk_start in range(0, n_cands, chunk_size):
+                    if len(verified) >= needed or time.time() - t0 > time_limit:
+                        break
+                    chunk_end = min(chunk_start + chunk_size, n_cands)
+                    chunk_n = chunk_end - chunk_start
 
-                # Algebraic cofactor ≈ norm/q
-                a_center = j * abs(e2[0]) + I_max * abs(e1[0])
-                b_center = max(j * abs(e2[1]) + I_max * abs(e1[1]), 1)
-                alg_cofactor_est = max(2, a_center**d + b_center**d) // max(q, 1)
-                alg_thresh = math.log(max(alg_cofactor_est, 2)) * 0.45
+                    # Slice candidate arrays for this chunk
+                    chunk_a = (ctypes.c_int * chunk_n)(*[c_out_a[chunk_start + i] for i in range(chunk_n)])
+                    chunk_b = (ctypes.c_int * chunk_n)(*[c_out_b[chunk_start + i] for i in range(chunk_n)])
 
-                # Find candidates
-                mask = (rat_sieve >= rat_thresh) & (alg_sieve >= alg_thresh)
-                candidates = np.nonzero(mask)[0]
-                total_candidates += len(candidates)
+                    # Allocate verify output buffers
+                    v_rat_exps = np.zeros(chunk_n * n_rat_fb, dtype=np.int64)
+                    v_alg_exps = np.zeros(chunk_n * n_alg_fb, dtype=np.int64)
+                    v_signs = (ctypes.c_int * chunk_n)()
+                    v_mask = (ctypes.c_int * chunk_n)()
+                    v_rat_lp = np.zeros(chunk_n, dtype=np.int64)
+                    v_alg_lp = np.zeros(chunk_n, dtype=np.int64)
 
-                for idx in candidates:
-                    i_val = int(idx) - I_max
-                    a = i_val * e1[0] + j * e2[0]
-                    b_val = i_val * e1[1] + j * e2[1]
+                    c_verify_lib.verify_candidates_c(
+                        chunk_a, chunk_b, chunk_n,
+                        ctypes.c_int64(int(m)),
+                        f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        d,
+                        rat_primes.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        n_rat_fb,
+                        alg_primes.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        alg_roots.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        n_alg_fb,
+                        ctypes.c_int64(int(lp_bound)),
+                        v_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        v_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        v_signs, v_mask,
+                        v_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        v_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    )
+
+                    # Phase 3: Process verified candidates
+                    rat_exps_2d = v_rat_exps.reshape(chunk_n, n_rat_fb)
+                    alg_exps_2d = v_alg_exps.reshape(chunk_n, n_alg_fb)
+
+                    for ci in range(chunk_n):
+                        mask_val = v_mask[ci]
+                        if mask_val == 0:
+                            continue  # rejected by C verify
+
+                        a_val = chunk_a[ci]
+                        b_val = chunk_b[ci]
+                        cand_q = int(c_out_q[chunk_start + ci])
+
+                        # For lattice sieve: the C verify treats the full alg norm,
+                        # but we need to account for special-q division.
+                        # The alg_lp from C verify may actually be q or q*cofactor.
+                        # We need: alg norm is divisible by q, and cofactor is smooth or LP.
+                        #
+                        # C verify found: norm = product(FB primes) * alg_lp_remainder
+                        # For lattice sieve: norm should be divisible by q.
+                        # Check: if alg_lp == 0 (fully smooth over FB), q must divide
+                        #   one of the FB prime powers — which is possible if q < B.
+                        #   But q > B by design, so the q factor is in the remainder.
+                        #
+                        # Cases:
+                        #   mask=1 (full smooth): impossible for lattice sieve since q > B
+                        #     UNLESS q divides the norm via the FB (q in FB range) — skip
+                        #   mask=2 (rat LP): alg side fully smooth — q must be in FB, skip
+                        #   mask=3 (alg LP): alg_lp should be q (or q*small)
+                        #   mask=4 (DLP): alg_lp could contain q
+
+                        rat_lp_val = int(v_rat_lp[ci])
+                        alg_lp_val = int(v_alg_lp[ci])
+                        rat_exps_list = [int(rat_exps_2d[ci, j]) for j in range(n_rat_fb)]
+                        alg_exps_list = [int(alg_exps_2d[ci, j]) for j in range(n_alg_fb)]
+                        sign_val = int(v_signs[ci])
+
+                        # Handle special-q in algebraic remainder.
+                        # The C verify sees the FULL alg norm (with q in it).
+                        # Since q > FB_bound, q cannot be in the FB. So:
+                        #   mask=1: alg fully smooth over FB — impossible, q missing
+                        #   mask=2: alg fully smooth, rat has LP — impossible, q missing
+                        #   mask=3: alg has LP = alg_lp_val. If LP == q, fully smooth after q.
+                        #   mask=4: both have LP. If alg LP == q, becomes SLP (rat LP only).
+                        # Skip mask=1,2 as false positives (q not accounted for).
+                        if mask_val in (1, 2):
+                            continue  # q > FB, can't be fully smooth on alg side
+                        elif mask_val == 3:
+                            # Alg LP should be q (norm = FB_primes * q)
+                            if alg_lp_val == cand_q:
+                                sq_exp = 1
+                                alg_lp_val = 0  # consumed by special-q
+                            else:
+                                continue  # LP != q, false positive
+                        elif mask_val == 4:
+                            # DLP: alg LP should be q, leaving rat LP only
+                            if alg_lp_val == cand_q:
+                                sq_exp = 1
+                                alg_lp_val = 0  # consumed by special-q
+                            else:
+                                continue  # LP != q
+                        else:
+                            continue
+
+                        # After q removal, classify the relation
+                        # C verify already did full trial division; the LP
+                        # values are cofactors that didn't divide over FB.
+                        # For lattice sieve:
+                        #   - rat_lp_val: rational cofactor (0 if smooth)
+                        #   - alg_lp_val: algebraic cofactor after q removal (0 if smooth)
+                        # We accept: fully smooth, SLP (one side has LP), or skip DLP
+
+                        has_rat_lp = (rat_lp_val != 0)
+                        has_alg_lp = (alg_lp_val != 0)
+
+                        # Skip DLP (both sides have LP) — too complex for lattice sieve
+                        if has_rat_lp and has_alg_lp:
+                            continue
+
+                        qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
+                        if inert_qc_primes:
+                            qc_bits += compute_inert_qc_vector(
+                                a_val, b_val, inert_qc_primes, f_coeffs)
+
+                        if cand_q not in sq_map:
+                            sq_map[cand_q] = sq_col_idx
+                            sq_col_idx += 1
+
+                        verified.append({
+                            'a': a_val, 'b': b_val,
+                            'rat_exps': rat_exps_list, 'rat_sign': sign_val,
+                            'alg_exps': alg_exps_list,
+                            'qc_bits': qc_bits,
+                            'special_q': cand_q,
+                            'sq_col': sq_map[cand_q],
+                            'sq_exp': sq_exp,
+                        })
+
+            else:
+                # No C verify — Python fallback verification
+                for ci in range(n_cands):
+                    if len(verified) >= needed:
+                        break
+                    if time.time() - t0 > time_limit:
+                        break
+
+                    a = c_out_a[ci]
+                    b_val = c_out_b[ci]
+                    cand_q = int(c_out_q[ci])
 
                     if b_val <= 0 or a == 0:
                         continue
                     if gcd(mpz(abs(a)), mpz(b_val)) != 1:
                         continue
 
-                    # Trial divide rational side
                     rat_result = trial_divide_rational(a, b_val, m, rat_fb)
                     if rat_result is None:
                         continue
                     rat_exps, rat_sign = rat_result
 
-                    # Algebraic side: compute norm, divide out q
                     alg_norm = abs(int(norm_algebraic(a, b_val, f_coeffs)))
-                    if alg_norm == 0 or alg_norm % q != 0:
+                    if alg_norm == 0 or alg_norm % cand_q != 0:
                         continue
                     sq_exp = 0
                     cofactor = alg_norm
-                    while cofactor % q == 0:
-                        cofactor //= q
+                    while cofactor % cand_q == 0:
+                        cofactor //= cand_q
                         sq_exp += 1
 
-                    # Trial divide cofactor over algebraic FB
                     if cofactor < (1 << 63):
                         exps = np.zeros(len(alg_fb), dtype=np.int64)
                         remainder = _jit_trial_divide_alg(
@@ -779,7 +944,6 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
                         remainder = int(remainder)
                         alg_exps = [int(e) for e in exps]
                     else:
-                        # mpz fallback for large cofactors
                         alg_exps = [0] * len(alg_fb)
                         remainder = cofactor
                         for pi in range(len(alg_fb)):
@@ -797,28 +961,184 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
                         qc_bits += compute_inert_qc_vector(
                             a, b_val, inert_qc_primes, f_coeffs)
 
-                    if q not in sq_map:
-                        sq_map[q] = sq_col_idx
+                    if cand_q not in sq_map:
+                        sq_map[cand_q] = sq_col_idx
                         sq_col_idx += 1
 
-                    q_rels.append({
+                    verified.append({
                         'a': a, 'b': b_val,
                         'rat_exps': rat_exps, 'rat_sign': rat_sign,
                         'alg_exps': alg_exps,
                         'qc_bits': qc_bits,
-                        'special_q': q,
-                        'sq_col': sq_map[q],
+                        'special_q': cand_q,
+                        'sq_col': sq_map[cand_q],
                         'sq_exp': sq_exp,
                     })
 
-            verified.extend(q_rels)
-
-            if verbose and q_rels:
+            if verbose:
                 elapsed = time.time() - t0
-                print(f"    [q={q},r={r}] +{len(q_rels)} → {len(verified)}/{needed} "
-                      f"({elapsed:.1f}s, {total_candidates} cands)")
+                print(f"    [C batch {n_q}q] +{n_cands} cands → {len(verified)}/{needed} "
+                      f"({elapsed:.1f}s)")
 
-        q = int(next_prime(q))
+        else:
+            # === PYTHON FALLBACK PATH ===
+            for qi in range(len(q_batch_primes)):
+                cur_q = q_batch_primes[qi]
+                r = q_batch_roots[qi]
+
+                if len(verified) >= needed:
+                    break
+                if time.time() - t0 > time_limit:
+                    break
+
+                # Lattice: a = -b*r (mod q)
+                v1 = (cur_q, 0)
+                v2 = (int((-r) % cur_q), 1)
+                e1, e2 = gauss_reduce_2d(v1, v2)
+
+                len_e1 = math.sqrt(e1[0]**2 + e1[1]**2)
+                len_e2 = math.sqrt(e2[0]**2 + e2[1]**2)
+
+                # Sieve region: keep norms manageable
+                I_max = max(int(50000 / max(len_e1, 1)), 50)
+                J_max = max(int(200 / max(len_e2, 1)), 2)
+                I_max = min(I_max, 500000)
+                J_max = min(J_max, 2000)
+                size = 2 * I_max + 1
+
+                # Precompute per-prime sieve constants for this lattice
+                e1_m = e1[0] + e1[1] * int(m)
+                e2_m = e2[0] + e2[1] * int(m)
+                R1 = np.array([e1_m % p for p in rat_fb], dtype=np.int64)
+                R2 = np.array([e2_m % p for p in rat_fb], dtype=np.int64)
+                R1_inv = np.array([pow(int(R1[i]), int(rat_primes[i]) - 2,
+                                       int(rat_primes[i])) if R1[i] != 0 else 0
+                                   for i in range(len(rat_fb))], dtype=np.int64)
+                rat_valid = R1 != 0
+                R2_R1inv = np.array([(int(R2[i]) * int(R1_inv[i])) % int(rat_primes[i])
+                                     if rat_valid[i] else 0
+                                     for i in range(len(rat_fb))], dtype=np.int64)
+
+                U = np.array([(e1[0] + e1[1] * int(alg_roots[i])) % int(alg_primes[i])
+                              for i in range(len(alg_fb))], dtype=np.int64)
+                V = np.array([(e2[0] + e2[1] * int(alg_roots[i])) % int(alg_primes[i])
+                              for i in range(len(alg_fb))], dtype=np.int64)
+                U_inv = np.array([pow(int(U[i]), int(alg_primes[i]) - 2,
+                                      int(alg_primes[i])) if U[i] != 0 else 0
+                                  for i in range(len(alg_fb))], dtype=np.int64)
+                alg_valid = U != 0
+                V_Uinv = np.array([(int(V[i]) * int(U_inv[i])) % int(alg_primes[i])
+                                    if alg_valid[i] else 0
+                                    for i in range(len(alg_fb))], dtype=np.int64)
+
+                q_rels = []
+                for j in range(0, J_max + 1):
+                    if time.time() - t0 > time_limit:
+                        break
+
+                    rat_sieve = np.zeros(size, dtype=np.float32)
+                    alg_sieve = np.zeros(size, dtype=np.float32)
+
+                    rat_starts = np.empty(len(rat_fb), dtype=np.int64)
+                    for pi in range(len(rat_fb)):
+                        if not rat_valid[pi]:
+                            rat_starts[pi] = size
+                        else:
+                            p = int(rat_primes[pi])
+                            rat_starts[pi] = ((-j * int(R2_R1inv[pi])) % p + I_max) % p
+                    _jit_sieve_rat(rat_sieve, rat_primes, rat_log_ps, rat_starts, size)
+
+                    alg_starts = np.empty(len(alg_fb), dtype=np.int64)
+                    for pi in range(len(alg_fb)):
+                        if not alg_valid[pi]:
+                            alg_starts[pi] = size
+                        else:
+                            p = int(alg_primes[pi])
+                            alg_starts[pi] = ((-j * int(V_Uinv[pi])) % p + I_max) % p
+                    _jit_sieve_alg(alg_sieve, alg_primes, alg_roots, alg_log_ps,
+                                   alg_starts, size)
+
+                    rat_typical = max(abs(I_max * e1_m + j * e2_m), abs(e1_m), 2)
+                    rat_thresh = math.log(rat_typical) * 0.55
+
+                    a_center = j * abs(e2[0]) + I_max * abs(e1[0])
+                    b_center = max(j * abs(e2[1]) + I_max * abs(e1[1]), 1)
+                    alg_cofactor_est = max(2, a_center**d + b_center**d) // max(cur_q, 1)
+                    alg_thresh = math.log(max(alg_cofactor_est, 2)) * 0.45
+
+                    mask = (rat_sieve >= rat_thresh) & (alg_sieve >= alg_thresh)
+                    candidates = np.nonzero(mask)[0]
+                    total_candidates += len(candidates)
+
+                    for idx in candidates:
+                        i_val = int(idx) - I_max
+                        a = i_val * e1[0] + j * e2[0]
+                        b_val = i_val * e1[1] + j * e2[1]
+
+                        if b_val <= 0 or a == 0:
+                            continue
+                        if gcd(mpz(abs(a)), mpz(b_val)) != 1:
+                            continue
+
+                        rat_result = trial_divide_rational(a, b_val, m, rat_fb)
+                        if rat_result is None:
+                            continue
+                        rat_exps, rat_sign = rat_result
+
+                        alg_norm = abs(int(norm_algebraic(a, b_val, f_coeffs)))
+                        if alg_norm == 0 or alg_norm % cur_q != 0:
+                            continue
+                        sq_exp = 0
+                        cofactor = alg_norm
+                        while cofactor % cur_q == 0:
+                            cofactor //= cur_q
+                            sq_exp += 1
+
+                        if cofactor < (1 << 63):
+                            exps = np.zeros(len(alg_fb), dtype=np.int64)
+                            remainder = _jit_trial_divide_alg(
+                                np.int64(cofactor), alg_primes, alg_roots,
+                                np.int64(a), np.int64(b_val), exps)
+                            remainder = int(remainder)
+                            alg_exps = [int(e) for e in exps]
+                        else:
+                            alg_exps = [0] * len(alg_fb)
+                            remainder = cofactor
+                            for pi in range(len(alg_fb)):
+                                p = int(alg_primes[pi])
+                                rp = int(alg_roots[pi])
+                                if (a + b_val * rp) % p == 0:
+                                    while remainder % p == 0:
+                                        remainder //= p
+                                        alg_exps[pi] += 1
+                        if remainder != 1:
+                            continue
+
+                        qc_bits = compute_qc_vector(a, b_val, qc_primes)
+                        if inert_qc_primes:
+                            qc_bits += compute_inert_qc_vector(
+                                a, b_val, inert_qc_primes, f_coeffs)
+
+                        if cur_q not in sq_map:
+                            sq_map[cur_q] = sq_col_idx
+                            sq_col_idx += 1
+
+                        q_rels.append({
+                            'a': a, 'b': b_val,
+                            'rat_exps': rat_exps, 'rat_sign': rat_sign,
+                            'alg_exps': alg_exps,
+                            'qc_bits': qc_bits,
+                            'special_q': cur_q,
+                            'sq_col': sq_map[cur_q],
+                            'sq_exp': sq_exp,
+                        })
+
+                verified.extend(q_rels)
+
+                if verbose and q_rels:
+                    elapsed = time.time() - t0
+                    print(f"    [q={cur_q},r={r}] +{len(q_rels)} -> {len(verified)}/{needed} "
+                          f"({elapsed:.1f}s, {total_candidates} cands)")
 
     return verified, sq_map
 
@@ -2164,7 +2484,11 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     t_sieve = time.time()
     num_sq = 0
 
-    if nd >= 80:  # lattice sieve only for very large (Python too slow below this)
+    # Use lattice sieve for 50d+ when C sieve available, 80d+ for Python fallback
+    # Below 50d, line sieve + SLP/DLP is faster due to higher smoothness probability
+    _c_lattice_available = _load_lattice_sieve() is not None
+    _lattice_threshold = 50 if _c_lattice_available else 80
+    if nd >= _lattice_threshold:
         # Lattice sieve with special-q
         if verbose:
             print(f"    Using lattice sieve (special-q)")
