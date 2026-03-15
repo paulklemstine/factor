@@ -145,16 +145,77 @@ def tonelli_shanks(n, p):
 ###############################################################################
 
 @njit(cache=True)
+def jit_presieve(sieve_arr, primes, logs, offsets1, offsets2, sz):
+    """
+    Presieve: build period-210 pattern for primes 2,3,5,7 and tile into array.
+    Then sieve remaining small primes (11-31) directly.
+    This adds ~4.5 bits of log that were previously skipped, giving more
+    accurate sieve values and fewer false positives in trial division.
+    """
+    # Build period-210 pattern (lcm(2,3,5,7) = 210)
+    PERIOD = 210
+    pattern = np.zeros(PERIOD, dtype=sieve_arr.dtype)
+    for i in range(len(primes)):
+        p = primes[i]
+        if p > 7:
+            break
+        lp = logs[i]
+        o1 = offsets1[i]
+        o2 = offsets2[i]
+        if o1 >= 0:
+            j = o1 % p
+            while j < PERIOD:
+                pattern[j] += lp
+                j += p
+        if o2 >= 0 and o2 != o1:
+            j = o2 % p
+            while j < PERIOD:
+                pattern[j] += lp
+                j += p
+
+    # Tile pattern into sieve array
+    full_copies = sz // PERIOD
+    remainder = sz % PERIOD
+    pos = 0
+    for _ in range(full_copies):
+        for k in range(PERIOD):
+            sieve_arr[pos + k] = pattern[k]
+        pos += PERIOD
+    for k in range(remainder):
+        sieve_arr[pos + k] = pattern[k]
+
+    # Sieve primes 11-31 directly (small enough to skip pattern but worth sieving)
+    for i in range(len(primes)):
+        p = primes[i]
+        if p <= 7:
+            continue
+        if p >= 32:
+            break
+        lp = logs[i]
+        o1 = offsets1[i]
+        o2 = offsets2[i]
+        if o1 >= 0:
+            j = o1
+            while j < sz:
+                sieve_arr[j] += lp
+                j += p
+        if o2 >= 0 and o2 != o1:
+            j = o2
+            while j < sz:
+                sieve_arr[j] += lp
+                j += p
+
+
+@njit(cache=True)
 def jit_sieve(sieve_arr, primes, logs, offsets1, offsets2, sz):
     """
     Inner sieve loop: add log contributions at arithmetic progressions.
-    Skip primes < 32 — they contribute ~43% of sieve operations but
-    only ~4.5 bits of log. The threshold is adjusted to compensate.
+    Only processes primes >= 32 (small primes handled by jit_presieve).
     """
     for i in range(len(primes)):
         p = primes[i]
         if p < 32:
-            continue  # Skip small primes (threshold adjusted)
+            continue  # Handled by presieve
         lp = logs[i]
         o1 = offsets1[i]
         o2 = offsets2[i]
@@ -677,22 +738,30 @@ def _sieve_one_a(args):
     best_a = None
     best_diff = float('inf')
 
-    if base_indices is not None and len(base_indices) == s - 1:
-        # GROUPED mode: base of s-1 primes is fixed, try different s-th primes
+    if base_indices is not None and len(base_indices) < s:
+        # GROUPED mode: base of n_shared primes is fixed, pick remaining randomly
         base_set = set(base_indices)
         base_product = mpz(1)
         for i in base_indices:
             base_product *= fb[i]
+        n_extra = s - len(base_indices)  # how many more primes to pick
         for _ in range(20):
-            # Pick one more prime not in the base
-            for _try in range(10):
-                idx = rng.randint(select_lo, select_hi - 1)
-                if idx not in base_set:
-                    break
-            else:
+            # Pick n_extra more primes not in the base
+            extras = []
+            extra_set = set(base_set)
+            for _e in range(n_extra):
+                for _try in range(10):
+                    idx = rng.randint(select_lo, select_hi - 1)
+                    if idx not in extra_set:
+                        extras.append(idx)
+                        extra_set.add(idx)
+                        break
+            if len(extras) < n_extra:
                 continue
-            indices = sorted(list(base_indices) + [idx])
-            a = base_product * fb[idx]
+            indices = sorted(list(base_indices) + extras)
+            a = base_product
+            for idx in extras:
+                a *= fb[idx]
             diff = abs(float(gmpy2.log2(a)) - log_target) if a > 0 else float('inf')
             if diff < best_diff:
                 best_diff = diff
@@ -832,7 +901,7 @@ def _sieve_one_a(args):
         jit_sieve(_sieve_buf, fb_np, fb_log, off1, off2, sz)
 
         log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-        thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
+        thresh = int(max(0, (log_g_max - T_bits)) * 64)
 
         candidates = jit_find_smooth(_sieve_buf, thresh)
         n_cand = len(candidates)
@@ -1083,18 +1152,9 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
     fb_log = np.array([int(round(math.log2(p) * 64)) for p in fb], dtype=np.int16)
     fb_index = {p: i for i, p in enumerate(fb)}
 
-    # Expected sieve contribution from small primes we skip in jit_sieve
-    # Each prime p hits ~2/p of positions (two roots), contributing log2(p)*64
-    # p=2 has only 1 root, so factor is 1/p not 2/p
+    # Expected sieve contribution from small primes skipped in jit_sieve.
+    # Presieve handles primes 2-31 directly, threshold adjusted accordingly.
     small_prime_correction = 0
-    for p in fb:
-        if p >= 32:
-            break
-        roots = 1 if p == 2 else 2
-        small_prime_correction += roots * math.log2(p) * 64 / p
-    # Use 70% of expected correction: smooth numbers have above-average
-    # small prime divisibility, so full correction admits too many false positives
-    small_prime_correction = int(small_prime_correction * 0.60)
 
     if verbose:
         print(f"    FB[{fb[0]}..{fb[-1]}] built ({time.time()-t0:.1f}s)")
@@ -1483,16 +1543,18 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
     # large primes that collide ~3.3x more often than random, boosting DLP combines.
     # We use grouped selection for ~60% of 'a' values and random for ~40% to
     # maintain relation independence for LA while getting the LP collision benefit.
-    group_size = 8  # number of s-th prime variants per base group
+    group_size = 8  # number of variants per base group
     grouped_ratio = 0.5  # fraction of 'a' values using grouped selection
-    # Only enable grouping for s >= 5 where the FB pool is large enough.
-    # With s=4 and pool ~40 primes, base of 3 leaves too little variation.
-    use_grouped = grouped_a and s >= 5
+    # Share s//2 primes to get LP resonance without rank deficiency in LA.
+    # For s=5: share 2, vary 3. For s=6: share 3, vary 3. For s=7: share 3, vary 4.
+    n_shared = max(2, s // 2)  # number of primes shared in base
+    # Only enable for s >= 5 where pool is large enough (50+ primes)
+    use_grouped = grouped_a and s >= 5 and (select_hi - select_lo) >= s * 4
 
     def _gen_base(rng_local):
-        """Generate a random base of s-1 FB prime indices for grouped a-selection."""
+        """Generate a random base of n_shared FB prime indices for grouped a-selection."""
         try:
-            return tuple(sorted(rng_local.sample(range(select_lo, select_hi), s - 1)))
+            return tuple(sorted(rng_local.sample(range(select_lo, select_hi), n_shared)))
         except ValueError:
             return None
 
@@ -1618,15 +1680,23 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                     bi = random.randint(0, len(_st_base_pool) - 1)
                     cur_base, cur_usage, base_product = _st_base_pool[bi]
                     base_set = set(cur_base)
+                    n_extra = s - len(cur_base)
                     for _ in range(20):
-                        for _try in range(10):
-                            idx = random.randint(select_lo, select_hi - 1)
-                            if idx not in base_set:
-                                break
-                        else:
+                        extras = []
+                        extra_set = set(base_set)
+                        for _e in range(n_extra):
+                            for _try in range(10):
+                                idx = random.randint(select_lo, select_hi - 1)
+                                if idx not in extra_set:
+                                    extras.append(idx)
+                                    extra_set.add(idx)
+                                    break
+                        if len(extras) < n_extra:
                             continue
-                        indices = sorted(list(cur_base) + [idx])
-                        a = base_product * fb[idx]
+                        indices = sorted(list(cur_base) + extras)
+                        a = base_product
+                        for idx in extras:
+                            a *= fb[idx]
                         diff = abs(float(gmpy2.log2(a)) - log_target) if a > 0 else float('inf')
                         if diff < best_diff:
                             best_diff = diff
@@ -1780,7 +1850,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
 
                 log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-                thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
+                thresh = int(max(0, (log_g_max - T_bits)) * 64)
 
                 candidates = jit_find_smooth(sieve_arr, thresh)
                 n_cand = len(candidates)
