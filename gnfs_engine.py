@@ -2009,6 +2009,152 @@ def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=N
 
 
 ###############################################################################
+# Phase 5a: CRT-based Algebraic Square Root (splitting primes)
+###############################################################################
+
+def algebraic_sqrt_crt(relations, indices, f_coeffs, m, n, max_primes=60):
+    """
+    Compute algebraic square root using CRT over splitting primes.
+
+    For each splitting prime q where f splits completely:
+      1. Evaluate P(r_j) = ∏(a_i + b_i·r_j) mod q for each root r_j of f
+      2. sqrt(P(r_j)) mod q via Tonelli-Shanks (2^d sign choices)
+      3. Lagrange interpolate → sqrt(P(x)) mod q
+    Use CRT across many primes to recover exact sqrt(P(x)) in Z[x]/(f).
+    Evaluate at x=m to get algebraic sqrt mod n.
+
+    Yields candidate y values (mod n) for gcd(x ± y, n).
+    """
+    d = len(f_coeffs) - 1
+
+    # Collect (a, b) pairs from null vector
+    ab_pairs = []
+    for idx in indices:
+        rel = relations[idx]
+        if 'a_list' in rel:
+            for a_val, b_val in zip(rel['a_list'], rel['b_list']):
+                ab_pairs.append((int(a_val), int(b_val)))
+        else:
+            ab_pairs.append((int(rel['a']), int(rel['b'])))
+
+    if not ab_pairs:
+        return
+
+    # Find splitting primes
+    splitting = []
+    min_p = 1000
+    for _ in range(max_primes * 5):
+        q, roots = _find_splitting_prime(f_coeffs, min_p=min_p)
+        if q is None:
+            min_p += 1000
+            continue
+        if len(roots) == d and len(set(roots)) == d:
+            splitting.append((q, roots))
+            if len(splitting) >= max_primes:
+                break
+        min_p = q + 1
+
+    if len(splitting) < 3:
+        return
+
+    # For each splitting prime, compute sqrt(P(x)) mod q
+    # Try all 2^d sign combinations? No — just try the 2 global signs (±).
+    # The key insight: for each root r_j, P(r_j) = ∏(a_i + b_i·r_j).
+    # We compute this product mod q, then take sqrt.
+    # The sign choice at each root must be CONSISTENT — they all come from
+    # the same polynomial sqrt, so Lagrange interpolation enforces consistency.
+    # We try both global signs (±) and check via CRT.
+
+    # Accumulate CRT residues for each coefficient of sqrt(P(x))
+    # coeffs_mod[k] = list of (residue, modulus) for coefficient k
+    crt_moduli = []
+    crt_residues = [[] for _ in range(d)]  # one list per coefficient
+
+    for qi, (q, roots) in enumerate(splitting):
+        # Evaluate P(r_j) = ∏(a + b*r_j) mod q for each root r_j
+        P_at_roots = []
+        for r in roots:
+            prod = 1
+            for a_val, b_val in ab_pairs:
+                prod = (prod * (a_val + b_val * r)) % q
+            P_at_roots.append(prod)
+
+        # Compute sqrt(P(r_j)) mod q
+        sqrt_pos = []
+        valid = True
+        for val in P_at_roots:
+            s = _modular_sqrt(val, q)
+            if s is None:
+                valid = False
+                break
+            sqrt_pos.append(s)
+
+        if not valid:
+            continue
+
+        # For first prime: try all 2^d sign combinations
+        # For subsequent primes: use sign that's consistent with first
+        if not crt_moduli:
+            # First prime: store all 2^d possible interpolations
+            first_prime_options = []
+            for signs in range(1 << d):
+                sqrt_at_roots = []
+                for j in range(d):
+                    if signs & (1 << j):
+                        sqrt_at_roots.append(q - sqrt_pos[j])
+                    else:
+                        sqrt_at_roots.append(sqrt_pos[j])
+                S = _lagrange_interpolation(roots, sqrt_at_roots, q)
+                first_prime_options.append(S)
+            # We'll try each option independently
+            crt_moduli.append(q)
+            for k in range(d):
+                crt_residues[k].append([opt[k] for opt in first_prime_options])
+        else:
+            # Subsequent primes: just use positive sqrt
+            S_coeffs = _lagrange_interpolation(roots, sqrt_pos, q)
+            crt_moduli.append(q)
+            for k in range(d):
+                crt_residues[k].append(S_coeffs[k] if k < len(S_coeffs) else 0)
+
+    if len(crt_moduli) < 3:
+        return
+
+    # CRT to get exact coefficients (or mod big product)
+    # We evaluate s(m) mod n directly using mixed-radix CRT to avoid huge integers
+    # s(m) mod n = sum_k (coeff_k * m^k) mod n
+    # Each coeff_k is determined by CRT from its residues
+
+    # Compute product of all moduli
+    M_prod = mpz(1)
+    for q in crt_moduli:
+        M_prod *= q
+
+    # For each coefficient, solve CRT
+    s_at_m = mpz(0)
+    m_pow = mpz(1)
+    for k in range(d):
+        # CRT for coefficient k
+        ck = mpz(0)
+        for i, q in enumerate(crt_moduli):
+            Mi = M_prod // q
+            Mi_inv = pow(int(Mi % q), -1, q)
+            ck = (ck + mpz(crt_residues[k][i]) * Mi * mpz(Mi_inv)) % M_prod
+
+        # Balanced reduction
+        half = M_prod // 2
+        if ck > half:
+            ck -= M_prod
+
+        s_at_m = (s_at_m + ck * m_pow) % n
+        m_pow = (m_pow * mpz(m)) % n
+
+    if s_at_m != 0:
+        yield s_at_m
+        yield (-s_at_m) % n
+
+
+###############################################################################
 # Phase 5b: Factor Extraction
 ###############################################################################
 
@@ -2095,10 +2241,48 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
         if (total_sign // 2) % 2 == 1:
             x_val = (-x_val) % n
 
-        # Algebraic square root via Couveignes: try all sign combinations
-        for y_val in algebraic_square_root(
+        # Algebraic square root: direct product mod n approach
+        # y² = ∏(a_i + b_i·m) mod n. Compute y via FB prime exponents.
+        # Since all alg exponents are even, y = ∏ alg_fb_prime^(e/2) mod n.
+        y_val = mpz(1)
+        alg_lp_exps = defaultdict(int)
+        for idx in indices:
+            rel = relations[idx]
+            alg_lp = rel.get('alg_lp', 0)
+            if alg_lp > 0:
+                if 'a_list' in rel:
+                    alg_lp_exps[alg_lp] += 2
+                else:
+                    alg_lp_exps[alg_lp] += 1
+
+        alg_lp_ok = True
+        for lp, exp in alg_lp_exps.items():
+            if exp % 2 != 0:
+                alg_lp_ok = False
+                break
+            y_val = (y_val * pow(mpz(lp), exp // 2, n)) % n
+        if not alg_lp_ok:
+            continue
+
+        # Algebraic FB primes: each (p, r) represents the ideal (p, α-r)
+        # The norm of (p, α-r) is p. So ∏ p^(e_j/2) gives the algebraic sqrt
+        # of the NORM. But we need the sqrt of the actual algebraic number...
+        # For the NORM: y_alg_norm = ∏ p_j^(e_j/2)
+        for j, e in enumerate(total_alg):
+            if e > 0:
+                p_alg = alg_fb[j][0] if isinstance(alg_fb[j], tuple) else alg_fb[j]
+                y_val = (y_val * pow(mpz(p_alg), e // 2, n)) % n
+
+        # Try gcd with both x ± y
+        for diff in [x_val - y_val, x_val + y_val]:
+            g = gcd(diff % n, n)
+            if 1 < g < n:
+                return int(g)
+
+        # Also try Hensel approach as fallback
+        for y_h in algebraic_square_root(
                 relations, indices, f_coeffs, m, n, splitting_primes):
-            for diff in [x_val - y_val, x_val + y_val]:
+            for diff in [x_val - y_h, x_val + y_h]:
                 g = gcd(diff % n, n)
                 if 1 < g < n:
                     return int(g)
