@@ -385,7 +385,14 @@ def _quick_factor(n, limit=50):
     for p in (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53):
         if n % p == 0:
             return p
-    # Pollard rho with reduced iteration limit
+    # Use C Pollard rho if available (10-50x faster than Python)
+    c_rho = _load_c_rho()
+    if c_rho is not None and n < (1 << 64):
+        f = c_rho(n, limit * 4)  # C is faster, can afford more iters
+        if f > 1:
+            return int(f)
+        return None
+    # Python fallback: Pollard rho with reduced iteration limit
     x, y, c, d = 2, 2, 1, 1
     while d == 1 and limit > 0:
         x = (x * x + c) % n
