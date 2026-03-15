@@ -971,10 +971,13 @@ def _sieve_one_a(args):
                 exps[idx] += 1
             x_stored = int(mpz(ax_b) % n)
 
+            # Use sparse exps to reduce pickle size (~100x smaller)
+            sparse_exps = tuple((j, e) for j, e in enumerate(exps) if e != 0)
+
             if v == 1:
-                relations.append((_REL_SMOOTH, (x_stored, sign, exps)))
+                relations.append((_REL_SMOOTH, (x_stored, sign, sparse_exps)))
             elif v < lp_bound and is_prime(v):
-                relations.append((_REL_SINGLE_LP, (x_stored, sign, exps, int(v))))
+                relations.append((_REL_SINGLE_LP, (x_stored, sign, sparse_exps, int(v))))
             elif v < lp_bound * lp_bound and v > 1:
                 sq = gmpy2.isqrt(mpz(v))
                 if sq * sq == v and is_prime(sq):
@@ -986,7 +989,7 @@ def _sieve_one_a(args):
                     else:
                         continue
                 if lp1 < lp_bound and lp2 < lp_bound and is_prime(mpz(lp1)) and is_prime(mpz(lp2)):
-                    relations.append((_REL_DOUBLE_LP, (x_stored, sign, exps, lp1, lp2)))
+                    relations.append((_REL_DOUBLE_LP, (x_stored, sign, sparse_exps, lp1, lp2)))
 
     # Sieve first polynomial
     _worker_sieve_poly(b, c, o1, o2)
@@ -1541,20 +1544,31 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
 
     def _feed_relations(relations):
         """Feed raw relations from a worker into the DLP graph.
-        Returns a direct factor if one was found, else None."""
+        Returns a direct factor if one was found, else None.
+        Workers send sparse exps: tuple of (index, value) pairs.
+        We reconstruct full exps list here to save pickle/IPC memory."""
         for rel_type, data in relations:
             if rel_type == _REL_DIRECT_FACTOR:
                 return data
             elif rel_type == _REL_SMOOTH:
-                x_stored, sign, exps = data
+                x_stored, sign, sparse_exps = data
+                exps = [0] * fb_size
+                for j, e in sparse_exps:
+                    exps[j] = e
                 dlp_graph.add_smooth(x_stored, sign, exps)
             elif rel_type == _REL_SINGLE_LP:
-                x_stored, sign, exps, lp = data
+                x_stored, sign, sparse_exps, lp = data
+                exps = [0] * fb_size
+                for j, e in sparse_exps:
+                    exps[j] = e
                 result = dlp_graph.add_single_lp(x_stored, sign, exps, lp)
                 if result:
                     return result
             elif rel_type == _REL_DOUBLE_LP:
-                x_stored, sign, exps, lp1, lp2 = data
+                x_stored, sign, sparse_exps, lp1, lp2 = data
+                exps = [0] * fb_size
+                for j, e in sparse_exps:
+                    exps[j] = e
                 result = dlp_graph.add_double_lp(x_stored, sign, exps, lp1, lp2)
                 if result:
                     return result
