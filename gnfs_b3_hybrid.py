@@ -362,6 +362,8 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
     c_verify_alg_exps = np.zeros(max_cands_verify * len(alg_fb), dtype=np.int64)
     c_verify_signs = (ctypes.c_int * max_cands_verify)()
     c_verify_mask = (ctypes.c_int * max_cands_verify)()
+    verify_a_buf = (ctypes.c_int * max_cands_verify)()
+    verify_b_buf = (ctypes.c_int * max_cands_verify)()
     c_verify_rat_lp = np.zeros(max_cands_verify, dtype=np.int64)
     c_verify_alg_lp = np.zeros(max_cands_verify, dtype=np.int64)
     batch_rat_exps = c_verify_rat_exps.reshape(max_cands_verify, len(rat_fb))
@@ -423,11 +425,12 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
             chunk_end = min(chunk_start + max_cands_verify, n_cands)
             chunk_n = chunk_end - chunk_start
 
-            chunk_a = (ctypes.c_int * chunk_n)(*[out_a[chunk_start + i] for i in range(chunk_n)])
-            chunk_b = (ctypes.c_int * chunk_n)(*[out_b[chunk_start + i] for i in range(chunk_n)])
+            # Copy chunk into pre-allocated verify buffer
+            ctypes.memmove(verify_a_buf, ctypes.addressof(out_a) + chunk_start * 4, chunk_n * 4)
+            ctypes.memmove(verify_b_buf, ctypes.addressof(out_b) + chunk_start * 4, chunk_n * 4)
 
             c_lib.verify_candidates_c(
-                chunk_a, chunk_b, chunk_n,
+                verify_a_buf, verify_b_buf, chunk_n,
                 ctypes.c_int64(m_int),
                 f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                 d,
@@ -466,15 +469,15 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
                         'qc_bits': qc_bits,
                     })
                 elif total_partials < 200000:
+                    # Defer inert QC for partials (saves time)
                     qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
-                    if inert_qc_primes:
-                        qc_bits += compute_inert_qc_vector(
-                            a_val, b_val, inert_qc_primes, f_coeffs)
                     rel = {
                         'a': a_val, 'b': b_val,
-                        'rat_exps': rat_exps, 'rat_sign': rat_sign,
-                        'alg_exps': alg_exps,
+                        'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
+                        'rat_sign': rat_sign,
+                        'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
                         'qc_bits': qc_bits,
+                        '_needs_inert_qc': True,
                     }
                     if mtype == 3:
                         alp = int(c_verify_alg_lp[ci])
@@ -493,18 +496,22 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
             print(f"    [b={b_end}] {len(verified)}+{n_slp}slp/{needed} "
                   f"({n_part} part, {elapsed:.1f}s)")
 
-    # SLP combining
+    # SLP combining (with deferred inert QC)
     combined = list(verified)
     n_slp = 0
     for lp, rels in partials_rat.items():
         if len(rels) >= 2 and len(combined) < needed:
+            _ensure_inert_qc(rels[0], inert_qc_primes, f_coeffs)
             for other in rels[1:]:
+                _ensure_inert_qc(other, inert_qc_primes, f_coeffs)
                 combined.append(_merge_rels(rels[0], other, 'rat'))
                 n_slp += 1
                 if len(combined) >= needed: break
     for ideal, rels in partials_alg.items():
         if len(rels) >= 2 and len(combined) < needed:
+            _ensure_inert_qc(rels[0], inert_qc_primes, f_coeffs)
             for other in rels[1:]:
+                _ensure_inert_qc(other, inert_qc_primes, f_coeffs)
                 combined.append(_merge_rels(rels[0], other, 'alg'))
                 n_slp += 1
                 if len(combined) >= needed: break
@@ -517,18 +524,39 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
     return combined
 
 
+def _ensure_inert_qc(rel, inert_qc_primes, f_coeffs):
+    """Compute deferred inert QC bits if needed."""
+    if rel.get('_needs_inert_qc') and inert_qc_primes:
+        rel['qc_bits'] = rel['qc_bits'] + compute_inert_qc_vector(
+            rel['a'], rel['b'], inert_qc_primes, f_coeffs)
+        rel['_needs_inert_qc'] = False
+        # Also convert int8 exps to lists
+        if hasattr(rel['rat_exps'], 'tolist'):
+            rel['rat_exps'] = rel['rat_exps'].tolist()
+        if hasattr(rel['alg_exps'], 'tolist'):
+            rel['alg_exps'] = rel['alg_exps'].tolist()
+
+
 def _merge_rels(base, other, lp_side):
     """Merge two partial relations sharing a large prime."""
-    nrat = len(base['rat_exps'])
-    nalg = len(base['alg_exps'])
+    br, or_ = base['rat_exps'], other['rat_exps']
+    ba, oa = base['alg_exps'], other['alg_exps']
+    if hasattr(br, 'astype'):
+        comb_rat = (br.astype(np.int16) + or_.astype(np.int16)).tolist()
+    else:
+        comb_rat = [br[j] + or_[j] for j in range(len(br))]
+    if hasattr(ba, 'astype'):
+        comb_alg = (ba.astype(np.int16) + oa.astype(np.int16)).tolist()
+    else:
+        comb_alg = [ba[j] + oa[j] for j in range(len(ba))]
     nqc = len(base.get('qc_bits', []))
     return {
         'a': base['a'], 'b': base['b'],
         'a_list': [base['a'], other['a']],
         'b_list': [base['b'], other['b']],
-        'rat_exps': [base['rat_exps'][j] + other['rat_exps'][j] for j in range(nrat)],
+        'rat_exps': comb_rat,
         'rat_sign': base['rat_sign'] + other['rat_sign'],
-        'alg_exps': [base['alg_exps'][j] + other['alg_exps'][j] for j in range(nalg)],
+        'alg_exps': comb_alg,
         'qc_bits': [base['qc_bits'][j] ^ other['qc_bits'][j]
                     for j in range(nqc)] if nqc > 0 else [],
         'rat_lp': base.get('rat_lp', 0) if lp_side == 'rat' else 0,
