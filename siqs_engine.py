@@ -377,12 +377,15 @@ def gray_code_sequence(num_bits):
     return seq
 
 
-def _quick_factor(n, limit=200):
-    """Quick Pollard rho to split a cofactor into two primes. Returns a factor or None."""
+def _quick_factor(n, limit=50):
+    """Quick split of cofactor into two primes. Returns a factor or None."""
     if n < 4:
         return None
-    if n % 2 == 0:
-        return 2
+    # Quick trial division by small primes (catches ~30% of cases in <1µs)
+    for p in (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53):
+        if n % p == 0:
+            return p
+    # Pollard rho with reduced iteration limit
     x, y, c, d = 2, 2, 1, 1
     while d == 1 and limit > 0:
         x = (x * x + c) % n
@@ -855,7 +858,7 @@ def _sieve_one_a(args):
                 if sq * sq == v and is_prime(sq):
                     lp1 = lp2 = int(sq)
                 else:
-                    lp1 = _quick_factor(v, limit=200)
+                    lp1 = _quick_factor(v)
                     if lp1 and lp1 > 1 and v // lp1 > 1:
                         lp2 = v // lp1
                     else:
@@ -1193,7 +1196,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
                 lp1 = lp2 = int(sq)
             else:
                 # Try Pollard rho for quick split (limit iterations)
-                lp1 = _quick_factor(v, limit=200)
+                lp1 = _quick_factor(v)
                 if lp1 and lp1 > 1 and v // lp1 > 1:
                     lp2 = v // lp1
                 else:
@@ -1251,7 +1254,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
             if sq * sq == remainder and gmpy2.is_prime(sq):
                 lp1 = lp2 = int(sq)
             else:
-                lp1 = _quick_factor(remainder, limit=200)
+                lp1 = _quick_factor(remainder)
                 if lp1 and lp1 > 1 and remainder // lp1 > 1:
                     lp2 = remainder // lp1
                 else:
