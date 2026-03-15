@@ -403,12 +403,10 @@ def gnfs_params(n):
         fb_bound = 50000
     elif nd < 40:
         fb_bound = 70000
-    elif nd < 45:
-        fb_bound = 100000
     elif nd < 48:
-        fb_bound = 150000
+        fb_bound = 100000
     elif nd < 52:
-        fb_bound = 250000
+        fb_bound = 150000
     elif nd < 56:
         fb_bound = 400000
     elif nd < 60:
