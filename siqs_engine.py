@@ -29,6 +29,7 @@ import math
 import random
 import bisect
 import os
+import multiprocessing
 from collections import defaultdict
 
 ###############################################################################
@@ -627,10 +628,312 @@ class DoubleLargePrimeGraph:
 
 
 ###############################################################################
+# MULTIPROCESSING WORKER FOR SIQS SIEVE
+###############################################################################
+
+# Relation types returned by workers
+_REL_SMOOTH = 0
+_REL_SINGLE_LP = 1
+_REL_DOUBLE_LP = 2
+_REL_DIRECT_FACTOR = 3
+
+
+def _sieve_one_a(args):
+    """
+    Top-level worker function for multiprocessing: sieve all polynomials
+    for one 'a' value and return raw relations.
+
+    Must be top-level (not nested) for pickling.
+
+    Args: single tuple (unpacked inside) containing all data needed.
+    Returns: list of (rel_type, data) tuples.
+    """
+    (n_int, fb, fb_np_list, fb_log_list, fb_size, M, sz,
+     sqrt_n_mod_list, T_bits, nb, lp_bound,
+     s, gray_seq_data, select_lo, select_hi, log_target,
+     small_prime_correction, seed) = args
+
+    # Reconstruct numpy arrays (can't pickle numpy arrays reliably across processes)
+    fb_np = np.array(fb_np_list, dtype=np.int64)
+    fb_log = np.array(fb_log_list, dtype=np.int32)
+    sqrt_n_mod = dict(sqrt_n_mod_list)
+
+    n = mpz(n_int)
+    rng = random.Random(seed)
+
+    fb_index = {p: i for i, p in enumerate(fb)}
+
+    # Select 'a' as product of s FB primes near target
+    best_a = None
+    best_diff = float('inf')
+    for _ in range(20):
+        try:
+            indices = sorted(rng.sample(range(select_lo, select_hi), s))
+        except ValueError:
+            continue
+        a = mpz(1)
+        for i in indices:
+            a *= fb[i]
+        diff = abs(float(gmpy2.log2(a)) - log_target) if a > 0 else float('inf')
+        if diff < best_diff:
+            best_diff = diff
+            best_a = a
+            best_primes = [fb[i] for i in indices]
+
+    if best_a is None:
+        return []
+
+    a = best_a
+    a_primes = best_primes
+    a_prime_idx = [fb_index[ap] for ap in a_primes]
+    a_prime_set = set(a_primes)
+    a_int = int(a)
+
+    # Compute t_roots: sqrt(n) mod q_j for each q_j in a
+    t_roots = []
+    for q in a_primes:
+        t = sqrt_n_mod.get(q)
+        if t is None:
+            return []
+        t_roots.append(t)
+
+    # Compute B_values for Gray code switching
+    B_values = []
+    for j in range(s):
+        q = a_primes[j]
+        A_j = a // q
+        try:
+            A_j_inv = pow(int(A_j % q), -1, q)
+        except (ValueError, ZeroDivisionError):
+            return []
+        B_j = mpz(t_roots[j]) * A_j * mpz(A_j_inv) % a
+        B_values.append(B_j)
+
+    # Precompute a_inv mod p for each FB prime
+    a_inv_mod = np.zeros(fb_size, dtype=np.int64)
+    is_a_prime = np.zeros(fb_size, dtype=np.bool_)
+    for pi in range(fb_size):
+        p = fb[pi]
+        if p in a_prime_set:
+            a_inv_mod[pi] = 0
+            is_a_prime[pi] = True
+        else:
+            try:
+                a_inv_mod[pi] = pow(a_int % p, -1, p)
+            except (ValueError, ZeroDivisionError):
+                a_inv_mod[pi] = 0
+
+    regular_idx = np.where(~is_a_prime)[0]
+
+    # Precompute delta arrays for Gray code switching
+    deltas = []
+    for j in range(s):
+        d = np.zeros(fb_size, dtype=np.int64)
+        B_j_2 = 2 * B_values[j]
+        for pi in range(fb_size):
+            p = fb[pi]
+            if p in a_prime_set:
+                d[pi] = 0
+            else:
+                d[pi] = int(B_j_2 % p) * a_inv_mod[pi] % p
+        deltas.append(d)
+
+    # First polynomial: all signs positive
+    b = mpz(0)
+    for B_j in B_values:
+        b += B_j
+    if (b * b - n) % a != 0:
+        b = -b
+        if (b * b - n) % a != 0:
+            return []
+
+    c = (b * b - n) // a
+    b_int = int(b)
+
+    # Compute initial sieve offsets
+    o1 = np.full(fb_size, -1, dtype=np.int64)
+    o2 = np.full(fb_size, -1, dtype=np.int64)
+
+    for pi in range(fb_size):
+        p = fb[pi]
+        if p == 2:
+            g0 = int(c % 2)
+            g1 = int((a_int + 2 * b_int + int(c)) % 2)
+            if g0 == 0:
+                o1[pi] = M % 2
+                if g1 == 0:
+                    o2[pi] = (M + 1) % 2
+            elif g1 == 0:
+                o1[pi] = (M + 1) % 2
+            continue
+        if p in a_prime_set:
+            b2 = (2 * b_int) % p
+            if b2 == 0:
+                continue
+            b2_inv = pow(b2, -1, p)
+            c_mod = int(c % p)
+            r = (-c_mod * b2_inv) % p
+            o1[pi] = (r + M) % p
+            continue
+        t = sqrt_n_mod.get(p)
+        if t is None:
+            continue
+        ai = int(a_inv_mod[pi])
+        bm = b_int % p
+        r1 = (ai * (t - bm)) % p
+        r2 = (ai * (p - t - bm)) % p
+        o1[pi] = (r1 + M) % p
+        o2[pi] = ((r2 + M) % p) if r2 != r1 else -1
+
+    # Collect relations from all polynomials for this 'a'
+    relations = []
+    _sieve_buf = np.zeros(sz, dtype=np.int32)
+
+    def _worker_sieve_poly(b_val, c_val, off1, off2):
+        """Sieve one polynomial, collect raw relations."""
+        b_v = int(b_val)
+        c_v = int(c_val)
+
+        _sieve_buf[:] = 0
+        jit_sieve(_sieve_buf, fb_np, fb_log, off1, off2, sz)
+
+        log_g_max = math.log2(max(M, 1)) + 0.5 * nb
+        thresh = int(max(0, (log_g_max - T_bits)) * 1024) - small_prime_correction
+
+        candidates = jit_find_smooth(_sieve_buf, thresh)
+        n_cand = len(candidates)
+        if n_cand == 0:
+            return
+
+        hit_starts, hit_fb = jit_batch_find_hits(
+            candidates, n_cand, fb_np, off1, off2, fb_size)
+
+        for ci in range(n_cand):
+            sieve_pos = int(candidates[ci])
+            x = sieve_pos - M
+            ax_b = int(a * x + b_val)
+            gx = a_int * x * x + 2 * b_v * x + c_v
+
+            if gx == 0:
+                g = gcd(mpz(ax_b), n)
+                if 1 < g < n:
+                    relations.append((_REL_DIRECT_FACTOR, int(g)))
+                continue
+
+            sign = 1 if gx < 0 else 0
+            v = abs(gx)
+            exps = [0] * fb_size
+
+            h_start = hit_starts[ci]
+            h_end = hit_starts[ci + 1]
+            for h in range(h_start, h_end):
+                idx = hit_fb[h]
+                p = fb[idx]
+                if v == 1:
+                    break
+                q, r = divmod(v, p)
+                if r == 0:
+                    e = 1
+                    v = q
+                    q, r = divmod(v, p)
+                    while r == 0:
+                        e += 1
+                        v = q
+                        q, r = divmod(v, p)
+                    exps[idx] = e
+
+            for idx in a_prime_idx:
+                exps[idx] += 1
+            x_stored = int(mpz(ax_b) % n)
+
+            if v == 1:
+                relations.append((_REL_SMOOTH, (x_stored, sign, exps)))
+            elif v < lp_bound and is_prime(v):
+                relations.append((_REL_SINGLE_LP, (x_stored, sign, exps, int(v))))
+            elif v < lp_bound * lp_bound and v > 1:
+                sq = gmpy2.isqrt(mpz(v))
+                if sq * sq == v and is_prime(sq):
+                    lp1 = lp2 = int(sq)
+                else:
+                    lp1 = _quick_factor(v, limit=200)
+                    if lp1 and lp1 > 1 and v // lp1 > 1:
+                        lp2 = v // lp1
+                    else:
+                        continue
+                if lp1 < lp_bound and lp2 < lp_bound and is_prime(mpz(lp1)) and is_prime(mpz(lp2)):
+                    relations.append((_REL_DOUBLE_LP, (x_stored, sign, exps, lp1, lp2)))
+
+    # Sieve first polynomial
+    _worker_sieve_poly(b, c, o1, o2)
+
+    # Gray code B-switching for remaining polynomials
+    signs = [1] * s
+    for gray_val, flip_bit, flip_dir in gray_seq_data:
+        j = flip_bit + 1
+        if j >= s:
+            continue
+        old_sign = signs[j]
+        signs[j] = -old_sign
+
+        if signs[j] < 0:
+            b = b - 2 * B_values[j]
+            offset_dir = 1
+        else:
+            b = b + 2 * B_values[j]
+            offset_dir = -1
+
+        c = (b * b - n) // a
+        b_int = int(b)
+
+        delta_j = deltas[j]
+        ri = regular_idx
+        valid1 = o1[ri] >= 0
+        ri_v1 = ri[valid1]
+        valid2 = o2[ri] >= 0
+        ri_v2 = ri[valid2]
+
+        if offset_dir > 0:
+            o1[ri_v1] = (o1[ri_v1] + delta_j[ri_v1]) % fb_np[ri_v1]
+            o2[ri_v2] = (o2[ri_v2] + delta_j[ri_v2]) % fb_np[ri_v2]
+        else:
+            o1[ri_v1] = (o1[ri_v1] - delta_j[ri_v1]) % fb_np[ri_v1]
+            o2[ri_v2] = (o2[ri_v2] - delta_j[ri_v2]) % fb_np[ri_v2]
+
+        for pi in a_prime_idx:
+            p = fb[pi]
+            if p == 2:
+                g0 = int(c % 2)
+                g1 = int((a_int + 2 * b_int + int(c)) % 2)
+                o1[pi] = -1
+                o2[pi] = -1
+                if g0 == 0:
+                    o1[pi] = M % 2
+                    if g1 == 0:
+                        o2[pi] = (M + 1) % 2
+                elif g1 == 0:
+                    o1[pi] = (M + 1) % 2
+                continue
+            b2 = (2 * b_int) % p
+            if b2 == 0:
+                o1[pi] = -1
+                o2[pi] = -1
+                continue
+            b2_inv = pow(b2, -1, p)
+            c_mod = int(c % p)
+            r = (-c_mod * b2_inv) % p
+            o1[pi] = (r + M) % p
+            o2[pi] = -1
+
+        _worker_sieve_poly(b, c, o1, o2)
+
+    return relations
+
+
+###############################################################################
 # SIQS CORE
 ###############################################################################
 
-def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
+def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
     """
     Self-Initializing Quadratic Sieve (SIQS).
 
@@ -648,6 +951,9 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
             1 = no multiplier (default, backward compatible)
             'auto' = auto-select optimal multiplier via K-S scoring
             int > 1 = use that specific multiplier
+        n_workers: Number of parallel sieve workers (default=1, single-threaded).
+            Use 2 for ~1.7x speedup on multi-core systems.
+            Each worker needs ~3MB RAM (sieve array + FB copy).
 
     Returns a non-trivial factor of n, or None if time_limit exceeded.
     """
@@ -1071,285 +1377,218 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
     # Main sieve loop
     # ------------------------------------------------------------------
     sz = 2 * M  # Sieve array size: x in [-M, M) mapped to [0, 2M)
-    # Preallocate sieve array (avoid 14MB+ allocation per polynomial)
-    _sieve_buf = np.zeros(sz, dtype=np.int32)
 
-    for a_iter in range(200000):
-        if dlp_graph.num_smooth >= needed or time.time() - t0 > time_limit:
-            break
+    # Serialize data needed by workers (convert numpy arrays to lists for pickling)
+    _worker_fb_np_list = fb_np.tolist()
+    _worker_fb_log_list = fb_log.tolist()
+    _worker_sqrt_n_mod_list = list(sqrt_n_mod.items())
+    _worker_gray_seq = gray_seq
 
-        # --- Select 'a' as product of s FB primes near target ---
-        best_a = None
-        best_diff = float('inf')
-        for _ in range(20):
-            try:
-                indices = sorted(random.sample(range(select_lo, select_hi), s))
-            except ValueError:
-                continue
-            a = mpz(1)
-            for i in indices:
-                a *= fb[i]
-            diff = abs(float(gmpy2.log2(a)) - log_target) if a > 0 else float('inf')
-            if diff < best_diff:
-                best_diff = diff
-                best_a = a
-                best_primes = [fb[i] for i in indices]
+    def _make_worker_args(seed):
+        """Build the argument tuple for _sieve_one_a worker."""
+        return (int(n), fb, _worker_fb_np_list, _worker_fb_log_list, fb_size, M, sz,
+                _worker_sqrt_n_mod_list, T_bits, nb, lp_bound,
+                s, _worker_gray_seq, select_lo, select_hi, log_target,
+                small_prime_correction, seed)
 
-        if best_a is None:
-            continue
-
-        a = best_a
-        a_primes = best_primes
-        a_prime_idx = [fb_index[ap] for ap in a_primes]
-        a_prime_set = set(a_primes)
-        a_int = int(a)
-        a_count += 1
-
-        # --- Compute t_roots: sqrt(n) mod q_j for each q_j in a ---
-        t_roots = []
-        ok = True
-        for q in a_primes:
-            t = sqrt_n_mod.get(q)
-            if t is None:
-                ok = False
-                break
-            t_roots.append(t)
-        if not ok:
-            continue
-
-        # --- Compute B_values for Gray code switching ---
-        # B_j = t_j * (a/q_j) * inv(a/q_j, q_j)
-        # These are the building blocks for b = sum(+/- B_j)
-        B_values = []
-        b_ok = True
-        for j in range(s):
-            q = a_primes[j]
-            A_j = a // q  # a / q_j
-            try:
-                A_j_inv = pow(int(A_j % q), -1, q)
-            except (ValueError, ZeroDivisionError):
-                b_ok = False
-                break
-            B_j = mpz(t_roots[j]) * A_j * mpz(A_j_inv) % a
-            B_values.append(B_j)
-        if not b_ok:
-            continue
-
-        # --- Precompute a_inv mod p for each FB prime ---
-        # Also build mask of "regular" primes (not dividing a) for fast updates
-        a_inv_mod = np.zeros(fb_size, dtype=np.int64)
-        is_a_prime = np.zeros(fb_size, dtype=np.bool_)
-        for pi in range(fb_size):
-            p = fb[pi]
-            if p in a_prime_set:
-                a_inv_mod[pi] = 0
-                is_a_prime[pi] = True
-            else:
-                try:
-                    a_inv_mod[pi] = pow(a_int % p, -1, p)
-                except (ValueError, ZeroDivisionError):
-                    a_inv_mod[pi] = 0
-
-        # Indices of primes NOT in a (the vast majority) — for vectorized updates
-        regular_idx = np.where(~is_a_prime)[0]
-
-        # --- Precompute delta arrays for Gray code switching ---
-        # delta_j[pi] = 2 * B_values[j] * a_inv mod p  for each (j, pi)
-        # When flipping sign of B_values[j], offsets change by +/- delta_j[pi]
-        deltas = []  # deltas[j] is numpy array of shape (fb_size,)
-        for j in range(s):
-            d = np.zeros(fb_size, dtype=np.int64)
-            B_j_2 = 2 * B_values[j]  # 2 * B_j (mpz)
-            for pi in range(fb_size):
-                p = fb[pi]
-                if p in a_prime_set:
-                    d[pi] = 0
-                else:
-                    d[pi] = int(B_j_2 % p) * a_inv_mod[pi] % p
-            deltas.append(d)
-
-        # --- First polynomial: all signs positive ---
-        # b = sum(B_j); DO NOT reduce mod a — this preserves b mod p
-        # for all FB primes p, which is essential for incremental offset updates.
-        # The CRT construction guarantees b^2 = n (mod a) without reduction.
-        b = mpz(0)
-        for B_j in B_values:
-            b += B_j
-        # Verify b^2 = n (mod a)
-        if (b * b - n) % a != 0:
-            # Try negating b
-            b = -b
-            if (b * b - n) % a != 0:
-                continue
-
-        c = (b * b - n) // a
-        b_int = int(b)
-
-        # --- Compute initial sieve offsets for first polynomial ---
-        # g(x) = a*x^2 + 2*b*x + c
-        # Roots: x = a^(-1) * (+/- sqrt(n) - b) mod p
-        o1 = np.full(fb_size, -1, dtype=np.int64)
-        o2 = np.full(fb_size, -1, dtype=np.int64)
-
-        for pi in range(fb_size):
-            p = fb[pi]
-            if p == 2:
-                # Handle p=2 specially
-                g0 = int(c % 2)
-                g1 = int((a_int + 2 * b_int + int(c)) % 2)
-                if g0 == 0:
-                    o1[pi] = M % 2
-                    if g1 == 0:
-                        o2[pi] = (M + 1) % 2
-                elif g1 == 0:
-                    o1[pi] = (M + 1) % 2
-                continue
-
-            if p in a_prime_set:
-                # For primes dividing a: single root x = -c/(2b) mod p
-                b2 = (2 * b_int) % p
-                if b2 == 0:
-                    continue
-                b2_inv = pow(b2, -1, p)
-                c_mod = int(c % p)
-                r = (-c_mod * b2_inv) % p
-                o1[pi] = (r + M) % p
-                continue
-
-            t = sqrt_n_mod.get(p)
-            if t is None:
-                continue
-            ai = int(a_inv_mod[pi])
-            bm = b_int % p
-            r1 = (ai * (t - bm)) % p
-            r2 = (ai * (p - t - bm)) % p
-            o1[pi] = (r1 + M) % p
-            o2[pi] = ((r2 + M) % p) if r2 != r1 else -1
-
-        # --- Sieve first polynomial ---
-        def sieve_and_collect(b_val, c_val, off1, off2):
-            """Sieve one polynomial and collect relations using batch hit detection."""
-            nonlocal poly_count, total_cands
-            b_v = int(b_val)
-            c_v = int(c_val)
-
-            _sieve_buf[:] = 0  # Zero in-place (faster than alloc+init)
-            sieve_arr = _sieve_buf
-            jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
-
-            # Threshold: log2(max|g(x)|) - T_bits, minus small prime correction
-            # (small primes < 32 are skipped in jit_sieve for speed)
-            log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-            thresh = int(max(0, (log_g_max - T_bits)) * 1024) - small_prime_correction
-
-            candidates = jit_find_smooth(sieve_arr, thresh)
-            n_cand = len(candidates)
-            total_cands += n_cand
-
-            if n_cand == 0:
-                poly_count += 1
-                return None
-
-            # Batch hit detection: single JIT call for ALL candidates
-            hit_starts, hit_fb = jit_batch_find_hits(
-                candidates, n_cand, fb_np, off1, off2, fb_size)
-
-            for ci in range(n_cand):
-                sieve_pos = int(candidates[ci])
-                x = sieve_pos - M
-                ax_b = int(a * x + b_val)
-                gx = a_int * x * x + 2 * b_v * x + c_v
-
-                # Use precomputed hits for this candidate
-                h_start = hit_starts[ci]
-                h_end = hit_starts[ci + 1]
-
-                result = process_candidate_batch(
-                    ax_b, gx, a_prime_idx, hit_fb, h_start, h_end)
+    def _feed_relations(relations):
+        """Feed raw relations from a worker into the DLP graph.
+        Returns a direct factor if one was found, else None."""
+        for rel_type, data in relations:
+            if rel_type == _REL_DIRECT_FACTOR:
+                return data
+            elif rel_type == _REL_SMOOTH:
+                x_stored, sign, exps = data
+                dlp_graph.add_smooth(x_stored, sign, exps)
+            elif rel_type == _REL_SINGLE_LP:
+                x_stored, sign, exps, lp = data
+                result = dlp_graph.add_single_lp(x_stored, sign, exps, lp)
                 if result:
                     return result
+            elif rel_type == _REL_DOUBLE_LP:
+                x_stored, sign, exps, lp1, lp2 = data
+                result = dlp_graph.add_double_lp(x_stored, sign, exps, lp1, lp2)
+                if result:
+                    return result
+        return None
 
-            poly_count += 1
-            return None
+    if n_workers > 1:
+        # ============================================================
+        # MULTI-PROCESS SIEVE MODE
+        # ============================================================
+        if verbose:
+            print(f"    Parallel sieve: {n_workers} workers")
 
-        result = sieve_and_collect(b, c, o1, o2)
-        if result:
-            if k > 1:
-                f = _extract_factor(result)
-                if f:
-                    return f
-                # Factor of kN didn't give factor of N — keep going
-            else:
-                return result
+        # Use 'fork' context for fastest startup + shared numba JIT cache
+        # (spawn would re-JIT in each worker, wasting ~2s each)
+        mp_ctx = multiprocessing.get_context('fork')
+        pool = mp_ctx.Pool(processes=n_workers)
 
-        # --- Gray code B-switching: generate remaining 2^(s-1) - 1 polynomials ---
-        # Track current sign state: signs[j] = +1 or -1
-        signs = [1] * s  # Start: all positive
+        try:
+            # Submit batches of 'a' values to the pool
+            batch_size = n_workers * 2  # Keep workers fed with 2x pipeline depth
+            seed_counter = random.randint(0, 2**31)
 
-        for gray_val, flip_bit, flip_dir in gray_seq:
+            for batch_start in range(0, 200000, batch_size):
+                if dlp_graph.num_smooth >= needed or time.time() - t0 > time_limit:
+                    break
+
+                # Build batch of worker args
+                batch_args = []
+                for i in range(batch_size):
+                    seed_counter += 1
+                    batch_args.append(_make_worker_args(seed_counter))
+
+                # imap_unordered for dynamic load balancing
+                for relations in pool.imap_unordered(_sieve_one_a, batch_args):
+                    a_count += 1
+                    poly_count += num_b_polys  # Each 'a' produces num_b_polys polynomials
+
+                    if relations:
+                        result = _feed_relations(relations)
+                        if result:
+                            if k > 1:
+                                f = _extract_factor(result)
+                                if f:
+                                    pool.terminate()
+                                    return f
+                            else:
+                                pool.terminate()
+                                return result
+
+                    if dlp_graph.num_smooth >= needed:
+                        break
+
+                # Progress report
+                if verbose:
+                    elapsed = time.time() - t0
+                    ns = dlp_graph.num_smooth
+                    rate = ns / max(elapsed, 0.001)
+                    eta = (needed - ns) / max(rate, 0.001) if rate > 0 else 99999
+                    print(f"      [{elapsed:.0f}s] a={a_count} poly={poly_count} "
+                          f"sm={ns}/{needed} part={dlp_graph.num_partials} "
+                          f"dlp={dlp_graph.dlp_count} "
+                          f"rate={rate:.1f}/s eta={min(eta,99999):.0f}s")
+        finally:
+            pool.terminate()
+            pool.join()
+
+    else:
+        # ============================================================
+        # SINGLE-THREADED SIEVE MODE (original code path)
+        # ============================================================
+        # Preallocate sieve array (avoid 14MB+ allocation per polynomial)
+        _sieve_buf = np.zeros(sz, dtype=np.int32)
+
+        for a_iter in range(200000):
             if dlp_graph.num_smooth >= needed or time.time() - t0 > time_limit:
                 break
 
-            # Flip sign of B_values[flip_bit + 1] (bit 0 in gray = B_values[1])
-            # (B_values[0] sign is always fixed positive)
-            j = flip_bit + 1  # Index into B_values (skip index 0)
-            if j >= s:
+            # --- Select 'a' as product of s FB primes near target ---
+            best_a = None
+            best_diff = float('inf')
+            for _ in range(20):
+                try:
+                    indices = sorted(random.sample(range(select_lo, select_hi), s))
+                except ValueError:
+                    continue
+                a = mpz(1)
+                for i in indices:
+                    a *= fb[i]
+                diff = abs(float(gmpy2.log2(a)) - log_target) if a > 0 else float('inf')
+                if diff < best_diff:
+                    best_diff = diff
+                    best_a = a
+                    best_primes = [fb[i] for i in indices]
+
+            if best_a is None:
                 continue
 
-            old_sign = signs[j]
-            signs[j] = -old_sign
+            a = best_a
+            a_primes = best_primes
+            a_prime_idx = [fb_index[ap] for ap in a_primes]
+            a_prime_set = set(a_primes)
+            a_int = int(a)
+            a_count += 1
 
-            # Update b: b_new = b_old + 2 * (new_sign - old_sign)/2 * B_values[j]
-            #         = b_old +/- 2 * B_values[j]
-            # If sign flipped from +1 to -1: subtract 2*B_j
-            # If sign flipped from -1 to +1: add 2*B_j
-            if signs[j] < 0:
-                b = b - 2 * B_values[j]
-                offset_dir = 1   # Add delta to offsets (root increases)
-            else:
-                b = b + 2 * B_values[j]
-                offset_dir = -1  # Subtract delta from offsets (root decreases)
+            # --- Compute t_roots: sqrt(n) mod q_j for each q_j in a ---
+            t_roots = []
+            ok = True
+            for q in a_primes:
+                t = sqrt_n_mod.get(q)
+                if t is None:
+                    ok = False
+                    break
+                t_roots.append(t)
+            if not ok:
+                continue
 
-            # DO NOT reduce b mod a — this would break incremental offset updates
-            # because (b % a) mod p != b mod p in general.
+            # --- Compute B_values for Gray code switching ---
+            B_values = []
+            b_ok = True
+            for j in range(s):
+                q = a_primes[j]
+                A_j = a // q
+                try:
+                    A_j_inv = pow(int(A_j % q), -1, q)
+                except (ValueError, ZeroDivisionError):
+                    b_ok = False
+                    break
+                B_j = mpz(t_roots[j]) * A_j * mpz(A_j_inv) % a
+                B_values.append(B_j)
+            if not b_ok:
+                continue
+
+            # --- Precompute a_inv mod p for each FB prime ---
+            a_inv_mod = np.zeros(fb_size, dtype=np.int64)
+            is_a_prime = np.zeros(fb_size, dtype=np.bool_)
+            for pi in range(fb_size):
+                p = fb[pi]
+                if p in a_prime_set:
+                    a_inv_mod[pi] = 0
+                    is_a_prime[pi] = True
+                else:
+                    try:
+                        a_inv_mod[pi] = pow(a_int % p, -1, p)
+                    except (ValueError, ZeroDivisionError):
+                        a_inv_mod[pi] = 0
+
+            regular_idx = np.where(~is_a_prime)[0]
+
+            # --- Precompute delta arrays for Gray code switching ---
+            deltas = []
+            for j in range(s):
+                d = np.zeros(fb_size, dtype=np.int64)
+                B_j_2 = 2 * B_values[j]
+                for pi in range(fb_size):
+                    p = fb[pi]
+                    if p in a_prime_set:
+                        d[pi] = 0
+                    else:
+                        d[pi] = int(B_j_2 % p) * a_inv_mod[pi] % p
+                deltas.append(d)
+
+            # --- First polynomial: all signs positive ---
+            b = mpz(0)
+            for B_j in B_values:
+                b += B_j
+            if (b * b - n) % a != 0:
+                b = -b
+                if (b * b - n) % a != 0:
+                    continue
+
             c = (b * b - n) // a
             b_int = int(b)
 
-            # --- Incremental offset update (the SIQS key win) ---
-            # For regular primes (not dividing a): vectorized add/sub delta
-            # For a-primes (only s of them): recompute from scratch (cheap)
-            #
-            # Math: when b -> b' = b +/- 2*B_j, the sieve roots change:
-            #   r_new = a_inv * (t - b') mod p = r_old -/+ 2*B_j*a_inv mod p
-            #   offset_new = (r_new + M) mod p = offset_old -/+ delta_j mod p
-            #
-            # When sign flips +1 -> -1: b decreases by 2*B_j, so root INCREASES by delta
-            # When sign flips -1 -> +1: b increases by 2*B_j, so root DECREASES by delta
-            delta_j = deltas[j]
+            # --- Compute initial sieve offsets for first polynomial ---
+            o1 = np.full(fb_size, -1, dtype=np.int64)
+            o2 = np.full(fb_size, -1, dtype=np.int64)
 
-            # Vectorized update for regular primes (the fast path)
-            # CRITICAL: only update primes that have valid offsets (o1 >= 0)
-            ri = regular_idx
-            valid1 = o1[ri] >= 0
-            ri_v1 = ri[valid1]
-            valid2 = o2[ri] >= 0
-            ri_v2 = ri[valid2]
-
-            if offset_dir > 0:
-                o1[ri_v1] = (o1[ri_v1] + delta_j[ri_v1]) % fb_np[ri_v1]
-                o2[ri_v2] = (o2[ri_v2] + delta_j[ri_v2]) % fb_np[ri_v2]
-            else:
-                o1[ri_v1] = (o1[ri_v1] - delta_j[ri_v1]) % fb_np[ri_v1]
-                o2[ri_v2] = (o2[ri_v2] - delta_j[ri_v2]) % fb_np[ri_v2]
-
-            # Recompute for the few a-primes (at most s primes)
-            for pi in a_prime_idx:
+            for pi in range(fb_size):
                 p = fb[pi]
                 if p == 2:
                     g0 = int(c % 2)
                     g1 = int((a_int + 2 * b_int + int(c)) % 2)
-                    o1[pi] = -1
-                    o2[pi] = -1
                     if g0 == 0:
                         o1[pi] = M % 2
                         if g1 == 0:
@@ -1357,16 +1596,68 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
                     elif g1 == 0:
                         o1[pi] = (M + 1) % 2
                     continue
-                b2 = (2 * b_int) % p
-                if b2 == 0:
-                    o1[pi] = -1
-                    o2[pi] = -1
+
+                if p in a_prime_set:
+                    b2 = (2 * b_int) % p
+                    if b2 == 0:
+                        continue
+                    b2_inv = pow(b2, -1, p)
+                    c_mod = int(c % p)
+                    r = (-c_mod * b2_inv) % p
+                    o1[pi] = (r + M) % p
                     continue
-                b2_inv = pow(b2, -1, p)
-                c_mod = int(c % p)
-                r = (-c_mod * b2_inv) % p
-                o1[pi] = (r + M) % p
-                o2[pi] = -1
+
+                t = sqrt_n_mod.get(p)
+                if t is None:
+                    continue
+                ai = int(a_inv_mod[pi])
+                bm = b_int % p
+                r1 = (ai * (t - bm)) % p
+                r2 = (ai * (p - t - bm)) % p
+                o1[pi] = (r1 + M) % p
+                o2[pi] = ((r2 + M) % p) if r2 != r1 else -1
+
+            # --- Sieve first polynomial ---
+            def sieve_and_collect(b_val, c_val, off1, off2):
+                """Sieve one polynomial and collect relations using batch hit detection."""
+                nonlocal poly_count, total_cands
+                b_v = int(b_val)
+                c_v = int(c_val)
+
+                _sieve_buf[:] = 0
+                sieve_arr = _sieve_buf
+                jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
+
+                log_g_max = math.log2(max(M, 1)) + 0.5 * nb
+                thresh = int(max(0, (log_g_max - T_bits)) * 1024) - small_prime_correction
+
+                candidates = jit_find_smooth(sieve_arr, thresh)
+                n_cand = len(candidates)
+                total_cands += n_cand
+
+                if n_cand == 0:
+                    poly_count += 1
+                    return None
+
+                hit_starts, hit_fb = jit_batch_find_hits(
+                    candidates, n_cand, fb_np, off1, off2, fb_size)
+
+                for ci in range(n_cand):
+                    sieve_pos = int(candidates[ci])
+                    x = sieve_pos - M
+                    ax_b = int(a * x + b_val)
+                    gx = a_int * x * x + 2 * b_v * x + c_v
+
+                    h_start = hit_starts[ci]
+                    h_end = hit_starts[ci + 1]
+
+                    result = process_candidate_batch(
+                        ax_b, gx, a_prime_idx, hit_fb, h_start, h_end)
+                    if result:
+                        return result
+
+                poly_count += 1
+                return None
 
             result = sieve_and_collect(b, c, o1, o2)
             if result:
@@ -1377,16 +1668,88 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
                 else:
                     return result
 
-        # Progress report
-        if a_count % max(1, 10 if nd < 60 else 3) == 0 and verbose:
-            elapsed = time.time() - t0
-            ns = dlp_graph.num_smooth
-            rate = ns / max(elapsed, 0.001)
-            eta = (needed - ns) / max(rate, 0.001) if rate > 0 else 99999
-            print(f"      [{elapsed:.0f}s] a={a_count} poly={poly_count} "
-                  f"sm={ns}/{needed} part={dlp_graph.num_partials} "
-                  f"dlp={dlp_graph.dlp_count} cand={total_cands} "
-                  f"rate={rate:.1f}/s eta={min(eta,99999):.0f}s")
+            # --- Gray code B-switching ---
+            signs = [1] * s
+
+            for gray_val, flip_bit, flip_dir in gray_seq:
+                if dlp_graph.num_smooth >= needed or time.time() - t0 > time_limit:
+                    break
+
+                j = flip_bit + 1
+                if j >= s:
+                    continue
+
+                old_sign = signs[j]
+                signs[j] = -old_sign
+
+                if signs[j] < 0:
+                    b = b - 2 * B_values[j]
+                    offset_dir = 1
+                else:
+                    b = b + 2 * B_values[j]
+                    offset_dir = -1
+
+                c = (b * b - n) // a
+                b_int = int(b)
+
+                delta_j = deltas[j]
+                ri = regular_idx
+                valid1 = o1[ri] >= 0
+                ri_v1 = ri[valid1]
+                valid2 = o2[ri] >= 0
+                ri_v2 = ri[valid2]
+
+                if offset_dir > 0:
+                    o1[ri_v1] = (o1[ri_v1] + delta_j[ri_v1]) % fb_np[ri_v1]
+                    o2[ri_v2] = (o2[ri_v2] + delta_j[ri_v2]) % fb_np[ri_v2]
+                else:
+                    o1[ri_v1] = (o1[ri_v1] - delta_j[ri_v1]) % fb_np[ri_v1]
+                    o2[ri_v2] = (o2[ri_v2] - delta_j[ri_v2]) % fb_np[ri_v2]
+
+                for pi in a_prime_idx:
+                    p = fb[pi]
+                    if p == 2:
+                        g0 = int(c % 2)
+                        g1 = int((a_int + 2 * b_int + int(c)) % 2)
+                        o1[pi] = -1
+                        o2[pi] = -1
+                        if g0 == 0:
+                            o1[pi] = M % 2
+                            if g1 == 0:
+                                o2[pi] = (M + 1) % 2
+                        elif g1 == 0:
+                            o1[pi] = (M + 1) % 2
+                        continue
+                    b2 = (2 * b_int) % p
+                    if b2 == 0:
+                        o1[pi] = -1
+                        o2[pi] = -1
+                        continue
+                    b2_inv = pow(b2, -1, p)
+                    c_mod = int(c % p)
+                    r = (-c_mod * b2_inv) % p
+                    o1[pi] = (r + M) % p
+                    o2[pi] = -1
+
+                result = sieve_and_collect(b, c, o1, o2)
+                if result:
+                    if k > 1:
+                        f = _extract_factor(result)
+                        if f:
+                            return f
+                    else:
+                        return result
+
+            # Progress report
+            if a_count % max(1, 10 if nd < 60 else 3) == 0 and verbose:
+                elapsed = time.time() - t0
+                ns = dlp_graph.num_smooth
+                rate = ns / max(elapsed, 0.001)
+                eta = (needed - ns) / max(rate, 0.001) if rate > 0 else 99999
+                print(f"      [{elapsed:.0f}s] a={a_count} poly={poly_count} "
+                      f"sm={ns}/{needed} part={dlp_graph.num_partials} "
+                      f"dlp={dlp_graph.dlp_count} cand={total_cands} "
+                      f"rate={rate:.1f}/s eta={min(eta,99999):.0f}s")
 
     # ======================================================================
     # Stage 3: GF(2) Gaussian Elimination
