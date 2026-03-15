@@ -1403,12 +1403,56 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
         print(f"\n    LA: {len(smooth)} x {fb_size + 1}")
 
     la_t0 = time.time()
-    nrows = len(smooth)
+
+    # Singleton filtering: remove columns appearing in only 1 relation (iteratively)
+    # This reduces matrix size by 15-50%, speeding up Gaussian elimination.
+    active_rows = list(range(len(smooth)))
+    for _filt_pass in range(10):  # iterate until stable
+        # Count column occurrences across active rows
+        col_count = {}
+        for ri in active_rows:
+            _, sign, exps = smooth[ri]
+            if sign % 2:
+                col_count[0] = col_count.get(0, 0) + 1
+            for j, e in enumerate(exps):
+                if e % 2:
+                    col_count[j + 1] = col_count.get(j + 1, 0) + 1
+        # Find singleton columns (count == 1)
+        singletons = {c for c, cnt in col_count.items() if cnt == 1}
+        if not singletons:
+            break
+        # Remove rows that contain a singleton column
+        new_active = []
+        for ri in active_rows:
+            _, sign, exps = smooth[ri]
+            has_singleton = False
+            if sign % 2 and 0 in singletons:
+                has_singleton = True
+            if not has_singleton:
+                for j, e in enumerate(exps):
+                    if e % 2 and (j + 1) in singletons:
+                        has_singleton = True
+                        break
+            if not has_singleton:
+                new_active.append(ri)
+        if len(new_active) == len(active_rows):
+            break
+        active_rows = new_active
+
+    if verbose and len(active_rows) < len(smooth):
+        print(f"    Filtering: {len(smooth)} -> {len(active_rows)} rows "
+              f"({100 - len(active_rows) * 100 // len(smooth)}% removed)")
+
+    # Remap to filtered set
+    filtered_smooth = [smooth[i] for i in active_rows]
+    row_map = active_rows  # maps filtered index -> original index
+
+    nrows = len(filtered_smooth)
     ncols = fb_size + 1  # +1 for the sign column
 
     # Build GF(2) matrix using Python big ints as bit vectors
     mat = []
-    for _, sign, exps in smooth:
+    for _, sign, exps in filtered_smooth:
         row = sign  # Bit 0 = sign
         for j, e in enumerate(exps):
             if e % 2 == 1:
@@ -1434,20 +1478,22 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
                 mat[row] ^= mat[piv]
                 combo[row] ^= combo[piv]
 
-    # Extract null space vectors
+    # Extract null space vectors (map back to original smooth indices)
     null_vecs = []
     for row in range(nrows):
         if mat[row] == 0:
-            indices = []
+            filtered_indices = []
             bits = combo[row]
             idx = 0
             while bits:
                 if bits & 1:
-                    indices.append(idx)
+                    filtered_indices.append(idx)
                 bits >>= 1
                 idx += 1
-            if indices:
-                null_vecs.append(indices)
+            if filtered_indices:
+                # Map filtered indices back to original smooth[] indices
+                original_indices = [row_map[i] for i in filtered_indices]
+                null_vecs.append(original_indices)
 
     if verbose:
         print(f"    LA: {time.time()-la_t0:.1f}s, {len(null_vecs)} null vecs")
