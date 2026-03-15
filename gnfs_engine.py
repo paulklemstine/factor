@@ -1759,11 +1759,40 @@ def _poly_pow_mod_ring(base, exp, f_coeffs, modulus):
 
 
 def _find_inert_prime(f_coeffs, min_p=100):
-    """Find a prime q where f has no roots mod q (irreducible for degree 3)."""
+    """Find a prime q where f is IRREDUCIBLE mod q (not just no roots).
+    For degree d, check that gcd(x^(q^k) - x, f) = 1 for k = 1, ..., d-1.
+    This ensures F_q[x]/(f) is a field of order q^d."""
+    d = len(f_coeffs) - 1
     p = int(next_prime(min_p))
     for _ in range(100000):
+        # Quick check: no roots (necessary but not sufficient for d > 3)
         roots = find_poly_roots_mod_p(f_coeffs, p)
-        if len(roots) == 0:
+        if len(roots) > 0:
+            p = int(next_prime(p))
+            continue
+
+        # Full irreducibility check for d >= 4
+        if d <= 3:
+            # For d=2,3: no roots ⟹ irreducible
+            return p
+
+        # For d >= 4: check x^(p^k) ≡ x mod f for k = 1, ..., d-1
+        # f is irreducible iff none of these hold (no factors of degree k)
+        is_irred = True
+        x_poly = [0, 1] + [0] * (d - 2)
+        xpk = _poly_pow_mod_ring(x_poly, p, f_coeffs, p)  # x^p mod (f, p)
+        for k in range(1, d):
+            # Check: x^(p^k) ≡ x mod (f, p)?
+            diff = [(xpk[i] - x_poly[i]) % p for i in range(d)]
+            if all(c == 0 for c in diff):
+                # f has a factor of degree dividing k
+                is_irred = False
+                break
+            if k < d - 1:
+                # Compute x^(p^(k+1)) = (x^(p^k))^p
+                xpk = _poly_pow_mod_ring(xpk, p, f_coeffs, p)
+
+        if is_irred:
             return p
         p = int(next_prime(p))
     return None
