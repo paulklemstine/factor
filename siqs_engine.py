@@ -278,15 +278,9 @@ def jit_find_hits(sieve_pos, fb, off1, off2, fb_size):
 def jit_batch_find_hits(candidates, n_cand, fb, off1, off2, fb_size):
     """
     Batch JIT hit detection for ALL candidates in a polynomial at once.
-    Eliminates Python→numba transition overhead per candidate.
-
-    Returns flat arrays:
-      hit_starts[ci] = index into hit_fb where candidate ci's hits begin
-      hit_fb[j] = FB index of j-th hit across all candidates
-      hit_count = total number of hits
+    Candidate-major order: for each candidate, check all FB primes.
     """
-    # First pass: count hits per candidate to compute offsets
-    max_total = n_cand * 80  # ~80 hits per candidate upper bound
+    max_total = n_cand * 80
     hit_fb = np.empty(max_total, dtype=np.int32)
     hit_starts = np.empty(n_cand + 1, dtype=np.int32)
     total = 0
@@ -306,7 +300,45 @@ def jit_batch_find_hits(candidates, n_cand, fb, off1, off2, fb_size):
                     total += 1
     hit_starts[n_cand] = total
     return hit_starts, hit_fb[:total]
-    # because we need the prime values for modular arithmetic.
+
+
+@njit(cache=True)
+def jit_sieve_and_record(sieve_arr, primes, logs, offsets1, offsets2, sz,
+                          hit_counts, hit_indices, max_hits_per_pos):
+    """
+    Combined sieve + hit recording. During sieve, record which primes
+    contribute to each position. This eliminates the separate hit detection pass.
+
+    Only records hits for primes >= 32 (small primes handled by presieve/trial div).
+    Memory: sz * max_hits_per_pos * 4 bytes. For sz=3M, max=32: 384MB — too much.
+
+    USE ONLY WITH REDUCED sz or larger primes threshold.
+    """
+    for i in range(len(primes)):
+        p = primes[i]
+        if p < 32:
+            continue
+        lp = logs[i]
+        o1 = offsets1[i]
+        o2 = offsets2[i]
+        if o1 >= 0:
+            j = o1
+            while j < sz:
+                sieve_arr[j] += lp
+                c = hit_counts[j]
+                if c < max_hits_per_pos:
+                    hit_indices[j * max_hits_per_pos + c] = i
+                    hit_counts[j] = c + 1
+                j += p
+        if o2 >= 0 and o2 != o1:
+            j = o2
+            while j < sz:
+                sieve_arr[j] += lp
+                c = hit_counts[j]
+                if c < max_hits_per_pos:
+                    hit_indices[j * max_hits_per_pos + c] = i
+                    hit_counts[j] = c + 1
+                j += p
 
 
 ###############################################################################
@@ -923,7 +955,7 @@ def _sieve_one_a(args):
         jit_sieve(_sieve_buf, fb_np, fb_log, off1, off2, sz)
 
         log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-        thresh = int(max(0, (log_g_max - T_bits)) * 64)
+        thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
 
         candidates = jit_find_smooth(_sieve_buf, thresh)
         n_cand = len(candidates)
@@ -1177,9 +1209,18 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
     fb_log = np.array([int(round(math.log2(p) * 64)) for p in fb], dtype=np.int16)
     fb_index = {p: i for i, p in enumerate(fb)}
 
-    # Expected sieve contribution from small primes skipped in jit_sieve.
-    # Presieve handles primes 2-31 directly, threshold adjusted accordingly.
+    # Expected sieve contribution from small primes we skip in jit_sieve.
+    # Each prime p hits ~2/p of positions (two roots), contributing log2(p)*64.
+    # p=2 has only 1 root, so factor is 1/p not 2/p.
     small_prime_correction = 0
+    for p in fb:
+        if p >= 32:
+            break
+        roots = 1 if p == 2 else 2
+        small_prime_correction += roots * math.log2(p) * 64 / p
+    # Use 60% of expected correction: smooth numbers have above-average
+    # small prime divisibility, so full correction admits too many false positives
+    small_prime_correction = int(small_prime_correction * 0.60)
 
     if verbose:
         print(f"    FB[{fb[0]}..{fb[-1]}] built ({time.time()-t0:.1f}s)")
@@ -1210,7 +1251,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
         T_bits = max(15, nb // 4 - 1)
     else:
         T_bits = max(15, nb // 4 - 2)
-    needed = fb_size + 30
+    needed = fb_size + 100
 
     dlp_graph = DoubleLargePrimeGraph(n, fb_size, lp_bound)
 
@@ -1218,11 +1259,13 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
         print(f"    Need {needed} rels, T_bits={T_bits}, LP_bound={int(math.log10(lp_bound)):.0f}d")
 
     # JIT warmup
-    dummy = np.zeros(100, dtype=np.int32)
-    jit_sieve(dummy, np.array([2, 3], dtype=np.int64),
-              np.array([10, 15], dtype=np.int32),
-              np.array([0, 0], dtype=np.int64),
-              np.array([1, 1], dtype=np.int64), 100)
+    dummy = np.zeros(100, dtype=np.int16)
+    _warmup_primes = np.array([2, 3], dtype=np.int64)
+    _warmup_logs = np.array([10, 15], dtype=np.int16)
+    _warmup_off1 = np.array([0, 0], dtype=np.int64)
+    _warmup_off2 = np.array([1, 1], dtype=np.int64)
+    jit_presieve(dummy, _warmup_primes, _warmup_logs, _warmup_off1, _warmup_off2, 100)
+    jit_sieve(dummy, _warmup_primes, _warmup_logs, _warmup_off1, _warmup_off2, 100)
     jit_find_smooth(dummy, 1)
 
     poly_count = 0
@@ -1878,30 +1921,41 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 o2[pi] = ((r2 + M) % p) if r2 != r1 else -1
 
             # --- Sieve first polynomial ---
+            _t_sieve = [0.0]
+            _t_hits = [0.0]
+            _t_td = [0.0]
+            _t_polys = [0]
+
             def sieve_and_collect(b_val, c_val, off1, off2):
                 """Sieve one polynomial and collect relations using batch hit detection."""
                 nonlocal poly_count, total_cands
                 b_v = int(b_val)
                 c_v = int(c_val)
 
+                _ts = time.time()
                 _sieve_buf[:] = 0
                 sieve_arr = _sieve_buf
                 jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
 
                 log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-                thresh = int(max(0, (log_g_max - T_bits)) * 64)
+                thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
 
                 candidates = jit_find_smooth(sieve_arr, thresh)
                 n_cand = len(candidates)
                 total_cands += n_cand
+                _t_sieve[0] += time.time() - _ts
 
                 if n_cand == 0:
                     poly_count += 1
+                    _t_polys[0] += 1
                     return None
 
+                _th = time.time()
                 hit_starts, hit_fb = jit_batch_find_hits(
                     candidates, n_cand, fb_np, off1, off2, fb_size)
+                _t_hits[0] += time.time() - _th
 
+                _tt = time.time()
                 for ci in range(n_cand):
                     sieve_pos = int(candidates[ci])
                     x = sieve_pos - M
@@ -1914,9 +1968,12 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                     result = process_candidate_batch(
                         ax_b, gx, a_prime_idx, hit_fb, h_start, h_end)
                     if result:
+                        _t_td[0] += time.time() - _tt
                         return result
+                _t_td[0] += time.time() - _tt
 
                 poly_count += 1
+                _t_polys[0] += 1
                 return None
 
             result = sieve_and_collect(b, c, o1, o2)
@@ -2009,7 +2066,8 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 print(f"      [{elapsed:.0f}s] a={a_count} poly={poly_count} "
                       f"sm={ns}/{needed} part={dlp_graph.num_partials} "
                       f"dlp={dlp_graph.dlp_count} cand={total_cands} "
-                      f"rate={rate:.1f}/s eta={min(eta,99999):.0f}s")
+                      f"rate={rate:.1f}/s eta={min(eta,99999):.0f}s"
+                      f" | sieve={_t_sieve[0]:.1f}s hits={_t_hits[0]:.1f}s td={_t_td[0]:.1f}s")
 
     # ======================================================================
     # Stage 3: GF(2) Gaussian Elimination
