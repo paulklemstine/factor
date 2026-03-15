@@ -658,7 +658,7 @@ def _sieve_one_a(args):
 
     # Reconstruct numpy arrays (can't pickle numpy arrays reliably across processes)
     fb_np = np.array(fb_np_list, dtype=np.int64)
-    fb_log = np.array(fb_log_list, dtype=np.int32)
+    fb_log = np.array(fb_log_list, dtype=np.int16)
     sqrt_n_mod = dict(sqrt_n_mod_list)
 
     n = mpz(n_int)
@@ -790,7 +790,7 @@ def _sieve_one_a(args):
 
     # Collect relations from all polynomials for this 'a'
     relations = []
-    _sieve_buf = np.zeros(sz, dtype=np.int32)
+    _sieve_buf = np.zeros(sz, dtype=np.int16)
 
     def _worker_sieve_poly(b_val, c_val, off1, off2):
         """Sieve one polynomial, collect raw relations."""
@@ -801,7 +801,7 @@ def _sieve_one_a(args):
         jit_sieve(_sieve_buf, fb_np, fb_log, off1, off2, sz)
 
         log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-        thresh = int(max(0, (log_g_max - T_bits)) * 1024) - small_prime_correction
+        thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
 
         candidates = jit_find_smooth(_sieve_buf, thresh)
         n_cand = len(candidates)
@@ -1017,18 +1017,19 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
         p = int(next_prime(p)) if p > 2 else 3
 
     fb_np = np.array(fb, dtype=np.int64)
-    fb_log = np.array([int(round(math.log2(p) * 1024)) for p in fb], dtype=np.int32)
+    # Scale factor 64 (not 1024): halves sieve array to int16, fits L2 cache better
+    fb_log = np.array([int(round(math.log2(p) * 64)) for p in fb], dtype=np.int16)
     fb_index = {p: i for i, p in enumerate(fb)}
 
     # Expected sieve contribution from small primes we skip in jit_sieve
-    # Each prime p hits ~2/p of positions (two roots), contributing log2(p)*1024
+    # Each prime p hits ~2/p of positions (two roots), contributing log2(p)*64
     # p=2 has only 1 root, so factor is 1/p not 2/p
     small_prime_correction = 0
     for p in fb:
         if p >= 32:
             break
         roots = 1 if p == 2 else 2
-        small_prime_correction += roots * math.log2(p) * 1024 / p
+        small_prime_correction += roots * math.log2(p) * 64 / p
     # Use 70% of expected correction: smooth numbers have above-average
     # small prime divisibility, so full correction admits too many false positives
     small_prime_correction = int(small_prime_correction * 0.60)
@@ -1055,7 +1056,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
     # Large prime bound: min(B*100, B^2) — B^2 gives LP space too large for DLP combining
     lp_bound = min(fb[-1] * 100, fb[-1] ** 2)
 
-    # T_bits controls sieve threshold: thresh = (log_g_max - T_bits) * 1024.
+    # T_bits controls sieve threshold: thresh = (log_g_max - T_bits) * 64.
     # Higher T_bits = lower threshold = more candidates (looser).
     # For 54d+, slightly looser works because sieve is the bottleneck.
     if nb >= 180:
@@ -1481,7 +1482,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
         # SINGLE-THREADED SIEVE MODE (original code path)
         # ============================================================
         # Preallocate sieve array (avoid 14MB+ allocation per polynomial)
-        _sieve_buf = np.zeros(sz, dtype=np.int32)
+        _sieve_buf = np.zeros(sz, dtype=np.int16)
 
         for a_iter in range(200000):
             if dlp_graph.num_smooth >= needed or time.time() - t0 > time_limit:
@@ -1632,7 +1633,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1):
                 jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
 
                 log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-                thresh = int(max(0, (log_g_max - T_bits)) * 1024) - small_prime_correction
+                thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
 
                 candidates = jit_find_smooth(sieve_arr, thresh)
                 n_cand = len(candidates)
