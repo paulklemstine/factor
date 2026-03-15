@@ -21,6 +21,41 @@ import time
 import numpy as np
 from collections import defaultdict
 from numba import njit
+import ctypes
+import os
+
+# Load C sieve extension
+_gnfs_sieve_lib = None
+def _load_gnfs_sieve():
+    global _gnfs_sieve_lib
+    if _gnfs_sieve_lib is not None:
+        return _gnfs_sieve_lib
+    so_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gnfs_sieve_c.so')
+    if os.path.exists(so_path):
+        _gnfs_sieve_lib = ctypes.CDLL(so_path)
+        _gnfs_sieve_lib.sieve_batch_c.restype = ctypes.c_int
+        _gnfs_sieve_lib.sieve_batch_c.argtypes = [
+            ctypes.c_int, ctypes.c_int, ctypes.c_int,  # b_start, b_end, A
+            ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,  # rat_primes, n_rat, m
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
+            ctypes.c_int, ctypes.c_int,  # rat_frac_x1000, alg_frac_x1000
+            ctypes.c_int, ctypes.c_int64,  # poly_degree, f0_abs
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int), ctypes.c_int,  # out_a, out_b, max
+        ]
+        # Register __int128 verify function
+        _gnfs_sieve_lib.verify_candidates_c.restype = ctypes.c_int
+        _gnfs_sieve_lib.verify_candidates_c.argtypes = [
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int), ctypes.c_int,  # cand_a, cand_b, n_cands
+            ctypes.c_int64,  # m
+            ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # f_coeffs, degree
+            ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # rat_primes, n_rat
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
+            ctypes.c_int64,  # lp_bound
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_exps, out_alg_exps
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_signs, out_mask
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_lp, out_alg_lp
+        ]
+    return _gnfs_sieve_lib
 
 
 ###############################################################################
@@ -59,45 +94,85 @@ def base_m_poly(n, d=None):
 
     # Optimal degree selection (standard GNFS heuristics)
     if d is None:
-        if nd < 80:
+        if nd < 40:
             d = 3
-        elif nd < 110:
+        elif nd < 65:
             d = 4
-        elif nd < 155:
+        elif nd < 100:
             d = 5
-        elif nd < 210:
+        elif nd < 150:
             d = 6
         else:
             d = 7
 
     # Base m = floor(n^(1/d))
-    m, exact = iroot(n, d)
+    m0, exact = iroot(n, d)
     # If exact, n = m^d, which means m is a factor (trivial case)
     if exact:
-        return {'factor': int(m)}
+        return {'factor': int(m0)}
 
-    # Express n in base m: n = sum(a_i * m^i)
-    coeffs = []
-    remainder = n
-    for i in range(d + 1):
-        coeff = remainder % m
-        remainder = remainder // m
-        coeffs.append(int(coeff))
+    def _base_m_poly(n, m, d):
+        """Express n in base m: f(m) = n, return coefficients."""
+        coeffs = []
+        remainder = n
+        for i in range(d + 1):
+            coeff = remainder % m
+            remainder = remainder // m
+            coeffs.append(int(coeff))
+        if remainder > 0:
+            coeffs[-1] = int(coeffs[-1] + remainder * m)
+        # Verify
+        f_at_m = mpz(0)
+        m_power = mpz(1)
+        for c in coeffs:
+            f_at_m += mpz(c) * m_power
+            m_power *= m
+        if f_at_m != n:
+            return None
+        return coeffs
 
-    # The leading coefficient a_d might need adjustment
-    # Since m = floor(n^(1/d)), we might have remainder > 0
-    if remainder > 0:
-        # n > a_d * m^d, so we need to absorb remainder into leading coeff
-        coeffs[-1] = int(coeffs[-1] + remainder * m)
-        # Alternatively, increase m slightly. For now, just adjust a_d.
+    def _poly_norm_score(coeffs, d):
+        """Quick score: lower = better sieve norms.
+        Estimates average algebraic norm size over sieve region.
+        We want small norms for high smoothness probability."""
+        if coeffs is None:
+            return float('inf')
+        lc = abs(coeffs[-1])
+        if lc == 0:
+            return float('inf')
+        # Estimate norm at typical sieve point (a=A, b=1) where A ~ m^(1/2)
+        # Norm = sum |c_i * a^i * b^(d-i)| ≈ sum |c_i * A^i|
+        # Use geometric mean of norm at a=1000 and a=100000
+        score = 0.0
+        for test_a in [1000, 50000, 100000]:
+            norm_est = sum(abs(c) * test_a**i for i, c in enumerate(coeffs))
+            score += math.log(norm_est + 1)
+        # Penalize large leading coefficient (ideally 1)
+        score += 3.0 * math.log(lc + 1)
+        return score
 
-    # Verify: f(m) should equal n
-    f_at_m = mpz(0)
-    m_power = mpz(1)
-    for c in coeffs:
-        f_at_m += mpz(c) * m_power
-        m_power *= m
-    assert f_at_m == n, f"Polynomial verification failed: f(m)={f_at_m} != n={n}"
+    # Try multiple m values near m0 and pick the best polynomial
+    best_score = float('inf')
+    best_coeffs = None
+    best_m = int(m0)
+
+    # Search range: ±1000 around m0 for d≥4, ±100 for d=3
+    search_range = 1000 if d >= 4 else 100
+    for delta in range(-search_range, search_range + 1):
+        m_try = int(m0) + delta
+        if m_try < 2:
+            continue
+        coeffs = _base_m_poly(n, mpz(m_try), d)
+        if coeffs is None:
+            continue
+        score = _poly_norm_score(coeffs, d)
+        if score < best_score:
+            best_score = score
+            best_coeffs = coeffs
+            best_m = m_try
+
+    coeffs = best_coeffs
+    m = best_m
 
     # Skewness estimate: s ≈ (a_0 / a_d)^(1/d)
     if coeffs[-1] != 0:
@@ -276,13 +351,13 @@ def gnfs_params(n):
     nb = int(gmpy2.log2(mpz(n))) + 1
 
     # Degree
-    if nd < 80:
+    if nd < 40:
         d = 3
-    elif nd < 110:
+    elif nd < 65:
         d = 4
-    elif nd < 155:
+    elif nd < 100:
         d = 5
-    elif nd < 210:
+    elif nd < 150:
         d = 6
     else:
         d = 7
@@ -293,12 +368,22 @@ def gnfs_params(n):
     L = math.exp(0.5 * (ln_n ** (1/3)) * (ln_ln_n ** (2/3)))
 
     # Factor base bounds — use practical table for small n, L-formula for large
-    if nd < 25:
+    if nd < 23:
         fb_bound = 10000
-    elif nd < 40:
+    elif nd < 27:
         fb_bound = 20000
-    elif nd < 55:
+    elif nd < 32:
+        fb_bound = 40000
+    elif nd < 37:
+        fb_bound = 50000
+    elif nd < 40:
+        fb_bound = 70000
+    elif nd < 45:
         fb_bound = 100000
+    elif nd < 50:
+        fb_bound = 200000
+    elif nd < 55:
+        fb_bound = 300000
     elif nd < 75:
         fb_bound = 500000
     elif nd < 100:
@@ -309,15 +394,18 @@ def gnfs_params(n):
     fb_bound = min(fb_bound, 50_000_000)  # cap for memory
 
     # Sieve region: A should keep norms smooth-able
-    # Rational norm ≈ A·m, algebraic norm ≈ A^d for small b
-    # Want norms < fb_bound^2 roughly
-    A = int(fb_bound ** (2.0 / d))
-    A = max(A, 5000)
+    # For degree d, algebraic norms ~ |a|^d, so smaller A = better smoothness
+    A = max(fb_bound // 2, int(fb_bound ** (2.0 / d)))
+    if nd >= 35:
+        A = max(A, fb_bound)  # wider sieve for harder numbers
     A = min(A, 5_000_000)  # cap for memory
 
-    # B_max: generous — more b values is cheap and relation yield drops slowly
-    B_max = max(fb_bound, 5000)
-    B_max = min(B_max, 200000)
+    # B_max: generous — more b values is cheap with C sieve
+    if nd >= 40:
+        B_max = max(fb_bound * 15, 5000)
+    else:
+        B_max = max(fb_bound * 4, 5000)
+    B_max = min(B_max, 2000000)
 
     return {
         'd': d,
@@ -459,6 +547,297 @@ def sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb, rat_bound=0, alg_bound=0):
 
 
 ###############################################################################
+# Phase 3a2: Lattice Sieve (Special-q)
+###############################################################################
+
+def gauss_reduce_2d(v1, v2):
+    """2D Gauss lattice reduction. Returns (shorter, longer) reduced basis."""
+    u = list(v1)
+    v = list(v2)
+    while True:
+        nu = u[0] * u[0] + u[1] * u[1]
+        nv = v[0] * v[0] + v[1] * v[1]
+        if nv < nu:
+            u, v = v, u
+            nu, nv = nv, nu
+        if nu == 0:
+            break
+        dot = u[0] * v[0] + u[1] * v[1]
+        mu = round(dot / nu)
+        if mu == 0:
+            break
+        v = [v[0] - mu * u[0], v[1] - mu * u[1]]
+    return tuple(u), tuple(v)
+
+
+def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
+                          needed, verbose=True, time_limit=3600, t0=None,
+                          inert_qc_primes=None):
+    """
+    Collect relations using special-q lattice sieve on algebraic side.
+
+    For each special-q prime q (above FB bound):
+      - Find roots r of f(x) ≡ 0 (mod q)
+      - Lattice L = {(a,b) : a + b·r ≡ 0 (mod q)}, Gauss-reduce
+      - Sieve in reduced (i,j) coordinates
+      - Algebraic norm divisible by q; trial-divide cofactor norm/q
+    """
+    if t0 is None:
+        t0 = time.time()
+
+    d = len(f_coeffs) - 1
+    fb_bound = params['B_r']
+
+    # Arrays for JIT sieve
+    rat_primes = np.array(rat_fb, dtype=np.int64)
+    rat_log_ps = np.log(rat_primes).astype(np.float32)
+    alg_primes = np.array([p for p, r in alg_fb], dtype=np.int64)
+    alg_roots = np.array([r for p, r in alg_fb], dtype=np.int64)
+    alg_log_ps = np.log(alg_primes).astype(np.float32)
+
+    # Setup trial division caches
+    trial_divide_rational._primes = rat_primes
+    trial_divide_algebraic._primes = alg_primes
+    trial_divide_algebraic._roots = alg_roots
+    norm_algebraic._coeffs = np.array(f_coeffs, dtype=np.int64)
+
+    verified = []
+    sq_map = {}  # q -> column index
+    sq_col_idx = 0
+    total_candidates = 0
+
+    q = int(next_prime(fb_bound))
+    q_max = fb_bound * 200
+
+    while q <= q_max and len(verified) < needed:
+        if time.time() - t0 > time_limit:
+            break
+
+        roots = find_poly_roots_mod_p(f_coeffs, q)
+        if not roots:
+            q = int(next_prime(q))
+            continue
+
+        for r in roots:
+            if len(verified) >= needed:
+                break
+
+            # Lattice: a ≡ -b*r (mod q)
+            v1 = (q, 0)
+            v2 = (int((-r) % q), 1)
+            e1, e2 = gauss_reduce_2d(v1, v2)
+
+            len_e1 = math.sqrt(e1[0]**2 + e1[1]**2)
+            len_e2 = math.sqrt(e2[0]**2 + e2[1]**2)
+
+            # Sieve region: keep norms manageable
+            I_max = max(int(50000 / max(len_e1, 1)), 50)
+            J_max = max(int(200 / max(len_e2, 1)), 2)
+            I_max = min(I_max, 500000)
+            J_max = min(J_max, 2000)
+            size = 2 * I_max + 1
+
+            # Precompute per-prime sieve constants for this lattice
+            # Rational: R1 = (e1[0] + e1[1]*m) mod p, R2 = (e2[0] + e2[1]*m) mod p
+            e1_m = e1[0] + e1[1] * int(m)
+            e2_m = e2[0] + e2[1] * int(m)
+            R1 = np.array([e1_m % p for p in rat_fb], dtype=np.int64)
+            R2 = np.array([e2_m % p for p in rat_fb], dtype=np.int64)
+            # Modular inverse of R1 (Fermat): pow(R1, p-2, p)
+            R1_inv = np.array([pow(int(R1[i]), int(rat_primes[i]) - 2,
+                                   int(rat_primes[i])) if R1[i] != 0 else 0
+                               for i in range(len(rat_fb))], dtype=np.int64)
+            rat_valid = R1 != 0
+            # Precompute R2*R1_inv mod p (constant per q, reused across rows)
+            R2_R1inv = np.array([(int(R2[i]) * int(R1_inv[i])) % int(rat_primes[i])
+                                 if rat_valid[i] else 0
+                                 for i in range(len(rat_fb))], dtype=np.int64)
+
+            # Algebraic: U = (e1[0] + e1[1]*r_p) mod p, V = (e2[0] + e2[1]*r_p) mod p
+            U = np.array([(e1[0] + e1[1] * int(alg_roots[i])) % int(alg_primes[i])
+                          for i in range(len(alg_fb))], dtype=np.int64)
+            V = np.array([(e2[0] + e2[1] * int(alg_roots[i])) % int(alg_primes[i])
+                          for i in range(len(alg_fb))], dtype=np.int64)
+            U_inv = np.array([pow(int(U[i]), int(alg_primes[i]) - 2,
+                                  int(alg_primes[i])) if U[i] != 0 else 0
+                              for i in range(len(alg_fb))], dtype=np.int64)
+            alg_valid = U != 0
+            V_Uinv = np.array([(int(V[i]) * int(U_inv[i])) % int(alg_primes[i])
+                                if alg_valid[i] else 0
+                                for i in range(len(alg_fb))], dtype=np.int64)
+
+            q_rels = []
+            for j in range(0, J_max + 1):
+                if time.time() - t0 > time_limit:
+                    break
+
+                rat_sieve = np.zeros(size, dtype=np.float32)
+                alg_sieve = np.zeros(size, dtype=np.float32)
+
+                # Vectorized sieve start computation for row j
+                # rat: i_start = (-j * R2_R1inv) mod p, shifted by I_max
+                rat_starts = np.empty(len(rat_fb), dtype=np.int64)
+                for pi in range(len(rat_fb)):
+                    if not rat_valid[pi]:
+                        rat_starts[pi] = size  # skip
+                    else:
+                        p = int(rat_primes[pi])
+                        rat_starts[pi] = ((-j * int(R2_R1inv[pi])) % p + I_max) % p
+                _jit_sieve_rat(rat_sieve, rat_primes, rat_log_ps, rat_starts, size)
+
+                alg_starts = np.empty(len(alg_fb), dtype=np.int64)
+                for pi in range(len(alg_fb)):
+                    if not alg_valid[pi]:
+                        alg_starts[pi] = size
+                    else:
+                        p = int(alg_primes[pi])
+                        alg_starts[pi] = ((-j * int(V_Uinv[pi])) % p + I_max) % p
+                _jit_sieve_alg(alg_sieve, alg_primes, alg_roots, alg_log_ps,
+                               alg_starts, size)
+
+                # Adaptive threshold for this row
+                # Rational norm ≈ |i*e1_m + j*e2_m|
+                rat_typical = max(abs(I_max * e1_m + j * e2_m), abs(e1_m), 2)
+                rat_thresh = math.log(rat_typical) * 0.55
+
+                # Algebraic cofactor ≈ norm/q
+                a_center = j * abs(e2[0]) + I_max * abs(e1[0])
+                b_center = max(j * abs(e2[1]) + I_max * abs(e1[1]), 1)
+                alg_cofactor_est = max(2, a_center**d + b_center**d) // max(q, 1)
+                alg_thresh = math.log(max(alg_cofactor_est, 2)) * 0.45
+
+                # Find candidates
+                mask = (rat_sieve >= rat_thresh) & (alg_sieve >= alg_thresh)
+                candidates = np.nonzero(mask)[0]
+                total_candidates += len(candidates)
+
+                for idx in candidates:
+                    i_val = int(idx) - I_max
+                    a = i_val * e1[0] + j * e2[0]
+                    b_val = i_val * e1[1] + j * e2[1]
+
+                    if b_val <= 0 or a == 0:
+                        continue
+                    if gcd(mpz(abs(a)), mpz(b_val)) != 1:
+                        continue
+
+                    # Trial divide rational side
+                    rat_result = trial_divide_rational(a, b_val, m, rat_fb)
+                    if rat_result is None:
+                        continue
+                    rat_exps, rat_sign = rat_result
+
+                    # Algebraic side: compute norm, divide out q
+                    alg_norm = abs(int(norm_algebraic(a, b_val, f_coeffs)))
+                    if alg_norm == 0 or alg_norm % q != 0:
+                        continue
+                    sq_exp = 0
+                    cofactor = alg_norm
+                    while cofactor % q == 0:
+                        cofactor //= q
+                        sq_exp += 1
+
+                    # Trial divide cofactor over algebraic FB
+                    if cofactor < (1 << 63):
+                        exps = np.zeros(len(alg_fb), dtype=np.int64)
+                        remainder = _jit_trial_divide_alg(
+                            np.int64(cofactor), alg_primes, alg_roots,
+                            np.int64(a), np.int64(b_val), exps)
+                        remainder = int(remainder)
+                        alg_exps = [int(e) for e in exps]
+                    else:
+                        # mpz fallback for large cofactors
+                        alg_exps = [0] * len(alg_fb)
+                        remainder = cofactor
+                        for pi in range(len(alg_fb)):
+                            p = int(alg_primes[pi])
+                            rp = int(alg_roots[pi])
+                            if (a + b_val * rp) % p == 0:
+                                while remainder % p == 0:
+                                    remainder //= p
+                                    alg_exps[pi] += 1
+                    if remainder != 1:
+                        continue
+
+                    qc_bits = compute_qc_vector(a, b_val, qc_primes)
+                    if inert_qc_primes:
+                        qc_bits += compute_inert_qc_vector(
+                            a, b_val, inert_qc_primes, f_coeffs)
+
+                    if q not in sq_map:
+                        sq_map[q] = sq_col_idx
+                        sq_col_idx += 1
+
+                    q_rels.append({
+                        'a': a, 'b': b_val,
+                        'rat_exps': rat_exps, 'rat_sign': rat_sign,
+                        'alg_exps': alg_exps,
+                        'qc_bits': qc_bits,
+                        'special_q': q,
+                        'sq_col': sq_map[q],
+                        'sq_exp': sq_exp,
+                    })
+
+            verified.extend(q_rels)
+
+            if verbose and q_rels:
+                elapsed = time.time() - t0
+                print(f"    [q={q},r={r}] +{len(q_rels)} → {len(verified)}/{needed} "
+                      f"({elapsed:.1f}s, {total_candidates} cands)")
+
+        q = int(next_prime(q))
+
+    return verified, sq_map
+
+
+def merge_sq_relations(relations):
+    """
+    Merge lattice sieve relations sharing a special-q, eliminating SQ columns.
+
+    For each q with k≥2 relations, pick one as base and produce k-1 merged
+    relations by pairwise combining with the base. The q exponents cancel
+    (both odd → sum even). Singletons (k=1) are discarded.
+
+    Merged relations store lists of (a,b) pairs for algebraic square root.
+    """
+    from collections import defaultdict
+    groups = defaultdict(list)
+    non_sq = []
+    for rel in relations:
+        q = rel.get('special_q', None)
+        if q is not None:
+            groups[q].append(rel)
+        else:
+            non_sq.append(rel)
+
+    merged = list(non_sq)
+    n_singleton = 0
+    for q, rels in groups.items():
+        if len(rels) < 2:
+            n_singleton += 1
+            continue
+        base = rels[0]
+        nrat = len(base['rat_exps'])
+        nalg = len(base['alg_exps'])
+        nqc = len(base.get('qc_bits', []))
+        for other in rels[1:]:
+            merged.append({
+                'a_list': [base['a'], other['a']],
+                'b_list': [base['b'], other['b']],
+                'a': base['a'],  # primary a for compatibility
+                'b': base['b'],
+                'rat_exps': [base['rat_exps'][j] + other['rat_exps'][j]
+                             for j in range(nrat)],
+                'alg_exps': [base['alg_exps'][j] + other['alg_exps'][j]
+                             for j in range(nalg)],
+                'rat_sign': base['rat_sign'] + other['rat_sign'],
+                'qc_bits': [base['qc_bits'][j] ^ other['qc_bits'][j]
+                            for j in range(nqc)] if nqc > 0 else [],
+            })
+    return merged, n_singleton
+
+
+###############################################################################
 # Phase 3b: Trial Division Verification
 ###############################################################################
 
@@ -486,6 +865,165 @@ def _jit_trial_divide_alg(val, primes, roots, a, b, exps_out):
     return val
 
 
+@njit(cache=True)
+def _jit_mulmod64(a, b, m):
+    """Modular multiplication avoiding overflow via 128-bit emulation."""
+    # For values < 2^31, direct multiply is safe
+    if a < (np.int64(1) << 31) and b < (np.int64(1) << 31):
+        return (a * b) % m
+    # Otherwise, use repeated doubling
+    result = np.int64(0)
+    a = a % m
+    while b > 0:
+        if b & 1:
+            result = (result + a) % m
+        a = (a + a) % m
+        b >>= 1
+    return result
+
+
+@njit(cache=True)
+def _jit_is_prime_small(n):
+    """Simple primality test for int64 values."""
+    if n < 2:
+        return False
+    if n < 4:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    # Miller-Rabin with deterministic witnesses for n < 3.3*10^24
+    d = n - 1
+    r = np.int64(0)
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+    # Witnesses sufficient for n < 3.2*10^18
+    for witness in (2, 3, 5, 7, 11, 13):
+        if witness >= n:
+            continue
+        a = np.int64(witness)
+        # x = pow(a, d, n) using mulmod
+        x = np.int64(1)
+        base = a % n
+        exp = d
+        while exp > 0:
+            if exp & 1:
+                x = _jit_mulmod64(x, base, n)
+            base = _jit_mulmod64(base, base, n)
+            exp >>= 1
+        if x == 1 or x == n - 1:
+            continue
+        composite = True
+        for _ in range(r - 1):
+            x = _jit_mulmod64(x, x, n)
+            if x == n - 1:
+                composite = False
+                break
+        if composite:
+            return False
+    return True
+
+
+@njit(cache=True)
+def _jit_batch_verify(a_arr, b_arr, n_cands, m, f_coeffs_arr, d,
+                       rat_primes, alg_primes, alg_roots,
+                       out_rat_exps, out_alg_exps, out_signs, out_mask,
+                       out_rat_lp, out_alg_lp, lp_bound):
+    """Batch trial division with SLP support.
+    out_mask: 0=reject, 1=full, 2=partial-rat-LP, 3=partial-alg-LP, 4=partial-both-LP
+    out_rat_lp/out_alg_lp: large prime (0 if smooth on that side)
+    """
+    n_rat = len(rat_primes)
+    n_alg = len(alg_primes)
+    count = 0
+    for ci in range(n_cands):
+        a = a_arr[ci]
+        b = b_arr[ci]
+
+        # GCD check
+        ga = abs(a)
+        gb = b
+        while gb != 0:
+            ga, gb = gb, ga % gb
+        if ga != 1:
+            continue
+
+        # Rational norm: |a + b*m|
+        raw = a + b * m
+        val_r = abs(raw)
+        if val_r == 0:
+            continue
+        sign = 1 if raw < 0 else 0
+
+        # Trial divide rational
+        for j in range(n_rat):
+            out_rat_exps[ci, j] = 0
+        remainder = val_r
+        for j in range(n_rat):
+            p = rat_primes[j]
+            while remainder % p == 0:
+                remainder //= p
+                out_rat_exps[ci, j] += 1
+
+        rat_smooth = (remainder == 1)
+        rat_lp = np.int64(0)
+        if not rat_smooth:
+            if remainder > 1 and remainder <= lp_bound and _jit_is_prime_small(remainder):
+                rat_lp = remainder
+            else:
+                continue  # cofactor too large or composite
+
+        # Algebraic norm: |sum(f_i * (-a)^i * b^(d-i))|
+        norm = np.int64(0)
+        neg_a_pow = np.int64(1)
+        b_pow = np.int64(1)
+        for k in range(d):
+            b_pow *= b
+        for k in range(d + 1):
+            norm += f_coeffs_arr[k] * neg_a_pow * b_pow
+            neg_a_pow *= np.int64(-a)
+            if k < d:
+                b_pow //= b
+        val_a = abs(norm)
+        if val_a == 0:
+            continue
+
+        # Trial divide algebraic
+        for j in range(n_alg):
+            out_alg_exps[ci, j] = 0
+        remainder_a = val_a
+        for j in range(n_alg):
+            p = alg_primes[j]
+            r = alg_roots[j]
+            if (a + b * r) % p == 0:
+                while remainder_a % p == 0:
+                    remainder_a //= p
+                    out_alg_exps[ci, j] += 1
+
+        alg_smooth = (remainder_a == 1)
+        alg_lp = np.int64(0)
+        if not alg_smooth:
+            if remainder_a > 1 and remainder_a <= lp_bound and _jit_is_prime_small(remainder_a):
+                alg_lp = remainder_a
+            else:
+                continue
+
+        out_signs[ci] = sign
+        out_rat_lp[ci] = rat_lp
+        out_alg_lp[ci] = alg_lp
+
+        if rat_smooth and alg_smooth:
+            out_mask[ci] = 1  # full relation
+        elif rat_smooth and not alg_smooth:
+            out_mask[ci] = 3  # partial: alg LP
+        elif not rat_smooth and alg_smooth:
+            out_mask[ci] = 2  # partial: rat LP
+        else:
+            out_mask[ci] = 4  # partial: both LPs (rare, skip for now)
+        count += 1
+    return count
+
+
 def trial_divide_rational(a, b, m, rat_fb):
     """
     Trial divide the rational norm |a + b*m| over the rational factor base.
@@ -501,10 +1039,15 @@ def trial_divide_rational(a, b, m, rat_fb):
         trial_divide_rational._primes = np.array(rat_fb, dtype=np.int64)
     primes = trial_divide_rational._primes
 
-    exps = np.zeros(len(rat_fb), dtype=np.int64)
+    # Reuse buffer to avoid allocation
+    if not hasattr(trial_divide_rational, '_exps') or len(trial_divide_rational._exps) != len(rat_fb):
+        trial_divide_rational._exps = np.zeros(len(rat_fb), dtype=np.int64)
+    exps = trial_divide_rational._exps
+    exps[:] = 0
+
     remainder = _jit_trial_divide_rat(np.int64(val), primes, exps)
     if remainder == 1:
-        return ([int(e) for e in exps], sign)
+        return (exps.tolist(), sign)
     return None
 
 
@@ -523,11 +1066,16 @@ def trial_divide_algebraic(a, b, f_coeffs, alg_fb):
     primes = trial_divide_algebraic._primes
     roots = trial_divide_algebraic._roots
 
-    exps = np.zeros(len(alg_fb), dtype=np.int64)
+    # Reuse buffer
+    if not hasattr(trial_divide_algebraic, '_exps') or len(trial_divide_algebraic._exps) != len(alg_fb):
+        trial_divide_algebraic._exps = np.zeros(len(alg_fb), dtype=np.int64)
+    exps = trial_divide_algebraic._exps
+    exps[:] = 0
+
     remainder = _jit_trial_divide_alg(np.int64(val), primes, roots,
                                        np.int64(a), np.int64(b), exps)
     if remainder == 1:
-        return [int(e) for e in exps]
+        return exps.tolist()
     return None
 
 
@@ -551,6 +1099,40 @@ def build_qc_primes(f_coeffs, num_qc=20, min_p=50000):
     return qc
 
 
+@njit(cache=True)
+def _jit_powmod(base, exp, mod):
+    """Fast modular exponentiation."""
+    result = np.int64(1)
+    base = base % mod
+    while exp > 0:
+        if exp & 1:
+            result = result * base % mod
+        exp >>= 1
+        base = base * base % mod
+    return result
+
+
+@njit(cache=True)
+def _jit_compute_qc_batch(a_arr, b_arr, mask, n_cands, qc_q, qc_r, n_qc, out_qc):
+    """Batch QC computation for splitting primes."""
+    for ci in range(n_cands):
+        if mask[ci] == 0:
+            continue
+        a = a_arr[ci]
+        b = b_arr[ci]
+        for j in range(n_qc):
+            q = qc_q[j]
+            r = qc_r[j]
+            val = (a + b * r) % q
+            if val < 0:
+                val += q
+            if val == 0:
+                out_qc[ci, j] = 0
+            else:
+                ls = _jit_powmod(val, (q - 1) // 2, q)
+                out_qc[ci, j] = 1 if ls == q - 1 else 0
+
+
 def compute_qc_vector(a, b, qc_primes):
     """
     Compute quadratic character vector for relation (a, b).
@@ -568,74 +1150,223 @@ def compute_qc_vector(a, b, qc_primes):
     return bits
 
 
+def build_inert_qc_primes(f_coeffs, num_qc=20, min_p=100):
+    """Find inert primes (where f has no roots) for additional QC columns."""
+    inert = []
+    p = int(next_prime(min_p))
+    while len(inert) < num_qc:
+        roots = find_poly_roots_mod_p(f_coeffs, p)
+        if not roots:
+            inert.append(p)
+        p = int(next_prime(p))
+    return inert
+
+
+def compute_inert_qc_vector(a, b, inert_primes, f_coeffs):
+    """
+    Compute QC bits at inert primes.
+    At inert q, (a+b·α) lives in F_{q^d}. Check if it's a QR:
+    bit = 0 if (a+b·α)^{(q^d-1)/2} = 1, else 1.
+    """
+    d = len(f_coeffs) - 1
+    bits = []
+    for q in inert_primes:
+        elem = [int(a) % q, int(b) % q] + [0] * (d - 2)
+        order_half = (q ** d - 1) // 2
+        check = _poly_pow_mod_ring(elem, order_half, f_coeffs, q)
+        one = [1] + [0] * (d - 1)
+        bits.append(0 if check == one else 1)
+    return bits
+
+
 ###############################################################################
-# Phase 4: GF(2) Linear Algebra (Gaussian Elimination)
+# Phase 4: GF(2) Linear Algebra (SGE + Gaussian Elimination)
 ###############################################################################
 
-def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg, num_qc=0):
+def _sge_reduce(sparse_rows, verbose=False):
+    """
+    Structured Gaussian Elimination: reduce sparse GF(2) matrix by
+    eliminating singleton and doubleton columns.
+
+    sparse_rows: list of sets of column indices (each row's non-zero columns)
+    Returns: (reduced_rows, compositions, null_vec_compositions)
+    """
+    from collections import defaultdict
+
+    n = len(sparse_rows)
+    rows = [set(r) for r in sparse_rows]
+    compositions = [{i} for i in range(n)]
+    active = set(range(n))
+
+    total_singleton = 0
+    total_doubleton = 0
+
+    for pass_num in range(500):
+        # Build column → active rows map
+        col_rows = defaultdict(list)
+        for ri in active:
+            for c in rows[ri]:
+                col_rows[c].append(ri)
+
+        # Pass 1: Singleton elimination (columns in exactly 1 row → remove that row)
+        removed = set()
+        for c, rlist in col_rows.items():
+            if len(rlist) == 1 and rlist[0] in active and rlist[0] not in removed:
+                removed.add(rlist[0])
+
+        if removed:
+            active -= removed
+            total_singleton += len(removed)
+            continue
+
+        # Pass 2: Doubleton merging (columns in exactly 2 rows → merge rows via XOR)
+        merged_any = False
+        touched = set()
+        for c in list(col_rows.keys()):
+            rlist = col_rows[c]
+            live = [r for r in rlist if r in active and r not in touched]
+            if len(live) == 2:
+                r1, r2 = live
+                rows[r1] = rows[r1].symmetric_difference(rows[r2])
+                compositions[r1] = compositions[r1].symmetric_difference(compositions[r2])
+                active.discard(r2)
+                touched.add(r1)
+                merged_any = True
+                total_doubleton += 1
+
+        if not merged_any:
+            break
+
+    # Collect results
+    reduced_rows = []
+    reduced_comps = []
+    null_vec_comps = []
+    for ri in sorted(active):
+        if rows[ri]:
+            reduced_rows.append(rows[ri])
+            reduced_comps.append(sorted(compositions[ri]))
+        else:
+            null_vec_comps.append(sorted(compositions[ri]))
+
+    if verbose:
+        print(f"    SGE: {n}→{len(reduced_rows)} rows "
+              f"({total_singleton} singleton, {total_doubleton} doubleton, "
+              f"{len(null_vec_comps)} null vecs)")
+
+    return reduced_rows, reduced_comps, null_vec_comps
+
+
+def gf2_gaussian_elimination(relations, ncols_rat, ncols_alg, num_qc=0, num_sq=0, num_lp=0, verbose=False):
     """
     Build GF(2) matrix from relations and find null space vectors.
+    Uses SGE preprocessing to reduce matrix size, then numpy-vectorized dense Gauss.
 
-    Each relation has:
-      - rational exponent vector (sign + exps_rat)
-      - algebraic exponent vector (exps_alg)
-      - quadratic character vector (qc_bits) — ensures algebraic square
-
-    Matrix columns = 1 (sign) + ncols_rat + ncols_alg + num_qc.
+    Matrix columns = 1 (sign) + ncols_rat + ncols_alg + num_qc + num_sq + num_lp.
     """
     nrows = len(relations)
-    ncols = 1 + ncols_rat + ncols_alg + num_qc
+    ncols = 1 + ncols_rat + ncols_alg + num_qc + num_sq + num_lp
 
-    # Build bit-vector matrix
-    mat = []
+    # Step 1: Build sparse representation
+    sparse_rows = []
     for rel in relations:
-        row = rel['rat_sign']  # bit 0 = sign
+        cols = set()
+        if rel['rat_sign'] % 2:
+            cols.add(0)
         for j, e in enumerate(rel['rat_exps']):
             if e % 2 == 1:
-                row |= (1 << (j + 1))
+                cols.add(j + 1)
         for j, e in enumerate(rel['alg_exps']):
             if e % 2 == 1:
-                row |= (1 << (j + 1 + ncols_rat))
-        # Quadratic characters
+                cols.add(j + 1 + ncols_rat)
         qc_bits = rel.get('qc_bits', [])
         for j, bit in enumerate(qc_bits):
             if bit:
-                row |= (1 << (j + 1 + ncols_rat + ncols_alg))
-        mat.append(row)
+                cols.add(j + 1 + ncols_rat + ncols_alg)
+        sq_col = rel.get('sq_col', -1)
+        sq_exp = rel.get('sq_exp', 0)
+        if sq_col >= 0 and sq_exp % 2 == 1:
+            cols.add(1 + ncols_rat + ncols_alg + num_qc + sq_col)
+        for lp_col in rel.get('lp_cols', []):
+            cols.add(1 + ncols_rat + ncols_alg + num_qc + num_sq + lp_col)
+        sparse_rows.append(cols)
 
-    # Gaussian elimination with combination tracking
-    combo = [mpz(1) << i for i in range(nrows)]
-    used = [False] * nrows
+    # Step 2: SGE preprocessing
+    reduced_rows, compositions, sge_null_vecs = _sge_reduce(sparse_rows, verbose=verbose)
 
-    for col in range(ncols):
-        mask = 1 << col
+    # Map SGE null vectors back to original relation indices
+    null_vecs = list(sge_null_vecs)
+
+    if not reduced_rows:
+        return null_vecs
+
+    # Renumber columns for dense matrix
+    all_cols = set()
+    for row in reduced_rows:
+        all_cols.update(row)
+    col_list = sorted(all_cols)
+    col_map = {c: i for i, c in enumerate(col_list)}
+    n_reduced_cols = len(col_list)
+    n_reduced_rows = len(reduced_rows)
+
+    if verbose:
+        print(f"    Dense: {n_reduced_rows} x {n_reduced_cols}")
+
+    # Step 3: Build dense bit-packed matrix from reduced rows
+    nwords_mat = (n_reduced_cols + 63) // 64
+    nwords_combo = (n_reduced_rows + 63) // 64
+    mat = np.zeros((n_reduced_rows, nwords_mat), dtype=np.uint64)
+    combo = np.zeros((n_reduced_rows, nwords_combo), dtype=np.uint64)
+
+    for i in range(n_reduced_rows):
+        combo[i, i // 64] = np.uint64(1) << np.uint64(i % 64)
+
+    for ri, row in enumerate(reduced_rows):
+        for c_orig in row:
+            c = col_map[c_orig]
+            mat[ri, c // 64] |= np.uint64(1) << np.uint64(c % 64)
+
+    # Step 4: Gaussian elimination with numpy-vectorized XOR
+    used = np.zeros(n_reduced_rows, dtype=np.bool_)
+
+    for col in range(n_reduced_cols):
+        word = col // 64
+        bit = np.uint64(1) << np.uint64(col % 64)
         piv = -1
-        for row in range(nrows):
-            if not used[row] and mat[row] & mask:
+        for row in range(n_reduced_rows):
+            if not used[row] and mat[row, word] & bit:
                 piv = row
                 break
         if piv == -1:
             continue
         used[piv] = True
-        for row in range(nrows):
-            if row != piv and mat[row] & mask:
-                mat[row] ^= mat[piv]
-                combo[row] ^= combo[piv]
+        has_bit = (mat[:, word] & bit).astype(np.bool_)
+        has_bit[piv] = False
+        rows_to_xor = np.where(has_bit)[0]
+        if len(rows_to_xor) > 0:
+            mat[rows_to_xor] ^= mat[piv]
+            combo[rows_to_xor] ^= combo[piv]
 
-    # Extract null space vectors
-    null_vecs = []
-    for row in range(nrows):
-        if mat[row] == 0:
-            indices = []
-            bits = combo[row]
-            idx = 0
+    # Step 5: Extract null vectors and map through SGE compositions
+    mat_zero = np.all(mat == 0, axis=1)
+    for row in np.where(mat_zero)[0]:
+        # Get reduced row indices from combo
+        reduced_indices = []
+        for w in range(nwords_combo):
+            bits = int(combo[row, w])
+            base = w * 64
             while bits:
-                if bits & 1:
-                    indices.append(idx)
-                bits >>= 1
-                idx += 1
-            if indices:
-                null_vecs.append(indices)
+                lsb = bits & (-bits)
+                reduced_indices.append(base + lsb.bit_length() - 1)
+                bits ^= lsb
+        reduced_indices = [i for i in reduced_indices if i < n_reduced_rows]
+
+        # Map through SGE compositions to original relation indices
+        original_indices = set()
+        for ri in reduced_indices:
+            original_indices.symmetric_difference_update(compositions[ri])
+
+        if original_indices:
+            null_vecs.append(sorted(original_indices))
 
     return null_vecs
 
@@ -901,15 +1632,16 @@ def _poly_mul_mod_zx(a, b, f_coeffs):
     """
     Multiply polynomials a*b in Z[x]/(f(x)) with exact integer arithmetic.
     f must be monic (leading coefficient = 1).
-    Returns list of d coefficients [c_0, c_1, ..., c_{d-1}].
+    Returns list of d mpz coefficients [c_0, c_1, ..., c_{d-1}].
     """
     d = len(f_coeffs) - 1
-    # Pad inputs to length d
-    a = list(a) + [0] * max(0, d - len(a))
-    b = list(b) + [0] * max(0, d - len(b))
+    # Pad inputs to length d, use mpz for fast big-integer arithmetic
+    a = [mpz(x) for x in a] + [mpz(0)] * max(0, d - len(a))
+    b = [mpz(x) for x in b] + [mpz(0)] * max(0, d - len(b))
+    f = [mpz(x) for x in f_coeffs[:d]]
 
     # Standard polynomial multiplication
-    result = [0] * (2 * d - 1)
+    result = [mpz(0)] * (2 * d - 1)
     for i in range(d):
         if a[i] == 0:
             continue
@@ -921,25 +1653,42 @@ def _poly_mul_mod_zx(a, b, f_coeffs):
         c = result[k]
         if c == 0:
             continue
-        result[k] = 0
+        result[k] = mpz(0)
         for i in range(d):
-            result[k - d + i] -= c * f_coeffs[i]
+            result[k - d + i] -= c * f[i]
 
     return result[:d]
 
 
 def _compute_exact_product(relations, indices, f_coeffs):
-    """Compute ∏(a_i + b_i·x) mod f(x) with exact integer arithmetic."""
+    """Compute ∏(a_i + b_i·x) mod f(x) using product tree + mpz arithmetic.
+    Handles merged relations (with a_list/b_list) from lattice sieve."""
     d = len(f_coeffs) - 1
-    product = [1] + [0] * (d - 1)  # constant 1
 
+    # Collect all linear factors
+    factors = []
     for idx in indices:
         rel = relations[idx]
-        a_val, b_val = rel['a'], rel['b']
-        linear = [a_val, b_val] + [0] * (d - 2)  # a + b*x
-        product = _poly_mul_mod_zx(product, linear, f_coeffs)
+        if 'a_list' in rel:
+            for a_val, b_val in zip(rel['a_list'], rel['b_list']):
+                factors.append([mpz(a_val), mpz(b_val)] + [mpz(0)] * (d - 2))
+        else:
+            factors.append([mpz(rel['a']), mpz(rel['b'])] + [mpz(0)] * (d - 2))
 
-    return product
+    if not factors:
+        return [mpz(1)] + [mpz(0)] * (d - 1)
+
+    # Product tree: pairwise multiply to balance coefficient sizes
+    while len(factors) > 1:
+        new_factors = []
+        for i in range(0, len(factors), 2):
+            if i + 1 < len(factors):
+                new_factors.append(_poly_mul_mod_zx(factors[i], factors[i+1], f_coeffs))
+            else:
+                new_factors.append(factors[i])
+        factors = new_factors
+
+    return factors[0]
 
 
 def _poly_mul_mod_ring(a, b, f_coeffs, modulus):
@@ -1077,11 +1826,6 @@ def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=N
     if max_P == 0:
         return
 
-    # Coefficient bound for sqrt
-    f_norm = max(abs(c) for c in f_coeffs) + 1
-    coeff_bound = int(isqrt(mpz(max_P))) * f_norm ** d + 1
-    target = mpz(2) * mpz(coeff_bound) + 1
-
     # Step 2: Find inert prime
     q = _find_inert_prime(f_coeffs, min_p=100)
     if q is None:
@@ -1090,7 +1834,6 @@ def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=N
     # Step 3: Compute sqrt in F_q[x]/(f(x))
     s0 = _sqrt_in_fqd(P, f_coeffs, q)
     if s0 is None:
-        # P not a QR in this field — product is not a perfect square
         return
 
     # Verify initial sqrt: s0² ≡ P mod (f, q)
@@ -1120,12 +1863,32 @@ def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=N
     t = [int(c) for c in inv_2s]  # t ≈ (2s)^{-1}
     modulus = q
 
-    while modulus < target:
+    _t_hensel = time.time()
+    # Bound: sqrt coefficients ≤ max_P, so we need modulus > 2*max_P
+    _max_P_bits = int(gmpy2.log2(max_P + 1)) + 1
+    _abort_bits = _max_P_bits * 4  # generous: 4x the P coefficient size
+    for _hensel_step in range(30):  # q^(2^30) is astronomically large
         new_modulus = modulus * modulus  # quadratic convergence
 
         # Compute residual: (P - s²) in Z[x]/(f(x)), then divide by modulus
         s2 = _poly_mul_mod_zx(s, s, f_coeffs)
         residual = [(P[i] - s2[i]) for i in range(d)]
+
+        # Check if residual is zero — then s is already exact
+        if all(r == 0 for r in residual):
+            half = modulus // 2
+            s_balanced = [c - modulus if c > half else c for c in s]
+            s2_check = _poly_mul_mod_zx(s_balanced, s_balanced, f_coeffs)
+            if s2_check == P:
+                sm = mpz(0)
+                m_pow = mpz(1)
+                for c in s_balanced:
+                    sm = (sm + mpz(c) * m_pow) % n
+                    m_pow = (m_pow * mpz(m)) % n
+                if sm != 0:
+                    yield sm
+                    yield (-sm) % n
+                return
 
         # All residual coefficients should be divisible by modulus
         delta = [r // modulus for r in residual]
@@ -1145,35 +1908,42 @@ def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=N
 
         modulus = new_modulus
 
-    # Step 5: Balanced reduction
-    half = modulus // 2
-    s_balanced = [c - modulus if c > half else c for c in s]
+        # Step 5: Balanced reduction and check at each step
+        half = modulus // 2
+        s_balanced = [c - modulus if c > half else c for c in s]
 
-    # Verify: s² = P exactly
-    s2 = _poly_mul_mod_zx(s_balanced, s_balanced, f_coeffs)
-    if s2 == P:
-        sm = mpz(0)
-        m_pow = mpz(1)
-        for c in s_balanced:
-            sm = (sm + mpz(c) * m_pow) % n
-            m_pow = (m_pow * mpz(m)) % n
-        if sm != 0:
-            yield sm
-            yield (-sm) % n
-        return
+        s2 = _poly_mul_mod_zx(s_balanced, s_balanced, f_coeffs)
+        _mod_bits = int(gmpy2.log2(modulus + 1)) + 1
+        if s2 == P:
+            sm = mpz(0)
+            m_pow = mpz(1)
+            for c in s_balanced:
+                sm = (sm + mpz(c) * m_pow) % n
+                m_pow = (m_pow * mpz(m)) % n
+            if sm != 0:
+                yield sm
+                yield (-sm) % n
+            return
 
-    # Try negation (the other sign)
-    s_neg = [-c for c in s_balanced]
-    s2_neg = _poly_mul_mod_zx(s_neg, s_neg, f_coeffs)
-    if s2_neg == P:
-        sm = mpz(0)
-        m_pow = mpz(1)
-        for c in s_neg:
-            sm = (sm + mpz(c) * m_pow) % n
-            m_pow = (m_pow * mpz(m)) % n
-        if sm != 0:
-            yield sm
-            yield (-sm) % n
+        # Abort if modulus far exceeds P coefficient size — P is not a square
+        if _mod_bits > _abort_bits:
+            break
+
+        # Try negation
+        s_neg = [-c for c in s_balanced]
+        s2_neg = _poly_mul_mod_zx(s_neg, s_neg, f_coeffs)
+        if s2_neg == P:
+            sm = mpz(0)
+            m_pow = mpz(1)
+            for c in s_neg:
+                sm = (sm + mpz(c) * m_pow) % n
+                m_pow = (m_pow * mpz(m)) % n
+            if sm != 0:
+                yield sm
+                yield (-sm) % n
+            return
+
+    # Hensel lifting did not converge after 30 steps — should not happen
 
 
 ###############################################################################
@@ -1215,6 +1985,7 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
     max_tries = min(50, len(null_vecs))
 
     for vi, indices in enumerate(null_vecs[:max_tries]):
+        t_vec = time.time()
         # Accumulate exponents
         total_rat = [0] * len(rat_fb)
         total_alg = [0] * len(alg_fb)
@@ -1234,11 +2005,31 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
         if any(e % 2 != 0 for e in total_alg):
             continue
 
-        # Rational square root: x = (-1)^(s/2) · Π p_j^{e_j/2} mod n
+        # Rational square root: x = (-1)^(s/2) · Π p_j^{e_j/2} · Π LP_k^{e_k/2} mod n
         x_val = mpz(1)
         for j, e in enumerate(total_rat):
             if e > 0:
                 x_val = (x_val * pow(mpz(rat_fb[j]), e // 2, n)) % n
+        # Include rational large primes (SLP combined: exponent 2, DLP individual: exponent 1)
+        rat_lp_exps = defaultdict(int)
+        for idx in indices:
+            rel = relations[idx]
+            rat_lp = rel.get('rat_lp', 0)
+            if rat_lp > 0:
+                # SLP combined relations contribute LP with exponent 2
+                # DLP individual relations contribute LP with exponent 1
+                if 'a_list' in rel:
+                    rat_lp_exps[rat_lp] += 2
+                else:
+                    rat_lp_exps[rat_lp] += 1
+        lp_ok = True
+        for lp, exp in rat_lp_exps.items():
+            if exp % 2 != 0:
+                lp_ok = False
+                break
+            x_val = (x_val * pow(mpz(lp), exp // 2, n)) % n
+        if not lp_ok:
+            continue
         if (total_sign // 2) % 2 == 1:
             x_val = (-x_val) % n
 
@@ -1323,67 +2114,463 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
         print(f"    Algebraic FB: {len(alg_fb)} ideals ({fb_time:.1f}s)")
 
     # Quadratic character primes (ensure algebraic product is a true square)
-    num_qc = 20
-    qc_primes = build_qc_primes(f_coeffs, num_qc=num_qc, min_p=50000)
+    num_split_qc = 20
+    qc_primes = build_qc_primes(f_coeffs, num_qc=num_split_qc, min_p=50000)
+    # Inert QC primes — additional characters at primes where f is irreducible
+    num_inert_qc = 5
+    inert_qc_primes = build_inert_qc_primes(f_coeffs, num_qc=num_inert_qc, min_p=100)
+    num_qc = num_split_qc + num_inert_qc
 
-    needed = len(rat_fb) + len(alg_fb) + num_qc + 10
+    # Extra 10% buffer: SGE removes rows/cols unevenly, need excess for null space
+    needed = int((len(rat_fb) + len(alg_fb) + num_qc + 2) * 1.10)
     if verbose:
-        print(f"    Need {needed} relations (incl. {num_qc} QC columns)")
+        print(f"    Need {needed} relations (incl. {num_qc} QC columns: "
+              f"{num_split_qc} split + {num_inert_qc} inert)")
 
-    # Step 4: Line sieve + trial division verification
+    # Step 4: Sieve — lattice sieve for 35d+, line sieve for smaller
     t_sieve = time.time()
-    sieve_candidates = []
-    verified_relations = []
-    A = min(params['A'], 500000)  # cap for memory
+    num_sq = 0
 
-    # Reset cached JIT arrays for this factorization
-    trial_divide_rational._primes = np.array(rat_fb, dtype=np.int64)
-    trial_divide_algebraic._primes = np.array([p for p, r in alg_fb], dtype=np.int64)
-    trial_divide_algebraic._roots = np.array([r for p, r in alg_fb], dtype=np.int64)
-    norm_algebraic._coeffs = np.array(f_coeffs, dtype=np.int64)
-    # Clear sieve_line caches (will be rebuilt on first call)
-    if hasattr(sieve_line, '_rat_primes'):
-        del sieve_line._rat_primes
-    if hasattr(sieve_line, '_alg_primes'):
-        del sieve_line._alg_primes
+    if nd >= 80:  # lattice sieve only for very large (Python too slow below this)
+        # Lattice sieve with special-q
+        if verbose:
+            print(f"    Using lattice sieve (special-q)")
+        # Overshoot collection to account for singleton removal
+        raw_relations, sq_map = lattice_sieve_collect(
+            n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
+            needed * 3, verbose=verbose, time_limit=time_limit, t0=t0,
+            inert_qc_primes=inert_qc_primes)
+        # Merge relations from same special-q, eliminating SQ columns
+        verified_relations, n_singleton = merge_sq_relations(raw_relations)
+        num_sq = 0  # No SQ columns after merging
+        if verbose:
+            print(f"    Merged: {len(raw_relations)} raw → {len(verified_relations)} "
+                  f"merged ({n_singleton} singletons discarded)")
+    else:
+        # Line sieve for small numbers
+        verified_relations = []
+        A = min(params['A'], 500000)
 
-    # Estimate norm bounds for threshold
-    rat_bound = A * abs(m) + 1
-    alg_bound = int(norm_algebraic(A, 1, f_coeffs))
+        # Reset cached JIT arrays
+        trial_divide_rational._primes = np.array(rat_fb, dtype=np.int64)
+        trial_divide_algebraic._primes = np.array([p for p, r in alg_fb], dtype=np.int64)
+        trial_divide_algebraic._roots = np.array([r for p, r in alg_fb], dtype=np.int64)
+        norm_algebraic._coeffs = np.array(f_coeffs, dtype=np.int64)
+        if hasattr(sieve_line, '_rat_primes'):
+            del sieve_line._rat_primes
+        if hasattr(sieve_line, '_alg_primes'):
+            del sieve_line._alg_primes
 
-    for b in range(1, params['B_max'] + 1):
-        if time.time() - t0 > time_limit:
-            break
+        rat_bound = A * abs(m) + 1
+        alg_bound = int(norm_algebraic(A, 1, f_coeffs))
 
-        pairs = sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb,
-                          rat_bound, alg_bound)
+        # Try C sieve for bulk candidate generation
+        c_lib = _load_gnfs_sieve()
+        if c_lib is not None:
+            # C sieve path: batch sieve, then trial divide candidates
+            rat_p_arr = np.array(rat_fb, dtype=np.int64)
+            alg_p_arr = np.array([p for p, r in alg_fb], dtype=np.int64)
+            alg_r_arr = np.array([r for p, r in alg_fb], dtype=np.int64)
 
-        # Trial divide each candidate to verify smoothness
-        for a, b_val in pairs:
-            rat_result = trial_divide_rational(a, b_val, m, rat_fb)
-            if rat_result is None:
-                continue
-            rat_exps, rat_sign = rat_result
+            d = len(f_coeffs) - 1
+            f0_abs = abs(f_coeffs[0]) if f_coeffs[0] != 0 else 1
 
-            alg_exps = trial_divide_algebraic(a, b_val, f_coeffs, alg_fb)
-            if alg_exps is None:
-                continue
+            # Cap max_cands to fit verify buffers in ~1.5GB
+            n_fb_total = len(rat_fb) + len(alg_fb)
+            mem_per_cand = n_fb_total * 8  # bytes for exponent arrays
+            max_cands = max(2000, min(200000, int(1_500_000_000 / max(mem_per_cand, 1))))
+            out_a = (ctypes.c_int * max_cands)()
+            out_b = (ctypes.c_int * max_cands)()
 
-            # Both sides smooth — compute QC bits and store
-            qc_bits = compute_qc_vector(a, b_val, qc_primes)
-            verified_relations.append({
-                'a': a, 'b': b_val,
-                'rat_exps': rat_exps, 'rat_sign': rat_sign,
-                'alg_exps': alg_exps,
-                'qc_bits': qc_bits,
-            })
+            B_max = params['B_max']
+            batch_size = 500  # b-lines per batch
+            f_coeffs_arr = np.array(f_coeffs, dtype=np.int64)
 
-        if verbose and b % 100 == 0:
-            elapsed = time.time() - t0
-            print(f"    [b={b}] {len(verified_relations)}/{needed} verified ({elapsed:.1f}s)")
+            # Compute max safe b for int64 batch JIT (avoid overflow in norm)
+            # Algebraic norm ≈ sum_i f_i * (-a)^i * b^(d-i)
+            # Dominant overflow term: max(|f_i|) * max(A,b)^d
+            # For fixed A, the b-dependent bound comes from f_0 * b^d < 2^63
+            int64_max = (1 << 63) - 1
+            # Also check rational: |a + b*m| < 2^63 → b < 2^63 / |m|
+            safe_b_rat = int64_max // (abs(int(m)) + 1) if m != 0 else B_max
+            # Algebraic: sum of |f_i * A^i * b^(d-i)| < 2^63
+            # Approximate: (d+1) * max(|f_i| * A^i) * b^(d-?) is complex
+            # Simple safe bound: max(|f_i|) * max(A, b)^d < 2^63 / (d+1)
+            max_f = max(abs(c) for c in f_coeffs)
+            if max_f > 0 and d > 0:
+                safe_b_alg = int((int64_max / ((d + 1) * max_f)) ** (1.0 / d))
+            else:
+                safe_b_alg = B_max
+            max_safe_b = max(min(safe_b_rat, safe_b_alg), 1)
 
-        if len(verified_relations) >= needed:
-            break
+            lp_bound = np.int64(min(params['B_r'] * 100, params['B_r'] ** 2))  # LP bound: 100*B for SLP combining
+
+            # C verify buffers (flattened, always needed)
+            c_verify_rat_exps = np.zeros(max_cands * len(rat_fb), dtype=np.int64)
+            c_verify_alg_exps = np.zeros(max_cands * len(alg_fb), dtype=np.int64)
+            c_verify_signs = (ctypes.c_int * max_cands)()
+            c_verify_mask = (ctypes.c_int * max_cands)()
+            c_verify_rat_lp = np.zeros(max_cands, dtype=np.int64)
+            c_verify_alg_lp = np.zeros(max_cands, dtype=np.int64)
+
+            # JIT buffers only if needed (2D views for numba)
+            batch_rat_exps = c_verify_rat_exps.reshape(max_cands, len(rat_fb))
+            batch_alg_exps = c_verify_alg_exps.reshape(max_cands, len(alg_fb))
+            batch_signs = np.zeros(max_cands, dtype=np.int64)
+            batch_mask = np.zeros(max_cands, dtype=np.int64)
+            batch_rat_lp = c_verify_rat_lp
+            batch_alg_lp = c_verify_alg_lp
+
+            # SLP partial relations grouped by large prime
+            partials_rat = defaultdict(list)  # rat_lp → list of relation dicts
+            partials_alg = defaultdict(list)  # alg_lp → list of relation dicts
+            partials_dlp = []  # DLP: both sides have LP
+            total_partials = 0
+            max_partials = 200000  # SLP/DLP: partial relations limit
+
+            # QC arrays (precompute once)
+            qc_q_arr = np.array([q for q, r in qc_primes], dtype=np.int64)
+            qc_r_arr = np.array([r for q, r in qc_primes], dtype=np.int64)
+            n_split_qc = len(qc_primes)
+            batch_qc = np.zeros((max_cands, n_split_qc), dtype=np.int64)
+
+            # If JIT covers < 10% of b-range, use C verify for everything
+            use_c_verify_only = (max_safe_b < B_max * 0.1)
+            if use_c_verify_only:
+                max_safe_b = 0  # force all to C verify path
+
+            if verbose and max_safe_b < B_max:
+                if use_c_verify_only:
+                    print(f"    Using C __int128 verify for all b (int64 overflow at b>{max_safe_b})")
+                else:
+                    print(f"    Batch JIT safe for b≤{max_safe_b}, C verify for b>{max_safe_b}")
+
+            # Two-phase sieve: large A for small b (norms manageable), normal A for rest
+            # Phase 1: b=1..phase1_b_max, A_large, batch_size=1 (avoid max_cands overflow)
+            # Phase 2: b=phase1_b_max+1..B_max, A, batch_size=500
+            if d >= 4 and nd >= 40:
+                A_large = min(A * 2, 2_000_000)  # 2x wider for small b
+                phase1_b_max = min(5000, B_max)
+                phase1_batch = 1  # one b-line at a time to avoid buffer overflow
+            else:
+                A_large = A
+                phase1_b_max = 0  # no phase 1 for small/low-degree numbers
+                phase1_batch = batch_size
+
+            if verbose and phase1_b_max > 0:
+                print(f"    Two-phase sieve: b=1..{phase1_b_max} A={A_large}, "
+                      f"b={phase1_b_max+1}..{B_max} A={A}")
+
+            # Build phase schedule: [(b_start, b_end, A_use), ...]
+            phase_schedule = []
+            if phase1_b_max > 0:
+                for b in range(1, phase1_b_max + 1):
+                    phase_schedule.append((b, b, A_large, phase1_batch))
+            for b_s in range(phase1_b_max + 1, B_max + 1, batch_size):
+                b_e = min(b_s + batch_size - 1, B_max)
+                phase_schedule.append((b_s, b_e, A, batch_size))
+
+            for b_start, b_end, A_use, _ in phase_schedule:
+                if time.time() - t0 > time_limit:
+                    break
+
+                n_cands = c_lib.sieve_batch_c(
+                    b_start, b_end, A_use,
+                    rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    len(rat_fb), ctypes.c_int64(int(m)),
+                    alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    len(alg_fb),
+                    max(600, 1000 - nd * 5), max(500, 850 - nd * 5),
+                    d, ctypes.c_int64(f0_abs),
+                    out_a, out_b, max_cands)
+
+                if n_cands == 0:
+                    continue
+
+                def _process_batch_jit(a_np, b_np, n_c):
+                    """Process candidates via batch JIT."""
+                    nonlocal total_partials
+                    batch_mask[:n_c] = 0
+                    batch_rat_lp[:n_c] = 0
+                    batch_alg_lp[:n_c] = 0
+
+                    _jit_batch_verify(a_np, b_np, n_c, np.int64(int(m)),
+                                      f_coeffs_arr, np.int64(d),
+                                      rat_p_arr, alg_p_arr, alg_r_arr,
+                                      batch_rat_exps, batch_alg_exps,
+                                      batch_signs, batch_mask,
+                                      batch_rat_lp, batch_alg_lp, lp_bound)
+
+                    batch_qc[:n_c] = 0
+                    _jit_compute_qc_batch(a_np, b_np, batch_mask, n_c,
+                                           qc_q_arr, qc_r_arr, n_split_qc, batch_qc)
+
+                    have_enough_full = len(verified_relations) >= needed
+                    for ci in range(n_c):
+                        if batch_mask[ci] == 0:
+                            continue
+                        a_val = int(a_np[ci])
+                        b_val = int(b_np[ci])
+                        mtype = int(batch_mask[ci])
+                        if mtype == 1:
+                            # Full relation: compute all QC
+                            qc_bits = batch_qc[ci, :n_split_qc].tolist()
+                            if inert_qc_primes:
+                                qc_bits += compute_inert_qc_vector(
+                                    a_val, b_val, inert_qc_primes, f_coeffs)
+                            verified_relations.append({
+                                'a': a_val, 'b': b_val,
+                                'rat_exps': batch_rat_exps[ci].tolist(),
+                                'rat_sign': int(batch_signs[ci]),
+                                'alg_exps': batch_alg_exps[ci].tolist(),
+                                'qc_bits': qc_bits,
+                            })
+                        elif not have_enough_full and total_partials < max_partials:
+                            # Partial: compact storage (int8 exps to save memory)
+                            qc_bits = batch_qc[ci, :n_split_qc].tolist()
+                            rel = {
+                                'a': a_val, 'b': b_val,
+                                'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
+                                'rat_sign': int(batch_signs[ci]),
+                                'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
+                                'qc_bits': qc_bits,
+                                '_needs_inert_qc': True,
+                            }
+                            if mtype == 3:
+                                # Group by ideal (p, r) not just p
+                                alp = int(batch_alg_lp[ci])
+                                r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
+                                partials_alg[(alp, r_ideal)].append(rel)
+                            elif mtype == 2:
+                                partials_rat[int(batch_rat_lp[ci])].append(rel)
+                            elif mtype == 4:
+                                # DLP: both sides have LP
+                                rel['rat_lp'] = int(batch_rat_lp[ci])
+                                rel['alg_lp'] = int(batch_alg_lp[ci])
+                                partials_dlp.append(rel)
+                            total_partials += 1
+
+                a_np = np.array(out_a[:n_cands], dtype=np.int64)
+                b_np = np.array(out_b[:n_cands], dtype=np.int64)
+
+                if b_end <= max_safe_b and A_use == A:
+                    _process_batch_jit(a_np, b_np, n_cands)
+                else:
+                    # C __int128 verify path for large b values
+                    # Buffers are preallocated; C function zeroes them internally
+                    c_lib.verify_candidates_c(
+                        out_a, out_b, n_cands,
+                        ctypes.c_int64(int(m)),
+                        f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        d,
+                        rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        len(rat_fb),
+                        alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        len(alg_fb),
+                        ctypes.c_int64(int(lp_bound)),
+                        c_verify_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        c_verify_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        c_verify_signs, c_verify_mask,
+                        c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    )
+
+                    have_enough_full = len(verified_relations) >= needed
+                    n_rat_fb = len(rat_fb)
+                    n_alg_fb = len(alg_fb)
+                    for ci in range(n_cands):
+                        mtype = c_verify_mask[ci]
+                        if mtype == 0:
+                            continue
+                        a_val = int(a_np[ci])
+                        b_val = int(b_np[ci])
+                        # Read from 2D view (same memory as flattened)
+                        rat_exps = batch_rat_exps[ci].tolist()
+                        alg_exps = batch_alg_exps[ci].tolist()
+                        rat_sign = int(c_verify_signs[ci])
+
+                        if mtype == 1:
+                            # Full relation
+                            qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
+                            if inert_qc_primes:
+                                qc_bits += compute_inert_qc_vector(
+                                    a_val, b_val, inert_qc_primes, f_coeffs)
+                            verified_relations.append({
+                                'a': a_val, 'b': b_val,
+                                'rat_exps': rat_exps, 'rat_sign': rat_sign,
+                                'alg_exps': alg_exps,
+                                'qc_bits': qc_bits,
+                            })
+                        elif not have_enough_full and total_partials < max_partials:
+                            # Partial relation (SLP) — compact int8 exps
+                            qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
+                            rel = {
+                                'a': a_val, 'b': b_val,
+                                'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
+                                'rat_sign': rat_sign,
+                                'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
+                                'qc_bits': qc_bits,
+                                '_needs_inert_qc': True,
+                            }
+                            if mtype == 3:
+                                # Group by ideal (p, r) not just p
+                                alp = int(c_verify_alg_lp[ci])
+                                r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
+                                partials_alg[(alp, r_ideal)].append(rel)
+                            elif mtype == 2:
+                                partials_rat[int(c_verify_rat_lp[ci])].append(rel)
+                            elif mtype == 4:
+                                # DLP: both sides have LP
+                                rel['rat_lp'] = int(c_verify_rat_lp[ci])
+                                rel['alg_lp'] = int(c_verify_alg_lp[ci])
+                                partials_dlp.append(rel)
+                            total_partials += 1
+
+                # Estimate total with SLP + DLP matching
+                n_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values())
+                n_slp_est += sum(max(0, len(v) - 1) for v in partials_rat.values())
+                # DLP estimate: conservative (actual usable is much less than total)
+                n_dlp_est = 0
+                total_est = len(verified_relations) + n_slp_est + n_dlp_est
+
+                if verbose and (b_end % 500 == 0 or (b_end <= phase1_b_max and b_end % 100 == 0)):
+                    elapsed = time.time() - t0
+                    n_part = sum(len(v) for v in partials_alg.values()) + sum(len(v) for v in partials_rat.values())
+                    print(f"    [b={b_end}] {len(verified_relations)}+{n_slp_est}slp+{n_dlp_est}dlp/{needed} ({n_part} slp-part, {len(partials_dlp)} dlp-part, {elapsed:.1f}s)")
+                if total_est >= needed:
+                    break
+        else:
+            # Python fallback sieve
+            for b in range(1, params['B_max'] + 1):
+                if time.time() - t0 > time_limit:
+                    break
+                pairs = sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb,
+                                  rat_bound, alg_bound)
+                for a, b_val in pairs:
+                    rat_result = trial_divide_rational(a, b_val, m, rat_fb)
+                    if rat_result is None:
+                        continue
+                    rat_exps, rat_sign = rat_result
+                    alg_exps = trial_divide_algebraic(a, b_val, f_coeffs, alg_fb)
+                    if alg_exps is None:
+                        continue
+                    qc_bits = compute_qc_vector(a, b_val, qc_primes)
+                    if inert_qc_primes:
+                        qc_bits += compute_inert_qc_vector(
+                            a, b_val, inert_qc_primes, f_coeffs)
+                    verified_relations.append({
+                        'a': a, 'b': b_val,
+                        'rat_exps': rat_exps, 'rat_sign': rat_sign,
+                        'alg_exps': alg_exps,
+                        'qc_bits': qc_bits,
+                    })
+                if verbose and b % 100 == 0:
+                    elapsed = time.time() - t0
+                    print(f"    [b={b}] {len(verified_relations)}/{needed} verified ({elapsed:.1f}s)")
+                if len(verified_relations) >= needed:
+                    break
+
+    # Helper: compute deferred inert QC bits
+    def _ensure_inert_qc(rel):
+        if rel.get('_needs_inert_qc') and inert_qc_primes:
+            rel['qc_bits'] = rel['qc_bits'] + compute_inert_qc_vector(
+                rel['a'], rel['b'], inert_qc_primes, f_coeffs)
+            rel['_needs_inert_qc'] = False
+
+    # SLP matching: combine partial relations sharing a large prime
+    n_full_before = len(verified_relations)
+    if 'partials_alg' in dir() and len(verified_relations) < needed:
+        def _combine_partials(partials_dict, lp_side):
+            """lp_side: 'rat' or 'alg' — which side has the large prime."""
+            for lp, rels in partials_dict.items():
+                if len(rels) < 2:
+                    continue
+                _ensure_inert_qc(rels[0])
+                base = rels[0]
+                nrat = len(base['rat_exps'])
+                nalg = len(base['alg_exps'])
+                nqc = len(base.get('qc_bits', []))
+                for other in rels[1:]:
+                    _ensure_inert_qc(other)
+                    # Handle both numpy arrays and lists for exponents
+                    br, or_ = base['rat_exps'], other['rat_exps']
+                    ba, oa = base['alg_exps'], other['alg_exps']
+                    if isinstance(br, np.ndarray):
+                        comb_rat = (br.astype(np.int16) + or_.astype(np.int16)).tolist()
+                    else:
+                        comb_rat = [br[j] + or_[j] for j in range(nrat)]
+                    if isinstance(ba, np.ndarray):
+                        comb_alg = (ba.astype(np.int16) + oa.astype(np.int16)).tolist()
+                    else:
+                        comb_alg = [ba[j] + oa[j] for j in range(nalg)]
+                    verified_relations.append({
+                        'a': base['a'], 'b': base['b'],
+                        'a_list': [base['a'], other['a']],
+                        'b_list': [base['b'], other['b']],
+                        'rat_exps': comb_rat,
+                        'rat_sign': base['rat_sign'] + other['rat_sign'],
+                        'alg_exps': comb_alg,
+                        'qc_bits': [base['qc_bits'][j] ^ other['qc_bits'][j] for j in range(nqc)] if nqc > 0 else [],
+                        'rat_lp': lp if lp_side == 'rat' else 0,
+                        'alg_lp': lp if lp_side == 'alg' else 0,
+                    })
+                    if len(verified_relations) >= needed:
+                        return
+
+        _combine_partials(partials_alg, 'alg')
+        if len(verified_relations) < needed:
+            _combine_partials(partials_rat, 'rat')
+
+        n_slp = len(verified_relations) - n_full_before
+        n_part_alg = sum(len(v) for v in partials_alg.values())
+        n_part_rat = sum(len(v) for v in partials_rat.values())
+        if verbose and (n_part_alg + n_part_rat) > 0:
+            print(f"    SLP: {n_part_alg} alg-partial + {n_part_rat} rat-partial → {n_slp} combined")
+
+    # DLP processing: add individual DLP relations with LP columns
+    num_lp_cols = 0
+    if 'partials_dlp' in dir() and partials_dlp and len(verified_relations) < needed:
+        from collections import Counter
+        # Compute alg ideals for all DLP rels
+        for rel in partials_dlp:
+            _ensure_inert_qc(rel)
+            alp = rel['alg_lp']
+            rel['_alg_ideal'] = (alp, (-rel['a'] * pow(rel['b'], -1, alp)) % alp)
+
+        # Count LP occurrences — only keep LPs appearing 2+ times
+        rlp_cnt = Counter(r['rat_lp'] for r in partials_dlp)
+        alp_cnt = Counter(r['_alg_ideal'] for r in partials_dlp)
+
+        # Filter: keep DLP rels where BOTH LPs appear 2+ times
+        useful_dlp = [r for r in partials_dlp
+                      if rlp_cnt[r['rat_lp']] >= 2 and alp_cnt[r['_alg_ideal']] >= 2]
+
+        if useful_dlp:
+            # Assign LP column indices
+            unique_rlps = sorted(set(r['rat_lp'] for r in useful_dlp))
+            unique_alps = sorted(set(r['_alg_ideal'] for r in useful_dlp))
+            rlp_to_col = {lp: i for i, lp in enumerate(unique_rlps)}
+            alp_to_col = {ideal: i + len(unique_rlps) for i, ideal in enumerate(unique_alps)}
+            num_lp_cols = len(unique_rlps) + len(unique_alps)
+
+            for rel in useful_dlp:
+                # Convert int16 exps to lists for consistency
+                if isinstance(rel['rat_exps'], np.ndarray):
+                    rel['rat_exps'] = rel['rat_exps'].tolist()
+                if isinstance(rel['alg_exps'], np.ndarray):
+                    rel['alg_exps'] = rel['alg_exps'].tolist()
+                rel['lp_cols'] = [rlp_to_col[rel['rat_lp']],
+                                  alp_to_col[rel['_alg_ideal']]]
+                verified_relations.append(rel)
+
+            # Update needed: more columns now
+            needed = int((1 + len(rat_fb) + len(alg_fb) + num_qc + num_sq + num_lp_cols + 1) * 1.10)
+
+            if verbose:
+                print(f"    DLP: {len(useful_dlp)}/{len(partials_dlp)} usable → "
+                      f"{len(unique_rlps)} rat-LP + {len(unique_alps)} alg-LP cols")
 
     sieve_time = time.time() - t_sieve
     if verbose:
@@ -1396,12 +2583,13 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
 
     # Step 5: GF(2) Linear Algebra
     la_t0 = time.time()
-    ncols_total = 1 + len(rat_fb) + len(alg_fb) + num_qc
+    ncols_total = 1 + len(rat_fb) + len(alg_fb) + num_qc + num_sq + num_lp_cols
     if verbose:
         print(f"    LA: {len(verified_relations)} x {ncols_total}")
 
     null_vecs = gf2_gaussian_elimination(
-        verified_relations, len(rat_fb), len(alg_fb), num_qc=num_qc)
+        verified_relations, len(rat_fb), len(alg_fb), num_qc=num_qc,
+        num_sq=num_sq, num_lp=num_lp_cols, verbose=verbose)
 
     if verbose:
         print(f"    LA: {time.time()-la_t0:.1f}s, {len(null_vecs)} null vecs")

@@ -684,9 +684,7 @@ __global__ void kangaroo_walk_kernel(
         if (*found_flag) break;
         if (is_inf) break;
 
-        /* Murmur3 finalizer: bijective mix for uniform jump selection.
-         * Critical for walk quality when using Jacobian X (correlated low bits).
-         * ~1.5x faster at 48-52b vs raw `v[0] & 63`. */
+        /* Murmur3 finalizer: bijective mix for uniform jump selection. */
         uint64_t hx = cX.v[0];
         hx ^= hx >> 33;
         hx *= 0xff51afd7ed558ccdULL;

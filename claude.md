@@ -142,10 +142,12 @@
 | 64 | — | ~5-10min | — | 2026-03-13 |
 
 ### Benchmark Standard (ECDLP)
+**All benchmarks MUST have a timeout** (use `signal.alarm` or similar). Never run unbounded.
 ```
 python3 -c "
+import signal, time, random
+signal.alarm(120)  # 2 min hard timeout
 from ecdlp_pythagorean import ecdlp_pythagorean_kangaroo_c, secp256k1_curve
-import time, random
 curve = secp256k1_curve()
 G = curve.G
 random.seed(42)
@@ -166,11 +168,6 @@ for bits in [20, 28, 36, 40, 44]:
 ## Improvement Ideas
 See `ecdlp_ideas.md` for full details and analysis.
 
-### Ready to Try (Engineering)
-1. **GPU 128-bit positions** — enable 68b+ search by using __int128 for position tracking. Risk: low.
-2. **Divstep register optimization** — current kernel uses 140 regs (up from 96). Restructure divstep locals to reduce pressure. Risk: low.
-3. **madd-2007-bl EC addition** — 7M+4S vs current 8M+3S for a=0 curves. ~4% per step. Risk: low.
-
 ### Completed (merged)
 - **Batch Montgomery inversion** — 1 mpz_invert per step for NK kangaroos. 1.4-1.8x.
 - **GMP mpn_ fixed-limb hot path** — fe_t in Phases 1+3. 1.3-1.6x.
@@ -187,6 +184,7 @@ See `ecdlp_ideas.md` for full details and analysis.
 - **GPU Lévy spread jump table** — exponential 1-to-10M spread (10^7x). 1.2-1.45x faster at 48-56b.
 - **GPU Murmur3 jump hash** — bijective mixing for uniform jump selection from Jacobian X. Reduces tail outliers.
 - **GPU Bernstein-Yang divstep inversion** — replaces Fermat (255S+16M) with constant-time divsteps. 1.3-1.6x faster.
+- **GPU 128-bit positions** — pos_lo/pos_hi with carry. Enables 68b+ searches. 138 regs, 0 spills.
 
 ### Failed (do NOT retry)
 - **2-step comb table** — no benefit with mpn_ (already done by fe_t).
@@ -203,6 +201,9 @@ See `ecdlp_ideas.md` for full details and analysis.
 - **GPU NORM_INTERVAL=16** — Jacobian X diverges from uniform after 16 steps; 2.2x slower.
 - **H2 Price tree jumps** — Fibonacci-spaced hypotenuses, no improvement over baseline.
 - **Near-uniform jumps (2.6x spread)** — 5x slower; weak hash needs wide spread.
+- **GPU register cap (maxrregcount=96)** — 2x occupancy but spills destroy performance; timeout at 44b.
+- **madd-2007-bl EC addition** — 4S+7M+12A vs 3S+8M+6A; extra adds cost more than M→S savings on GPU.
+- **Klemstine function for factoring** — continuous Fermat encoding; gradient=0 at all zeros, no computational advantage.
 - **H1 Berggren tree hypotenuses** — same distribution as Lévy table; specific values don't matter, only spread shape.
 - **H9-H16 (endomorphism, index calculus, attractors, telescoping, etc.)** — all fail for fundamental math reasons. O(√N) is optimal for generic group DLP.
 
