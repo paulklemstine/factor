@@ -2071,9 +2071,11 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 cols.add(j + 1)
         sparse_rows.append(cols)
 
-    # GF(2) Gaussian elimination (mpz-based, reliable)
-    # TODO: fix bitpacked_gauss spurious null vector bug, then switch
-    raw_vecs = _fallback_gauss(sparse_rows, ncols, nrows)
+    try:
+        from block_lanczos import bitpacked_gauss
+        raw_vecs = bitpacked_gauss(sparse_rows, ncols)
+    except (ImportError, MemoryError):
+        raw_vecs = _fallback_gauss(sparse_rows, ncols, nrows)
 
     # Map filtered indices back to original smooth[] indices
     null_vecs = [[row_map[i] for i in vec] for vec in raw_vecs]
