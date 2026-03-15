@@ -20,7 +20,7 @@ Critical bug fixes preserved from v5.0:
 """
 
 import gmpy2
-from gmpy2 import mpz, isqrt, is_prime, gcd, jacobi, next_prime
+from gmpy2 import mpz, isqrt, is_prime, gcd, jacobi, next_prime, legendre
 import numpy as np
 from numba import njit
 import ctypes
@@ -245,6 +245,58 @@ def jit_batch_find_hits(candidates, n_cand, fb, off1, off2, fb_size):
     hit_starts[n_cand] = total
     return hit_starts, hit_fb[:total]
     # because we need the prime values for modular arithmetic.
+
+
+###############################################################################
+# KNUTH-SCHROEPPEL MULTIPLIER SELECTION
+###############################################################################
+
+def _ks_select_multiplier(N, verbose=False):
+    """
+    Knuth-Schroeppel multiplier selection for QS-family sieves.
+
+    Test squarefree k=1..67, score by how many small primes have
+    jacobi(kN, p) = 1 (i.e., kN is a QR mod p), weighted by 2*log(p)/(p-1).
+    Penalize large k by -log(k)/2.
+
+    Returns the best multiplier k (int).
+    """
+    candidates = [1, 2, 3, 5, 6, 7, 10, 11, 13, 14, 15, 17, 19, 21,
+                  23, 26, 29, 30, 31, 33, 34, 37, 38, 41, 42, 43,
+                  46, 47, 51, 53, 55, 57, 58, 59, 61, 62, 65, 66, 67]
+    scored = []
+    for k in candidates:
+        kN = N * k
+        sq = isqrt(kN)
+        if sq * sq == kN:
+            continue  # kN is a perfect square — useless
+        score = -math.log(k) / 2.0 if k > 1 else 0.0
+
+        # Special handling for p=2 based on kN mod 8
+        kN_mod8 = int(kN % 8)
+        if kN_mod8 == 1:
+            score += 2.0 * math.log(2.0)
+        elif kN_mod8 == 5:
+            score += math.log(2.0)
+        elif kN_mod8 == 0:
+            score += math.log(2.0) * 0.5
+
+        # Score over first 80 odd primes
+        p = mpz(3)
+        for _ in range(80):
+            pf = float(p)
+            leg = legendre(kN, p)
+            if leg == 1:
+                score += 2.0 * math.log(pf) / (pf - 1.0)
+            elif leg == 0:
+                score += math.log(pf) / pf
+            p = next_prime(p)
+        scored.append((score, k))
+    scored.sort(reverse=True)
+    if verbose:
+        top5 = [(k, f"{s:.3f}") for s, k in scored[:5]]
+        print(f"    K-S multipliers (top 5): {top5}")
+    return scored[0][1]
 
 
 ###############################################################################
@@ -560,7 +612,7 @@ class DoubleLargePrimeGraph:
 # SIQS CORE
 ###############################################################################
 
-def siqs_factor(n, verbose=True, time_limit=3600):
+def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1):
     """
     Self-Initializing Quadratic Sieve (SIQS).
 
@@ -572,6 +624,12 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     2. Precomputed offset deltas for incremental sieve updates
     3. Double large prime variation for ~2x more relations
     4. Batch generation of 2^(s-1) polynomials per 'a' value
+
+    Args:
+        multiplier: Knuth-Schroeppel multiplier.
+            1 = no multiplier (default, backward compatible)
+            'auto' = auto-select optimal multiplier via K-S scoring
+            int > 1 = use that specific multiplier
 
     Returns a non-trivial factor of n, or None if time_limit exceeded.
     """
@@ -590,10 +648,31 @@ def siqs_factor(n, verbose=True, time_limit=3600):
     if sr * sr == n:
         return int(sr)
 
+    # Knuth-Schroeppel multiplier selection
+    original_n = n  # preserve for factor extraction
+    if multiplier == 'auto':
+        k = _ks_select_multiplier(n, verbose=verbose)
+    else:
+        k = int(multiplier)
+
+    # Parameters based on ORIGINAL n size (multiplier doesn't change difficulty)
     fb_size, M = siqs_params(nd)
 
+    if k > 1:
+        n = mpz(k) * n  # sieve with kN
+        # Update bit-size for sieve threshold math (kN is the sieve target)
+        nb = int(gmpy2.log2(n)) + 1
+
     if verbose:
-        print(f"  SIQS: {nd}d ({nb}b), FB={fb_size}, M={M}")
+        k_str = f", k={k}" if k > 1 else ""
+        print(f"  SIQS: {len(str(original_n))}d ({int(gmpy2.log2(original_n))+1}b){k_str}, FB={fb_size}, M={M}")
+
+    def _extract_factor(g):
+        """Extract a non-trivial factor of original_n from a factor of kN."""
+        g = gcd(mpz(g), original_n)
+        if 1 < g < original_n:
+            return int(g)
+        return None
 
     t0 = time.time()
 
@@ -1146,7 +1225,13 @@ def siqs_factor(n, verbose=True, time_limit=3600):
 
         result = sieve_and_collect(b, c, o1, o2)
         if result:
-            return result
+            if k > 1:
+                f = _extract_factor(result)
+                if f:
+                    return f
+                # Factor of kN didn't give factor of N — keep going
+            else:
+                return result
 
         # --- Gray code B-switching: generate remaining 2^(s-1) - 1 polynomials ---
         # Track current sign state: signs[j] = +1 or -1
@@ -1236,7 +1321,12 @@ def siqs_factor(n, verbose=True, time_limit=3600):
 
             result = sieve_and_collect(b, c, o1, o2)
             if result:
-                return result
+                if k > 1:
+                    f = _extract_factor(result)
+                    if f:
+                        return f
+                else:
+                    return result
 
         # Progress report
         if a_count % max(1, 10 if nd < 60 else 3) == 0 and verbose:
@@ -1336,10 +1426,19 @@ def siqs_factor(n, verbose=True, time_limit=3600):
         for diff in [x_val - y_val, x_val + y_val]:
             g = gcd(diff % n, n)
             if 1 < g < n:
-                total = time.time() - t0
-                if verbose:
-                    print(f"\n    *** FACTOR: {g} ({total:.1f}s) ***")
-                return int(g)
+                if k > 1:
+                    f = _extract_factor(int(g))
+                    if f is None:
+                        continue
+                    total = time.time() - t0
+                    if verbose:
+                        print(f"\n    *** FACTOR: {f} ({total:.1f}s, k={k}) ***")
+                    return f
+                else:
+                    total = time.time() - t0
+                    if verbose:
+                        print(f"\n    *** FACTOR: {g} ({total:.1f}s) ***")
+                    return int(g)
 
     if verbose:
         print(f"    {len(null_vecs)} null vecs, no factor found.")
