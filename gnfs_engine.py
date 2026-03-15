@@ -400,16 +400,16 @@ def gnfs_params(n):
     elif nd < 32:
         fb_bound = 40000
     elif nd < 37:
-        fb_bound = 60000
+        fb_bound = 50000
     elif nd < 40:
-        fb_bound = 80000
-    elif nd < 43:
+        fb_bound = 70000
+    elif nd < 45:
         fb_bound = 100000
-    elif nd < 46:
+    elif nd < 48:
         fb_bound = 150000
-    elif nd < 50:
+    elif nd < 52:
         fb_bound = 250000
-    elif nd < 55:
+    elif nd < 56:
         fb_bound = 400000
     elif nd < 60:
         fb_bound = 600000
@@ -426,17 +426,10 @@ def gnfs_params(n):
         fb_bound = max(fb_bound, 8000000)
     fb_bound = min(fb_bound, 50_000_000)  # cap for memory
 
-    # Sieve region: A controls algebraic norm size (norm ~ A^d for large a)
-    # Balance: bigger A = more sieve points but larger norms = lower smoothness
-    # Optimal: A such that u_alg = d*log2(A) / log2(B) ~ 3.5-4.0
-    # This gives a good balance of yield per sieve point
-    fb_bits = math.log2(max(fb_bound, 2))
-    target_u = 3.8  # optimal for SLP-enhanced sieving
-    A_smooth = int(2 ** (target_u * fb_bits / d))
-    # But also need A >= some minimum for sieve density
-    A_min = max(10000, int(math.sqrt(fb_bound)))
-    A = min(A_smooth, fb_bound)  # don't go wider than FB bound
-    A = max(A, A_min)
+    # Sieve region: A = FB bound is the standard choice for line sieve.
+    # With LP relations (SLP), norms can be slightly larger than FB bound
+    # and still contribute, so A ~ FB is a good balance.
+    A = fb_bound
     A = min(A, 5_000_000)  # cap for memory
 
     # B_max: generous — more b values is cheap with C sieve

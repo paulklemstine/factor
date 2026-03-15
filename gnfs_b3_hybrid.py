@@ -584,11 +584,11 @@ def _b3_phase_a_c_verify(N, f_coeffs, m, rat_fb, alg_fb,
     partials_rat = defaultdict(list)
     total_partials = 0
 
-    # B3 key insight: use TIGHTER rational threshold (fewer false positives,
-    # more throughput per candidate). Standard GNFS uses ~60% of log norm.
-    # We use ~70% — fewer candidates but higher smooth probability.
-    rat_frac_b3 = max(600, 1000 - nd * 5)  # tighter than standard
-    alg_frac_b3 = max(400, 750 - nd * 5)   # same algebraic threshold
+    # B3 threshold tuning: use same thresholds as standard GNFS for now.
+    # The B3 advantage comes from the two-phase architecture (Phase A + B),
+    # not from threshold changes. Standard thresholds are well-tuned.
+    rat_frac_b3 = max(500, 900 - nd * 5)  # same as standard
+    alg_frac_b3 = max(400, 750 - nd * 5)  # same as standard
 
     batch_size = 500
 
