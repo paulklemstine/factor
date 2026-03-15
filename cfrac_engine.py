@@ -93,19 +93,19 @@ def _smoothness_bound(N):
     elif nd <= 50:
         alpha = 0.42
     elif nd <= 55:
-        alpha = 0.43
+        alpha = 0.42
     elif nd <= 60:
-        alpha = 0.44
+        alpha = 0.42
     elif nd <= 65:
-        alpha = 0.45
+        alpha = 0.43
     elif nd <= 75:
-        alpha = 0.47
+        alpha = 0.44
     elif nd <= 85:
-        alpha = 0.49
+        alpha = 0.45
     elif nd <= 95:
-        alpha = 0.51
+        alpha = 0.46
     else:
-        alpha = 0.53
+        alpha = 0.47
     B = int(math.exp(alpha * L_exp))
     B = max(B, 50)
     B = min(B, 3_000_000)

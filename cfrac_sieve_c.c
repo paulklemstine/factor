@@ -1,9 +1,11 @@
 /*
  * CFRAC sieve C extension — fast CF recurrence + trial division
  *
- * The inner loop generates CF terms and trial-divides the residues d_{k+1}
- * by the factor base. This is the bottleneck in Python (~30K terms/s).
- * In C with GMP, we can do ~500K+ terms/s.
+ * Optimizations:
+ *   - Small-prime fast path using uint64_t when cofactor fits
+ *   - GMP mpz for large cofactors
+ *   - Early exit when p^2 > cofactor
+ *   - Binary search for cofactor-in-FB
  *
  * Compile:
  *   gcc -O3 -shared -fPIC -o cfrac_sieve_c.so cfrac_sieve_c.c -lgmp -lm
@@ -12,35 +14,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include <gmp.h>
 
-/*
- * Batch CF generation + trial division.
- *
- * Inputs:
- *   N_str: string representation of N (the number to factor, or kN)
- *   fb: array of factor base primes (as unsigned longs)
- *   fb_size: number of primes in factor base
- *   batch_size: number of CF terms to generate
- *   lp_bound: large prime bound
- *
- * For each CF term k, compute d_{k+1} and trial divide by FB.
- * Store results in output arrays:
- *   out_smooth_idx: indices of smooth/partial terms (0-based within batch)
- *   out_exps: exponent vectors (fb_size ints per smooth term)
- *   out_cofactors: cofactor after trial division
- *   out_signs: sign bits
- *   out_p_mods: p_k mod N as GMP strings
- *
- * Returns number of smooth/partial terms found.
- */
-
-/* Maximum factor base size */
 #define MAX_FB 50000
-/* Maximum results per batch */
 #define MAX_RESULTS 100000
 
-/* State structure for CF expansion */
 typedef struct {
     mpz_t N;
     mpz_t a0;
@@ -52,26 +31,18 @@ typedef struct {
     int step;
 } cf_state_t;
 
-/* Result structure */
-typedef struct {
-    int idx;           /* CF step index */
-    int sign;          /* 0 or 1 */
-    int exps[MAX_FB];  /* exponent vector */
-    unsigned long cofactor_lo;  /* low 64 bits of cofactor */
-    unsigned long cofactor_hi;  /* high 64 bits (0 if fits in 64 bits) */
-    /* p_mod stored separately */
-} cf_result_t;
-
-/* Global state — we keep one CF expansion active */
 static cf_state_t g_state;
 static int g_initialized = 0;
 static unsigned long g_fb[MAX_FB];
 static int g_fb_size = 0;
 static unsigned long g_lp_bound = 0;
 
-/* Temp variables (avoid repeated malloc) */
+/* Temp variables */
 static mpz_t g_m_next, g_d_next, g_a_next, g_p_new;
 static mpz_t g_cof, g_tmp;
+
+/* Precomputed: index where FB primes exceed small-prime threshold */
+static int g_small_prime_count = 0;  /* count of primes that fit in uint32 */
 
 void cfrac_init(const char *N_str) {
     if (!g_initialized) {
@@ -105,21 +76,78 @@ void cfrac_set_fb(unsigned long *fb, int fb_size, unsigned long lp_bound) {
     g_fb_size = fb_size < MAX_FB ? fb_size : MAX_FB;
     memcpy(g_fb, fb, g_fb_size * sizeof(unsigned long));
     g_lp_bound = lp_bound;
+
+    /* Find how many primes are "small" (for uint64 fast path) */
+    /* Small enough that p*p fits in uint64 and we can use % operator */
+    g_small_prime_count = 0;
+    for (int i = 0; i < g_fb_size; i++) {
+        if (g_fb[i] < 65536) {  /* p < 2^16 so p^2 < 2^32 */
+            g_small_prime_count = i + 1;
+        } else {
+            break;
+        }
+    }
 }
 
 /*
- * Run batch_size CF steps. For each, trial divide d_{k+1} by FB.
- * Returns results in caller-provided arrays.
- *
- * out_count: number of results (smooth + LP partial)
- * out_step: step indices
- * out_sign: sign bits
- * out_cofactor: cofactor values (as strings, null-terminated, concatenated)
- * out_exps: exponent vectors (flat array, fb_size per result)
- * out_p_mod: p_k mod N values (as strings, concatenated)
- *
- * Returns: number of results written.
+ * Trial divide using uint64_t fast path for small cofactors,
+ * falling back to GMP for large ones.
  */
+static inline void trial_divide(mpz_t cof, int *exps) {
+    int i;
+
+    /* Phase 1: Try to reduce using GMP until cofactor fits in uint64 */
+    for (i = 0; i < g_fb_size; i++) {
+        unsigned long p = g_fb[i];
+
+        /* Early exit: p^2 > cof */
+        if (mpz_fits_ulong_p(cof)) {
+            unsigned long cv = mpz_get_ui(cof);
+            if (p * p > cv)
+                return;
+            /* Switch to uint64 fast path */
+            goto uint64_path;
+        }
+
+        if (mpz_divisible_ui_p(cof, p)) {
+            int e = 0;
+            do {
+                mpz_divexact_ui(cof, cof, p);
+                e++;
+            } while (mpz_divisible_ui_p(cof, p));
+            exps[i] = e;
+            if (mpz_cmp_ui(cof, 1) == 0) return;
+        }
+    }
+    return;
+
+uint64_path:
+    {
+        /* Fast path: cofactor fits in uint64 */
+        uint64_t cv = mpz_get_ui(cof);
+        if (cv == 1) return;
+
+        for (; i < g_fb_size; i++) {
+            uint64_t p = g_fb[i];
+            if (p * p > cv)
+                break;
+            if (cv % p == 0) {
+                int e = 0;
+                do {
+                    cv /= p;
+                    e++;
+                } while (cv % p == 0);
+                exps[i] = e;
+                if (cv == 1) {
+                    mpz_set_ui(cof, 1);
+                    return;
+                }
+            }
+        }
+        mpz_set_ui(cof, cv);
+    }
+}
+
 int cfrac_batch(int batch_size,
                 int *out_step,
                 int *out_sign,
@@ -130,25 +158,22 @@ int cfrac_batch(int batch_size,
     int n_results = 0;
     int cof_offset = 0;
     int pmod_offset = 0;
-    int max_results = MAX_RESULTS;
+    int max_results = batch_size < MAX_RESULTS ? batch_size : MAX_RESULTS;
 
     for (int bi = 0; bi < batch_size && n_results < max_results; bi++) {
-        /* CF recurrence: m_{k+1} = d_k * a_k - m_k */
+        /* CF recurrence */
         mpz_mul(g_m_next, g_state.d_k, g_state.a_k);
         mpz_sub(g_m_next, g_m_next, g_state.m_k);
 
-        /* d_{k+1} = (N - m_{k+1}^2) / d_k */
         mpz_mul(g_tmp, g_m_next, g_m_next);
         mpz_sub(g_d_next, g_state.N, g_tmp);
         mpz_tdiv_q(g_d_next, g_d_next, g_state.d_k);
 
         if (mpz_sgn(g_d_next) == 0) break;
 
-        /* a_{k+1} = floor((a0 + m_{k+1}) / d_{k+1}) */
         mpz_add(g_tmp, g_state.a0, g_m_next);
         mpz_tdiv_q(g_a_next, g_tmp, g_d_next);
 
-        /* p_{k+1} = a_{k+1} * p_k + p_{k-1} mod N */
         mpz_mul(g_p_new, g_a_next, g_state.p_prev1);
         mpz_add(g_p_new, g_p_new, g_state.p_prev2);
         mpz_mod(g_p_new, g_p_new, g_state.N);
@@ -159,26 +184,7 @@ int cfrac_batch(int batch_size,
         int *exps = out_exps + n_results * g_fb_size;
         memset(exps, 0, g_fb_size * sizeof(int));
 
-        for (int i = 0; i < g_fb_size; i++) {
-            unsigned long p = g_fb[i];
-            /* Early exit: if p^2 > cofactor, cofactor is prime (or 1) */
-            if (mpz_fits_ulong_p(g_cof)) {
-                if (p * p > mpz_get_ui(g_cof))
-                    break;
-            } else {
-                /* cofactor doesn't fit in ulong — p^2 can't exceed it
-                   for any FB prime (FB primes are small), so continue */
-            }
-            if (mpz_divisible_ui_p(g_cof, p)) {
-                int e = 0;
-                while (mpz_divisible_ui_p(g_cof, p)) {
-                    mpz_divexact_ui(g_cof, g_cof, p);
-                    e++;
-                }
-                exps[i] = e;
-                if (mpz_cmp_ui(g_cof, 1) == 0) break;
-            }
-        }
+        trial_divide(g_cof, exps);
 
         /* Check cofactor */
         int is_smooth = (mpz_cmp_ui(g_cof, 1) == 0);
@@ -200,7 +206,7 @@ int cfrac_batch(int batch_size,
                     else hi = mid - 1;
                 }
                 if (!found_in_fb) {
-                    is_lp = 1;  /* LP candidate */
+                    is_lp = 1;
                 }
             }
         }
@@ -209,7 +215,6 @@ int cfrac_batch(int batch_size,
             out_step[n_results] = g_state.step + bi;
             out_sign[n_results] = (g_state.step + bi) % 2 == 0 ? 1 : 0;
 
-            /* Write cofactor as string */
             char *cof_str = mpz_get_str(NULL, 10, g_cof);
             int cof_len = strlen(cof_str);
             if (cof_offset + cof_len + 1 < cof_buf_size) {
@@ -218,7 +223,6 @@ int cfrac_batch(int batch_size,
             }
             free(cof_str);
 
-            /* Write p_mod as string */
             char *pmod_str = mpz_get_str(NULL, 10, g_state.p_prev1);
             int pmod_len = strlen(pmod_str);
             if (pmod_offset + pmod_len + 1 < pmod_buf_size) {
@@ -242,12 +246,10 @@ int cfrac_batch(int batch_size,
     return n_results;
 }
 
-/* Get current step count */
 int cfrac_get_step(void) {
     return g_state.step;
 }
 
-/* Cleanup */
 void cfrac_cleanup(void) {
     if (g_initialized) {
         mpz_clear(g_state.N);
