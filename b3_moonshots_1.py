@@ -105,7 +105,7 @@ def eval_b3(N, n0, k):
 # EXPERIMENT 1: Resonance Between Polynomials
 # ===========================================================================
 
-def experiment_1_resonance(nd=35, num_polys=500, sieve_range=2000):
+def experiment_1_resonance(nd=30, num_polys=200, sieve_range=1000):
     """
     Do partial relations from different n0 polynomials combine at rates
     higher than random expectation?
@@ -201,7 +201,7 @@ def experiment_1_resonance(nd=35, num_polys=500, sieve_range=2000):
 # EXPERIMENT 2: Structured Polynomial Families
 # ===========================================================================
 
-def experiment_2_structured_families(nd=30, sieve_range=5000):
+def experiment_2_structured_families(nd=25, sieve_range=2000):
     """
     Do algebraically special n0 sequences produce higher smooth rates
     than random n0 values?
