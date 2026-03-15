@@ -2320,7 +2320,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                     alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     len(alg_fb),
-                    max(550, 950 - nd * 6), max(450, 800 - nd * 6),
+                    max(700, 1100 - nd * 5), max(600, 1000 - nd * 5),
                     d, ctypes.c_int64(f0_abs),
                     out_a, out_b, max_cands)
 
