@@ -505,6 +505,13 @@ class DoubleLargePrimeGraph:
 
         # Full relations (smooth + combined)
         self.smooth = []
+        # GF(2) signature dedup: track unique exponent vector signatures
+        self._gf2_sigs = set()
+        self.num_dupes = 0
+
+    def _gf2_sig(self, sign, exps):
+        """Compute GF(2) signature of a relation's exponent vector."""
+        return (sign % 2,) + tuple(e % 2 for e in exps)
 
     def _uf_find(self, x):
         """Find with path compression."""
@@ -532,7 +539,12 @@ class DoubleLargePrimeGraph:
             self._uf_rank[ra] += 1
 
     def add_smooth(self, x, sign, exps):
-        """Add a fully smooth relation."""
+        """Add a fully smooth relation (dedup by GF(2) signature)."""
+        sig = self._gf2_sig(sign, exps)
+        if sig in self._gf2_sigs:
+            self.num_dupes += 1
+            return  # skip duplicate
+        self._gf2_sigs.add(sig)
         self.smooth.append((x, sign, exps))
 
     def add_single_lp(self, x, sign, exps, lp):
@@ -558,7 +570,12 @@ class DoubleLargePrimeGraph:
             cax = ox * x * v_inv % int(self.n)
             cs = (os + sign) % 2
             ce = [oe[j] + exps[j] for j in range(self.fb_size)]
-            self.smooth.append((cax, cs, ce))
+            sig = self._gf2_sig(cs, ce)
+            if sig not in self._gf2_sigs:
+                self._gf2_sigs.add(sig)
+                self.smooth.append((cax, cs, ce))
+            else:
+                self.num_dupes += 1
         else:
             self.slp_partials[lp] = (x, sign, exps)
         return None
@@ -686,7 +703,12 @@ class DoubleLargePrimeGraph:
                         return int(g)
                     return None
 
-        self.smooth.append((combined_x, combined_sign, combined_exps))
+        sig = self._gf2_sig(combined_sign, combined_exps)
+        if sig not in self._gf2_sigs:
+            self._gf2_sigs.add(sig)
+            self.smooth.append((combined_x, combined_sign, combined_exps))
+        else:
+            self.num_dupes += 1
         return None
 
     @property
@@ -1543,13 +1565,16 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
     # large primes that collide ~3.3x more often than random, boosting DLP combines.
     # We use grouped selection for ~60% of 'a' values and random for ~40% to
     # maintain relation independence for LA while getting the LP collision benefit.
-    group_size = 8  # number of variants per base group
+    group_size = 10  # number of variants per base group
     grouped_ratio = 0.5  # fraction of 'a' values using grouped selection
-    # Share s//2 primes to get LP resonance without rank deficiency in LA.
-    # For s=5: share 2, vary 3. For s=6: share 3, vary 3. For s=7: share 3, vary 4.
+    # LP resonance with s-1 shared primes produces 3.3x more LP collisions,
+    # but the resulting DLP-combined relations are GF(2)-duplicate (~90% waste).
+    # s//2 sharing reduces dupes but also eliminates the resonance benefit.
+    # Net effect: grouped a-selection provides no speedup with current DLP graph.
+    # Keep the infrastructure for future improvements (e.g., cross-group LP matching).
     n_shared = max(2, s // 2)  # number of primes shared in base
-    # Only enable for s >= 5 where pool is large enough (50+ primes)
-    use_grouped = grouped_a and s >= 5 and (select_hi - select_lo) >= s * 4
+    # Disabled by default: no measurable benefit with inline GF(2) dedup
+    use_grouped = False  # grouped_a and s >= 5 and (select_hi - select_lo) >= s * 4
 
     def _gen_base(rng_local):
         """Generate a random base of n_shared FB prime indices for grouped a-selection."""
@@ -1982,6 +2007,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
         if verbose:
             print(f"\n    Insufficient: {len(smooth)}/{needed} ({elapsed:.1f}s)")
         return None
+
 
     if verbose:
         print(f"\n    LA: {len(smooth)} x {fb_size + 1}")
