@@ -61,28 +61,22 @@ def bitpacked_gauss(sparse_rows, ncols, verbose=False):
         w = col // 64
         bit = np.uint64(1) << np.uint64(col % 64)
 
-        # Find all rows with this column bit set
+        # Find unused rows with this column bit set
         col_bits = mat[:, w] & bit
         has_bit = col_bits.astype(np.bool_)
+        has_bit &= ~used  # exclude already-used pivot rows
         all_set = np.where(has_bit)[0]
         if len(all_set) == 0:
             continue
 
-        # Pick first unused row as pivot
-        piv = -1
-        for r in all_set:
-            if not used[r]:
-                piv = int(r)
-                break
-        if piv == -1:
-            continue
-
+        # First unused row with this bit is the pivot
+        piv = int(all_set[0])
         used[piv] = True
         pivot_row[col] = piv
         rank += 1
 
-        # Eliminate from all other rows that have this bit
-        rows_to_xor = all_set[all_set != piv]
+        # Eliminate from all other unused rows that have this bit
+        rows_to_xor = all_set[1:]
 
         if len(rows_to_xor) > 0:
             mat[rows_to_xor] ^= mat[piv]
