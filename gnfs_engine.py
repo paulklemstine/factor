@@ -39,7 +39,7 @@ def _load_gnfs_sieve():
             ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,  # rat_primes, n_rat, m
             ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
             ctypes.c_int, ctypes.c_int,  # rat_frac_x1000, alg_frac_x1000
-            ctypes.c_int, ctypes.c_int64,  # poly_degree, f0_abs
+            ctypes.c_int, ctypes.c_int64, ctypes.c_int64,  # poly_degree, f0_abs, fd_abs
             ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int), ctypes.c_int,  # out_a, out_b, max
         ]
         # Register __int128 verify function
@@ -2728,6 +2728,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
 
             d = len(f_coeffs) - 1
             f0_abs = abs(f_coeffs[0]) if f_coeffs[0] != 0 else 1
+            fd_abs = abs(f_coeffs[d]) if f_coeffs[d] != 0 else 1
 
             # Cap max_cands to fit verify buffers in ~800MB (leave room for other data)
             n_fb_total = len(rat_fb) + len(alg_fb)
@@ -2840,7 +2841,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                     alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     len(alg_fb),
                     max(700, 1100 - nd * 5), max(600, 1000 - nd * 5),
-                    d, ctypes.c_int64(f0_abs),
+                    d, ctypes.c_int64(f0_abs), ctypes.c_int64(fd_abs),
                     out_a, out_b, max_cands)
 
                 if n_cands == 0:

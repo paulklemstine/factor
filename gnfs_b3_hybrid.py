@@ -348,6 +348,7 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
     alg_r_arr = np.array([r for p, r in alg_fb], dtype=np.int64)
     f_coeffs_arr = np.array(f_coeffs, dtype=np.int64)
     f0_abs = abs(f_coeffs[0]) if f_coeffs[0] != 0 else 1
+    fd_abs = abs(f_coeffs[d]) if f_coeffs[d] != 0 else 1
     A = min(params['A'], 500000)
     B_max = params['B_max']
 
@@ -415,7 +416,7 @@ def _c_sieve_collect(N, f_coeffs, m_int, rat_fb, alg_fb,
             alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
             len(alg_fb),
             rat_frac, alg_frac,
-            d, ctypes.c_int64(f0_abs),
+            d, ctypes.c_int64(f0_abs), ctypes.c_int64(fd_abs),
             out_a, out_b, max_cands)
 
         if n_cands == 0:

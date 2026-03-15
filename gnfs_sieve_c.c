@@ -12,10 +12,18 @@
 #include <string.h>
 #include <math.h>
 
+/* Inline GCD for coprimality check (small ints) */
+static int gcd_int(int a, int b) {
+    if (a < 0) a = -a;
+    if (b < 0) b = -b;
+    while (b) { int t = b; b = a % b; a = t; }
+    return a;
+}
+
 /* Sieve multiple b-lines. Returns total candidates.
  * Thresholds are b-adaptive:
  *   rat_thresh(b) = rat_frac * log(max(b*|m|, A)) * 128
- *   alg_thresh(b) = alg_frac * log(max(b^d * |f0|, 1)) * 128
+ *   alg_thresh(b) = alg_frac * log(max(A, b)) * d + log(max(f0, f_d)) * 128
  */
 int sieve_batch_c(
     int b_start,
@@ -34,6 +42,7 @@ int sieve_batch_c(
     int alg_frac_x1000,          /* e.g. 500 for 0.50 */
     int poly_degree,
     int64_t f0_abs,              /* |f_coeffs[0]| */
+    int64_t fd_abs,              /* |f_coeffs[d]| (leading coefficient) */
     /* Output: pairs (a, b) */
     int *out_a,
     int *out_b,
@@ -46,6 +55,9 @@ int sieve_batch_c(
     double rat_frac = rat_frac_x1000 / 1000.0;
     double alg_frac = alg_frac_x1000 / 1000.0;
     double log_f0 = (f0_abs > 0) ? log((double)f0_abs) : 0.0;
+    double log_fd = (fd_abs > 0) ? log((double)fd_abs) : 0.0;
+    /* Use the larger of f0 and fd for norm estimate */
+    double log_leading_coeff = (log_fd > log_f0) ? log_fd : log_f0;
 
     /* Allocate sieve arrays (reused across b-lines) */
     uint16_t *rat_log = (uint16_t *)malloc(size * sizeof(uint16_t));
@@ -73,8 +85,12 @@ int sieve_batch_c(
         double rat_typical = (bm > (double)A) ? bm : (double)A;
         uint16_t rat_thresh = (uint16_t)(rat_frac * log(rat_typical) * 128.0);
 
-        double log_b = log((double)b);
-        double alg_log_norm = (double)poly_degree * log_b + log_f0;
+        /* Fix 2: a-dependent algebraic threshold.
+         * Actual norm ≈ max(f0 * b^d, fd * a^d). Since a ranges over [-A, A],
+         * use max(A, b) as the dominant base. */
+        double abs_A = (double)A;
+        double dom = (abs_A > (double)b) ? abs_A : (double)b;
+        double alg_log_norm = (double)poly_degree * log(dom) + log_leading_coeff;
         uint16_t alg_thresh = (alg_log_norm > 1.0)
             ? (uint16_t)(alg_frac * alg_log_norm * 128.0) : 128;
 
@@ -101,15 +117,16 @@ int sieve_batch_c(
                 alg_log[idx] += lp;
         }
 
-        /* Collect candidates */
+        /* Collect candidates with coprimality pre-filter (Fix 1) */
         for (int idx = 0; idx < size && total < max_cands; idx++) {
             if (rat_log[idx] >= rat_thresh && alg_log[idx] >= alg_thresh) {
                 int a = idx - A;
-                if (a != 0) {
-                    out_a[total] = a;
-                    out_b[total] = b;
-                    total++;
-                }
+                if (a == 0) continue;
+                /* Skip non-coprime (a, b) pairs — saves ~41% of verify work */
+                if (gcd_int(a, b) != 1) continue;
+                out_a[total] = a;
+                out_b[total] = b;
+                total++;
             }
         }
     }
@@ -185,6 +202,19 @@ static int is_prime64(int64_t n) {
     return 1;
 }
 
+/* i128 limits for overflow detection */
+static const i128 I128_MAX = ((i128)1 << 126) - 1 + ((i128)1 << 126);  /* 2^127 - 1 */
+static const i128 I128_MIN = -((i128)1 << 126) - ((i128)1 << 126);     /* -2^127 */
+
+/* Safe multiply with overflow check for i128 */
+static inline i128 safe_mul_128(i128 a, i128 b, int *overflow) {
+    if (a == 0 || b == 0) return 0;
+    i128 result = a * b;
+    /* Check: if a*b/b != a, overflow occurred */
+    if (b != 0 && result / b != a) { *overflow = 1; }
+    return result;
+}
+
 /* Compute algebraic norm using __int128.
  * norm = sum_{i=0}^{d} f[i] * (-a)^i * b^(d-i)
  * Returns absolute value. Sets *overflow=1 if result doesn't fit in i128.
@@ -197,7 +227,20 @@ static i128 compute_alg_norm_128(int a, int b, const int64_t *f_coeffs, int d, i
     for (int i = 0; i < d; i++) b_pow *= b;  /* b^d */
 
     for (int i = 0; i <= d; i++) {
-        result += (i128)f_coeffs[i] * neg_a_pow * b_pow;
+        /* Check each term for overflow: f[i] * neg_a_pow * b_pow */
+        i128 term = safe_mul_128((i128)f_coeffs[i], neg_a_pow, overflow);
+        if (*overflow) return 0;
+        term = safe_mul_128(term, b_pow, overflow);
+        if (*overflow) return 0;
+
+        /* Check addition overflow */
+        if ((term > 0 && result > I128_MAX - term) ||
+            (term < 0 && result < I128_MIN - term)) {
+            *overflow = 1;
+            return 0;
+        }
+        result += term;
+
         neg_a_pow *= (-a);
         if (i < d) {
             /* b_pow = b^(d-i-1), but avoid division — just divide by b */
