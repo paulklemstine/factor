@@ -2245,47 +2245,31 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
         # y² = ∏(a_i + b_i·m) mod n. Compute y via FB prime exponents.
         # Since all alg exponents are even, y = ∏ alg_fb_prime^(e/2) mod n.
         y_val = mpz(1)
-        alg_lp_exps = defaultdict(int)
-        for idx in indices:
-            rel = relations[idx]
-            alg_lp = rel.get('alg_lp', 0)
-            if alg_lp > 0:
-                if 'a_list' in rel:
-                    alg_lp_exps[alg_lp] += 2
-                else:
-                    alg_lp_exps[alg_lp] += 1
-
-        alg_lp_ok = True
-        for lp, exp in alg_lp_exps.items():
-            if exp % 2 != 0:
-                alg_lp_ok = False
-                break
-            y_val = (y_val * pow(mpz(lp), exp // 2, n)) % n
-        if not alg_lp_ok:
-            continue
-
-        # Algebraic FB primes: each (p, r) represents the ideal (p, α-r)
-        # The norm of (p, α-r) is p. So ∏ p^(e_j/2) gives the algebraic sqrt
-        # of the NORM. But we need the sqrt of the actual algebraic number...
-        # For the NORM: y_alg_norm = ∏ p_j^(e_j/2)
-        for j, e in enumerate(total_alg):
-            if e > 0:
-                p_alg = alg_fb[j][0] if isinstance(alg_fb[j], tuple) else alg_fb[j]
-                y_val = (y_val * pow(mpz(p_alg), e // 2, n)) % n
-
-        # Try gcd with both x ± y
-        for diff in [x_val - y_val, x_val + y_val]:
-            g = gcd(diff % n, n)
-            if 1 < g < n:
-                return int(g)
-
-        # Also try Hensel approach as fallback
+        # Try Hensel-based algebraic sqrt first (works for d=3)
         for y_h in algebraic_square_root(
                 relations, indices, f_coeffs, m, n, splitting_primes):
             for diff in [x_val - y_h, x_val + y_h]:
                 g = gcd(diff % n, n)
                 if 1 < g < n:
                     return int(g)
+
+        # Fallback: direct product evaluation mod n
+        # y = ∏(a_i + b_i·m) mod n, then y should be x² mod n
+        y_direct = mpz(1)
+        for idx in indices:
+            rel = relations[idx]
+            if 'a_list' in rel:
+                for a_val, b_val in zip(rel['a_list'], rel['b_list']):
+                    y_direct = (y_direct * (mpz(a_val) + mpz(b_val) * mpz(m))) % n
+            else:
+                y_direct = (y_direct * (mpz(rel['a']) + mpz(rel['b']) * mpz(m))) % n
+
+        # y_direct = ∏(a_i + b_i·m) mod n should equal x_val² mod n
+        # But actually x_val is the RATIONAL sqrt, y_direct is the full product
+        # We need: x_rational² ≡ y_algebraic² (mod n)
+        # So try gcd(x_val² - y_direct, n) — if y_direct is a perfect square,
+        # this factors. But y_direct is NOT a perfect square in general.
+        # Skip this — the Hensel approach is the correct one.
 
     return None
 
