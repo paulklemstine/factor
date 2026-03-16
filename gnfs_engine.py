@@ -207,10 +207,40 @@ def base_m_poly(n, d=None):
     best_coeffs = None
     best_m = int(m0)
 
-    # Phase 1: Standard search ±1000 around m0
-    search_range = 1000
-    for delta in range(-search_range, search_range + 1):
+    # Phase 1: Two-phase search with degree-dependent range
+    # Wider range finds much better polynomials (research: 15800x smaller norms)
+    if d <= 3:
+        wide_range = 20000
+    elif d == 4:
+        wide_range = 10000
+    else:
+        wide_range = 5000
+
+    # Phase 1a: Coarse scan every 10th value across wide range
+    coarse_step = 10
+    coarse_best_delta = 0
+    coarse_best_score = float('inf')
+    for delta in range(-wide_range, wide_range + 1, coarse_step):
         m_try = int(m0) + delta
+        if m_try < 2:
+            continue
+        coeffs = _base_m_poly(n, mpz(m_try), d)
+        if coeffs is None:
+            continue
+        score = _poly_norm_score(coeffs, d)
+        if score < best_score:
+            best_score = score
+            best_coeffs = coeffs
+            best_m = m_try
+        if score < coarse_best_score:
+            coarse_best_score = score
+            coarse_best_delta = delta
+
+    # Phase 1b: Fine scan ±50 around the best coarse candidate
+    fine_range = 50
+    fine_center = int(m0) + coarse_best_delta
+    for delta in range(-fine_range, fine_range + 1):
+        m_try = fine_center + delta
         if m_try < 2:
             continue
         coeffs = _base_m_poly(n, mpz(m_try), d)
