@@ -38,12 +38,14 @@ from collections import defaultdict
 
 _c_rho_lib = None
 _c_rho_fn = None
+_c_rho_loaded = False  # Cache load attempt result (True = attempted, even if failed)
 
 def _load_c_rho():
-    """Load the C Pollard rho shared library (lazy init)."""
-    global _c_rho_lib, _c_rho_fn
-    if _c_rho_fn is not None:
+    """Load the C Pollard rho shared library (lazy init, cached)."""
+    global _c_rho_lib, _c_rho_fn, _c_rho_loaded
+    if _c_rho_loaded:
         return _c_rho_fn
+    _c_rho_loaded = True
     so_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pollard_rho_c.so')
     if not os.path.exists(so_path):
         return None
@@ -542,8 +544,11 @@ class DoubleLargePrimeGraph:
         self.num_dupes = 0
 
     def _gf2_sig(self, sign, exps):
-        """Compute GF(2) signature of a relation's exponent vector."""
-        return (sign % 2,) + tuple(e % 2 for e in exps)
+        """Compute GF(2) signature of a relation's exponent vector.
+        Uses frozenset of odd-exponent column indices -- sparse and hashable."""
+        if sign & 1:
+            return frozenset(j for j, e in enumerate(exps) if e & 1) | {-1}
+        return frozenset(j for j, e in enumerate(exps) if e & 1)
 
     def _uf_find(self, x):
         """Find with path compression."""
@@ -615,6 +620,15 @@ class DoubleLargePrimeGraph:
     def add_double_lp(self, x, sign, exps, lp1, lp2):
         """
         Add a relation with two large prime cofactors.
+        Computes sparse exps from dense list. For the fast path with
+        pre-built sparse exps, use add_double_lp_sparse().
+        """
+        sparse = tuple((j, exps[j]) for j in range(len(exps)) if exps[j])
+        return self.add_double_lp_sparse(x, sign, exps, sparse, lp1, lp2)
+
+    def add_double_lp_sparse(self, x, sign, exps, sparse, lp1, lp2):
+        """
+        Add a relation with two large prime cofactors (fast path with pre-built sparse exps).
 
         Store as an edge in the large prime graph: vertex lp1 -- vertex lp2.
         When a cycle forms, the product of relations around the cycle
@@ -635,9 +649,6 @@ class DoubleLargePrimeGraph:
         # Each edge stores sparse exps (~20 entries vs fb_size=5000+)
         if self.dlp_count > 20000:
             return None
-
-        # Sparse exps: only store non-zero entries as tuple of (idx, val) pairs
-        sparse = tuple((j, e) for j, e in enumerate(exps) if e != 0)
 
         # Union-Find: O(α(n)) check if lp1 and lp2 are already connected
         if self._uf_find(lp1) == self._uf_find(lp2):
@@ -1011,6 +1022,8 @@ def _sieve_one_a(args):
             elif v < lp_bound and is_prime(v):
                 relations.append((_REL_SINGLE_LP, (x_stored, sign, sparse_exps, int(v))))
             elif v < lp_bound * lp_bound and v > 1:
+                if is_prime(mpz(v)):
+                    continue  # v is prime, can't split into two LPs
                 sq = gmpy2.isqrt(mpz(v))
                 if sq * sq == v and is_prime(sq):
                     lp1 = lp2 = int(sq)
@@ -1347,6 +1360,8 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
         sign = 1 if gx_val < 0 else 0
         v = abs(gx_val)  # Native Python int — avoid mpz overhead
         exps = [0] * fb_size
+        # Track non-zero indices for fast sparse conversion (avoids O(fb_size) scan)
+        nz_indices = []
 
         # Trial divide using precomputed hit indices (native int divmod)
         for h in range(h_start, h_end):
@@ -1364,6 +1379,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                     v = q
                     q, r = divmod(v, p)
                 exps[idx] = e
+                nz_indices.append(idx)
 
         if v == 1:
             # Smooth relation
@@ -1381,6 +1397,9 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 return result
         # DLP: try to split cofactor into two large primes
         elif v < lp_bound * lp_bound and v > 1:
+            # Skip if v is prime (can't split) -- gmpy2 Miller-Rabin is very fast
+            if is_prime(mpz(v)):
+                return None
             # Quick divisibility check by small primes first
             sq = gmpy2.isqrt(mpz(v))
             if sq * sq == v and is_prime(sq):
@@ -1394,9 +1413,13 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                     return None
             if lp1 < lp_bound and lp2 < lp_bound and is_prime(mpz(lp1)) and is_prime(mpz(lp2)):
                 for idx in a_prime_indices:
+                    if exps[idx] == 0:
+                        nz_indices.append(idx)
                     exps[idx] += 1
                 x_stored = int(mpz(ax_b_val) % n)
-                result = dlp_graph.add_double_lp(x_stored, sign, exps, lp1, lp2)
+                # Pass pre-built sparse exps to avoid O(fb_size) scan in add_double_lp
+                sparse = tuple((j, exps[j]) for j in nz_indices)
+                result = dlp_graph.add_double_lp_sparse(x_stored, sign, exps, sparse, lp1, lp2)
                 if result:
                     return result
         return None
@@ -1441,6 +1464,8 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 return result
         # DLP: try to split remainder into two large primes
         elif remainder < lp_bound * lp_bound and remainder > 1:
+            if gmpy2.is_prime(mpz(remainder)):
+                return None  # remainder is prime, can't split
             sq = gmpy2.isqrt(mpz(remainder))
             if sq * sq == remainder and gmpy2.is_prime(sq):
                 lp1 = lp2 = int(sq)
