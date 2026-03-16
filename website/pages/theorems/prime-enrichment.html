@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -62,16 +73,16 @@
 <div class="theorem-box">
   <p>Tree hypotenuses are <strong>6.7 times more likely to be prime</strong> than random odd integers of similar magnitude. Specifically, for hypotenuses at depth d with magnitude ~3^d:</p>
   <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">
-    Pr[c is prime | c is a hypotenuse] &asymp; 6.7 / (d &middot; ln 3)
+    Pr[c is prime | c is a hypotenuse] $\approx$ 6.7 / (d $\cdot$ ln 3)
   </p>
-  <p>compared to the background rate of 1 / (d &middot; ln 3) from the Prime Number Theorem. The enrichment factor of 6.7 arises from the constraint that all prime hypotenuses must satisfy p &equiv; 1 (mod 4), which eliminates half the primes, but the Pythagorean constraint c = m&sup2; + n&sup2; concentrates on exactly those primes. Measured over 154,672 prime hypotenuses with zero exceptions.</p>
+  <p>compared to the background rate of 1 / (d $\cdot$ ln 3) from the Prime Number Theorem. The enrichment factor of 6.7 arises from the constraint that all prime hypotenuses must satisfy $p \equiv 1 \pmod{4}$, which eliminates half the primes, but the Pythagorean constraint $c = m^2 + n^2$ concentrates on exactly those primes. Measured over 154,672 prime hypotenuses with zero exceptions.</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
-  <p>Among all integers, roughly 1 in ln(N) are prime (Prime Number Theorem). But tree hypotenuses are not random integers -- they are sums of two squares: c = m&sup2; + n&sup2;.</p>
-  <p style="margin-top:12px;">Fermat proved that a prime p is a sum of two squares if and only if p &equiv; 1 (mod 4). This eliminates all primes p &equiv; 3 (mod 4) from the hypotenuse pool. At first glance, this seems like it would make primes RARER among hypotenuses (we eliminated half of them!).</p>
+  <p>Among all integers, roughly 1 in ln(N) are prime (Prime Number Theorem). But tree hypotenuses are not random integers -- they are sums of two squares: $c = m^2 + n^2$.</p>
+  <p style="margin-top:12px;">Fermat proved that a prime p is a sum of two squares if and only if $p \equiv 1 \pmod{4}$. This eliminates all primes $p \equiv 3 \pmod{4}$ from the hypotenuse pool. At first glance, this seems like it would make primes RARER among hypotenuses (we eliminated half of them!).</p>
   <p style="margin-top:12px;">But the opposite happens. The sum-of-two-squares constraint is so restrictive on composite numbers that it eliminates far more composites than primes. The result: the surviving pool (hypotenuses) is enriched in primes by a factor of ~6.7.</p>
   <p style="margin-top:12px;">Analogy: if you filter a mixed bag of gold and gravel through a screen that removes most gravel but keeps most gold, the gold concentration goes up dramatically -- even though some gold is lost too.</p>
 </div>
@@ -79,15 +90,15 @@
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1:</strong> By Landau's theorem, the count of integers &le; X representable as a sum of two squares is asymptotically K &middot; X / &radic;(log X), where K = 0.7642... (the Landau-Ramanujan constant).</p>
-  <p style="margin-top:8px;"><strong>Step 2:</strong> Among these, the primes are exactly those p &equiv; 1 (mod 4). By Dirichlet's theorem, the count of primes p &le; X with p &equiv; 1 (mod 4) is asymptotically X / (2 log X).</p>
+  <p><strong>Step 1:</strong> By Landau's theorem, the count of integers $\leq$ X representable as a sum of two squares is asymptotically K $\cdot$ X / $\sqrt{\log X}$, where K = 0.7642... (the Landau-Ramanujan constant).</p>
+  <p style="margin-top:8px;"><strong>Step 2:</strong> Among these, the primes are exactly those $p \equiv 1 \pmod{4}$. By Dirichlet's theorem, the count of primes p $\leq$ X with $p \equiv 1 \pmod{4}$ is asymptotically X / (2 log X).</p>
   <p style="margin-top:8px;"><strong>Step 3:</strong> The enrichment factor is:</p>
   <p style="text-align:center; font-size:14px; color:#c8c8e8; margin:8px 0; font-family:monospace;">
-    [X / (2 log X)] / [K &middot; X / &radic;(log X)]<br>
-    = &radic;(log X) / (2K &middot; log X)<br>
-    = 1 / (2K &middot; &radic;(log X))
+    [X / (2 log X)] / [K $\cdot$ X / $\sqrt{\log X}$]<br>
+    = $\sqrt{\log X}$ / (2K $\cdot$ log X)<br>
+    = 1 / (2K $\cdot \sqrt{\log X}$)
   </p>
-  <p style="margin-top:8px;">Wait -- this decreases with X. The constant 6.7 applies at the tree depths we tested (depth 6-12, X ~ 10&sup3; to 10&sup6;). The enrichment is real but varies with depth.</p>
+  <p style="margin-top:8px;">Wait -- this decreases with X. The constant 6.7 applies at the tree depths we tested (depth 6-12, X ~ 1$0^3$ to 10^6). The enrichment is real but varies with depth.</p>
   <p style="margin-top:8px;"><strong>Step 4:</strong> Empirically measured: 154,672 / 797,161 = 19.4% of depth-12 hypotenuses are prime, vs. ~2.9% expected for random odd integers of that size. Ratio: 6.7.</p>
 </div>
 
@@ -95,7 +106,7 @@
 <h3>Significance</h3>
 <div class="significance">
   <p><strong>The tree is a prime-rich search space.</strong> When we walk the tree looking for smooth numbers to factor N, the non-smooth values are disproportionately likely to be prime (or have large prime factors). This is good for the Large Prime variant of sieving.</p>
-  <p style="margin-top:12px;">More deeply: the 6.7x enrichment is a symptom of the sum-of-two-squares constraint being a powerful arithmetic filter. This same filtering effect is what gives the smoothness advantage (Theorem: 3-276x) -- the constraint that c = m&sup2; + n&sup2; excludes many composite values with large prime factors.</p>
+  <p style="margin-top:12px;">More deeply: the 6.7x enrichment is a symptom of the sum-of-two-squares constraint being a powerful arithmetic filter. This same filtering effect is what gives the smoothness advantage (Theorem: 3-276x) -- the constraint that $c = m^2 + n^2$ excludes many composite values with large prime factors.</p>
 </div>
 
 <!-- Visualization -->
@@ -184,7 +195,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

@@ -18,6 +18,17 @@
   h3 { color: var(--cyan); margin: 24px 0 12px; }
   .matrix { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 14px; color: #c8c8e8; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -61,25 +72,25 @@
 <!-- Statement -->
 <h3>Formal Statement</h3>
 <div class="theorem-box">
-  <p>Let A, B, C be the three Berggren matrices that generate the Pythagorean tree. For any prime p &ge; 5, the group G = &lt;A, B, C&gt; acting on (Z/pZ)&sup3; has exact order:</p>
-  <p style="text-align:center; font-size:22px; color:var(--gold); margin:16px 0;">|G| = 2p(p&sup2; - 1)</p>
-  <p>Moreover, G is isomorphic to a specific subgroup of GL(3, F_p) consisting of matrices with determinant &plusmn;1 that preserve the Pythagorean quadratic form x&sup2; + y&sup2; = z&sup2;.</p>
+  <p>Let A, B, C be the three Berggren matrices that generate the Pythagorean tree. For any prime p $\geq$ 5, the group $G = \langle A, B, C \rangle$ acting on $(\mathbb{Z}/p\mathbb{Z})^3$ has exact order:</p>
+  <p style="text-align:center; font-size:22px; color:var(--gold); margin:16px 0;">$|G| = 2p(p^2 - 1)$</p>
+  <p>Moreover, G is isomorphic to a specific subgroup of $\mathrm{GL}(3, \mathbb{F}_p)$ consisting of matrices with determinant $\pm$1 that preserve the Pythagorean quadratic form $x^2 + y^2 = z^2$.</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
   <p>Imagine three roads branching from a central square in a city. Each road represents one of the Berggren matrices (A, B, C). Starting from the root triple (3, 4, 5), every Pythagorean triple can be reached by following some sequence of these three roads.</p>
-  <p style="margin-top:12px;">When we "wrap around" modulo a prime p, the infinite tree collapses into a finite graph. The question is: how much of the finite space (Z/pZ)&sup3; does this graph cover? The answer is 2p(p&sup2; - 1) -- which is almost all of it. The tree is not just some sparse skeleton; it fills up nearly the entire modular space.</p>
-  <p style="margin-top:12px;">The factor of 2 comes from determinant &plusmn;1. The factor of p comes from the unipotent (additive) part. The factor of p&sup2; - 1 comes from the semisimple (multiplicative) part. Together they account for rotations, scalings, and translations in the Pythagorean world mod p.</p>
+  <p style="margin-top:12px;">When we "wrap around" modulo a prime p, the infinite tree collapses into a finite graph. The question is: how much of the finite space $(\mathbb{Z}/p\mathbb{Z})^3$ does this graph cover? The answer is 2p($p^2$ - 1) -- which is almost all of it. The tree is not just some sparse skeleton; it fills up nearly the entire modular space.</p>
+  <p style="margin-top:12px;">The factor of 2 comes from determinant $\pm$1. The factor of p comes from the unipotent (additive) part. The factor of $p^2$ - 1 comes from the semisimple (multiplicative) part. Together they account for rotations, scalings, and translations in the Pythagorean world mod p.</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1:</strong> Compute the commutator [A, B] = ABA&sup-;&sup1;B&sup-;&sup1; and show it is unipotent of order exactly p mod any prime. This gives a cyclic subgroup of order p inside G.</p>
-  <p style="margin-top:8px;"><strong>Step 2:</strong> Show that A and C generate elements whose orders divide (p - 1) and (p + 1) respectively. Their combined action gives a subgroup of order lcm(p-1, p+1) = (p&sup2; - 1)/gcd(2, ...) in GL(3, F_p).</p>
-  <p style="margin-top:8px;"><strong>Step 3:</strong> Since the unipotent part (order p) and semisimple part (order dividing p&sup2; - 1) have coprime orders, the group is a semidirect product. Multiply: 2 &times; p &times; (p&sup2; - 1) = |G|.</p>
+  <p><strong>Step 1:</strong> Compute the commutator $[A, B] = ABA^{-1}B^{-1}$ and show it is unipotent of order exactly $p$ mod any prime. This gives a cyclic subgroup of order $p$ inside $G$.</p>
+  <p style="margin-top:8px;"><strong>Step 2:</strong> Show that A and C generate elements whose orders divide $(p - 1)$ and $(p + 1)$ respectively. Their combined action gives a subgroup of order $\mathrm{lcm}(p-1, p+1) = (p^2 - 1)/\gcd(2, \ldots)$ in $\mathrm{GL}(3, \mathbb{F}_p)$.</p>
+  <p style="margin-top:8px;"><strong>Step 3:</strong> Since the unipotent part (order $p$) and semisimple part (order dividing $p^2 - 1$) have coprime orders, the group is a semidirect product. Multiply: $2 \times p \times (p^2 - 1) = |G|$.</p>
   <p style="margin-top:8px;"><strong>Step 4:</strong> Verify computationally for 13 primes (5 through 53) with zero exceptions.</p>
 </div>
 
@@ -87,7 +98,7 @@
 <h3>Significance</h3>
 <div class="significance">
   <p><strong>Foundation for everything.</strong> This theorem is the bedrock of the entire Berggren tree research program. If the group were small, the tree would only visit a tiny fraction of residues mod p, and all downstream results (spectral gap, smoothness advantage, CFRAC equivalence) would collapse.</p>
-  <p style="margin-top:12px;">The fact that |G| = 2p(p&sup2; - 1) means the tree's coverage is near-maximal. For factoring, this translates to: when we search for smooth values along tree paths, we are not missing large swaths of the search space. The tree is an efficient search device.</p>
+  <p style="margin-top:12px;">The fact that $|G| = 2p(p^2 - 1)$ means the tree's coverage is near-maximal. For factoring, this translates to: when we search for smooth values along tree paths, we are not missing large swaths of the search space. The tree is an efficient search device.</p>
 </div>
 
 <!-- Visualization -->
@@ -187,7 +198,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

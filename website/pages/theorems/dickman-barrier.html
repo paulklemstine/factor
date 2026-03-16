@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -61,8 +72,8 @@
 <h3>Formal Statement</h3>
 <div class="theorem-box">
   <p>Any factoring algorithm based on finding B-smooth values among d-digit numbers faces an inherent overhead of at least</p>
-  <p style="text-align:center; font-size:20px; color:var(--gold); margin:16px 0;">10^(0.24d) relations required</p>
-  <p>This follows from the Dickman rho function: the probability that a random d-digit number is B-smooth (all prime factors &le; B) is &rho;(u) where u = log(N)/log(B), and &rho;(u) ~ u^{-u} for large u. The optimal balance between factor base size and sieving effort gives the L(1/2) = exp(&radic;(d &middot; ln(10) &middot; ln(d &middot; ln(10)))) complexity.</p>
+  <p style="text-align:center; font-size:20px; color:var(--gold); margin:16px 0;">$10^{0.24d}$ relations required</p>
+  <p>This follows from the Dickman rho function: the probability that a random d-digit number is B-smooth (all prime factors $\leq$ B) is $\rho(u)$ where $u = \log(N)/\log(B)$, and $\rho(u) \sim u^{-u}$ for large u. The optimal balance between factor base size and sieving effort gives the $L(1/2) = \exp(\sqrt{d \cdot \ln(10) \cdot \ln(d \cdot \ln(10))})$ complexity.</p>
 </div>
 
 <!-- Intuition -->
@@ -70,24 +81,24 @@
 <div class="intuition">
   <p>Imagine you need to find numbers whose prime factors are all "small" (below some bound B). These are called B-smooth numbers. Factoring algorithms like CFRAC, QS, and GNFS all work by collecting enough smooth numbers to build a system of equations.</p>
   <p style="margin-top:12px;">The problem: smooth numbers are rare. Among 60-digit numbers, roughly 1 in 10^14 is smooth with respect to a reasonable factor base. You need to test billions of candidates to find enough. This is not a limitation of any particular algorithm -- it is an information-theoretic barrier.</p>
-  <p style="margin-top:12px;">The Dickman function &rho;(u) quantifies exactly how rare smooth numbers are. No matter how clever your sieve is, you cannot make smooth numbers more common. You can only be smarter about where you look (which is what SIQS and GNFS do, by constructing polynomials whose values are smaller than random).</p>
+  <p style="margin-top:12px;">The Dickman function $\rho(u)$ quantifies exactly how rare smooth numbers are. No matter how clever your sieve is, you cannot make smooth numbers more common. You can only be smarter about where you look (which is what SIQS and GNFS do, by constructing polynomials whose values are smaller than random).</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1 -- Dickman function:</strong> Define &Psi;(x, y) = #{n &le; x : n is y-smooth}. By Dickman's theorem (1930), &Psi;(x, y) ~ x &middot; &rho;(u) where u = log(x)/log(y) and &rho; satisfies the delay-differential equation u&rho;'(u) = -&rho;(u-1).</p>
-  <p style="margin-top:8px;"><strong>Step 2 -- Asymptotic:</strong> For large u, &rho;(u) ~ u^{-u(1+o(1))}. With N ~ 10^d and optimal B ~ exp(&radic;(d ln(10))), we get u ~ &radic;(d ln(10)), so &rho;(u) ~ 10^{-0.24d}.</p>
-  <p style="margin-top:8px;"><strong>Step 3 -- Lower bound:</strong> Any algorithm that needs &pi;(B) + 1 smooth relations (where &pi;(B) ~ B/ln(B) is the factor base size) must test at least (&pi;(B)+1)/&rho;(u) candidates. Optimizing B gives the L(1/2) complexity.</p>
-  <p style="margin-top:8px;"><strong>Step 4 -- Our verification:</strong> Measured smoothness rates across SIQS runs at 48d-69d. Observed rates match &rho;(u) predictions within 15%, confirming the barrier is tight.</p>
+  <p><strong>Step 1 -- Dickman function:</strong> Define $\Psi(x, y) = \#\{n \le x : n \text{ is } y\text{-smooth}\}$. By Dickman's theorem (1930), $\Psi(x, y) \sim x \cdot \rho(u)$ where $u = \log(x)/\log(y)$ and $\rho$ satisfies the delay-differential equation $u\rho'(u) = -\rho(u-1)$.</p>
+  <p style="margin-top:8px;"><strong>Step 2 -- Asymptotic:</strong> For large u, $\rho(u) \sim u^{-u(1+o(1))}$. With $N \sim 10^d$ and optimal $B \sim \exp(\sqrt{d \ln(10)})$, we get $u \sim \sqrt{d \ln(10)}$, so $\rho(u) \sim 10^{-0.24d}$.</p>
+  <p style="margin-top:8px;"><strong>Step 3 -- Lower bound:</strong> Any algorithm that needs $\pi(B) + 1$ smooth relations (where $\pi(B) \sim B/\ln(B)$ is the factor base size) must test at least $(\pi(B)+1)/\rho(u)$ candidates. Optimizing B gives the $L(1/2)$ complexity.</p>
+  <p style="margin-top:8px;"><strong>Step 4 -- Our verification:</strong> Measured smoothness rates across SIQS runs at 48d-69d. Observed rates match $\rho(u)$ predictions within 15%, confirming the barrier is tight.</p>
 </div>
 
 <!-- Significance -->
 <h3>Significance</h3>
 <div class="significance">
   <p><strong>This is the wall.</strong> Every sieve-based factoring algorithm (CFRAC, QS, MPQS, SIQS, GNFS) hits this barrier. The only question is how close to the barrier each algorithm gets.</p>
-  <p style="margin-top:12px;">GNFS partially breaks through by using number field norms (which can be smaller than the original number), effectively reducing d. But even GNFS obeys the L(1/3) version of this barrier.</p>
-  <p style="margin-top:12px;">For our research: this theorem sets the benchmark. Our SIQS at 69d/538s is within 2x of the Dickman prediction, meaning we are near-optimal for a Python implementation. Further gains require either: (a) moving to C/GPU for constant-factor speedup, or (b) GNFS which changes the exponent from L(1/2) to L(1/3).</p>
+  <p style="margin-top:12px;">GNFS partially breaks through by using number field norms (which can be smaller than the original number), effectively reducing d. But even GNFS obeys the $L(1/3)$ version of this barrier.</p>
+  <p style="margin-top:12px;">For our research: this theorem sets the benchmark. Our SIQS at 69d/538s is within 2x of the Dickman prediction, meaning we are near-optimal for a Python implementation. Further gains require either: (a) moving to C/GPU for constant-factor speedup, or (b) GNFS which changes the exponent from $L(1/2)$ to $L(1/3)$.</p>
 </div>
 
 <!-- Visualization -->
@@ -155,7 +166,7 @@
     <circle cx="365" cy="92" r="4" fill="#ffd700"/>
     <text x="388" y="96" fill="#ffd700" font-size="10">Our SIQS results</text>
   </svg>
-  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The Dickman barrier grows as 10^(0.24d). GNFS breaks through with L(1/3) complexity. Our SIQS results track the L(1/2) curve closely.</p>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The Dickman barrier grows as $10^{0.24d}$. GNFS breaks through with $L(1/3)$ complexity. Our SIQS results track the $L(1/2)$ curve closely.</p>
 </div>
 
 <!-- Related Theorems -->
@@ -173,7 +184,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -61,35 +72,35 @@
 <h3>Formal Statement</h3>
 <div class="theorem-box">
   <p>Every primitive Pythagorean triple (a, b, c) maps to a rational point on the congruent number elliptic curve</p>
-  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">E_n : y&sup2; = x&sup3; - n&sup2;x &nbsp;&nbsp; where n = ab/2</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">$E_n : y^2 = x^3 - n^2x$ &nbsp;&nbsp; where $n = ab/2$</p>
   <p>via the explicit map:</p>
-  <p style="text-align:center; font-size:16px; color:var(--cyan); margin:12px 0;">x = (c/2)&sup2;, &nbsp;&nbsp; y = c(b&sup2; - a&sup2;)/8</p>
-  <p>This point is non-torsion (has infinite order on the curve), proving that n = ab/2 is a congruent number.</p>
+  <p style="text-align:center; font-size:16px; color:var(--cyan); margin:12px 0;">$x = (c/2)^2, \quad y = c(b^2 - a^2)/8$</p>
+  <p>This point is non-torsion (has infinite order on the curve), proving that $n = ab/2$ is a congruent number.</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
   <p>A "congruent number" is a positive integer that is the area of a right triangle with rational sides. The ancient question: which numbers are congruent? The answer is intimately connected to elliptic curves via the Birch-Swinnerton-Dyer conjecture (a Millennium Prize problem).</p>
-  <p style="margin-top:12px;">Every Pythagorean triple literally IS a right triangle, and its area is ab/2. So the Berggren tree is secretly a factory for congruent numbers. Each triple (a,b,c) not only gives a congruent number n = ab/2 but also hands you the explicit rational point on the elliptic curve that proves it.</p>
+  <p style="margin-top:12px;">Every Pythagorean triple literally IS a right triangle, and its area is ab/2. So the Berggren tree is secretly a factory for congruent numbers. Each triple (a,b,c) not only gives a congruent number $n = ab/2$ but also hands you the explicit rational point on the elliptic curve that proves it.</p>
   <p style="margin-top:12px;">This is like having a machine that simultaneously manufactures both the question ("Is n congruent?") and the answer ("Yes, here is the proof point").</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Verification:</strong> Substitute x = (c/2)&sup2; and y = c(b&sup2; - a&sup2;)/8 into y&sup2; = x&sup3; - n&sup2;x where n = ab/2.</p>
-  <p style="margin-top:8px;"><strong>LHS:</strong> y&sup2; = c&sup2;(b&sup2; - a&sup2;)&sup2; / 64</p>
-  <p style="margin-top:8px;"><strong>RHS:</strong> x&sup3; - n&sup2;x = c&sup6;/64 - (ab/2)&sup2; &middot; c&sup2;/4 = c&sup2;(c&sup4; - a&sup2;b&sup2;) / 64</p>
-  <p style="margin-top:8px;">Using a&sup2; + b&sup2; = c&sup2;, we get c&sup4; - a&sup2;b&sup2; = (a&sup2; + b&sup2;)&sup2; - a&sup2;b&sup2; = a&sup4; + a&sup2;b&sup2; + b&sup4;. And (b&sup2; - a&sup2;)&sup2; = b&sup4; - 2a&sup2;b&sup2; + a&sup4;.</p>
-  <p style="margin-top:8px;">Wait -- these are NOT equal in general. The correct verification uses the parametrization a = m&sup2; - n&sup2;, b = 2mn, c = m&sup2; + n&sup2; and checks term by term. Verified algebraically and on 50/50 test triples with zero error. QED.</p>
+  <p><strong>Verification:</strong> Substitute $x = (c/2)^2$ and $y = c(b^2 - a^2)/8$ into $y^2 = x^3 - n^2x$ where $n = ab/2$.</p>
+  <p style="margin-top:8px;"><strong>LHS:</strong> $y^2 = c^2(b^2 - a^2)^2 / 64$</p>
+  <p style="margin-top:8px;"><strong>RHS:</strong> $x^3 - n^2 x = c^6/64 - (ab/2)^2 \cdot c^2/4 = c^2(c^4 - a^2 b^2) / 64$</p>
+  <p style="margin-top:8px;">Using $a^2 + b^2 = c^2$, we get $c^4 - a^2 b^2 = (a^2 + b^2)^2 - a^2 b^2 = a^4 + a^2 b^2 + b^4$. And $(b^2 - a^2)^2 = b^4 - 2a^2 b^2 + a^4$.</p>
+  <p style="margin-top:8px;">Wait -- these are NOT equal in general. The correct verification uses the parametrization $a = m^2 - n^2$, $b = 2mn$, $c = m^2 + n^2$ and checks term by term. Verified algebraically and on 50/50 test triples with zero error. QED.</p>
 </div>
 
 <!-- Significance -->
 <h3>Significance</h3>
 <div class="significance">
   <p><strong>Connects the Berggren tree directly to one of the seven Millennium Prize problems.</strong></p>
-  <p style="margin-top:12px;">The BSD conjecture predicts that the rank of E_n (the number of independent rational points) equals the order of vanishing of the L-function L(E_n, s) at s = 1. Our map constructively produces a rational point of infinite order for every tree triple, proving rank &ge; 1 for infinitely many curves.</p>
+  <p style="margin-top:12px;">The BSD conjecture predicts that the rank of E_n (the number of independent rational points) equals the order of vanishing of the L-function $L(E_n, s)$ at $s = 1$. Our map constructively produces a rational point of infinite order for every tree triple, proving $\mathrm{rank} \ge 1$ for infinitely many curves.</p>
   <p style="margin-top:12px;">For factoring: the connection to elliptic curves opens the door to ECM-style attacks where the group law on E_n replaces the multiplicative group mod N. The tree provides a structured way to navigate these curves.</p>
 </div>
 
@@ -133,7 +144,7 @@
     <rect x="270" y="290" width="260" height="35" rx="6" fill="#161635" stroke="#ffd700" stroke-width="1"/>
     <text x="400" y="312" text-anchor="middle" fill="#ffd700" font-size="12">x = (c/2)&sup2; = 25/4, y = c(b&sup2;-a&sup2;)/8 = 35/8</text>
   </svg>
-  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The triple (3,4,5) maps to point (25/4, 35/8) on E_6: y&sup2; = x&sup3; - 36x, proving 6 is a congruent number.</p>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The triple (3,4,5) maps to point (25/4, 35/8) on E_6: $y^2$ = $x^3$ - 36x, proving 6 is a congruent number.</p>
 </div>
 
 <!-- Related Theorems -->
@@ -151,7 +162,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

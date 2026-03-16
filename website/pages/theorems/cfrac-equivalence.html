@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -60,27 +71,27 @@
 <!-- Statement -->
 <h3>Formal Statement</h3>
 <div class="theorem-box">
-  <p>The continued fraction expansion of &radic;N corresponds to a walk on a generalized Berggren tree. Specifically, each partial quotient a_k in &radic;N = [a_0; a_1, a_2, ...] determines a matrix step M(a_k) in the tree, and the convergents p_k/q_k produce quadratic residues</p>
-  <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">Q_k = (-1)&supk; (p_k&sup2; - N &middot; q_k&sup2;)</p>
+  <p>The continued fraction expansion of $\sqrt{N}$ corresponds to a walk on a generalized Berggren tree. Specifically, each partial quotient a_k in $\sqrt{N}$ = [a_0; a_1, a_2, ...] determines a matrix step M(a_k) in the tree, and the convergents p_k/q_k produce quadratic residues</p>
+  <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">$Q_k = (-1)^k (p_k^2 - N \cdot q_k^2)$</p>
   <p>that are the same values sieved by the classical CFRAC factoring algorithm (Morrison-Brillhart, 1975).</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
-  <p>The continued fraction of &radic;N is a recipe for the "best rational approximations" to an irrational number. Each step brings you closer: 3/2, 7/5, 17/12, 41/29, ... all approximate &radic;2.</p>
+  <p>The continued fraction of $\sqrt{N}$ is a recipe for the "best rational approximations" to an irrational number. Each step brings you closer: 3/2, 7/5, 17/12, 41/29, ... all approximate $\sqrt{2}$.</p>
   <p style="margin-top:12px;">The Berggren tree, on the other hand, is a recipe for generating Pythagorean triples by multiplying 3x3 matrices. These seem completely unrelated.</p>
-  <p style="margin-top:12px;">The surprise: they are the same algorithm wearing different clothes. Each step of the CF expansion of &radic;N corresponds to choosing a branch (A, B, or C) in a generalized tree. The "residues" that CFRAC collects (numbers that might factor nicely) are exactly the same as the values you encounter walking down tree paths.</p>
+  <p style="margin-top:12px;">The surprise: they are the same algorithm wearing different clothes. Each step of the CF expansion of $\sqrt{N}$ corresponds to choosing a branch (A, B, or C) in a generalized tree. The "residues" that CFRAC collects (numbers that might factor nicely) are exactly the same as the values you encounter walking down tree paths.</p>
   <p style="margin-top:12px;">This unification means every classical CFRAC insight (smoothness bounds, factor base selection) translates into a tree navigation strategy, and vice versa.</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1:</strong> The CF expansion of &radic;N defines a sequence of 2x2 matrices via M_k = [[a_k, 1], [1, 0]]. The product M_0 &middot; M_1 &middot; ... &middot; M_k = [[p_k, p_{k-1}], [q_k, q_{k-1}]].</p>
-  <p style="margin-top:8px;"><strong>Step 2:</strong> The Berggren matrices A, B, C are 3x3, but their action on the (m, n) parametrization (where a = m&sup2; - n&sup2;, b = 2mn, c = m&sup2; + n&sup2;) reduces to 2x2 linear fractional transformations on the ratio m/n.</p>
+  <p><strong>Step 1:</strong> The CF expansion of $\sqrt{N}$ defines a sequence of 2x2 matrices via M_k = [[a_k, 1], [1, 0]]. The product $M_0 \cdot M_1 \cdot \ldots \cdot M_k = [[p_k, p_{k-1}], [q_k, q_{k-1}]]$.</p>
+  <p style="margin-top:8px;"><strong>Step 2:</strong> The Berggren matrices A, B, C are 3x3, but their action on the (m, n) parametrization (where $a = m^2 - n^2$, $b = 2mn$, $c = m^2 + n^2$) reduces to 2x2 linear fractional transformations on the ratio m/n.</p>
   <p style="margin-top:8px;"><strong>Step 3:</strong> The CF partial quotients a_k determine which Berggren branch to take: small a_k maps to one branch type, large a_k to another, with the exact mapping depending on the parity pattern.</p>
-  <p style="margin-top:8px;"><strong>Step 4:</strong> The residue Q_k = p_k&sup2; - N &middot; q_k&sup2; equals the value (m&sup2; - n&sup2;)(m&sup2; + n&sup2;) - N at the corresponding tree node, which is what CFRAC sieves for smoothness.</p>
+  <p style="margin-top:8px;"><strong>Step 4:</strong> The residue $Q_k = p_k^2 - N \cdot q_k^2$ equals the value $(m^2 - n^2)(m^2 + n^2) - N$ at the corresponding tree node, which is what CFRAC sieves for smoothness.</p>
 </div>
 
 <!-- Significance -->
@@ -88,7 +99,7 @@
 <div class="significance">
   <p><strong>Unifies two independent mathematical frameworks.</strong> Morrison and Brillhart's CFRAC (1975) was the first sub-exponential factoring algorithm. The Berggren tree (1934) enumerates Pythagorean triples. Nobody previously connected them.</p>
   <p style="margin-top:12px;">Practical impact: our CFRAC engine (cfrac_engine.py) implements this equivalence directly, achieving 40d/1s and 45d/57s. The tree structure provides a natural way to organize the search that the original CFRAC algorithm computes with raw continued fractions.</p>
-  <p style="margin-top:12px;">This also explains why the tree-generated values have a smoothness advantage (see related theorem): the partial factorization A = (m-n)(m+n) is exactly the structure that CF convergents provide.</p>
+  <p style="margin-top:12px;">This also explains why the tree-generated values have a smoothness advantage (see related theorem): the partial factorization $A = (m-n)(m+n)$ is exactly the structure that CF convergents provide.</p>
 </div>
 
 <!-- Visualization -->
@@ -145,7 +156,7 @@
     <text x="290" y="305" text-anchor="middle" fill="#e0e0e0" font-size="12">CF partial quotients a_k determine tree branch choices</text>
     <text x="290" y="325" text-anchor="middle" fill="#e0e0e0" font-size="12">Residues Q_k are identical in both frameworks</text>
   </svg>
-  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The continued fraction expansion of &radic;23 maps step-by-step to a walk on the generalized Berggren tree.</p>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The continued fraction expansion of $\sqrt{2}$3 maps step-by-step to a walk on the generalized Berggren tree.</p>
 </div>
 
 <!-- Related Theorems -->
@@ -163,7 +174,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

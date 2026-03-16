@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -60,10 +71,10 @@
 <!-- Statement -->
 <h3>Formal Statement</h3>
 <div class="theorem-box">
-  <p>For semiprimes N = pq where p, q &equiv; 1 (mod 4), the following are Turing-equivalent (each polynomial-time reduces to the other):</p>
+  <p>For semiprimes $N = pq$ where $p, q \equiv 1 \pmod{4}$, the following are Turing-equivalent (each polynomial-time reduces to the other):</p>
   <p style="margin:16px 0; padding-left:20px;">
-    <strong>(A)</strong> Factor N into p &middot; q<br>
-    <strong>(B)</strong> Compute the rank of E_n : y&sup2; = x&sup3; - n&sup2;x for n = (p&sup2;-q&sup2;) &middot; pq / 2
+    <strong>(A)</strong> Factor N into p $\cdot$ q<br>
+    <strong>(B)</strong> Compute the rank of $E_n : y^2 = x^3 - n^2x$ for $n = (p^2-q^2) \cdot pq / 2$
   </p>
   <p>In particular, if the BSD conjecture provides a polynomial-time algorithm for computing ranks of congruent number curves, then integer factoring is in P.</p>
 </div>
@@ -71,17 +82,17 @@
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
-  <p>The Birch-Swinnerton-Dyer (BSD) conjecture is one of the seven Millennium Prize problems. It predicts a deep connection between the number of rational points on an elliptic curve and the behavior of its L-function at s = 1.</p>
+  <p>The Birch-Swinnerton-Dyer (BSD) conjecture is one of the seven Millennium Prize problems. It predicts a deep connection between the number of rational points on an elliptic curve and the behavior of its L-function at $s = 1$.</p>
   <p style="margin-top:12px;">Our theorem says: if you could solve BSD efficiently (compute the rank of any elliptic curve in polynomial time), you could factor integers efficiently too. Conversely, if you can factor efficiently, you can compute certain curve ranks.</p>
-  <p style="margin-top:12px;">The mechanism: given N = pq, construct the congruent number curve E_n. The rank of E_n depends on the factorization of N in a way that reveals the factors. Specifically, the Selmer group of E_n splits according to the primes dividing N, and recovering this splitting gives the factorization.</p>
+  <p style="margin-top:12px;">The mechanism: given $N = pq$, construct the congruent number curve E_n. The rank of E_n depends on the factorization of N in a way that reveals the factors. Specifically, the Selmer group of E_n splits according to the primes dividing N, and recovering this splitting gives the factorization.</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Direction A &rarr; B (Factoring helps BSD):</strong> Given the factorization N = pq, we can compute the local factors of the L-function L(E_n, s) at p and q. The sign of the functional equation (root number) is computable, giving the parity of the rank. With factorization, a 2-descent on E_n is polynomial.</p>
-  <p style="margin-top:8px;"><strong>Direction B &rarr; A (BSD helps Factoring):</strong> Given N, construct multiple curves E_{n_i} for different n_i derived from N. The rank of E_{n_i} depends on the Legendre symbols (n_i/p) and (n_i/q). By querying the rank oracle for enough curves, we recover the Legendre symbols, which determine p and q via Chinese Remainder Theorem.</p>
-  <p style="margin-top:8px;"><strong>Key step:</strong> The 2-Selmer group Sel_2(E_n) has rank that depends on the 2-part of the class group of Q(&radic;-n), which in turn depends on the factorization of n. When n involves the semiprime N, the Selmer rank encodes the factorization.</p>
+  <p><strong>Direction A &rarr; B (Factoring helps BSD):</strong> Given the factorization $N = pq$, we can compute the local factors of the L-function $L(E_n, s)$ at p and q. The sign of the functional equation (root number) is computable, giving the parity of the rank. With factorization, a 2-descent on E_n is polynomial.</p>
+  <p style="margin-top:8px;"><strong>Direction B &rarr; A (BSD helps Factoring):</strong> Given N, construct multiple curves E_{n_i} for different n_i derived from N. The rank of E_{n_i} depends on the Legendre symbols $(n_i/p)$ and $(n_i/q)$. By querying the rank oracle for enough curves, we recover the Legendre symbols, which determine p and q via Chinese Remainder Theorem.</p>
+  <p style="margin-top:8px;"><strong>Key step:</strong> The 2-Selmer group $\mathrm{Sel}_2(E_n)$ has rank that depends on the 2-part of the class group of $\mathbb{Q}(\sqrt{-n})$, which in turn depends on the factorization of n. When n involves the semiprime N, the Selmer rank encodes the factorization.</p>
 </div>
 
 <!-- Significance -->
@@ -164,7 +175,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

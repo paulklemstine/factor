@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Theorem Catalog -- B3 Pythagorean Tree Research</title>
 <link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -65,13 +76,13 @@
   </div>
   <div class="theorem-body">
     <strong>Statement:</strong> The commutators [A,B] and [B,C] of the Berggren matrices are unipotent
-    of nilpotency index 3 over Z: ([A,B] - I)&sup3; = 0 but ([A,B] - I)&sup2; &ne; 0.
-    For every prime p, ord([A,B] mod p) = ord([B,C] mod p) = p.<br><br>
-    <strong>Proof sketch:</strong> Direct computation over Z shows ([A,B] - I)&sup3; = 0 (nilpotent).
-    Since nilpotency index 3 &le; p for all primes p &ge; 5, the binomial theorem mod p gives
-    (U-I)^p = 0, so ord(U) divides p. Since (U-I)&sup1; &ne; 0, the order is exactly p.<br><br>
-    <strong>Significance:</strong> Cleanest new theorem. Reveals that [A,B] and [B,C] encode the characteristic
-    of F_p (additive group), while [A,C] encodes multiplicative information with order dividing (p-1) or (p+1).
+    of nilpotency index 3 over Z: $([A,B] - I)^3 = 0$ but $([A,B] - I)^2 \neq 0$.
+    For every prime p, $\mathrm{ord}([A,B] \bmod p) = \mathrm{ord}([B,C] \bmod p) = p$.<br><br>
+    <strong>Proof sketch:</strong> Direct computation over Z shows $([A,B] - I)^3 = 0$ (nilpotent).
+    Since nilpotency index $3 \leq p$ for all primes $p \geq 5$, the binomial theorem mod $p$ gives
+    $(U-I)^p = 0$, so $\mathrm{ord}(U)$ divides $p$. Since $(U-I)^1 \neq 0$, the order is exactly $p$.<br><br>
+    <strong>Significance:</strong> Cleanest new theorem. Reveals that $[A,B]$ and $[B,C]$ encode the characteristic
+    of $\mathbb{F}_p$ (additive group), while $[A,C]$ encodes multiplicative information with order dividing $(p-1)$ or $(p+1)$.
     Verified for 13 primes with zero exceptions.
     <br><a href="theorems/unipotent-commutator.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
@@ -86,10 +97,10 @@
   </div>
   <div class="theorem-body">
     <strong>Statement:</strong> Every PPT (a,b,c) maps to a rational point on the elliptic curve
-    E_n: y&sup2; = x&sup3; - n&sup2;x where n = ab/2, via x = (c/2)&sup2;, y = c(b&sup2; - a&sup2;)/8.<br><br>
-    <strong>Proof:</strong> Algebraic verification: LHS = c&sup2;(b&sup2;-a&sup2;)&sup2;/64.
-    RHS = c&sup6;/64 - (ab/2)&sup2; &middot; c&sup2;/4 = c&sup2;(c&sup4; - 4a&sup2;b&sup2;)/64.
-    Since a&sup2; + b&sup2; = c&sup2;, both sides equal c&sup2;(c&sup4; - 4a&sup2;c&sup2; + 4a&sup4;)/64. QED.
+    $E_n : y^2 = x^3 - n^2x$ where $n = ab/2$, via $x = (c/2)^2$, $y = c(b^2 - a^2)/8$.<br><br>
+    <strong>Proof:</strong> Algebraic verification: LHS $= c^2(b^2-a^2)^2/64$.
+    RHS $= c^6/64 - (ab/2)^2 \cdot c^2/4 = c^2(c^4 - 4a^2 b^2)/64$.
+    Since $a^2 + b^2 = c^2$, both sides equal $c^2(c^4 - 4a^2 c^2 + 4a^4)/64$. QED.
     Verified on 50/50 test triples with zero error.<br><br>
     <strong>Significance:</strong> Connects the Berggren tree directly to the Birch-Swinnerton-Dyer conjecture.
     Each tree triple constructively proves that ab/2 is a congruent number.
@@ -105,12 +116,12 @@
     <span class="badge badge-high">High</span>
   </div>
   <div class="theorem-body">
-    <strong>Statement:</strong> The tree zeta function &zeta;_tree(s) = &Sigma;_{PPT} c^{-s} has abscissa of
-    convergence at s = 1, with partial sums growing as C &middot; log(X) where C &asymp; 1/(2&pi;).<br><br>
-    <strong>Proof sketch:</strong> By Lehmer's formula, the count of PPTs with c &le; X is asymptotically
-    X/(2&pi;). Integration gives &zeta;_tree(s) &sim; 1/(2&pi;(s-1)) for s > 1.
-    All prime factors of hypotenuses satisfy p &equiv; 1 (mod 4), giving an Euler product restricted
-    to that arithmetic progression, connected to the Dirichlet L-function L(s, &chi;_4).
+    <strong>Statement:</strong> The tree zeta function $\zeta_{\text{tree}}(s) = \Sigma_{\text{PPT}} c^{-s}$ has abscissa of
+    convergence at $s = 1$, with partial sums growing as $C \cdot \log(X)$ where $C \approx 1/(2\pi)$.<br><br>
+    <strong>Proof sketch:</strong> By Lehmer's formula, the count of PPTs with $c \leq X$ is asymptotically
+    $X/(2\pi)$. Integration gives $\zeta_{\text{tree}}(s) \sim 1/(2\pi(s-1))$ for $s > 1$.
+    All prime factors of hypotenuses satisfy $p \equiv 1 \pmod{4}$, giving an Euler product restricted
+    to that arithmetic progression, connected to the Dirichlet L-function $L(s, \chi_4)$.
   </div>
 </div>
 
@@ -124,9 +135,9 @@
   <div class="theorem-body">
     <strong>Statement:</strong> Branch A at step k: CF(c/a) = [k+1, 1, 1, k+1] (palindromic).
     Branch C at step k: CF(c/a) = [k+1, 4(k+1)] (two-term).
-    Branch B: CF(c/a) converges to &radic;2 = [1; 2, 2, 2, ...].<br><br>
-    <strong>Proof:</strong> Branch A generates (2k+3, 2(k+1)(k+2), 2k&sup2;+6k+5).
-    Setting n = k+1: c/a = (2n&sup2;+2n+1)/(2n+1) = [n, 1, 1, n]. Verified algebraically. QED.
+    Branch B: CF(c/a) converges to $\sqrt{2}$ = [1; 2, 2, 2, ...].<br><br>
+    <strong>Proof:</strong> Branch A generates (2k+3, 2(k+1)(k+2), 2$k^2$+6k+5).
+    Setting n = k+1: c/a = (2$n^2$+2n+1)/(2n+1) = [n, 1, 1, n]. Verified algebraically. QED.
     <br><a href="theorems/quadratic-irrational.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
 </div>
@@ -140,7 +151,7 @@
   </div>
   <div class="theorem-body">
     Tree hypotenuses are 6.7x more likely to be prime than random integers of similar magnitude.
-    Due to sum-of-two-squares constraint eliminating primes &equiv; 3 mod 4.
+    Due to sum-of-two-squares constraint eliminating primes $\equiv$ 3 mod 4.
     154,672 prime hypotenuses tested, zero exceptions.
     <br><a href="theorems/prime-enrichment.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
@@ -169,8 +180,8 @@
     <span class="badge badge-high">High</span>
   </div>
   <div class="theorem-body">
-    Sieve algorithms fundamentally limited by smoothness probability: 10^(0.24d) overhead is unavoidable
-    for classical methods. The Dickman rho function &rho;(u) ~ u^{-u} governs the L(1/2) complexity.
+    Sieve algorithms fundamentally limited by smoothness probability: $10^{0.24d}$ overhead is unavoidable
+    for classical methods. The Dickman rho function $\rho(u) \sim u^{-u}$ governs the $L(1/2)$ complexity.
     <br><a href="theorems/dickman-barrier.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
 </div>
@@ -184,7 +195,7 @@
   </div>
   <div class="theorem-body">
     Tree-generated A-values are 3-276x more likely to be B-smooth than random integers,
-    because A = (m-n)(m+n) is already partially factored into two half-sized factors.
+    because $A = (m-n)(m+n)$ is already partially factored into two half-sized factors.
     <br><a href="theorems/smoothness-advantage.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
 </div>
@@ -200,8 +211,8 @@
     <span class="badge badge-high">High</span>
   </div>
   <div class="theorem-body">
-    G = &lt;A,B,C&gt; mod p has order |G| = 2p(p&sup2;-1) in GL(3, F_p).
-    The group equals {M : det(M) = &plusmn;1} intersected with the appropriate subgroup.
+    $G = \langle A, B, C \rangle$ mod p has order |G| = 2p($p^2$-1) in $\mathrm{GL}(3, \mathbb{F}_p)$.
+    The group equals {M : det(M) = $\pm$1} intersected with the appropriate subgroup.
     <br><a href="theorems/berggren-group.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
 </div>
@@ -214,8 +225,8 @@
     <span class="badge badge-medium">Medium</span>
   </div>
   <div class="theorem-body">
-    Tree walks mod p have O(p) cycle lengths. This kills any Pollard-rho-style birthday attack on the tree,
-    since the expected collision time is O(p) rather than O(&radic;p).
+    Tree walks mod p have $O(p)$ cycle lengths. This kills any Pollard-rho-style birthday attack on the tree,
+    since the expected collision time is $O(p)$ rather than $O(\sqrt{p})$.
   </div>
 </div>
 
@@ -270,7 +281,7 @@
     <span class="badge badge-medium">Medium</span>
   </div>
   <div class="theorem-body">
-    Every prime hypotenuse satisfies p &equiv; 1 (mod 4), by Fermat's theorem on sums of two squares.
+    Every prime hypotenuse satisfies $p \equiv 1 \pmod{4}$, by Fermat's theorem on sums of two squares.
     154,672 prime hypotenuses tested, zero exceptions. Gap distribution matches Dirichlet's theorem for
     primes in the progression 4k+1.
   </div>
@@ -297,7 +308,7 @@
     <span class="badge badge-medium">Medium</span>
   </div>
   <div class="theorem-body">
-    In a PPT, it is impossible for both legs to be prime. The even leg b = 2mn &ge; 4 is always composite.
+    In a PPT, it is impossible for both legs to be prime. The even leg $b = 2mn \geq$ 4 is always composite.
     Zero exceptions in 265,720 triples at depth 11.
   </div>
 </div>
@@ -310,7 +321,7 @@
     <span class="badge badge-medium">Medium</span>
   </div>
   <div class="theorem-body">
-    The map (a,b,c) &rarr; z = a + bi embeds each PPT into Z[i] with N(z) = c&sup2;.
+    The map (a,b,c) &rarr; z = a + bi embeds each PPT into Z[i] with N(z) = $c^2$.
     The Gaussian GCD of two embedded triples detects shared prime factors in their hypotenuses.
   </div>
 </div>
@@ -341,7 +352,7 @@
   <div class="theorem-body">
     The summatory Mobius function over tree hypotenuses exhibits "super-cancellation":
     |M|/N = 0.00012 vs expected 0.0034 for random integers (28x better).
-    Caused by restriction to primes p &equiv; 1 (mod 4).
+    Caused by restriction to primes $p \equiv 1 \pmod{4}$.
   </div>
 </div>
 
@@ -367,7 +378,7 @@
   </div>
   <div class="theorem-body">
     Random walks on the tree mod p converge to near-uniform distribution (ratio 0.989) with slight bias
-    for large p. Saturation in O(log p) steps.
+    for large p. Saturation in $O(\log p)$ steps.
   </div>
 </div>
 
@@ -425,8 +436,8 @@
     <span class="badge badge-medium">Medium</span>
   </div>
   <div class="theorem-body">
-    Random walks on the Berggren tree mod p converge to stationary distribution in O(log p) steps.
-    Orbit covers ~p&sup2; states (projective action on P&sup2;(F_p)).
+    Random walks on the Berggren tree mod p converge to stationary distribution in $O(\log p)$ steps.
+    Orbit covers ~$p^2$ states (projective action on $\mathbb{P}^2(\mathbb{F}_p)$).
   </div>
 </div>
 
@@ -455,7 +466,7 @@
   </div>
   <div class="theorem-body">
     "Every sufficiently large odd number = sum of 3 hypotenuses" is FALSE. Only 49.8% of odd numbers
-    in [15, 500] are representable. Hypotenuse density ~1/(2&pi;&radic;(log n)) is too sparse.
+    in [15, 500] are representable. Hypotenuse density ~1/(2$\pi$ $\sqrt{\log n}$) is too sparse.
   </div>
 </div>
 
@@ -516,7 +527,7 @@
   <tr><td>20</td><td>Collatz-like Linear Recurrence</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
   <tr><td>21-40</td><td colspan="3" style="color:var(--gold);">Pythagorean Tree Theorems v2 (Batch 2)</td></tr>
   <tr><td>21</td><td>Parity Invariant (odd, even, odd)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
-  <tr><td>22</td><td>Prime Hypotenuse p &equiv; 1 (mod 4)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>22</td><td>Prime Hypotenuse $p \equiv 1 \pmod{4}$</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
   <tr><td>23</td><td>Digit Sum Positivity</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
   <tr><td>24</td><td>No Exact Self-Similarity</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
   <tr><td>25</td><td><a href="theorems/quadratic-irrational.html">Exact Branch CF Formulas</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
@@ -542,7 +553,7 @@
 </table>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-15 &middot; Theorem Catalog
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-15 $\cdot$ Theorem Catalog
 </footer>
 
 </div></div>

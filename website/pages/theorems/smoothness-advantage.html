@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -60,31 +71,31 @@
 <!-- Statement -->
 <h3>Formal Statement</h3>
 <div class="theorem-box">
-  <p>Tree-generated A-values of the form A = (m - n)(m + n) = m&sup2; - n&sup2; are <strong>3 to 276 times more likely to be B-smooth</strong> than random integers of the same magnitude, where B is a smoothness bound appropriate for factoring.</p>
+  <p>Tree-generated A-values of the form  A = (m-n)(m+n)$ = m^2 - n^2$ are <strong>3 to 276 times more likely to be B-smooth</strong> than random integers of the same magnitude, where B is a smoothness bound appropriate for factoring.</p>
   <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">
-    Pr[A is B-smooth | A from tree] / Pr[random integer is B-smooth] &asymp; 3x to 276x
+    Pr[A is B-smooth | A from tree] / Pr[random integer is B-smooth] $\approx$ 3x to 276x
   </p>
-  <p>The advantage increases with the depth of the tree and the size of the smoothness bound. This is because A = (m-n)(m+n) is already partially factored into two factors of roughly half the size, each of which independently has a higher smoothness probability.</p>
+  <p>The advantage increases with the depth of the tree and the size of the smoothness bound. This is because $A = (m-n)(m+n)$ is already partially factored into two factors of roughly half the size, each of which independently has a higher smoothness probability.</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
   <p>A number is "B-smooth" if all its prime factors are at most B. Factoring algorithms need lots of smooth numbers. The question: how do you find them efficiently?</p>
-  <p style="margin-top:12px;">Random integers of size N have smoothness probability &rho;(log N / log B), which is tiny. But tree-generated values A = (m-n)(m+n) are a PRODUCT of two smaller numbers. Each factor is roughly &radic;A in size, and a number of size &radic;A is exponentially more likely to be smooth than a number of size A.</p>
-  <p style="margin-top:12px;">Concretely: if &rho;(u) is the probability for a number of size N^u, then:</p>
+  <p style="margin-top:12px;">Random integers of size N have smoothness probability $\rho(\log N / \log B)$, which is tiny. But tree-generated values $A = (m-n)(m+n)$ are a PRODUCT of two smaller numbers. Each factor is roughly $\sqrt{A}$ in size, and a number of size $\sqrt{A}$ is exponentially more likely to be smooth than a number of size A.</p>
+  <p style="margin-top:12px;">Concretely: if $\rho(u)$ is the probability for a number of size N^u, then:</p>
   <p style="margin:8px 0; padding-left:20px; font-family:monospace; font-size:13px; color:#c8c8e8;">
-    Random A: &rho;(u) where u = log(A)/log(B)<br>
-    Tree A = f1 * f2: &rho;(u/2)&sup2; &asymp; &rho;(u/2)&sup2; >> &rho;(u)
+    Random A: $\rho(u)$ where $u = \log(A)/\log(B)$<br>
+    Tree A = f1 * f2: $\rho(u/2)^2 \approx \rho(u/2)^2 \gg \rho(u)$
   </p>
-  <p style="margin-top:12px;">Since &rho;(u) ~ u^{-u}, we get &rho;(u/2)&sup2; ~ (u/2)^{-u} which is enormously larger than u^{-u}. The ratio grows exponentially with u, explaining the 3x to 276x range.</p>
+  <p style="margin-top:12px;">Since $\rho(u) \sim u^{-u}$, we get $\rho(u/2)^2 \sim (u/2)^{-u}$ which is enormously larger than $u^{-u}$. The ratio grows exponentially with u, explaining the 3x to 276x range.</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1 -- Factored form:</strong> Every tree triple (a, b, c) has a = m&sup2; - n&sup2; = (m-n)(m+n) where gcd(m,n) = 1 and m > n > 0. So a is a product of two coprime factors, each roughly &radic;a in size.</p>
-  <p style="margin-top:8px;"><strong>Step 2 -- Smoothness probability:</strong> By Canfield-Erdos-Pomerance (1983), &rho;(u) ~ exp(-u(log u + log log u - 1)). For u = 10 (typical for 60d factoring), &rho;(10) &asymp; 2.8 &times; 10^{-11}. But &rho;(5)&sup2; &asymp; (3.0 &times; 10^{-4})&sup2; = 9.0 &times; 10^{-8}. Ratio: ~3200x.</p>
+  <p><strong>Step 1 -- Factored form:</strong> Every tree triple (a, b, c) has $a = m^2 - n^2 = (m-n)(m+n)$ where $\gcd(m,n) = 1$ and $m > n > 0$. So a is a product of two coprime factors, each roughly $\sqrt{a}$ in size.</p>
+  <p style="margin-top:8px;"><strong>Step 2 -- Smoothness probability:</strong> By Canfield-Erdos-Pomerance (1983), $\rho(u) \sim \exp(-u(\log u + \log \log u - 1))$. For $u = 10$ (typical for 60d factoring), $\rho(10) \approx 2.8 \times 10^{-11}$. But $\rho(5)^2 \approx (3.0 \times 10^{-4})^2 = 9.0 \times 10^{-8}$. Ratio: ~3200x.</p>
   <p style="margin-top:8px;"><strong>Step 3 -- Empirical verification:</strong> Generated 100,000 tree values at depth 8 and 100,000 random integers of the same size. Counted B-smooth for B = 10,000. Tree values: 0.31% smooth. Random: 0.0011% smooth. Ratio: 276x.</p>
   <p style="margin-top:8px;"><strong>Step 4 -- Lower bound:</strong> At small depths (depth 3-4), factors m-n and m+n are too small for the asymptotic to kick in. Measured ratio: only 3-5x. The advantage grows with depth/size.</p>
 </div>
@@ -190,7 +201,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

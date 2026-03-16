@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -60,9 +71,9 @@
 <!-- Statement -->
 <h3>Formal Statement</h3>
 <div class="theorem-box">
-  <p>The Cayley graph of the Berggren group G = &lt;A, B, C&gt; acting on (Z/pZ)&sup3; has a spectral gap</p>
-  <p style="text-align:center; font-size:20px; color:var(--gold); margin:16px 0;">&lambda;_1 - &lambda;_2 &asymp; 0.33</p>
-  <p>where &lambda;_1 = 1 is the largest eigenvalue of the normalized adjacency matrix and &lambda;_2 is the second largest. This makes the graph a <strong>strong expander</strong>, guaranteeing rapid mixing of random walks in O(log p) steps.</p>
+  <p>The Cayley graph of the Berggren group $G = \langle A, B, C \rangle$ acting on $(\mathbb{Z}/p\mathbb{Z})^3$ has a spectral gap</p>
+  <p style="text-align:center; font-size:20px; color:var(--gold); margin:16px 0;">$\lambda_1 - \lambda_2 \approx 0.33$</p>
+  <p>where $\lambda_1 = 1$ is the largest eigenvalue of the normalized adjacency matrix and $\lambda_2$ is the second largest. This makes the graph a <strong>strong expander</strong>, guaranteeing rapid mixing of random walks in $O(\log p)$ steps.</p>
 </div>
 
 <!-- Intuition -->
@@ -76,17 +87,17 @@
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1:</strong> Construct the Cayley graph Cay(G, {A, B, C}) where G acts on projective space P&sup2;(F_p). Each vertex is a state (triple mod p), and edges correspond to applying A, B, or C.</p>
-  <p style="margin-top:8px;"><strong>Step 2:</strong> Compute the adjacency matrix for small primes (p = 5, 7, 11, 13, ..., 53). The matrix has size |G/stab| which is roughly p&sup2;.</p>
-  <p style="margin-top:8px;"><strong>Step 3:</strong> Numerically compute eigenvalues. The largest eigenvalue is always 3 (= degree). The second largest is approximately 2.0 &plusmn; 0.1 across all tested primes, giving a normalized gap of (3 - 2.0)/3 &asymp; 0.33.</p>
-  <p style="margin-top:8px;"><strong>Step 4:</strong> By the expander mixing lemma, the mixing time satisfies t_mix &le; log(|V|) / log(3/&lambda;_2) = O(log p).</p>
+  <p><strong>Step 1:</strong> Construct the Cayley graph $\mathrm{Cay}(G, \{A, B, C\})$ where G acts on projective space $\mathbb{P}^2(\mathbb{F}_p)$. Each vertex is a state (triple mod p), and edges correspond to applying A, B, or C.</p>
+  <p style="margin-top:8px;"><strong>Step 2:</strong> Compute the adjacency matrix for small primes (p = 5, 7, 11, 13, ..., 53). The matrix has size |G/stab| which is roughly $p^2$.</p>
+  <p style="margin-top:8px;"><strong>Step 3:</strong> Numerically compute eigenvalues. The largest eigenvalue is always 3 (= degree). The second largest is approximately 2.0 $\pm$ 0.1 across all tested primes, giving a normalized gap of (3 - 2.0)/3 $\approx$ 0.33.</p>
+  <p style="margin-top:8px;"><strong>Step 4:</strong> By the expander mixing lemma, the mixing time satisfies t_mix $\leq$ log(|V|) / log(3/$\lambda_2$) = $O(\log p)$.</p>
 </div>
 
 <!-- Significance -->
 <h3>Significance</h3>
 <div class="significance">
   <p><strong>Guarantees the tree is an efficient search structure.</strong> Without the spectral gap, random walks on the tree mod p could get trapped in small orbits, missing most of the search space. The expander property ensures this does not happen.</p>
-  <p style="margin-top:12px;">Combined with the Berggren group order theorem (|G| = 2p(p&sup2;-1)), this means: not only does the tree cover almost all of (Z/pZ)&sup3;, but a random walk reaches any part of this space in just O(log p) steps. This is optimal.</p>
+  <p style="margin-top:12px;">Combined with the Berggren group order theorem (|G| = 2p($p^2$-1)), this means: not only does the tree cover almost all of $(\mathbb{Z}/p\mathbb{Z})^3$, but a random walk reaches any part of this space in just $O(\log p)$ steps. This is optimal.</p>
   <p style="margin-top:12px;">The spectral gap also implies a Chernoff-type concentration: the number of smooth values found in t walk steps concentrates around its expectation, so the sieve is predictably efficient.</p>
 </div>
 
@@ -168,13 +179,13 @@
     <text x="440" y="55" text-anchor="middle" fill="#00e676" font-size="12" font-weight="bold">Mixing time = O(log p)</text>
     <text x="440" y="72" text-anchor="middle" fill="#8888aa" font-size="10">~7 steps for p = 53</text>
   </svg>
-  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">Eigenvalue spectrum of the Berggren Cayley graph (p=11). The gap between &lambda;_1=3 and &lambda;_2~2.0 guarantees fast mixing.</p>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">Eigenvalue spectrum of the Berggren Cayley graph (p=11). The gap between $\lambda_1=3$ and $\lambda_2$~2.0 guarantees fast mixing.</p>
 </div>
 
 <!-- Related Theorems -->
 <h3>Related Theorems</h3>
 <div class="related">
-  <a href="berggren-group.html">Berggren Group |G|=2p(p&sup2;-1)</a>
+  <a href="berggren-group.html">Berggren Group $|G|=2p(p^2-1)$</a>
   <a href="unipotent-commutator.html">Unipotent Commutator</a>
   <a href="smoothness-advantage.html">Smoothness Advantage</a>
   <a href="dickman-barrier.html">Dickman Barrier</a>
@@ -186,7 +197,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

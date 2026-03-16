@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -60,16 +71,16 @@
 <!-- Statement -->
 <h3>Formal Statement</h3>
 <div class="theorem-box">
-  <p>The commutators [A,B] = ABA&supmin;&sup1;B&supmin;&sup1; and [B,C] = BCB&supmin;&sup1;C&supmin;&sup1; of the Berggren matrices are <strong>unipotent</strong> of nilpotency index 3 over Z:</p>
-  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">([A,B] - I)&sup3; = 0 &nbsp;&nbsp;but&nbsp;&nbsp; ([A,B] - I)&sup2; &ne; 0</p>
-  <p>For every prime p &ge; 5, the order of [A,B] mod p is exactly p:</p>
-  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">ord([A,B] mod p) = ord([B,C] mod p) = p</p>
+  <p>The commutators $[A,B] = ABA^{-1}B^{-1}$ and $[B,C] = BCB^{-1}C^{-1}$ of the Berggren matrices are <strong>unipotent</strong> of nilpotency index 3 over Z:</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">$([A,B] - I)^3 = 0$ &nbsp;&nbsp;but&nbsp;&nbsp; $([A,B] - I)^2 \neq 0$</p>
+  <p>For every prime p $\geq$ 5, the order of [A,B] mod p is exactly p:</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">$\mathrm{ord}([A,B] \bmod p) = \mathrm{ord}([B,C] \bmod p) = p$</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
-  <p>A "commutator" measures how much two operations fail to commute. If you apply A then B, versus B then A, the difference is [A,B]. For ordinary numbers, multiplication commutes (3 &times; 5 = 5 &times; 3), but matrix multiplication does not.</p>
+  <p>A "commutator" measures how much two operations fail to commute. If you apply A then B, versus B then A, the difference is [A,B]. For ordinary numbers, multiplication commutes ($3 \times 5 = 5 \times 3$), but matrix multiplication does not.</p>
   <p style="margin-top:12px;">"Unipotent" means the only eigenvalue is 1. Think of it like a shear transformation -- it tilts things sideways but does not stretch or rotate. The key property: when you repeat a shear p times modulo a prime p, you get back to the identity. This is the additive structure of F_p showing through.</p>
   <p style="margin-top:12px;">This means the commutator acts like a "counter mod p" -- it cycles through p distinct states before returning to its starting point. This is exactly the additive group structure that p-1 and p+1 factoring methods exploit.</p>
 </div>
@@ -77,9 +88,9 @@
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1 -- Direct computation:</strong> Compute U = [A,B] = ABA&supmin;&sup1;B&supmin;&sup1; explicitly over Z. Set N = U - I. Verify N&sup3; = 0 by matrix multiplication (all 27 entries vanish). Verify N&sup2; &ne; 0 (at least one non-zero entry).</p>
-  <p style="margin-top:8px;"><strong>Step 2 -- Binomial theorem mod p:</strong> Since N&sup3; = 0, for any k we have U&supk; = (I + N)&supk; = I + kN + C(k,2)N&sup2;. Reducing mod p: U&supp; = I + pN + C(p,2)N&sup2; &equiv; I (mod p), because p | p and p | C(p,2) for primes p &ge; 3.</p>
-  <p style="margin-top:8px;"><strong>Step 3 -- Minimality:</strong> For k &lt; p, the coefficient k in kN is non-zero mod p (since 0 &lt; k &lt; p), so U&sup k; &ne; I. Therefore ord(U) = p exactly.</p>
+  <p><strong>Step 1 -- Direct computation:</strong> Compute U = $[A,B] = ABA^{-1}B^{-1}$ explicitly over Z. Set N = U - I. Verify $N^3 = 0$ by matrix multiplication (all 27 entries vanish). Verify $N^2 \neq 0$ (at least one non-zero entry).</p>
+  <p style="margin-top:8px;"><strong>Step 2 -- Binomial theorem mod p:</strong> Since $N^3 = 0$, for any $k$ we have $U^k = (I + N)^k = I + kN + \binom{k}{2}N^2$. Reducing mod p: $U^p = I + pN + \binom{p}{2}N^2 \equiv I \pmod{p}$, because $p \mid p$ and $p \mid \binom{p}{2}$ for primes $p \geq 3$.</p>
+  <p style="margin-top:8px;"><strong>Step 3 -- Minimality:</strong> For k &lt; p, the coefficient k in kN is non-zero mod p (since 0 &lt; k &lt; p), so $U^k \neq I$. Therefore $\mathrm{ord}(U) = p$ exactly.</p>
   <p style="margin-top:8px;"><strong>Verification:</strong> Tested for 13 primes from 5 to 53, zero exceptions.</p>
 </div>
 
@@ -149,7 +160,7 @@
 <!-- Related Theorems -->
 <h3>Related Theorems</h3>
 <div class="related">
-  <a href="berggren-group.html">Berggren Group |G|=2p(p&sup2;-1)</a>
+  <a href="berggren-group.html">Berggren Group $|G|=2p(p^2-1)$</a>
   <a href="cfrac-equivalence.html">CFRAC-Tree Equivalence</a>
   <a href="spectral-gap.html">Spectral Gap (Expander)</a>
   <a href="factoring-bsd.html">Factoring-BSD Equivalence</a>
@@ -161,7 +172,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>

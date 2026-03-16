@@ -17,6 +17,17 @@
   .related a:hover { border-color: var(--cyan); }
   h3 { color: var(--cyan); margin: 24px 0 12px; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: ' ', right: ' ', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -62,40 +73,40 @@
 <div class="theorem-box">
   <p>Repeating Berggren paths converge to specific quadratic irrational values determined by the dominant eigenvector of the corresponding matrix product:</p>
   <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">
-    B&sup2;&sup k; &rarr; 1 + &radic;2 &asymp; 2.4142...<br>
-    (B&sup2; &middot; B&sup1;)&sup k; &rarr; &phi; + 1 = (3 + &radic;5)/2 &asymp; 2.618...<br>
-    A&sup k; &rarr; 1 (degenerate)
+    $B^{2k}$ &rarr; $1 + \sqrt{2} \approx 2.4142...$<br>
+    $(B^2 \cdot B^1)^k$ &rarr; $\phi + 1 = (3 + \sqrt{5})/2 \approx 2.618...$<br>
+    $A^k \to 1$ (degenerate)
   </p>
-  <p>In general, for any periodic path word W, the ratio c_k/a_k converges to a quadratic irrational &alpha;(W) = (p + q&radic;d)/r that is the ratio of eigenvector components of the matrix product M(W).</p>
+  <p>In general, for any periodic path word W, the ratio $c_k/a_k$ converges to a quadratic irrational $\alpha(W) = (p + q\sqrt{d})/r$ that is the ratio of eigenvector components of the matrix product M(W).</p>
 </div>
 
 <!-- Intuition -->
 <h3>Intuition (Plain English)</h3>
 <div class="intuition">
-  <p>If you always take the same branch in the Berggren tree (say, always B), the triples you generate settle into a pattern. The ratio c/a (hypotenuse to odd leg) approaches a fixed irrational number. For pure B-paths, that number is 1 + &radic;2.</p>
+  <p>If you always take the same branch in the Berggren tree (say, always B), the triples you generate settle into a pattern. The ratio c/a (hypotenuse to odd leg) approaches a fixed irrational number. For pure B-paths, that number is $1 + \sqrt{2}$.</p>
   <p style="margin-top:12px;">This is the matrix equivalent of "repeated squaring converges to an eigenvector." When you multiply the same matrix M by itself many times, the result is dominated by M's largest eigenvalue and corresponding eigenvector. The eigenvector components give the limiting ratios.</p>
-  <p style="margin-top:12px;">The beautiful part: every periodic path gives a different quadratic irrational. The golden ratio &phi; appears when you alternate B and A. This means the Berggren tree is a dictionary of quadratic irrationals, each one indexed by a periodic path word.</p>
+  <p style="margin-top:12px;">The beautiful part: every periodic path gives a different quadratic irrational. The golden ratio $\phi$ appears when you alternate B and A. This means the Berggren tree is a dictionary of quadratic irrationals, each one indexed by a periodic path word.</p>
 </div>
 
 <!-- Proof Sketch -->
 <h3>Proof Sketch</h3>
 <div class="proof-sketch">
-  <p><strong>Step 1:</strong> For a periodic word W of length L, compute M = M(w_L) &middot; ... &middot; M(w_1). This is a 3x3 integer matrix with spectral radius &rho; &gt; 1.</p>
-  <p style="margin-top:8px;"><strong>Step 2:</strong> By the Perron-Frobenius theorem (extended to positive matrices), M&sup k; v &rarr; &rho;&sup k; (v &middot; u) w, where w is the dominant eigenvector. The ratio c_k/a_k = w_3/w_1.</p>
-  <p style="margin-top:8px;"><strong>Step 3:</strong> The characteristic polynomial of M is cubic with integer coefficients. The dominant eigenvalue &rho; is a root of this cubic. The eigenvector components involve &radic;d where d is the discriminant of the minimal polynomial of &rho;. Hence c/a converges to a quadratic irrational.</p>
-  <p style="margin-top:8px;"><strong>Step 4 -- Example:</strong> B&sup2; has eigenvalues 1, 3+2&radic;2, 3-2&radic;2. Dominant eigenvector proportional to (1, 2+&radic;2, 1+&radic;2), so c/a &rarr; (1+&radic;2)/1 = 1+&radic;2.</p>
+  <p><strong>Step 1:</strong> For a periodic word W of length L, compute $M = M(w_L) \cdot \ldots \cdot M(w_1)$. This is a 3x3 integer matrix with spectral radius $\rho > 1$.</p>
+  <p style="margin-top:8px;"><strong>Step 2:</strong> By the Perron-Frobenius theorem (extended to positive matrices), $M^k v \to \rho^k (v \cdot u) w$, where w is the dominant eigenvector. The ratio $c_k/a_k = w_3/w_1$.</p>
+  <p style="margin-top:8px;"><strong>Step 3:</strong> The characteristic polynomial of M is cubic with integer coefficients. The dominant eigenvalue $\rho$ is a root of this cubic. The eigenvector components involve $\sqrt{d}$ where d is the discriminant of the minimal polynomial of $\rho$. Hence c/a converges to a quadratic irrational.</p>
+  <p style="margin-top:8px;"><strong>Step 4 -- Example:</strong> $B^2$ has eigenvalues $1, 3+2\sqrt{2}, 3-2\sqrt{2}$. Dominant eigenvector proportional to $(1, 2+\sqrt{2}, 1+\sqrt{2})$, so $c/a \to (1+\sqrt{2})/1 = 1+\sqrt{2}$.</p>
 </div>
 
 <!-- Significance -->
 <h3>Significance</h3>
 <div class="significance">
-  <p><strong>Links the Berggren tree to algebraic number theory.</strong> Each periodic path encodes a quadratic field Q(&radic;d), and the convergence rate is governed by the eigenvalue gap of the path matrix.</p>
+  <p><strong>Links the Berggren tree to algebraic number theory.</strong> Each periodic path encodes a quadratic field $\mathbb{Q}(\sqrt{d})$, and the convergence rate is governed by the eigenvalue gap of the path matrix.</p>
   <p style="margin-top:12px;">For CFRAC: this is the tree-theoretic explanation of why periodic continued fractions give quadratic irrationals (Lagrange's theorem). The CFRAC-Tree equivalence theorem makes this precise.</p>
-  <p style="margin-top:12px;">For factoring: knowing that certain paths converge to specific irrationals tells us which paths are likely to produce values near &radic;N, which is exactly where smooth values concentrate.</p>
+  <p style="margin-top:12px;">For factoring: knowing that certain paths converge to specific irrationals tells us which paths are likely to produce values near $\sqrt{N}$, which is exactly where smooth values concentrate.</p>
 </div>
 
 <!-- Visualization -->
-<h3>Visualization: Convergence to &radic;2 + 1</h3>
+<h3>Visualization: Convergence to $\sqrt{2}$ + 1</h3>
 <div class="viz-container">
   <svg width="560" height="300" viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">
     <!-- Axes -->
@@ -173,7 +184,7 @@
     <circle cx="96" cy="230" r="4" fill="#00e676"/>
     <text x="106" y="234" fill="#00e676" font-size="10">(B&middot;A)&supk; path &rarr; &phi;+1</text>
   </svg>
-  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">Repeated B-paths converge to 1+&radic;2; alternating B-A paths converge to the golden ratio plus 1.</p>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">Repeated B-paths converge to $1+\sqrt{2}$; alternating B-A paths converge to the golden ratio plus 1.</p>
 </div>
 
 <!-- Related Theorems -->
@@ -191,7 +202,7 @@
 </div>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  B3 Pythagorean Tree Factoring Research $\cdot$ 2026-03-16 $\cdot$ Theorem Deep Dive
 </footer>
 
 </div></div>
