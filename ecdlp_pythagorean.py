@@ -1284,9 +1284,19 @@ def ecdlp_smart_solve(curve, G, P, search_bound, verbose=False):
     if verbose:
         print(f"  Pre-filter: no match ({time.time()-t0:.3f}s)")
 
-    # Stage 2: Try C kangaroo (fastest for general case)
+    # Stage 2: Try shared-memory parallel kangaroo (fastest for general case)
     if verbose:
-        print("Stage 2: C kangaroo...")
+        print("Stage 2: Shared-memory parallel kangaroo...")
+    t0 = time.time()
+    k = ecdlp_shared_kangaroo(curve, G, P, search_bound, num_workers=6, verbose=verbose)
+    if k is not None:
+        if verbose:
+            print(f"  Found by shared kangaroo in {time.time()-t0:.3f}s")
+        return k
+
+    # Stage 2b: Try single-process C kangaroo (fallback)
+    if verbose:
+        print("Stage 2b: C kangaroo (single-process)...")
     t0 = time.time()
     k = ecdlp_pythagorean_kangaroo_c(curve, G, P, search_bound, verbose=verbose)
     if k is not None:
@@ -1438,6 +1448,204 @@ def ecdlp_pythagorean_kangaroo_c_parallel(curve, G, P, search_bound,
         pool.terminate()
         pool.join()
     return None
+
+
+def ecdlp_shared_kangaroo(curve, G, P, search_bound, num_workers=6, verbose=False):
+    """
+    Shared-memory multi-process Pollard kangaroo for secp256k1 ECDLP.
+
+    Van Oorschot-Wiener parallelism: all workers share a single DP table
+    in mmap'd shared memory, giving LINEAR speedup in #workers (vs sqrt
+    for independent walks).
+
+    Breakthroughs:
+      1. Shared-memory DP table (mmap MAP_SHARED|MAP_ANONYMOUS)
+      2. Robin Hood open-addressing hash (lock-free via atomics)
+      3. 128-bit position tracking for large scalar searches
+    """
+    if P.is_infinity:
+        return 0
+    if P == G:
+        return 1
+
+    import ctypes, os, mmap, multiprocessing, time, struct
+
+    _lib_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "ec_kangaroo_shared.so")
+    try:
+        _lib = ctypes.CDLL(_lib_path)
+    except OSError as e:
+        if verbose:
+            print(f"  Shared kangaroo not available ({e}), falling back to parallel")
+        return ecdlp_pythagorean_kangaroo_c_parallel(curve, G, P, search_bound,
+                                                      num_workers=num_workers, verbose=verbose)
+
+    p_val = int(curve.p) if not isinstance(curve.p, int) else curve.p
+    n_val = curve.n
+
+    # Estimate expected DPs and size the table
+    bound_bits = search_bound.bit_length()
+    dp_bits = max(1, min(20, (bound_bits - 8) // 4))  # optimal: (bits-8)/4
+    # Each worker runs 2 walkers (1 tame + 1 wild) with shared DP table
+    nk_per_worker = 2
+    total_walkers = nk_per_worker * num_workers
+    import math as _math
+    expected_dps = max(1024, int(_math.isqrt(search_bound) // (1 << dp_bits) * total_walkers * 4))
+    # Round up to next power of 2
+    dp_capacity = 1
+    while dp_capacity < expected_dps:
+        dp_capacity <<= 1
+    if dp_capacity < 4096:
+        dp_capacity = 4096
+
+    # Each dp_slot_t is 40 bytes (packed)
+    SLOT_SIZE = 40
+    dp_table_bytes = dp_capacity * SLOT_SIZE
+
+    # Allocate shared memory: dp_table + found_flag (4 bytes, aligned)
+    # Add 64 bytes padding for found_flag alignment
+    total_shm_size = dp_table_bytes + 64
+
+    if verbose:
+        print(f"  Shared kangaroo: {num_workers} workers, {nk_per_worker} walkers/worker, "
+              f"DP table: {dp_capacity} slots ({dp_table_bytes // 1024}KB), dp_bits={dp_bits}")
+
+    # Create shared memory via mmap
+    shm = mmap.mmap(-1, total_shm_size, mmap.MAP_SHARED | mmap.MAP_ANONYMOUS,
+                     mmap.PROT_READ | mmap.PROT_WRITE)
+
+    # Zero the memory
+    shm.write(b'\x00' * total_shm_size)
+    shm.seek(0)
+
+    # Get ctypes pointer to the mmap'd region
+    shm_buf = (ctypes.c_char * total_shm_size).from_buffer(shm)
+    dp_ptr = ctypes.cast(shm_buf, ctypes.c_void_p)
+    found_flag_offset = dp_table_bytes
+    found_flag_ptr = ctypes.cast(
+        ctypes.c_void_p(dp_ptr.value + found_flag_offset),
+        ctypes.POINTER(ctypes.c_int))
+
+    # Prepare hex strings
+    p_hex = hex(p_val)[2:]
+    n_hex = hex(n_val)[2:]
+    Gx_hex = hex(G.x)[2:]
+    Gy_hex = hex(G.y)[2:]
+    Px_hex = hex(P.x)[2:]
+    Py_hex = hex(P.y)[2:]
+    bound_hex = hex(search_bound)[2:]
+
+    # Use os.fork() directly — child processes inherit the mmap region
+    # and can read/write the shared DP table + found_flag without pickling.
+    # Each child writes its result (hex string) to a pipe.
+    t0 = time.time()
+    child_pids = []
+    read_fds = []
+
+    for wid in range(num_workers):
+        r_fd, w_fd = os.pipe()
+        pid = os.fork()
+        if pid == 0:
+            # --- Child process ---
+            os.close(r_fd)
+            try:
+                _wlib = ctypes.CDLL(_lib_path)
+                _wlib.ec_kang_shared_init(p_hex.encode(), n_hex.encode())
+
+                _wbuf = (ctypes.c_char * total_shm_size).from_buffer(shm)
+                _wdp = ctypes.cast(_wbuf, ctypes.c_void_p)
+                _wfound = ctypes.cast(
+                    ctypes.c_void_p(_wdp.value + found_flag_offset),
+                    ctypes.POINTER(ctypes.c_int))
+
+                result_buf = ctypes.create_string_buffer(256)
+                ret = _wlib.ec_kang_shared_solve(
+                    Gx_hex.encode(), Gy_hex.encode(),
+                    Px_hex.encode(), Py_hex.encode(),
+                    bound_hex.encode(),
+                    _wdp,
+                    ctypes.c_ulong(dp_capacity),
+                    ctypes.c_int(wid),
+                    ctypes.c_int(num_workers),
+                    _wfound,
+                    result_buf, ctypes.c_size_t(256))
+
+                if ret == 1:
+                    os.write(w_fd, result_buf.value)
+                os.close(w_fd)
+            except Exception:
+                os.close(w_fd)
+            os._exit(0)
+        else:
+            # --- Parent process ---
+            os.close(w_fd)
+            child_pids.append(pid)
+            read_fds.append(r_fd)
+
+    # Parent: wait for children, collect results
+    import signal
+    result_val = None
+
+    try:
+        import select
+        remaining = set(range(num_workers))
+        while remaining:
+            # Check which pipes have data or closed
+            ready_r, _, _ = select.select([read_fds[i] for i in remaining], [], [], 0.05)
+            for fd in ready_r:
+                idx = read_fds.index(fd)
+                data = os.read(fd, 256)
+                if data:
+                    k_val = int(data.decode(), 16)
+                    if result_val is None:
+                        result_val = k_val
+                        if verbose:
+                            print(f"  Worker {idx} found k={k_val} in {time.time()-t0:.3f}s")
+                        # Signal all children to stop via found_flag
+                        # (they already check it in the C code)
+                remaining.discard(idx)
+
+            # Also check for exited children
+            for idx in list(remaining):
+                try:
+                    pid_done, status = os.waitpid(child_pids[idx], os.WNOHANG)
+                    if pid_done != 0:
+                        # Child exited — read any remaining pipe data
+                        data = os.read(read_fds[idx], 256)
+                        if data and result_val is None:
+                            result_val = int(data.decode(), 16)
+                            if verbose:
+                                print(f"  Worker {idx} found k={result_val} in {time.time()-t0:.3f}s")
+                        remaining.discard(idx)
+                except ChildProcessError:
+                    remaining.discard(idx)
+    finally:
+        # Kill any remaining children and clean up
+        for i, pid in enumerate(child_pids):
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+        for pid in child_pids:
+            try:
+                os.waitpid(pid, 0)
+            except ChildProcessError:
+                pass
+        for fd in read_fds:
+            try:
+                os.close(fd)
+            except OSError:
+                pass
+        # Release ctypes buffer reference before closing mmap
+        del shm_buf
+        del dp_ptr
+        del found_flag_ptr
+        try:
+            shm.close()
+        except BufferError:
+            pass  # mmap will be freed when GC'd
+
+    return result_val
 
 
 def ecdlp_pythagorean_kangaroo_gpu(curve, G, P, search_bound, verbose=False):
