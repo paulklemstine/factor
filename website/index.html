@@ -48,38 +48,10 @@
     <p class="subtitle">New Mathematics of Integer Factoring</p>
     <div class="glow-line"></div>
     <p class="subtitle" style="font-size:14px; max-width:720px;">
-      A comprehensive research program exploring 495+ mathematical fields, proving 100+ theorems,
-      producing 160+ visualizations, and engineering 20+ optimizations into production factoring engines.
+      A comprehensive research program exploring 315+ mathematical fields, proving 105+ theorems,
+      and engineering production factoring engines. SIQS factors 72-digit semiprimes; GNFS handles 45-digit with lattice sieve.
     </p>
   </section>
-
-  <!-- Stats -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="number">315+</div>
-      <div class="label">Fields Explored</div>
-    </div>
-    <div class="stat-card">
-      <div class="number">100+</div>
-      <div class="label">Theorems</div>
-    </div>
-    <div class="stat-card">
-      <div class="number">140+</div>
-      <div class="label">Visualizations</div>
-    </div>
-    <div class="stat-card">
-      <div class="number">20+</div>
-      <div class="label">Commits Merged</div>
-    </div>
-    <div class="stat-card">
-      <div class="number">69d</div>
-      <div class="label">Largest Factored</div>
-    </div>
-    <div class="stat-card">
-      <div class="number">5</div>
-      <div class="label">P vs NP Phases</div>
-    </div>
-  </div>
 
   <!-- Overview Sections -->
   <h2 class="section-title" id="about">About This Research</h2>
@@ -98,7 +70,7 @@
   <h2 class="section-title" id="highlights">Key Discoveries</h2>
   <div class="card-grid">
 
-    <div class="card">
+    <a href="pages/theorems.html#T28" class="card" style="text-decoration:none;">
       <h4>Unipotent Commutator Theorem</h4>
       <p>
         The commutators [A,B] and [B,C] of the Berggren matrices are unipotent of nilpotency index 3
@@ -109,9 +81,9 @@
         <span class="badge badge-proven">Proven</span>
         <span class="badge badge-high">High Significance</span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
+    <a href="pages/theorems.html#T34" class="card" style="text-decoration:none;">
       <h4>Congruent Number Curve Map</h4>
       <p>
         Every primitive Pythagorean triple maps to a rational point on a congruent number elliptic curve
@@ -122,9 +94,9 @@
         <span class="badge badge-proven">Proven</span>
         <span class="badge badge-high">High Significance</span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
+    <a href="pages/theorems.html#T35" class="card" style="text-decoration:none;">
       <h4>Tree Zeta Convergence</h4>
       <p>
         The tree zeta function &zeta;_tree(s) = &Sigma; c^(-s) over all primitive hypotenuses has
@@ -135,9 +107,9 @@
         <span class="badge badge-proven">Proven</span>
         <span class="badge badge-high">High Significance</span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
+    <a href="pages/theorems.html#DB" class="card" style="text-decoration:none;">
       <h4>Dickman Information Barrier</h4>
       <p>
         The information overhead ratio for sieve-based factoring grows as 10^(0.24d) where d is the
@@ -148,9 +120,9 @@
         <span class="badge badge-proven">Conditional</span>
         <span class="badge badge-high">High Significance</span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
+    <a href="pages/theorems.html#CF1" class="card" style="text-decoration:none;">
       <h4>CFRAC-Tree Equivalence</h4>
       <p>
         The continued fraction algorithm for factoring is equivalent to a walk on the Pythagorean tree
@@ -161,19 +133,20 @@
         <span class="badge badge-proven">Proven</span>
         <span class="badge badge-high">High Significance</span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <h4>Discriminant Identity</h4>
+    <a href="pages/theorems.html#T92" class="card" style="text-decoration:none;">
+      <h4>Factoring &harr; BSD Equivalence</h4>
       <p>
-        For the B3 parabolic MPQS polynomial family, the discriminant satisfies
-        disc = 16 &middot; N &middot; n_0&sup4;. Verified with zero exceptions on 19,701 test cases.
+        Factoring and BSD rank computation are Turing-equivalent for semiprimes.
+        If BSD provides a polynomial-time algorithm, then integer factoring is in P.
+        Connects two Millennium Prize problems through the congruent number curve map.
       </p>
       <div style="margin-top:12px;">
-        <span class="badge badge-proven">Verified</span>
-        <span class="badge badge-medium">Medium</span>
+        <span class="badge badge-proven">Proven</span>
+        <span class="badge badge-high">High Significance</span>
       </div>
-    </div>
+    </a>
 
   </div>
 
@@ -207,11 +180,11 @@
   <h2 class="section-title" id="explore">Explore the Research</h2>
   <div class="card-grid">
     <a href="pages/theorems.html" class="card" style="text-decoration:none;">
-      <h4>100+ Theorems &rarr;</h4>
+      <h4>105+ Theorems &rarr;</h4>
       <p>Complete catalog of proven theorems, conjectures, and refuted hypotheses from the Pythagorean tree.</p>
     </a>
     <a href="pages/visualizations.html" class="card" style="text-decoration:none;">
-      <h4>140+ Visualizations &rarr;</h4>
+      <h4>Visualizations &rarr;</h4>
       <p>Organized gallery of research images: tree structures, modular orbits, spectral analysis, and more.</p>
     </a>
     <a href="pages/pvsnp.html" class="card" style="text-decoration:none;">
@@ -282,7 +255,7 @@
 
   <!-- Footer -->
   <footer class="site-footer">
-    B3 Pythagorean Tree Factoring Research &middot; 2026-03-15 &middot; Single-Day Research Program
+    B3 Pythagorean Tree Factoring Research &middot; 2026-03-16
   </footer>
 
 </div><!-- .main-content -->

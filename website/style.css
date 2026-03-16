@@ -6,19 +6,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-primary:   #0a0a1a;
-  --bg-secondary: #111128;
-  --bg-card:      #161635;
-  --bg-card-hover:#1e1e48;
-  --border:       #2a2a5a;
-  --text:         #e0e0e0;
-  --text-muted:   #8888aa;
-  --cyan:         #00d4ff;
-  --gold:         #ffd700;
-  --green:        #00e676;
-  --red:          #ff5252;
-  --purple:       #bb86fc;
-  --orange:       #ff9800;
+  --bg-primary:   #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-card:      #ffffff;
+  --bg-card-hover:#f0f4f8;
+  --border:       #d0d7de;
+  --text:         #1a1a1a;
+  --text-muted:   #555555;
+  --cyan:         #0066cc;
+  --gold:         #b8860b;
+  --green:        #1a7f37;
+  --red:          #cf222e;
+  --purple:       #6639a6;
+  --orange:       #bc4c00;
   --sidebar-w:    260px;
   --header-h:     64px;
 }
@@ -38,8 +38,8 @@ a:hover { color: var(--gold); }
 
 /* --- Scrollbar --- */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-secondary); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-track { background: #f0f0f0; }
+::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
 
 /* --- Layout --- */
@@ -49,7 +49,7 @@ a:hover { color: var(--gold); }
 .sidebar {
   position: fixed; top: 0; left: 0;
   width: var(--sidebar-w); height: 100vh;
-  background: var(--bg-secondary);
+  background: #f0f2f5;
   border-right: 1px solid var(--border);
   overflow-y: auto; z-index: 100;
   padding: 24px 0;
@@ -63,10 +63,7 @@ a:hover { color: var(--gold); }
 
 .sidebar .logo h2 {
   font-size: 15px;
-  background: linear-gradient(135deg, var(--cyan), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--cyan);
   letter-spacing: .5px;
 }
 
@@ -84,7 +81,7 @@ a:hover { color: var(--gold); }
 }
 .sidebar nav ul li a:hover,
 .sidebar nav ul li a.active {
-  color: var(--cyan); background: rgba(0,212,255,.05);
+  color: var(--cyan); background: rgba(0,102,204,.06);
   border-left-color: var(--cyan);
 }
 
@@ -107,16 +104,13 @@ a:hover { color: var(--gold); }
   text-align: center;
   padding: 80px 20px 60px;
   margin: -40px -48px 48px;
-  background: linear-gradient(180deg, #0d0d2a 0%, var(--bg-primary) 100%);
+  background: linear-gradient(180deg, #e8f0fe 0%, var(--bg-primary) 100%);
   border-bottom: 1px solid var(--border);
 }
 
 .hero h1 {
   font-size: 42px; font-weight: 700;
-  background: linear-gradient(135deg, var(--cyan), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #1a1a1a;
   margin-bottom: 16px;
 }
 
@@ -142,10 +136,7 @@ a:hover { color: var(--gold); }
 
 .stat-card .number {
   font-size: 36px; font-weight: 800;
-  background: linear-gradient(135deg, var(--cyan), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--cyan);
 }
 
 .stat-card .label {
@@ -167,6 +158,11 @@ h2.section-title::after {
   position: absolute; bottom: -2px; left: 0;
   width: 80px; height: 2px;
   background: linear-gradient(90deg, var(--cyan), transparent);
+}
+
+/* --- Card shadow for light mode --- */
+.stat-card, .card, .theorem-card, .timeline-item {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
 h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
@@ -200,7 +196,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 .card:hover {
   transform: translateY(-3px);
   border-color: var(--cyan);
-  box-shadow: 0 8px 32px rgba(0,212,255,.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,.08);
 }
 
 .card h4 {
@@ -217,12 +213,12 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   font-weight: 700; text-transform: uppercase;
   letter-spacing: .5px;
 }
-.badge-proven  { background: rgba(0,230,118,.15); color: var(--green); border: 1px solid rgba(0,230,118,.3); }
-.badge-conjecture { background: rgba(255,215,0,.12); color: var(--gold); border: 1px solid rgba(255,215,0,.25); }
-.badge-refuted { background: rgba(255,82,82,.12); color: var(--red); border: 1px solid rgba(255,82,82,.25); }
-.badge-high    { background: rgba(0,212,255,.12); color: var(--cyan); border: 1px solid rgba(0,212,255,.25); }
-.badge-medium  { background: rgba(187,134,252,.12); color: var(--purple); border: 1px solid rgba(187,134,252,.25); }
-.badge-low     { background: rgba(136,136,170,.12); color: var(--text-muted); border: 1px solid rgba(136,136,170,.25); }
+.badge-proven  { background: #dafbe1; color: var(--green); border: 1px solid #a7f3bd; }
+.badge-conjecture { background: #fff8e1; color: var(--gold); border: 1px solid #ffe082; }
+.badge-refuted { background: #ffebe9; color: var(--red); border: 1px solid #ffccd0; }
+.badge-high    { background: #dbeafe; color: var(--cyan); border: 1px solid #93c5fd; }
+.badge-medium  { background: #ede9fe; color: var(--purple); border: 1px solid #c4b5fd; }
+.badge-low     { background: #f3f4f6; color: var(--text-muted); border: 1px solid #d1d5db; }
 
 /* --- Tables --- */
 .data-table {
@@ -241,7 +237,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   border: 1px solid var(--border);
   padding: 10px 16px; color: var(--text);
 }
-.data-table tr:hover td { background: rgba(0,212,255,.03); }
+.data-table tr:hover td { background: rgba(0,102,204,.04); }
 .data-table .num-col { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* --- Image Gallery --- */
@@ -275,7 +271,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 .viewer-overlay {
   display: none; position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(2, 2, 12, 0.96);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 9999;
   flex-direction: column;
   align-items: center;
@@ -288,7 +284,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   position: absolute; top: 0; left: 0; right: 0;
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(180deg, rgba(2,2,12,0.9) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
   z-index: 10001;
   pointer-events: none;
 }
@@ -332,7 +328,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 .viewer-img-container img {
   max-width: 100%; max-height: 100%;
   border-radius: 6px;
-  box-shadow: 0 0 80px rgba(0,212,255,.15);
+  box-shadow: 0 0 80px rgba(0,0,0,.15);
   transition: opacity 0.25s ease;
   object-fit: contain;
 }
@@ -362,7 +358,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   position: absolute; bottom: 0; left: 0; right: 0;
   display: flex; align-items: center; justify-content: center;
   padding: 16px 24px;
-  background: linear-gradient(0deg, rgba(2,2,12,0.9) 0%, transparent 100%);
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
   z-index: 10001;
   pointer-events: none;
 }
@@ -391,22 +387,22 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 
 /* --- Code blocks --- */
 .code-block {
-  background: #0c0c22; border: 1px solid var(--border);
+  background: #f5f5f5; border: 1px solid var(--border);
   border-radius: 8px; padding: 16px 20px;
   font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   font-size: 13px; line-height: 1.6;
   overflow-x: auto; margin: 16px 0;
-  color: #c8c8e8;
+  color: #1a1a1a;
 }
 
 /* --- Architecture diagram --- */
 .arch-diagram {
-  background: #0c0c22; border: 1px solid var(--border);
+  background: #f5f5f5; border: 1px solid var(--border);
   border-radius: 12px; padding: 32px;
   font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   font-size: 13px; line-height: 1.5;
   overflow-x: auto; margin: 24px 0;
-  white-space: pre; color: var(--cyan);
+  white-space: pre; color: #1a1a1a;
 }
 
 /* --- Pill nav / tabs --- */
@@ -421,7 +417,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   cursor: pointer;
 }
 .pill-nav a:hover, .pill-nav a.active {
-  background: rgba(0,212,255,.1); border-color: var(--cyan);
+  background: rgba(0,102,204,.08); border-color: var(--cyan);
   color: var(--cyan);
 }
 
@@ -431,7 +427,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 }
 .rating-bar .bar {
   height: 6px; border-radius: 3px;
-  background: linear-gradient(90deg, var(--cyan), var(--gold));
+  background: linear-gradient(90deg, var(--cyan), #4a90d9);
 }
 .rating-bar .label { font-size: 12px; color: var(--text-muted); }
 
@@ -453,7 +449,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   left: -26px; top: 20px;
   width: 10px; height: 10px;
   border-radius: 50%; background: var(--cyan);
-  border: 2px solid var(--bg-primary);
+  border: 2px solid #ffffff;
 }
 .timeline-item h4 { color: var(--cyan); margin-bottom: 6px; font-size: 15px; }
 .timeline-item p  { font-size: 13px; color: var(--text-muted); }
@@ -491,17 +487,17 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 .btn-code {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 16px; margin: 8px 4px 8px 0;
-  background: rgba(0,212,255,0.08);
-  border: 1px solid rgba(0,212,255,0.25);
+  background: rgba(0,102,204,0.06);
+  border: 1px solid rgba(0,102,204,0.25);
   border-radius: 20px; font-size: 12px;
   color: var(--cyan); font-weight: 600;
   cursor: pointer; transition: all 0.2s;
   text-decoration: none;
 }
 .btn-code:hover {
-  background: rgba(0,212,255,0.18);
+  background: rgba(0,102,204,0.14);
   border-color: var(--cyan);
-  color: #fff;
+  color: #003d7a;
 }
 
 /* --- Series Nav Links --- */
@@ -528,13 +524,13 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   cursor: pointer; z-index: 90;
   transition: all 0.3s;
   opacity: 0; pointer-events: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 .back-to-top.visible {
   opacity: 1; pointer-events: auto;
 }
 .back-to-top:hover {
-  background: rgba(0,212,255,0.12);
+  background: rgba(0,102,204,0.08);
   border-color: var(--cyan);
   color: var(--cyan);
   transform: translateY(-3px);
@@ -566,7 +562,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 
 /* --- Code Viewer --- */
 .code-viewer {
-  background: #080818;
+  background: #f5f5f5;
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden; margin: 24px 0;
@@ -583,8 +579,8 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 }
 .code-viewer-header .lang-badge {
   font-size: 11px; color: var(--gold);
-  background: rgba(255,215,0,0.1);
-  border: 1px solid rgba(255,215,0,0.25);
+  background: #fff8e1;
+  border: 1px solid #ffe082;
   padding: 2px 10px; border-radius: 10px;
   font-weight: 700; text-transform: uppercase;
 }
@@ -592,21 +588,21 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
   margin: 0; padding: 20px;
   overflow-x: auto; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   font-size: 13px; line-height: 1.65;
-  color: #c8c8e8; tab-size: 4;
+  color: #1a1a1a; tab-size: 4;
   max-height: 70vh;
   overflow-y: auto;
 }
 
 /* Syntax highlighting classes */
-.syn-kw { color: #bb86fc; font-weight: 600; }
-.syn-str { color: #00e676; }
-.syn-num { color: #ffd700; }
-.syn-comment { color: #5a5a7a; font-style: italic; }
-.syn-func { color: #00d4ff; }
-.syn-dec { color: #ff9800; }
-.syn-cls { color: #ff9800; font-weight: 600; }
-.syn-op { color: #ff5252; }
-.syn-self { color: #ff9800; font-style: italic; }
+.syn-kw { color: #6639a6; font-weight: 600; }
+.syn-str { color: #1a7f37; }
+.syn-num { color: #b8860b; }
+.syn-comment { color: #8b949e; font-style: italic; }
+.syn-func { color: #0066cc; }
+.syn-dec { color: #bc4c00; }
+.syn-cls { color: #bc4c00; font-weight: 600; }
+.syn-op { color: #cf222e; }
+.syn-self { color: #bc4c00; font-style: italic; }
 
 /* --- Theorem card specific --- */
 .theorem-card {
@@ -641,7 +637,7 @@ h3.subsection { font-size: 20px; color: var(--gold); margin: 32px 0 16px; }
 .glow-line {
   height: 2px; margin: 24px auto;
   max-width: 400px;
-  background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--border), transparent);
   border-radius: 1px;
 }
 
