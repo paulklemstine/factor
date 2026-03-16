@@ -3542,6 +3542,18 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                             rel['alg_lp'] = int(c_verify_alg_lp[ci])
                             partials_dlp.append(rel)
                         total_partials += 1
+                        # Cap partials to prevent OOM (~60K partials ≈ 1GB)
+                        if total_partials > 80000:
+                            # Prune: keep only partials with 2+ entries (combinable)
+                            for key in list(partials_alg.keys()):
+                                if len(partials_alg[key]) < 2:
+                                    del partials_alg[key]
+                            for key in list(partials_rat.keys()):
+                                if len(partials_rat[key]) < 2:
+                                    del partials_rat[key]
+                            total_partials = sum(len(v) for v in partials_alg.values()) + \
+                                            sum(len(v) for v in partials_rat.values()) + \
+                                            len(partials_dlp)
 
                 # Estimate total with SLP + DLP matching
                 n_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values())
@@ -3619,11 +3631,11 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                     br, or_ = base['rat_exps'], other['rat_exps']
                     ba, oa = base['alg_exps'], other['alg_exps']
                     if isinstance(br, np.ndarray):
-                        comb_rat = (br.astype(np.int16) + or_.astype(np.int16)).tolist()
+                        comb_rat = list(br + or_)
                     else:
                         comb_rat = [br[j] + or_[j] for j in range(nrat)]
                     if isinstance(ba, np.ndarray):
-                        comb_alg = (ba.astype(np.int16) + oa.astype(np.int16)).tolist()
+                        comb_alg = list(ba + oa)
                     else:
                         comb_alg = [ba[j] + oa[j] for j in range(nalg)]
                     verified_relations.append({
