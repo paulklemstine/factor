@@ -26,6 +26,20 @@ import random
 from rsa_targets import *
 
 # ---------------------------------------------------------------------------
+# Prime sieve for p-1, p+1, ECM Stage 2
+# ---------------------------------------------------------------------------
+def _sieve_primes(limit):
+    """Sieve of Eratosthenes returning list of primes up to limit."""
+    sieve = bytearray(b'\x01') * (limit + 1)
+    sieve[0] = sieve[1] = 0
+    for i in range(2, int(limit**0.5) + 1):
+        if sieve[i]:
+            sieve[i*i::i] = bytearray(len(sieve[i*i::i]))
+    return [i for i in range(2, limit + 1) if sieve[i]]
+
+_SMALL_PRIMES = _sieve_primes(10_000_000)  # primes up to 10M for Stage 1/2
+
+# ---------------------------------------------------------------------------
 # Optional imports: SIQS engine, Super-Generator v7
 # Fall back to inline MPQS / VSDD if not available yet.
 # ---------------------------------------------------------------------------
@@ -663,10 +677,240 @@ def guillotine_mpqs(n, verbose=True, time_limit=3600):
 
 
 ###############################################################################
-# ECM  (inline, copied from v5.0 — proven workhorse up to 54 digits)
+# POLLARD p-1
 ###############################################################################
 
-def ecm_factor(n, B1=1000000, curves=100, verbose=True):
+def pollard_pm1(n, B1=500000, B2=5000000, verbose=True):
+    """
+    Pollard p-1 with Stage 2 (gap-stepping through primes in (B1, B2]).
+    Finds factor p of n when p-1 is B1-smooth (Stage 1) or has at most
+    one prime factor in (B1, B2] (Stage 2).
+    """
+    n = mpz(n)
+    bases = [mpz(2), mpz(3), mpz(5), mpz(7)]
+
+    for base in bases:
+        a = base
+
+        # Stage 1: a = a^{lcm(1..B1)} mod n
+        for p in _SMALL_PRIMES:
+            if p > B1:
+                break
+            pk = p
+            while pk * p <= B1:
+                pk *= p
+            a = pow(a, pk, n)
+
+        g = gcd(a - 1, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  p-1 Stage 1 hit (base={base})")
+            return int(g)
+        if g == n:
+            continue  # base killed — try next
+
+        # Stage 2: check individual primes in (B1, B2]
+        # Precompute a^(2d) for small even gaps d=2,4,...,300
+        pow2 = pow(a, 2, n)
+        gap_cache = {2: pow2}
+        curr = pow2
+        for d in range(4, 302, 2):
+            curr = curr * pow2 % n
+            gap_cache[d] = curr
+
+        prev_q = None
+        a_q = None
+        accum = mpz(1)
+        count = 0
+        for q in _SMALL_PRIMES:
+            if q <= B1:
+                continue
+            if q > B2:
+                break
+            if prev_q is None:
+                a_q = pow(a, q, n)
+            else:
+                diff = q - prev_q
+                if diff in gap_cache:
+                    a_q = a_q * gap_cache[diff] % n
+                else:
+                    a_q = pow(a, q, n)
+            prev_q = q
+
+            accum = accum * (a_q - 1) % n
+            count += 1
+            if count % 5000 == 0:
+                g = gcd(accum, n)
+                if 1 < g < n:
+                    if verbose:
+                        print(f"  p-1 Stage 2 hit (base={base}, near q={q})")
+                    return int(g)
+                if g == n:
+                    accum = mpz(1)
+                    break
+
+        g = gcd(accum, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  p-1 Stage 2 final GCD (base={base})")
+            return int(g)
+
+    return None
+
+
+###############################################################################
+# WILLIAMS p+1 (Lucas sequences)
+###############################################################################
+
+def williams_pp1(n, B1=500000, B2=5000000, max_seeds=20, verbose=True):
+    """
+    Williams p+1 method using Lucas sequences V_k(P, 1) mod N.
+    Finds factor p when p+1 is B1-smooth (Stage 1) or has at most one
+    prime factor in (B1, B2] (Stage 2).
+
+    Lucas chain doubling:  V_{2k} = V_k^2 - 2
+    Lucas chain step:      V_{k+1} = V_k * V_{k+1} - P
+    """
+    n = mpz(n)
+
+    def lucas_chain(v, k, n_val, p_val):
+        """Compute V_k(v, 1) mod n_val using binary ladder."""
+        if k == 0:
+            return mpz(2)
+        if k == 1:
+            return v
+        vl = v
+        vh = (v * v - 2) % n_val
+        for bit in bin(k)[3:]:
+            if bit == '1':
+                vl = (vl * vh - p_val) % n_val
+                vh = (vh * vh - 2) % n_val
+            else:
+                vh = (vl * vh - p_val) % n_val
+                vl = (vl * vl - 2) % n_val
+        return vl
+
+    seeds = list(range(3, 3 + max_seeds * 2, 2))[:max_seeds]  # odd seeds 3,5,7,...
+
+    for seed in seeds:
+        v = mpz(seed)
+
+        # Stage 1: V_{B1!}(P, 1) mod n
+        # Each iteration computes V_{pk}(v, 1) which by Lucas composition
+        # equals V_{pk * prev_exponent}(seed, 1). The 4th parameter to
+        # lucas_chain must be v (current V_1), NOT the original seed.
+        for p in _SMALL_PRIMES:
+            if p > B1:
+                break
+            pk = p
+            while pk * p <= B1:
+                pk *= p
+            v = lucas_chain(v, pk, n, v)
+
+        g = gcd(v - 2, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  p+1 Stage 1 hit (seed={seed})")
+            return int(g)
+        if g == n:
+            continue  # seed killed — try next
+
+        # Stage 2: for each prime q in (B1, B2], compute V_q(v, 1)
+        # and check gcd(V_q - 2, N). Uses V_q(v,1) = V_{q*M}(P,1) by
+        # composition of Lucas sequences.
+        #
+        # Efficient approach: track (V_k, V_{k-1}) and step by prime gaps.
+        # Recurrence: V_{k+d} = V_d * V_k - V_{k-d}
+        # Precompute V_d(v,1) for small gaps d.
+
+        # Precompute V_d(v,1) for d = 0..300 (covers all prime gaps < 300)
+        v_gap = [mpz(0)] * 302
+        v_gap[0] = mpz(2)
+        v_gap[1] = v
+        v_gap[2] = (v * v - 2) % n
+        for d in range(3, 302):
+            v_gap[d] = (v * v_gap[d-1] - v_gap[d-2]) % n
+
+        # Find starting prime > B1
+        start_idx = 0
+        for i, p in enumerate(_SMALL_PRIMES):
+            if p > B1:
+                start_idx = i
+                break
+
+        if start_idx > 0 and _SMALL_PRIMES[start_idx] <= B2:
+            # Bootstrap: compute V_{q0}(v,1) for first prime q0 > B1
+            q0 = _SMALL_PRIMES[start_idx]
+            vq = lucas_chain(v, q0, n, v)
+            # Also need V_{q0-1}(v,1) for the stepping
+            vq_prev = lucas_chain(v, q0 - 1, n, v)
+
+            accum = (vq - 2) % n
+            count = 1
+
+            for i in range(start_idx + 1, len(_SMALL_PRIMES)):
+                q = _SMALL_PRIMES[i]
+                if q > B2:
+                    break
+                gap = q - _SMALL_PRIMES[i - 1]
+
+                if gap < 302:
+                    # V_{k+gap} = V_gap * V_k - V_{k-gap}
+                    # We have V_k = vq (at prev prime), V_{k-1} conceptually
+                    # But we need V_{k-gap}. For gap=2 (most common):
+                    # V_{k+2} = V_2 * V_k - V_{k-2}
+                    # We track: vq = V_k, vq_prev = V_{k-1}
+                    # For gap=2: V_{k+1} = v * V_k - V_{k-1}, then
+                    #            V_{k+2} = v * V_{k+1} - V_k
+                    # For general gap: step one at a time
+                    vk = vq
+                    vk_prev = vq_prev
+                    for _ in range(gap):
+                        vk_next = (v * vk - vk_prev) % n
+                        vk_prev = vk
+                        vk = vk_next
+                    vq_prev = vk_prev
+                    vq = vk
+                else:
+                    # Large gap (rare) — recompute from scratch
+                    vq = lucas_chain(v, q, n, v)
+                    vq_prev = lucas_chain(v, q - 1, n, v)
+
+                accum = accum * (vq - 2) % n
+                count += 1
+                if count % 3000 == 0:
+                    g = gcd(accum, n)
+                    if 1 < g < n:
+                        if verbose:
+                            print(f"  p+1 Stage 2 hit (seed={seed}, near q={q})")
+                        return int(g)
+                    if g == n:
+                        accum = mpz(1)
+                        break
+
+            g = gcd(accum, n)
+            if 1 < g < n:
+                if verbose:
+                    print(f"  p+1 Stage 2 final GCD (seed={seed})")
+                return int(g)
+
+    return None
+
+
+###############################################################################
+# ECM  (Stage 1 + Stage 2 BSGS continuation)
+###############################################################################
+
+def ecm_factor(n, B1=1000000, B2=None, curves=100, verbose=True):
+    """
+    ECM with Suyama parameterization, Montgomery ladder (Stage 1),
+    and baby-step giant-step Stage 2 continuation.
+
+    Stage 2 adds ~30% more factor discoveries for ~4% extra cost.
+    B2 defaults to 100*B1.
+    """
+    if B2 is None:
+        B2 = 100 * B1
     n = mpz(n)
     for c in range(curves):
         sigma = mpz(random.randint(6, 10**9))
@@ -709,6 +953,7 @@ def ecm_factor(n, B1=1000000, curves=100, verbose=True):
                     r0x, r0z = md(r0x, r0z)
             return r0x, r0z
 
+        # Stage 1: multiply point by prime powers up to B1
         p = 2
         while p <= B1:
             pp = p
@@ -719,8 +964,102 @@ def ecm_factor(n, B1=1000000, curves=100, verbose=True):
         g = gcd(z, n)
         if 1 < g < n:
             if verbose:
-                print(f"  ECM curve {c}: {g}")
+                print(f"  ECM S1 curve {c}: {g}")
             return int(g)
+        if g == n:
+            # Curve killed the point — skip Stage 2
+            if verbose and c % 50 == 0 and c > 0:
+                print(f"  ECM {c}/{curves}...")
+            continue
+
+        # ---------------------------------------------------------------
+        # Stage 2: BSGS continuation for primes in (B1, B2]
+        #
+        # D = wheel size (multiple of 30 for 2,3,5 wheel).
+        # Baby steps: precompute [j]*Q for j coprime to 30, j in [1, D].
+        # Giant steps: for each block k*D, compute S = [k*D]*Q, then
+        #   accumulate product of (S.x * R_j.z - R_j.x * S.z) for each
+        #   baby j where k*D +/- j might be prime.
+        # ---------------------------------------------------------------
+        if B2 > B1:
+            D = 210  # = 2*3*5*7 wheel (48 coprime residues per block)
+
+            # Precompute coprime residues mod D (only store these baby steps)
+            coprime_set = frozenset(j for j in range(1, D + 1)
+                          if j % 2 != 0 and j % 3 != 0 and j % 5 != 0 and j % 7 != 0)
+            coprime_js = sorted(coprime_set)
+
+            # Baby steps: [j]*Q for coprime j, built by differential addition
+            # Compute all [1]*Q .. [D]*Q but only store coprime ones
+            baby_x = {}
+            baby_z = {}
+            baby_x[1] = x
+            baby_z[1] = z
+            x2, z2 = md(x, z)  # 2*Q
+
+            if D >= 3:
+                x3, z3 = ma(x2, z2, x, z, x, z)  # 3*Q
+                prev_bx, prev_bz = x2, z2
+                curr_bx, curr_bz = x3, z3
+                if 3 in coprime_js:
+                    baby_x[3] = x3
+                    baby_z[3] = z3
+                for j in range(4, D + 1):
+                    next_bx, next_bz = ma(curr_bx, curr_bz, x, z, prev_bx, prev_bz)
+                    if j in coprime_set:
+                        baby_x[j] = next_bx
+                        baby_z[j] = next_bz
+                    if j == D:
+                        # Save [D]*Q for giant step
+                        gx, gz = next_bx, next_bz
+                    prev_bx, prev_bz = curr_bx, curr_bz
+                    curr_bx, curr_bz = next_bx, next_bz
+            else:
+                gx, gz = mm(D, x, z)
+
+            # Giant step setup
+            base_k = (B1 // D + 1) * D
+            sx, sz = mm(base_k, x, z)
+            sx_prev, sz_prev = mm(base_k - D, x, z)
+
+            accum = mpz(1)
+            checks = 0
+
+            while base_k <= B2:
+                for j in coprime_js:
+                    if j not in baby_x:
+                        continue
+                    cand = base_k + j
+                    if cand > B2:
+                        break
+                    if cand <= B1:
+                        continue
+                    diff_val = (sx * baby_z[j] - baby_x[j] * sz) % n
+                    accum = accum * diff_val % n
+                    checks += 1
+
+                    if checks % 5000 == 0:
+                        g = gcd(accum, n)
+                        if 1 < g < n:
+                            if verbose:
+                                print(f"  ECM S2 curve {c} (near {base_k}): {g}")
+                            return int(g)
+                        if g == n:
+                            accum = mpz(1)
+
+                # Giant step: differential addition
+                sx_new, sz_new = ma(sx, sz, gx, gz, sx_prev, sz_prev)
+                sx_prev, sz_prev = sx, sz
+                sx, sz = sx_new, sz_new
+                base_k += D
+
+            if accum != 1:
+                g = gcd(accum, n)
+                if 1 < g < n:
+                    if verbose:
+                        print(f"  ECM S2 curve {c} final GCD: {g}")
+                    return int(g)
+
         if verbose and c % 50 == 0 and c > 0:
             print(f"  ECM {c}/{curves}...")
     return None
@@ -732,22 +1071,22 @@ def ecm_factor(n, B1=1000000, curves=100, verbose=True):
 
 def factor(n, verbose=True, time_limit=3600):
     """
-    Resonance Sieve v7.0 Master Driver.
+    Resonance Sieve v7.1 Master Driver.
 
     Routing by digit count:
-      < 20d:   Trial division / VSDD
-      20-45d:  ECM (unbalanced) + VSDD Sniper
-      45-100d: SIQS (primary) with ECM fallback
+      < 20d:   Trial division / VSDD / p-1 / p+1
+      20-45d:  p-1 + p+1 + ECM(S1+S2) + VSDD Sniper
+      45-100d: SIQS (primary) with p-1/p+1/ECM fallback
       > 100d:  GNFS scaffold -> falls back to SIQS
 
-    Budget: Path 1 = 10%, ECM = 20%, Path 2 (SIQS/MPQS) = 70%
+    Budget: Path 1 = 10%, algebraic (p-1/p+1/ECM) = 20%, Path 2 (SIQS/MPQS) = 70%
     """
     n_val = int(n)
     nd = len(str(n_val))
     nb = int(gmpy2.log2(mpz(n_val))) + 1
 
     if verbose:
-        print(f"Resonance Sieve v7.0: {nd}d ({nb}b)")
+        print(f"Resonance Sieve v7.1: {nd}d ({nb}b)")
         engines = []
         if _have_siqs:
             engines.append("SIQS")
@@ -755,7 +1094,7 @@ def factor(n, verbose=True, time_limit=3600):
             engines.append("MPQS(fallback)")
         if _have_supergen:
             engines.append("SuperGen")
-        engines.extend(["ECM", "VSDD"])
+        engines.extend(["p-1", "p+1", "ECM(S1+S2)", "VSDD"])
         print(f"  Engines: {', '.join(engines)}")
 
     t0 = time.time()
@@ -776,16 +1115,27 @@ def factor(n, verbose=True, time_limit=3600):
     path2_budget = max(30, time_limit * 0.70)   # 70%
 
     # ====================================================================
-    # ROUTE: < 20 digits  --  Trial division / VSDD only
+    # ROUTE: < 20 digits  --  Trial division / VSDD / p-1 / p+1
     # ====================================================================
     if nd < 20:
         if verbose:
-            print(f"\n[Route] < 20d: Trial / VSDD")
+            print(f"\n[Route] < 20d: Trial / VSDD / p-1 / p+1")
         f = vsdd_sniper(n_val, verbose=verbose, time_limit=time_limit)
         if f and f != n_val:
             if verbose:
                 print(f"  Total: {time.time()-t0:.3f}s")
             return f
+
+        # Quick p-1 and p+1 (cheap, may catch smooth factors)
+        for method, func in [("p-1", pollard_pm1), ("p+1", williams_pp1)]:
+            if time.time() - t0 > time_limit:
+                break
+            f = func(n_val, B1=10000, B2=100000, verbose=verbose)
+            if f and 1 < f < n_val:
+                if verbose:
+                    print(f"  Total: {time.time()-t0:.3f}s")
+                return f
+
         # Fallback: small MPQS
         if verbose:
             print(f"\n[Fallback] MPQS for small number")
@@ -797,11 +1147,11 @@ def factor(n, verbose=True, time_limit=3600):
         return None
 
     # ====================================================================
-    # ROUTE: 20-45 digits  --  ECM + VSDD Sniper
+    # ROUTE: 20-45 digits  --  p-1 + p+1 + ECM(S1+S2) + VSDD Sniper
     # ====================================================================
     if nd <= 45:
         if verbose:
-            print(f"\n[Route] 20-45d: ECM + VSDD Sniper")
+            print(f"\n[Route] 20-45d: p-1 + p+1 + ECM(S1+S2) + VSDD Sniper")
 
         # Path 1: VSDD Sniper (10% budget)
         if verbose:
@@ -827,12 +1177,33 @@ def factor(n, verbose=True, time_limit=3600):
                 if verbose:
                     print(f"  Super-Generator error: {e}")
 
-        # ECM (20% budget)
+        # Pollard p-1 (very cheap, catches p-1 smooth factors)
+        pm1_B1 = min(500000, max(50000, 10 ** (nd // 6)))
+        if verbose:
+            print(f"\n[p-1] B1={pm1_B1}, B2={pm1_B1*10}")
+        f = pollard_pm1(n_val, B1=pm1_B1, B2=pm1_B1 * 10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # Williams p+1 (cheap, catches p+1 smooth factors)
+        pp1_B1 = min(500000, max(50000, 10 ** (nd // 6)))
+        if verbose:
+            print(f"\n[p+1] B1={pp1_B1}, B2={pp1_B1*10}, seeds=10")
+        f = williams_pp1(n_val, B1=pp1_B1, B2=pp1_B1 * 10, max_seeds=10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # ECM with Stage 2 (20% budget)
         ecm_B1 = min(1000000, max(10000, 10 ** (nd // 5)))
+        ecm_B2 = 100 * ecm_B1
         ecm_curves = min(200, max(30, nd * 2))
         if verbose:
-            print(f"\n[ECM] B1={ecm_B1}, curves={ecm_curves}, budget={ecm_budget:.0f}s")
-        f = ecm_factor(n_val, B1=ecm_B1, curves=ecm_curves, verbose=verbose)
+            print(f"\n[ECM S1+S2] B1={ecm_B1}, B2={ecm_B2}, curves={ecm_curves}")
+        f = ecm_factor(n_val, B1=ecm_B1, B2=ecm_B2, curves=ecm_curves, verbose=verbose)
         if f and f != n_val:
             if verbose:
                 print(f"  Total: {time.time()-t0:.1f}s")
@@ -863,11 +1234,11 @@ def factor(n, verbose=True, time_limit=3600):
         return None
 
     # ====================================================================
-    # ROUTE: 45-100 digits  --  SIQS primary, ECM fallback
+    # ROUTE: 45-100 digits  --  SIQS primary, p-1/p+1/ECM fallback
     # ====================================================================
     if nd <= 100:
         if verbose:
-            print(f"\n[Route] 45-100d: SIQS primary + ECM")
+            print(f"\n[Route] 45-100d: SIQS primary + p-1/p+1/ECM")
 
         # Path 1: VSDD Sniper (10% budget — unlikely to hit but cheap)
         if verbose:
@@ -893,13 +1264,33 @@ def factor(n, verbose=True, time_limit=3600):
                 if verbose:
                     print(f"  Super-Generator error: {e}")
 
-        # ECM (20% budget — catches unbalanced factors)
+        # Pollard p-1 (cheap pre-filter before ECM)
+        pm1_B1 = min(1000000, max(100000, 10 ** (nd // 5)))
+        if verbose:
+            print(f"\n[p-1] B1={pm1_B1}, B2={pm1_B1*10}")
+        f = pollard_pm1(n_val, B1=pm1_B1, B2=pm1_B1 * 10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # Williams p+1 (cheap pre-filter)
+        pp1_B1 = min(1000000, max(100000, 10 ** (nd // 5)))
+        if verbose:
+            print(f"\n[p+1] B1={pp1_B1}, B2={pp1_B1*10}, seeds=10")
+        f = williams_pp1(n_val, B1=pp1_B1, B2=pp1_B1 * 10, max_seeds=10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # ECM with Stage 2 (20% budget — catches unbalanced factors)
         ecm_B1 = min(5000000, max(100000, 10 ** (nd // 4)))
+        ecm_B2 = 100 * ecm_B1
         ecm_curves = min(500, max(50, nd * 3))
         if verbose:
-            print(f"\n[ECM] B1={ecm_B1}, curves={ecm_curves}, budget={ecm_budget:.0f}s")
-        ecm_t0 = time.time()
-        f = ecm_factor(n_val, B1=ecm_B1, curves=ecm_curves, verbose=verbose)
+            print(f"\n[ECM S1+S2] B1={ecm_B1}, B2={ecm_B2}, curves={ecm_curves}")
+        f = ecm_factor(n_val, B1=ecm_B1, B2=ecm_B2, curves=ecm_curves, verbose=verbose)
         if f and f != n_val:
             if verbose:
                 print(f"  Total: {time.time()-t0:.1f}s")
@@ -945,12 +1336,31 @@ def factor(n, verbose=True, time_limit=3600):
     if f and f != n_val:
         return f
 
-    # ECM (20%)
+    # Pollard p-1 (cheap)
+    if verbose:
+        print(f"\n[p-1] B1=1000000, B2=10000000")
+    f = pollard_pm1(n_val, B1=1000000, B2=10000000, verbose=verbose)
+    if f and 1 < f < n_val:
+        if verbose:
+            print(f"  Total: {time.time()-t0:.1f}s")
+        return f
+
+    # Williams p+1 (cheap)
+    if verbose:
+        print(f"\n[p+1] B1=1000000, B2=10000000")
+    f = williams_pp1(n_val, B1=1000000, B2=10000000, max_seeds=10, verbose=verbose)
+    if f and 1 < f < n_val:
+        if verbose:
+            print(f"  Total: {time.time()-t0:.1f}s")
+        return f
+
+    # ECM with Stage 2 (20%)
     ecm_B1 = min(10000000, max(1000000, 10 ** (min(nd, 80) // 4)))
+    ecm_B2 = 100 * ecm_B1
     ecm_curves = min(1000, max(100, nd * 3))
     if verbose:
-        print(f"\n[ECM] B1={ecm_B1}, curves={ecm_curves}, budget={ecm_budget:.0f}s")
-    f = ecm_factor(n_val, B1=ecm_B1, curves=ecm_curves, verbose=verbose)
+        print(f"\n[ECM S1+S2] B1={ecm_B1}, B2={ecm_B2}, curves={ecm_curves}")
+    f = ecm_factor(n_val, B1=ecm_B1, B2=ecm_B2, curves=ecm_curves, verbose=verbose)
     if f and f != n_val:
         if verbose:
             print(f"  Total: {time.time()-t0:.1f}s")

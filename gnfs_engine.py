@@ -553,14 +553,14 @@ def gnfs_params(n):
         fb_bound = 70000
     elif nd < 46:
         fb_bound = 80000
-    elif nd < 52:
+    elif nd < 50:
         fb_bound = 100000
     elif nd < 56:
-        fb_bound = 200000
+        fb_bound = 80000   # reduced: 5GB RAM limit, post-SGE matrix must be <15K
     elif nd < 60:
-        fb_bound = 600000
+        fb_bound = 100000  # reduced for RAM
     elif nd < 65:
-        fb_bound = 800000
+        fb_bound = 150000  # reduced for RAM
     elif nd < 70:
         fb_bound = 1200000
     elif nd < 80:

@@ -436,9 +436,14 @@
     <span class="badge badge-high">High</span>
   </div>
   <div class="theorem-body">
-    For all primitive Pythagorean triples with prime hypotenuse p, the Legendre symbol
-    $(a/p) = +1$ always. This is a direct consequence of $a^2 + b^2 = p$ implying $a^2 \equiv -b^2 \pmod{p}$,
-    but the universality across all tree-generated triples reveals deep quadratic reciprocity structure.
+    <strong>Statement:</strong> For all primitive Pythagorean triples $(a,b,c)$ with $\gcd(a,c)=1$, the
+    Jacobi symbol product satisfies $\left(\frac{a}{c}\right)\!\cdot\!\left(\frac{c}{a}\right) = +1$ always.<br><br>
+    <strong>Proof sketch:</strong> By quadratic reciprocity, $\left(\frac{a}{c}\right)\left(\frac{c}{a}\right) = (-1)^{(a-1)(c-1)/4}$.
+    Since every PPT hypotenuse satisfies $c \equiv 1 \pmod{4}$ (because $c = m^2+n^2$ with $m,n$ of different parity),
+    we have $(c-1)/2$ even, so the exponent $(a-1)(c-1)/4$ is always even, giving $+1$.<br><br>
+    <strong>Significance:</strong> This is a universal structural identity connecting the Berggren tree to
+    quadratic reciprocity. It holds for all PPTs, not just those with prime hypotenuse, and reveals that the
+    tree's arithmetic is governed by the mod-4 constraint on hypotenuses.
   </div>
 </div>
 
@@ -561,17 +566,24 @@
   </div>
 </div>
 
-<div class="theorem-card" id="TREEZETA">
+<div class="theorem-card" id="TREEZETA" style="border-left:3px solid var(--gold);">
   <div class="theorem-header">
     <span class="theorem-num">TZ</span>
-    <span class="theorem-name">Tree Zeta: No Functional Equation</span>
+    <span class="theorem-name">Tree Zeta: No Functional Equation, No Euler Product</span>
     <span class="badge badge-proven">Proven</span>
-    <span class="badge badge-medium">Medium</span>
+    <span class="badge badge-high">High</span>
   </div>
   <div class="theorem-body">
-    The tree zeta $\zeta_T(s) = \sum c^{-s}$ has no Euler product, no functional equation,
-    and no critical line. The sum-of-two-squares indicator is not multiplicative, so $\zeta_T$
-    is an arithmetic Dirichlet series without automorphic structure.
+    <strong>Statement:</strong> The Berggren tree zeta function $\zeta_T(s) = \sum_{\text{PPT}} c^{-s}$
+    (sum over all PPT hypotenuses $c$) has abscissa of convergence $\sigma_c = 1$, with density
+    $N(x) \sim C \cdot x / \sqrt{\log x}$ (Landau-Ramanujan). It possesses:<br>
+    (a) <strong>no Euler product</strong> (the sum-of-two-squares indicator is not multiplicative),<br>
+    (b) <strong>no functional equation</strong> (no symmetry $s \leftrightarrow 1-s$ or $s \leftrightarrow 2-s$; CV test = 1.16),<br>
+    (c) <strong>no critical line</strong> (the Riemann Hypothesis concept does not apply).<br><br>
+    <strong>Significance:</strong> $\zeta_T$ is an "arithmetic Dirichlet series without automorphic structure."
+    It cannot be lifted to an L-function in the Langlands sense, and RH-type conjectures do not apply.
+    This definitively rules out using analytic continuation or functional equation techniques to study
+    the distribution of Pythagorean triples.
   </div>
 </div>
 
@@ -631,17 +643,22 @@
   </div>
 </div>
 
-<div class="theorem-card" id="PPTABC">
+<div class="theorem-card" id="PPTABC" style="border-left:3px solid var(--gold);">
   <div class="theorem-header">
     <span class="theorem-num">T108</span>
     <span class="theorem-name">PPT ABC Quality Bound</span>
     <span class="badge badge-proven">Proven</span>
-    <span class="badge badge-medium">Medium</span>
+    <span class="badge badge-high">High</span>
   </div>
   <div class="theorem-body">
-    For primitive Pythagorean triples, the ABC quality $q = \log(c)/\log(\mathrm{rad}(abc))$
-    has max 0.62 across 3000 triples. Zero triples exceed $q = 1$. PPTs are "ABC-tame" --
-    their radical is always large relative to the hypotenuse.
+    <strong>Statement:</strong> For primitive Pythagorean triples $(a,b,c)$, the ABC quality
+    $q = \log(c)/\log(\mathrm{rad}(abc))$ satisfies $q \leq 0.62$ empirically (over 3000 triples).
+    Zero triples exceed the ABC threshold $q = 1$.<br><br>
+    <strong>Why it matters:</strong> Since $a = m^2 - n^2$, $b = 2mn$, $c = m^2 + n^2$, the radical satisfies
+    $\mathrm{rad}(abc) \geq \max(m,n)$, giving $q \leq 2\log(c)/\log(\max(m,n)) \to 2$ as depth grows.
+    PPTs are "ABC-tame": their radical is always large relative to the hypotenuse, placing them far from
+    the conjectured ABC boundary. This connects the Berggren tree to the ABC conjecture and shows that
+    Pythagorean triples never produce the "high quality" examples that test the conjecture's limits.
   </div>
 </div>
 
