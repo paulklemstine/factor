@@ -2689,138 +2689,171 @@ def algebraic_square_root(relations, indices, f_coeffs, m, n, splitting_primes=N
     """
     Compute algebraic square root using Hensel lifting from an inert prime.
 
-    Uses MODULAR product tree (no exact product needed) for speed:
-    1. Find inert prime q, estimate target modulus M
-    2. Compute P mod M using modular product tree (bounded arithmetic)
-    3. Hensel lift sqrt(P) mod q -> mod M
-    4. Balanced reduction, evaluate s(m) mod n
+    Algorithm:
+    1. Compute P(x) = ∏(a_i + b_i·x) mod f(x) with EXACT integer arithmetic
+    2. Find inert prime q (f irreducible mod q, so F_q[x]/(f) is a field)
+    3. Compute s_0 = sqrt(P) in F_q[x]/(f) — unique up to sign (±)
+    4. Hensel lift: s_{k+1} from s_k using Newton iteration mod q^{2^{k+1}}
+    5. When modulus > 2·max|s_i|, balanced reduction gives exact s(x)
+    6. Verify s² = P, evaluate s(m) mod n
 
-    Yields candidate y values (mod n) for gcd(x +/- y, n).
+    Hensel lifting avoids the sign consistency problem of CRT with splitting
+    primes — there is only ONE sign choice (±) at the inert prime.
     """
     d = len(f_coeffs) - 1
 
-    # Estimate target modulus size for Hensel convergence
-    # Product P has coefficients bounded by prod(max(|a_i|,|b_i|)) over all pairs.
-    # sqrt(P) coefficients bounded by ~sqrt(max_P), so we need modulus > 2*sqrt(max_P).
-    # With k pairs each contributing ~B bits, product is ~k*B bits, sqrt is ~k*B/2 bits.
-    n_pairs = 0
-    max_ab = 1
+    # Step 1: Compute exact product P(x) in Z[x]/(f(x))
+    P = _compute_exact_product(relations, indices, f_coeffs)
+    max_P = max(abs(c) for c in P)
+    if max_P == 0:
+        return
+
+    # Step 2: Find inert prime
+    q = _find_inert_prime(f_coeffs, min_p=100)
+    if q is None:
+        return
+
+    # Step 3: Compute sqrt in F_q[x]/(f(x))
+    s0 = _sqrt_in_fqd(P, f_coeffs, q)
+    if s0 is None:
+        return
+
+    # Verify initial sqrt: s0² ≡ P mod (f, q)
+    s0_check = _poly_mul_mod_ring(s0, s0, f_coeffs, q)
+    P_mod_q = [int(c) % q for c in P]
+    if s0_check != P_mod_q:
+        return
+
+    # Step 4: Hensel lift
+    # Newton iteration for sqrt: given s with s² ≡ P mod q^k,
+    # compute s' with s'² ≡ P mod q^{2k}:
+    #   δ = (P - s²) / q^k   (exact integer division)
+    #   inv_2s = (2s)^{-1} mod (f, q^k)
+    #   s' = s + δ · inv_2s · q^k mod q^{2k}
+    #
+    # For the inverse, we lift it alongside:
+    #   t₀ = (2·s₀)^{-1} mod (f, q)  (Fermat: (2s)^{q^d-2} in F_{q^d})
+    #   t_{k+1} = t_k · (2 - 2·s_k · t_k) mod (f, q^{2^{k+1}})
+
+    # Compute initial inverse of 2·s₀ in F_q[x]/(f(x))
+    two_s0 = [(2 * c) % q for c in s0]
+    # Inverse via Fermat's little theorem: (2s)^{q^d - 2} mod (f, q)
+    inv_2s = _poly_pow_mod_ring(two_s0, q ** d - 2, f_coeffs, q)
+
+    # Current state
+    s = [int(c) for c in s0]
+    t = [int(c) for c in inv_2s]  # t ≈ (2s)^{-1}
+    modulus = q
+
+    _t_hensel = time.time()
+    # Bound: sqrt coefficients ≤ max_P, so we need modulus > 2*max_P
+    _max_P_bits = int(gmpy2.log2(max_P + 1)) + 1
+    _abort_bits = _max_P_bits * 4  # generous: 4x the P coefficient size
+    for _hensel_step in range(30):  # q^(2^30) is astronomically large
+        new_modulus = modulus * modulus  # quadratic convergence
+
+        # Compute residual: (P - s²) in Z[x]/(f(x)), then divide by modulus
+        s2 = _poly_mul_mod_zx(s, s, f_coeffs)
+        residual = [(P[i] - s2[i]) for i in range(d)]
+
+        # Check if residual is zero — then s is already exact
+        if all(r == 0 for r in residual):
+            half = modulus // 2
+            s_balanced = [c - modulus if c > half else c for c in s]
+            s2_check = _poly_mul_mod_zx(s_balanced, s_balanced, f_coeffs)
+            if s2_check == P:
+                sm = mpz(0)
+                m_pow = mpz(1)
+                for c in s_balanced:
+                    sm = (sm + mpz(c) * m_pow) % n
+                    m_pow = (m_pow * mpz(m)) % n
+                if sm != 0:
+                    yield sm
+                    yield (-sm) % n
+                return
+
+        # All residual coefficients should be divisible by modulus
+        delta = [r // modulus for r in residual]
+
+        # Correction: δ · t mod (f, modulus)  [t ≈ (2s)^{-1} mod modulus]
+        corr = _poly_mul_mod_ring(delta, t, f_coeffs, modulus)
+
+        # Update s: s' = s + corr · modulus
+        s = [(s[i] + corr[i] * modulus) % new_modulus for i in range(d)]
+
+        # Update t (inverse of 2s): t' = t · (2 - 2s' · t) mod new_modulus
+        two_s = [(2 * s[i]) % new_modulus for i in range(d)]
+        two_s_t = _poly_mul_mod_ring(two_s, t, f_coeffs, new_modulus)
+        two_minus = [(2 - two_s_t[0]) % new_modulus] + \
+                    [(-two_s_t[i]) % new_modulus for i in range(1, d)]
+        t = _poly_mul_mod_ring(t, two_minus, f_coeffs, new_modulus)
+
+        modulus = new_modulus
+
+        # Step 5: Balanced reduction and check at each step
+        half = modulus // 2
+        s_balanced = [c - modulus if c > half else c for c in s]
+
+        s2 = _poly_mul_mod_zx(s_balanced, s_balanced, f_coeffs)
+        _mod_bits = int(gmpy2.log2(modulus + 1)) + 1
+        if s2 == P:
+            sm = mpz(0)
+            m_pow = mpz(1)
+            for c in s_balanced:
+                sm = (sm + mpz(c) * m_pow) % n
+                m_pow = (m_pow * mpz(m)) % n
+            if sm != 0:
+                yield sm
+                yield (-sm) % n
+            return
+
+        # Abort if modulus far exceeds P coefficient size — P is not a square
+        if _mod_bits > _abort_bits:
+            break
+
+        # Try negation
+        s_neg = [-c for c in s_balanced]
+        s2_neg = _poly_mul_mod_zx(s_neg, s_neg, f_coeffs)
+        if s2_neg == P:
+            sm = mpz(0)
+            m_pow = mpz(1)
+            for c in s_neg:
+                sm = (sm + mpz(c) * m_pow) % n
+                m_pow = (m_pow * mpz(m)) % n
+            if sm != 0:
+                yield sm
+                yield (-sm) % n
+            return
+
+    # Hensel lifting did not converge after 30 steps — should not happen
+
+
+###############################################################################
+# Phase 5a: CRT-based Algebraic Square Root (splitting primes)
+###############################################################################
+
+def algebraic_sqrt_crt(relations, indices, f_coeffs, m, n, max_primes=60):
+    """
+    Compute algebraic square root using CRT over splitting primes.
+
+    For each splitting prime q where f splits completely:
+      1. Evaluate P(r_j) = ∏(a_i + b_i·r_j) mod q for each root r_j of f
+      2. sqrt(P(r_j)) mod q via Tonelli-Shanks (2^d sign choices)
+      3. Lagrange interpolate → sqrt(P(x)) mod q
+    Use CRT across many primes to recover exact sqrt(P(x)) in Z[x]/(f).
+    Evaluate at x=m to get algebraic sqrt mod n.
+
+    Yields candidate y values (mod n) for gcd(x ± y, n).
+    """
+    d = len(f_coeffs) - 1
+
+    # Collect (a, b) pairs from null vector
+    ab_pairs = []
     for idx in indices:
         rel = relations[idx]
         if 'a_list' in rel:
             for a_val, b_val in zip(rel['a_list'], rel['b_list']):
-                n_pairs += 1
-                max_ab = max(max_ab, abs(int(a_val)), abs(int(b_val)))
-        else:
-            n_pairs += 1
-            max_ab = max(max_ab, abs(int(rel['a'])), abs(int(rel['b'])))
-    bits_per_pair = int(math.log2(max_ab + 1)) + 1
-    target_bits = (n_pairs * bits_per_pair) // 2 + 200
-
-    # Try multiple inert primes
-    num_inert_to_try = 10 if d >= 4 else 3
-    min_p = 100
-    for _attempt in range(num_inert_to_try):
-        q = _find_inert_prime(f_coeffs, min_p=min_p)
-        if q is None:
-            break
-
-        # Compute K = number of Hensel doublings needed
-        q_bits = int(math.log2(q)) + 1
-        K = 0
-        mod_bits = q_bits
-        while mod_bits < target_bits + 10:
-            mod_bits *= 2
-            K += 1
-
-        # Final modulus = q^(2^K)
-        target_modulus = mpz(q)
-        for _ in range(K):
-            target_modulus = target_modulus * target_modulus
-
-        # Compute P mod target_modulus using modular product tree (fast!)
-        P_mod_target = _compute_product_mod(relations, indices, f_coeffs, int(target_modulus))
-        P_mod_q = [c % q for c in P_mod_target]
-
-        if all(c == 0 for c in P_mod_q):
-            min_p = q + 1
-            continue
-
-        # Compute sqrt in F_q[x]/(f(x))
-        s0 = _sqrt_in_fqd(P_mod_q, f_coeffs, q)
-        if s0 is None:
-            min_p = q + 1
-            continue
-
-        # Verify initial sqrt
-        s0_check = _poly_mul_mod_ring(s0, s0, f_coeffs, q)
-        if s0_check != P_mod_q:
-            min_p = q + 1
-            continue
-
-        # Compute initial inverse of 2*s0 via Fermat
-        two_s0 = [(2 * c) % q for c in s0]
-        inv_2s = _poly_pow_mod_ring(two_s0, q ** d - 2, f_coeffs, q)
-
-        s = [int(c) for c in s0]
-        t = [int(c) for c in inv_2s]
-        modulus = mpz(q)
-
-        converged = False
-        for step in range(K):
-            new_modulus = modulus * modulus
-            nm = int(new_modulus)
-
-            # Get P mod new_modulus from precomputed target
-            P_mod = [c % nm for c in P_mod_target]
-
-            # Compute residual: (P - s^2) mod new_modulus
-            s2_mod = _poly_mul_mod_ring(s, s, f_coeffs, nm)
-            residual = [(P_mod[i] - s2_mod[i]) % nm for i in range(d)]
-
-            if all(r == 0 for r in residual):
-                converged = True
-                break
-
-            # delta = residual / modulus
-            imod = int(modulus)
-            delta = [r // imod for r in residual]
-
-            # Correction: delta * t mod (f, modulus)
-            corr = _poly_mul_mod_ring(delta, t, f_coeffs, imod)
-
-            # Update s
-            s = [(s[i] + corr[i] * imod) % nm for i in range(d)]
-
-            # Update t (inverse of 2s)
-            two_s = [(2 * s[i]) % nm for i in range(d)]
-            two_s_t = _poly_mul_mod_ring(two_s, t, f_coeffs, nm)
-            two_minus = [(2 - two_s_t[0]) % nm] + \
-                        [(-two_s_t[i]) % nm for i in range(1, d)]
-            t = _poly_mul_mod_ring(t, two_minus, f_coeffs, nm)
-
-            modulus = new_modulus
-
-        # Balanced reduction and evaluate s(m) mod n
-        half = int(modulus) // 2
-        s_balanced = [c - int(modulus) if c > half else c for c in s]
-        sm = mpz(0)
-        m_pow = mpz(1)
-        for c in s_balanced:
-            sm = (sm + mpz(c) * m_pow) % n
-            m_pow = (m_pow * mpz(m)) % n
-        if sm != 0:
-            yield sm
-            yield (-sm) % n
-            return
-
-        min_p = q + 1
-
-    # Fallback to CRT with splitting primes
-    if splitting_primes:
-        for y_val in _algebraic_sqrt_direct_mod_n(
-                relations, indices, f_coeffs, m, n, splitting_primes):
-            yield y_val
+                ab_pairs.append((int(a_val), int(b_val)))
 
 ###############################################################################
 # Phase 5a: CRT-based Algebraic Square Root (splitting primes)
@@ -2907,29 +2940,13 @@ def algebraic_sqrt_crt(relations, indices, f_coeffs, m, n, max_primes=60):
             continue
 
         # For first prime: try all 2^d sign combinations
-        # For subsequent primes: use sign that's consistent with first
-        if not crt_moduli:
-            # First prime: store all 2^d possible interpolations
-            first_prime_options = []
-            for signs in range(1 << d):
-                sqrt_at_roots = []
-                for j in range(d):
-                    if signs & (1 << j):
-                        sqrt_at_roots.append(q - sqrt_pos[j])
-                    else:
-                        sqrt_at_roots.append(sqrt_pos[j])
-                S = _lagrange_interpolation(roots, sqrt_at_roots, q)
-                first_prime_options.append(S)
-            # We'll try each option independently
-            crt_moduli.append(q)
-            for k in range(d):
-                crt_residues[k].append([opt[k] for opt in first_prime_options])
-        else:
-            # Subsequent primes: just use positive sqrt
-            S_coeffs = _lagrange_interpolation(roots, sqrt_pos, q)
-            crt_moduli.append(q)
-            for k in range(d):
-                crt_residues[k].append(S_coeffs[k] if k < len(S_coeffs) else 0)
+        # Use positive sqrt for all primes — CRT across many primes
+        # resolves sign consistency (wrong sign gives wrong CRT result,
+        # but we try both ± at the end)
+        S_coeffs = _lagrange_interpolation(roots, sqrt_pos, q)
+        crt_moduli.append(q)
+        for k in range(d):
+            crt_residues[k].append(S_coeffs[k] if k < len(S_coeffs) else 0)
 
     if len(crt_moduli) < 3:
         return
@@ -3067,7 +3084,7 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
         # Try Hensel-based algebraic sqrt (skip for large vecs — OOM risk)
         found = False
         n_ab_pairs = sum(len(relations[i].get('a_list', [0])) for i in indices)
-        use_hensel = n_ab_pairs < 2000  # Hensel needs O(n_pairs * bits) memory
+        use_hensel = n_ab_pairs < 8000  # Hensel needs O(n_pairs * bits) memory
         for y_h in (algebraic_square_root(
                 relations, indices, f_coeffs, m, n, splitting_primes) if use_hensel else []):
             for diff in [x_val - y_h, x_val + y_h]:
