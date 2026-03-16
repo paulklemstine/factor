@@ -75,14 +75,20 @@ def _load_gnfs_sieve():
 
 # Load C lattice sieve extension
 _lattice_sieve_lib = None
+_lattice_sieve_has_verify = False  # True if gnfs_lattice_sieve_c.so with integrated verify
 def _load_lattice_sieve():
-    global _lattice_sieve_lib
+    global _lattice_sieve_lib, _lattice_sieve_has_verify
     if _lattice_sieve_lib is not None:
         return _lattice_sieve_lib
-    so_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lattice_sieve_c.so')
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # Prefer gnfs_lattice_sieve_c.so (integrated sieve+verify with GMP)
+    # Fall back to lattice_sieve_c.so (sieve-only, legacy)
+    so_path_new = os.path.join(base_dir, 'gnfs_lattice_sieve_c.so')
+    so_path_old = os.path.join(base_dir, 'lattice_sieve_c.so')
+    so_path = so_path_new if os.path.exists(so_path_new) else so_path_old
     if os.path.exists(so_path):
         _lattice_sieve_lib = ctypes.CDLL(so_path)
-        # lattice_sieve_batch: process multiple special-q in one C call
+        # lattice_sieve_batch: process multiple special-q in one C call (sieve-only)
         _lattice_sieve_lib.lattice_sieve_batch.restype = ctypes.c_int
         _lattice_sieve_lib.lattice_sieve_batch.argtypes = [
             ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # q_primes, q_roots, n_q
@@ -113,6 +119,27 @@ def _load_lattice_sieve():
             ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),
             ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),
         ]
+        # Check for integrated sieve+verify (gnfs_lattice_sieve_c.so)
+        try:
+            _lattice_sieve_lib.lattice_sieve_verify_batch.restype = ctypes.c_int
+            _lattice_sieve_lib.lattice_sieve_verify_batch.argtypes = [
+                ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # q, roots, n_q
+                ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,  # rat_p, n_rat, m
+                ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
+                ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # f_coeffs, degree
+                ctypes.c_double, ctypes.c_double,  # rat_frac, alg_frac
+                ctypes.c_int, ctypes.c_int,  # sieve_radius, sieve_height
+                ctypes.c_int64,  # lp_bound
+                ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_a, out_b
+                ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_exps, out_alg_exps
+                ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_signs, out_mask
+                ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_lp, out_alg_lp
+                ctypes.POINTER(ctypes.c_int64),  # out_sq
+                ctypes.c_int,  # max_rels
+            ]
+            _lattice_sieve_has_verify = True
+        except AttributeError:
+            _lattice_sieve_has_verify = False
     return _lattice_sieve_lib
 
 
@@ -771,7 +798,10 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
     use_c_sieve = c_lattice_lib is not None
 
     if verbose and use_c_sieve:
-        print("    Using C lattice sieve (lattice_sieve_c.so)")
+        if _lattice_sieve_has_verify:
+            print("    Using C lattice sieve + integrated verify (gnfs_lattice_sieve_c.so)")
+        else:
+            print("    Using C lattice sieve (lattice_sieve_c.so)")
 
     # Batch special-q collection for C sieve
     Q_BATCH_SIZE = 50  # process this many (q, root) pairs per C call
@@ -802,11 +832,123 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
         # Update q for next iteration
         q = int(next_prime(q_batch_primes[-1]))
 
-        if use_c_sieve:
-            # === C LATTICE SIEVE PATH ===
-            # Phase 1: C sieve generates (a,b) candidates
-            # Phase 2: C verify_candidates_c does bulk trial division with LP
-            # Phase 3: Python handles special-q exponents + QC for verified rels
+        if use_c_sieve and _lattice_sieve_has_verify:
+            # === INTEGRATED C LATTICE SIEVE + VERIFY PATH ===
+            # gnfs_lattice_sieve_c.so handles sieve + trial division + special-q
+            # division + LP detection in one C call. No 2-step sieve-then-verify.
+            n_q = len(q_batch_primes)
+            n_rat_fb = len(rat_fb)
+            n_alg_fb = len(alg_fb)
+            max_rels = 50000  # max verified relations per batch
+
+            # LP bound for cofactor acceptance
+            lp_bound = min(fb_bound * 100, fb_bound ** 2)
+
+            # Prepare ctypes arrays
+            c_q_primes = (ctypes.c_int64 * n_q)(*q_batch_primes)
+            c_q_roots = (ctypes.c_int64 * n_q)(*q_batch_roots)
+            f_coeffs_arr = np.array(f_coeffs, dtype=np.int64)
+
+            # Output buffers
+            c_out_a = (ctypes.c_int * max_rels)()
+            c_out_b = (ctypes.c_int * max_rels)()
+            v_rat_exps = np.zeros(max_rels * n_rat_fb, dtype=np.int64)
+            v_alg_exps = np.zeros(max_rels * n_alg_fb, dtype=np.int64)
+            v_signs = (ctypes.c_int * max_rels)()
+            v_mask = (ctypes.c_int * max_rels)()
+            v_rat_lp = np.zeros(max_rels, dtype=np.int64)
+            v_alg_lp = np.zeros(max_rels, dtype=np.int64)
+            c_out_q = (ctypes.c_int64 * max_rels)()
+
+            n_verified = c_lattice_lib.lattice_sieve_verify_batch(
+                c_q_primes, c_q_roots, n_q,
+                rat_primes.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                n_rat_fb, ctypes.c_int64(int(m)),
+                alg_primes.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                alg_roots.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                n_alg_fb,
+                f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                d,
+                ctypes.c_double(0.55), ctypes.c_double(0.45),
+                500000, 2000,  # sieve_radius, sieve_height max
+                ctypes.c_int64(int(lp_bound)),
+                c_out_a, c_out_b,
+                v_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                v_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                v_signs, v_mask,
+                v_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                v_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                c_out_q,
+                max_rels)
+
+            total_candidates += n_verified
+
+            if n_verified == 0:
+                if verbose:
+                    elapsed = time.time() - t0
+                    print(f"    [C integrated {n_q}q] 0 rels ({elapsed:.1f}s)")
+                continue
+
+            # Process verified relations — C already handled special-q division,
+            # trial division, and LP detection. Just add QC bits and collect.
+            rat_exps_2d = v_rat_exps.reshape(max_rels, n_rat_fb)
+            alg_exps_2d = v_alg_exps.reshape(max_rels, n_alg_fb)
+
+            batch_added = 0
+            for ci in range(n_verified):
+                mask_val = v_mask[ci]
+                if mask_val == 0:
+                    continue  # rejected
+
+                a_val = c_out_a[ci]
+                b_val = c_out_b[ci]
+                cand_q = int(c_out_q[ci])
+
+                rat_lp_val = int(v_rat_lp[ci])
+                alg_lp_val = int(v_alg_lp[ci])
+                rat_exps_list = [int(rat_exps_2d[ci, j]) for j in range(n_rat_fb)]
+                alg_exps_list = [int(alg_exps_2d[ci, j]) for j in range(n_alg_fb)]
+                sign_val = int(v_signs[ci])
+
+                # C code already divided out special-q from algebraic norm.
+                # mask=1: both sides fully smooth (after q removal)
+                # mask=2: rat has LP, alg smooth
+                # mask=3: rat smooth, alg has LP
+                # mask=4: both have LP (DLP)
+                has_rat_lp = (rat_lp_val != 0)
+                has_alg_lp = (alg_lp_val != 0)
+
+                # Skip DLP (both sides have LP) — too complex
+                if has_rat_lp and has_alg_lp:
+                    continue
+
+                qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
+                if inert_qc_primes:
+                    qc_bits += compute_inert_qc_vector(
+                        a_val, b_val, inert_qc_primes, f_coeffs)
+
+                if cand_q not in sq_map:
+                    sq_map[cand_q] = sq_col_idx
+                    sq_col_idx += 1
+
+                verified.append({
+                    'a': a_val, 'b': b_val,
+                    'rat_exps': rat_exps_list, 'rat_sign': sign_val,
+                    'alg_exps': alg_exps_list,
+                    'qc_bits': qc_bits,
+                    'special_q': cand_q,
+                    'sq_col': sq_map[cand_q],
+                    'sq_exp': 1,  # C code verified q | norm
+                })
+                batch_added += 1
+
+            if verbose:
+                elapsed = time.time() - t0
+                print(f"    [C integrated {n_q}q] +{batch_added} rels -> "
+                      f"{len(verified)}/{needed} ({elapsed:.1f}s)")
+
+        elif use_c_sieve:
+            # === LEGACY C LATTICE SIEVE PATH (sieve-only, separate verify) ===
             n_q = len(q_batch_primes)
             max_cands = 200000
 
@@ -899,69 +1041,32 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
                         b_val = chunk_b[ci]
                         cand_q = int(c_out_q[chunk_start + ci])
 
-                        # For lattice sieve: the C verify treats the full alg norm,
-                        # but we need to account for special-q division.
-                        # The alg_lp from C verify may actually be q or q*cofactor.
-                        # We need: alg norm is divisible by q, and cofactor is smooth or LP.
-                        #
-                        # C verify found: norm = product(FB primes) * alg_lp_remainder
-                        # For lattice sieve: norm should be divisible by q.
-                        # Check: if alg_lp == 0 (fully smooth over FB), q must divide
-                        #   one of the FB prime powers — which is possible if q < B.
-                        #   But q > B by design, so the q factor is in the remainder.
-                        #
-                        # Cases:
-                        #   mask=1 (full smooth): impossible for lattice sieve since q > B
-                        #     UNLESS q divides the norm via the FB (q in FB range) — skip
-                        #   mask=2 (rat LP): alg side fully smooth — q must be in FB, skip
-                        #   mask=3 (alg LP): alg_lp should be q (or q*small)
-                        #   mask=4 (DLP): alg_lp could contain q
-
                         rat_lp_val = int(v_rat_lp[ci])
                         alg_lp_val = int(v_alg_lp[ci])
                         rat_exps_list = [int(rat_exps_2d[ci, j]) for j in range(n_rat_fb)]
                         alg_exps_list = [int(alg_exps_2d[ci, j]) for j in range(n_alg_fb)]
                         sign_val = int(v_signs[ci])
 
-                        # Handle special-q in algebraic remainder.
-                        # The C verify sees the FULL alg norm (with q in it).
-                        # Since q > FB_bound, q cannot be in the FB. So:
-                        #   mask=1: alg fully smooth over FB — impossible, q missing
-                        #   mask=2: alg fully smooth, rat has LP — impossible, q missing
-                        #   mask=3: alg has LP = alg_lp_val. If LP == q, fully smooth after q.
-                        #   mask=4: both have LP. If alg LP == q, becomes SLP (rat LP only).
-                        # Skip mask=1,2 as false positives (q not accounted for).
+                        # Handle special-q in algebraic remainder (legacy path).
                         if mask_val in (1, 2):
                             continue  # q > FB, can't be fully smooth on alg side
                         elif mask_val == 3:
-                            # Alg LP should be q (norm = FB_primes * q)
                             if alg_lp_val == cand_q:
                                 sq_exp = 1
-                                alg_lp_val = 0  # consumed by special-q
+                                alg_lp_val = 0
                             else:
-                                continue  # LP != q, false positive
+                                continue
                         elif mask_val == 4:
-                            # DLP: alg LP should be q, leaving rat LP only
                             if alg_lp_val == cand_q:
                                 sq_exp = 1
-                                alg_lp_val = 0  # consumed by special-q
+                                alg_lp_val = 0
                             else:
-                                continue  # LP != q
+                                continue
                         else:
                             continue
 
-                        # After q removal, classify the relation
-                        # C verify already did full trial division; the LP
-                        # values are cofactors that didn't divide over FB.
-                        # For lattice sieve:
-                        #   - rat_lp_val: rational cofactor (0 if smooth)
-                        #   - alg_lp_val: algebraic cofactor after q removal (0 if smooth)
-                        # We accept: fully smooth, SLP (one side has LP), or skip DLP
-
                         has_rat_lp = (rat_lp_val != 0)
                         has_alg_lp = (alg_lp_val != 0)
-
-                        # Skip DLP (both sides have LP) — too complex for lattice sieve
                         if has_rat_lp and has_alg_lp:
                             continue
 
