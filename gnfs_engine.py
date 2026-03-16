@@ -55,6 +55,22 @@ def _load_gnfs_sieve():
             ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_signs, out_mask
             ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_lp, out_alg_lp
         ]
+        # Register combined sieve+verify (sieve-informed verification)
+        _gnfs_sieve_lib.sieve_and_verify_c.restype = ctypes.c_int
+        _gnfs_sieve_lib.sieve_and_verify_c.argtypes = [
+            ctypes.c_int, ctypes.c_int, ctypes.c_int,  # b_start, b_end, A
+            ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,  # rat_primes, n_rat, m
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,  # alg_p, alg_r, n_alg
+            ctypes.c_int, ctypes.c_int,  # rat_frac_x1000, alg_frac_x1000
+            ctypes.c_int, ctypes.c_int64, ctypes.c_int64,  # poly_degree, f0_abs, fd_abs
+            ctypes.POINTER(ctypes.c_int64),  # f_coeffs
+            ctypes.c_int64,  # lp_bound
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_a, out_b
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_exps, out_alg_exps
+            ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),  # out_signs, out_mask
+            ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),  # out_rat_lp, out_alg_lp
+            ctypes.c_int,  # max_cands
+        ]
     return _gnfs_sieve_lib
 
 # Load C lattice sieve extension
@@ -2880,16 +2896,8 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             n_split_qc = len(qc_primes)
             batch_qc = np.zeros((max_cands_verify, n_split_qc), dtype=np.int64)
 
-            # If JIT covers < 10% of b-range, use C verify for everything
-            use_c_verify_only = (max_safe_b < B_max * 0.1)
-            if use_c_verify_only:
-                max_safe_b = 0  # force all to C verify path
-
-            if verbose and max_safe_b < B_max:
-                if use_c_verify_only:
-                    print(f"    Using C __int128 verify for all b (int64 overflow at b>{max_safe_b})")
-                else:
-                    print(f"    Batch JIT safe for b≤{max_safe_b}, C verify for b>{max_safe_b}")
+            if verbose:
+                print(f"    Using sieve-informed C verify (__int128, hit-guided trial division)")
 
             # Two-phase sieve: large A for small b (norms manageable), normal A for rest
             # Phase 1: b=1..phase1_b_max, A_large, batch_size=1 (avoid max_cands overflow)
@@ -2920,101 +2928,51 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                 if time.time() - t0 > time_limit:
                     break
 
-                n_cands = c_lib.sieve_batch_c(
+                # Use combined sieve+verify (sieve-informed verification)
+                # This records which FB primes hit each sieve position during the sieve,
+                # then only trial-divides those primes (~30 per candidate vs ~14K brute force).
+                rat_frac_x1000 = max(700, 1100 - nd * 5)
+                alg_frac_x1000 = max(600, 1000 - nd * 5)
+
+                n_verified = c_lib.sieve_and_verify_c(
                     b_start, b_end, A_use,
                     rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     len(rat_fb), ctypes.c_int64(int(m)),
                     alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                     len(alg_fb),
-                    max(700, 1100 - nd * 5), max(600, 1000 - nd * 5),
+                    rat_frac_x1000, alg_frac_x1000,
                     d, ctypes.c_int64(f0_abs), ctypes.c_int64(fd_abs),
-                    out_a, out_b, max_cands)
+                    f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    ctypes.c_int64(int(lp_bound)),
+                    out_a, out_b,
+                    c_verify_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    c_verify_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    c_verify_signs, c_verify_mask,
+                    c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                    max_cands_verify)
 
-                if n_cands == 0:
-                    continue
-
-                def _process_batch_jit(a_np, b_np, n_c):
-                    """Process candidates via batch JIT."""
-                    nonlocal total_partials
-                    batch_mask[:n_c] = 0
-                    batch_rat_lp[:n_c] = 0
-                    batch_alg_lp[:n_c] = 0
-
-                    _jit_batch_verify(a_np, b_np, n_c, np.int64(int(m)),
-                                      f_coeffs_arr, np.int64(d),
-                                      rat_p_arr, alg_p_arr, alg_r_arr,
-                                      batch_rat_exps, batch_alg_exps,
-                                      batch_signs, batch_mask,
-                                      batch_rat_lp, batch_alg_lp, lp_bound)
-
-                    batch_qc[:n_c] = 0
-                    _jit_compute_qc_batch(a_np, b_np, batch_mask, n_c,
-                                           qc_q_arr, qc_r_arr, n_split_qc, batch_qc)
-
-                    have_enough_full = len(verified_relations) >= needed
-                    for ci in range(n_c):
-                        if batch_mask[ci] == 0:
-                            continue
-                        a_val = int(a_np[ci])
-                        b_val = int(b_np[ci])
-                        mtype = int(batch_mask[ci])
-                        if mtype == 1:
-                            # Full relation: compute all QC
-                            qc_bits = batch_qc[ci, :n_split_qc].tolist()
-                            if inert_qc_primes:
-                                qc_bits += compute_inert_qc_vector(
-                                    a_val, b_val, inert_qc_primes, f_coeffs)
-                            verified_relations.append({
-                                'a': a_val, 'b': b_val,
-                                'rat_exps': batch_rat_exps[ci].tolist(),
-                                'rat_sign': int(batch_signs[ci]),
-                                'alg_exps': batch_alg_exps[ci].tolist(),
-                                'qc_bits': qc_bits,
-                            })
-                        elif not have_enough_full and total_partials < max_partials:
-                            # Partial: compact storage (int8 exps to save memory)
-                            qc_bits = batch_qc[ci, :n_split_qc].tolist()
-                            rel = {
-                                'a': a_val, 'b': b_val,
-                                'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
-                                'rat_sign': int(batch_signs[ci]),
-                                'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
-                                'qc_bits': qc_bits,
-                                '_needs_inert_qc': True,
-                            }
-                            if mtype == 3:
-                                # Group by ideal (p, r) not just p
-                                alp = int(batch_alg_lp[ci])
-                                r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
-                                partials_alg[(alp, r_ideal)].append(rel)
-                            elif mtype == 2:
-                                partials_rat[int(batch_rat_lp[ci])].append(rel)
-                            elif mtype == 4:
-                                # DLP: both sides have LP
-                                rel['rat_lp'] = int(batch_rat_lp[ci])
-                                rel['alg_lp'] = int(batch_alg_lp[ci])
-                                partials_dlp.append(rel)
-                            total_partials += 1
-
-                a_np_full = np.array(out_a[:n_cands], dtype=np.int64)
-                b_np_full = np.array(out_b[:n_cands], dtype=np.int64)
-
-                # Process in chunks of max_cands_verify to stay within memory
-                for chunk_start in range(0, n_cands, max_cands_verify):
-                    chunk_end = min(chunk_start + max_cands_verify, n_cands)
-                    chunk_n = chunk_end - chunk_start
-                    a_np = a_np_full[chunk_start:chunk_end]
-                    b_np = b_np_full[chunk_start:chunk_end]
-
-                    if b_end <= max_safe_b and A_use == A:
-                        _process_batch_jit(a_np, b_np, chunk_n)
-                    else:
-                        # C __int128 verify path for large b values
-                        # Need ctypes arrays for the chunk
+                if n_verified < 0:
+                    # Memory allocation failed in C — fall back to old sieve+verify
+                    n_cands = c_lib.sieve_batch_c(
+                        b_start, b_end, A_use,
+                        rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        len(rat_fb), ctypes.c_int64(int(m)),
+                        alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                        len(alg_fb),
+                        rat_frac_x1000, alg_frac_x1000,
+                        d, ctypes.c_int64(f0_abs), ctypes.c_int64(fd_abs),
+                        out_a, out_b, max_cands)
+                    if n_cands == 0:
+                        continue
+                    # Brute-force verify fallback
+                    for chunk_start in range(0, n_cands, max_cands_verify):
+                        chunk_end = min(chunk_start + max_cands_verify, n_cands)
+                        chunk_n = chunk_end - chunk_start
                         chunk_out_a = (ctypes.c_int * chunk_n)(*[out_a[chunk_start + i] for i in range(chunk_n)])
                         chunk_out_b = (ctypes.c_int * chunk_n)(*[out_b[chunk_start + i] for i in range(chunk_n)])
-
                         c_lib.verify_candidates_c(
                             chunk_out_a, chunk_out_b, chunk_n,
                             ctypes.c_int64(int(m)),
@@ -3032,53 +2990,75 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                             c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                             c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
                         )
+                        n_verified = chunk_n  # process all candidates from brute-force
 
-                        have_enough_full = len(verified_relations) >= needed
-                        for ci in range(chunk_n):
-                            mtype = c_verify_mask[ci]
-                            if mtype == 0:
-                                continue
-                            a_val = int(a_np[ci])
-                            b_val = int(b_np[ci])
-                            # Read from 2D view (same memory as flattened)
-                            rat_exps = batch_rat_exps[ci].tolist()
-                            alg_exps = batch_alg_exps[ci].tolist()
-                            rat_sign = int(c_verify_signs[ci])
+                if n_verified == 0:
+                    continue
 
-                            if mtype == 1:
-                                # Full relation
-                                qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
-                                if inert_qc_primes:
-                                    qc_bits += compute_inert_qc_vector(
-                                        a_val, b_val, inert_qc_primes, f_coeffs)
-                                verified_relations.append({
-                                    'a': a_val, 'b': b_val,
-                                    'rat_exps': rat_exps, 'rat_sign': rat_sign,
-                                    'alg_exps': alg_exps,
-                                    'qc_bits': qc_bits,
-                                })
-                            elif not have_enough_full and total_partials < max_partials:
-                                # Partial relation (SLP) — compact int8 exps
-                                qc_bits = compute_qc_vector(a_val, b_val, qc_primes)
-                                rel = {
-                                    'a': a_val, 'b': b_val,
-                                    'rat_exps': batch_rat_exps[ci].astype(np.int8).copy(),
-                                    'rat_sign': rat_sign,
-                                    'alg_exps': batch_alg_exps[ci].astype(np.int8).copy(),
-                                    'qc_bits': qc_bits,
-                                    '_needs_inert_qc': True,
-                                }
-                                if mtype == 3:
-                                    alp = int(c_verify_alg_lp[ci])
-                                    r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
-                                    partials_alg[(alp, r_ideal)].append(rel)
-                                elif mtype == 2:
-                                    partials_rat[int(c_verify_rat_lp[ci])].append(rel)
-                                elif mtype == 4:
-                                    rel['rat_lp'] = int(c_verify_rat_lp[ci])
-                                    rel['alg_lp'] = int(c_verify_alg_lp[ci])
-                                    partials_dlp.append(rel)
-                                total_partials += 1
+                # Process verified results — read from c_verify buffers
+                n_rat_fb = len(rat_fb)
+                n_alg_fb = len(alg_fb)
+                # Reshape exponent arrays for indexed access
+                sv_rat_exps = c_verify_rat_exps.reshape(-1, n_rat_fb)
+                sv_alg_exps = c_verify_alg_exps.reshape(-1, n_alg_fb)
+
+                # Build a_np/b_np for QC computation
+                n_to_process = min(n_verified, max_cands_verify)
+                a_np = np.array(out_a[:n_to_process], dtype=np.int64)
+                b_np = np.array(out_b[:n_to_process], dtype=np.int64)
+
+                # Compute QC bits in batch for verified candidates
+                # Use batch_mask view from c_verify_mask
+                batch_mask_np = np.array(c_verify_mask[:n_to_process], dtype=np.int64)
+                batch_qc[:n_to_process] = 0
+                _jit_compute_qc_batch(a_np, b_np, batch_mask_np, n_to_process,
+                                       qc_q_arr, qc_r_arr, n_split_qc, batch_qc)
+
+                have_enough_full = len(verified_relations) >= needed
+                for ci in range(n_to_process):
+                    mtype = c_verify_mask[ci]
+                    if mtype == 0:
+                        continue
+                    a_val = int(a_np[ci])
+                    b_val = int(b_np[ci])
+                    rat_exps = sv_rat_exps[ci].tolist()
+                    alg_exps = sv_alg_exps[ci].tolist()
+                    rat_sign = int(c_verify_signs[ci])
+
+                    if mtype == 1:
+                        # Full relation
+                        qc_bits = batch_qc[ci, :n_split_qc].tolist()
+                        if inert_qc_primes:
+                            qc_bits += compute_inert_qc_vector(
+                                a_val, b_val, inert_qc_primes, f_coeffs)
+                        verified_relations.append({
+                            'a': a_val, 'b': b_val,
+                            'rat_exps': rat_exps, 'rat_sign': rat_sign,
+                            'alg_exps': alg_exps,
+                            'qc_bits': qc_bits,
+                        })
+                    elif not have_enough_full and total_partials < max_partials:
+                        # Partial relation (SLP) - compact int8 exps
+                        qc_bits = batch_qc[ci, :n_split_qc].tolist()
+                        rel = {
+                            'a': a_val, 'b': b_val,
+                            'rat_exps': sv_rat_exps[ci].astype(np.int8).copy(),
+                            'rat_sign': rat_sign,
+                            'alg_exps': sv_alg_exps[ci].astype(np.int8).copy(),
+                            'qc_bits': qc_bits,
+                            '_needs_inert_qc': True,
+                        }
+                        if mtype == 3:
+                            alp = int(c_verify_alg_lp[ci])
+                            r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
+                            partials_alg[(alp, r_ideal)].append(rel)
+                        elif mtype == 2:
+                            partials_rat[int(c_verify_rat_lp[ci])].append(rel)
+                        elif mtype == 4:
+                            rel['rat_lp'] = int(c_verify_rat_lp[ci])
+                            rel['alg_lp'] = int(c_verify_alg_lp[ci])
+                            partials_dlp.append(rel)
+                        total_partials += 1
 
                 # Estimate total with SLP + DLP matching
                 n_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values())
