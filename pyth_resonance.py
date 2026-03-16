@@ -70,6 +70,12 @@ def _load_c_lib():
         ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int),
         ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
     ]
+    lib.update_offsets.restype = None
+    lib.update_offsets.argtypes = [
+        ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_int,
+    ]
     _c_lib = lib
     return lib
 
@@ -134,8 +140,8 @@ def _encode_128(val):
 ###############################################################################
 
 def _py_trial_divide(val, fb, fb_size):
-    """Trial divide |val| by factor base. Returns (exps_list, cofactor)."""
-    v = abs(val)
+    """Trial divide |val| by factor base using gmpy2 mpz. Returns (exps_list, cofactor)."""
+    v = mpz(abs(val))
     exps = [0] * fb_size
     for i in range(fb_size):
         p = fb[i]
@@ -153,6 +159,7 @@ def _py_trial_divide(val, fb, fb_size):
                 v = q
                 q, r = divmod(v, p)
             exps[i] = e
+    v = int(v)
     if v > 1 and v <= fb[-1]:
         lo, hi = 0, fb_size - 1
         while lo <= hi:
@@ -476,10 +483,13 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
 
     t0 = time.time()
 
-    # Knuth-Schroeppel multiplier — disabled for now (extraction needs work)
-    k_mult = 1
-    kN = N
-    kN_int = N_int
+    # Knuth-Schroeppel multiplier for 60d+ where FB density matters
+    if nd >= 60:
+        k_mult = _ks_select_multiplier(N, verbose=verbose)
+    else:
+        k_mult = 1
+    kN = N * k_mult
+    kN_int = int(kN)
 
     # Load C library
     try:
@@ -665,23 +675,47 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
             return None
 
         # Split candidates: C vs Python
+        # For values > 128 bits, pre-reduce by dividing out small primes
+        # to bring them into C range. Track extra exponents separately.
         c_indices = []
         py_indices = []
+        pre_exps = {}  # ci -> list of (fb_index, count)
         for ci in range(n_cand):
             gx = gx_list[ci]
             if gx == 0:
                 g = gcd(mpz(axb_list[ci]), kN)
                 if 1 < g < kN:
-                    # Factor of kN found
                     g_int = int(g)
-                    # Check if it's a factor of N
                     gN = gcd(mpz(g_int), N)
                     if 1 < gN < N:
                         return int(gN)
             elif -MAX_128 <= gx <= MAX_128:
                 c_indices.append(ci)
             else:
-                py_indices.append(ci)
+                # Pre-reduce: divide by small FB primes to fit in 128 bits
+                v = gx if gx > 0 else -gx
+                extras = []
+                for pi in range(min(fb_size, 200)):  # try first 200 FB primes
+                    p = fb[pi]
+                    q, r = divmod(v, p)
+                    if r == 0:
+                        e = 1
+                        v = q
+                        q, r = divmod(v, p)
+                        while r == 0:
+                            e += 1
+                            v = q
+                            q, r = divmod(v, p)
+                        extras.append((pi, e))
+                    if v <= MAX_128:
+                        break
+                if v <= MAX_128:
+                    # Store reduced value, remember sign
+                    gx_list[ci] = v if gx > 0 else -v
+                    pre_exps[ci] = extras
+                    c_indices.append(ci)
+                else:
+                    py_indices.append(ci)
 
         # C batch trial division
         n_c = len(c_indices)
@@ -706,24 +740,23 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
                 ci = c_indices[idx]
                 ax_b = axb_list[ci]
                 sign = c_td_signs[idx]
-                cofactor = c_td_cofactors[idx]
+                cofactor = int(c_td_cofactors[idx])
 
                 exps = [0] * fb_size
                 base = idx * fb_size
                 for j in range(fb_size):
                     exps[j] = c_td_exps[base + j] + a_prime_exps[j]
+                # Add back pre-reduction exponents for overflow values
+                if ci in pre_exps:
+                    for pi, e in pre_exps[ci]:
+                        exps[pi] += e
 
                 x_stored = int(mpz(ax_b) % kN_int)
 
                 if status == 1:
                     dlp_graph.add_smooth(x_stored, sign, exps)
                 elif status == 2:
-                    lp = int(cofactor)
-                    result = dlp_graph.add_single_lp(x_stored, sign, exps, lp)
-                    if result is not None and isinstance(result, int):
-                        gN = int(gcd(mpz(result), N))
-                        if 1 < gN < N_int:
-                            return gN
+                    dlp_graph.add_single_lp(x_stored, sign, exps, cofactor)
 
         # Python fallback for overflow candidates
         for ci in py_indices:
@@ -738,11 +771,13 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
                 dlp_graph.add_smooth(x_stored, sign, exps)
             elif 1 < cofactor <= lp_bound:
                 if is_prime(cofactor):
-                    result = dlp_graph.add_single_lp(x_stored, sign, exps, int(cofactor))
-                    if result is not None and isinstance(result, int):
-                        gN = int(gcd(mpz(result), N))
-                        if 1 < gN < N_int:
-                            return gN
+                    dlp_graph.add_single_lp(x_stored, sign, exps, int(cofactor))
+            elif 1 < cofactor <= dlp_bound:
+                f1 = _quick_factor(int(cofactor), limit=300)
+                if f1 is not None and f1 > 1:
+                    f2 = int(cofactor) // f1
+                    if f1 <= lp_bound and f2 <= lp_bound and is_prime(f1) and is_prime(f2):
+                        dlp_graph.add_double_lp(x_stored, sign, exps, int(f1), int(f2))
 
         return None
 
@@ -906,9 +941,15 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
 
         # --- Gray code B-switching for remaining 2^(s-1)-1 polynomials ---
         signs = [1] * s
-        # Store offsets as Python lists for fast incremental update
-        off1 = [c_offsets1[i] for i in range(fb_size)]
-        off2 = [c_offsets2[i] for i in range(fb_size)]
+
+        # Pre-build C delta arrays for each B_value
+        c_deltas = []
+        for j in range(s):
+            c_d = (ctypes.c_int * fb_size)(*deltas[j])
+            c_deltas.append(c_d)
+
+        # C is_a_prime flag array
+        c_is_a = (ctypes.c_int * fb_size)(*[1 if f else 0 for f in is_a_prime_flag])
 
         for gray_val, flip_bit, flip_dir in gray_seq:
             if dlp_graph.num_smooth >= needed:
@@ -933,26 +974,9 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
             b_int = int(b)
             c_int = int(c)
 
-            # Incremental offset update: only for non-a-primes
-            delta_j = deltas[j]
-            if offset_dir > 0:
-                for pi in range(fb_size):
-                    if is_a_prime_flag[pi]:
-                        continue
-                    p = fb[pi]
-                    if off1[pi] >= 0:
-                        off1[pi] = (off1[pi] + delta_j[pi]) % p
-                    if off2[pi] >= 0:
-                        off2[pi] = (off2[pi] + delta_j[pi]) % p
-            else:
-                for pi in range(fb_size):
-                    if is_a_prime_flag[pi]:
-                        continue
-                    p = fb[pi]
-                    if off1[pi] >= 0:
-                        off1[pi] = (off1[pi] - delta_j[pi]) % p
-                    if off2[pi] >= 0:
-                        off2[pi] = (off2[pi] - delta_j[pi]) % p
+            # C-accelerated incremental offset update
+            clib.update_offsets(c_offsets1, c_offsets2, c_deltas[j],
+                               c_fb_primes, c_is_a, fb_size, offset_dir)
 
             # Recompute offsets for a-primes (only s primes, s~8)
             for pi in a_prime_idx:
@@ -960,31 +984,25 @@ def b3mpqs_factor(N, verbose=True, time_limit=3600):
                 if p == 2:
                     g0 = c_int % 2
                     g1 = (a_int + 2 * b_int + c_int) % 2
-                    off1[pi] = -1
-                    off2[pi] = -1
+                    c_offsets1[pi] = -1
+                    c_offsets2[pi] = -1
                     if g0 == 0:
-                        off1[pi] = M % 2
+                        c_offsets1[pi] = M % 2
                         if g1 == 0:
-                            off2[pi] = (M + 1) % 2
+                            c_offsets2[pi] = (M + 1) % 2
                     elif g1 == 0:
-                        off1[pi] = (M + 1) % 2
+                        c_offsets1[pi] = (M + 1) % 2
                     continue
                 b2 = (2 * b_int) % p
                 if b2 == 0:
-                    off1[pi] = -1
-                    off2[pi] = -1
+                    c_offsets1[pi] = -1
+                    c_offsets2[pi] = -1
                     continue
                 b2_inv = pow(b2, -1, p)
                 c_mod = c_int % p
                 r = (-c_mod * b2_inv) % p
-                off1[pi] = (r + M) % p
-                off2[pi] = -1
-
-            # Copy to C arrays
-            if use_c:
-                for pi in range(fb_size):
-                    c_offsets1[pi] = off1[pi]
-                    c_offsets2[pi] = off2[pi]
+                c_offsets1[pi] = (r + M) % p
+                c_offsets2[pi] = -1
 
             result = _process_poly(a_int, b_int, c_int, a_prime_exps)
             if result is not None:
