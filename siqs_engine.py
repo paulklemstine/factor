@@ -501,6 +501,57 @@ def _quick_factor(n, limit=50):
 
 
 ###############################################################################
+# BLOOM FILTER for Large Prime Pre-Filtering
+###############################################################################
+
+class BloomFilter:
+    """
+    Simple bit-array Bloom filter with k=7 hash functions.
+    Used as a pre-filter before expensive dict lookups in LP matching.
+
+    Properties:
+      - ZERO false negatives (100% recall): if add(x) was called, maybe_contains(x) is True
+      - Low false positive rate (~0.2% at typical load): reduces unnecessary dict lookups
+      - 8KB memory (2^16 bits) vs potentially megabytes for the hash table
+    """
+
+    __slots__ = ('_bits', '_mask', '_k')
+
+    def __init__(self, num_bits_log2=16, k=7):
+        # Use a bytearray as bit storage: 2^num_bits_log2 bits
+        self._mask = (1 << num_bits_log2) - 1
+        self._bits = bytearray(1 << (num_bits_log2 - 3))  # num_bits / 8 bytes
+        self._k = k
+
+    def _hashes(self, key):
+        """Generate k hash positions using double-hashing scheme.
+        h_i(key) = (h1 + i * h2) mod m, where h1 and h2 are derived from the key.
+        This gives uniform, independent-like hash functions for integer keys."""
+        # Two base hashes using multiplicative hashing with golden-ratio-derived constants
+        key = int(key)
+        h1 = (key * 0x9E3779B97F4A7C15) & 0xFFFFFFFFFFFFFFFF  # Knuth multiplicative
+        h2 = (key * 0x517CC1B727220A95) & 0xFFFFFFFFFFFFFFFF  # secondary constant
+        h2 |= 1  # ensure h2 is odd (co-prime with power-of-2 table size)
+        mask = self._mask
+        for i in range(self._k):
+            yield (h1 + i * h2) & mask
+
+    def add(self, key):
+        """Add a key to the Bloom filter."""
+        bits = self._bits
+        for pos in self._hashes(key):
+            bits[pos >> 3] |= (1 << (pos & 7))
+
+    def maybe_contains(self, key):
+        """Check if key might be in the set. False = definitely not, True = maybe."""
+        bits = self._bits
+        for pos in self._hashes(key):
+            if not (bits[pos >> 3] & (1 << (pos & 7))):
+                return False
+        return True
+
+
+###############################################################################
 # DOUBLE LARGE PRIME GRAPH
 ###############################################################################
 
@@ -524,6 +575,10 @@ class DoubleLargePrimeGraph:
         self.n = n
         self.fb_size = fb_size
         self.lp_bound = lp_bound
+
+        # Bloom filter pre-check for SLP matching (128KB, k=7)
+        # 2^20 bits handles up to ~75K items with <1% FPR
+        self.slp_bloom = BloomFilter(num_bits_log2=20, k=7)
 
         # Single large prime partials: lp -> (x, sign, exps)
         self.slp_partials = {}
@@ -594,7 +649,8 @@ class DoubleLargePrimeGraph:
         On the x side: x_combined = x1 * x2 * v^(-1) mod n.
         """
         lp = int(lp)
-        if lp in self.slp_partials:
+        # Bloom filter pre-check: skip expensive dict lookup if LP definitely unseen
+        if self.slp_bloom.maybe_contains(lp) and lp in self.slp_partials:
             ox, os, oe = self.slp_partials[lp]
             try:
                 v_inv = pow(lp, -1, int(self.n))
@@ -614,6 +670,7 @@ class DoubleLargePrimeGraph:
             else:
                 self.num_dupes += 1
         else:
+            self.slp_bloom.add(lp)
             self.slp_partials[lp] = (x, sign, exps)
         return None
 
