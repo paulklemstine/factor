@@ -375,3 +375,66 @@ convergence — birthday paradox depends on #points visited, not distance covere
 Original benefit was from eliminating mpz_mod for jump index, which mpn_ (fe_t)
 already provides via direct limb read. Precomputation cost (~1s for 4096 ap_add)
 dominates at medium bit sizes with no convergence benefit.
+
+### Shared-Memory Multi-Process Kangaroo [MERGED 2026-03-15]
+**Result**: 2.2-3.1x speedup (6 workers, scaling with problem size)
+**Why it worked**: Van Oorschot-Wiener parallelism — all workers share a single
+mmap'd DP table, giving near-linear speedup. Lock-free CAS inserts with two-phase
+CLAIMING→READY protocol. 128-bit positions. NK=2 per worker (1T+1W) is optimal
+because the shared table provides the birthday pool.
+36b: 0.24s, 40b: 3.4s, 44b: 7.3s, 48b: 38s
+
+---
+
+## Factoring Theorem Transfer Experiments [ALL FAILED 2026-03-15]
+
+Six hypotheses tested in parallel to determine if Pythagorean tree theorems
+(spectral gap, B3 AP, Pell convergents, smoothness, multi-birthday, orbits)
+can break the O(√N) barrier for ECDLP. All rejected.
+
+### H_SPECTRAL: Berggren Expander Walk [FAILED 2026-03-15]
+**Result**: 0.64x average (WORSE). Steps: 28b 67K vs 24K standard.
+**Why failed**: Kangaroo convergence is a birthday problem, not a mixing problem.
+Spectral gap mixes the (m,n) auxiliary state, not the EC walk. Walk quality
+depends on jump SPREAD shape, not algebraic source. Confirms H1/H2 pattern.
+
+### H_B3AP: B3 Arithmetic Progression BSGS [FAILED 2026-03-15]
+**Result**: 2-3x worse than standard BSGS at all sizes (24-32b).
+**Why failed**: Quadratic spacing c_k=4k²+8k+5 creates gaps exceeding giant step
+range for k > M/8. Standard BSGS's dense grid (all i*M+j) has zero gaps and
+achieves perfect M² coverage from 2M operations. No O(N^{1/3}) shortcut exists.
+
+### H_PELL: Pell Number Jump Table [FAILED 2026-03-15]
+**Result**: Ties Lévy table (within noise at 28-36b). No improvement.
+**Why failed**: Pell numbers produce exponential spread (base 2.414), same shape
+as existing Lévy table. The "worst rational approximation" property (3-distance
+theorem) is irrelevant to integer jump magnitudes in random walks.
+
+### H_SMOOTH: Smooth Coordinate Batch-GCD [FAILED 2026-03-15]
+**Result**: Zero nontrivial GCDs across all trials. Zero matches.
+**Why failed**: EC scalar multiplication is a pseudorandom permutation — it
+completely destroys the number-theoretic structure of the scalar. x-coordinates
+are uniform in F_p regardless of scalar's algebraic properties. Smoothness
+amplification helps factoring (same ring) but not ECDLP (different group).
+**THIS IS THE FUNDAMENTAL REASON ECDLP IS HARD.**
+
+### H_MULTIBDAY: Multi-Dimensional Birthday [FAILED 2026-03-15]
+**Result**: 2.8x worse due to per-point cost.
+**Why failed**: Only ~5 unique scalars per tree node (not 12, heavy overlap).
+Each scalar_mult costs 14x vs incremental EC add. The sqrt(5)=2.2x birthday
+advantage cannot compensate for the 14x per-point penalty.
+
+### H_ORBIT: Matrix Orbit Period Attack [FAILED 2026-03-15]
+**Result**: Three independent barriers kill the approach.
+**Why failed**: (1) B1/B3 are unipotent (order=p, not smooth). (2) B2's order
+mod n has 232-bit composite cofactor. (3) No homomorphism from EC group to
+GL(3,F_n) — solving matrix DLP tells nothing about EC scalar k. Matrix DLP
+itself is L_p[1/3] ~ 2^100, harder than 2^128 generic EC DLP.
+
+### Master Conclusion (2026-03-15)
+All Pythagorean tree theorems (spectral gaps, smoothness amplification, B3 AP,
+Pell convergents, multi-birthday, orbit structure) help factoring because
+factoring operates in the SAME RING where the structure lives. ECDLP operates
+in the EC group where scalar multiplication scrambles all structure. The only
+ECDLP improvements are: (1) engineering (shared DP, GPU, batch inversion),
+(2) curve-specific endomorphisms (GLV Z/6), (3) hardware parallelism.
