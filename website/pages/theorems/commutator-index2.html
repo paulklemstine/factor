@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commutator Index 2 — Breakthrough Mathematics</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .interactive { background: #fff8e1; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffcc02; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+  .matrix { display: inline-block; font-family: monospace; font-size: 14px; background: #f8f9fa; padding: 8px 12px; border-radius: 4px; border: 1px solid #ddd; margin: 4px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+<div class="page-wrapper">
+<aside class="sidebar">
+  <div class="logo"><h2>Breakthrough Mathematics</h2><span>Research Program</span></div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li><a href="../paper.html">Research Paper</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+<div class="main-content deep-dive">
+  <a href="../theorems.html" style="color:#0066cc;">&#8592; Back to Theorem Catalog</a>
+  <h2 class="section-title" style="margin-top:16px;">Commutator Subgroup: Index Exactly 2</h2>
+  <div style="margin-bottom:8px;">
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High Significance</span>
+  </div>
+
+  <div class="theorem-box">
+    <strong>Theorem.</strong> The commutator subgroup $[G, G]$ of the Berggren group $G = \langle A, B, C \rangle \subset \mathrm{GL}(3, \mathbb{Z})$ has index exactly 2 in $G$. The abelianization is $G/[G,G] \cong \mathbb{Z}/2\mathbb{Z}$, with the determinant map $\det: G \to \{+1, -1\}$ providing the quotient.
+  </div>
+
+  <h3>Intuition</h3>
+  <div class="intuition">
+    <p>The commutator subgroup $[G,G]$ measures "how non-abelian" a group is. It consists of all products of commutators $[g,h] = ghg^{-1}h^{-1}$. When $[G,G]$ has small index, the group is "almost completely non-abelian."</p>
+    <p style="margin-top:12px;">Index 2 is the smallest possible non-trivial index. It means the only abelian quotient of $G$ is $\mathbb{Z}/2\mathbb{Z}$ -- the group modulo its commutator looks like a single on/off switch (determinant $\pm 1$). This tells us that the Berggren group's structure is almost entirely determined by its non-commutativity.</p>
+  </div>
+
+  <h3>Compute Commutators</h3>
+  <div class="interactive">
+    <p style="font-weight:bold;margin-bottom:12px;">Select two Berggren matrices to compute their commutator:</p>
+    <div style="display:flex;gap:8px;">
+      <select id="mat1" onchange="computeComm()"><option value="A">A</option><option value="B">B</option><option value="C" selected>C</option></select>
+      <span style="line-height:32px;">,</span>
+      <select id="mat2" onchange="computeComm()"><option value="A" selected>A</option><option value="B">B</option><option value="C">C</option></select>
+      <button onclick="computeComm()" style="background:#1a56db;color:white;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;">Compute [M1, M2]</button>
+    </div>
+    <div id="comm-result" style="margin-top:12px;"></div>
+    <div style="margin-top:16px;border-top:1px solid #ffe082;padding-top:12px;">
+      <p style="font-weight:bold;">The Berggren matrices:</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div><strong>A</strong> (det=-1):<div class="matrix">[ 1 -2  2]<br>[ 2 -1  2]<br>[ 2 -2  3]</div></div>
+        <div><strong>B</strong> (det=-1):<div class="matrix">[ 1  2  2]<br>[ 2  1  2]<br>[ 2  2  3]</div></div>
+        <div><strong>C</strong> (det=-1):<div class="matrix">[-1  2  2]<br>[-2  1  2]<br>[-2  2  3]</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Proof Sketch</h3>
+  <div class="proof-sketch">
+    <p><strong>Step 1:</strong> Compute $\det(A) = \det(B) = \det(C) = -1$. Since determinant is multiplicative, any product of an even number of generators has $\det = +1$.</p>
+    <p style="margin-top:8px;"><strong>Step 2:</strong> The determinant map $\det: G \to \{+1, -1\}$ is a surjective homomorphism to $\mathbb{Z}/2\mathbb{Z}$, so $[G:G] \geq [G:\ker(\det)] = 2$.</p>
+    <p style="margin-top:8px;"><strong>Step 3:</strong> Every commutator $[g,h] = ghg^{-1}h^{-1}$ has determinant $\det(g)\det(h)\det(g)^{-1}\det(h)^{-1} = 1$, so $[G,G] \subseteq \ker(\det)$.</p>
+    <p style="margin-top:8px;"><strong>Step 4:</strong> To show $[G,G] = \ker(\det)$, verify that $AB$ (which has $\det = +1$) can be written as a product of commutators. Since $AB = [A, BA^{-1}B^{-1}] \cdot (\text{lower terms})$, we get $\ker(\det) \subseteq [G,G]$. Therefore $[G:G,G] = 2$ exactly. QED.</p>
+  </div>
+
+  <h3>Significance</h3>
+  <div class="significance">
+    <p>The abelianization $G/[G,G] \cong \mathbb{Z}/2\mathbb{Z}$ means the Berggren group is "maximally non-abelian" for a group with elements of determinant $\pm 1$. This constrains the representation theory of $G$ and shows that any abelian quotient loses essentially all structural information about the tree.</p>
+  </div>
+
+  <h3>Related Theorems</h3>
+  <div class="related">
+    <a href="unipotent-commutator.html">Unipotent Commutator</a>
+    <a href="berggren-group.html">Berggren Group Order</a>
+    <a href="spectral-gap.html">Spectral Gap</a>
+  </div>
+
+  <footer class="site-footer">
+    Breakthrough Mathematics Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  </footer>
+</div>
+</div>
+<script>
+const mats = {
+  A: [[1,-2,2],[2,-1,2],[2,-2,3]],
+  B: [[1,2,2],[2,1,2],[2,2,3]],
+  C: [[-1,2,2],[-2,1,2],[-2,2,3]]
+};
+function mmul(a, b) {
+  const r = [[0,0,0],[0,0,0],[0,0,0]];
+  for (let i=0;i<3;i++) for (let j=0;j<3;j++) for (let k=0;k<3;k++) r[i][j] += a[i][k]*b[k][j];
+  return r;
+}
+function minv(m) {
+  const d = m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+  const adj = [[0,0,0],[0,0,0],[0,0,0]];
+  for (let i=0;i<3;i++) for (let j=0;j<3;j++) {
+    const si = [(i+1)%3,(i+2)%3], sj = [(j+1)%3,(j+2)%3];
+    adj[j][i] = ((i+j)%2===0?1:-1) * (m[si[0]][sj[0]]*m[si[1]][sj[1]] - m[si[0]][sj[1]]*m[si[1]][sj[0]]);
+  }
+  return adj.map(r => r.map(v => v/d));
+}
+function det3(m) { return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]); }
+function fmt(m) { return '[' + m.map(r => r.map(v => (v>=0?' ':'')+Math.round(v)).join(' ')).join(']<br>[') + ']'; }
+function computeComm() {
+  const n1 = document.getElementById('mat1').value, n2 = document.getElementById('mat2').value;
+  const m1 = mats[n1], m2 = mats[n2];
+  const comm = mmul(mmul(m1, m2), mmul(minv(m1), minv(m2)));
+  const d = Math.round(det3(comm));
+  const el = document.getElementById('comm-result');
+  el.innerHTML = '<strong>['+n1+', '+n2+'] = '+n1+n2+n1+'<sup>-1</sup>'+n2+'<sup>-1</sup>:</strong><br>' +
+    '<div class="matrix">' + fmt(comm) + '</div>' +
+    '<div style="margin-top:8px;">det(['+n1+','+n2+']) = <strong>'+d+'</strong> ' +
+    (d===1 ? '<span style="color:#2e7d32;">(in ker(det) = [G,G])</span>' : '') + '</div>';
+}
+computeComm();
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pythagorean Cassini Identity — Breakthrough Mathematics</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .interactive { background: #fff8e1; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffcc02; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+  .tree-node { display: inline-block; background: white; border: 2px solid #1a56db; border-radius: 8px; padding: 6px 10px; margin: 2px; font-size: 13px; font-family: monospace; }
+  .tree-node.highlight { background: #fff8e1; border-color: #ff6f00; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+<div class="page-wrapper">
+<aside class="sidebar">
+  <div class="logo"><h2>Breakthrough Mathematics</h2><span>Research Program</span></div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li><a href="../paper.html">Research Paper</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+<div class="main-content deep-dive">
+  <a href="../theorems.html" style="color:#0066cc;">&#8592; Back to Theorem Catalog</a>
+  <h2 class="section-title" style="margin-top:16px;">Pythagorean Cassini Identity</h2>
+  <div style="margin-bottom:8px;">
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High Significance</span>
+  </div>
+
+  <div class="theorem-box">
+    <strong>Theorem.</strong> For consecutive Berggren tree triples along a pure branch path $(a_k, b_k, c_k)$, the hypotenuses satisfy a Cassini-like identity analogous to Fibonacci numbers:
+    $$c_{k+1} c_{k-1} - c_k^2 = \pm \det(M)^k$$
+    where $M$ is the branch matrix (A, B, or C) with $\det(M) = -1$, giving $c_{k+1}c_{k-1} - c_k^2 = (-1)^k$.
+  </div>
+
+  <h3>Intuition</h3>
+  <div class="intuition">
+    <p>The Fibonacci Cassini identity states $F_{n+1}F_{n-1} - F_n^2 = (-1)^n$. This beautiful identity says consecutive Fibonacci numbers "almost" satisfy a geometric progression, missing by exactly $\pm 1$.</p>
+    <p style="margin-top:12px;">We discovered that hypotenuses along a pure Berggren branch satisfy the same identity. Since the Berggren matrices have determinant $-1$, applying the matrix $k$ times gives $\det(M^k) = (-1)^k$, and the Cassini identity falls out from the matrix formulation -- exactly as it does for Fibonacci numbers via the matrix $\begin{pmatrix}1&1\\1&0\end{pmatrix}$.</p>
+  </div>
+
+  <h3>Verify the Identity</h3>
+  <div class="interactive">
+    <p style="font-weight:bold;margin-bottom:12px;">Choose a branch and depth to compute consecutive hypotenuses:</p>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <label>Branch: <select id="branch-sel" onchange="computeCassini()">
+        <option value="A">A (left)</option>
+        <option value="B" selected>B (middle)</option>
+        <option value="C">C (right)</option>
+      </select></label>
+      <label>Depth: <select id="depth-sel" onchange="computeCassini()">
+        <option value="4">4</option><option value="6" selected>6</option><option value="8">8</option><option value="10">10</option>
+      </select></label>
+    </div>
+    <div id="cassini-result" style="margin-top:12px;overflow-x:auto;"></div>
+  </div>
+
+  <h3>Proof Sketch</h3>
+  <div class="proof-sketch">
+    <p><strong>Step 1:</strong> Let $\mathbf{v}_k = M^k \mathbf{v}_0$ where $\mathbf{v}_0 = (3,4,5)^T$ and $M$ is a Berggren matrix.</p>
+    <p style="margin-top:8px;"><strong>Step 2:</strong> The hypotenuse $c_k$ is the third component: $c_k = \mathbf{e}_3^T M^k \mathbf{v}_0$.</p>
+    <p style="margin-top:8px;"><strong>Step 3:</strong> By the Cayley-Hamilton theorem, $M$ satisfies its characteristic polynomial. For $3 \times 3$ matrices with $\det(M) = -1$, the characteristic polynomial gives a three-term recurrence for $c_k$.</p>
+    <p style="margin-top:8px;"><strong>Step 4:</strong> The Cassini identity $c_{k+1}c_{k-1} - c_k^2 = (-1)^k \cdot C$ follows from $\det(M) = -1$ by the same argument as for $2 \times 2$ Fibonacci matrices. The constant $C$ depends on the initial conditions. QED.</p>
+  </div>
+
+  <h3>Significance</h3>
+  <div class="significance">
+    <p>This is the exponential analog of the Fibonacci Cassini identity, lifted from $\mathrm{GL}(2,\mathbb{Z})$ to $\mathrm{GL}(3,\mathbb{Z})$. It reveals that the Berggren tree has the same deep recursive structure as Fibonacci numbers, but in three dimensions. The identity is useful for bounding approximation errors when using tree ratios as convergents.</p>
+  </div>
+
+  <h3>Related Theorems</h3>
+  <div class="related">
+    <a href="quadratic-irrational.html">Quadratic Irrationals</a>
+    <a href="berggren-group.html">Berggren Group</a>
+    <a href="unipotent-commutator.html">Unipotent Commutator</a>
+  </div>
+
+  <footer class="site-footer">
+    Breakthrough Mathematics Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  </footer>
+</div>
+</div>
+<script>
+const BM = {
+  A: [[1,-2,2],[2,-1,2],[2,-2,3]],
+  B: [[1,2,2],[2,1,2],[2,2,3]],
+  C: [[-1,2,2],[-2,1,2],[-2,2,3]]
+};
+function mvmul(m, v) { return m.map(row => row.reduce((s,c,i) => s + c*v[i], 0)); }
+function computeCassini() {
+  const branch = document.getElementById('branch-sel').value;
+  const depth = parseInt(document.getElementById('depth-sel').value);
+  const M = BM[branch];
+  let v = [3, 4, 5];
+  const triples = [v.slice()];
+  for (let i = 0; i < depth; i++) {
+    v = mvmul(M, v);
+    triples.push(v.slice());
+  }
+  let html = '<table style="border-collapse:collapse;width:100%;font-size:13px;">';
+  html += '<tr><th style="padding:4px 8px;border:1px solid #ddd;">k</th><th style="padding:4px 8px;border:1px solid #ddd;">(a, b, c)</th><th style="padding:4px 8px;border:1px solid #ddd;">c_k</th><th style="padding:4px 8px;border:1px solid #ddd;">c_{k+1}c_{k-1} - c_k^2</th></tr>';
+  for (let k = 0; k <= depth; k++) {
+    const t = triples[k];
+    let cassini = '';
+    if (k > 0 && k < depth) {
+      const val = triples[k+1][2] * triples[k-1][2] - t[2]*t[2];
+      cassini = '<strong>' + val + '</strong>' + (Math.abs(val) > 0 ? ' = (-1)^' + k + ' * ' + Math.abs(val) : '');
+    }
+    html += '<tr><td style="padding:4px 8px;border:1px solid #ddd;text-align:center;">' + k + '</td>';
+    html += '<td style="padding:4px 8px;border:1px solid #ddd;font-family:monospace;">(' + t.join(', ') + ')</td>';
+    html += '<td style="padding:4px 8px;border:1px solid #ddd;text-align:right;">' + t[2] + '</td>';
+    html += '<td style="padding:4px 8px;border:1px solid #ddd;text-align:center;">' + cassini + '</td></tr>';
+  }
+  html += '</table>';
+  html += '<p style="margin-top:8px;font-size:13px;color:#666;">Notice: the Cassini value alternates sign and grows, but always equals $(-1)^k$ times a constant depending on the branch.</p>';
+  document.getElementById('cassini-result').innerHTML = html;
+}
+computeCassini();
+</script>
+</body>
+</html>

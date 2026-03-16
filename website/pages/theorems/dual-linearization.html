@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dual Linearization — Breakthrough Mathematics</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .interactive { background: #fff8e1; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffcc02; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+  .dual-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .dual-col { flex: 1; min-width: 280px; }
+  .eq-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; text-align: center; font-size: 18px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+<div class="page-wrapper">
+<aside class="sidebar">
+  <div class="logo"><h2>Breakthrough Mathematics</h2><span>Research Program</span></div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li><a href="../paper.html">Research Paper</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+<div class="main-content deep-dive">
+  <a href="../theorems.html" style="color:#0066cc;">&#8592; Back to Theorem Catalog</a>
+  <h2 class="section-title" style="margin-top:16px;">Dual Number Linearization</h2>
+  <div style="margin-bottom:8px;">
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High Significance</span>
+  </div>
+
+  <div class="theorem-box">
+    <strong>Theorem.</strong> Replace integers with dual numbers $a + a'\varepsilon$ (where $\varepsilon^2 = 0$). Then the Pythagorean equation $(a+a'\varepsilon)^2 + (b+b'\varepsilon)^2 = (c+c'\varepsilon)^2$ splits into:
+    $$\text{Real part: } a^2 + b^2 = c^2 \quad\text{(quadratic, hard)}$$
+    $$\text{Dual part: } aa' + bb' = cc' \quad\text{(linear, easy)}$$
+    The $\varepsilon$-shadow is a linear equation that captures the tangent structure of the Pythagorean surface.
+  </div>
+
+  <h3>Intuition</h3>
+  <div class="intuition">
+    <p>Dual numbers are like "numbers with memory." The number $a + a'\varepsilon$ remembers both its value ($a$) and its derivative ($a'$). When you square it, the $\varepsilon^2$ term vanishes, leaving only first-order information.</p>
+    <p style="margin-top:12px;">This means the nonlinear Pythagorean equation $a^2 + b^2 = c^2$ has a hidden linear twin: $aa' + bb' = cc'$. The linear equation describes the tangent plane to the Pythagorean surface at each triple. It is the "easy" shadow of the "hard" quadratic constraint.</p>
+  </div>
+
+  <h3>Dual Number Calculator</h3>
+  <div class="interactive">
+    <p style="font-weight:bold;margin-bottom:12px;">Enter a PPT and a tangent direction to see both equations:</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+      <label>a: <input type="number" id="d-a" value="3" style="width:50px;padding:4px;"></label>
+      <label>b: <input type="number" id="d-b" value="4" style="width:50px;padding:4px;"></label>
+      <label>c: <input type="number" id="d-c" value="5" style="width:50px;padding:4px;"></label>
+      <label>a': <input type="number" id="d-ap" value="5" style="width:50px;padding:4px;"></label>
+      <label>b': <input type="number" id="d-bp" value="0" style="width:50px;padding:4px;"></label>
+      <button onclick="computeDual()" style="background:#1a56db;color:white;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;">Compute</button>
+    </div>
+    <div id="dual-result" style="margin-top:16px;"></div>
+    <div class="dual-row" style="margin-top:16px;">
+      <div class="dual-col">
+        <div class="eq-box" style="border-color:#c62828;">
+          <div style="font-size:12px;color:#c62828;margin-bottom:4px;">QUADRATIC (hard)</div>
+          <div>$a^2 + b^2 = c^2$</div>
+        </div>
+      </div>
+      <div class="dual-col">
+        <div class="eq-box" style="border-color:#2e7d32;">
+          <div style="font-size:12px;color:#2e7d32;margin-bottom:4px;">LINEAR (easy)</div>
+          <div>$aa' + bb' = cc'$</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Proof</h3>
+  <div class="proof-sketch">
+    <p><strong>Step 1:</strong> Let $\varepsilon^2 = 0$. Expand $(a + a'\varepsilon)^2 = a^2 + 2aa'\varepsilon$. Similarly for $b$ and $c$.</p>
+    <p style="margin-top:8px;"><strong>Step 2:</strong> The equation $(a+a'\varepsilon)^2 + (b+b'\varepsilon)^2 = (c+c'\varepsilon)^2$ becomes:</p>
+    <p style="margin-top:4px;padding-left:20px;">$(a^2 + b^2) + (2aa' + 2bb')\varepsilon = c^2 + 2cc'\varepsilon$</p>
+    <p style="margin-top:8px;"><strong>Step 3:</strong> Matching real and dual parts: $a^2 + b^2 = c^2$ and $aa' + bb' = cc'$.</p>
+    <p style="margin-top:8px;"><strong>Step 4:</strong> The dual equation $aa' + bb' = cc'$ is linear in the primed variables. Given any PPT $(a,b,c)$, the set of valid $(a', b', c')$ forms a plane in 3D. This is the tangent plane to the Pythagorean cone at $(a,b,c)$. QED.</p>
+  </div>
+
+  <h3>Significance</h3>
+  <div class="significance">
+    <p>This reveals that every quadratic Diophantine equation has a linear "shadow" in the dual numbers. Unfortunately, the linear shadow alone cannot solve factoring because it requires knowing the base triple $(a,b,c)$ first (Obstruction #1: circularity). But it provides a clean algebraic framework for understanding the tangent structure of the solution space.</p>
+  </div>
+
+  <h3>Related Theorems</h3>
+  <div class="related">
+    <a href="four-obstructions.html">Four Obstructions</a>
+    <a href="cfrac-equivalence.html">CFRAC Equivalence</a>
+    <a href="quadratic-irrational.html">Quadratic Irrationals</a>
+  </div>
+
+  <footer class="site-footer">
+    Breakthrough Mathematics Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  </footer>
+</div>
+</div>
+<script>
+function computeDual() {
+  const a = parseInt(document.getElementById('d-a').value);
+  const b = parseInt(document.getElementById('d-b').value);
+  const c = parseInt(document.getElementById('d-c').value);
+  const ap = parseInt(document.getElementById('d-ap').value);
+  const bp = parseInt(document.getElementById('d-bp').value);
+  const el = document.getElementById('dual-result');
+  const realOk = a*a + b*b === c*c;
+  const cp_needed = (a*ap + b*bp) / c;
+  const dualLHS = a*ap + b*bp;
+  const cp = cp_needed;
+  let html = '<div style="font-size:14px;">';
+  html += '<strong>Real part:</strong> ' + a + '<sup>2</sup> + ' + b + '<sup>2</sup> = ' + (a*a+b*b) + (realOk ? ' = ' + c + '<sup>2</sup> <span style="color:#2e7d32;">&#10003;</span>' : ' &#8800; ' + c*c + ' <span style="color:#c62828;">&#10007; (not a valid triple)</span>') + '<br>';
+  html += '<strong>Dual part:</strong> ' + a + '&middot;' + ap + ' + ' + b + '&middot;' + bp + ' = ' + dualLHS + ', so c\' = ' + dualLHS + '/' + c + ' = ' + cp.toFixed(4) + '<br>';
+  html += '<strong>Full dual triple:</strong> (' + a+'+'+ap+'&epsilon;, ' + b+'+'+bp+'&epsilon;, ' + c + '+' + cp.toFixed(2) + '&epsilon;)';
+  if (Number.isInteger(cp)) html += ' <span style="color:#2e7d32;">(integer c\' -- tangent direction stays on lattice)</span>';
+  html += '</div>';
+  el.innerHTML = html;
+}
+computeDual();
+</script>
+</body>
+</html>
