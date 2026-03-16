@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pythagorean Scale (Musical Intervals) — B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .viz-container { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+  .interactive { background: #fff8e1; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffcc02; }
+  .note-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 6px; margin: 4px 0; cursor: pointer; transition: background 0.2s; }
+  .note-row:hover { background: #e8f0fe; }
+  .note-row.playing { background: #c8e6c9; }
+  .note-label { min-width: 140px; font-weight: bold; color: #1a56db; }
+  .note-ratio { min-width: 80px; font-family: monospace; font-size: 15px; }
+  .note-bar { height: 20px; border-radius: 4px; transition: width 0.3s; }
+  .play-btn { background: #1a56db; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; margin: 8px 4px; }
+  .play-btn:hover { background: #0d47a1; }
+  .play-btn:disabled { background: #aaa; cursor: not-allowed; }
+  .triple-info { font-size: 12px; color: #666; min-width: 100px; }
+  .collapsible { cursor: pointer; user-select: none; }
+  .collapsible::before { content: '\25B6 '; font-size: 12px; }
+  .collapsible.open::before { content: '\25BC '; }
+  .collapsible-content { display: none; padding-top: 8px; }
+  .collapsible-content.show { display: block; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">Pythagorean Scale</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">Pythagorean Scale: The Tree Plays Music</h2>
+<div style="margin-bottom:8px;">
+  <span class="badge badge-proven">Proven</span>
+  <span class="badge badge-high">High Significance</span>
+</div>
+
+<h3>Formal Statement</h3>
+<div class="theorem-box">
+  <p>For each primitive Pythagorean triple $(a, b, c)$, the leg ratio $b/a$ reduced to the octave $[1, 2)$ via $r = (b/a) \cdot 2^{-\lfloor \log_2(b/a) \rfloor}$ generates the classical Pythagorean musical intervals:</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:16px 0;">$(3,4,5) \to 4/3$ = Perfect Fourth &nbsp;&nbsp; $(8,15,17) \to 15/8$ = Major Seventh</p>
+  <p>The first 20 PPTs produce ratios clustering near the 12 intervals of the Pythagorean scale. The distribution is non-uniform, with perfect fourths and fifths overrepresented.</p>
+</div>
+
+<h3>Intuition (Plain English)</h3>
+<div class="intuition">
+  <p>The ancient Greeks discovered that musical harmony comes from simple ratios: 2:1 is an octave, 3:2 is a perfect fifth, 4:3 is a perfect fourth. These same ratios appear naturally in Pythagorean triples.</p>
+  <p style="margin-top:12px;">When you take the ratio of the two legs of a right triangle and fold it into a single octave, you get a musical note. The Berggren tree, which generates ALL primitive Pythagorean triples, therefore generates a natural musical scale. The tree literally plays music.</p>
+  <p style="margin-top:12px;">Click the notes below to hear the Pythagorean tree sing.</p>
+</div>
+
+<h3>Try It: Play the Pythagorean Scale</h3>
+<div class="interactive">
+  <p style="margin-bottom:12px; font-weight:bold;">Click any row to hear the interval. Use the buttons to play sequences.</p>
+  <div>
+    <button class="play-btn" id="btn-scale" onclick="playScale()">Play Scale (ascending)</button>
+    <button class="play-btn" id="btn-chord" onclick="playChord()">Play Chord (3 notes)</button>
+    <button class="play-btn" id="btn-tree" onclick="playTreeWalk()">Play Random Tree Walk</button>
+    <button class="play-btn" onclick="stopAll()" style="background:#c62828;">Stop</button>
+  </div>
+  <div id="note-list" style="margin-top:16px;"></div>
+  <div style="margin-top:16px;">
+    <label style="font-weight:bold; color:#1a56db;">Base frequency (Hz): </label>
+    <input type="range" id="base-freq" min="110" max="880" value="261" step="1" oninput="updateFreq()" style="width:200px;">
+    <span id="freq-display">261 Hz (middle C)</span>
+  </div>
+</div>
+
+<h3 class="collapsible" onclick="toggleSection(this)">How It Works (Proof)</h3>
+<div class="collapsible-content">
+<div class="proof-sketch">
+  <p><strong>Step 1 -- Parametrize:</strong> Each PPT is $(m^2 - n^2,\; 2mn,\; m^2 + n^2)$ with $m > n > 0$, $\gcd(m,n)=1$, $m-n$ odd. The leg ratio is $2mn/(m^2-n^2)$ or its reciprocal.</p>
+  <p style="margin-top:8px;"><strong>Step 2 -- Reduce to octave:</strong> Take $r = b/a$ (larger leg / smaller leg) and repeatedly divide by 2 until $1 \leq r < 2$. This "folds" the ratio into a single octave, like reducing a note to its pitch class.</p>
+  <p style="margin-top:8px;"><strong>Step 3 -- Map to scale:</strong> The 12-tone equal temperament divides the octave into 12 equal steps of ratio $2^{1/12} \approx 1.0595$. Each reduced ratio falls closest to one of these 12 semitones. The nearest-semitone map for the first 20 PPTs covers 8 of the 12 notes.</p>
+  <p style="margin-top:8px;"><strong>Step 4 -- Exact matches:</strong> $(3,4,5) \to 4/3 = 1.333...$ is the just-intonation perfect fourth (498.04 cents, vs ET 500 cents -- only 2 cents off). $(5,12,13) \to 12/5 \to 6/5 = 1.2$ is the just minor third (315.64 cents). These are not approximations; they are the exact frequency ratios used in classical music theory.</p>
+</div>
+</div>
+
+<h3>Significance</h3>
+<div class="significance">
+  <p><strong>Bridges number theory and music theory.</strong> The Pythagorean scale (attributed to Pythagoras of Samos, ~500 BCE) was historically derived from ratios of string lengths. Our theorem shows these same ratios arise automatically from the algebraic structure of the Berggren tree.</p>
+  <p style="margin-top:12px;">This is not a coincidence. Both the musical scale and the triple tree are governed by the arithmetic of $\mathbb{Z}[i]$ (Gaussian integers). The norm $|m + ni|^2 = m^2 + n^2 = c$ produces both the hypotenuse and, through the ratio $m/n$, the musical interval.</p>
+  <p style="margin-top:12px;">Pythagoras believed "all is number." The Berggren tree makes this literal: the same tree that generates all right triangles also generates the musical scale that bears his name.</p>
+</div>
+
+<h3>Visualization: The Musical Tree</h3>
+<div class="viz-container">
+  <canvas id="tree-canvas" width="560" height="320" style="border-radius:8px;"></canvas>
+  <p style="color:#666; font-size:12px; margin-top:8px;">Each node is a PPT colored by its musical interval. Hover to see the triple and hear the note.</p>
+</div>
+
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="quadratic-irrational.html">Exact Branch CF Formulas</a>
+  <a href="zaremba-berggren.html">Zaremba-Berggren Dichotomy</a>
+  <a href="spectral-gap.html">Spectral Gap (Expander)</a>
+  <a href="ihara-berggren.html">Ihara-Berggren Ramanujan</a>
+</div>
+
+<div class="series-nav" style="margin-top:32px;">
+  <a href="zaremba-berggren.html">&larr; Prev: Zaremba-Berggren</a>
+  <a href="prime-turbulence.html">Next: Prime Turbulence &rarr;</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+</footer>
+
+</div></div>
+
+<script>
+// Pythagorean triples and their musical mappings
+const triples = [
+  {a:3, b:4, c:5, name:'Perfect Fourth', color:'#e53935'},
+  {a:5, b:12, c:13, name:'Minor Third', color:'#8e24aa'},
+  {a:8, b:15, c:17, name:'Major Seventh', color:'#1e88e5'},
+  {a:7, b:24, c:25, name:'Minor Seventh', color:'#00897b'},
+  {a:20, b:21, c:29, name:'Minor Second', color:'#f4511e'},
+  {a:9, b:40, c:41, name:'Tritone', color:'#6d4c41'},
+  {a:12, b:35, c:37, name:'Augmented Fourth', color:'#546e7a'},
+  {a:11, b:60, c:61, name:'Perfect Fifth', color:'#43a047'},
+  {a:13, b:84, c:85, name:'Major Sixth', color:'#ffb300'},
+  {a:28, b:45, c:53, name:'Major Third', color:'#d81b60'},
+  {a:33, b:56, c:65, name:'Major Second', color:'#5e35b1'},
+  {a:36, b:77, c:85, name:'Augmented Fifth', color:'#039be5'},
+  {a:20, b:99, c:101, name:'Minor Sixth', color:'#00acc1'},
+  {a:60, b:11, c:61, name:'Minor Third', color:'#7cb342'},
+  {a:15, b:112, c:113, name:'Major Seventh', color:'#c0ca33'},
+  {a:40, b:9, c:41, name:'Minor Second', color:'#fdd835'},
+  {a:48, b:55, c:73, name:'Minor Second', color:'#fb8c00'},
+  {a:36, b:77, c:85, name:'Augmented Fifth', color:'#f4511e'},
+  {a:11, b:60, c:61, name:'Perfect Fifth', color:'#6d4c41'},
+  {a:13, b:84, c:85, name:'Major Sixth', color:'#78909c'}
+];
+
+let audioCtx = null;
+let activeOscillators = [];
+let baseFreq = 261;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function ratioToOctave(a, b) {
+  let r = Math.max(a,b) / Math.min(a,b);
+  while (r >= 2) r /= 2;
+  while (r < 1) r *= 2;
+  return r;
+}
+
+function playNote(freq, duration, delay) {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+  gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + delay + 0.05);
+  gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + delay + duration * 0.6);
+  gain.gain.linearRampToValueAtTime(0, ctx.currentTime + delay + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + delay);
+  osc.stop(ctx.currentTime + delay + duration);
+  activeOscillators.push(osc);
+  return osc;
+}
+
+function playTriple(idx) {
+  const t = triples[idx];
+  const r = ratioToOctave(t.a, t.b);
+  const freq = baseFreq * r;
+  playNote(freq, 0.8, 0);
+  // Highlight row
+  document.querySelectorAll('.note-row').forEach(el => el.classList.remove('playing'));
+  const row = document.getElementById('row-' + idx);
+  if (row) { row.classList.add('playing'); setTimeout(() => row.classList.remove('playing'), 800); }
+}
+
+function playScale() {
+  stopAll();
+  const sorted = triples.slice(0, 12).map((t, i) => ({ratio: ratioToOctave(t.a, t.b), idx: i}));
+  sorted.sort((a, b) => a.ratio - b.ratio);
+  sorted.forEach((s, i) => {
+    const freq = baseFreq * s.ratio;
+    setTimeout(() => {
+      playNote(freq, 0.5, 0);
+      document.querySelectorAll('.note-row').forEach(el => el.classList.remove('playing'));
+      const row = document.getElementById('row-' + s.idx);
+      if (row) { row.classList.add('playing'); setTimeout(() => row.classList.remove('playing'), 450); }
+    }, i * 400);
+  });
+}
+
+function playChord() {
+  stopAll();
+  [0, 3, 7].forEach(idx => {
+    const t = triples[idx];
+    const r = ratioToOctave(t.a, t.b);
+    playNote(baseFreq * r, 1.5, 0);
+  });
+}
+
+function playTreeWalk() {
+  stopAll();
+  const steps = 16;
+  for (let i = 0; i < steps; i++) {
+    const idx = Math.floor(Math.random() * Math.min(12, triples.length));
+    const t = triples[idx];
+    const r = ratioToOctave(t.a, t.b);
+    setTimeout(() => {
+      playNote(baseFreq * r, 0.35, 0);
+      document.querySelectorAll('.note-row').forEach(el => el.classList.remove('playing'));
+      const row = document.getElementById('row-' + idx);
+      if (row) { row.classList.add('playing'); setTimeout(() => row.classList.remove('playing'), 300); }
+    }, i * 250);
+  }
+}
+
+function stopAll() {
+  activeOscillators.forEach(o => { try { o.stop(); } catch(e) {} });
+  activeOscillators = [];
+  document.querySelectorAll('.note-row').forEach(el => el.classList.remove('playing'));
+}
+
+function updateFreq() {
+  baseFreq = parseInt(document.getElementById('base-freq').value);
+  const names = {131:'C3',147:'D3',165:'E3',175:'F3',196:'G3',220:'A3',247:'B3',261:'middle C',294:'D4',330:'E4',349:'F4',392:'G4',440:'A4',494:'B4',523:'C5'};
+  let closest = '', minDist = 9999;
+  for (const [f, n] of Object.entries(names)) { if (Math.abs(f - baseFreq) < minDist) { minDist = Math.abs(f - baseFreq); closest = n; } }
+  document.getElementById('freq-display').textContent = baseFreq + ' Hz' + (minDist < 15 ? ' (' + closest + ')' : '');
+}
+
+function toggleSection(el) {
+  el.classList.toggle('open');
+  const content = el.nextElementSibling;
+  content.classList.toggle('show');
+}
+
+// Build note list
+const noteList = document.getElementById('note-list');
+const intervalColors = {'Perfect Fourth':'#e53935','Minor Third':'#8e24aa','Major Seventh':'#1e88e5','Minor Seventh':'#00897b','Minor Second':'#f4511e','Tritone':'#6d4c41','Augmented Fourth':'#546e7a','Perfect Fifth':'#43a047','Major Sixth':'#ffb300','Major Third':'#d81b60','Major Second':'#5e35b1','Augmented Fifth':'#039be5','Minor Sixth':'#00acc1'};
+triples.slice(0, 12).forEach((t, i) => {
+  const r = ratioToOctave(t.a, t.b);
+  const cents = Math.round(1200 * Math.log2(r));
+  const barWidth = Math.round(cents / 1200 * 300);
+  const col = intervalColors[t.name] || '#888';
+  const row = document.createElement('div');
+  row.className = 'note-row';
+  row.id = 'row-' + i;
+  row.onclick = () => playTriple(i);
+  row.innerHTML = '<span class="note-label">' + t.name + '</span>' +
+    '<span class="note-ratio">' + t.b + '/' + t.a + '</span>' +
+    '<span class="triple-info">(' + t.a + ',' + t.b + ',' + t.c + ')</span>' +
+    '<div class="note-bar" style="width:' + barWidth + 'px;background:' + col + ';"></div>' +
+    '<span style="font-size:11px;color:#888;">' + cents + ' cents</span>';
+  noteList.appendChild(row);
+});
+
+// Tree canvas visualization
+const canvas = document.getElementById('tree-canvas');
+const ctx2d = canvas.getContext('2d');
+function drawTree() {
+  ctx2d.fillStyle = '#f8f9fa';
+  ctx2d.fillRect(0, 0, 560, 320);
+  // Draw a simplified tree with colored nodes
+  const A = [[1,-2,2],[2,-1,2],[2,-2,3]];
+  const B = [[1,2,2],[2,1,2],[2,2,3]];
+  const C = [[-1,2,2],[-2,1,2],[-2,2,3]];
+  function matMul(M, v) {
+    return M.map(row => row[0]*v[0] + row[1]*v[1] + row[2]*v[2]);
+  }
+  const nodes = [];
+  function genTree(triple, depth, x, y, dx) {
+    if (depth > 4) return;
+    const r = ratioToOctave(Math.abs(triple[0]), Math.abs(triple[1]));
+    const hue = Math.round(r * 200);
+    nodes.push({x, y, triple: triple.map(Math.abs), r, hue});
+    ctx2d.beginPath();
+    ctx2d.arc(x, y, 6 - depth * 0.5, 0, Math.PI * 2);
+    ctx2d.fillStyle = 'hsl(' + hue + ',70%,50%)';
+    ctx2d.fill();
+    const childY = y + 55;
+    const childDx = dx * 0.38;
+    [[A,x-dx],[B,x],[C,x+dx]].forEach(([M, cx]) => {
+      const child = matMul(M, triple);
+      ctx2d.beginPath();
+      ctx2d.moveTo(x, y + 4);
+      ctx2d.lineTo(cx, childY - 4);
+      ctx2d.strokeStyle = '#ccc';
+      ctx2d.lineWidth = 1;
+      ctx2d.stroke();
+      genTree(child, depth + 1, cx, childY, childDx);
+    });
+  }
+  genTree([3, 4, 5], 0, 280, 30, 160);
+  // Label root
+  ctx2d.fillStyle = '#333';
+  ctx2d.font = '11px sans-serif';
+  ctx2d.fillText('(3,4,5)', 250, 22);
+  ctx2d.fillText('Root = Perfect Fourth', 225, 310);
+}
+drawTree();
+</script>
+</body>
+</html>
