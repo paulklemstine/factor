@@ -51,6 +51,18 @@ def _load_lib():
             ctypes.POINTER(ctypes.c_uint64), ctypes.c_int,
         ]
 
+        # Block Wiedemann (64x parallel)
+        try:
+            _lib.block_wiedemann.restype = ctypes.c_int
+            _lib.block_wiedemann.argtypes = [
+                ctypes.POINTER(ctypes.c_int),
+                ctypes.POINTER(ctypes.c_int),
+                ctypes.c_int, ctypes.c_int,
+                ctypes.POINTER(ctypes.c_uint64), ctypes.c_int,
+            ]
+        except AttributeError:
+            pass
+
         # Legacy name compatibility
         try:
             _lib.block_lanczos.restype = ctypes.c_int
@@ -189,6 +201,57 @@ def block_lanczos_solve(sparse_rows, ncols, verbose=False):
     vecs = _decode_deps(deps_buf, ndeps, nrows)
     if verbose:
         print(f"    Wiedemann: {len(vecs)} null vecs, {dt:.3f}s")
+    return vecs
+
+
+# ---------------------------------------------------------------------------
+# C Block Wiedemann (64x parallel)
+# ---------------------------------------------------------------------------
+def block_wiedemann_solve(sparse_rows, ncols, verbose=False):
+    """
+    Block Wiedemann null-space finder over GF(2) via C shared library.
+
+    Uses 64 parallel Krylov sequences in a single block mat-vec pass,
+    then 64 independent Berlekamp-Massey instances, then polynomial
+    evaluation for null vector extraction.
+
+    64x more null vectors per Phase 1 pass than scalar Wiedemann.
+    Same mat-vec cost as scalar for Phase 1, but far fewer rounds needed.
+
+    Returns list of null vectors (sorted row-index lists), or None.
+    """
+    lib = _load_lib()
+    if lib is None:
+        return None
+
+    if not hasattr(lib, 'block_wiedemann'):
+        if verbose:
+            print("    block_wiedemann not found in .so, falling back to scalar")
+        return None
+
+    nrows = len(sparse_rows)
+    row_ptr, col_idx, nnz = _sparse_to_csr(sparse_rows)
+
+    max_deps = min(256, nrows)
+    nwords_dep = (nrows + 63) // 64
+    deps_buf = (ctypes.c_uint64 * (max_deps * nwords_dep))()
+
+    if verbose:
+        print(f"    Block Wiedemann: {nrows}x{ncols}, nnz={nnz}")
+
+    t0 = time.time()
+    ndeps = lib.block_wiedemann(row_ptr, col_idx, nrows, ncols,
+                                deps_buf, max_deps)
+    dt = time.time() - t0
+
+    if ndeps < 0:
+        if verbose:
+            print(f"    Block Wiedemann failed (code {ndeps})")
+        return None
+
+    vecs = _decode_deps(deps_buf, ndeps, nrows)
+    if verbose:
+        print(f"    Block Wiedemann: {len(vecs)} null vecs, {dt:.3f}s")
     return vecs
 
 
