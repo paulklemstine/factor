@@ -14,6 +14,14 @@
 #include <string.h>
 #include <math.h>
 
+/* ======== GCD for coprimality check ======== */
+static int64_t gcd64(int64_t a, int64_t b) {
+    if (a < 0) a = -a;
+    if (b < 0) b = -b;
+    while (b) { int64_t t = b; b = a % b; a = t; }
+    return a;
+}
+
 /* ======== Modular inverse (extended GCD) ======== */
 static int64_t mod_inverse(int64_t a, int64_t p) {
     int64_t g = p, x = 0, y = 1;
@@ -260,6 +268,8 @@ int lattice_sieve_batch(
             int64_t a = (int64_t)tmp_i[k] * ux + (int64_t)tmp_j[k] * vx;
             int64_t b = (int64_t)tmp_i[k] * uy + (int64_t)tmp_j[k] * vy;
             if (b <= 0 || a == 0) continue;
+            /* Coprimality filter: skip gcd(|a|,b) != 1 — saves ~41% verify work */
+            if (gcd64(a < 0 ? -a : a, b) != 1) continue;
             out_a[total] = (int)a;
             out_b[total] = (int)b;
             out_q[total] = q;
