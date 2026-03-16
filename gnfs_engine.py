@@ -207,8 +207,10 @@ def base_m_poly(n, d=None):
     best_coeffs = None
     best_m = int(m0)
 
-    # Search range: ±1000 around m0 for d≥4, ±100 for d=3
-    search_range = 1000 if d >= 4 else 100
+    # Search range: wider search finds better polynomials (lower skew, smaller norms)
+    # d=3: m ~ n^(1/3), so ±1000 explores ~2000/m fraction of space
+    # d>=4: ±1000 is already good since coefficients are smaller
+    search_range = 1000
     for delta in range(-search_range, search_range + 1):
         m_try = int(m0) + delta
         if m_try < 2:
@@ -1398,7 +1400,18 @@ def trial_divide_rational(a, b, m, rat_fb):
     exps = trial_divide_rational._exps
     exps[:] = 0
 
-    remainder = _jit_trial_divide_rat(np.int64(val), primes, exps)
+    if val < (1 << 63):
+        remainder = _jit_trial_divide_rat(np.int64(val), primes, exps)
+        remainder = int(remainder)
+    else:
+        # Fallback for norms exceeding int64: use gmpy2 trial division
+        remainder = mpz(val)
+        for pi in range(len(primes)):
+            p = int(primes[pi])
+            while remainder % p == 0:
+                remainder = remainder // p
+                exps[pi] += 1
+        remainder = int(remainder)
     if remainder == 1:
         return (exps.tolist(), sign)
     return None
@@ -1425,8 +1438,21 @@ def trial_divide_algebraic(a, b, f_coeffs, alg_fb):
     exps = trial_divide_algebraic._exps
     exps[:] = 0
 
-    remainder = _jit_trial_divide_alg(np.int64(val), primes, roots,
-                                       np.int64(a), np.int64(b), exps)
+    if val < (1 << 63):
+        remainder = _jit_trial_divide_alg(np.int64(val), primes, roots,
+                                           np.int64(a), np.int64(b), exps)
+        remainder = int(remainder)
+    else:
+        # Fallback for norms exceeding int64: use gmpy2 trial division
+        remainder = mpz(val)
+        for pi in range(len(primes)):
+            p = int(primes[pi])
+            r = int(roots[pi])
+            if (a + b * r) % p == 0:
+                while remainder % p == 0:
+                    remainder = remainder // p
+                    exps[pi] += 1
+        remainder = int(remainder)
     if remainder == 1:
         return exps.tolist()
     return None
