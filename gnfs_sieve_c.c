@@ -254,6 +254,45 @@ static i128 compute_alg_norm_128(int a, int b, const int64_t *f_coeffs, int d, i
     return result;
 }
 
+/* Compute algebraic norm using precomputed b-powers (fixed-b optimization).
+ * b_powers[i] = b^(d-i) for i=0..d, precomputed once per b-line.
+ * Avoids recomputing b^d from scratch for each (a,b) pair in the same b-line.
+ * ~1.19x speedup on norm evaluation (see advanced_algo_techniques_research.md #5).
+ */
+static i128 compute_alg_norm_128_precomp(int a, const i128 *b_powers,
+                                          const int64_t *f_coeffs, int d, int *overflow) {
+    *overflow = 0;
+    i128 result = 0;
+    i128 neg_a_pow = 1;       /* (-a)^i */
+
+    for (int i = 0; i <= d; i++) {
+        /* term = f[i] * (-a)^i * b^(d-i) */
+        i128 term = safe_mul_128((i128)f_coeffs[i], neg_a_pow, overflow);
+        if (*overflow) return 0;
+        term = safe_mul_128(term, b_powers[i], overflow);
+        if (*overflow) return 0;
+
+        if ((term > 0 && result > I128_MAX - term) ||
+            (term < 0 && result < I128_MIN - term)) {
+            *overflow = 1;
+            return 0;
+        }
+        result += term;
+
+        neg_a_pow *= (-a);
+    }
+    if (result < 0) result = -result;
+    return result;
+}
+
+/* Precompute b-powers array: b_powers[i] = b^(d-i) for i=0..d */
+static void precompute_b_powers(int b, int d, i128 *b_powers) {
+    b_powers[d] = 1;  /* b^0 */
+    for (int i = d - 1; i >= 0; i--) {
+        b_powers[i] = b_powers[i + 1] * (i128)b;  /* b^(d-i) */
+    }
+}
+
 /*
  * Batch verify candidates with __int128 trial division.
  * Processes all (a,b) pairs from C sieve output.
@@ -281,6 +320,9 @@ int verify_candidates_c(
 )
 {
     int count = 0;
+    /* Fixed-b precomputed b-powers cache: recompute only when b changes */
+    i128 *b_powers = (i128 *)malloc((degree + 1) * sizeof(i128));
+    int cached_b = -1;  /* sentinel: no b cached yet */
 
     for (int ci = 0; ci < n_cands; ci++) {
         int a = cand_a[ci];
@@ -345,9 +387,13 @@ int verify_candidates_c(
             }
         }
 
-        /* === Algebraic side === */
+        /* === Algebraic side (using precomputed b-powers) === */
+        if (b != cached_b) {
+            precompute_b_powers(b, degree, b_powers);
+            cached_b = b;
+        }
         int overflow = 0;
-        i128 val_a = compute_alg_norm_128(a, b, f_coeffs, degree, &overflow);
+        i128 val_a = compute_alg_norm_128_precomp(a, b_powers, f_coeffs, degree, &overflow);
         if (overflow || val_a == 0) continue;
 
         /* Trial divide algebraic norm with root pre-check */
@@ -393,6 +439,7 @@ int verify_candidates_c(
 
         count++;
     }
+    free(b_powers);
     return count;
 }
 
@@ -492,9 +539,14 @@ int sieve_and_verify_c(
     int max_cands_per_line = 10000;
     int *cand_indices = (int *)malloc(max_cands_per_line * sizeof(int));
 
-    if (!rat_lps || !alg_lps || !rat_starts || !alg_starts || !cand_indices) {
+    /* Fixed-b precomputed b-powers: b_powers[i] = b^(d-i) for i=0..d
+     * Avoids recomputing b^d from scratch for each candidate in same b-line.
+     * ~1.19x speedup on norm evaluation. */
+    i128 *b_powers = (i128 *)malloc((poly_degree + 1) * sizeof(i128));
+
+    if (!rat_lps || !alg_lps || !rat_starts || !alg_starts || !cand_indices || !b_powers) {
         free(rat_log); free(alg_log); free(rat_lps); free(alg_lps);
-        free(rat_starts); free(alg_starts); free(cand_indices);
+        free(rat_starts); free(alg_starts); free(cand_indices); free(b_powers);
         return -1;
     }
 
@@ -550,6 +602,9 @@ int sieve_and_verify_c(
                 cand_indices[n_line_cands++] = idx;
             }
         }
+
+        /* === Precompute b-powers for this b-line (fixed-b optimization) === */
+        precompute_b_powers(b, poly_degree, b_powers);
 
         /* === Verify using stored start positions === */
         /*
@@ -617,9 +672,9 @@ int sieve_and_verify_c(
                 }
             }
 
-            /* === Algebraic side === */
+            /* === Algebraic side (using precomputed b-powers) === */
             int overflow = 0;
-            i128 val_a = compute_alg_norm_128(a, b, f_coeffs, poly_degree, &overflow);
+            i128 val_a = compute_alg_norm_128_precomp(a, b_powers, f_coeffs, poly_degree, &overflow);
             if (overflow || val_a == 0) continue;
 
             i128 rem_a = val_a;
@@ -665,6 +720,6 @@ int sieve_and_verify_c(
     free(rat_log); free(alg_log);
     free(rat_lps); free(alg_lps);
     free(rat_starts); free(alg_starts);
-    free(cand_indices);
+    free(cand_indices); free(b_powers);
     return total;
 }

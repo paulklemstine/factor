@@ -1368,6 +1368,9 @@ def _jit_batch_verify(a_arr, b_arr, n_cands, m, f_coeffs_arr, d,
     n_rat = len(rat_primes)
     n_alg = len(alg_primes)
     count = 0
+    # Fixed-b precomputation: cache b-powers across candidates with same b
+    cached_b = np.int64(-1)
+    b_powers = np.zeros(d + 1, dtype=np.int64)  # b_powers[i] = b^(d-i)
     for ci in range(n_cands):
         a = a_arr[ci]
         b = b_arr[ci]
@@ -1405,17 +1408,18 @@ def _jit_batch_verify(a_arr, b_arr, n_cands, m, f_coeffs_arr, d,
             else:
                 continue  # cofactor too large or composite
 
-        # Algebraic norm: |sum(f_i * (-a)^i * b^(d-i))|
+        # Algebraic norm using precomputed b-powers (fixed-b optimization)
+        if b != cached_b:
+            # Precompute b_powers[i] = b^(d-i) for i=0..d
+            b_powers[d] = np.int64(1)
+            for k in range(d - 1, -1, -1):
+                b_powers[k] = b_powers[k + 1] * b
+            cached_b = b
         norm = np.int64(0)
         neg_a_pow = np.int64(1)
-        b_pow = np.int64(1)
-        for k in range(d):
-            b_pow *= b
         for k in range(d + 1):
-            norm += f_coeffs_arr[k] * neg_a_pow * b_pow
+            norm += f_coeffs_arr[k] * neg_a_pow * b_powers[k]
             neg_a_pow *= np.int64(-a)
-            if k < d:
-                b_pow //= b
         val_a = abs(norm)
         if val_a == 0:
             continue
