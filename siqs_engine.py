@@ -1014,6 +1014,10 @@ def _sieve_one_a(args):
     relations = []
     _sieve_buf = np.zeros(sz, dtype=np.int16)
 
+    # Precompute sieve threshold (constant across all polynomials)
+    _log_g_max = math.log2(max(M, 1)) + 0.5 * nb
+    _thresh = int(max(0, (_log_g_max - T_bits)) * 64) - small_prime_correction
+
     def _worker_sieve_poly(b_val, c_val, off1, off2):
         """Sieve one polynomial, collect raw relations."""
         b_v = int(b_val)
@@ -1022,10 +1026,7 @@ def _sieve_one_a(args):
         _sieve_buf[:] = 0
         jit_sieve(_sieve_buf, fb_np, fb_log, off1, off2, sz)
 
-        log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-        thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
-
-        candidates = jit_find_smooth(_sieve_buf, thresh)
+        candidates = jit_find_smooth(_sieve_buf, _thresh)
         n_cand = len(candidates)
         if n_cand == 0:
             return
@@ -2008,6 +2009,10 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
             _t_td = [0.0]
             _t_polys = [0]
 
+            # Precompute sieve threshold (constant across all polynomials)
+            _log_g_max = math.log2(max(M, 1)) + 0.5 * nb
+            _thresh = int(max(0, (_log_g_max - T_bits)) * 64) - small_prime_correction
+
             def sieve_and_collect(b_val, c_val, off1, off2):
                 """Sieve one polynomial and collect relations using batch hit detection."""
                 nonlocal poly_count, total_cands
@@ -2016,13 +2021,9 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
 
                 _ts = time.time()
                 _sieve_buf[:] = 0
-                sieve_arr = _sieve_buf
-                jit_sieve(sieve_arr, fb_np, fb_log, off1, off2, sz)
+                jit_sieve(_sieve_buf, fb_np, fb_log, off1, off2, sz)
 
-                log_g_max = math.log2(max(M, 1)) + 0.5 * nb
-                thresh = int(max(0, (log_g_max - T_bits)) * 64) - small_prime_correction
-
-                candidates = jit_find_smooth(sieve_arr, thresh)
+                candidates = jit_find_smooth(_sieve_buf, _thresh)
                 n_cand = len(candidates)
                 total_cands += n_cand
                 _t_sieve[0] += time.time() - _ts
