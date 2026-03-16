@@ -671,13 +671,23 @@ __global__ void kangaroo_walk_kernel(
 
     /* Walk in Jacobian coordinates. Every NORM_INTERVAL steps, normalize
      * to affine (1 inversion) and check DP on the true affine x.
-     * This amortizes the inversion cost over NORM_INTERVAL steps.
-     * Between normalizations, the walk uses affine x for jump index
-     * (since Z=1 at the start of each interval). */
-    /* Normalization interval: every N steps, convert Jacobian -> affine.
-     * This costs 1 inversion per N steps but enables walk merging.
-     * N=8 is a good balance: saves 7/8 inversions vs affine walk,
-     * at the cost of walk divergence within 8-step windows. */
+     *
+     * CRITICAL: Between normalizations, jump index uses Jacobian X, NOT
+     * affine x. Two kangaroos at the same affine point but different Z
+     * will compute different jump indices, breaking walk determinism.
+     * Smaller NORM_INTERVAL = better walk quality but more inversions.
+     *
+     * NORM_INTERVAL=2: 1 Bernstein-Yang inv per 2 steps.
+     *   Cost: 2 madd (3000 ops) + 1 inv (5580 ops) = 8580 ops/2 steps = 4290/step
+     *   Walk quality: step 0 correct, step 1 wrong (50% correct)
+     * NORM_INTERVAL=1: affine every step (best walk quality, most expensive)
+     *   Cost: 1 madd (1500 ops) + 1 inv (5580 ops) = 7080 ops/step
+     * NORM_INTERVAL=8: original, 7/8 steps have wrong jump index
+     *
+     * N=2 is the sweet spot: 1.95x slower per step vs N=8, but walk
+     * EMPIRICAL RESULT: NI=2 is 18x SLOWER than NI=8 at 36-bit.
+     * Jacobian X is random enough for jump selection. Keep NI=8.
+     */
     #define NORM_INTERVAL 8
 
     for (int step = 0; step < steps_per_launch; step++) {

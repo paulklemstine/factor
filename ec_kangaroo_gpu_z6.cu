@@ -1219,7 +1219,7 @@ int ec_kang_gpu_solve(const char *Gx_hex, const char *Gy_hex,
      * New: (bits-8)/4 — keeps post-merge walk < 10% of total expected walk. */
     /* Z/6: canonical DP keying + cross-orbit resolution gives ~3x more
      * useful collisions. Slightly reduce DP bits for earlier detection. */
-    int D = (bound_bits - 9) / 4;
+    int D = (bound_bits - 8) / 4;
     if (D < 6) D = 6;
     if (D > 20) D = 20;
     const char *dp_env = getenv("GPU_DP_BITS");
