@@ -554,7 +554,7 @@ def gnfs_params(n):
     elif nd < 48:
         fb_bound = 100000
     elif nd < 52:
-        fb_bound = 150000
+        fb_bound = 80000
     elif nd < 56:
         fb_bound = 400000
     elif nd < 60:
@@ -580,13 +580,14 @@ def gnfs_params(n):
 
     # B_max: generous — more b values is cheap with C sieve
     # For larger numbers, need more b values to find enough relations
+    # 49d with B=150K needed B_max>2.25M (93% at 2.25M), so use 25x for 40-49d
     if nd >= 50:
-        B_max = max(fb_bound * 20, 10000)
+        B_max = max(fb_bound * 30, 10000)
     elif nd >= 40:
-        B_max = max(fb_bound * 15, 5000)
+        B_max = max(fb_bound * 25, 5000)
     else:
         B_max = max(fb_bound * 4, 5000)
-    B_max = min(B_max, 5000000)
+    B_max = min(B_max, 8000000)
 
     return {
         'd': d,
@@ -2896,7 +2897,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     # Use lattice sieve for 50d+ when C sieve available, 80d+ for Python fallback
     # Below 50d, line sieve + SLP/DLP is faster due to higher smoothness probability
     _c_lattice_available = _load_lattice_sieve() is not None
-    _lattice_threshold = 50 if _c_lattice_available else 80
+    _lattice_threshold = 60 if _c_lattice_available else 80
     if nd >= _lattice_threshold:
         # Lattice sieve with special-q
         if verbose:
@@ -3328,9 +3329,18 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     if verbose:
         print(f"    LA: {len(verified_relations)} x {ncols_total}")
 
-    null_vecs = gf2_gaussian_elimination(
-        verified_relations, len(rat_fb), len(alg_fb), num_qc=num_qc,
-        num_sq=num_sq, num_lp=num_lp_cols, verbose=verbose)
+    # Try C Gauss (block_lanczos.py) first — 10-50x faster than numpy Gauss
+    try:
+        from block_lanczos import gf2_block_lanczos
+        null_vecs = gf2_block_lanczos(
+            verified_relations, len(rat_fb), len(alg_fb), num_qc=num_qc,
+            num_sq=num_sq, num_lp=num_lp_cols, verbose=verbose)
+    except Exception as e:
+        if verbose:
+            print(f"    C Gauss failed ({e}), falling back to numpy Gauss")
+        null_vecs = gf2_gaussian_elimination(
+            verified_relations, len(rat_fb), len(alg_fb), num_qc=num_qc,
+            num_sq=num_sq, num_lp=num_lp_cols, verbose=verbose)
 
     if verbose:
         print(f"    LA: {time.time()-la_t0:.1f}s, {len(null_vecs)} null vecs")
