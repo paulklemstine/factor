@@ -3525,9 +3525,9 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                         qc_bits = batch_qc[ci, :n_split_qc].tolist()
                         rel = {
                             'a': a_val, 'b': b_val,
-                            'rat_exps': sv_rat_exps[ci].astype(np.int8).copy(),
+                            'rat_exps': bytes(sv_rat_exps[ci].astype(np.uint8)),
                             'rat_sign': rat_sign,
-                            'alg_exps': sv_alg_exps[ci].astype(np.int8).copy(),
+                            'alg_exps': bytes(sv_alg_exps[ci].astype(np.uint8)),
                             'qc_bits': qc_bits,
                             '_needs_inert_qc': True,
                         }
@@ -3542,8 +3542,8 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                             rel['alg_lp'] = int(c_verify_alg_lp[ci])
                             partials_dlp.append(rel)
                         total_partials += 1
-                        # Cap partials to prevent OOM (~60K partials ≈ 1GB)
-                        if total_partials > 80000:
+                        # Cap partials to prevent OOM (~30K partials ≈ 300MB with bytes)
+                        if total_partials > 30000:
                             # Prune: keep only partials with 2+ entries (combinable)
                             for key in list(partials_alg.keys()):
                                 if len(partials_alg[key]) < 2:
@@ -3631,11 +3631,15 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                     br, or_ = base['rat_exps'], other['rat_exps']
                     ba, oa = base['alg_exps'], other['alg_exps']
                     if isinstance(br, np.ndarray):
-                        comb_rat = list(br + or_)
+                        comb_rat = (br + or_).tolist()
+                    elif isinstance(br, bytes):
+                        comb_rat = [br[j] + or_[j] for j in range(nrat)]
                     else:
                         comb_rat = [br[j] + or_[j] for j in range(nrat)]
                     if isinstance(ba, np.ndarray):
-                        comb_alg = list(ba + oa)
+                        comb_alg = (ba + oa).tolist()
+                    elif isinstance(ba, bytes):
+                        comb_alg = [ba[j] + oa[j] for j in range(nalg)]
                     else:
                         comb_alg = [ba[j] + oa[j] for j in range(nalg)]
                     verified_relations.append({
