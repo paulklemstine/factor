@@ -2,12 +2,13 @@
 
 Modes: float (lossy CF/quantized), timeseries (delta+CF/quant),
        integer (lossless varint), auto (sniff and pick best).
+Sub-modes for float: CF (varint), Quant, Log, CF+Arithmetic coding.
 """
 import struct, math, gc
 
 MAGIC = b"CF01"
 MODE_FLOAT, MODE_INTEGER, MODE_TIMESERIES, MODE_RAW = 1, 2, 3, 4
-FLOAT_SUB_CF, FLOAT_SUB_QUANT, FLOAT_SUB_LOG = 0, 1, 2
+FLOAT_SUB_CF, FLOAT_SUB_QUANT, FLOAT_SUB_LOG, FLOAT_SUB_CF_ARITH = 0, 1, 2, 3
 
 # -- Varint (protobuf-style: 7 bits/byte, MSB=continuation) ---------------
 
@@ -86,6 +87,437 @@ def _dec_cf_list(data, pos, count):
             cf.append(ai)
         result.append(cf)
     return result, pos
+
+# -- Arithmetic coding with Gauss-Kuzmin model -----------------------------
+
+# Precompute Gauss-Kuzmin CDF for PQ values 1..MAX_GK_SYM, plus escape
+_MAX_GK_SYM = 128
+_GK_PROBS = []
+_GK_CDF = [0]
+for _k in range(1, _MAX_GK_SYM + 1):
+    _GK_PROBS.append(-math.log2(1 - 1 / (_k + 1) ** 2) / math.log2(math.e) * math.log(2))
+# Normalize: use actual GK probabilities (they sum to ~1 for large max)
+_GK_PROBS = [-math.log2(1 - 1 / (_k + 1) ** 2) for _k in range(1, _MAX_GK_SYM + 1)]
+_gk_total = sum(_GK_PROBS)
+_gk_escape = max(0.001, 1.0 - _gk_total)
+_GK_PROBS = [p / (_gk_total + _gk_escape) for p in _GK_PROBS]
+_GK_PROBS.append(_gk_escape / (_gk_total + _gk_escape))  # escape symbol
+_GK_CDF = [0.0]
+for _p in _GK_PROBS:
+    _GK_CDF.append(_GK_CDF[-1] + _p)
+_GK_CDF[-1] = 1.0
+
+# Use integer arithmetic for precision (32-bit range)
+_AC_BITS = 32
+_AC_TOP = (1 << _AC_BITS)
+_AC_HALF = _AC_TOP >> 1
+_AC_QTR = _AC_HALF >> 1
+
+# Integer CDF (scaled to _AC_TOP)
+_GK_ICDF = [int(c * _AC_TOP) for c in _GK_CDF]
+_GK_ICDF[0] = 0
+_GK_ICDF[-1] = _AC_TOP
+# Ensure monotonic
+for _i in range(1, len(_GK_ICDF)):
+    if _GK_ICDF[_i] <= _GK_ICDF[_i - 1]:
+        _GK_ICDF[_i] = _GK_ICDF[_i - 1] + 1
+
+
+def _arith_encode_pqs(pq_list):
+    """Arithmetic-encode a list of CF partial quotients using GK model.
+    Returns bytes."""
+    lo, hi = 0, _AC_TOP
+    pending = 0
+    bits_out = []
+
+    def _emit(bit):
+        nonlocal pending
+        bits_out.append(bit)
+        while pending > 0:
+            bits_out.append(1 - bit)
+            pending -= 1
+
+    for pq in pq_list:
+        # Map pq to symbol index
+        if 1 <= pq <= _MAX_GK_SYM:
+            sym = pq - 1
+        else:
+            sym = _MAX_GK_SYM  # escape
+
+        rng = hi - lo
+        hi = lo + (rng * _GK_ICDF[sym + 1]) // _AC_TOP
+        lo = lo + (rng * _GK_ICDF[sym]) // _AC_TOP
+
+        # Renormalize
+        while True:
+            if hi <= _AC_HALF:
+                _emit(0)
+                lo <<= 1
+                hi <<= 1
+            elif lo >= _AC_HALF:
+                _emit(1)
+                lo = (lo - _AC_HALF) << 1
+                hi = (hi - _AC_HALF) << 1
+            elif lo >= _AC_QTR and hi <= 3 * _AC_QTR:
+                pending += 1
+                lo = (lo - _AC_QTR) << 1
+                hi = (hi - _AC_QTR) << 1
+            else:
+                break
+
+    # Flush
+    pending += 1
+    _emit(0 if lo < _AC_QTR else 1)
+
+    # Pack bits -> bytes
+    buf = bytearray((len(bits_out) + 7) // 8)
+    for i, b in enumerate(bits_out):
+        if b:
+            buf[i >> 3] |= (1 << (7 - (i & 7)))
+
+    # Encode escapes (values > _MAX_GK_SYM) as varint appendix
+    esc_buf = bytearray()
+    for pq in pq_list:
+        if pq < 1 or pq > _MAX_GK_SYM:
+            esc_buf.extend(_enc_uv(max(0, pq)))
+
+    # Header: bit_count(4) + esc_count(4) + arith_bytes + esc_bytes
+    n_esc = sum(1 for pq in pq_list if pq < 1 or pq > _MAX_GK_SYM)
+    result = struct.pack('<II', len(bits_out), n_esc)
+    result += bytes(buf) + bytes(esc_buf)
+    return result
+
+
+def _arith_decode_pqs(data, pos, count):
+    """Decode arithmetic-coded PQ list. Returns (pq_list, new_pos)."""
+    n_bits, n_esc = struct.unpack_from('<II', data, pos)
+    pos += 8
+    n_arith_bytes = (n_bits + 7) // 8
+    arith_data = data[pos:pos + n_arith_bytes]
+    pos += n_arith_bytes
+
+    # Read escapes
+    escapes = []
+    esc_pos = pos
+    for _ in range(n_esc):
+        v, esc_pos = _dec_uv(data, esc_pos)
+        escapes.append(v)
+    pos = esc_pos
+
+    # Decode arithmetic stream
+    def _get_bit(idx):
+        if idx >= n_bits:
+            return 0
+        byte_idx = idx >> 3
+        bit_idx = 7 - (idx & 7)
+        if byte_idx >= len(arith_data):
+            return 0
+        return (arith_data[byte_idx] >> bit_idx) & 1
+
+    lo, hi = 0, _AC_TOP
+    val = 0
+    bit_pos = 0
+    for i in range(_AC_BITS):
+        val = (val << 1) | _get_bit(bit_pos)
+        bit_pos += 1
+
+    pqs = []
+    esc_idx = 0
+
+    for _ in range(count):
+        rng = hi - lo
+        # Find symbol
+        target = ((val - lo + 1) * _AC_TOP - 1) // rng
+        sym = 0
+        for s in range(len(_GK_ICDF) - 1):
+            if _GK_ICDF[s + 1] > target:
+                sym = s
+                break
+
+        # Update range
+        hi = lo + (rng * _GK_ICDF[sym + 1]) // _AC_TOP
+        lo = lo + (rng * _GK_ICDF[sym]) // _AC_TOP
+
+        # Renormalize
+        while True:
+            if hi <= _AC_HALF:
+                lo <<= 1
+                hi <<= 1
+                val = (val << 1) | _get_bit(bit_pos)
+                bit_pos += 1
+            elif lo >= _AC_HALF:
+                lo = (lo - _AC_HALF) << 1
+                hi = (hi - _AC_HALF) << 1
+                val = ((val - _AC_HALF) << 1) | _get_bit(bit_pos)
+                bit_pos += 1
+            elif lo >= _AC_QTR and hi <= 3 * _AC_QTR:
+                lo = (lo - _AC_QTR) << 1
+                hi = (hi - _AC_QTR) << 1
+                val = ((val - _AC_QTR) << 1) | _get_bit(bit_pos)
+                bit_pos += 1
+            else:
+                break
+
+        if sym == _MAX_GK_SYM:
+            # Escape
+            if esc_idx < len(escapes):
+                pqs.append(escapes[esc_idx])
+                esc_idx += 1
+            else:
+                pqs.append(1)
+        else:
+            pqs.append(sym + 1)
+
+    return pqs, pos
+
+
+def _generic_arith_encode(symbols, max_sym):
+    """Arithmetic-encode a list of non-negative integer symbols with uniform-ish model.
+    Uses adaptive frequency model for better compression."""
+    # Build frequency table from data
+    freq = [1] * (max_sym + 2)  # +1 for escape, +1 padding
+    for s in symbols:
+        if 0 <= s <= max_sym:
+            freq[s] += 1
+        else:
+            freq[max_sym + 1] += 1
+
+    total = sum(freq)
+    # Build integer CDF
+    icdf = [0]
+    for f in freq:
+        icdf.append(icdf[-1] + f)
+    # Scale to _AC_TOP
+    scale = _AC_TOP / icdf[-1]
+    icdf_scaled = [int(c * scale) for c in icdf]
+    icdf_scaled[0] = 0
+    icdf_scaled[-1] = _AC_TOP
+    for i in range(1, len(icdf_scaled)):
+        if icdf_scaled[i] <= icdf_scaled[i-1]:
+            icdf_scaled[i] = icdf_scaled[i-1] + 1
+
+    lo, hi = 0, _AC_TOP
+    pending = 0
+    bits_out = []
+
+    def _emit(bit):
+        nonlocal pending
+        bits_out.append(bit)
+        while pending > 0:
+            bits_out.append(1 - bit)
+            pending -= 1
+
+    escapes = []
+    for s in symbols:
+        if 0 <= s <= max_sym:
+            sym = s
+        else:
+            sym = max_sym + 1
+            escapes.append(s)
+
+        rng = hi - lo
+        hi = lo + (rng * icdf_scaled[sym + 1]) // _AC_TOP
+        lo = lo + (rng * icdf_scaled[sym]) // _AC_TOP
+
+        while True:
+            if hi <= _AC_HALF:
+                _emit(0); lo <<= 1; hi <<= 1
+            elif lo >= _AC_HALF:
+                _emit(1); lo = (lo - _AC_HALF) << 1; hi = (hi - _AC_HALF) << 1
+            elif lo >= _AC_QTR and hi <= 3 * _AC_QTR:
+                pending += 1; lo = (lo - _AC_QTR) << 1; hi = (hi - _AC_QTR) << 1
+            else:
+                break
+
+    pending += 1
+    _emit(0 if lo < _AC_QTR else 1)
+
+    buf = bytearray((len(bits_out) + 7) // 8)
+    for i, b in enumerate(bits_out):
+        if b: buf[i >> 3] |= (1 << (7 - (i & 7)))
+
+    esc_buf = bytearray()
+    for e in escapes:
+        esc_buf.extend(_enc_sv(e))
+
+    # Header: freq table (compact), bit_count, esc_count, bits, escapes
+    # Encode freq table as: max_sym+2 entries, each as uv
+    freq_buf = bytearray()
+    for f in freq:
+        freq_buf.extend(_enc_uv(f))
+
+    result = struct.pack('<HII', max_sym, len(bits_out), len(escapes))
+    result += bytes(freq_buf) + bytes(buf) + bytes(esc_buf)
+    return result
+
+
+def _generic_arith_decode(data, pos, count):
+    """Decode generic arithmetic-coded symbol list."""
+    max_sym, n_bits, n_esc = struct.unpack_from('<HII', data, pos)
+    pos += 10
+
+    # Read freq table
+    freq = []
+    for _ in range(max_sym + 2):
+        v, pos = _dec_uv(data, pos)
+        freq.append(v)
+
+    total = sum(freq)
+    icdf = [0]
+    for f in freq:
+        icdf.append(icdf[-1] + f)
+    scale = _AC_TOP / icdf[-1]
+    icdf_scaled = [int(c * scale) for c in icdf]
+    icdf_scaled[0] = 0
+    icdf_scaled[-1] = _AC_TOP
+    for i in range(1, len(icdf_scaled)):
+        if icdf_scaled[i] <= icdf_scaled[i-1]:
+            icdf_scaled[i] = icdf_scaled[i-1] + 1
+
+    n_arith_bytes = (n_bits + 7) // 8
+    arith_data = data[pos:pos + n_arith_bytes]
+    pos += n_arith_bytes
+
+    escapes = []
+    for _ in range(n_esc):
+        v, pos = _dec_sv(data, pos)
+        escapes.append(v)
+
+    def _get_bit(idx):
+        if idx >= n_bits: return 0
+        byte_idx = idx >> 3
+        if byte_idx >= len(arith_data): return 0
+        return (arith_data[byte_idx] >> (7 - (idx & 7))) & 1
+
+    lo, hi = 0, _AC_TOP
+    val = 0
+    bit_pos = 0
+    for _ in range(_AC_BITS):
+        val = (val << 1) | _get_bit(bit_pos)
+        bit_pos += 1
+
+    symbols = []
+    esc_idx = 0
+    n_syms = len(icdf_scaled) - 1
+
+    for _ in range(count):
+        rng = hi - lo
+        target = ((val - lo + 1) * _AC_TOP - 1) // rng
+        sym = 0
+        for s in range(n_syms):
+            if icdf_scaled[s + 1] > target:
+                sym = s
+                break
+
+        hi = lo + (rng * icdf_scaled[sym + 1]) // _AC_TOP
+        lo = lo + (rng * icdf_scaled[sym]) // _AC_TOP
+
+        while True:
+            if hi <= _AC_HALF:
+                lo <<= 1; hi <<= 1
+                val = (val << 1) | _get_bit(bit_pos); bit_pos += 1
+            elif lo >= _AC_HALF:
+                lo = (lo - _AC_HALF) << 1; hi = (hi - _AC_HALF) << 1
+                val = ((val - _AC_HALF) << 1) | _get_bit(bit_pos); bit_pos += 1
+            elif lo >= _AC_QTR and hi <= 3 * _AC_QTR:
+                lo = (lo - _AC_QTR) << 1; hi = (hi - _AC_QTR) << 1
+                val = ((val - _AC_QTR) << 1) | _get_bit(bit_pos); bit_pos += 1
+            else:
+                break
+
+        if sym == max_sym + 1:
+            if esc_idx < len(escapes):
+                symbols.append(escapes[esc_idx]); esc_idx += 1
+            else:
+                symbols.append(0)
+        else:
+            symbols.append(sym)
+
+    return symbols, pos
+
+
+def _enc_cf_arith(cf_list):
+    """Encode CF list using arithmetic coding for ALL streams (a0, lengths, PQs).
+    Much better than varint for structured data."""
+    a0s = [cf[0] for cf in cf_list]
+    lengths = [len(cf) - 1 for cf in cf_list]
+    all_pqs = []
+    for cf in cf_list:
+        all_pqs.extend(cf[1:])
+
+    # Handle sign of a0: encode as (sign_bit, abs_val)
+    a0_signs = bytearray((len(a0s) + 7) // 8)
+    a0_abs = []
+    for i, a in enumerate(a0s):
+        if a < 0:
+            a0_signs[i >> 3] |= (1 << (i & 7))
+        a0_abs.append(abs(a))
+
+    # Arithmetic-code a0 absolute values (typically 0-50)
+    max_a0 = max(a0_abs) if a0_abs else 0
+    a0_payload = _generic_arith_encode(a0_abs, min(max_a0, 255))
+
+    # Arithmetic-code lengths (typically 0-8)
+    max_len = max(lengths) if lengths else 0
+    len_payload = _generic_arith_encode(lengths, min(max_len, 31))
+
+    # Arithmetic-code PQs with Gauss-Kuzmin model
+    if all_pqs:
+        pq_payload = _arith_encode_pqs(all_pqs)
+    else:
+        pq_payload = b''
+
+    # Pack: sign_bytes_len(2) + a0_len(4) + len_len(4) + pq_len(4)
+    #      + signs + a0_payload + len_payload + pq_payload
+    header = struct.pack('<HIII', len(a0_signs), len(a0_payload), len(len_payload), len(pq_payload))
+    return header + bytes(a0_signs) + a0_payload + len_payload + pq_payload
+
+
+def _dec_cf_arith(data, pos, count):
+    """Decode arithmetic-coded CF list."""
+    signs_len, a0_len, len_len, pq_len = struct.unpack_from('<HIII', data, pos)
+    pos += 14
+
+    # Read signs
+    signs = data[pos:pos + signs_len]
+    pos += signs_len
+
+    # Decode a0 absolute values
+    a0_abs, pos2 = _generic_arith_decode(data, pos, count)
+    pos += a0_len
+
+    # Reconstruct a0 with signs
+    a0s = []
+    for i, a in enumerate(a0_abs):
+        if (signs[i >> 3] >> (i & 7)) & 1:
+            a0s.append(-a)
+        else:
+            a0s.append(a)
+
+    # Decode lengths
+    lengths, pos2 = _generic_arith_decode(data, pos, count)
+    pos += len_len
+
+    # Decode PQs
+    total_pqs = sum(lengths)
+    if total_pqs > 0:
+        pqs, _ = _arith_decode_pqs(data, pos, total_pqs)
+    else:
+        pqs = []
+    pos += pq_len
+
+    # Reassemble CFs
+    result = []
+    pq_idx = 0
+    for i in range(count):
+        cf = [a0s[i]]
+        for _ in range(lengths[i]):
+            cf.append(pqs[pq_idx])
+            pq_idx += 1
+        result.append(cf)
+
+    return result, pos
+
 
 # -- Quantization helpers ---------------------------------------------------
 
@@ -184,14 +616,16 @@ class CFCodec:
     # -- Float (lossy) ------------------------------------------------------
 
     def compress_floats(self, values, lossy_depth=6):
-        """Compress float array. Picks best of CF, linear-quant, log-quant."""
+        """Compress float array. Picks best of CF, CF+arith, linear-quant, log-quant."""
         n = len(values)
         if n == 0: return _make_hdr(MODE_FLOAT, 0, lossy_depth, 0)
         cands = [(FLOAT_SUB_CF, self._cf_enc(values, lossy_depth))]
+        # Try arithmetic-coded CF (much better for near-rational data)
+        cands.append((FLOAT_SUB_CF_ARITH, self._cf_arith_enc(values, lossy_depth)))
         nz = [abs(v) for v in values if v != 0]
         dr = max(nz) / min(nz) if nz and min(nz) > 0 else 1
         if dr < 1e6:
-            for bits in (12, 16, 20):
+            for bits in (8, 10, 12, 16, 20):
                 cands.append((FLOAT_SUB_QUANT, self._quant_enc(values, bits)))
         elif min(nz) > 0 if nz else False:
             cands.append((FLOAT_SUB_LOG, self._log_enc(values, 20)))
@@ -212,6 +646,8 @@ class CFCodec:
             return self._quant_dec(data, off, count)
         elif sub == FLOAT_SUB_LOG:
             return self._log_dec(data, off, count)
+        elif sub == FLOAT_SUB_CF_ARITH:
+            return [cf_to_float(c) for c in _dec_cf_arith(data, off, count)[0]]
         raise ValueError(f"bad sub {sub}")
 
     # -- Time series (lossy) ------------------------------------------------
@@ -281,6 +717,11 @@ class CFCodec:
         for s in range(0, len(values), 1000):
             buf.extend(_enc_cf_list([float_to_cf(v, depth) for v in values[s:s+1000]]))
         return bytes(buf)
+
+    def _cf_arith_enc(self, values, depth):
+        """CF encode with arithmetic-coded PQ stream (Gauss-Kuzmin model)."""
+        cf_list = [float_to_cf(v, depth) for v in values]
+        return _enc_cf_arith(cf_list)
 
     def _quant_enc(self, values, bits=20):
         ints, vmin, scale = _quantize(values, bits)
