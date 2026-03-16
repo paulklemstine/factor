@@ -207,9 +207,7 @@ def base_m_poly(n, d=None):
     best_coeffs = None
     best_m = int(m0)
 
-    # Search range: wider search finds better polynomials (lower skew, smaller norms)
-    # d=3: m ~ n^(1/3), so ±1000 explores ~2000/m fraction of space
-    # d>=4: ±1000 is already good since coefficients are smaller
+    # Phase 1: Standard search ±1000 around m0
     search_range = 1000
     for delta in range(-search_range, search_range + 1):
         m_try = int(m0) + delta
@@ -223,6 +221,39 @@ def base_m_poly(n, d=None):
             best_score = score
             best_coeffs = coeffs
             best_m = m_try
+
+    # Phase 2: Tree-based candidates — sum-of-two-squares bases near m0
+    # Values m = a^2 + b^2 have factored-form algebraic norms, giving
+    # smaller coefficients and better smoothness (T7 conjecture: 10-56x).
+    # We sample (a,b) pairs with a^2 + b^2 ≈ m0 to generate candidates.
+    import random as _rng
+    m0_int = int(m0)
+    m0_sqrt = int(math.isqrt(m0_int))
+    tree_candidates_tried = 0
+    # Sample ~2000 sum-of-squares values near m0
+    for _ in range(2000):
+        # Pick random a near sqrt(m0), compute b = sqrt(m0 - a^2)
+        a_val = _rng.randint(max(1, m0_sqrt // 2), m0_sqrt)
+        residual = m0_int - a_val * a_val
+        if residual <= 0:
+            continue
+        b_val = int(math.isqrt(residual))
+        # Try b_val and b_val+1 to get values just above/below m0
+        for b_try in (b_val, b_val + 1):
+            if b_try < 1:
+                continue
+            m_try = a_val * a_val + b_try * b_try
+            if m_try < 2:
+                continue
+            tree_candidates_tried += 1
+            coeffs = _base_m_poly(n, mpz(m_try), d)
+            if coeffs is None:
+                continue
+            score = _poly_norm_score(coeffs, d)
+            if score < best_score:
+                best_score = score
+                best_coeffs = coeffs
+                best_m = m_try
 
     coeffs = best_coeffs
     m = best_m
