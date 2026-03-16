@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Reciprocity on PPTs — Breakthrough Mathematics</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .interactive { background: #fff8e1; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffcc02; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+  .calc-result { font-size: 22px; font-weight: bold; padding: 12px; border-radius: 8px; text-align: center; margin-top: 12px; }
+  .calc-plus { background: #e8f5e9; color: #2e7d32; }
+  .calc-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .calc-table td, .calc-table th { padding: 6px 10px; border: 1px solid #ddd; text-align: center; font-size: 14px; }
+  .calc-table th { background: #f5f5f5; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+<div class="page-wrapper">
+<aside class="sidebar">
+  <div class="logo"><h2>Breakthrough Mathematics</h2><span>Research Program</span></div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li><a href="../paper.html">Research Paper</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+<div class="main-content deep-dive">
+  <a href="../theorems.html" style="color:#0066cc;">&#8592; Back to Theorem Catalog</a>
+  <h2 class="section-title" style="margin-top:16px;">QR Reciprocity on PPTs: Always +1</h2>
+  <div style="margin-bottom:8px;">
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High Significance</span>
+  </div>
+
+  <div class="theorem-box">
+    <strong>Theorem.</strong> For all primitive Pythagorean triples $(a, b, c)$ with $\gcd(a,c) = 1$, the Jacobi symbol product satisfies
+    $$\left(\frac{a}{c}\right) \cdot \left(\frac{c}{a}\right) = +1 \text{ always.}$$
+  </div>
+
+  <h3>Intuition</h3>
+  <div class="intuition">
+    <p>Quadratic reciprocity is one of the deepest results in number theory -- Gauss called it the "golden theorem." It relates whether $a$ is a square mod $c$ to whether $c$ is a square mod $a$. The reciprocity formula involves $(-1)^{(a-1)(c-1)/4}$.</p>
+    <p style="margin-top:12px;">For PPTs, the hypotenuse $c$ always satisfies $c \equiv 1 \pmod{4}$ (since $c = m^2 + n^2$ with opposite parities). This makes $(c-1)/4$ an integer, and the exponent $(a-1)(c-1)/4$ is always even. So the reciprocity sign is always $+1$.</p>
+  </div>
+
+  <h3>Jacobi Symbol Calculator</h3>
+  <div class="interactive">
+    <p style="font-weight:bold;margin-bottom:12px;">Enter a PPT or generate one to compute the Jacobi symbols:</p>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <label>m: <input type="number" id="m-in" value="2" min="1" style="width:60px;padding:4px;"></label>
+      <label>n: <input type="number" id="n-in" value="1" min="1" style="width:60px;padding:4px;"></label>
+      <button onclick="computeJacobi()" style="background:#1a56db;color:white;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;">Compute</button>
+      <button onclick="randomPPT()" style="background:#666;color:white;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;">Random PPT</button>
+    </div>
+    <div id="jacobi-result" style="margin-top:12px;"></div>
+    <div style="margin-top:16px;border-top:1px solid #ffe082;padding-top:12px;">
+      <p style="font-weight:bold;">First 12 PPTs -- all products are +1:</p>
+      <table class="calc-table" id="ppt-table">
+        <thead><tr><th>(a, b, c)</th><th>(a/c)</th><th>(c/a)</th><th>Product</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>Proof</h3>
+  <div class="proof-sketch">
+    <p><strong>Step 1:</strong> By quadratic reciprocity (Gauss), for odd coprime $a, c$:
+    $\left(\frac{a}{c}\right)\left(\frac{c}{a}\right) = (-1)^{\frac{a-1}{2}\cdot\frac{c-1}{2}}$.</p>
+    <p style="margin-top:8px;"><strong>Step 2:</strong> Every PPT hypotenuse satisfies $c = m^2 + n^2$ where $m > n$, $\gcd(m,n) = 1$, $m \not\equiv n \pmod{2}$. One of $m, n$ is even, so $m^2 + n^2 \equiv 1 \pmod{4}$, giving $(c-1)/2 \equiv 0 \pmod{2}$.</p>
+    <p style="margin-top:8px;"><strong>Step 3:</strong> Since $(c-1)/2$ is even, the exponent $\frac{a-1}{2} \cdot \frac{c-1}{2}$ is always even regardless of $a$.</p>
+    <p style="margin-top:8px;"><strong>Step 4:</strong> Therefore $(-1)^{\text{even}} = +1$. QED.</p>
+  </div>
+
+  <h3>Significance</h3>
+  <div class="significance">
+    <p>This is a universal structural identity connecting the Berggren tree to quadratic reciprocity. It holds for ALL primitive Pythagorean triples, not just those with prime hypotenuse. The $c \equiv 1 \pmod{4}$ constraint is the key: it forces the reciprocity sign to always be positive, revealing that the tree's arithmetic is governed by this mod-4 structure.</p>
+  </div>
+
+  <h3>Related Theorems</h3>
+  <div class="related">
+    <a href="twin-hypotenuse.html">Twin Hypotenuse Impossibility</a>
+    <a href="berggren-group.html">Berggren Group Order</a>
+    <a href="prime-enrichment.html">Prime Enrichment 6.7x</a>
+  </div>
+
+  <footer class="site-footer">
+    Breakthrough Mathematics Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+  </footer>
+</div>
+</div>
+<script>
+function gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+function jacobi(a, n) {
+  if (n <= 0 || n % 2 === 0) return 0;
+  a = ((a % n) + n) % n;
+  let result = 1;
+  while (a !== 0) {
+    while (a % 2 === 0) {
+      a /= 2;
+      if (n % 8 === 3 || n % 8 === 5) result = -result;
+    }
+    [a, n] = [n, a];
+    if (a % 4 === 3 && n % 4 === 3) result = -result;
+    a = a % n;
+  }
+  return n === 1 ? result : 0;
+}
+function computeJacobi() {
+  const m = parseInt(document.getElementById('m-in').value);
+  const n = parseInt(document.getElementById('n-in').value);
+  const el = document.getElementById('jacobi-result');
+  if (m <= n || gcd(m, n) !== 1 || (m % 2 === n % 2)) {
+    el.innerHTML = '<span style="color:#c62828;">Need m > n, gcd(m,n)=1, opposite parity.</span>'; return;
+  }
+  const a = m*m - n*n, b = 2*m*n, c = m*m + n*n;
+  const j1 = jacobi(a, c), j2 = jacobi(c, a), prod = j1 * j2;
+  el.innerHTML = '<div style="font-size:15px;">PPT: ('+a+', '+b+', '+c+') &nbsp; c mod 4 = '+(c%4)+'</div>' +
+    '<div style="margin-top:8px;">Jacobi('+a+'/'+c+') = <strong>'+j1+'</strong> &nbsp;&nbsp; Jacobi('+c+'/'+a+') = <strong>'+j2+'</strong></div>' +
+    '<div class="calc-result calc-plus">Product = '+prod+' (always +1)</div>';
+}
+function randomPPT() {
+  let m, n;
+  do { m = 2 + Math.floor(Math.random() * 20); n = 1 + Math.floor(Math.random() * (m-1)); }
+  while (gcd(m, n) !== 1 || m % 2 === n % 2);
+  document.getElementById('m-in').value = m;
+  document.getElementById('n-in').value = n;
+  computeJacobi();
+}
+// Fill table
+(function(){
+  const ppts = [];
+  for (let m = 2; ppts.length < 12; m++)
+    for (let n = 1; n < m && ppts.length < 12; n++)
+      if (gcd(m,n) === 1 && (m%2 !== n%2))
+        ppts.push([m*m-n*n, 2*m*n, m*m+n*n]);
+  const tbody = document.querySelector('#ppt-table tbody');
+  ppts.forEach(([a,b,c]) => {
+    const j1 = jacobi(a,c), j2 = jacobi(c,a);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>('+a+', '+b+', '+c+')</td><td>'+j1+'</td><td>'+j2+'</td><td style="color:#2e7d32;font-weight:bold;">+'+(j1*j2)+'</td>';
+    tbody.appendChild(tr);
+  });
+})();
+computeJacobi();
+</script>
+</body>
+</html>
