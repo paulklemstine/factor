@@ -352,7 +352,11 @@ int ec_kang_shared_solve(
     if (scale < 1) scale = 1;
 
     unsigned long jumps[NUM_JUMPS];
-    for (int i = 0; i < NUM_JUMPS; i++) jumps[i] = PYTH_HYPS[i] * scale;
+    unsigned long max_jump = mean_target * 2;  /* cap: no jump > 2x mean prevents overshoot */
+    for (int i = 0; i < NUM_JUMPS; i++) {
+        jumps[i] = PYTH_HYPS[i] * scale;
+        if (jumps[i] > max_jump) jumps[i] = max_jump;
+    }
     if (scale > 1) jumps[0] = 1;
 
     apt G_pt, P_pt;
