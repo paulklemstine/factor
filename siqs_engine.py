@@ -33,6 +33,20 @@ import multiprocessing
 from collections import defaultdict
 
 ###############################################################################
+# C EXTENSION: Full sieve-to-relation pipeline (siqs_core_c.so)
+###############################################################################
+
+_c_core_available = False
+_SIQSCoreC = None
+try:
+    from siqs_core import SIQSCoreC as _SIQSCoreC_cls, is_available as _c_core_check
+    if _c_core_check():
+        _SIQSCoreC = _SIQSCoreC_cls
+        _c_core_available = True
+except ImportError:
+    pass
+
+###############################################################################
 # C EXTENSION: Fast Pollard rho for DLP cofactor splitting
 ###############################################################################
 
@@ -1018,8 +1032,42 @@ def _sieve_one_a(args):
     _log_g_max = math.log2(max(M, 1)) + 0.5 * nb
     _thresh = int(max(0, (_log_g_max - T_bits)) * 64) - small_prime_correction
 
+    # Try to use C core for sieve+TD+classify (5x faster at 48d)
+    _use_c_core = _c_core_available
+    _c_core = None
+    if _use_c_core:
+        try:
+            _c_core = _SIQSCoreC(fb, fb_log_list, fb_size, M, str(n_int), lp_bound)
+        except Exception:
+            _use_c_core = False
+
+    def _worker_sieve_poly_c(b_val, c_val, off1, off2):
+        """C-accelerated sieve: single C call for sieve+TD+classify."""
+        a_str = str(a_int)
+        b_str = str(int(b_val))
+        c_rels = _c_core.sieve_poly(off1, off2, a_str, b_str, a_prime_idx, _thresh)
+        for rtype, sieve_pos, sign, sparse_exps, cof, cof2 in c_rels:
+            if rtype == 3:  # direct factor
+                x = sieve_pos - M
+                ax_b = int(a * x + b_val)
+                g = gcd(mpz(ax_b), n)
+                if 1 < g < n:
+                    relations.append((_REL_DIRECT_FACTOR, int(g)))
+            elif rtype == 0:  # smooth
+                x = sieve_pos - M
+                x_stored = int(mpz(int(a * x + b_val)) % n)
+                relations.append((_REL_SMOOTH, (x_stored, sign, sparse_exps)))
+            elif rtype == 1:  # single LP
+                x = sieve_pos - M
+                x_stored = int(mpz(int(a * x + b_val)) % n)
+                relations.append((_REL_SINGLE_LP, (x_stored, sign, sparse_exps, cof)))
+            elif rtype == 2:  # double LP
+                x = sieve_pos - M
+                x_stored = int(mpz(int(a * x + b_val)) % n)
+                relations.append((_REL_DOUBLE_LP, (x_stored, sign, sparse_exps, cof, cof2)))
+
     def _worker_sieve_poly(b_val, c_val, off1, off2):
-        """Sieve one polynomial, collect raw relations."""
+        """Python fallback: sieve one polynomial, collect raw relations."""
         b_v = int(b_val)
         c_v = int(c_val)
 
@@ -1094,8 +1142,11 @@ def _sieve_one_a(args):
                 if lp1 < lp_bound and lp2 < lp_bound and is_prime(mpz(lp1)) and is_prime(mpz(lp2)):
                     relations.append((_REL_DOUBLE_LP, (x_stored, sign, sparse_exps, lp1, lp2)))
 
+    # Select sieve function: C core if available, else Python fallback
+    _sieve_fn = _worker_sieve_poly_c if _use_c_core else _worker_sieve_poly
+
     # Sieve first polynomial
-    _worker_sieve_poly(b, c, o1, o2)
+    _sieve_fn(b, c, o1, o2)
 
     # Gray code B-switching for remaining polynomials
     signs = [1] * s
@@ -1155,7 +1206,7 @@ def _sieve_one_a(args):
             o1[pi] = (r + M) % p
             o2[pi] = -1
 
-        _worker_sieve_poly(b, c, o1, o2)
+        _sieve_fn(b, c, o1, o2)
 
     return relations
 
@@ -2013,6 +2064,57 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
             _log_g_max = math.log2(max(M, 1)) + 0.5 * nb
             _thresh = int(max(0, (_log_g_max - T_bits)) * 64) - small_prime_correction
 
+            # Try to use C core for sieve+TD+classify
+            _st_use_c = _c_core_available
+            _st_core = None
+            if _st_use_c:
+                try:
+                    _st_core = _SIQSCoreC(fb, fb_log.tolist(), fb_size, M, str(int(n)), lp_bound)
+                except Exception:
+                    _st_use_c = False
+
+            def sieve_and_collect_c(b_val, c_val, off1, off2):
+                """C-accelerated sieve for single-threaded path."""
+                nonlocal poly_count, total_cands
+                _ts = time.time()
+                a_str_local = str(a_int)
+                b_str_local = str(int(b_val))
+                c_rels = _st_core.sieve_poly(off1, off2, a_str_local, b_str_local,
+                                             a_prime_idx, _thresh)
+                total_cands += len(c_rels)  # approximate
+                _t_sieve[0] += time.time() - _ts
+
+                for rtype, sieve_pos, sign_c, sparse_exps, cof, cof2 in c_rels:
+                    x = sieve_pos - M
+                    ax_b = int(a * x + b_val)
+
+                    if rtype == 3:  # direct factor
+                        g = gcd(mpz(ax_b), n)
+                        if 1 < g < n:
+                            return int(g)
+                        continue
+
+                    x_stored = int(mpz(ax_b) % n)
+                    # Reconstruct dense exps from sparse
+                    exps = [0] * fb_size
+                    for j, e in sparse_exps:
+                        exps[j] = e
+
+                    if rtype == 0:  # smooth
+                        dlp_graph.add_smooth(x_stored, sign_c, exps)
+                    elif rtype == 1:  # single LP
+                        result = dlp_graph.add_single_lp(x_stored, sign_c, exps, cof)
+                        if result:
+                            return result
+                    elif rtype == 2:  # double LP
+                        result = dlp_graph.add_double_lp(x_stored, sign_c, exps, cof, cof2)
+                        if result:
+                            return result
+
+                poly_count += 1
+                _t_polys[0] += 1
+                return None
+
             def sieve_and_collect(b_val, c_val, off1, off2):
                 """Sieve one polynomial and collect relations using batch hit detection."""
                 nonlocal poly_count, total_cands
@@ -2059,7 +2161,8 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                 _t_polys[0] += 1
                 return None
 
-            result = sieve_and_collect(b, c, o1, o2)
+            _st_sieve_fn = sieve_and_collect_c if _st_use_c else sieve_and_collect
+            result = _st_sieve_fn(b, c, o1, o2)
             if result:
                 if k > 1:
                     f = _extract_factor(result)
@@ -2131,7 +2234,7 @@ def siqs_factor(n, verbose=True, time_limit=3600, multiplier=1, n_workers=1, gro
                     o1[pi] = (r + M) % p
                     o2[pi] = -1
 
-                result = sieve_and_collect(b, c, o1, o2)
+                result = _st_sieve_fn(b, c, o1, o2)
                 if result:
                     if k > 1:
                         f = _extract_factor(result)
