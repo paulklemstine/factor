@@ -42,13 +42,26 @@ def _load_lib():
             ctypes.POINTER(ctypes.c_uint64), ctypes.c_int,
         ]
 
-        _lib.block_lanczos.restype = ctypes.c_int
-        _lib.block_lanczos.argtypes = [
+        # Wiedemann null-space finder (renamed from block_lanczos)
+        _lib.block_lanczos_v2.restype = ctypes.c_int
+        _lib.block_lanczos_v2.argtypes = [
             ctypes.POINTER(ctypes.c_int),
             ctypes.POINTER(ctypes.c_int),
             ctypes.c_int, ctypes.c_int,
             ctypes.POINTER(ctypes.c_uint64), ctypes.c_int,
         ]
+
+        # Legacy name compatibility
+        try:
+            _lib.block_lanczos.restype = ctypes.c_int
+            _lib.block_lanczos.argtypes = [
+                ctypes.POINTER(ctypes.c_int),
+                ctypes.POINTER(ctypes.c_int),
+                ctypes.c_int, ctypes.c_int,
+                ctypes.POINTER(ctypes.c_uint64), ctypes.c_int,
+            ]
+        except AttributeError:
+            pass
 
         return _lib
     except OSError:
@@ -138,14 +151,14 @@ def _c_gauss(sparse_rows, ncols, verbose=False):
 # ---------------------------------------------------------------------------
 def block_lanczos_solve(sparse_rows, ncols, verbose=False):
     """
-    Block Lanczos over GF(2) via C shared library.
+    Wiedemann null-space finder over GF(2) via C shared library.
 
-    Works on B = A * A^T (nrows x nrows, symmetric), finding vectors x
-    in the left null space of A (i.e., A^T * x = 0). Each dependency is
-    an nrows-bit vector indicating which rows XOR to zero.
+    Finds vectors x in the left null space of A (i.e., A^T * x = 0)
+    using the Wiedemann algorithm with Berlekamp-Massey and block extraction.
+    Each dependency is an nrows-bit vector indicating which rows XOR to zero.
 
-    O(n^2 * w / 64) where w = average row weight. Faster than Gauss for
-    matrices above ~3000 rows.
+    O(n * w * rank / 64) where w = average row weight.
+    Faster than Gauss for matrices above ~15000 rows.
 
     Returns list of null vectors (sorted row-index lists), or None.
     """
@@ -156,26 +169,26 @@ def block_lanczos_solve(sparse_rows, ncols, verbose=False):
     nrows = len(sparse_rows)
     row_ptr, col_idx, nnz = _sparse_to_csr(sparse_rows)
 
-    max_deps = min(128, nrows)
+    max_deps = min(256, nrows)
     nwords_dep = (nrows + 63) // 64
     deps_buf = (ctypes.c_uint64 * (max_deps * nwords_dep))()
 
     if verbose:
-        print(f"    Block Lanczos: {nrows}x{ncols}, nnz={nnz}")
+        print(f"    Wiedemann: {nrows}x{ncols}, nnz={nnz}")
 
     t0 = time.time()
-    ndeps = lib.block_lanczos(row_ptr, col_idx, nrows, ncols,
-                              deps_buf, max_deps)
+    ndeps = lib.block_lanczos_v2(row_ptr, col_idx, nrows, ncols,
+                                 deps_buf, max_deps)
     dt = time.time() - t0
 
     if ndeps < 0:
         if verbose:
-            print(f"    Block Lanczos failed (code {ndeps})")
+            print(f"    Wiedemann failed (code {ndeps})")
         return None
 
     vecs = _decode_deps(deps_buf, ndeps, nrows)
     if verbose:
-        print(f"    Block Lanczos: {len(vecs)} null vecs, {dt:.3f}s")
+        print(f"    Wiedemann: {len(vecs)} null vecs, {dt:.3f}s")
     return vecs
 
 
