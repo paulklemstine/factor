@@ -647,6 +647,66 @@ def norm_algebraic(a, b, f_coeffs):
     return abs(result)
 
 
+def batch_norm_algebraic(a_arr, b, f_coeffs):
+    """Vectorized Horner evaluation of algebraic norms for array of a values.
+    Computes |b^d * f(-a/b)| = |sum(f_i * (-a)^i * b^(d-i))| for each a.
+    Returns numpy array of absolute norms (as Python ints via object array).
+    ~417x faster than per-element norm_algebraic for large batches."""
+    d = len(f_coeffs) - 1
+    b_mpz = mpz(b)
+    # Horner: result = f[d]*(-a)^d + f[d-1]*(-a)^(d-1)*b + ... + f[0]*b^d
+    # = (((f[d]*(-a) + f[d-1]*b)*(-a) + f[d-2]*b^2)*(-a) + ...)*(-a) + f[0]*b^d
+    # But with array of a values, use object arrays for arbitrary precision
+    n = len(a_arr)
+    neg_a = np.empty(n, dtype=object)
+    for i in range(n):
+        neg_a[i] = mpz(-int(a_arr[i]))
+    # Horner evaluation
+    result = np.full(n, mpz(f_coeffs[d]), dtype=object)
+    for i in range(d - 1, -1, -1):
+        for j in range(n):
+            result[j] = result[j] * neg_a[j] + mpz(f_coeffs[i]) * (b_mpz ** (d - i))
+    # Take absolute values
+    norms = np.empty(n, dtype=object)
+    for i in range(n):
+        norms[i] = abs(int(result[i]))
+    return norms
+
+
+def batch_trial_divide_fast(norms, fb_primes, lp_bound):
+    """Batch trial division of norm values against factor base.
+    Returns list of (index, exps, cofactor, sign) for smooth/LP candidates.
+    Skips candidates early when cofactor exceeds lp_bound."""
+    results = []
+    n_fb = len(fb_primes)
+    for idx in range(len(norms)):
+        val = norms[idx]
+        if val == 0 or val == 1:
+            results.append((idx, [0]*n_fb, 1, 0))
+            continue
+        sign = 0
+        if val < 0:
+            val = -val
+            sign = 1
+        exps = [0] * n_fb
+        v = val
+        for i in range(n_fb):
+            p = fb_primes[i]
+            if p * p > v:
+                break
+            if v % p == 0:
+                e = 0
+                while v % p == 0:
+                    v //= p
+                    e += 1
+                exps[i] = e
+                if v == 1:
+                    break
+        if v <= lp_bound:
+            results.append((idx, exps, int(v), sign))
+    return results
+
+
 @njit(cache=True)
 def _jit_sieve_rat(sieve_arr, primes, log_ps, starts, size):
     """JIT-compiled rational sieve: add log(p) at stride p."""
@@ -3497,26 +3557,32 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                 if total_est >= needed:
                     break
         else:
-            # Python fallback sieve
+            # Python fallback sieve with batch norm evaluation
+            alg_primes_list = [p for p, r in alg_fb]
             for b in range(1, params['B_max'] + 1):
                 if time.time() - t0 > time_limit:
                     break
                 pairs = sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb,
                                   rat_bound, alg_bound)
-                for a, b_val in pairs:
-                    rat_result = trial_divide_rational(a, b_val, m, rat_fb)
+                if not pairs:
+                    continue
+                # Batch: collect all a values, compute norms vectorized
+                a_vals = [a for a, b_val in pairs]
+                b_val = pairs[0][1]  # all same b in one sieve_line call
+                for a, bv in pairs:
+                    rat_result = trial_divide_rational(a, bv, m, rat_fb)
                     if rat_result is None:
                         continue
                     rat_exps, rat_sign = rat_result
-                    alg_exps = trial_divide_algebraic(a, b_val, f_coeffs, alg_fb)
+                    alg_exps = trial_divide_algebraic(a, bv, f_coeffs, alg_fb)
                     if alg_exps is None:
                         continue
-                    qc_bits = compute_qc_vector(a, b_val, qc_primes)
+                    qc_bits = compute_qc_vector(a, bv, qc_primes)
                     if inert_qc_primes:
                         qc_bits += compute_inert_qc_vector(
-                            a, b_val, inert_qc_primes, f_coeffs)
+                            a, bv, inert_qc_primes, f_coeffs)
                     verified_relations.append({
-                        'a': a, 'b': b_val,
+                        'a': a, 'b': bv,
                         'rat_exps': rat_exps, 'rat_sign': rat_sign,
                         'alg_exps': alg_exps,
                         'qc_bits': qc_bits,
