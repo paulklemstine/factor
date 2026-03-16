@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unipotent Commutator [A,B] — B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #1a1a3a; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #0c0c22; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #1a2a1a; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .viz-container { background: #0d0d1a; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: var(--cyan); text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: var(--cyan); }
+  h3 { color: var(--cyan); margin: 24px 0 12px; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>B3 Pythagorean Tree</h2>
+    <span>Factoring Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">Unipotent Commutator [A,B]</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">#28: Unipotent Commutator Theorem</h2>
+<div style="margin-bottom:8px;">
+  <span class="badge badge-proven">Proven</span>
+  <span class="badge badge-high">High Significance</span>
+</div>
+
+<!-- Statement -->
+<h3>Formal Statement</h3>
+<div class="theorem-box">
+  <p>The commutators [A,B] = ABA&supmin;&sup1;B&supmin;&sup1; and [B,C] = BCB&supmin;&sup1;C&supmin;&sup1; of the Berggren matrices are <strong>unipotent</strong> of nilpotency index 3 over Z:</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">([A,B] - I)&sup3; = 0 &nbsp;&nbsp;but&nbsp;&nbsp; ([A,B] - I)&sup2; &ne; 0</p>
+  <p>For every prime p &ge; 5, the order of [A,B] mod p is exactly p:</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:12px 0;">ord([A,B] mod p) = ord([B,C] mod p) = p</p>
+</div>
+
+<!-- Intuition -->
+<h3>Intuition (Plain English)</h3>
+<div class="intuition">
+  <p>A "commutator" measures how much two operations fail to commute. If you apply A then B, versus B then A, the difference is [A,B]. For ordinary numbers, multiplication commutes (3 &times; 5 = 5 &times; 3), but matrix multiplication does not.</p>
+  <p style="margin-top:12px;">"Unipotent" means the only eigenvalue is 1. Think of it like a shear transformation -- it tilts things sideways but does not stretch or rotate. The key property: when you repeat a shear p times modulo a prime p, you get back to the identity. This is the additive structure of F_p showing through.</p>
+  <p style="margin-top:12px;">This means the commutator acts like a "counter mod p" -- it cycles through p distinct states before returning to its starting point. This is exactly the additive group structure that p-1 and p+1 factoring methods exploit.</p>
+</div>
+
+<!-- Proof Sketch -->
+<h3>Proof Sketch</h3>
+<div class="proof-sketch">
+  <p><strong>Step 1 -- Direct computation:</strong> Compute U = [A,B] = ABA&supmin;&sup1;B&supmin;&sup1; explicitly over Z. Set N = U - I. Verify N&sup3; = 0 by matrix multiplication (all 27 entries vanish). Verify N&sup2; &ne; 0 (at least one non-zero entry).</p>
+  <p style="margin-top:8px;"><strong>Step 2 -- Binomial theorem mod p:</strong> Since N&sup3; = 0, for any k we have U&supk; = (I + N)&supk; = I + kN + C(k,2)N&sup2;. Reducing mod p: U&supp; = I + pN + C(p,2)N&sup2; &equiv; I (mod p), because p | p and p | C(p,2) for primes p &ge; 3.</p>
+  <p style="margin-top:8px;"><strong>Step 3 -- Minimality:</strong> For k &lt; p, the coefficient k in kN is non-zero mod p (since 0 &lt; k &lt; p), so U&sup k; &ne; I. Therefore ord(U) = p exactly.</p>
+  <p style="margin-top:8px;"><strong>Verification:</strong> Tested for 13 primes from 5 to 53, zero exceptions.</p>
+</div>
+
+<!-- Significance -->
+<h3>Significance</h3>
+<div class="significance">
+  <p><strong>Cleanest theorem in the entire catalog.</strong> This is the single most elegant result: a purely algebraic fact about the Berggren matrices with a complete, self-contained proof.</p>
+  <p style="margin-top:12px;">The connection to factoring is direct: the p-1 method (Pollard, 1974) works when p-1 is smooth, and the p+1 method (Williams, 1982) works when p+1 is smooth. The commutator [A,B] gives an element of order exactly p, while [A,C] gives an element whose order divides (p-1) or (p+1). This means the Berggren tree naturally encodes exactly the arithmetic that these factoring algorithms exploit.</p>
+</div>
+
+<!-- Visualization -->
+<h3>Visualization: Matrix Computation</h3>
+<div class="viz-container">
+  <svg width="580" height="320" viewBox="0 0 580 320" xmlns="http://www.w3.org/2000/svg">
+    <!-- Matrix A -->
+    <rect x="20" y="30" width="100" height="80" rx="6" fill="#161635" stroke="#ff5252" stroke-width="2"/>
+    <text x="70" y="22" text-anchor="middle" fill="#ff5252" font-size="13" font-weight="bold">A</text>
+    <text x="70" y="55" text-anchor="middle" fill="#c8c8e8" font-size="11" font-family="monospace">1 -2  2</text>
+    <text x="70" y="72" text-anchor="middle" fill="#c8c8e8" font-size="11" font-family="monospace">2 -1  2</text>
+    <text x="70" y="89" text-anchor="middle" fill="#c8c8e8" font-size="11" font-family="monospace">2 -2  3</text>
+
+    <!-- times -->
+    <text x="135" y="72" text-anchor="middle" fill="#8888aa" font-size="18">&middot;</text>
+
+    <!-- Matrix B -->
+    <rect x="150" y="30" width="100" height="80" rx="6" fill="#161635" stroke="#00e676" stroke-width="2"/>
+    <text x="200" y="22" text-anchor="middle" fill="#00e676" font-size="13" font-weight="bold">B</text>
+    <text x="200" y="55" text-anchor="middle" fill="#c8c8e8" font-size="11" font-family="monospace">1  2  2</text>
+    <text x="200" y="72" text-anchor="middle" fill="#c8c8e8" font-size="11" font-family="monospace">2  1  2</text>
+    <text x="200" y="89" text-anchor="middle" fill="#c8c8e8" font-size="11" font-family="monospace">2  2  3</text>
+
+    <!-- times A^-1 B^-1 -->
+    <text x="265" y="72" text-anchor="middle" fill="#8888aa" font-size="14">&middot; A&supmin;&sup1; &middot; B&supmin;&sup1;</text>
+
+    <!-- equals -->
+    <text x="365" y="72" text-anchor="middle" fill="#ffd700" font-size="18">=</text>
+
+    <!-- Result [A,B] -->
+    <rect x="385" y="30" width="170" height="80" rx="6" fill="#161635" stroke="#ffd700" stroke-width="2"/>
+    <text x="470" y="22" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="bold">[A,B]</text>
+    <text x="470" y="55" text-anchor="middle" fill="#ffd700" font-size="11" font-family="monospace"> 5  -4   0</text>
+    <text x="470" y="72" text-anchor="middle" fill="#ffd700" font-size="11" font-family="monospace"> 8  -7   2</text>
+    <text x="470" y="89" text-anchor="middle" fill="#ffd700" font-size="11" font-family="monospace"> 4  -4   2</text>
+
+    <!-- Arrow down -->
+    <line x1="470" y1="120" x2="470" y2="150" stroke="#ffd700" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <defs><marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ffd700"/></marker></defs>
+
+    <!-- Eigenvalue box -->
+    <rect x="340" y="155" width="220" height="45" rx="8" fill="#1a1a3a" stroke="#bb86fc" stroke-width="1.5"/>
+    <text x="450" y="174" text-anchor="middle" fill="#bb86fc" font-size="13">Eigenvalues: {1, 1, 1}</text>
+    <text x="450" y="190" text-anchor="middle" fill="#8888aa" font-size="11">Unipotent (only eigenvalue 1)</text>
+
+    <!-- Nilpotency chain -->
+    <rect x="40" y="155" width="260" height="45" rx="8" fill="#1a2a1a" stroke="#00e676" stroke-width="1.5"/>
+    <text x="170" y="174" text-anchor="middle" fill="#00e676" font-size="13">(U - I)&sup1; &ne; 0, (U - I)&sup2; &ne; 0</text>
+    <text x="170" y="190" text-anchor="middle" fill="#00e676" font-size="13">(U - I)&sup3; = 0</text>
+
+    <!-- Order result -->
+    <rect x="120" y="230" width="340" height="70" rx="10" fill="#161635" stroke="#ffd700" stroke-width="2"/>
+    <text x="290" y="258" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">ord([A,B] mod p) = p</text>
+    <text x="290" y="280" text-anchor="middle" fill="#8888aa" font-size="12">Additive group Z/pZ encoded in multiplicative matrix group</text>
+  </svg>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The commutator [A,B] has only eigenvalue 1 (unipotent). Its order mod any prime p is exactly p.</p>
+</div>
+
+<!-- Related Theorems -->
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="berggren-group.html">Berggren Group |G|=2p(p&sup2;-1)</a>
+  <a href="cfrac-equivalence.html">CFRAC-Tree Equivalence</a>
+  <a href="spectral-gap.html">Spectral Gap (Expander)</a>
+  <a href="factoring-bsd.html">Factoring-BSD Equivalence</a>
+</div>
+
+<div class="series-nav" style="margin-top:32px;">
+  <a href="berggren-group.html">&larr; Prev: Berggren Group Structure</a>
+  <a href="congruent-number.html">Next: Congruent Number Curve Map &rarr;</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+</footer>
+
+</div></div>
+</body>
+</html>

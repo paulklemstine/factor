@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Image Gallery -- B3 Pythagorean Tree Research</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>B3 Pythagorean Tree</h2>
+    <span>Factoring Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="theorems.html">Theorem Catalog</a></li>
+    <li><a href="pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="engine.html">Factoring Engines</a></li>
+    <li><a href="paper.html">Research Paper</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="gallery.html" class="active">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="code.html">Source Code</a></li>
+    <li class="section-label">Download</li>
+    <li><a href="../paper/b3_paper.pdf" target="_blank">Download PDF</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content">
+
+<nav class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span class="sep">/</span>
+  <span class="current">Full Image Gallery</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">Full Image Gallery</h2>
+<p style="margin-bottom:8px;">
+  Every visualization produced during the research program. Images are grouped by series
+  with collapsible sections. Use the search box to filter by name, or click any image to open
+  the full-screen viewer with keyboard and swipe navigation.
+</p>
+
+<div class="stats-row" style="justify-content:flex-start;" id="gallery-stats"></div>
+
+<!-- Search -->
+<div class="search-box">
+  <input type="text" id="search-input" placeholder="Search images by name, series, or description...">
+  <span class="search-count" id="search-count"></span>
+</div>
+
+<!-- Filter pills -->
+<div class="pill-nav" id="filter-nav"></div>
+
+<!-- Gallery sections container -->
+<div id="gallery-sections"></div>
+
+<!-- Search results (hidden by default) -->
+<div id="search-results" style="display:none;">
+  <h3 class="subsection" id="search-results-title">Search Results</h3>
+  <div class="gallery-grid" id="search-grid"></div>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-15 &middot; Full Gallery
+</footer>
+
+</div></div>
+
+<script src="../viewer.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ---- Complete image catalog ----
+  var allImages = [];
+
+  // Standalone
+  var standaloneFiles = [
+    'b3_arithmetic_progression.png', 'b3_mandelbrot.png', 'cfrac_tree_equivalence.png',
+    'dickman_barrier.png', 'discriminant_diversity.png', 'eigenvalue_circle.png',
+    'factor_landscape_3d.png', 'factor_time_scaling.png', 'galois_period.png',
+    'lyapunov_growth.png', 'orbit_animation_frame.png', 'prime_spiral_pyth.png',
+    'pyth_tree_spiral.png', 'sieve_heatmap.png', 'smoothness_by_depth.png',
+    'smoothness_heatmap_2d.png', 'spectral_gap.png', 'tree_density.png',
+    'tree_fractal.png', 'tree_mod_p.png'
+  ];
+  standaloneFiles.forEach(function(f) {
+    allImages.push({ file: f, label: f.replace('.png','').replace(/_/g,' '), cat: 'standalone' });
+  });
+
+  // Viz series
+  var vizFiles = [
+    'viz01_tree_branches.png', 'viz01_tree_fractal.png',
+    'viz02_angle_depth_heatmap.png', 'viz02_angular_rose.png',
+    'viz03_cycle_structure.png', 'viz03_full_orbit_mod5.png', 'viz03_modular_orbits.png',
+    'viz04_hypotenuse_growth.png', 'viz04_hypotenuse_spiral.png',
+    'viz05_coprimality_analysis.png', 'viz05_coprimality_heatmap.png',
+    'viz06_eigenvalue_3d.png', 'viz06_eigenvalue_complex.png', 'viz06_spectral_radius_bars.png',
+    'viz07_factor_density.png', 'viz07_factor_overlay.png',
+    'viz08_digital_mandala.png', 'viz08_digital_root_analysis.png',
+    'viz09_prime_density.png', 'viz09_prime_hypotenuses.png',
+    'viz10_galois_bifurcation.png', 'viz10_order_ratios.png'
+  ];
+  vizFiles.forEach(function(f) {
+    allImages.push({ file: f, label: f.replace('.png','').replace(/_/g,' '), cat: 'viz' });
+  });
+
+  // Series A-M
+  var seriesOrder = ['A','B','C','D','E','F','G','H','I','J','K','L','M'];
+  seriesOrder.forEach(function(letter) {
+    var meta = SERIES_META[letter];
+    if (!meta) return;
+    for (var i = 1; i <= meta.count; i++) {
+      var num = String(i).padStart(2, '0');
+      var file = 'img_' + letter + num + '.png';
+      var desc = IMAGE_DESCRIPTIONS[file] || (meta.name + ' #' + num);
+      var shortLabel = letter + num + ': ' + desc.substring(0, 55);
+      if (desc.length > 55) shortLabel += '...';
+      allImages.push({ file: file, label: shortLabel, cat: letter });
+    }
+  });
+
+  // Berggren-Price
+  var bpFiles = [
+    'bp_connection_density.png', 'bp_cross_tree_graph.png', 'bp_depth_scatter.png',
+    'bp_ppt_tree_growth.png', 'bp_prime_trees.png'
+  ];
+  bpFiles.forEach(function(f) {
+    allImages.push({ file: f, label: f.replace('.png','').replace(/_/g,' '), cat: 'bp' });
+  });
+
+  // Prime trees
+  var ptFiles = [
+    'prime_tree_00_summary.png', 'prime_tree_01_cunningham.png',
+    'prime_tree_02_linear_recurrence.png', 'prime_tree_03_polynomial.png',
+    'prime_tree_04_modular.png', 'prime_tree_05_gcd_gap.png',
+    'prime_tree_06_gaussian.png', 'prime_tree_07_stern_brocot.png',
+    'prime_tree_08_totient.png', 'prime_tree_09_binary_split.png',
+    'prime_tree_10_ffm_hybrid.png'
+  ];
+  ptFiles.forEach(function(f) {
+    allImages.push({ file: f, label: f.replace('.png','').replace(/_/g,' '), cat: 'pt' });
+  });
+
+  // ---- Category definitions ----
+  var categories = [
+    { id: 'all', name: 'All' },
+    { id: 'standalone', name: 'Standalone' },
+    { id: 'viz', name: 'Viz Series' }
+  ];
+  seriesOrder.forEach(function(l) {
+    categories.push({ id: l, name: 'Series ' + l });
+  });
+  categories.push({ id: 'bp', name: 'Berggren-Price' });
+  categories.push({ id: 'pt', name: 'Prime Trees' });
+
+  var catNames = {
+    'standalone': 'Standalone Visualizations',
+    'viz': 'Viz Series (01-10)',
+    'bp': 'Berggren-Price Analysis',
+    'pt': 'Prime Tree Exploration'
+  };
+  seriesOrder.forEach(function(l) {
+    catNames[l] = 'Series ' + l + ': ' + SERIES_META[l].name;
+  });
+
+  // Count per category
+  var catCounts = {};
+  allImages.forEach(function(img) {
+    catCounts[img.cat] = (catCounts[img.cat] || 0) + 1;
+  });
+
+  // ---- Stats ----
+  var statsEl = document.getElementById('gallery-stats');
+  var totalCount = allImages.length;
+  var seriesCount = seriesOrder.length;
+  statsEl.innerHTML =
+    '<div class="stat-card"><div class="number">' + totalCount + '</div><div class="label">Total Images</div></div>' +
+    '<div class="stat-card"><div class="number">' + seriesCount + '</div><div class="label">Series (A-M)</div></div>' +
+    '<div class="stat-card"><div class="number">' + vizFiles.length + '</div><div class="label">Viz Series</div></div>' +
+    '<div class="stat-card"><div class="number">' + standaloneFiles.length + '</div><div class="label">Standalone</div></div>';
+
+  // ---- Filter pills ----
+  var filterNav = document.getElementById('filter-nav');
+  categories.forEach(function(cat) {
+    var a = document.createElement('a');
+    a.href = '#';
+    a.dataset.filter = cat.id;
+    var count = cat.id === 'all' ? totalCount : (catCounts[cat.id] || 0);
+    a.textContent = cat.name + ' (' + count + ')';
+    if (cat.id === 'all') a.classList.add('active');
+    filterNav.appendChild(a);
+  });
+
+  var currentFilter = 'all';
+
+  // ---- Build grouped gallery sections ----
+  var sectionsContainer = document.getElementById('gallery-sections');
+  var groupOrder = ['standalone', 'viz'].concat(seriesOrder).concat(['bp', 'pt']);
+
+  groupOrder.forEach(function(catId) {
+    var catImgs = allImages.filter(function(img) { return img.cat === catId; });
+    if (catImgs.length === 0) return;
+
+    var section = document.createElement('div');
+    section.className = 'gallery-section';
+    section.dataset.cat = catId;
+
+    var header = document.createElement('div');
+    header.className = 'series-header';
+    header.onclick = (function(cid) { return function() { toggleGallerySection(cid); }; })(catId);
+    header.innerHTML =
+      '<h3>' + (catNames[catId] || catId) + '</h3>' +
+      '<span class="series-count">' + catImgs.length + ' images</span>' +
+      '<span class="series-toggle" id="gtoggle-' + catId + '">&#9660;</span>';
+    section.appendChild(header);
+
+    var body = document.createElement('div');
+    body.className = 'series-body';
+    body.id = 'gbody-' + catId;
+
+    var grid = document.createElement('div');
+    grid.className = 'gallery-grid';
+
+    catImgs.forEach(function(img) {
+      var src = '../images/' + img.file;
+      var item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.dataset.collection = 'gal-' + catId;
+      item.dataset.src = src;
+      item.dataset.label = img.label;
+      item.dataset.file = img.file;
+      item.innerHTML = '<img src="' + src + '" alt="' + img.label + '" loading="lazy">' +
+        '<div class="caption">' + img.label + '</div>';
+      item.addEventListener('click', (function(s, c) {
+        return function() { openGalleryViewer(c, s); };
+      })(src, 'gal-' + catId));
+      grid.appendChild(item);
+    });
+
+    body.appendChild(grid);
+    section.appendChild(body);
+    sectionsContainer.appendChild(section);
+  });
+
+  // Set initial heights
+  document.querySelectorAll('.series-body').forEach(function(el) {
+    el.style.maxHeight = el.scrollHeight + 'px';
+  });
+
+  // ---- Toggle gallery section ----
+  window.toggleGallerySection = function(catId) {
+    var body = document.getElementById('gbody-' + catId);
+    var toggle = document.getElementById('gtoggle-' + catId);
+    if (!body) return;
+    if (body.classList.contains('collapsed')) {
+      body.classList.remove('collapsed');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      if (toggle) toggle.innerHTML = '&#9660;';
+    } else {
+      body.classList.add('collapsed');
+      body.style.maxHeight = '0px';
+      if (toggle) toggle.innerHTML = '&#9654;';
+    }
+  };
+
+  // ---- Open viewer from gallery ----
+  function openGalleryViewer(collectionId, startSrc) {
+    var items = document.querySelectorAll('.gallery-item[data-collection="' + collectionId + '"]');
+    var collection = [];
+    var startIdx = 0;
+    items.forEach(function(el, i) {
+      var src = el.dataset.src;
+      var label = el.dataset.label;
+      var filename = src.split('/').pop();
+      collection.push({ src: src, label: label, description: IMAGE_DESCRIPTIONS[filename] || '' });
+      if (src === startSrc) startIdx = i;
+    });
+    ImageViewer.open(collection, startIdx);
+  }
+
+  // ---- Filter by category ----
+  filterNav.addEventListener('click', function(e) {
+    if (e.target.tagName !== 'A') return;
+    e.preventDefault();
+    filterNav.querySelectorAll('a').forEach(function(a) { a.classList.remove('active'); });
+    e.target.classList.add('active');
+    currentFilter = e.target.dataset.filter;
+    applyFilter();
+  });
+
+  function applyFilter() {
+    var sections = sectionsContainer.querySelectorAll('.gallery-section');
+    sections.forEach(function(sec) {
+      if (currentFilter === 'all' || sec.dataset.cat === currentFilter) {
+        sec.style.display = '';
+      } else {
+        sec.style.display = 'none';
+      }
+    });
+    // Re-measure open sections
+    setTimeout(function() {
+      document.querySelectorAll('.series-body:not(.collapsed)').forEach(function(el) {
+        el.style.maxHeight = el.scrollHeight + 'px';
+      });
+    }, 10);
+  }
+
+  // ---- Search ----
+  var searchInput = document.getElementById('search-input');
+  var searchCount = document.getElementById('search-count');
+  var searchResults = document.getElementById('search-results');
+  var searchGrid = document.getElementById('search-grid');
+  var searchTitle = document.getElementById('search-results-title');
+
+  searchInput.addEventListener('input', function() {
+    var query = this.value.trim().toLowerCase();
+    if (query.length < 2) {
+      searchResults.style.display = 'none';
+      sectionsContainer.style.display = '';
+      searchCount.textContent = totalCount + ' images';
+      return;
+    }
+
+    sectionsContainer.style.display = 'none';
+    searchResults.style.display = '';
+    searchGrid.innerHTML = '';
+
+    var matches = allImages.filter(function(img) {
+      var haystack = (img.file + ' ' + img.label + ' ' + (IMAGE_DESCRIPTIONS[img.file] || '')).toLowerCase();
+      return haystack.indexOf(query) !== -1;
+    });
+
+    searchTitle.textContent = 'Search Results (' + matches.length + ' matches)';
+    searchCount.textContent = matches.length + ' / ' + totalCount;
+
+    matches.forEach(function(img) {
+      var src = '../images/' + img.file;
+      var item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.dataset.collection = 'search';
+      item.dataset.src = src;
+      item.dataset.label = img.label;
+      item.innerHTML = '<img src="' + src + '" alt="' + img.label + '" loading="lazy">' +
+        '<div class="caption">' + img.label + '</div>';
+      item.addEventListener('click', (function(s) {
+        return function() { openGalleryViewer('search', s); };
+      })(src));
+      searchGrid.appendChild(item);
+    });
+  });
+
+  searchCount.textContent = totalCount + ' images';
+
+})();
+</script>
+</body>
+</html>

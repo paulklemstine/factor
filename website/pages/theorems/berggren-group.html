@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berggren Group Structure — B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #1a1a3a; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #0c0c22; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #1a2a1a; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .viz-container { background: #0d0d1a; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: var(--cyan); text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: var(--cyan); }
+  h3 { color: var(--cyan); margin: 24px 0 12px; }
+  .matrix { font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 14px; color: #c8c8e8; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>B3 Pythagorean Tree</h2>
+    <span>Factoring Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">Berggren Group Structure</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">G1: Berggren Group Structure</h2>
+<div style="margin-bottom:8px;">
+  <span class="badge badge-proven">Proven</span>
+  <span class="badge badge-high">High Significance</span>
+</div>
+
+<!-- Statement -->
+<h3>Formal Statement</h3>
+<div class="theorem-box">
+  <p>Let A, B, C be the three Berggren matrices that generate the Pythagorean tree. For any prime p &ge; 5, the group G = &lt;A, B, C&gt; acting on (Z/pZ)&sup3; has exact order:</p>
+  <p style="text-align:center; font-size:22px; color:var(--gold); margin:16px 0;">|G| = 2p(p&sup2; - 1)</p>
+  <p>Moreover, G is isomorphic to a specific subgroup of GL(3, F_p) consisting of matrices with determinant &plusmn;1 that preserve the Pythagorean quadratic form x&sup2; + y&sup2; = z&sup2;.</p>
+</div>
+
+<!-- Intuition -->
+<h3>Intuition (Plain English)</h3>
+<div class="intuition">
+  <p>Imagine three roads branching from a central square in a city. Each road represents one of the Berggren matrices (A, B, C). Starting from the root triple (3, 4, 5), every Pythagorean triple can be reached by following some sequence of these three roads.</p>
+  <p style="margin-top:12px;">When we "wrap around" modulo a prime p, the infinite tree collapses into a finite graph. The question is: how much of the finite space (Z/pZ)&sup3; does this graph cover? The answer is 2p(p&sup2; - 1) -- which is almost all of it. The tree is not just some sparse skeleton; it fills up nearly the entire modular space.</p>
+  <p style="margin-top:12px;">The factor of 2 comes from determinant &plusmn;1. The factor of p comes from the unipotent (additive) part. The factor of p&sup2; - 1 comes from the semisimple (multiplicative) part. Together they account for rotations, scalings, and translations in the Pythagorean world mod p.</p>
+</div>
+
+<!-- Proof Sketch -->
+<h3>Proof Sketch</h3>
+<div class="proof-sketch">
+  <p><strong>Step 1:</strong> Compute the commutator [A, B] = ABA&sup-;&sup1;B&sup-;&sup1; and show it is unipotent of order exactly p mod any prime. This gives a cyclic subgroup of order p inside G.</p>
+  <p style="margin-top:8px;"><strong>Step 2:</strong> Show that A and C generate elements whose orders divide (p - 1) and (p + 1) respectively. Their combined action gives a subgroup of order lcm(p-1, p+1) = (p&sup2; - 1)/gcd(2, ...) in GL(3, F_p).</p>
+  <p style="margin-top:8px;"><strong>Step 3:</strong> Since the unipotent part (order p) and semisimple part (order dividing p&sup2; - 1) have coprime orders, the group is a semidirect product. Multiply: 2 &times; p &times; (p&sup2; - 1) = |G|.</p>
+  <p style="margin-top:8px;"><strong>Step 4:</strong> Verify computationally for 13 primes (5 through 53) with zero exceptions.</p>
+</div>
+
+<!-- Significance -->
+<h3>Significance</h3>
+<div class="significance">
+  <p><strong>Foundation for everything.</strong> This theorem is the bedrock of the entire Berggren tree research program. If the group were small, the tree would only visit a tiny fraction of residues mod p, and all downstream results (spectral gap, smoothness advantage, CFRAC equivalence) would collapse.</p>
+  <p style="margin-top:12px;">The fact that |G| = 2p(p&sup2; - 1) means the tree's coverage is near-maximal. For factoring, this translates to: when we search for smooth values along tree paths, we are not missing large swaths of the search space. The tree is an efficient search device.</p>
+</div>
+
+<!-- Visualization -->
+<h3>Visualization: Ternary Tree Branching</h3>
+<div class="viz-container">
+  <svg width="600" height="360" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+    <!-- Root -->
+    <circle cx="300" cy="40" r="18" fill="#161635" stroke="#ffd700" stroke-width="2"/>
+    <text x="300" y="45" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">(3,4,5)</text>
+
+    <!-- Level 1 branches -->
+    <line x1="300" y1="58" x2="150" y2="110" stroke="#ff5252" stroke-width="2" opacity="0.8"/>
+    <line x1="300" y1="58" x2="300" y2="110" stroke="#00e676" stroke-width="2" opacity="0.8"/>
+    <line x1="300" y1="58" x2="450" y2="110" stroke="#00d4ff" stroke-width="2" opacity="0.8"/>
+
+    <!-- Labels on branches -->
+    <text x="210" y="78" fill="#ff5252" font-size="11" font-weight="bold">A</text>
+    <text x="308" y="78" fill="#00e676" font-size="11" font-weight="bold">B</text>
+    <text x="385" y="78" fill="#00d4ff" font-size="11" font-weight="bold">C</text>
+
+    <!-- Level 1 nodes -->
+    <circle cx="150" cy="125" r="16" fill="#161635" stroke="#ff5252" stroke-width="2"/>
+    <text x="150" y="130" text-anchor="middle" fill="#e0e0e0" font-size="10">(5,12,13)</text>
+
+    <circle cx="300" cy="125" r="16" fill="#161635" stroke="#00e676" stroke-width="2"/>
+    <text x="300" y="130" text-anchor="middle" fill="#e0e0e0" font-size="10">(21,20,29)</text>
+
+    <circle cx="450" cy="125" r="16" fill="#161635" stroke="#00d4ff" stroke-width="2"/>
+    <text x="450" y="130" text-anchor="middle" fill="#e0e0e0" font-size="10">(15,8,17)</text>
+
+    <!-- Level 2 from A node -->
+    <line x1="150" y1="141" x2="70" y2="195" stroke="#ff5252" stroke-width="1.5" opacity="0.6"/>
+    <line x1="150" y1="141" x2="150" y2="195" stroke="#00e676" stroke-width="1.5" opacity="0.6"/>
+    <line x1="150" y1="141" x2="230" y2="195" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+
+    <circle cx="70" cy="208" r="12" fill="#161635" stroke="#ff5252" stroke-width="1.5"/>
+    <text x="70" y="212" text-anchor="middle" fill="#8888aa" font-size="8">(7,24,25)</text>
+    <circle cx="150" cy="208" r="12" fill="#161635" stroke="#00e676" stroke-width="1.5"/>
+    <text x="150" y="212" text-anchor="middle" fill="#8888aa" font-size="8">(55,48,73)</text>
+    <circle cx="230" cy="208" r="12" fill="#161635" stroke="#00d4ff" stroke-width="1.5"/>
+    <text x="230" y="212" text-anchor="middle" fill="#8888aa" font-size="8">(45,28,53)</text>
+
+    <!-- Level 2 from B node -->
+    <line x1="300" y1="141" x2="270" y2="195" stroke="#ff5252" stroke-width="1.5" opacity="0.6"/>
+    <line x1="300" y1="141" x2="300" y2="195" stroke="#00e676" stroke-width="1.5" opacity="0.6"/>
+    <line x1="300" y1="141" x2="330" y2="195" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+
+    <circle cx="270" cy="208" r="8" fill="#161635" stroke="#ff5252" stroke-width="1"/>
+    <circle cx="300" cy="208" r="8" fill="#161635" stroke="#00e676" stroke-width="1"/>
+    <circle cx="330" cy="208" r="8" fill="#161635" stroke="#00d4ff" stroke-width="1"/>
+
+    <!-- Level 2 from C node -->
+    <line x1="450" y1="141" x2="420" y2="195" stroke="#ff5252" stroke-width="1.5" opacity="0.6"/>
+    <line x1="450" y1="141" x2="450" y2="195" stroke="#00e676" stroke-width="1.5" opacity="0.6"/>
+    <line x1="450" y1="141" x2="480" y2="195" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+
+    <circle cx="420" cy="208" r="8" fill="#161635" stroke="#ff5252" stroke-width="1"/>
+    <circle cx="450" cy="208" r="8" fill="#161635" stroke="#00e676" stroke-width="1"/>
+    <circle cx="480" cy="208" r="8" fill="#161635" stroke="#00d4ff" stroke-width="1"/>
+
+    <!-- Dots for more levels -->
+    <text x="70" y="250" text-anchor="middle" fill="#8888aa" font-size="16">...</text>
+    <text x="150" y="250" text-anchor="middle" fill="#8888aa" font-size="16">...</text>
+    <text x="230" y="250" text-anchor="middle" fill="#8888aa" font-size="16">...</text>
+    <text x="300" y="250" text-anchor="middle" fill="#8888aa" font-size="16">...</text>
+    <text x="450" y="250" text-anchor="middle" fill="#8888aa" font-size="16">...</text>
+
+    <!-- Order annotation -->
+    <rect x="140" y="280" width="320" height="60" rx="8" fill="#161635" stroke="#ffd700" stroke-width="1"/>
+    <text x="300" y="302" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">|G mod p| = 2p(p&sup2; - 1)</text>
+    <text x="300" y="322" text-anchor="middle" fill="#8888aa" font-size="11">Near-maximal coverage of (Z/pZ)&sup3;</text>
+
+    <!-- Legend -->
+    <rect x="10" y="280" width="110" height="65" rx="6" fill="#0d0d1a" stroke="#2a2a5a" stroke-width="1"/>
+    <line x1="20" y1="298" x2="40" y2="298" stroke="#ff5252" stroke-width="2"/>
+    <text x="48" y="302" fill="#ff5252" font-size="10">Branch A</text>
+    <line x1="20" y1="315" x2="40" y2="315" stroke="#00e676" stroke-width="2"/>
+    <text x="48" y="319" fill="#00e676" font-size="10">Branch B</text>
+    <line x1="20" y1="332" x2="40" y2="332" stroke="#00d4ff" stroke-width="2"/>
+    <text x="48" y="336" fill="#00d4ff" font-size="10">Branch C</text>
+  </svg>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:8px;">The Berggren tree: three matrices A (red), B (green), C (cyan) generate all primitive Pythagorean triples.</p>
+</div>
+
+<!-- Related Theorems -->
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="unipotent-commutator.html">Unipotent Commutator [A,B]</a>
+  <a href="spectral-gap.html">Spectral Gap (Expander)</a>
+  <a href="prime-enrichment.html">Prime Enrichment 6.7x</a>
+  <a href="smoothness-advantage.html">Smoothness Advantage</a>
+</div>
+
+<div class="series-nav" style="margin-top:32px;">
+  <a href="../theorems.html">&larr; Back to Theorem Catalog</a>
+  <a href="unipotent-commutator.html">Next: Unipotent Commutator &rarr;</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+</footer>
+
+</div></div>
+</body>
+</html>

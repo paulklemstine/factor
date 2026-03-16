@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factoring Engines -- B3 Pythagorean Tree Research</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>B3 Pythagorean Tree</h2>
+    <span>Factoring Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="theorems.html">Theorem Catalog</a></li>
+    <li><a href="pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="engine.html" class="active">Factoring Engines</a></li>
+    <li><a href="paper.html">Research Paper</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="code.html">Source Code</a></li>
+    <li class="section-label">Download</li>
+    <li><a href="../paper/b3_paper.pdf" target="_blank">Download PDF</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content">
+
+<nav class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span class="sep">/</span>
+  <span class="current">Factoring Engines</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">Factoring Engine Architecture</h2>
+<p style="margin-bottom:24px;">
+  Three factoring engines plus an ECM bridge, with 14 production optimizations merged across
+  10 research sessions. From 48-digit semiprimes in 2 seconds to 69-digit in under 9 minutes.
+</p>
+
+<div class="stats-row" style="justify-content:flex-start;">
+  <div class="stat-card"><div class="number">4</div><div class="label">Engines</div></div>
+  <div class="stat-card"><div class="number">14</div><div class="label">Optimizations</div></div>
+  <div class="stat-card"><div class="number">69d</div><div class="label">Largest Factored</div></div>
+  <div class="stat-card"><div class="number">5.2x</div><div class="label">GPU Hybrid Speedup</div></div>
+</div>
+
+<!-- ========== ARCHITECTURE ========== -->
+<h2 class="section-title" id="arch">System Architecture</h2>
+
+<div class="arch-diagram">
+                    +---------------------------+
+                    |    resonance_v7.py         |
+                    |    Unified Driver           |
+                    +------+--------+------+-----+
+                           |        |      |
+              +------------+   +----+----+ +--------+
+              |                |         |          |
+    +---------v--------+ +----v-----+ +-v--------+ +--------+
+    |   Path 1: VSDD   | | Path 2:  | | Path 3:  | |  ECM   |
+    |   Sniper +       | |  SIQS    | |  GNFS    | | Bridge |
+    | Super-Generator  | | Engine   | | Engine   | | (54d)  |
+    | (Pyth Tree +     | |          | |          | |        |
+    |  Spectral Comp.) | |          | |          | |        |
+    +---------+--------+ +----+-----+ +----+-----+ +---+----+
+              |               |            |            |
+              |          +----v-----+ +----v------+     |
+              |          | C Sieve  | | C Lattice |     |
+              |          | Extension| | Sieve     |     |
+              |          +----------+ +-----------+     |
+              |               |            |            |
+              +-------+-------+------+-----+-----+-----+
+                      |              |           |
+                 +----v-----+  +----v------+ +--v--------+
+                 | Bitpacked|  | SGE +     | | GPU       |
+                 | GF(2)    |  | Singleton | | Cofactor  |
+                 | Gauss    |  | Filter    | | (RTX 4050)|
+                 +----------+  +-----------+ +-----------+
+</div>
+
+<!-- ========== SIQS ENGINE ========== -->
+<h2 class="section-title" id="siqs">SIQS Engine (Path 2)</h2>
+<p style="margin-bottom:16px;">
+  Self-Initializing Quadratic Sieve -- the primary workhorse for 48-69 digit semiprimes.
+  File: <code>siqs_engine.py</code>
+</p>
+
+<h3 class="subsection">Performance Scoreboard</h3>
+<table class="data-table">
+<thead><tr><th>Digits</th><th>Time (1-worker)</th><th>Time (2-worker)</th><th>Method</th></tr></thead>
+<tbody>
+  <tr><td class="num-col">48d</td><td class="num-col">3.9s</td><td class="num-col">3.0s</td><td>SIQS</td></tr>
+  <tr><td class="num-col">51d</td><td class="num-col">10.1s</td><td class="num-col">6.0s</td><td>SIQS</td></tr>
+  <tr><td class="num-col">54d</td><td class="num-col">11.6s</td><td class="num-col">9.5s</td><td>SIQS</td></tr>
+  <tr><td class="num-col">57d</td><td class="num-col">27.4s</td><td class="num-col">21.2s</td><td>SIQS</td></tr>
+  <tr><td class="num-col">60d</td><td class="num-col">48s</td><td class="num-col">--</td><td>SIQS</td></tr>
+  <tr><td class="num-col">63d</td><td class="num-col">90s</td><td class="num-col">--</td><td>SIQS</td></tr>
+  <tr><td class="num-col">66d</td><td class="num-col">244s</td><td class="num-col">--</td><td>SIQS</td></tr>
+  <tr><td class="num-col">69d</td><td class="num-col">538s</td><td class="num-col">--</td><td>SIQS</td></tr>
+</tbody>
+</table>
+
+<h3 class="subsection">Runtime Profile (59d, typical)</h3>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin:16px 0;">
+  <div style="flex:1;min-width:200px;">
+    <div class="rating-bar"><div class="bar" style="width:55.5%;min-width:40px;"></div><div class="label">Sieve: 55.5%</div></div>
+    <div class="rating-bar"><div class="bar" style="width:20.2%;min-width:40px;"></div><div class="label">Trial Division: 20.2%</div></div>
+    <div class="rating-bar"><div class="bar" style="width:16.4%;min-width:40px;"></div><div class="label">Other Overhead: 16.4%</div></div>
+    <div class="rating-bar"><div class="bar" style="width:4.0%;min-width:40px;"></div><div class="label">Find Smooth: 4.0%</div></div>
+    <div class="rating-bar"><div class="bar" style="width:2.3%;min-width:40px;"></div><div class="label">Poly Setup: 2.3%</div></div>
+    <div class="rating-bar"><div class="bar" style="width:0.9%;min-width:40px;"></div><div class="label">FB Construction: 0.9%</div></div>
+  </div>
+</div>
+
+<h3 class="subsection">Critical Implementation Details</h3>
+<div class="card-grid">
+  <div class="card">
+    <h4>B_j mod a Reduction</h4>
+    <p>B_j = t_roots[j] * A_j * A_j_inv % a -- MUST reduce mod a. Omitting this causes silent errors in sieve initialization.</p>
+  </div>
+  <div class="card">
+    <h4>Sieve g(x) not Q(x)</h4>
+    <p>Must sieve g(x) = ax&sup2; + 2bx + c where c = (b&sup2; - n)/a. Using Q(x) instead gives wrong smoothness thresholds.</p>
+  </div>
+  <div class="card">
+    <h4>Do NOT Reduce b mod a</h4>
+    <p>Breaking incremental offset updates in Gray code polynomial switching. This subtle invariant cost days to debug.</p>
+  </div>
+  <div class="card">
+    <h4>LP Bound = min(B*100, B&sup2;)</h4>
+    <p>B&sup2; gives large prime space too large for single large prime combining. B*100 is the sweet spot.</p>
+  </div>
+</div>
+
+<!-- ========== 11 OPTIMIZATIONS ========== -->
+<h2 class="section-title" id="opts">The 11 SIQS Optimizations</h2>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <h4>1. Knuth-Schroeppel Multiplier</h4>
+    <p>K-S scoring to find optimal multiplier k for kN, up to 2.38x speedup. Improves factor base density for the sieve.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>2. DLP Revival + LP Bound Fix</h4>
+    <p>Double large prime combining with min(B*100, B&sup2;) bound. 30-50% more relations from partial-partial combining.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>3. Singleton Filtering</h4>
+    <p>Iterative column removal from the GF(2) matrix. 15-50% reduction in linear algebra work.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>4. Multithread Sieve</h4>
+    <p>multiprocessing.Pool with 2 workers. 1.77-1.81x speedup. Sieve is embarrassingly parallel across polynomials.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>5. Bitpacked GF(2) Gauss Elimination</h4>
+    <p>numpy uint64 bitpacking for the exponent matrix. Handles 80K rows in 1.2GB. 5x speedup over mpz-based Gauss.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>6. Sieve Width Tuning</h4>
+    <p>M reduced by 50% for better cache utilization. 1.34x at 60d. The sieve array was exceeding L2 cache.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>7. C Lattice Sieve for GNFS</h4>
+    <p>Special-q sieving in C with __int128 arithmetic. Enables GNFS at 50d+ where Python sieve was too slow.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>8. C Trial Division</h4>
+    <p>__int128 batch trial division in C extension. 35x faster than Python divmod for candidate verification.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>9. DLP Rho Optimization</h4>
+    <p>Small-prime trial division + rho limit 200 &rarr; 50. Fixed the 49.5% runtime hotspot in _quick_factor. ~4x reduction.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>10. Int16 Sieve Array</h4>
+    <p>Log scale 1024 &rarr; 64, array int32 &rarr; int16. Halves sieve memory (11MB &rarr; 5.7MB), 1.27x at 52d.</p>
+  </div>
+  <div class="timeline-item">
+    <h4>11. C Pollard Rho for _quick_factor</h4>
+    <p>Wired existing pollard_rho_c.so into _quick_factor (was pure Python). 52d: 15.2s &rarr; 10.3s (1.47x). The .so existed but was not being used.</p>
+  </div>
+</div>
+
+<!-- ========== GNFS ENGINE ========== -->
+<h2 class="section-title" id="gnfs">GNFS Engine (Path 3)</h2>
+<p style="margin-bottom:16px;">
+  General Number Field Sieve -- for 40d+ semiprimes. File: <code>gnfs_engine.py</code>
+</p>
+
+<table class="data-table">
+<thead><tr><th>Digits</th><th>Time</th><th>Polynomial Degree</th></tr></thead>
+<tbody>
+  <tr><td class="num-col">34d</td><td class="num-col">55s</td><td>d = 3</td></tr>
+  <tr><td class="num-col">42d</td><td class="num-col">263s</td><td>d = 4</td></tr>
+  <tr><td class="num-col">43d</td><td class="num-col">439s</td><td>d = 4</td></tr>
+</tbody>
+</table>
+
+<h3 class="subsection">GNFS Pipeline</h3>
+<div class="card-grid">
+  <div class="card">
+    <h4>Phase 1: Polynomial Selection</h4>
+    <p>Search &plusmn;1000 around m_0, score by norm size at typical sieve points. Degree: d=3 for &lt;40d, d=4 for 40-65d, d=5 for 65-100d.</p>
+  </div>
+  <div class="card">
+    <h4>Phase 2: Factor Base &amp; Sieve</h4>
+    <p>Two-phase sieve: Phase 1 (b=1..5000, 2x area) for high yield at small b. Phase 2 (normal area, batch 500). C lattice sieve for speed.</p>
+  </div>
+  <div class="card">
+    <h4>Phase 3: Relation Processing</h4>
+    <p>SLP combining (~50% of relations). SGE reduces matrix 21K &rarr; 15K (~30%). Singleton filtering for further reduction.</p>
+  </div>
+  <div class="card">
+    <h4>Phase 4: Linear Algebra</h4>
+    <p>Bitpacked GF(2) Gauss elimination. Constrained by 12GB RAM + 8GB swap (practical limit ~5GB). Handles up to ~15K rows.</p>
+  </div>
+  <div class="card">
+    <h4>Phase 5: Square Root</h4>
+    <p>Hensel lifting for algebraic square root. Low-skew polynomials can break Hensel sqrt -- poly selection must account for this.</p>
+  </div>
+</div>
+
+<h3 class="subsection">Bugs Found &amp; Fixed</h3>
+<table class="data-table">
+<thead><tr><th>Bug</th><th>Impact</th><th>Fix</th></tr></thead>
+<tbody>
+  <tr><td>JIT int64 overflow (d=4, |a|>55K)</td><td>Silent norm corruption</td><td>__int128 in C extension</td></tr>
+  <tr><td>Sieve threshold too loose</td><td>3x wasted candidates</td><td>a-dependent thresholds</td></tr>
+  <tr><td>Missing overflow flag in C norm</td><td>Incorrect algebraic norms</td><td>Added overflow detection</td></tr>
+  <tr><td>SIQS _quick_factor 49.5% hotspot</td><td>Half of runtime wasted</td><td>Small-prime TD + limit 50</td></tr>
+  <tr><td>Sieve M values too large for 55-70d</td><td>Cache thrashing</td><td>Reduced M by 50%</td></tr>
+</tbody>
+</table>
+
+<!-- ========== B3-MPQS ========== -->
+<h2 class="section-title" id="b3mpqs">B3-MPQS Engine</h2>
+<p style="margin-bottom:16px;">
+  Pythagorean B3 parabolic arithmetic progressions as MPQS polynomial source.
+  File: <code>pyth_resonance.py</code>
+</p>
+
+<table class="data-table">
+<thead><tr><th>Digits</th><th>Time</th><th>Method</th></tr></thead>
+<tbody>
+  <tr><td class="num-col">48d</td><td class="num-col">5.8s</td><td>B3-MPQS</td></tr>
+  <tr><td class="num-col">55d</td><td class="num-col">25s</td><td>B3-MPQS</td></tr>
+  <tr><td class="num-col">60d</td><td class="num-col">82s</td><td>B3-MPQS</td></tr>
+  <tr><td class="num-col">63d</td><td class="num-col">128s</td><td>B3-MPQS</td></tr>
+</tbody>
+</table>
+
+<!-- ========== GPU INTEGRATION ========== -->
+<h2 class="section-title" id="gpu">GPU Integration (RTX 4050)</h2>
+
+<div class="callout">
+  <strong>GPU cofactor checking:</strong> Lightweight CUDA kernel filters SIQS candidates before CPU trial division.
+  640-1921x faster than CPU for trial division filtering alone. 2.5-5.2x end-to-end hybrid speedup.
+</div>
+
+<table class="data-table">
+<thead><tr><th>Factor Base Size</th><th>GPU Filter Speed</th><th>Hybrid Speedup</th></tr></thead>
+<tbody>
+  <tr><td class="num-col">500</td><td class="num-col">14M cands/sec</td><td class="num-col">5.17x</td></tr>
+  <tr><td class="num-col">2,000</td><td class="num-col">--</td><td class="num-col">3.30x</td></tr>
+  <tr><td class="num-col">5,000</td><td class="num-col">--</td><td class="num-col">2.45x</td></tr>
+</tbody>
+</table>
+
+<p style="margin-top:12px;color:var(--text-muted);font-size:14px;">
+  Key insight: full exponent transfer (64MB) kills performance. GPU should only FILTER, not extract exponents.
+  Files: <code>gpu_cofactor_lite.cu</code>, <code>gpu_cofactor_lite.so</code>
+</p>
+
+<!-- ========== PATH TO RSA-100 ========== -->
+<h2 class="section-title" id="rsa100">Path to RSA-100</h2>
+
+<div class="callout gold">
+  <strong>With all optimizations combined, RSA-100 (100 digits) projected at ~346 hours (~2 weeks).</strong>
+  GPU sieving could further reduce to days.
+</div>
+
+<table class="data-table">
+<thead><tr><th>Component</th><th>Expected Speedup</th><th>Status</th></tr></thead>
+<tbody>
+  <tr><td>GNFS Lattice Sieve (C)</td><td class="num-col">43-50x</td><td>Implemented</td></tr>
+  <tr><td>Block Lanczos (C)</td><td class="num-col">handles 500K matrix</td><td>Needed</td></tr>
+  <tr><td>GPU Sieve Offloading</td><td class="num-col">10-50x potential</td><td>Pending</td></tr>
+  <tr><td>Cross-Poly LP Resonance</td><td class="num-col">3.3x (verified)</td><td>Pending</td></tr>
+  <tr><td>B3 Smoothness Advantage</td><td class="num-col">2.3x (verified)</td><td>Pending</td></tr>
+</tbody>
+</table>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-15 &middot; Factoring Engines
+</footer>
+
+</div></div>
+<script src="../viewer.js"></script>
+</body>
+</html>

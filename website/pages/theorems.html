@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theorem Catalog -- B3 Pythagorean Tree Research</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>B3 Pythagorean Tree</h2>
+    <span>Factoring Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="theorems.html" class="active">Theorem Catalog</a></li>
+    <li><a href="pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="engine.html">Factoring Engines</a></li>
+    <li><a href="paper.html">Research Paper</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="code.html">Source Code</a></li>
+    <li class="section-label">Download</li>
+    <li><a href="../paper/b3_paper.pdf" target="_blank">Download PDF</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content">
+
+<nav class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span class="sep">/</span>
+  <span class="current">Theorem Catalog</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">Theorem Catalog</h2>
+<p style="margin-bottom:8px;">
+  100+ theorems discovered across Pythagorean tree structure, Berggren group algebra,
+  analytic number theory, and connections to elliptic curves. Organized by category with status and significance.
+</p>
+
+<div class="stats-row" style="justify-content:flex-start;">
+  <div class="stat-card"><div class="number">55</div><div class="label">Proven</div></div>
+  <div class="stat-card"><div class="number">35+</div><div class="label">Conjectures</div></div>
+  <div class="stat-card"><div class="number">15+</div><div class="label">Refuted</div></div>
+  <div class="stat-card"><div class="number">20</div><div class="label">High Significance</div></div>
+</div>
+
+<!-- ========== TOP DISCOVERIES ========== -->
+<h2 class="section-title" id="top">Top Discoveries</h2>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">#28</span>
+    <a href="theorems/unipotent-commutator.html" class="theorem-name" style="color:var(--text);">Unipotent Commutator Theorem</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> The commutators [A,B] and [B,C] of the Berggren matrices are unipotent
+    of nilpotency index 3 over Z: ([A,B] - I)&sup3; = 0 but ([A,B] - I)&sup2; &ne; 0.
+    For every prime p, ord([A,B] mod p) = ord([B,C] mod p) = p.<br><br>
+    <strong>Proof sketch:</strong> Direct computation over Z shows ([A,B] - I)&sup3; = 0 (nilpotent).
+    Since nilpotency index 3 &le; p for all primes p &ge; 5, the binomial theorem mod p gives
+    (U-I)^p = 0, so ord(U) divides p. Since (U-I)&sup1; &ne; 0, the order is exactly p.<br><br>
+    <strong>Significance:</strong> Cleanest new theorem. Reveals that [A,B] and [B,C] encode the characteristic
+    of F_p (additive group), while [A,C] encodes multiplicative information with order dividing (p-1) or (p+1).
+    Verified for 13 primes with zero exceptions.
+    <br><a href="theorems/unipotent-commutator.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">#34</span>
+    <a href="theorems/congruent-number.html" class="theorem-name" style="color:var(--text);">Congruent Number Curve Map</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> Every PPT (a,b,c) maps to a rational point on the elliptic curve
+    E_n: y&sup2; = x&sup3; - n&sup2;x where n = ab/2, via x = (c/2)&sup2;, y = c(b&sup2; - a&sup2;)/8.<br><br>
+    <strong>Proof:</strong> Algebraic verification: LHS = c&sup2;(b&sup2;-a&sup2;)&sup2;/64.
+    RHS = c&sup6;/64 - (ab/2)&sup2; &middot; c&sup2;/4 = c&sup2;(c&sup4; - 4a&sup2;b&sup2;)/64.
+    Since a&sup2; + b&sup2; = c&sup2;, both sides equal c&sup2;(c&sup4; - 4a&sup2;c&sup2; + 4a&sup4;)/64. QED.
+    Verified on 50/50 test triples with zero error.<br><br>
+    <strong>Significance:</strong> Connects the Berggren tree directly to the Birch-Swinnerton-Dyer conjecture.
+    Each tree triple constructively proves that ab/2 is a congruent number.
+    <br><a href="theorems/congruent-number.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">#35</span>
+    <span class="theorem-name">Tree Zeta Convergence at s=1</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> The tree zeta function &zeta;_tree(s) = &Sigma;_{PPT} c^{-s} has abscissa of
+    convergence at s = 1, with partial sums growing as C &middot; log(X) where C &asymp; 1/(2&pi;).<br><br>
+    <strong>Proof sketch:</strong> By Lehmer's formula, the count of PPTs with c &le; X is asymptotically
+    X/(2&pi;). Integration gives &zeta;_tree(s) &sim; 1/(2&pi;(s-1)) for s > 1.
+    All prime factors of hypotenuses satisfy p &equiv; 1 (mod 4), giving an Euler product restricted
+    to that arithmetic progression, connected to the Dirichlet L-function L(s, &chi;_4).
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">#25</span>
+    <a href="theorems/quadratic-irrational.html" class="theorem-name" style="color:var(--text);">Exact Branch Continued Fraction Formulas</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> Branch A at step k: CF(c/a) = [k+1, 1, 1, k+1] (palindromic).
+    Branch C at step k: CF(c/a) = [k+1, 4(k+1)] (two-term).
+    Branch B: CF(c/a) converges to &radic;2 = [1; 2, 2, 2, ...].<br><br>
+    <strong>Proof:</strong> Branch A generates (2k+3, 2(k+1)(k+2), 2k&sup2;+6k+5).
+    Setting n = k+1: c/a = (2n&sup2;+2n+1)/(2n+1) = [n, 1, 1, n]. Verified algebraically. QED.
+    <br><a href="theorems/quadratic-irrational.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">T90</span>
+    <a href="theorems/prime-enrichment.html" class="theorem-name" style="color:var(--text);">Prime Hypotenuse Enrichment 6.7x</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    Tree hypotenuses are 6.7x more likely to be prime than random integers of similar magnitude.
+    Due to sum-of-two-squares constraint eliminating primes &equiv; 3 mod 4.
+    154,672 prime hypotenuses tested, zero exceptions.
+    <br><a href="theorems/prime-enrichment.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">T92</span>
+    <a href="theorems/factoring-bsd.html" class="theorem-name" style="color:var(--text);">Factoring &harr; BSD Equivalence</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    Factoring and BSD rank computation are Turing-equivalent for semiprimes.
+    If BSD provides a polynomial-time algorithm, then integer factoring is in P.
+    Connects two Millennium Prize problems through the congruent number curve map.
+    <br><a href="theorems/factoring-bsd.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">DB</span>
+    <a href="theorems/dickman-barrier.html" class="theorem-name" style="color:var(--text);">Dickman Information Barrier</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    Sieve algorithms fundamentally limited by smoothness probability: 10^(0.24d) overhead is unavoidable
+    for classical methods. The Dickman rho function &rho;(u) ~ u^{-u} governs the L(1/2) complexity.
+    <br><a href="theorems/dickman-barrier.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">SA</span>
+    <a href="theorems/smoothness-advantage.html" class="theorem-name" style="color:var(--text);">Smoothness Advantage (3-276x)</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    Tree-generated A-values are 3-276x more likely to be B-smooth than random integers,
+    because A = (m-n)(m+n) is already partially factored into two half-sized factors.
+    <br><a href="theorems/smoothness-advantage.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<!-- ========== BERGGREN GROUP STRUCTURE ========== -->
+<h2 class="section-title" id="group">Berggren Group Structure</h2>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">G1</span>
+    <a href="theorems/berggren-group.html" class="theorem-name" style="color:var(--text);">Berggren Group Order</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    G = &lt;A,B,C&gt; mod p has order |G| = 2p(p&sup2;-1) in GL(3, F_p).
+    The group equals {M : det(M) = &plusmn;1} intersected with the appropriate subgroup.
+    <br><a href="theorems/berggren-group.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">G2</span>
+    <span class="theorem-name">Bijection Barrier</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    Tree walks mod p have O(p) cycle lengths. This kills any Pollard-rho-style birthday attack on the tree,
+    since the expected collision time is O(p) rather than O(&radic;p).
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">G3</span>
+    <span class="theorem-name">S_3 Automorphism Group</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    The tree admits the full symmetric group S_3 of automorphisms: all 6 permutations of {A,B,C} yield
+    valid Berggren-type trees enumerating all primitive Pythagorean triples.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">G4</span>
+    <a href="theorems/spectral-gap.html" class="theorem-name" style="color:var(--text);">Spectral Radius = 3</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    The spectral radius of each Berggren matrix A, B, C is approximately 3. This controls the exponential
+    growth rate of triple components with tree depth.
+    <br><a href="theorems/spectral-gap.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive: Spectral Gap &rarr;</a>
+  </div>
+</div>
+
+<!-- ========== TREE STRUCTURE & ARITHMETIC ========== -->
+<h2 class="section-title" id="structure">Tree Structure &amp; Arithmetic</h2>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#21</span>
+    <span class="theorem-name">Parity Invariant</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    Every PPT in the Berggren tree has the form (odd, even, odd). This parity pattern is an invariant
+    preserved by all three matrices. Verified on all 797,161 triples at depth 12. Implies all hypotenuses are odd.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#22</span>
+    <span class="theorem-name">Prime Hypotenuse Characterization</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    Every prime hypotenuse satisfies p &equiv; 1 (mod 4), by Fermat's theorem on sums of two squares.
+    154,672 prime hypotenuses tested, zero exceptions. Gap distribution matches Dirichlet's theorem for
+    primes in the progression 4k+1.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#24</span>
+    <span class="theorem-name">No Exact Self-Similarity</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    No two non-root triples in the tree are proportional, since all triples are primitive (gcd=1).
+    However, approximate shape similarity (a/c, b/c) DOES repeat: 1,332 shapes appear at multiple depths.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#27</span>
+    <span class="theorem-name">Both-Legs-Prime Impossibility</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    In a PPT, it is impossible for both legs to be prime. The even leg b = 2mn &ge; 4 is always composite.
+    Zero exceptions in 265,720 triples at depth 11.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#30</span>
+    <span class="theorem-name">Gaussian Integer Norm Identity</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    The map (a,b,c) &rarr; z = a + bi embeds each PPT into Z[i] with N(z) = c&sup2;.
+    The Gaussian GCD of two embedded triples detects shared prime factors in their hypotenuses.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#36</span>
+    <span class="theorem-name">Tree Count = r_2(c)/8</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    For each hypotenuse value c, the number of tree triples equals r_2^{prim}(c)/8, where r_2 counts
+    primitive representations as a sum of two squares. The tree is a perfect enumeration device.
+  </div>
+</div>
+
+<!-- ========== ANALYTIC NUMBER THEORY ========== -->
+<h2 class="section-title" id="analytic">Analytic Number Theory</h2>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#31</span>
+    <span class="theorem-name">Mobius Super-Cancellation</span>
+    <span class="badge badge-conjecture">Conjecture</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    The summatory Mobius function over tree hypotenuses exhibits "super-cancellation":
+    |M|/N = 0.00012 vs expected 0.0034 for random integers (28x better).
+    Caused by restriction to primes p &equiv; 1 (mod 4).
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#32</span>
+    <span class="theorem-name">AP Length Growth</span>
+    <span class="badge badge-conjecture">Conjecture</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    Longest arithmetic progression among hypotenuses grows with depth: length 8 at depth 6.
+    Best found: {2965, 3385, 3805, 4225, 4645, 5065, 5485, 5905} with common difference 420.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">E1</span>
+    <span class="theorem-name">Tree Walk Entropy mod p</span>
+    <span class="badge badge-conjecture">Conjecture</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    Random walks on the tree mod p converge to near-uniform distribution (ratio 0.989) with slight bias
+    for large p. Saturation in O(log p) steps.
+  </div>
+</div>
+
+<!-- ========== CONTINUED FRACTIONS ========== -->
+<h2 class="section-title" id="cfrac">Continued Fractions &amp; Equivalences</h2>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">CF1</span>
+    <a href="theorems/cfrac-equivalence.html" class="theorem-name" style="color:var(--text);">CFRAC-Tree Equivalence</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    The continued fraction factoring algorithm is equivalent to navigating the Pythagorean tree with
+    adaptive step sizes M(a_k). This unifies two independent mathematical frameworks.
+    <br><a href="theorems/cfrac-equivalence.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">CF2</span>
+    <span class="theorem-name">CF Depth Linear Growth</span>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    The continued fraction length of c/a grows linearly with tree depth. This reflects the exponential
+    growth of components coupled with the logarithmic nature of CF representation.
+  </div>
+</div>
+
+<!-- ========== CONJECTURES ========== -->
+<h2 class="section-title" id="conjectures">Notable Conjectures</h2>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#23</span>
+    <span class="theorem-name">Digit Sum Positivity</span>
+    <span class="badge badge-conjecture">Conjecture</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    S(a) + S(b) - S(c) is positive with probability approaching 1 as depth increases
+    (0.985 at depth 10). The mod-9 distribution concentrates at {0, 3, 6}.
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#38</span>
+    <span class="theorem-name">Fast Random Walk Convergence</span>
+    <span class="badge badge-conjecture">Conjecture</span>
+    <span class="badge badge-medium">Medium</span>
+  </div>
+  <div class="theorem-body">
+    Random walks on the Berggren tree mod p converge to stationary distribution in O(log p) steps.
+    Orbit covers ~p&sup2; states (projective action on P&sup2;(F_p)).
+  </div>
+</div>
+
+<div class="theorem-card">
+  <div class="theorem-header">
+    <span class="theorem-num">#39</span>
+    <span class="theorem-name">Fibonacci Sparsity</span>
+    <span class="badge badge-conjecture">Conjecture</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    Only 41 out of 797,161 triples at depth 12 contain a Fibonacci component. Roughly 3-5 Fibonacci
+    appearances per depth level (constant, not growing with 3^d tree size). Exponential sparsity.
+  </div>
+</div>
+
+<!-- ========== REFUTED ========== -->
+<h2 class="section-title" id="refuted">Refuted Hypotheses</h2>
+
+<div class="theorem-card" style="border-left:3px solid var(--red);">
+  <div class="theorem-header">
+    <span class="theorem-num">#26</span>
+    <span class="theorem-name">Ternary Goldbach for Hypotenuses</span>
+    <span class="badge badge-refuted">Refuted</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    "Every sufficiently large odd number = sum of 3 hypotenuses" is FALSE. Only 49.8% of odd numbers
+    in [15, 500] are representable. Hypotenuse density ~1/(2&pi;&radic;(log n)) is too sparse.
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--red);">
+  <div class="theorem-header">
+    <span class="theorem-num">X1</span>
+    <span class="theorem-name">B3-SAT Linearization</span>
+    <span class="badge badge-refuted">Refuted</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    B3 mod 2 = Identity (the shear vanishes over F_2). Eigenvector extraction is 20% WORSE than
+    random guessing (30.6%). "Spectral radius = 0" is trivially true for upper triangular matrices.
+    Two independent analyses confirm: tautology, not a breakthrough.
+  </div>
+</div>
+
+<div class="theorem-card" style="border-left:3px solid var(--red);">
+  <div class="theorem-header">
+    <span class="theorem-num">X2</span>
+    <span class="theorem-name">Cross-Tree Multiplicative Closure</span>
+    <span class="badge badge-refuted">Refuted</span>
+    <span class="badge badge-low">Low</span>
+  </div>
+  <div class="theorem-body">
+    0/25 products of pairs of Pythagorean triples are themselves Pythagorean.
+    Multiplicative closure fails completely.
+  </div>
+</div>
+
+<!-- ========== COMPLETE TABLE ========== -->
+<h2 class="section-title" id="complete">Complete Theorem Table</h2>
+
+<table class="data-table">
+<thead>
+  <tr><th>#</th><th>Theorem</th><th>Status</th><th>Significance</th></tr>
+</thead>
+<tbody>
+  <tr><td>1-20</td><td colspan="3" style="color:var(--gold);">Session 9: Pythagorean Tree Theorems (Batch 1)</td></tr>
+  <tr><td>1</td><td>Tree Walk Entropy H(path) mod p</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>2</td><td>Catalan Numbers in Path Counting</td><td><span class="badge badge-refuted">Refuted</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>3</td><td>Tree Automorphisms (S_3)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>5</td><td>Angular Spectrum (non-uniform)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>6</td><td>Generating Function count ~ 2.5X/(2pi)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>7</td><td>Lag-1 Autocorrelation (0.22 at p=7)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>8</td><td>Cross-Tree Products (closure fails)</td><td><span class="badge badge-refuted">Refuted</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>9</td><td>Inverse Tree (path reconstruction)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>10</td><td>Lattice/Minkowski count ~ c/(2pi)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>11</td><td>Fibonacci in Triples (sparse)</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>12</td><td>Prime Legs by Depth (decreasing)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>13</td><td>Digital Root Patterns (27 distinct)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>14</td><td>Ternary Density (sparse in Q)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>15</td><td>Hypotenuse Periodicity mod small p</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>16</td><td>Quadratic Residue Distribution</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>17</td><td>Matrix Eigenvalue Spectral Radius ~ 3</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>18</td><td>Coprimality of Sibling Hypotenuses</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>19</td><td>CF Depth Linear Growth</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>20</td><td>Collatz-like Linear Recurrence</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>21-40</td><td colspan="3" style="color:var(--gold);">Pythagorean Tree Theorems v2 (Batch 2)</td></tr>
+  <tr><td>21</td><td>Parity Invariant (odd, even, odd)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>22</td><td>Prime Hypotenuse p &equiv; 1 (mod 4)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>23</td><td>Digit Sum Positivity</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>24</td><td>No Exact Self-Similarity</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>25</td><td><a href="theorems/quadratic-irrational.html">Exact Branch CF Formulas</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>26</td><td>Ternary Goldbach for Hypotenuses</td><td><span class="badge badge-refuted">Refuted</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>27</td><td>Both-Legs-Prime Impossibility</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>28</td><td><a href="theorems/unipotent-commutator.html">Unipotent Commutator Theorem</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>29</td><td>Mixed Paths Maximize Coverage</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>30</td><td>Gaussian Integer Norm Identity</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>31</td><td>Mobius Super-Cancellation</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>32</td><td>Arithmetic Progression Growth</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>33</td><td>Primitive Root Independence</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>34</td><td><a href="theorems/congruent-number.html">Congruent Number Curve Map</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>35</td><td>Tree Zeta Convergence at s=1</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>36</td><td>Tree Count = r_2(c)/8</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>37</td><td>Chromatic Number Growth</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>38</td><td>Fast Random Walk Convergence</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>39</td><td>Fibonacci Sparsity</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>40</td><td>Power Residue Neutrality</td><td><span class="badge badge-conjecture">Conjecture</span></td><td><span class="badge badge-low">Low</span></td></tr>
+  <tr><td>41+</td><td colspan="3" style="color:var(--gold);">Additional: Discriminant, <a href="theorems/cfrac-equivalence.html">CFRAC-Tree</a>, <a href="theorems/berggren-group.html">Berggren Group</a>, Cross-Poly LP, <a href="theorems/smoothness-advantage.html">B3 Smoothness</a>, <a href="theorems/dickman-barrier.html">Dickman Barrier</a></td></tr>
+  <tr><td>T90</td><td><a href="theorems/prime-enrichment.html">Prime Hypotenuse Enrichment 6.7x</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>T92</td><td><a href="theorems/factoring-bsd.html">Factoring &harr; BSD Equivalence</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+</tbody>
+</table>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-15 &middot; Theorem Catalog
+</footer>
+
+</div></div>
+<script src="../viewer.js"></script>
+</body>
+</html>

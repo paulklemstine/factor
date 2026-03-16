@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source Code -- B3 Pythagorean Tree Research</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>B3 Pythagorean Tree</h2>
+    <span>Factoring Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="theorems.html">Theorem Catalog</a></li>
+    <li><a href="pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="engine.html">Factoring Engines</a></li>
+    <li><a href="paper.html">Research Paper</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="code.html" class="active">Source Code</a></li>
+    <li class="section-label">Download</li>
+    <li><a href="../paper/b3_paper.pdf" target="_blank">Download PDF</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content">
+
+<nav class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="visualizations.html">Visualizations</a>
+  <span class="sep">/</span>
+  <span class="current" id="breadcrumb-current">Source Code</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">Visualization Source Code</h2>
+<p style="margin-bottom:24px;">
+  Python source code for all visualization scripts. Each script generates one series of images
+  from the B3 Pythagorean tree research program. Select a script below to view its source.
+</p>
+
+<!-- Script selector -->
+<div class="pill-nav" id="script-nav"></div>
+
+<!-- Code viewer container -->
+<div id="code-container">
+  <div class="callout" id="code-placeholder">
+    <strong>Select a script above</strong> to view its source code, or use a
+    <strong>View Code</strong> link from the
+    <a href="visualizations.html">Visualizations</a> page.
+  </div>
+</div>
+
+<!-- Script descriptions -->
+<h2 class="section-title" id="script-list">Script Catalog</h2>
+<div id="script-catalog"></div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-15 &middot; Source Code
+</footer>
+
+</div></div>
+
+<script src="../viewer.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // Script metadata
+  var scripts = [
+    { file: 'viz_b3_01.py', series: 'A', name: 'Tree Structure', desc: 'Generates Series A: radial tree layouts, subtree comparisons, polar projections, and growth curves for the Berggren ternary tree.' },
+    { file: 'viz_b3_02.py', series: 'B', name: 'Modular Orbits', desc: 'Generates Series B: orbit density maps for Pythagorean triples mod p (p = 7 through 41), revealing forbidden residue classes.' },
+    { file: 'viz_b3_03.py', series: 'C', name: 'SIQS Internals', desc: 'Generates Series C: Dickman function, sieve arrays, factor base analysis, GF(2) matrix patterns, and smoothness heatmaps.' },
+    { file: 'viz_b3_04.py', series: 'D', name: 'Spectral Analysis', desc: 'Generates Series D: phase portraits, singular values, Lyapunov exponents, eigenvalue trajectories, and matrix norm growth.' },
+    { file: 'viz_b3_05.py', series: 'E', name: 'Number Theory', desc: 'Generates Series E: (m,n) distributions, digit sums, residue pie charts, Mobius function, continued fractions, totient.' },
+    { file: 'viz_b3_06.py', series: 'F', name: 'Geometry', desc: 'Generates Series F: actual right triangles, area/hypotenuse curves, incircle radii, lattice points, stereographic projections.' },
+    { file: 'viz_b3_07.py', series: 'G', name: 'Algorithm Performance', desc: 'Generates Series G: SIQS vs GNFS vs ECM timings, memory usage, multiplier scores, and pipeline profiling.' },
+    { file: 'viz_b3_08.py', series: 'H', name: 'Factoring Hardness', desc: 'Generates Series H: hardness distributions, information bits per relation, entropy growth, and compression barriers.' },
+    { file: 'viz_b3_09.py', series: '-', name: 'Extended Analysis 1', desc: 'Additional tree analysis and experimental visualizations.' },
+    { file: 'viz_b3_10.py', series: '-', name: 'Extended Analysis 2', desc: 'Further experimental visualizations and Galois structure analysis.' },
+    { file: 'viz_b3_11.py', series: 'I', name: 'Mandalas', desc: 'Generates Series I: golden-angle phyllotaxis mandala, angle-of-legs patterns, three-fold branch symmetry overlays.' },
+    { file: 'viz_b3_12.py', series: 'J', name: 'Kaleidoscopes', desc: 'Generates Series J: residue grid kaleidoscopes mod 5, 7, 11, 13 with frequency-scaled circles and symmetry analysis.' },
+    { file: 'viz_b3_13.py', series: 'K', name: 'Spiral Galaxy', desc: 'Generates Series K: golden-angle spiral, Poincare disk hyperbolic model, and angular spectrum depth heatmaps.' },
+    { file: 'viz_b3_14.py', series: 'L', name: 'Fibonacci Web', desc: 'Generates Series L: log-log leg space with golden ratio lines and multi-modal leg ratio distributions.' },
+    { file: 'viz_b3_15.py', series: 'M', name: 'Tree of Life', desc: 'Generates Series M: radial tree (3280 nodes, depth 7) colored by hypotenuse magnitude, primality, and digital root.' },
+    { file: 'berggren_price_analysis.py', series: 'BP', name: 'Berggren-Price Analysis', desc: 'Cross-tree comparisons between Berggren and Price Pythagorean triple trees: depth scatter, connection density, growth rates.' },
+    { file: 'prime_tree_explorer.py', series: 'PT', name: 'Prime Tree Explorer', desc: 'Ten approaches to building prime-generating trees: Cunningham chains, polynomials, Stern-Brocot, Gaussian primes, and hybrids.' }
+  ];
+
+  // Build script nav pills
+  var nav = document.getElementById('script-nav');
+  scripts.forEach(function(s) {
+    var a = document.createElement('a');
+    a.href = '#';
+    a.dataset.file = s.file;
+    a.textContent = s.file;
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      loadScript(s.file);
+    });
+    nav.appendChild(a);
+  });
+
+  // Build script catalog
+  var catalog = document.getElementById('script-catalog');
+  scripts.forEach(function(s) {
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function() { loadScript(s.file); });
+    card.innerHTML =
+      '<h4>' + s.file + '</h4>' +
+      '<p style="margin-bottom:8px;">' + s.desc + '</p>' +
+      '<span class="badge badge-high">Series ' + s.series + '</span> ' +
+      '<span class="badge badge-medium">' + s.name + '</span>';
+    catalog.appendChild(card);
+  });
+
+  // Python syntax highlighter (simple regex-based)
+  function highlightPython(code) {
+    // Escape HTML
+    code = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // Multi-line strings (triple quotes) -- handle first
+    code = code.replace(/("""[\s\S]*?"""|'''[\s\S]*?''')/g, '<span class="syn-str">$1</span>');
+
+    // Comments
+    code = code.replace(/(#[^\n]*)/g, '<span class="syn-comment">$1</span>');
+
+    // Strings (single and double)
+    code = code.replace(/(?<!=)(f?"[^"\\]*(?:\\.[^"\\]*)*"|f?'[^'\\]*(?:\\.[^'\\]*)*')/g, '<span class="syn-str">$1</span>');
+
+    // Keywords
+    var keywords = ['import', 'from', 'as', 'def', 'class', 'return', 'yield', 'if', 'elif',
+      'else', 'for', 'while', 'break', 'continue', 'pass', 'try', 'except', 'finally',
+      'raise', 'with', 'lambda', 'and', 'or', 'not', 'in', 'is', 'None', 'True', 'False',
+      'global', 'nonlocal', 'del', 'assert', 'async', 'await'];
+    keywords.forEach(function(kw) {
+      var re = new RegExp('\\b(' + kw + ')\\b', 'g');
+      code = code.replace(re, '<span class="syn-kw">$1</span>');
+    });
+
+    // Decorators
+    code = code.replace(/(@\w+)/g, '<span class="syn-dec">$1</span>');
+
+    // Numbers
+    code = code.replace(/\b(\d+\.?\d*(?:e[+-]?\d+)?)\b/g, '<span class="syn-num">$1</span>');
+
+    // self
+    code = code.replace(/\b(self)\b/g, '<span class="syn-self">$1</span>');
+
+    // Function calls (word followed by open paren)
+    code = code.replace(/\b([a-zA-Z_]\w*)\s*(?=\()/g, '<span class="syn-func">$1</span>');
+
+    return code;
+  }
+
+  // Load and display a script
+  function loadScript(filename) {
+    var container = document.getElementById('code-container');
+    container.innerHTML = '<div class="callout">Loading ' + filename + '...</div>';
+
+    // Update nav active state
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.classList.toggle('active', a.dataset.file === filename);
+    });
+
+    // Update breadcrumb
+    document.getElementById('breadcrumb-current').textContent = filename;
+
+    // Update URL
+    history.replaceState(null, '', 'code.html?file=' + filename);
+
+    // Fetch the file
+    fetch('../code/' + filename)
+      .then(function(res) {
+        if (!res.ok) throw new Error('File not found');
+        return res.text();
+      })
+      .then(function(code) {
+        var highlighted = highlightPython(code);
+        var lines = highlighted.split('\n');
+        // Add line numbers
+        var numberedLines = lines.map(function(line, i) {
+          var num = String(i + 1).padStart(4, ' ');
+          return '<span style="color:var(--text-muted);user-select:none;">' + num + '  </span>' + line;
+        }).join('\n');
+
+        container.innerHTML =
+          '<div class="code-viewer">' +
+            '<div class="code-viewer-header">' +
+              '<span class="filename">' + filename + '</span>' +
+              '<span class="lang-badge">Python</span>' +
+            '</div>' +
+            '<pre>' + numberedLines + '</pre>' +
+          '</div>';
+
+        // Scroll to code
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch(function(err) {
+        container.innerHTML = '<div class="callout red"><strong>Error:</strong> Could not load ' + filename + '. ' + err.message + '</div>';
+      });
+  }
+
+  // Check URL params on load
+  var params = new URLSearchParams(window.location.search);
+  var fileParam = params.get('file');
+  if (fileParam) {
+    loadScript(fileParam);
+  }
+
+})();
+</script>
+</body>
+</html>
