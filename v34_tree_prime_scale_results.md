@@ -16,54 +16,54 @@
 ### Height t ≈ 2,000
   Approximate zero count N(2000) ≈ 1516
   Computing 20 exact zeros near t=2000 via mpmath...
-  mpmath computed 20 zeros in 8.91s
+  mpmath computed 20 zeros in 6.06s
   Tree Z found: **20/20** zeros
   Mean error: 0.1611
   Max error:  0.4793
-  Tree Z time: 0.030s  |  mpmath time: 8.91s
-  Speedup: 301.3x
+  Tree Z time: 0.032s  |  mpmath time: 6.06s
+  Speedup: 189.1x
 
 ### Height t ≈ 5,000
   Approximate zero count N(5000) ≈ 4520
   Computing 20 exact zeros near t=5000 via mpmath...
-  mpmath computed 20 zeros in 8.81s
+  mpmath computed 20 zeros in 12.68s
   Tree Z found: **20/20** zeros
   Mean error: 0.2043
   Max error:  0.6012
-  Tree Z time: 0.030s  |  mpmath time: 8.81s
-  Speedup: 292.1x
+  Tree Z time: 0.033s  |  mpmath time: 12.68s
+  Speedup: 384.4x
 
 ### Height t ≈ 10,000
   Approximate zero count N(10000) ≈ 10142
   Computing 20 exact zeros near t=10000 via mpmath...
-  mpmath computed 20 zeros in 14.52s
+  mpmath computed 20 zeros in 17.45s
   Tree Z found: **20/20** zeros
   Mean error: 0.1764
   Max error:  0.4477
-  Tree Z time: 0.036s  |  mpmath time: 14.52s
-  Speedup: 400.9x
+  Tree Z time: 0.035s  |  mpmath time: 17.45s
+  Speedup: 492.8x
 
 ### Height t ≈ 50,000
   Approximate zero count N(50000) ≈ 63518
   Computing 20 exact zeros near t=50000 via mpmath...
-  mpmath computed 20 zeros in 60.78s
+  mpmath computed 20 zeros in 61.53s
   Tree Z found: **20/20** zeros
   Mean error: 0.1703
   Max error:  0.3701
-  Tree Z time: 0.030s  |  mpmath time: 60.78s
-  Speedup: 2016.4x
+  Tree Z time: 0.034s  |  mpmath time: 61.53s
+  Speedup: 1827.5x
 
 ### Height t ≈ 100,000
   Approximate zero count N(100000) ≈ 138068
   Computing 20 exact zeros near t=100000 via mpmath...
-  mpmath computed 20 zeros in 12.45s
+  mpmath computed 20 zeros in 13.49s
   Tree Z found: **20/20** zeros
   Mean error: 0.1882
   Max error:  0.4563
-  Tree Z time: 0.031s  |  mpmath time: 12.45s
-  Speedup: 408.0x
+  Tree Z time: 0.035s  |  mpmath time: 13.49s
+  Speedup: 384.7x
 
-**Time: 105.6s**
+**Time: 111.4s**
 
 ======================================================================
 ## Experiment 2: Depth Scaling — Does more primes extend the reach?
@@ -90,7 +90,7 @@
   Depth 9 (7,573 primes): 20/20 found, mean_err=0.1439
   Depth 10 (20,446 primes): 20/20 found, mean_err=0.1456
 
-**Time: 98.8s**
+**Time: 102.2s**
 
 ======================================================================
 ## Experiment 3: Hybrid — Tree Primes + Riemann-Siegel Correction
@@ -104,23 +104,23 @@ then add the standard RS remainder for accuracy.
 
 ### Height t ≈ 5,000
   N_RS = 28, all_primes_to_N = 9, tree_primes_in_range = 2, missing = 7
-  Tree Z alone:  10/10 found, mean_err=0.2197, time=0.017s
-  RS Z standard: 10/10 found, mean_err=0.000083, time=43.727s
-  Hybrid Z:      10/10 found, mean_err=0.455801, time=0.025s
+  Tree Z alone:  10/10 found, mean_err=0.2197, time=0.016s
+  RS Z standard: 10/10 found, mean_err=0.000083, time=47.606s
+  Hybrid Z:      10/10 found, mean_err=0.455801, time=0.026s
 
 ### Height t ≈ 10,000
   N_RS = 39, all_primes_to_N = 12, tree_primes_in_range = 4, missing = 8
-  Tree Z alone:  10/10 found, mean_err=0.2373, time=0.016s
-  RS Z standard: 10/10 found, mean_err=0.000147, time=63.488s
-  Hybrid Z:      10/10 found, mean_err=0.454146, time=0.021s
+  Tree Z alone:  10/10 found, mean_err=0.2373, time=0.018s
+  RS Z standard: 10/10 found, mean_err=0.000147, time=63.143s
+  Hybrid Z:      10/10 found, mean_err=0.454146, time=0.026s
 
 ### Height t ≈ 50,000
   N_RS = 89, all_primes_to_N = 24, tree_primes_in_range = 9, missing = 15
   Tree Z alone:  9/9 found, mean_err=0.1660, time=0.015s
-  RS Z standard: 9/9 found, mean_err=0.000103, time=54.641s
-  Hybrid Z:      9/9 found, mean_err=0.311154, time=0.018s
+  RS Z standard: 9/9 found, mean_err=0.000103, time=54.912s
+  Hybrid Z:      9/9 found, mean_err=0.311154, time=0.020s
 
-**Time: 204.6s**
+**Time: 212.3s**
 
 ======================================================================
 ## Experiment 4: Binary Search — Highest Zero Locatable by Tree Alone
@@ -165,7 +165,7 @@ then add the standard RS remainder for accuracy.
   Detection rate >= 80% at all tested heights up to 500,000
   **Reach exceeds 500,000!**
 
-**Time: 262.3s**
+**Time: 275.8s**
 
 ======================================================================
 ## Experiment 5: Variance Fraction — How Much of Z(t) Do Tree Primes Capture?
@@ -239,7 +239,7 @@ If tree primes predict signs correctly even at huge t, that's remarkable.
 ### Extreme test: t ≈ 10^9
   t ≈ 10^9: Sign agreement: 11/20 = 55.0%
 
-**Time: 4.2s**
+**Time: 4.7s**
 
 ======================================================================
 ## Experiment 7: Theoretical Analysis — Error Bounds and Scaling Laws
@@ -309,8 +309,155 @@ detection degrades when σ_noise / σ_signal approaches 1.
 ## Summary
 ======================================================================
 
-Total time: 677s
+Total time: 708s
 Experiments: 7
 
-### Key Findings
-(To be filled by analysis of results above)
+### Key Findings — HONEST ASSESSMENT
+
+**The "100% detection" result is an ARTIFACT of the wide search window.**
+
+Evidence:
+1. **Off-zero control (Test C)**: Searching at midpoints BETWEEN true zeros finds
+   sign changes at the same rate as searching AT zeros (17/20 vs 17/20 at t=1000,
+   14/20 vs 14/20 at t=10000). This means Z_tree oscillates so densely that a
+   ±2.0 window almost always contains a sign change regardless of zero proximity.
+
+2. **Sign correlation (Test E)**: Z_tree agrees with true Z(t) sign only 41-53%
+   of the time — essentially random (chance = 50%). Z_tree does NOT track Z(t).
+
+3. **Null hypothesis (Test B)**: Random primes of similar size work equally well
+   (20/20 found, lower error). The Berggren tree structure provides NO advantage
+   over random primes for zero detection.
+
+4. **Tight window reveals truth (Test A)**: With window = spacing/4, detection
+   drops from 100% to 50-85% at t=1000 and further to 50% at t=100000. The
+   tight-window detections are indistinguishable from chance.
+
+5. **Why the wide window "works"**: Z_tree(t) = Σ p^{-1/2} cos(t log p) is a
+   sum of 393 incommensurate cosines. Its sign changes have mean spacing
+   ~O(1/max(log p)) ≈ 0.09, much smaller than zero spacing (~0.5-1.2).
+   A ±2.0 window covers ~40+ tree-Z sign changes, guaranteeing a match.
+
+**What IS real:**
+- Tree primes capture ~20% of the Euler product variance (importance sampling IS real)
+- Mean error ~0.17-0.21 is real but meaningless: random sign changes within ±2.0
+  of any point will average ~0.2 error by geometry
+- More tree primes (depth 8-10) slightly improve error but don't change the
+  fundamental problem: the partial sum oscillates too fast
+
+**Gram point signs (Exp 6)**: 50% agreement at all heights including t=10^9.
+This confirms Z_tree signs are uncorrelated with true Z(t) signs.
+
+**Hybrid method (Exp 3)**: Adding missing-prime RS correction actually HURTS
+(error goes UP from 0.22 to 0.45). This is because the correction introduces
+additional oscillations without proper phase alignment.
+
+### Theorems
+
+**T400 (Tree-Prime Oscillation Density)**: Z_tree(t) = Σ_{p∈S} p^{-1/2} cos(t log p)
+with |S|=393 has sign-change density ~1/(π × min_{p∈S} log p) ≈ 0.12 per unit t,
+which is 5-10x denser than Riemann zero spacing at t > 1000. This makes the
+"detect a zero in ±2 window" test trivially satisfied.
+
+**T401 (Importance Sampling Without Phase)**: The Berggren tree importance-samples
+the Euler product by magnitude (capturing 20% of Σ 1/p from 4% of primes) but
+NOT by phase. Zero detection requires phase coherence, not just amplitude.
+393 primes cannot reconstruct the delicate cancellations that produce zeros.
+
+**T402 (Null Result — Random Primes Equivalent)**: Any 393 primes of comparable
+size distribution produce the same "detection" rate, confirming that the
+Berggren tree structure contributes nothing to zeta zero location.
+
+**T403 (Partial Euler Product Barrier)**: For a partial Euler product over S primes
+to locate zeros at height t, one needs |S| ≈ π(√(t/2π)) primes (ALL primes up to
+√(t/2π)). At t=10000, this is just 12 primes — but they must be the RIGHT 12
+(specifically: 2,3,5,7,11,13,17,19,23,29,31,37). Our tree primes START at 13 and
+MISS p=2,3,7,11 which carry 60% of the variance.
+
+### What Would Actually Work
+To make tree-prime zero detection real, we would need:
+1. Include ALL small primes (2,3,5,7,11) — these carry most of the signal
+2. Use the full Riemann-Siegel formula, not just the Dirichlet series partial sum
+3. The RS formula has a SPECIFIC phase rotation (theta function) that aligns terms;
+   our raw cosine sum lacks this critical ingredient
+
+======================================================================
+## Experiment 8: Rigorous Validation — Tight Windows & Null Hypothesis
+======================================================================
+
+### Test A: Window Size Sensitivity
+Compare detection rate with window = 2.0 (original) vs window = spacing/4 (tight)
+
+  t=   1,000: spacing=1.239, tight_win=0.310
+    Wide (±2.0): 20/20 found, mean_err=0.1795
+    Tight (±0.310): 17/20 found, mean_err=0.1309
+  t=   5,000: spacing=0.941, tight_win=0.235
+    Wide (±2.0): 20/20 found, mean_err=0.2043
+    Tight (±0.235): 12/20 found, mean_err=0.1219
+  t=  10,000: spacing=0.852, tight_win=0.213
+    Wide (±2.0): 20/20 found, mean_err=0.1764
+    Tight (±0.213): 14/20 found, mean_err=0.1045
+  t=  50,000: spacing=0.700, tight_win=0.175
+    Wide (±2.0): 20/20 found, mean_err=0.1703
+    Tight (±0.175): 11/20 found, mean_err=0.0907
+  t= 100,000: spacing=0.649, tight_win=0.162
+    Wide (±2.0): 20/20 found, mean_err=0.1882
+    Tight (±0.162): 10/20 found, mean_err=0.0606
+
+### Test B: Null Hypothesis — Random 393 Primes vs Tree Primes
+If random primes work equally well, tree structure doesn't matter.
+
+  t=   1,000:
+    Tree (depth 6)      : 20/20 found, mean_err=0.1795
+    Random 1mod4        : 20/20 found, mean_err=0.1190
+    Consecutive         : 20/20 found, mean_err=0.3247
+  t=  10,000:
+    Tree (depth 6)      : 20/20 found, mean_err=0.1764
+    Random 1mod4        : 20/20 found, mean_err=0.1557
+    Consecutive         : 20/20 found, mean_err=0.3295
+  t= 100,000:
+    Tree (depth 6)      : 20/20 found, mean_err=0.1882
+    Random 1mod4        : 20/20 found, mean_err=0.1595
+    Consecutive         : 20/20 found, mean_err=0.3411
+
+### Test C: Off-Zero Control — Search Between Zeros (Should Fail More)
+If we search at t_known + spacing/2, we should NOT find a zero nearby.
+
+  t=   1,000: spacing=1.239, window=±0.310
+    On-zero:  17/20 found
+    Off-zero: 17/20 found (should be much less)
+    Selectivity: +0
+  t=  10,000: spacing=0.852, window=±0.213
+    On-zero:  14/20 found
+    Off-zero: 14/20 found (should be much less)
+    Selectivity: +0
+  t= 100,000: spacing=0.649, window=±0.162
+    On-zero:  10/20 found
+    Off-zero: 8/20 found (should be much less)
+    Selectivity: +2
+
+### Test D: Extreme Heights (1M, 5M) with Tight Windows
+Testing depth 6 (393) and depth 10 (20,446) primes.
+
+  t=1,000,000: mean spacing=0.5246
+    mpmath: 10 zeros in 7.9s
+    Depth 6 (393): wide=10/10 (err=0.0979), tight=9/10 (err=0.0893)
+    Depth 10 (20446): wide=10/10 (err=0.1158), tight=9/10 (err=0.1049)
+
+  t=5,000,000: mean spacing=0.4624
+    mpmath: 10 zeros in 4.5s
+    Depth 6 (393): wide=10/10 (err=0.1973), tight=3/10 (err=0.0584)
+    Depth 10 (20446): wide=10/10 (err=0.1592), tight=4/10 (err=0.0502)
+
+### Test E: Sign Correlation Over Long Intervals
+Sample 200 equally-spaced points in [t, t+100], compare sign(Z_tree) vs sign(Z_RS).
+
+  t ∈ [1000, 1100]: sign agreement = 83/200 = 41.5%, correlation = -0.172
+  t ∈ [10000, 10100]: sign agreement = 87/200 = 43.5%, correlation = -0.136
+  t ∈ [100000, 100100]: sign agreement = 106/200 = 53.0%, correlation = 0.060
+
+### Interpretation
+- If tight-window detection >> off-zero detection: REAL signal, not artifact
+- If tree primes >> random primes: tree structure matters
+- If tree primes ≈ consecutive primes: small-prime bias is the key, not tree structure
+- Sign correlation quantifies how well Z_tree tracks Z(t) globally
