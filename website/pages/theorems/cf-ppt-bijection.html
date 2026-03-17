@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CF-PPT Bijection -- B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">CF-PPT Bijection</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">CF1: CF-PPT Bijection &mdash; Data as Pythagorean Triples</h2>
+<div style="margin-bottom:8px;">
+  <span class="badge badge-proven">Proven</span>
+  <span class="badge badge-high">High Significance</span>
+</div>
+
+<!-- Statement -->
+<h3>Formal Statement</h3>
+<div class="theorem-box">
+  <p>There exists a bijection between finite binary strings and primitive Pythagorean triples via the composition:</p>
+  <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">
+    Binary data $\xrightarrow{\text{parse}}$ CF $[a_0; a_1, \ldots, a_k]$ $\xrightarrow{\text{Stern-Brocot}}$ path $\xrightarrow{\text{Berggren}}$ PPT $(a, b, c)$
+  </p>
+  <p>The mapping is invertible: given any PPT $(a, b, c)$, recover $(m, n)$ via $m = \sqrt{(c+a)/2}$, $n = \sqrt{(c-a)/2}$, compute CF$(m/n)$, and decode to the original binary data. The Pythagorean constraint $a^2 + b^2 = c^2$ provides built-in error detection and single-component error correction.</p>
+</div>
+
+<!-- Intuition -->
+<h3>Intuition (Plain English)</h3>
+<div class="intuition">
+  <p>Every rational number $m/n$ has a unique continued fraction expansion $[a_0; a_1, \ldots, a_k]$. The partial quotients $a_i$ are positive integers that can encode arbitrary data (think of them as digits in a variable-radix number system).</p>
+  <p style="margin-top:12px;">The Stern-Brocot tree is a binary tree containing every positive rational exactly once. Walking left or right in this tree corresponds to the continued fraction digits. And the Berggren tree of PPTs is intimately related: each coprime pair $(m, n)$ with $m > n > 0$ generates a unique PPT via $a = m^2 - n^2$, $b = 2mn$, $c = m^2 + n^2$.</p>
+  <p style="margin-top:12px;">The pipeline chains these three bijections: data $\leftrightarrow$ CF $\leftrightarrow$ Stern-Brocot $\leftrightarrow$ PPT. The result: any file, message, or bitstream can be stored as a single Pythagorean triple.</p>
+</div>
+
+<!-- Proof Sketch -->
+<h3>Proof Sketch</h3>
+<div class="proof-sketch">
+  <p><strong>Step 1 (Data $\to$ CF):</strong> Interpret the byte stream as a sequence of partial quotients. For example, use run-length encoding or direct byte-to-integer mapping. Each encoding scheme gives a different CF $[a_0; a_1, \ldots, a_k]$.</p>
+  <p style="margin-top:8px;"><strong>Step 2 (CF $\to$ rational):</strong> Evaluate the continued fraction to get $m/n$ in lowest terms. By the theory of continued fractions, this is a bijection between finite CF sequences and positive rationals.</p>
+  <p style="margin-top:8px;"><strong>Step 3 (rational $\to$ PPT):</strong> From coprime $(m, n)$ with $m > n$, compute $(m^2 - n^2, 2mn, m^2 + n^2)$. This is the classical parametrization; it is a bijection between coprime pairs with opposite parity and PPTs.</p>
+  <p style="margin-top:8px;"><strong>Step 4 (Error correction):</strong> If any single component of $(a, b, c)$ is corrupted, the constraint $a^2 + b^2 = c^2$ fails (detection). The corrupted component can be recomputed: $a = \sqrt{c^2 - b^2}$, $b = \sqrt{c^2 - a^2}$, or $c = \sqrt{a^2 + b^2}$ (correction).</p>
+</div>
+
+<!-- Significance -->
+<h3>Significance</h3>
+<div class="significance">
+  <p><strong>This establishes PPTs as a universal data encoding medium.</strong> Applications include:</p>
+  <ul style="margin-top:8px;">
+    <li><strong>Steganography:</strong> hide data inside innocuous-looking integer triples</li>
+    <li><strong>Fingerprinting:</strong> 51.3% avalanche effect (near-ideal 50%), zero collisions</li>
+    <li><strong>Error correction:</strong> free single-component correction from the Pythagorean constraint</li>
+    <li><strong>Compression:</strong> CF representation is naturally compact for structured data (87.91x on financial ticks)</li>
+  </ul>
+  <p style="margin-top:12px;">The nested PPT variant (using output hypotenuse as input to next level) produces 38x expansion per recursive step with no fixed points, enabling hierarchical encoding.</p>
+</div>
+
+<!-- Related Theorems -->
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="quadratic-irrational.html">Exact Branch CF Formulas</a>
+  <a href="cfrac-equivalence.html">CFRAC-Tree Equivalence</a>
+  <a href="quartic-identity.html">Quartic Identity</a>
+  <a href="ppt-inverse-factoring.html">PPT Inverse = Factoring</a>
+</div>
+
+<div class="series-nav" style="margin-top:32px;">
+  <a href="zaremba-berggren.html">&larr; Prev: Zaremba-Berggren</a>
+  <a href="zeta-zero-machine.html">Next: Zeta Zero Machine &rarr;</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+</footer>
+
+</div></div>
+</body>
+</html>

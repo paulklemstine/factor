@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quartic Identity -- B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">Quartic Identity</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">NI1: Quartic Identity $a^4 + b^4 - c^4 = -2a^2 b^2$</h2>
+<div style="margin-bottom:8px;">
+  <span class="badge badge-proven">Proven</span>
+  <span class="badge badge-high">High Significance</span>
+</div>
+
+<!-- Statement -->
+<h3>Formal Statement</h3>
+<div class="theorem-box">
+  <p>For every primitive Pythagorean triple $(a, b, c)$ with $a^2 + b^2 = c^2$:</p>
+  <p style="text-align:center; font-size:18px; color:var(--gold); margin:16px 0;">
+    $a^4 + b^4 - c^4 = -2a^2 b^2$
+  </p>
+  <p>This is an exact algebraic identity, holding for ALL Pythagorean triples (primitive or not).</p>
+</div>
+
+<!-- Intuition -->
+<h3>Intuition (Plain English)</h3>
+<div class="intuition">
+  <p>Fermat proved that $a^4 + b^4 = c^4$ has no solutions in positive integers (the $n=4$ case of Fermat's Last Theorem). But what IS $a^4 + b^4 - c^4$ for Pythagorean triples?</p>
+  <p style="margin-top:12px;">The answer is beautifully simple: it equals $-2a^2 b^2$. This means the "deficit" from the quartic Fermat equation is exactly twice the square of the triangle's area (since area $= ab/2$, we get $-2a^2b^2 = -8 \cdot \text{area}^2$).</p>
+  <p style="margin-top:12px;">In other words: Pythagorean triples are the points where Fermat's quartic equation has a deficit of exactly $2a^2b^2$. No more, no less.</p>
+</div>
+
+<!-- Proof -->
+<h3>Proof</h3>
+<div class="proof-sketch">
+  <p><strong>Given:</strong> $a^2 + b^2 = c^2$.</p>
+  <p style="margin-top:8px;"><strong>Square both sides:</strong></p>
+  <p style="text-align:center;">$(a^2 + b^2)^2 = c^4$</p>
+  <p style="text-align:center;">$a^4 + 2a^2 b^2 + b^4 = c^4$</p>
+  <p style="margin-top:8px;"><strong>Rearrange:</strong></p>
+  <p style="text-align:center;">$a^4 + b^4 - c^4 = -2a^2 b^2$</p>
+  <p style="margin-top:8px;">QED. The proof is a single algebraic manipulation.</p>
+</div>
+
+<!-- Significance -->
+<h3>Significance</h3>
+<div class="significance">
+  <p><strong>Connections:</strong></p>
+  <ul style="margin-top:8px;">
+    <li><strong>Fermat's Last Theorem:</strong> Quantifies the exact distance from $a^4 + b^4 = c^4$ (which has no solutions) to Pythagorean triples (which have infinitely many solutions at $n=2$)</li>
+    <li><strong>Area connection:</strong> Since $-2a^2b^2 = -8(\text{area})^2$, the quartic deficit encodes the triangle's area</li>
+    <li><strong>Norm identity:</strong> In $\mathbb{Z}[i]$: $|z|^4 = (\text{Re}(z^2))^2 + (\text{Im}(z^2))^2$ when $z = a + bi$ and $|z|^2 = c$</li>
+    <li><strong>Higher powers:</strong> Generalizes to $\sum_{k=0}^{n} \binom{n}{k}(-1)^{n-k} a^{2k} b^{2(n-k)} = 0$ for all even $n$, providing a family of identities</li>
+  </ul>
+</div>
+
+<!-- Related Theorems -->
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="congruent-number.html">Congruent Number Curve Map</a>
+  <a href="ppt-inverse-factoring.html">PPT Inverse = Factoring</a>
+  <a href="cf-ppt-bijection.html">CF-PPT Bijection</a>
+  <a href="smoothness-advantage.html">Smoothness Advantage</a>
+</div>
+
+<div class="series-nav" style="margin-top:32px;">
+  <a href="zeta-zero-machine.html">&larr; Prev: Zeta Zero Machine</a>
+  <a href="ppt-inverse-factoring.html">Next: PPT Inverse = Factoring &rarr;</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+</footer>
+
+</div></div>
+</body>
+</html>

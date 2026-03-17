@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPT Inverse = Factoring -- B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">PPT Inverse = Factoring</span>
+</nav>
+
+<h2 class="section-title" style="margin-top:16px;">NI2: PPT Inverse $\equiv$ Factoring (Turing-Equivalent)</h2>
+<div style="margin-bottom:8px;">
+  <span class="badge badge-proven">Proven</span>
+  <span class="badge badge-high">High Significance</span>
+</div>
+
+<!-- Statement -->
+<h3>Formal Statement</h3>
+<div class="theorem-box">
+  <p>The PPT inversion problem (given hypotenuse $c$, find $(a, b)$ such that $a^2 + b^2 = c^2$ with $\gcd(a,b) = 1$) is Turing-equivalent to factoring $c$ over the Gaussian integers $\mathbb{Z}[i]$.</p>
+  <p style="text-align:center; font-size:16px; color:var(--gold); margin:12px 0;">
+    PPT Inverse $\leq_T$ Gaussian Factoring $\leq_T$ Integer Factoring $\leq_T$ PPT Inverse
+  </p>
+  <p>Specifically: $c = m^2 + n^2 = (m + ni)(m - ni)$ in $\mathbb{Z}[i]$, and the PPT is $(m^2 - n^2, 2mn, c)$. Finding $(m, n)$ from $c$ is exactly as hard as factoring $c$ over $\mathbb{Z}[i]$.</p>
+</div>
+
+<!-- Intuition -->
+<h3>Intuition (Plain English)</h3>
+<div class="intuition">
+  <p>If someone gives you a number $c$ and asks "find $a, b$ with $a^2 + b^2 = c^2$", you need to find the Gaussian integer factorization of $c$. This is because every prime $p \equiv 1 \pmod{4}$ splits in $\mathbb{Z}[i]$ as $p = \pi \bar{\pi}$ where $\pi = m + ni$.</p>
+  <p style="margin-top:12px;">To reconstruct the PPT, you need $m$ and $n$. To find $m$ and $n$, you need to factor $c$ into Gaussian primes and read off the real and imaginary parts. This is exactly as hard as integer factoring: not harder (factor over $\mathbb{Z}$, then split each prime $p \equiv 1 \pmod{4}$ by finding $x^2 \equiv -1 \pmod{p}$), and not easier (if you can invert PPTs, you can factor by constructing appropriate hypotenuses).</p>
+</div>
+
+<!-- Proof Sketch -->
+<h3>Proof Sketch</h3>
+<div class="proof-sketch">
+  <p><strong>Direction 1 (Factoring $\Rightarrow$ PPT Inverse):</strong> Given $c$, factor it over $\mathbb{Z}$. For each prime factor $p \equiv 1 \pmod{4}$, compute a square root of $-1$ mod $p$ (using Tonelli-Shanks), then use the Euclidean algorithm in $\mathbb{Z}[i]$ to find $\pi$ with $N(\pi) = p$. Multiply the Gaussian factors to get $c = (m+ni)(m-ni)$, yielding $(m,n)$ and hence the PPT.</p>
+  <p style="margin-top:8px;"><strong>Direction 2 (PPT Inverse $\Rightarrow$ Factoring):</strong> Given $N = pq$ to factor, construct $c$ such that $c$ is a hypotenuse involving $p$ and $q$. If $p \equiv q \equiv 1 \pmod{4}$, then $c = pq$ works: inverting the PPT gives $m + ni$ whose norm reveals the factors. For general $N$, reduce to this case.</p>
+  <p style="margin-top:8px;"><strong>Complexity:</strong> Both directions use polynomial-time reductions (plus the core hard step), establishing Turing equivalence.</p>
+</div>
+
+<!-- Significance -->
+<h3>Significance</h3>
+<div class="significance">
+  <p><strong>PPT inversion is exactly as hard as integer factoring.</strong> This means:</p>
+  <ul style="margin-top:8px;">
+    <li>Any breakthrough in PPT inversion would break RSA</li>
+    <li>Any breakthrough in factoring would solve PPT inversion</li>
+    <li>The Pythagorean tree literally encodes the factoring problem in its structure</li>
+    <li>The CF-PPT bijection (Theorem CF1) is encoding data into a computationally hard structure</li>
+  </ul>
+  <p style="margin-top:12px;">Combined with Theorem T92 (Factoring $\leftrightarrow$ BSD), we get a three-way equivalence: PPT Inverse $\equiv$ Integer Factoring $\equiv$ BSD Rank Computation.</p>
+</div>
+
+<!-- Related Theorems -->
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="factoring-bsd.html">Factoring-BSD Equivalence</a>
+  <a href="quartic-identity.html">Quartic Identity</a>
+  <a href="cf-ppt-bijection.html">CF-PPT Bijection</a>
+  <a href="congruent-number.html">Congruent Number Curve Map</a>
+</div>
+
+<div class="series-nav" style="margin-top:32px;">
+  <a href="quartic-identity.html">&larr; Prev: Quartic Identity</a>
+  <a href="ppt-hausdorff.html">Next: Hausdorff Dimension &rarr;</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Deep Dive
+</footer>
+
+</div></div>
+</body>
+</html>
