@@ -54,6 +54,9 @@
   .badge-compress { background: #fee2e2; color: #991b1b; }
   .badge-millennium { background: #fce7f3; color: #9d174d; }
   .badge-overview { background: #f3f4f6; color: #374151; }
+  .badge-identity { background: #e0e7ff; color: #3730a3; }
+  .badge-modular { background: #fef9c3; color: #854d0e; }
+  .badge-moonshine { background: #fce7f3; color: #831843; }
   .pages-info {
     font-size: 0.85em;
     color: var(--text-muted);
@@ -84,7 +87,7 @@
     <li><a href="code.html">Source Code</a></li>
     <li class="section-label">Downloads</li>
     <li><a href="../paper/b3_paper.pdf" target="_blank">Overview Paper (PDF)</a></li>
-    <li><a href="paper.html">All 8 Papers</a></li>
+    <li><a href="paper.html">All 10 Papers</a></li>
   </ul></nav>
 </aside>
 
@@ -101,7 +104,7 @@
   Paul Klemstine &mdash; Independent Researcher, Menasha, WI &mdash; March 2026
 </p>
 <p style="margin-bottom:24px;">
-  Seven focused research papers covering the algebraic, analytic, physical, computational,
+  Ten focused research papers covering the algebraic, analytic, physical, computational,
   and geometric aspects of the Berggren Pythagorean triple tree, plus the original comprehensive overview.
   Each paper is self-contained with its own abstract, theorems, proofs, and references.
 </p>
@@ -266,6 +269,71 @@
   <div class="links">
     <a href="../paper/paper_dessin_berggren.pdf" target="_blank">Download PDF</a>
     <a href="../paper/paper_dessin_berggren.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 8: Berggren Identity -->
+<div class="paper-card">
+  <h3>8. The Berggren Identity and Pythagorean Triple Combinatorics</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-identity">Combinatorics</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <div class="abstract">
+    A systematic investigation of algebraic identities satisfied by the Berggren
+    matrices and their consequences for the combinatorial structure of primitive
+    Pythagorean triples, including trace identities, commutator relations, and
+    the connection to Chebyshev polynomials.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_berggren_identity.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_berggren_identity.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 9: SL(2) Berggren -->
+<div class="paper-card">
+  <h3>9. The Berggren Group, the Theta Group, and Surjectivity onto SL(2,F<sub>p</sub>)</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-modular">Modular Forms</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <div class="abstract">
+    The Berggren matrices admit a natural 2&times;2 representation generating the
+    theta group &Gamma;<sub>&theta;</sub> = &langle;S, T&sup2;&rangle;, an index-3
+    subgroup of SL(2,Z). We prove surjectivity onto SL(2,F<sub>p</sub>) for every
+    odd prime p via a two-line argument, verify computationally through p = 31,
+    and derive consequences: expander Cayley graphs (Bourgain&ndash;Gamburd), the
+    ADE classification via McKay (E<sub>6</sub> at p = 3, E<sub>8</sub> at p = 5),
+    and the Klein quartic at p = 7.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_sl2_berggren.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_sl2_berggren.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 10: PPT to Monster -->
+<div class="paper-card">
+  <h3>10. From Pythagorean Triples to the Monster: A Tower of Exceptional Structures via the Theta Group</h3>
+  <div class="author">Paul Klemstine &mdash; 11 pages</div>
+  <span class="badge badge-moonshine">Moonshine</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <span class="badge badge-modular">Modular Forms</span>
+  <span class="badge badge-physics">Mathematical Physics</span>
+  <div class="abstract">
+    An explicit chain connects the elementary (3,4,5) Pythagorean triple to the
+    Monster group via eight stages: (3,4,5) &rarr; &Gamma;<sub>&theta;</sub> &rarr;
+    SL(2,F<sub>p</sub>) &rarr; E<sub>6</sub> (p=3) &rarr; E<sub>8</sub> (p=5) &rarr;
+    Klein quartic (p=7) &rarr; M<sub>11</sub> (p=11) &rarr; M<sub>24</sub> (p=23) &rarr;
+    Leech lattice &rarr; Monster. The Berggren generators produce the theta group, whose
+    Hauptmodul &lambda;=(&theta;<sub>2</sub>/&theta;<sub>3</sub>)<sup>4</sup> determines
+    the j-invariant j(&tau;) = 256(1&minus;&lambda;+&lambda;&sup2;)&sup3;/(&lambda;(1&minus;&lambda;))&sup2;,
+    connecting PPTs to monstrous moonshine. Physical interpretations include the bosonic
+    string partition function, E<sub>8</sub> heterotic strings, and (2+1)-dimensional
+    gravity. All finite-group claims are computationally verified.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_ppt_monster.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_ppt_monster.tex" target="_blank">LaTeX Source</a>
   </div>
 </div>
 

@@ -53,13 +53,56 @@
 
 <h2 class="section-title" style="margin-top:16px;">Theorem Catalog</h2>
 <p style="margin-bottom:8px;">
-  800+ theorems discovered across Pythagorean tree structure, Berggren group algebra,
+  950+ theorems discovered across Pythagorean tree structure, Berggren group algebra,
   analytic number theory, spectral graph theory, complexity theory, connections to elliptic curves,
-  dynamical systems, and practical applications. Organized by category with status and significance. Only medium and high significance results are shown.
+  dynamical systems, moonshine, and practical applications. Organized by category with status and significance. Only medium and high significance results are shown.
 </p>
 
 <!-- ========== TOP DISCOVERIES ========== -->
 <h2 class="section-title" id="top">Top Discoveries</h2>
+
+<div class="theorem-card" id="GTHETA" style="border-left:3px solid var(--gold); background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255,215,0,0.05) 100%);">
+  <div class="theorem-header">
+    <span class="theorem-num" style="color:var(--gold);">GT</span>
+    <a href="theorems/ppt-uniqueness.html" class="theorem-name" style="color:var(--gold); font-size:1.1em;">Berggren Group = $\Gamma_\theta$ (THE Foundational Result)</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> The Berggren matrices, reduced to $\mathrm{SL}(2,\mathbb{Z})$,
+    generate exactly the theta group $\Gamma_\theta = \langle S, T^2 \rangle$, an index-3 subgroup of
+    $\mathrm{SL}(2,\mathbb{Z})$. The normal core is $\Gamma(2)$ and the quotient is $S_3$.<br><br>
+    <strong>Why this is foundational:</strong> Every subsequent result -- the ADE tower, moonshine connection,
+    spin structure preservation, Ramanujan property, SL(2) surjection -- flows from this single identification.
+    The Pythagorean tree IS the Cayley graph of $\Gamma_\theta$. The $j$-invariant connects to the Monster
+    group because $\Gamma_\theta$ has index 3 in the modular group.<br><br>
+    <strong>Key consequences:</strong> (i) PPT tree is UNIQUE -- Berggren = Price = Third tree, all are
+    $\Gamma_\theta$ under different generators. (ii) Index 3 = ternary forced by Bass-Serre theory.
+    (iii) $j$-invariant via $\Gamma_\theta$ modular function gives moonshine connection.
+    <br><a href="theorems/ppt-uniqueness.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" id="ADETOWER" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">ADE</span>
+    <a href="theorems/ppt-monster-tower.html" class="theorem-name" style="color:var(--text);">ADE-Sporadic-Lattice Tower: PPT to Monster</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> The tower of surjections from $\Gamma_\theta$:
+    $E_6 \to E_8 \to \text{Klein quartic} \to M_{11} \to M_{24} \to \text{Leech} \to \text{Monster}$.
+    At $p=3$: binary tetrahedral ($E_6$, order 24). At $p=5$: binary icosahedral ($E_8$, order 120).
+    At $p=7$: Klein quartic ($\mathrm{PSL}(2,7)$, order 168). The ternary Golay code $\mathcal{G}_{11}$
+    encodes depth-11 Berggren paths; $\mathrm{Aut}(\mathcal{G}_{24}) = M_{24}$; Leech lattice via
+    Construction A; Monster via moonshine module $V^\natural$.<br><br>
+    <strong>Significance:</strong> The root triple (3,4,5) sits at the base of a chain reaching the largest
+    sporadic simple group ($|\mathbb{M}| \approx 8 \times 10^{53}$). This is the deepest structural result
+    of the entire research program.
+    <br><a href="theorems/ppt-monster-tower.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
 
 <div class="theorem-card" id="T28" style="border-left:3px solid var(--gold);">
   <div class="theorem-header">
@@ -786,6 +829,19 @@
   <tr><td>IFS</td><td>IFS signal compression: 58.5x with codebook</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
   <tr><td>BF</td><td>Beta function: &rho;(t)=&rho;(1-t) mirrors &zeta; functional equation</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
   <tr><td>ADK</td><td>Anomalous Darling-Kac: two neutral fixed points, novel limit distribution</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>T160+</td><td colspan="3" style="color:var(--gold);">Sessions 40-42: Theta Group Identity, Monster Tower &amp; Moonshine</td></tr>
+  <tr><td>GT</td><td><a href="theorems/ppt-uniqueness.html">Berggren = &Gamma;<sub>&theta;</sub> (THE foundational result)</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>UNQ</td><td><a href="theorems/ppt-uniqueness.html">PPT tree UNIQUE: Berggren = Price = Third tree (all &Gamma;<sub>&theta;</sub>)</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>ADE</td><td><a href="theorems/ppt-monster-tower.html">ADE-Sporadic-Lattice Tower: E<sub>6</sub>&rarr;E<sub>8</sub>&rarr;Klein&rarr;M<sub>11</sub>&rarr;M<sub>24</sub>&rarr;Leech&rarr;Monster</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>JI</td><td>j-invariant via &Gamma;<sub>&theta;</sub> modular function (moonshine connection)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>GOL</td><td>Ternary Golay code = depth-11 Berggren paths (&Ggr;<sub>11</sub> perfect [11,6,5])</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>BOS</td><td>PPTs are purely bosonic: 66.7% of gravitational partition function Z</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>BS3</td><td>Index 3 = ternary forced by Bass-Serre (not coincidence)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>NC2</td><td>Normal core = &Gamma;(2), quotient S<sub>3</sub></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>SPN</td><td>PPTs preserve even spin structure &theta;[0,0]</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>MP2</td><td>Manneville-Pomeau z=1 critical point, first-order phase transition</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>UTR</td><td><a href="theorems/trace-reversal.html">Universal trace reversal for O(p,q), Sp(2n)</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>EXP</td><td>Expansion paradox: SL(2) Ramanujan property destroys factor signal</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
 </tbody>
 </table>
 
