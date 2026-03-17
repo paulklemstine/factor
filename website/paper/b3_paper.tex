@@ -42,9 +42,8 @@ Pythagorean Triple Tree with Applications to Integer Factoring}
 
 \begin{abstract}
 We present a systematic investigation of the Berggren ternary tree of primitive
-Pythagorean triples, establishing over 500 theorems spanning group theory,
-analytic number theory, spectral graph theory, computational algebra, data
-encoding, compression, physics, and connections to the Riemann zeta function.  Our
+Pythagorean triples, establishing over 100 theorems spanning group theory,
+analytic number theory, spectral graph theory, and computational algebra.  Our
 principal results include: (i)~a precise characterization of the Berggren group
 modulo a prime~$p$ as a subgroup of $\mathrm{GL}(3,\mathbb{F}_p)$ with
 $|\,G\,|=2p(p^{2}-1)$; (ii)~a proof that the commutator $[A,B]$ is unipotent
@@ -52,8 +51,7 @@ of nilpotency index~3 over~$\mathbb{Z}$, with $\mathrm{ord}([A,B]\bmod p)=p$
 for every prime $p\ge5$, whereas $[A,C]$ is \emph{not} unipotent; (iii)~an
 explicit mapping of every primitive Pythagorean triple to a rational point on a
 congruent-number elliptic curve; (iv)~the definition of a tree zeta function
-$\zeta_{\mathrm{tree}}(s)$ whose abscissa of convergence equals the Hausdorff
-dimension $\log(3)/\log(3{+}2\sqrt{2})=0.6232$, with
+$\zeta_{\mathrm{tree}}(s)$ whose abscissa of convergence is $s=1$, with
 connections to Dirichlet $L$-functions restricted to primes $p\equiv1\pmod4$;
 (v)~a proof that the continued-fraction expansion of $\sqrt{N}$ is
 algebraically equivalent to a walk on the generalized Berggren tree with
@@ -62,26 +60,12 @@ adaptive step matrices; (vi)~a conditional information-theoretic lower bound
 require work growing as $10^{0.24d}$ per bit of factor information for a
 $d$-digit semiprime, with a proof that no non-sieve classical approach escapes
 the smoothness bottleneck; (vii)~a Turing equivalence between integer factoring
-and BSD rank computation for semiprimes; (viii)~a bijection between binary data
-and PPTs via continued fractions and the Stern-Brocot tree (CF-PPT bijection),
-enabling error-correcting data encoding, steganography, and fingerprinting;
-(ix)~a ``Riemann zeta machine'' recovering 1000/1000 non-trivial zeta zeros from
-just 393 tree primes via importance sampling; (x)~novel identities including the
-exact quartic relation $a^4+b^4-c^4=-2a^2b^2$ and a proof that PPT inversion is
-Turing-equivalent to integer factoring via Gaussian integers; (xi)~compression
-codecs achieving 87.91$\times$ on financial data and lossless nibble transpose
-achieving 6.32$\times$ on sawtooth (4.19$\times$ vs zlib); (xii)~a PrimeOracle
-achieving 33.7$\times$ better accuracy than $R(x)$ at $x=500{,}000$ with 4000
-evaluations/second; (xiii)~physics connections including the BGS conjecture
-(PPT\,=\,Poisson, zeta\,=\,GUE), $\zeta(s)$ as a Bose gas partition function
-with $E_p=\ln p$, and spectral form factor dip-ramp-plateau confirming quantum
-chaos; (xiv)~algorithmic number theory tools including 38/38 exact class numbers,
-PPT-Pell connections, Cornacchia hybrid solver, and the complete Chomsky
-classification of PPT languages; and (xv)~the results of a comprehensive survey of
-over 350 mathematical fields, all of which reduce to five known complexity
-families for integer factoring.  We state each result with its proof
-status---proven, computationally verified, or conjectured---and discuss open
-problems connecting the tree's algebraic structure to factoring algorithms.
+and BSD rank computation for semiprimes; and (viii)~the results of a
+comprehensive survey of over 315 mathematical fields, all of which reduce to
+five known complexity families for integer factoring.  We state each result with
+its proof status---proven, computationally verified, or conjectured---and
+discuss open problems connecting the tree's algebraic structure to factoring
+algorithms.
 \end{abstract}
 
 % ═════════════════════════════════════════════════════════════════════════════
@@ -108,7 +92,7 @@ its connections to integer factoring---have remained largely unexplored.
 
 This paper reports the results of a comprehensive investigation into the
 Berggren tree, conducted across a comprehensive research program examining
-over 495~mathematical fields and producing over 300~theorems.  Our contributions
+over 495~mathematical fields and producing over 100~theorems.  Our contributions
 fall into several categories:
 
 \begin{enumerate}[label=(\roman*)]
@@ -133,7 +117,7 @@ fall into several categories:
   \item \textbf{Complexity-theoretic barriers.}  We formalize the Dickman
     information barrier as a conditional lower bound for generic sieve
     algorithms, prove that no non-sieve classical approach escapes the
-    smoothness bottleneck, and present the results of surveying 350+
+    smoothness bottleneck, and present the results of surveying 315+
     mathematical fields for novel factoring approaches.
 \end{enumerate}
 
@@ -932,10 +916,10 @@ Our SIQS implementation fits the theoretical prediction precisely:
 matching the theoretical constant for SIQS~\cite{Pomerance1996}.  This
 confirms that our implementation is near-optimal within its complexity class.
 
-\subsection{The 350+-field survey}
+\subsection{The 315+-field survey}
 
 Over the course of this research program, we systematically evaluated over
-350~mathematical fields for novel approaches to integer factoring.  Every
+315~mathematical fields for novel approaches to integer factoring.  Every
 approach reduces to one of five complexity families:
 \begin{enumerate}
   \item \textbf{Trial division family}: $O(\sqrt{N})$.  Includes TDA, symplectic
@@ -1076,345 +1060,22 @@ Three optimizations improved the GNFS engine:
 \end{itemize}
 
 % ═════════════════════════════════════════════════════════════════════════════
-% 9. CF-PPT BIJECTION AND DATA ENCODING
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{CF-PPT Bijection and Data Encoding}\label{sec:cfppt}
-
-A central discovery of sessions~18--23 is that any binary data can be
-bijectively mapped to a unique primitive Pythagorean triple.
-
-\begin{theorem}[CF-PPT Bijection]\label{thm:cfppt}
-There exists a bijection between finite binary strings and primitive Pythagorean
-triples via the composition:
-\[
-  \text{Binary data} \;\xrightarrow{\;\text{parse}\;}\;
-  [a_0; a_1,\ldots,a_k] \;\xrightarrow{\;\text{Stern-Brocot}\;}\;
-  m/n \;\xrightarrow{\;\text{Berggren}\;}\;
-  (m^2{-}n^2,\; 2mn,\; m^2{+}n^2).
-\]
-The mapping is invertible: given any PPT~$(a,b,c)$, recover $(m,n)$ via
-$m=\sqrt{(c+a)/2}$, $n=b/(2m)$, compute the continued fraction of~$m/n$, and
-decode to the original data.
-\end{theorem}
-
-\begin{proof}
-Each step is a known bijection: (1)~finite continued fractions biject with
-positive rationals; (2)~the Stern-Brocot tree contains every positive rational
-exactly once; (3)~the classical parametrization $(m,n)\mapsto(m^2-n^2,2mn,m^2+n^2)$
-bijects coprime pairs of opposite parity with PPTs.  The composition is therefore
-a bijection.  \qed
-\end{proof}
-
-\begin{theorem}[PPT Error Correction]\label{thm:ppterr}
-Data encoded as a PPT~$(a,b,c)$ supports 100\% single-component error detection
-and correction via the Pythagorean constraint $a^2+b^2=c^2$.
-\end{theorem}
-
-\begin{proof}
-If any single component is corrupted, the constraint fails (detection).  The
-corrupted component is uniquely recoverable: $a=\sqrt{c^2-b^2}$,
-$b=\sqrt{c^2-a^2}$, or $c=\sqrt{a^2+b^2}$ (correction).  \qed
-\end{proof}
-
-Further applications include PPT steganography (hiding data in integer triples),
-PPT fingerprinting (achieving 51.3\% avalanche with zero collisions), and nested
-PPT encoding (38$\times$ expansion per recursive step with no fixed points).
-
-% ═════════════════════════════════════════════════════════════════════════════
-% 10. RIEMANN ZETA MACHINE
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Riemann Zeta Machine}\label{sec:zeta-machine}
-
-The tree zeta function provides a surprisingly effective probe of the Riemann
-zeta function.
-
-\begin{theorem}[Zeta Zero Recovery]\label{thm:zeta100}
-Using importance sampling with weights $w(p)=1/\log(p)$ on 393 prime
-hypotenuses from the Pythagorean tree at depth~$\leq 12$, the truncated Euler
-product
-\[
-  \zeta_{\mathrm{tree}}(s) = \prod_{p\in\mathcal{P}_{\mathrm{tree}}}
-    (1-p^{-s})^{-1}
-\]
-recovers all 100 lowest non-trivial zeros $\rho_k = \tfrac{1}{2}+i\gamma_k$ of
-the Riemann zeta function, with $\gamma_1=14.1347\ldots$ matching to 4+
-significant digits.
-\end{theorem}
-
-This works because tree primes are exactly those satisfying $p\equiv1\pmod{4}$,
-which split in~$\mathbb{Z}[i]$ and carry the arithmetic information relevant to
-$L(s,\chi_4)$ and hence~$\zeta(s)$.
-
-Additional results from the zeta machine:
-\begin{itemize}[nosep]
-  \item $\pi(100000)$ estimated to 0.001\% accuracy, beating both~$R(x)$
-    and~$\mathrm{li}(x)$ at this range.
-  \item GUE universality confirmed: all 4~statistics (pair correlation,
-    nearest-neighbor spacing, number variance, spectral rigidity) match.
-  \item Li's criterion: $\lambda_1$ through~$\lambda_{20}$ all positive,
-    consistent with~RH.
-\end{itemize}
-
-\begin{theorem}[Hausdorff Dimension]\label{thm:hausdorff}
-The abscissa of convergence of $\zeta_{\mathrm{tree}}(s)$ equals the Hausdorff
-dimension of the Pythagorean angle set:
-\[
-  \sigma_0 = \frac{\log 3}{\log(3+2\sqrt{2})} = 0.6232\ldots
-\]
-\end{theorem}
-
-\begin{proof}[Proof sketch]
-The tree has branching factor~3 and maximum spectral radius
-$\rho=3+2\sqrt{2}$.  The pressure function $P(s)=\log 3-s\log\rho$ vanishes at
-$\sigma_0=\log 3/\log\rho$.  By the theory of self-similar iterated function
-systems, this equals the Hausdorff dimension of the limit set of Pythagorean
-angles.  \qed
-\end{proof}
-
-% ═════════════════════════════════════════════════════════════════════════════
-% 11. NOVEL IDENTITIES
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Novel Identities and Number-Theoretic Results}\label{sec:identities}
-
-\begin{theorem}[Quartic Identity]\label{thm:quartic}
-For every Pythagorean triple $(a,b,c)$ with $a^2+b^2=c^2$:
-\[
-  a^4 + b^4 - c^4 = -2a^2 b^2.
-\]
-\end{theorem}
-
-\begin{proof}
-Square $a^2+b^2=c^2$ to get $a^4+2a^2b^2+b^4=c^4$.  Rearranging gives the
-result.  \qed
-\end{proof}
-
-The quartic deficit $-2a^2b^2=-8(\text{area})^2$ connects to Fermat's Last
-Theorem ($n=4$ case) and encodes the triangle's area.
-
-\begin{theorem}[PPT Inverse $\equiv$ Factoring]\label{thm:pptinverse}
-The PPT inversion problem (given hypotenuse~$c$, find $(a,b)$ with
-$a^2+b^2=c^2$ and $\gcd(a,b)=1$) is Turing-equivalent to factoring~$c$ over
-the Gaussian integers~$\mathbb{Z}[i]$, which is itself Turing-equivalent to
-integer factoring.
-\end{theorem}
-
-\begin{proof}[Proof sketch]
-\emph{Forward:} factor $c$ over~$\mathbb{Z}$, split each prime
-$p\equiv1\pmod{4}$ via Tonelli-Shanks in~$\mathbb{Z}[i]$, multiply Gaussian
-factors to obtain $c=(m+ni)(m-ni)$, yielding the PPT.  \emph{Reverse:} given
-$N=pq$ with $p,q\equiv1\pmod{4}$, set $c=N$ and invert; the Gaussian factors
-reveal $p$ and~$q$.  Both reductions are polynomial-time.  \qed
-\end{proof}
-
-Additional results:
-\begin{itemize}[nosep]
-  \item \textbf{Subquadratic growth:} $c_n = \Theta(n^{1.6045})$ where $c_n$
-    is the $n$-th primitive hypotenuse.
-  \item \textbf{Fundamental equivalence:} SB~$=$~CF~$=$~Farey.  The
-    Stern-Brocot tree, continued fractions, and Farey mediants are three
-    manifestations of the same structure.
-  \item \textbf{Squarefree enrichment:} 91.4\% of primitive hypotenuses are
-    squarefree, compared to $6/\pi^2 \approx 60.8\%$ for general integers.
-\end{itemize}
-
-% ═════════════════════════════════════════════════════════════════════════════
-% 12. COMPRESSION CODECS
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Compression Codecs}\label{sec:codecs}
-
-The CF-PPT bijection leads naturally to data compression schemes.
-
-\begin{theorem}[PPT Compression Rates]\label{thm:compress}
-Lossy PPT-based compression achieves the following ratios on real-world data:
-\begin{center}
-\begin{tabular}{lcc}
-\toprule
-Data type & Compression ratio & Error bound \\
-\midrule
-Stock tick prices & 87.91$\times$ & $<$0.01\% \\
-GPS coordinates  & 85.1$\times$ & $<$1\,m \\
-Temperature series & 75.5$\times$ & $<$0.1$^\circ$C \\
-\bottomrule
-\end{tabular}
-\end{center}
-The continued-fraction representation naturally captures smooth signals, since
-nearby values share long CF prefixes.
-\end{theorem}
-
-For lossless compression, PPT wavelets beat zlib by 2.18$\times$ on smooth
-signals.  The optimal pipeline is: decorrelate (PPT angle transform)
-$\to$ reorder (Stern-Brocot position) $\to$ wavelet transform $\to$ entropy
-coding.  A production wavelet codec with SPIHT progressive bitstream was
-implemented and tested.
-
-% ═════════════════════════════════════════════════════════════════════════════
-% 13. MILLENNIUM PRIZE CONNECTIONS
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Millennium Prize Connections}\label{sec:millennium}
-
-The Pythagorean tree touches multiple Millennium Prize problems:
-
-\begin{itemize}[nosep]
-  \item \textbf{BSD conjecture:} For the congruent number curve
-    $E_{14}: y^2=x^3-196x$, we find $|\mathrm{Sha}(E_{14})|\approx 7^2=49$,
-    confirming the BSD prediction that $|\mathrm{Sha}|$ is a perfect square.
-    Over tree-generated curves, the average analytic rank is~0.5155, within
-    1.6\% of Goldfeld's predicted average of~$1/2$.
-
-  \item \textbf{Hodge conjecture:} PPT-parametrized threefolds have Hodge number
-    $h^{2,2}=9$ with all cohomology classes algebraic via complex multiplication.
-
-  \item \textbf{Navier-Stokes:} Pythagorean vorticity configurations reduce the
-    Beale-Kato-Majda blowup integral by 82.4\%, suggesting PPT-aligned flows
-    resist singularity formation.
-
-  \item \textbf{Yang-Mills mass gap:} The spectral gap of the Berggren Cayley
-    graph mod~$p$ (Ramanujan property, $\lambda_1\geq 2\sqrt{2}$) provides a
-    discrete analogue of the mass gap.
-\end{itemize}
-
-% ═════════════════════════════════════════════════════════════════════════════
-% 14. APPLIED MATHEMATICS
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Applied Mathematics}\label{sec:applied}
-
-Practical applications of Pythagorean tree structure include:
-\begin{itemize}[nosep]
-  \item \textbf{PDE solver:} PPT-based grid points reduce Laplacian
-    approximation error by 4$\times$ compared to uniform grids, with exact
-    integer arithmetic in the stiffness matrix.
-  \item \textbf{Rotation matrices:} PPT rotations $(a/c, b/c)$ maintain exact
-    orthogonality under composition in rational arithmetic (zero floating-point
-    drift).
-  \item \textbf{Preconditioner:} Berggren group structure reduces conjugate
-    gradient iterations by 30\% for symmetric positive-definite systems.
-  \item \textbf{Pythagorean wavelets:} Angle-dense basis in $(0^\circ,90^\circ)$
-    with integer-to-integer lifting transforms.
-\end{itemize}
-
-% ═════════════════════════════════════════════════════════════════════════════
-% 15. CONCLUSION AND OPEN PROBLEMS
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Conclusion and Open Problems}\label{sec:conclusion}
-
-% ═════════════════════════════════════════════════════════════════════════════
-% PRIME ORACLE
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{PrimeOracle: Production Prime-Counting Tool}\label{sec:oracle}
-
-Using 1000 non-trivial Riemann zeta zeros precomputed from the depth-6 Berggren
-tree (393 primes, all $\equiv 1\pmod{4}$), the explicit formula yields a
-production-quality prime-counting oracle.
-
-\begin{theorem}[PrimeOracle]\label{thm:oracle}
-The zero-based approximation
-\[
-  \pi_{\mathrm{zeros}}(x) = \mathrm{Li}(x) - \sum_{\rho}\mathrm{Li}(x^\rho) - \log 2
-    + \int_x^\infty \frac{dt}{t(t^2-1)\log t}
-\]
-achieves $0.0006\%$ relative error at $x=500{,}000$, which is $33.7\times$ more
-accurate than the Riemann approximation $R(x)$.  The oracle wins 14 of 18 test
-points against $R(x)$ and evaluates at 4000~calls/second.
-\end{theorem}
-
-The oracle extends to a von Mangoldt reconstructor: using the difference
-$\Lambda(n) = \psi(n) - \psi(n-1)$ with 1000~zeros, we achieve perfect precision
-and recall (both~$1.000$) for detecting primes and prime powers up to $N=200$.
-
-% ═════════════════════════════════════════════════════════════════════════════
-% PHYSICS CONNECTIONS
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Physics Connections}\label{sec:physics}
-
-\subsection{BGS Conjecture: PPT\,=\,Classical, Zeta\,=\,Quantum}
-
-\begin{theorem}[Classical--Quantum Duality]\label{thm:bgs}
-PPT hypotenuse spacings follow Poisson statistics (level repulsion
-exponent~$\beta=0$), while Riemann zeta zero spacings follow GUE statistics
-($\beta\approx1.7$, theory~$\beta=2$).  This instantiates the
-Bohigas--Giannoni--Schmit conjecture: the PPT tree is a classical integrable
-system whose ``quantization'' yields the chaotic statistics of zeta zeros.
-\end{theorem}
-
-\subsection{Bose Gas Partition Function}
-
-\begin{theorem}[Prime Bose Gas]\label{thm:bose}
-The Riemann zeta function is identically the grand partition function of a free
-boson gas with single-particle energies $E_p = \ln p$:
-\[
-  \zeta(s) = \prod_p \frac{1}{1 - p^{-s}} = \prod_p \frac{1}{1 - e^{-s\ln p}}.
-\]
-The Riemann Hypothesis is equivalent to the absence of phase transitions for
-$\operatorname{Re}(s)>1/2$.  The PPT hypotenuse partition function exhibits a
-phase transition at $T_c = 6.01$ with critical exponent $\alpha\approx0.231$.
-\end{theorem}
-
-\subsection{Spectral Form Factor}
-
-The spectral form factor $K(\tau)$ of unfolded zeta zeros exhibits the
-characteristic dip--ramp--plateau structure of quantum chaotic systems:
-dip at $\tau=0.04$ ($K=10^{-4}$), ramp slope~$0.925$ (GUE predicts~$1.0$),
-plateau $K(\tau\to\infty)=1.07$ (GUE predicts~$1.0$).
-
-% ═════════════════════════════════════════════════════════════════════════════
-% ALGORITHMIC NUMBER THEORY
-% ═════════════════════════════════════════════════════════════════════════════
-
-\section{Algorithmic Number Theory}\label{sec:algnt}
-
-\subsection{Class Numbers}
-
-\begin{theorem}[Class Numbers via Euler Product]\label{thm:classnum}
-The Dirichlet series evaluation of $L(1,\chi_{-d})$ with $50{,}000$ terms gives
-exact class numbers $h(-d)$ for all 38 tested fundamental discriminants
-$d\leq 251$ ($38/38$ correct, including all Heegner numbers).
-\end{theorem}
-
-\subsection{PPT--Pell Connection and Cornacchia Hybrid}
-
-PPT generators $(m,n)$ encode convergents of $\sqrt{m^2/n^2}$, connecting
-Berggren tree navigation to CF expansion steps and Pell equation fundamental
-solutions.  The Cornacchia algorithm ($O(\log^2 p)$) combined with tree lookup
-($O(1)$) gives an optimal hybrid sum-of-two-squares solver with $6.1\times$
-speedup for cached primes.
-
-\subsection{Complete Chomsky Classification}
-
-\begin{theorem}[Chomsky Hierarchy]\label{thm:chomsky}
-PPT-related languages span the full Chomsky hierarchy: Berggren paths are regular
-(Type~3), hypotenuse sets are context-sensitive but not context-free (between
-Type~1 and Type~2), and the full MSO theory is decidable but with non-elementary
-complexity.  In reverse mathematics, PPT theory exhibits a 4-level phase
-transition from $\mathrm{RCA}_0$ (basic structure) to
-$\Pi^1_1$-$\mathrm{CA}_0$ (decidability via Rabin S3S).
-\end{theorem}
-
-% ═════════════════════════════════════════════════════════════════════════════
-% CONCLUSION
+% 9. CONCLUSION AND OPEN PROBLEMS
 % ═════════════════════════════════════════════════════════════════════════════
 
 \section{Conclusion and Open Problems}\label{sec:conclusion}
 
 We have presented a systematic study of the Berggren Pythagorean triple tree,
-establishing over 500~theorems across group theory, analytic number theory,
-spectral graph theory, continued fractions, elliptic curves, data encoding,
-compression, physics, and computational complexity.  The tree reveals a rich algebraic structure that simultaneously
+establishing over 100~theorems across group theory, analytic number theory,
+spectral graph theory, continued fractions, elliptic curves, and computational
+complexity.  The tree reveals a rich algebraic structure that simultaneously
 encodes additive (unipotent commutators of order~$p$) and multiplicative
 (non-unipotent commutators with order dividing $p\pm1$) information about finite
 fields.
 
-Despite this richness, our comprehensive survey of 350+ mathematical fields
+Despite this richness, our comprehensive survey of 315+ mathematical fields
 confirms that the Berggren tree---and indeed every classical approach to integer
-factoring---falls within one of five known complexity families.  All 350+ fields
+factoring---falls within one of five known complexity families.  All 315+ fields
 reduce to five known paradigms: trial division, birthday/collision, group-order,
 congruence-of-squares, and quantum period-finding.  The CFRAC--tree equivalence
 theorem makes this precise: the Pythagorean tree with fixed generators is a
