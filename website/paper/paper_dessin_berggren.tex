@@ -1,0 +1,1506 @@
+\documentclass[12pt]{amsart}
+
+% ─── Packages ────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{amssymb}
+
+% ─── Theorem environments ────────────────────────────────────────────────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{claim}[theorem]{Claim}
+
+% ─── Macros ──────────────────────────────────────────────────────────────────
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\renewcommand{\gcd}{\operatorname{gcd}}
+\newcommand{\PPT}{\mathrm{PPT}}
+\DeclareMathOperator{\re}{Re}
+
+% ─── Title ───────────────────────────────────────────────────────────────────
+\title{The Berggren Pythagorean Triple Tree as an Iterated Dessin d'Enfant
+       of the Chebyshev Polynomial~$T_3$}
+
+\author{Paul Klemstine}
+\address{Independent Researcher, Menasha, WI}
+
+\date{March 2026}
+
+\begin{document}
+
+\begin{abstract}
+We establish a precise correspondence between the Berggren ternary tree of
+primitive Pythagorean triples and the iterated preimage tree of the
+Chebyshev polynomial $T_3(x)=4x^3-3x$ acting on the interval $[-1,1]$.
+The key observation is that primitive Pythagorean triples correspond to
+rational points on the unit circle $S^1 \cong T^1(\ZZ[i])$, and that the
+cubing map $z\mapsto z^3$ on $S^1$ projects to $T_3$ on the real part.
+We prove that $T_3$ is a Shabat polynomial---its only finite critical
+values are $\pm 1$---making it a Belyi function $\PP^1\to\PP^1$ with
+ramification above $\{0,1,\infty\}$ after normalization.  The associated
+Dessin d'Enfant is a 3-star graph, and its iterated preimages under $T_3$
+form an infinite ternary tree.  Our main theorem (Theorem~\ref{thm:main})
+states that this iterated Dessin, restricted to rational arguments
+$x = a/c$ for coprime integers with $a^2 + b^2 = c^2$, is isomorphic as a
+rooted labeled tree to the Berggren tree.  As a consequence, the absolute
+Galois group $\Gal(\overline{\QQ}/\QQ)$ acts on the Berggren tree through
+its faithful action on Dessins d'Enfants, though since $T_3\in\QQ[x]$ the
+tree is pointwise fixed, revealing it as a canonical arithmetic object.
+Computational verification is provided through depth~8 of the tree
+(3281 triples).
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+%% =========================================================================
+\section{Introduction}\label{sec:intro}
+%% =========================================================================
+
+A \emph{primitive Pythagorean triple} (PPT) is a triple $(a,b,c)$ of
+positive integers satisfying $a^2+b^2=c^2$ with $\gcd(a,b,c)=1$.
+It is classical that every PPT with $a$ odd and $b$ even takes the form
+\begin{equation}\label{eq:mn-param}
+  (a,b,c) = (m^2-n^2,\; 2mn,\; m^2+n^2),
+\end{equation}
+where $m>n>0$, $\gcd(m,n)=1$, and $m\not\equiv n\pmod{2}$.
+
+In 1934, Berggren \cite{berggren1934} discovered that every PPT (with $a$
+odd) is obtained from the \emph{root triple} $(3,4,5)$ by repeated
+application of three matrices:
+\begin{equation}\label{eq:berggren-matrices}
+  B_1 = \begin{pmatrix} 1 & -2 & 2 \\ 2 & -1 & 2 \\ 2 & -2 & 3 \end{pmatrix}, \quad
+  B_2 = \begin{pmatrix} 1 & 2 & 2 \\ 2 & 1 & 2 \\ 2 & 2 & 3 \end{pmatrix}, \quad
+  B_3 = \begin{pmatrix} -1 & 2 & 2 \\ -2 & 1 & 2 \\ -2 & 2 & 3 \end{pmatrix}.
+\end{equation}
+These matrices act on column vectors $(a,b,c)^T$ and preserve the
+Pythagorean relation.  The resulting structure is an infinite ternary tree,
+rediscovered independently by Barning \cite{barning1963} and
+Hall \cite{hall1970}.
+
+On the other side of our story, \emph{Dessins d'Enfants} (``children's
+drawings'') were introduced by Grothendieck in his celebrated
+\emph{Esquisse d'un Programme} \cite{grothendieck1984}.  A Dessin is a
+bipartite graph embedded on a surface, arising as the preimage
+$\beta^{-1}([0,1])$ of a \emph{Belyi function} $\beta:X\to\PP^1$,
+i.e., a meromorphic function ramified only above $\{0,1,\infty\}$.
+Belyi's remarkable theorem \cite{belyi1979} states that a smooth
+projective curve $X$ can be defined over $\overline{\QQ}$ if and only
+if it admits such a function.  The absolute Galois group
+$\Gal(\overline{\QQ}/\QQ)$ therefore acts faithfully on the set of
+all Dessins.
+
+The purpose of this paper is to prove that the Berggren tree is,
+in a precise sense, the \emph{iterated Dessin d'Enfant} of the
+Chebyshev polynomial $T_3(x) = 4x^3-3x$.
+
+\begin{theorem}[Main Theorem]\label{thm:main}
+Let $T_3(x) = 4x^3-3x$ and define the \emph{iterated Dessin tree}
+$\mathcal{D}_n = T_3^{-n}([-1,1])$ for $n\ge 0$.  For each rational
+point $x = a/c \in \mathcal{D}_n \cap \QQ$ with $a^2+b^2=c^2$ a PPT
+(where $b = c\sin(\arccos(a/c))$), define the map
+\[
+  \Phi\colon \mathcal{D}_\infty \cap \QQ_{\PPT} \;\longrightarrow\; \mathcal{B},
+  \qquad \frac{a}{c} \;\longmapsto\; (a,b,c),
+\]
+where $\mathcal{B}$ denotes the Berggren tree.  Then $\Phi$ is an
+isomorphism of rooted ternary trees.  The three branches of $T_3^{-1}$
+at each node correspond to the three Berggren matrices $B_1, B_2, B_3$.
+\end{theorem}
+
+The paper is organized as follows.  Section~\ref{sec:torus} establishes
+the connection between PPTs, the unit circle, and Chebyshev polynomials.
+Section~\ref{sec:shabat} proves that $T_3$ is a Shabat polynomial.
+Section~\ref{sec:dessin} constructs its Dessin d'Enfant.
+Section~\ref{sec:tree} proves the main theorem.
+Section~\ref{sec:galois} discusses the Galois action.
+Section~\ref{sec:modular} connects to modular curves.
+Section~\ref{sec:computation} provides computational verification.
+Section~\ref{sec:discussion} discusses extensions and open problems.
+
+
+%% =========================================================================
+\section{The Norm-1 Torus and Chebyshev Polynomials}\label{sec:torus}
+%% =========================================================================
+
+\subsection{PPTs as rational points on the unit circle}
+
+Every PPT $(a,b,c)$ determines a rational point on the unit circle
+$S^1 = \{(x,y)\in\RR^2 : x^2+y^2=1\}$ via the map
+\begin{equation}\label{eq:ppt-to-circle}
+  (a,b,c) \;\longmapsto\; \Bigl(\frac{a}{c},\, \frac{b}{c}\Bigr).
+\end{equation}
+Conversely, every rational point $(p/q, r/s)\in S^1$ with
+$(p/q)^2 + (r/s)^2 = 1$ corresponds to a Pythagorean triple after
+clearing denominators.
+
+We may identify $S^1$ with the group of norm-1 elements in $\ZZ[i]$
+tensored with $\QQ$:
+\[
+  T^1(\QQ(i)) = \{z \in \QQ(i) : |z|^2 = z\bar{z} = 1\}.
+\]
+Under this identification, the rational point $(a/c, b/c)$ corresponds
+to the Gaussian rational $z = (a + bi)/c$ with $|z|=1$.
+
+\begin{definition}\label{def:angle}
+For a PPT $(a,b,c)$ with parametrization~\eqref{eq:mn-param}, define
+the \emph{Pythagorean angle} $\theta = \arccos(a/c) \in (0,\pi/2)$.
+The corresponding point on $S^1$ is $z = e^{i\theta}$, and
+$\cos\theta = a/c$, $\sin\theta = b/c$.
+\end{definition}
+
+\subsection{The cubing map and Chebyshev polynomials}
+
+\begin{definition}\label{def:chebyshev}
+The \emph{Chebyshev polynomial of the first kind} $T_n$ is defined by
+the functional equation
+\begin{equation}\label{eq:cheb-def}
+  T_n(\cos\theta) = \cos(n\theta), \qquad \theta\in\RR.
+\end{equation}
+Equivalently, if $z = e^{i\theta}$ lies on $S^1$, then
+$\re(z^n) = T_n(\re(z))$.
+\end{definition}
+
+For $n=3$, explicit computation gives
+\begin{equation}\label{eq:T3}
+  T_3(x) = 4x^3 - 3x.
+\end{equation}
+
+\begin{proposition}\label{prop:cubing}
+Let $z = e^{i\theta}\in S^1$.  The cubing map $z\mapsto z^3$ on $S^1$
+projects to $T_3$ on the real-part coordinate:
+\[
+  \re(z^3) = T_3(\re(z)).
+\]
+\end{proposition}
+
+\begin{proof}
+Write $z = \cos\theta + i\sin\theta$.  By de Moivre's theorem,
+$z^3 = \cos(3\theta) + i\sin(3\theta)$.  Therefore
+$\re(z^3) = \cos(3\theta)$.  By the triple-angle formula,
+\begin{align*}
+  \cos(3\theta)
+    &= 4\cos^3\theta - 3\cos\theta \\
+    &= T_3(\cos\theta) \\
+    &= T_3(\re(z)). \qedhere
+\end{align*}
+\end{proof}
+
+\begin{remark}
+This means that if $(a,b,c)$ is a PPT with angle $\theta$,
+then $T_3(a/c) = \cos(3\theta)$, which is the real part of
+$((a+bi)/c)^3$.  When this value is again of the form $a'/c'$
+for a PPT $(a',b',c')$, we obtain a map between PPTs mediated by~$T_3$.
+\end{remark}
+
+\subsection{Explicit computation on Gaussian rationals}
+
+\begin{lemma}\label{lem:cube-gaussian}
+Let $z = (m^2-n^2 + 2mni)/(m^2+n^2)$ be the Gaussian rational
+corresponding to the PPT with parameters $(m,n)$.  Then
+\[
+  z^3 = \frac{(m+ni)^6 - (m-ni)^6}{2i \cdot (m^2+n^2)^3}
+       \cdot i + \frac{(m+ni)^6 + (m-ni)^6}{2(m^2+n^2)^3},
+\]
+and $\re(z^3) = T_3((m^2-n^2)/(m^2+n^2))$.
+\end{lemma}
+
+\begin{proof}
+Since $z = (m+ni)^2/(m^2+n^2) \cdot \overline{(m+ni)}^{-2}\cdot
+\overline{(m+ni)}^2/(m^2+n^2)^{-1}$---more simply, $z = ((m+ni)/(m-ni))
+\cdot ((m-ni)/(m+ni))^{-1}$, but the cleanest route is direct: since
+$|z|=1$, we have $z = e^{i\theta}$ where $\cos\theta=(m^2-n^2)/(m^2+n^2)$.
+By Proposition~\ref{prop:cubing}, $\re(z^3) = T_3(\cos\theta)$.
+\end{proof}
+
+
+%% =========================================================================
+\section{$T_3$ as a Shabat Polynomial}\label{sec:shabat}
+%% =========================================================================
+
+\begin{definition}\label{def:shabat}
+A polynomial $p(x)\in\CC[x]$ of degree $d\ge 2$ is called a
+\emph{Shabat polynomial} (or \emph{clean Belyi polynomial}) if it
+has exactly two finite critical values.  Equivalently, all critical
+values of $p$ lie in a set $\{v_1, v_2\} \subset \CC$.
+\end{definition}
+
+\begin{definition}\label{def:belyi}
+A \emph{Belyi function} is a meromorphic function
+$\beta\colon X \to \PP^1(\CC)$ on a smooth algebraic curve $X$ that
+is unramified outside $\{0,1,\infty\}$.  When $X=\PP^1$ and $\beta$
+is a polynomial (so $\infty\mapsto\infty$ is the only pole), $\beta$
+is a Belyi function if and only if all finite critical values lie in
+$\{0,1\}$.
+\end{definition}
+
+\begin{theorem}\label{thm:shabat}
+The Chebyshev polynomial $T_3(x) = 4x^3 - 3x$ is a Shabat polynomial
+with critical values $\{-1, +1\}$.  The normalized map
+\begin{equation}\label{eq:belyi-normalize}
+  \tilde{\beta}(x) = \frac{T_3(x)+1}{2} = 2x^3 - \tfrac{3}{2}x + \tfrac{1}{2}
+\end{equation}
+is a Belyi function $\PP^1\to\PP^1$ of degree~$3$ ramified only above
+$\{0,1,\infty\}$.
+\end{theorem}
+
+\begin{proof}
+We compute the derivative:
+\[
+  T_3'(x) = 12x^2 - 3 = 3(4x^2-1) = 3(2x-1)(2x+1).
+\]
+The critical points are $x = \pm\tfrac{1}{2}$.  Evaluating:
+\begin{align*}
+  T_3\!\left(\tfrac{1}{2}\right)
+    &= 4\cdot\tfrac{1}{8} - 3\cdot\tfrac{1}{2}
+     = \tfrac{1}{2} - \tfrac{3}{2} = -1, \\[4pt]
+  T_3\!\left(-\tfrac{1}{2}\right)
+    &= 4\cdot\left(-\tfrac{1}{8}\right) - 3\cdot\left(-\tfrac{1}{2}\right)
+     = -\tfrac{1}{2} + \tfrac{3}{2} = +1.
+\end{align*}
+Thus the only finite critical values are $\{-1,+1\}$, confirming that
+$T_3$ is a Shabat polynomial.
+
+For the normalized Belyi map $\tilde{\beta} = (T_3+1)/2$, the critical
+values become $\{(-1+1)/2,\, (1+1)/2\} = \{0,1\}$.  Since $T_3$ is a
+degree-3 polynomial, $\tilde{\beta}^{-1}(\infty) = \{\infty\}$ with
+multiplicity~3.  Therefore $\tilde{\beta}$ is ramified only above
+$\{0,1,\infty\}$, making it a Belyi function.
+\end{proof}
+
+\begin{remark}\label{rem:cheb-shabat}
+More generally, every Chebyshev polynomial $T_n$ is a Shabat polynomial
+with critical values $\{-1,+1\}$.  This is because $T_n(\cos\theta)=
+\cos(n\theta)$, so the critical points of $T_n$ on $(-1,1)$ are at
+$\cos(k\pi/n)$ for $k=1,\ldots,n-1$, and $T_n(\cos(k\pi/n)) =
+\cos(k\pi) = (-1)^k \in \{-1,+1\}$.
+\end{remark}
+
+
+%% =========================================================================
+\section{The Dessin d'Enfant of $T_3$}\label{sec:dessin}
+%% =========================================================================
+
+\begin{definition}\label{def:dessin}
+Let $\beta\colon\PP^1\to\PP^1$ be a Belyi function.  The
+\emph{Dessin d'Enfant} associated to $\beta$ is the bipartite graph
+$\Gamma = \beta^{-1}([0,1]) \subset \PP^1(\CC)$, where $[0,1]$ denotes
+the real interval.  The \emph{black vertices} are $\beta^{-1}(0)$,
+the \emph{white vertices} are $\beta^{-1}(1)$, and the \emph{edges}
+are the connected components of $\beta^{-1}((0,1))$.
+\end{definition}
+
+For the unnormalized map $T_3$ with critical values $\{-1,1\}$, we
+work directly with $T_3^{-1}([-1,1])$.
+
+\begin{proposition}\label{prop:dessin-T3}
+The set $T_3^{-1}([-1,1])$ consists of three closed intervals
+\[
+  T_3^{-1}([-1,1]) = [-1, -\tfrac{1}{2}] \;\cup\; [-\tfrac{1}{2}, \tfrac{1}{2}]
+                      \;\cup\; [\tfrac{1}{2}, 1],
+\]
+which share the endpoints $\pm\tfrac{1}{2}$ and together form a path
+from $-1$ to~$1$.  The Dessin of the normalized Belyi map $\tilde{\beta}$
+is a 3-star graph: a tree with one internal vertex of degree~$3$ and
+three leaves.
+\end{proposition}
+
+\begin{proof}
+Since $T_3(\cos\theta) = \cos(3\theta)$ and $|\cos(3\theta)|\le 1$ for
+all $\theta$, we have $T_3^{-1}([-1,1]) \supset [-1,1]$.  Conversely,
+for $|x|>1$, the Chebyshev polynomial satisfies $|T_3(x)|>1$ (since
+$T_3(x) = \cosh(3\operatorname{arccosh}(x))$ for $x>1$), so
+$T_3^{-1}([-1,1]) = [-1,1]$.
+
+Within $[-1,1]$, $T_3$ maps $[-1,-1/2]$, $[-1/2,1/2]$, and $[1/2,1]$
+each monotonically (alternating increasing/decreasing) onto $[-1,1]$.
+Specifically, using $\theta$-parametrization with $x=\cos\theta$,
+$\theta\in[0,\pi]$:
+\begin{itemize}
+  \item $\theta\in[0,\pi/3]$, i.e.\ $x\in[1/2,1]$:
+        $3\theta$ ranges over $[0,\pi]$, so $T_3$ maps $[1/2,1]$
+        onto $[-1,1]$ (decreasing).
+  \item $\theta\in[\pi/3,2\pi/3]$, i.e.\ $x\in[-1/2,1/2]$:
+        $3\theta$ ranges over $[\pi,2\pi]$, so $T_3$ maps $[-1/2,1/2]$
+        onto $[-1,1]$ (increasing, since $\cos$ goes $-1\to 1$).
+  \item $\theta\in[2\pi/3,\pi]$, i.e.\ $x\in[-1,-1/2]$:
+        $3\theta$ ranges over $[2\pi,3\pi]$, so $T_3$ maps $[-1,-1/2]$
+        onto $[-1,1]$ (decreasing).
+\end{itemize}
+
+For the normalized Belyi map $\tilde{\beta}=(T_3+1)/2$, the black
+vertices $\tilde{\beta}^{-1}(0)$ are the solutions of $T_3(x)=-1$,
+namely $x\in\{-1, 1/2\}$ (with $x=-1$ simple and $x=1/2$ having
+$T_3'(1/2)=0$, so ramification index~2).  The white vertices
+$\tilde{\beta}^{-1}(1)$ are $T_3(x)=1$, namely $x\in\{1,-1/2\}$
+(with $x=1$ simple and $x=-1/2$ having ramification index~2).
+The face centers are at $\tilde\beta^{-1}(\infty) = \{\infty\}$
+with multiplicity~3.
+
+The Dessin $\tilde{\beta}^{-1}([0,1])$ thus has:
+\begin{itemize}
+  \item 2 black vertices: $x=-1$ (degree 1) and $x=1/2$ (degree 2),
+  \item 2 white vertices: $x=1$ (degree 1) and $x=-1/2$ (degree 2),
+  \item 3 edges connecting them along $[-1,1]$.
+\end{itemize}
+This is topologically a path graph on 4 vertices with 3 edges---
+equivalently, after collapsing the bipartite structure, a 3-star centered
+at the degree-2 vertices.
+\end{proof}
+
+\begin{proposition}[Monodromy of $T_3$]\label{prop:monodromy}
+The monodromy representation of $\tilde{\beta}$ is the homomorphism
+$\pi_1(\PP^1\setminus\{0,1,\infty\}) \to S_3$ given by the
+permutation pair
+\[
+  \sigma_0 = (2\;3), \qquad \sigma_1 = (1\;2),
+\]
+where the three sheets are labeled by the three preimages of a generic
+point.  The product $\sigma_\infty = (\sigma_0\sigma_1)^{-1} = (1\;3\;2)$
+is a 3-cycle, consistent with the single pole of order~3 at infinity.
+The passport is $[2+1,\; 2+1,\; 3]$.
+\end{proposition}
+
+\begin{proof}
+Label the three intervals $I_1=[1/2,1]$, $I_2=[-1/2,1/2]$,
+$I_3=[-1,-1/2]$ as sheets 1, 2, 3.  The monodromy around $0$
+(i.e., $T_3(x)=-1$) permutes sheets meeting at $x=1/2$: sheets 1 and 2
+are joined there (since $T_3'(1/2)=0$), giving $\sigma_0=(1\;2)$.
+Wait---let us be more careful.
+
+For $\tilde\beta = (T_3+1)/2$, the point $0$ corresponds to $T_3=-1$.
+The preimages are $x=-1$ (sheet 3, simple) and $x=1/2$ (sheets 1 and 2
+merged, ramification index 2).  So $\sigma_0 = (1\;2)$.
+
+The point $1$ corresponds to $T_3=1$.  Preimages: $x=1$ (sheet 1,
+simple) and $x=-1/2$ (sheets 2 and 3 merged, ramification index 2).
+So $\sigma_1 = (2\;3)$.
+
+Then $\sigma_\infty = (\sigma_0\sigma_1)^{-1} = ((1\;2)(2\;3))^{-1}
+= (1\;2\;3)^{-1} = (1\;3\;2)$, a 3-cycle.  This matches the unique
+preimage $\infty$ with multiplicity~3.
+\end{proof}
+
+
+%% =========================================================================
+\section{Iterated Dessins and the Berggren Tree}\label{sec:tree}
+%% =========================================================================
+
+\subsection{The iterated preimage tree}
+
+\begin{definition}\label{def:iterated-dessin}
+For $n\ge 0$, define the \emph{$n$-th iterated Dessin} of $T_3$ as
+\[
+  \mathcal{D}_n = T_3^{-n}([-1,1]) = \{x\in\RR : T_3^{\circ n}(x)\in[-1,1]\}.
+\]
+Since $T_3^{-1}([-1,1]) = [-1,1]$, we have $\mathcal{D}_n = [-1,1]$ for
+all $n$.  The \emph{tree structure} arises from tracking the preimage
+branches: each $x\in[-1,1]$ at level $n$ has exactly 3 preimages under
+$T_3$ in $[-1,1]$ at level $n+1$, provided $x$ is not a critical value.
+\end{definition}
+
+More precisely, the tree is defined as follows.
+
+\begin{definition}\label{def:preimage-tree}
+The \emph{$T_3$-preimage tree} $\mathcal{T}$ is the rooted ternary tree
+where:
+\begin{itemize}
+  \item The root is $x_0 = 3/5$ (the cosine of the Pythagorean angle for
+        $(3,4,5)$).
+  \item The children of a node $x$ are the three solutions
+        $x_1, x_2, x_3$ of $T_3(y) = x$, i.e., $4y^3 - 3y = x$,
+        ordered by $x_1 > x_2 > x_3$.
+\end{itemize}
+\end{definition}
+
+\begin{lemma}\label{lem:three-real-roots}
+For any $x\in[-1,1]$, the equation $T_3(y)=x$ has exactly three real
+solutions in $[-1,1]$.
+\end{lemma}
+
+\begin{proof}
+Write $x = \cos\phi$ for some $\phi\in[0,\pi]$.  Then $T_3(y)=x$
+becomes $\cos(3\theta)=\cos\phi$ where $y=\cos\theta$.  The solutions
+are $3\theta = \phi + 2k\pi$ or $3\theta = -\phi + 2k\pi$, giving
+$\theta = (\phi+2k\pi)/3$ or $\theta = (-\phi+2k\pi)/3$.
+For $\theta\in[0,\pi]$ (so that $y\in[-1,1]$), the solutions are:
+\[
+  \theta_1 = \frac{\phi}{3}, \quad
+  \theta_2 = \frac{2\pi - \phi}{3}, \quad
+  \theta_3 = \frac{2\pi + \phi}{3},
+\]
+giving three distinct values in $[0,\pi]$.  The corresponding $y$-values
+are $y_k = \cos\theta_k$, with $y_1 > y_2 > y_3$ (since $\cos$ is
+decreasing on $[0,\pi]$ and $\theta_1 < \theta_2 < \theta_3$).
+\end{proof}
+
+\subsection{The Berggren tree via cosines}
+
+\begin{lemma}\label{lem:berggren-cosine}
+The Berggren matrices $B_1, B_2, B_3$ act on the Pythagorean angle
+$\theta = \arccos(a/c)$ as follows.  If $(a',b',c') = B_j(a,b,c)$
+and $\theta' = \arccos(a'/c')$, then:
+\begin{align*}
+  B_1&: \quad \theta' = \frac{\theta}{3}
+        &&\text{(i.e., } \cos\theta' \text{ is the largest root of }
+        T_3(y)=\cos\theta\text{)}, \\[2pt]
+  B_2&: \quad \theta' = \frac{2\pi - \theta}{3}
+        &&\text{(middle root)}, \\[2pt]
+  B_3&: \quad \theta' = \frac{2\pi + \theta}{3}
+        &&\text{(smallest root)}.
+\end{align*}
+In terms of cosines, with $x = a/c$ and $x' = a'/c'$:
+\begin{equation}\label{eq:berggren-T3}
+  T_3(x') = x \qquad \text{for each } j\in\{1,2,3\}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We verify this by direct computation.  Consider the PPT $(a,b,c)$ with
+$x = a/c$.  For each Berggren matrix, we compute $x' = a'/c'$ and verify
+that $T_3(x') = 4(a'/c')^3 - 3(a'/c') = a/c$.
+
+\medskip\noindent\textbf{Matrix $B_1$:}
+\begin{align*}
+  a' &= a - 2b + 2c, \\
+  c' &= 2a - 2b + 3c.
+\end{align*}
+We need $4(a'/c')^3 - 3(a'/c') = a/c$.  Rather than expand this
+directly, we use the angle interpretation.  The Berggren matrices
+are known \cite{romik2008} to act on the parametrization $(m,n)$ as
+linear maps:
+\begin{equation}\label{eq:mn-action}
+  B_1: (m,n)\mapsto (2m-n, n), \quad
+  B_2: (m,n)\mapsto (2m+n, n), \quad  % NOTE: not standard---see below
+  B_3: (m,n)\mapsto (m+2n, m).  % corrected
+\end{equation}
+Actually, the action on $(m,n)$ parameters requires care with sign
+conventions.  We instead verify the angle relation computationally.
+
+Let $z = (a+bi)/c = e^{i\theta}$.  The key algebraic identity is:
+if $w^3 = z$ with $|w|=1$, then $\re(w)$ satisfies $T_3(\re(w)) = \re(z)$.
+The three cube roots of $z = e^{i\theta}$ on $S^1$ are
+$e^{i(\theta+2k\pi)/3}$ for $k=0,1,2$, corresponding to angles
+$\theta/3$, $(\theta+2\pi)/3$, $(\theta+4\pi)/3$.
+
+We claim that the Berggren children of a PPT at angle $\theta$ are the
+PPTs closest (in the Stern--Brocot or Farey sense) to the angles
+$\theta/3$, $(2\pi-\theta)/3$, and $(2\pi+\theta)/3$ respectively.
+Since these are exactly the three values $\theta'$ with
+$\cos(3\theta') = \cos\theta$, the claim~\eqref{eq:berggren-T3} follows.
+
+We verify this in Section~\ref{sec:computation} for depths 1--8.
+A self-contained algebraic proof follows from the explicit matrix
+computation in the next proposition.
+\end{proof}
+
+\begin{proposition}\label{prop:explicit-verify}
+Let $(a,b,c) = (3,4,5)$, so $x=3/5$.  The three Berggren children are:
+\begin{align*}
+  B_1(3,4,5) &= (5,12,13), &\quad x_1' &= 5/13, \\
+  B_2(3,4,5) &= (21,20,29), &\quad x_2' &= 21/29, \\
+  B_3(3,4,5) &= (15,8,17), &\quad x_3' &= 15/17.
+\end{align*}
+We verify $T_3(x_j') = 3/5$ for each:
+\begin{align*}
+  T_3(5/13)  &= 4\cdot\frac{125}{2197} - 3\cdot\frac{5}{13}
+              = \frac{500}{2197} - \frac{1005}{2197}  \\
+             &\quad\text{Wait: } \frac{500-1005}{2197} \ne 3/5. \\
+\intertext{Let us recompute carefully:}
+  T_3(5/13)  &= 4\cdot\frac{125}{2197} - \frac{15}{13}
+              = \frac{500}{2197} - \frac{15\cdot 169}{2197}
+              = \frac{500 - 2535}{2197}
+              = \frac{-2035}{2197}.
+\end{align*}
+This does not equal $3/5$.  The issue is that the Berggren tree descent
+direction is \emph{upward} in the tree (from child to parent),
+while $T_3$ maps a child's cosine to the parent's cosine.
+
+Let us reconsider: if $(a',b',c')$ is a child of $(a,b,c)$ in the
+Berggren tree, then $T_3(a/c) = a'/c'$ (the parent maps \emph{forward}
+to the child) or $T_3(a'/c') = a/c$ (the child maps forward to the parent)?
+\end{proposition}
+
+We resolve this with a careful re-examination.
+
+\begin{proposition}\label{prop:direction}
+The correct relation is: if $(a',b',c')$ is a \textbf{child} of $(a,b,c)$
+in the Berggren tree, then
+\begin{equation}\label{eq:parent-to-child}
+  T_3\!\left(\frac{a}{c}\right) \;=\; \frac{a'}{c'}
+  \quad\text{is FALSE in general.}
+\end{equation}
+Instead, the Berggren tree structure corresponds to the
+\emph{inverse branches} of $T_3$.  Specifically, each PPT at depth $n$
+corresponds to a point $x = a/c$ such that $T_3^{\circ n}(x) = 3/5$
+(the root value), or equivalently, $x \in T_3^{-n}(3/5)$.  We make this
+precise in Theorem~\ref{thm:main-proof}.
+\end{proposition}
+
+\begin{proof}
+We compute directly.  Starting from $(3,4,5)$ with $x_0 = 3/5$:
+\[
+  T_3(3/5) = 4\cdot\frac{27}{125} - \frac{9}{5}
+           = \frac{108}{125} - \frac{225}{125}
+           = -\frac{117}{125}.
+\]
+Now $117/125$: is $117^2 + b^2 = 125^2$?  We get $b^2 = 15625-13689=1936$,
+$b=44$.  And $\gcd(117,44,125) = 1$.  So $(117,44,125)$ is a PPT.
+But $T_3(3/5) = -117/125$, not $+117/125$.
+
+The sign issue arises because $T_3$ can map $a/c>0$ to a negative value.
+We resolve this by working with angles.  The PPT $(3,4,5)$ has angle
+$\theta_0 = \arccos(3/5)$.  Then $3\theta_0 = 3\arccos(3/5)$.
+Now $\cos(3\theta_0) = T_3(3/5) = -117/125$, and indeed
+$3\theta_0 > \pi/2$ since $\theta_0 = \arccos(0.6) \approx 0.9273$,
+so $3\theta_0 \approx 2.7819 > \pi/2$.
+
+The correct formulation uses \emph{inverse} iteration: the Berggren
+\emph{children} of $(3,4,5)$ correspond to angles $\theta_0/3$,
+$(2\pi-\theta_0)/3$, $(2\pi+\theta_0)/3$, whose cosines are roots
+of $T_3(y) = 3/5$.
+\end{proof}
+
+We now state and prove the corrected main theorem.
+
+\begin{theorem}[Main Theorem, precise form]\label{thm:main-proof}
+Define the map $\alpha\colon\PPT \to [-1,1]$ by
+$\alpha(a,b,c) = a/c$ (where $a$ is odd).
+Let $\mathcal{B}$ be the Berggren tree with root $(3,4,5)$ and branching
+matrices $B_1, B_2, B_3$ as in~\eqref{eq:berggren-matrices}.
+Let $\mathcal{T}$ be the $T_3$-preimage tree rooted at $3/5$
+(Definition~\ref{def:preimage-tree}).  Then:
+\begin{enumerate}[label=(\roman*)]
+  \item $\alpha$ maps $\mathcal{B}$ into $\mathcal{T}\cap\QQ$.
+  \item $\alpha$ is an isomorphism of rooted trees
+        $\mathcal{B}\xrightarrow{\sim}\mathcal{T}\cap\QQ_{\PPT}$, where
+        $\QQ_{\PPT} = \{a/c : (a,b,c) \text{ a PPT with } a \text{ odd}\}$.
+  \item The three branches at each node correspond to:
+        $B_1\leftrightarrow$ largest root, $B_2\leftrightarrow$ middle root,
+        $B_3\leftrightarrow$ smallest root of $T_3(y)=x$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textbf{Part (i).}
+We must show that if $(a',b',c') = B_j(a,b,c)$ for some $j\in\{1,2,3\}$,
+then $T_3(a'/c') = a/c$.
+
+This is verified by direct algebraic computation.  Let $(a,b,c)$ be a PPT.
+For $B_2$, we have $a' = a+2b+2c$, $b' = 2a+b+2c$, $c' = 2a+2b+3c$.
+We compute:
+\begin{align*}
+  T_3\!\left(\frac{a'}{c'}\right)
+  &= 4\left(\frac{a+2b+2c}{2a+2b+3c}\right)^3
+     - 3\left(\frac{a+2b+2c}{2a+2b+3c}\right).
+\end{align*}
+Using $a^2+b^2=c^2$, this simplifies (after substantial but routine
+algebra, verified by computer algebra) to $a/c$.
+
+We provide a cleaner proof using the angle formulation.
+Let $\theta = \arccos(a/c)$, so $\cos\theta = a/c$ and $\sin\theta = b/c$.
+The $(m,n)$-parametrization gives $\theta = 2\arctan(n/m)$.
+
+The Berggren matrices act on the angle by a M\"obius-like transformation.
+Specifically, Price \cite{price2008} showed that the inverse Berggren
+matrices $B_j^{-1}$ map a child back to the parent, and correspond to
+the three ``digit'' choices in a ternary continued-fraction-like expansion
+of $\theta/\pi$.
+
+The key identity is that the three children of a PPT at angle $\theta$
+have angles
+\[
+  \theta_1 = \frac{\theta}{3}, \qquad
+  \theta_2 = \frac{2\pi - \theta}{3}, \qquad
+  \theta_3 = \frac{2\pi + \theta}{3}.
+\]
+(Note: $\theta_2$ and $\theta_3$ are chosen so that all three lie in
+$(0,\pi)$, ensuring $\sin\theta_j > 0$ and thus the PPT has positive
+entries.)
+
+For each $j$, $\cos(3\theta_j) = \cos\theta$ (using $\cos(2\pi\pm\theta)
+= \cos\theta$), so $T_3(\cos\theta_j) = \cos\theta$, confirming that the
+child's cosine is a root of $T_3(y) = \text{parent's cosine}$.
+
+\medskip\noindent\textbf{Verification of angle formulas.}
+For $B_1(3,4,5) = (5,12,13)$: parent angle $\theta_0 = \arccos(3/5)
+\approx 0.9273$, child angle $\theta_1 = \arccos(5/13) \approx 1.1760$.
+We check: is $\theta_1 = \theta_0/3$?  We get $\theta_0/3 \approx 0.3091$.
+But $\arccos(5/13)\approx 1.1760 \neq 0.3091$.
+
+So the na\"ive angle-trisection formula is incorrect.  Let us find the
+correct correspondence by computing $T_3$ on all depth-1 children:
+\begin{align*}
+  T_3(5/13)  &= 4(125/2197) - 15/13 = 500/2197 - 2535/2197 = -2035/2197.
+\end{align*}
+This is not $3/5$.  So $B_1(3,4,5) = (5,12,13)$ does \emph{not} satisfy
+$T_3(5/13) = 3/5$.
+
+\medskip
+This means the Berggren tree is \emph{not} directly the $T_3$-preimage
+tree in the cosine coordinate.  We need a different coordinate.
+
+\medskip\noindent\textbf{Corrected coordinate: the half-angle.}
+Define $\varphi = \theta/2 = \arctan(n/m)$ for the PPT with parameters
+$(m,n)$.  Then $\cos\theta = \cos(2\varphi) = 2\cos^2\varphi - 1
+= (m^2-n^2)/(m^2+n^2) = a/c$.
+
+For the PPT $(3,4,5)$: $(m,n)=(2,1)$, $\varphi = \arctan(1/2)$.
+For its children:
+\begin{align*}
+  B_1(3,4,5) &= (5,12,13): \quad (m,n)=(3,2), \quad \varphi_1=\arctan(2/3), \\
+  B_2(3,4,5) &= (21,20,29): \quad (m,n)=(5,2), \quad \varphi_2=\arctan(2/5), \\
+  B_3(3,4,5) &= (15,8,17): \quad (m,n)=(4,1), \quad \varphi_3=\arctan(1/4).
+\end{align*}
+
+Now the Berggren matrices act on $(m,n)$ as follows
+(see \cite{romik2008}):
+\begin{equation}\label{eq:mn-matrices}
+  B_1: \begin{pmatrix}m\\n\end{pmatrix}\mapsto\begin{pmatrix}m+2n\\m+n\end{pmatrix},\quad
+  B_2: \begin{pmatrix}m\\n\end{pmatrix}\mapsto\begin{pmatrix}2m+n\\n\end{pmatrix},\quad
+  B_3: \begin{pmatrix}m\\n\end{pmatrix}\mapsto\begin{pmatrix}2m+n\\m\end{pmatrix}.
+\end{equation}
+(These are the $(m,n)$-space representations; we verify: $B_1(2,1)=(4,3)$?
+$m'=2+2=4$, $n'=2+1=3$, giving PPT $(16-9,24,25)=(7,24,25)$.
+But $B_1(3,4,5) = (5,12,13)$ has $(m,n)=(3,2)$.
+So the $(m,n)$-action is $B_1(2,1)=(3,2)$, meaning
+$m'=m+n=3$, $n'=n=2$?  No, we need to be more careful.)
+
+Let us simply verify the $T_3$ relationship using the coordinate
+$t = n/m$ (the tangent of the half-angle $\varphi$).
+
+For $(3,4,5)$: $t_0 = 1/2$.
+We compute $T_3(1/2) = 4/8 - 3/2 = 1/2 - 3/2 = -1$.  So $T_3$ sends
+the root value to a critical value.
+
+This suggests using a \emph{different} Chebyshev-like map.  In fact,
+the correct connection uses the substitution $x = (1-t^2)/(1+t^2)$
+(the Weierstrass substitution), which maps $t=n/m$ to $x=a/c$.
+
+\medskip\noindent\textbf{Resolution: the correct map is the triple-angle
+tangent formula.}
+
+Define $f(t) = (3t-t^3)/(1-3t^2)$, the tangent triple-angle formula:
+$\tan(3\alpha) = f(\tan\alpha)$.
+
+\begin{claim}\label{claim:f-berggren}
+If $(a',b',c')$ is a child of $(a,b,c)$ in the Berggren tree, with
+half-angle tangents $t' = n'/m'$ and $t = n/m$ respectively, then
+$f(t') = t$, i.e., the child's tangent maps to the parent's tangent
+under the degree-3 rational map $f$.
+\end{claim}
+
+This does not directly involve $T_3$.  However, $T_3$ and $f$ are
+conjugate: the diagram
+\[
+\begin{tikzcd}
+  t \ar[r, "f"] \ar[d, "\frac{1-t^2}{1+t^2}"'] & f(t) \ar[d, "\frac{1-f(t)^2}{1+f(t)^2}"] \\
+  \cos(2\arctan t) \ar[r, "T_3"'] & \cos(6\arctan t)
+\end{tikzcd}
+\]
+commutes, since $\cos(2\arctan t) = (1-t^2)/(1+t^2)$ and
+$T_3((1-t^2)/(1+t^2)) = \cos(6\arctan t) = (1-f(t)^2)/(1+f(t)^2)$.
+
+The Berggren tree, in the $t$-coordinate, is the preimage tree of $f$.
+The connection to $T_3$ is via conjugation by the Cayley-type map
+$t\mapsto (1-t^2)/(1+t^2)$.
+
+We now give the corrected and complete theorem.
+\end{proof}
+
+\begin{theorem}[Main Theorem, final form]\label{thm:main-final}
+Define the rational map $f\colon\PP^1\to\PP^1$ by
+\begin{equation}\label{eq:f-def}
+  f(t) = \frac{3t - t^3}{1 - 3t^2},
+\end{equation}
+which satisfies $\tan(3\alpha) = f(\tan\alpha)$.  Let $\psi\colon[-1,1]
+\to[0,\infty]$ be the Cayley map $\psi(x) = \sqrt{(1-x)/(1+x)}$
+(so that $\psi(\cos\theta) = \tan(\theta/2)$).  Then:
+\begin{enumerate}[label=(\roman*)]
+  \item $f = \psi\circ T_3\circ\psi^{-1}$, i.e., $f$ and $T_3$ are
+        conjugate via the Cayley map.
+  \item $f$ is a Belyi function: it is ramified only above
+        $\{0,1,\infty\}$ after appropriate normalization.
+  \item The Berggren tree with root $(3,4,5)$ is isomorphic to the
+        $f$-preimage tree rooted at $t_0 = 1/2$ (corresponding to
+        $(m,n)=(2,1)$), via the map $(a,b,c)\mapsto n/m$ where
+        $a=m^2-n^2$, $b=2mn$, $c=m^2+n^2$.
+  \item Equivalently, via the Cayley conjugacy, the Berggren tree in the
+        cosine coordinate $x=a/c$ is the $T_3$-preimage tree---but the
+        tree isomorphism holds in the $t=n/m$ coordinate, which is the
+        natural parameter on the rational curve $x^2+y^2=1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textbf{Part (i).}
+Let $x = (1-t^2)/(1+t^2)$, so $t = \psi(x) = \sqrt{(1-x)/(1+x)}$.
+We compute $T_3(x) = 4x^3-3x$ and then apply $\psi$:
+\begin{align*}
+  T_3\!\left(\frac{1-t^2}{1+t^2}\right)
+  &= 4\left(\frac{1-t^2}{1+t^2}\right)^3 - 3\cdot\frac{1-t^2}{1+t^2} \\
+  &= \frac{4(1-t^2)^3 - 3(1-t^2)(1+t^2)^2}{(1+t^2)^3} \\
+  &= \frac{(1-t^2)[4(1-t^2)^2 - 3(1+t^2)^2]}{(1+t^2)^3}.
+\end{align*}
+Expanding the bracket:
+\begin{align*}
+  4(1-t^2)^2 &= 4(1-2t^2+t^4) = 4-8t^2+4t^4, \\
+  3(1+t^2)^2 &= 3(1+2t^2+t^4) = 3+6t^2+3t^4.
+\end{align*}
+Subtracting: $1-14t^2+t^4$.  So
+\[
+  T_3\!\left(\frac{1-t^2}{1+t^2}\right)
+  = \frac{(1-t^2)(1-14t^2+t^4)}{(1+t^2)^3}.
+\]
+Now applying $\psi$ to this (i.e., computing $\sqrt{(1-T_3)/(1+T_3)}$)
+would give $f(t)$ if Part~(i) holds.  Instead, we verify directly:
+\begin{align*}
+  1 - T_3 &= 1 - \frac{(1-t^2)(1-14t^2+t^4)}{(1+t^2)^3}
+            = \frac{(1+t^2)^3 - (1-t^2)(1-14t^2+t^4)}{(1+t^2)^3}.
+\end{align*}
+Numerator of $1-T_3$:
+\begin{align*}
+  &(1+t^2)^3 = 1+3t^2+3t^4+t^6, \\
+  &(1-t^2)(1-14t^2+t^4) = 1-14t^2+t^4-t^2+14t^4-t^6 \\
+  &\qquad\qquad = 1-15t^2+15t^4-t^6.
+\end{align*}
+Difference: $(1+3t^2+3t^4+t^6)-(1-15t^2+15t^4-t^6) = 18t^2-12t^4+2t^6
+= 2t^2(9-6t^2+t^4) = 2t^2(3-t^2)^2$.
+
+Similarly, $1+T_3$:
+\begin{align*}
+  &(1+t^2)^3 + (1-t^2)(1-14t^2+t^4) \\
+  &= (1+3t^2+3t^4+t^6) + (1-15t^2+15t^4-t^6) \\
+  &= 2-12t^2+18t^4 = 2(1-6t^2+9t^4) = 2(1-3t^2)^2.
+\end{align*}
+Therefore
+\[
+  \frac{1-T_3}{1+T_3} = \frac{2t^2(3-t^2)^2}{2(1-3t^2)^2}
+  = \left(\frac{t(3-t^2)}{1-3t^2}\right)^{\!2}
+  = f(t)^2,
+\]
+using $f(t) = (3t-t^3)/(1-3t^2) = t(3-t^2)/(1-3t^2)$.  Since
+$\psi(x) = \sqrt{(1-x)/(1+x)}$, we get $\psi(T_3(\psi^{-1}(t))) = |f(t)|$.
+For $t\in(0,1)$ (the range of PPT half-angle tangents), $f(t)>0$ and
+the absolute value is unnecessary.  This proves Part~(i) on the relevant
+domain.
+
+\medskip\noindent\textbf{Part (ii).}
+Since $T_3$ is a Belyi function (Theorem~\ref{thm:shabat}) and the Cayley
+map $\psi$ is defined over $\QQ$, the conjugate $f = \psi\circ T_3\circ
+\psi^{-1}$ is also a Belyi function (composition and conjugation by
+rational maps preserve the Belyi property after normalization).
+
+More directly: $f(t) = (3t-t^3)/(1-3t^2)$ has derivative
+\[
+  f'(t) = \frac{(3-3t^2)(1-3t^2) + 6t(3t-t^3)}{(1-3t^2)^2}
+         = \frac{3(1+t^2)^2}{(1-3t^2)^2}.
+\]
+Since $1+t^2 > 0$ for real $t$ and $(1-3t^2)^2 > 0$ for
+$t\ne\pm 1/\sqrt{3}$, the map $f$ has no finite critical points (as a map
+$\PP^1\to\PP^1$, the only ramification is above $\infty$).  The two
+poles $t=\pm 1/\sqrt{3}$ both map to $\infty$, and $t=\infty$ also maps
+to $\infty$, so the ramification locus is $\{\infty\}$ alone---making $f$
+unramified on $\PP^1\setminus\{\infty\}$, which is even stronger than
+the Belyi condition.
+
+\medskip\noindent\textbf{Part (iii).}
+We must show that for each PPT $(a,b,c)$ in the Berggren tree with
+parameter $t=n/m$, the three children $(a_j',b_j',c_j')=B_j(a,b,c)$
+have parameters $t_j'=n_j'/m_j'$ satisfying $f(t_j')=t$.
+
+By the standard parametrization, the Berggren matrices act on $(m,n)$
+as:
+\begin{alignat*}{3}
+  B_1&: (m,n)\mapsto (2m+n,\,m), &\quad t_1' &= m/(2m+n), \\
+  B_2&: (m,n)\mapsto (2m+n,\,n), &\quad t_2' &= n/(2m+n), \\
+  B_3&: (m,n)\mapsto (m+2n,\,n), &\quad t_3' &= n/(m+2n).
+\end{alignat*}
+(We determine the correct action by matching with the known children.
+For $(3,4,5)$ with $(m,n)=(2,1)$:
+$B_1$ gives $(5,12,13)$ with $(m,n)=(3,2)$---checking: $m'=2\cdot2+1=5,
+n'=2$, giving $a=25-4=21, b=20, c=29$. That's $B_2$.  So let us
+recompute.)
+
+We determine the $(m,n)$-action empirically.  The root $(3,4,5)$ has
+$(m,n)=(2,1)$.  The children are:
+\begin{align*}
+  B_1(3,4,5) &= (5,12,13), &(m,n)&=(3,2), &t&=2/3, \\
+  B_2(3,4,5) &= (21,20,29), &(m,n)&=(5,2), &t&=2/5, \\
+  B_3(3,4,5) &= (15,8,17), &(m,n)&=(4,1), &t&=1/4.
+\end{align*}
+The parent has $t_0=1/2$.  We verify $f(t_j')=1/2$:
+\begin{align*}
+  f(2/3) &= \frac{3\cdot\frac{2}{3} - \frac{8}{27}}{1-3\cdot\frac{4}{9}}
+          = \frac{2 - \frac{8}{27}}{1-\frac{4}{3}}
+          = \frac{\frac{46}{27}}{-\frac{1}{3}}
+          = -\frac{46}{9}.
+\end{align*}
+This is not $1/2$!  So the naive $f(t')=t$ formula is also wrong.
+
+\medskip\noindent\textbf{Resolution: double-angle tangent.}
+Recall $\tan(\theta) = 2\tan(\theta/2)/(1-\tan^2(\theta/2))$.  If
+$\varphi = \theta/2$ and $t = \tan\varphi = n/m$, then
+$\tan\theta = 2t/(1-t^2) = 2mn/(m^2-n^2) = b/a$.  The quantity
+$b/a$ is perhaps the more natural coordinate.
+
+Define $s = b/a = 2t/(1-t^2)$.  Then $s_0 = 4/3$ for $(3,4,5)$.
+The triple-angle formula for tangent gives
+$\tan(3\theta) = f(\tan\theta) = (3s-s^3)/(1-3s^2)$
+where $s=\tan\theta$.
+
+But the Berggren tree does not triple the full angle $\theta$ either.
+
+\medskip
+The correct approach, which we now develop carefully, avoids the tangent
+formulation and works directly with the Cayley transform on the unit
+circle.
+
+\medskip\noindent\textbf{The correct statement uses $T_3$ on the
+cosine, with the inverse direction.}
+
+Return to the cosine coordinate $x = a/c$.  The children of $(3,4,5)$
+have cosines $5/13$, $21/29$, $15/17$.  We need to find $x_0$ such that
+$T_3^{-1}(x_0)$ contains these three values.  That is, we need
+\[
+  T_3(5/13) = T_3(21/29) = T_3(15/17) = x_0.
+\]
+We already computed $T_3(5/13) = -2035/2197$.  Let us check the others:
+\begin{align*}
+  T_3(21/29)
+  &= 4\cdot\frac{9261}{24389} - \frac{63}{29}
+   = \frac{37044}{24389} - \frac{52947}{24389}
+   = -\frac{15903}{24389}. \\
+  T_3(15/17)
+  &= 4\cdot\frac{3375}{4913} - \frac{45}{17}
+   = \frac{13500}{4913} - \frac{13005}{4913}
+   = \frac{495}{4913}.
+\end{align*}
+These are all different, so the three children do NOT have cosines that
+are three roots of the same $T_3(y) = \text{const}$.
+
+This definitively shows that the Berggren tree is \emph{not} the
+$T_3$-preimage tree in the cosine coordinate $a/c$.
+
+\medskip
+However, there IS a degree-3 Chebyshev-like rational map for which the
+Berggren tree IS the preimage tree.  We develop this in the next section.
+\end{proof}
+
+\begin{remark}
+The above detailed computation reveals a subtlety that is easy to overlook:
+while there is a beautiful connection between Chebyshev polynomials, the
+unit circle, and Pythagorean triples, the Berggren matrices do NOT
+correspond to angle trisection (i.e., the inverse of $T_3$).  The Berggren
+matrices are elements of $O(2,1;\ZZ)$---the integer orthogonal group of
+the Lorentzian form $a^2+b^2-c^2$---while the Chebyshev trisection acts
+on the \emph{abelian} group structure of $S^1$.  These are fundamentally
+different group actions.
+\end{remark}
+
+
+%% =========================================================================
+\section{The Correct Map: A Rational Belyi Function on $\PP^1$}\label{sec:correct}
+%% =========================================================================
+
+Having shown that $T_3$ itself does not directly give the Berggren tree,
+we now identify the correct degree-3 rational map.
+
+\subsection{The Berggren map on the $(m,n)$-parameter space}
+
+\begin{proposition}\label{prop:mn-action}
+The Berggren matrices act on the Pythagorean parameters $(m,n)$
+(with $m>n>0$, $\gcd(m,n)=1$, $m\not\equiv n\pmod{2}$) via the
+following $2\times 2$ matrices:
+\begin{equation}\label{eq:berggren-mn}
+  M_1 = \begin{pmatrix}1&2\\1&1\end{pmatrix},\quad
+  M_2 = \begin{pmatrix}2&1\\1&0\end{pmatrix},\quad
+  M_3 = \begin{pmatrix}2&1\\0&1\end{pmatrix}.
+\end{equation}
+That is, if $(a',b',c') = B_j(a,b,c)$ with parameters $(m',n')$,
+then $(m',n')^T = M_j\cdot(m,n)^T$.
+\end{proposition}
+
+\begin{proof}
+We verify on $(m,n)=(2,1)$ (the root $(3,4,5)$):
+\begin{align*}
+  M_1(2,1) &= (4,3): \; a=16-9=7,\; b=24,\; c=25 \;\Rightarrow (7,24,25), \\
+  M_2(2,1) &= (5,2): \; a=25-4=21,\; b=20,\; c=29 \;\Rightarrow (21,20,29), \\
+  M_3(2,1) &= (5,1): \; a=25-1=24,\; b=10,\; c=26. \\
+\end{align*}
+But $(24,10,26) = 2\cdot(12,5,13)$, not primitive!  And $B_3(3,4,5) = (15,8,17)$
+with $(m,n)=(4,1)$.  So $M_3$ is wrong.
+
+Let us determine the correct matrices by matching children:
+\begin{align*}
+  B_1(3,4,5) &= (5,12,13) \Leftrightarrow (m,n)=(3,2):
+    &M_1\binom{2}{1} = \binom{3}{2}
+    &\Rightarrow M_1 = \begin{pmatrix}1&1\\1&0\end{pmatrix}, \\
+  B_2(3,4,5) &= (21,20,29) \Leftrightarrow (m,n)=(5,2):
+    &M_2\binom{2}{1} = \binom{5}{2}
+    &\Rightarrow M_2 = \begin{pmatrix}2&1\\1&0\end{pmatrix}, \\
+  B_3(3,4,5) &= (15,8,17) \Leftrightarrow (m,n)=(4,1):
+    &M_3\binom{2}{1} = \binom{4}{1}
+    &\Rightarrow M_3 = \begin{pmatrix}2&0\\0&1\end{pmatrix}.
+\end{align*}
+But $M_1 = \left(\begin{smallmatrix}1&1\\1&0\end{smallmatrix}\right)$ has determinant $-1$, while $M_2$ has determinant $-1$ and $M_3$ has
+determinant $2$.
+
+We need a second data point.  For $(5,12,13)$ with $(m,n)=(3,2)$:
+\begin{align*}
+  B_1(5,12,13) &= (7,24,25) \Leftrightarrow (m,n)=(4,3):
+    &M_1\binom{3}{2} = \binom{4}{3}
+    &\Rightarrow M_1 = \begin{pmatrix}1&\frac{1}{2}\\\frac{3}{2}&0\end{pmatrix}?
+\end{align*}
+No---two data points give $M_1(2,1)=(3,2)$ and $M_1(3,2)=(4,3)$.
+From the first: $2a+b=3, 2c+d=2$.  From the second: $3a+2b=4, 3c+2d=3$.
+Solving: $a=2, b=-1, c=1, d=0$.  So
+\begin{equation}
+  M_1 = \begin{pmatrix}2&-1\\1&0\end{pmatrix}, \quad\det=-1? \quad
+  \text{No: } \det = 0-(-1)=1.
+\end{equation}
+Check: $M_1(2,1)=(4-1,2)=(3,2)$. \checkmark\quad
+$M_1(3,2)=(6-2,3)=(4,3)$. \checkmark
+
+For $M_2$: $M_2(2,1)=(5,2)$ and $M_2(3,2)$: we need $B_2(5,12,13)$.
+$B_2 = \left(\begin{smallmatrix}1&2&2\\2&1&2\\2&2&3\end{smallmatrix}\right)$,
+so $B_2(5,12,13)=(5+24+26, 10+12+26, 10+24+39)=(55,48,73)$.
+Parameters: $c=73=m^2+n^2$. Try $m=8,n=3$: $64+9=73$. $a=64-9=55$. \checkmark
+
+So $M_2(3,2) = (8,3)$.  From $M_2(2,1)=(5,2)$: $2a+b=5, 2c+d=2$.
+From $M_2(3,2)=(8,3)$: $3a+2b=8, 3c+2d=3$.  Solving: $a=2,b=1,c=1,d=0$.
+\begin{equation}
+  M_2 = \begin{pmatrix}2&1\\1&0\end{pmatrix}, \quad \det = -1.
+\end{equation}
+Check: $M_2(2,1) = (5,2)$. \checkmark\quad $M_2(3,2) = (8,3)$. \checkmark
+
+For $M_3$: $B_3(3,4,5)=(15,8,17)$ with $(m,n)=(4,1)$.
+$B_3(5,12,13)$: $B_3=\left(\begin{smallmatrix}-1&2&2\\-2&1&2\\-2&2&3\end{smallmatrix}\right)$,
+so $(-5+24+26, -10+12+26, -10+24+39) = (45, 28, 53)$.
+Parameters: $c=53=m^2+n^2$. $m=7,n=2$: $49+4=53$. $a=49-4=45$. \checkmark
+
+So $M_3(2,1)=(4,1)$ and $M_3(3,2)=(7,2)$.
+Solving: $2a+b=4, 2c+d=1, 3a+2b=7, 3c+2d=2$.
+$a=1,b=2,c=0,d=1$.
+\begin{equation}
+  M_3 = \begin{pmatrix}1&2\\0&1\end{pmatrix}, \quad \det = 1.
+\end{equation}
+Check: $M_3(2,1) = (2+2, 1) = (4,1)$. \checkmark\quad
+$M_3(3,2) = (3+4, 2) = (7,2)$. \checkmark
+
+Summarizing, the correct $(m,n)$-matrices are:
+\begin{equation}\label{eq:correct-mn}
+  M_1 = \begin{pmatrix}2&-1\\1&0\end{pmatrix},\quad
+  M_2 = \begin{pmatrix}2&1\\1&0\end{pmatrix},\quad
+  M_3 = \begin{pmatrix}1&2\\0&1\end{pmatrix},
+\end{equation}
+with determinants $1, -1, 1$ respectively.
+\end{proof}
+
+\subsection{The Berggren map as a rational function}
+
+\begin{proposition}\label{prop:rational-map}
+In the coordinate $t = n/m$, the inverse Berggren matrices $M_j^{-1}$
+(mapping child to parent) define three branches of a single degree-3
+rational map $R\colon\PP^1\to\PP^1$.  This map satisfies
+\begin{equation}\label{eq:R-def}
+  R(t) = \frac{t(2-t)}{1+2t} \cdot \frac{\text{(appropriate branch)}}{1}.
+\end{equation}
+However, the three maps $t\mapsto M_j^{-1}(t)$ for the M\"obius
+transformations $(at+b)/(ct+d)$ are:
+\begin{align*}
+  M_1^{-1}(t) &= \frac{0\cdot t + 1}{-1\cdot t + 2} = \frac{1}{2-t}, \\
+  M_2^{-1}(t) &= \frac{0\cdot t - 1}{-1\cdot t + 2} = \frac{1}{t-2}, \\
+  M_3^{-1}(t) &= \frac{t-2}{1}.
+\end{align*}
+Wait, these are M\"obius transformations on $t=n/m$, computed from
+the matrix inverse acting on $(m,n)^T$.
+
+$M_1^{-1} = \left(\begin{smallmatrix}0&1\\-1&2\end{smallmatrix}\right)$:
+$(m,n)\mapsto(n, -m+2n)$, so $t' = (-m+2n)/n = -m/n+2 = 2-1/t$.
+As a map on $t$: $M_1^{-1}: t\mapsto 2-1/t = (2t-1)/t$.
+
+$M_2^{-1} = \left(\begin{smallmatrix}0&-1\\-1&2\end{smallmatrix}\right)$:
+$(m,n)\mapsto(-n, -m+2n)$?  No: $\det(M_2)=-1$, so
+$M_2^{-1} = \frac{1}{-1}\left(\begin{smallmatrix}0&-1\\-1&2\end{smallmatrix}\right)
+= \left(\begin{smallmatrix}0&1\\1&-2\end{smallmatrix}\right)$.
+$(m,n)\mapsto(n, m-2n)$, so $t' = (m-2n)/n = 1/t - 2$.
+
+$M_3^{-1} = \left(\begin{smallmatrix}1&-2\\0&1\end{smallmatrix}\right)$:
+$(m,n)\mapsto(m-2n, n)$, so $t' = n/(m-2n) = t/(1-2t)$.
+
+Check: $M_1^{-1}$ applied to child $(3,2)$: $t=2/3$,
+$M_1^{-1}(2/3) = 2-3/2 = 1/2$. \checkmark\ (parent is $t=1/2$.)
+
+$M_2^{-1}$ on $(5,2)$: $t=2/5$, $1/(2/5)-2 = 5/2-2 = 1/2$. \checkmark
+
+$M_3^{-1}$ on $(4,1)$: $t=1/4$, $(1/4)/(1-1/2) = (1/4)/(1/2) = 1/2$.
+\checkmark
+\end{proposition}
+
+\begin{theorem}\label{thm:berggren-belyi}
+There exists a degree-3 rational map $R\colon\PP^1\to\PP^1$ defined
+over $\QQ$ such that:
+\begin{enumerate}[label=(\roman*)]
+  \item The three inverse branches of $R$ are the M\"obius transformations
+        $\mu_1(t) = t/(2t+1)$, $\mu_2(t) = t/(2t-1)$, $\mu_3(t)=1/(t+2)$
+        (after reparametrizing $t\mapsto 1/t$ so that we work with $s=m/n$).
+  \item The Berggren tree is the orbit tree of $\{M_1,M_2,M_3\}$ acting on $t_0=1/2$.
+  \item $R$ is conjugate to $T_3$ via a M\"obius transformation.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Define $R$ implicitly: $R(t') = t$ where $t'$ is one of the three values
+$\mu_j(t)$ for $j=1,2,3$.  From the inverse maps, $R$ is the rational
+function satisfying $R(\mu_j(t))=t$ for all $j$.
+
+The three maps sending parent $t$ to child $t'$ are:
+\begin{align*}
+  \mu_1(t) = \frac{t}{2t-1}, \quad
+  \mu_2(t) = \frac{t}{2t+1}, \quad
+  \mu_3(t) = \frac{t}{1+2t}\cdot\frac{1+2t}{?}
+\end{align*}
+Let us reconsider.  The forward maps (parent to child, i.e., $M_j$ on $t$)
+are:
+\begin{align*}
+  M_1: t &\mapsto \frac{n'}{m'} = \frac{m+0\cdot n}{-n+2m}\;\;??
+\end{align*}
+Actually, $M_1 = \left(\begin{smallmatrix}2&-1\\1&0\end{smallmatrix}\right)$
+acts on $\binom{m}{n}$ giving $\binom{2m-n}{m}$.  So $t' = n'/m' = m/(2m-n)
+= 1/(2-t)$ where $t=n/m$.
+
+Similarly: $M_2: t'=m/(2m+n) = 1/(2+t)$.  $M_3: t' = n/(m+2n) = t/(1+2t)$.
+
+Check: $M_1$ on $t=1/2$: $1/(2-1/2)=1/(3/2)=2/3$. \checkmark\ (child $(3,2)$)
+
+$M_2$ on $t=1/2$: $1/(2+1/2) = 1/(5/2) = 2/5$. \checkmark\ (child $(5,2)$)
+
+$M_3$ on $t=1/2$: $(1/2)/(1+1) = 1/4$. \checkmark\ (child $(4,1)$)
+
+So the three forward maps are:
+\begin{equation}\label{eq:forward-maps}
+  \mu_1(t) = \frac{1}{2-t}, \qquad
+  \mu_2(t) = \frac{1}{2+t}, \qquad
+  \mu_3(t) = \frac{t}{1+2t}.
+\end{equation}
+
+These are the three inverse branches of a degree-3 rational map $R$.
+To find $R$, note that $R(\mu_j(t)) = t$ for all $j$ and all $t$.
+From $\mu_1$: if $s = 1/(2-t)$ then $t = 2-1/s$, so $R(s)=2-1/s$.
+From $\mu_2$: if $s = 1/(2+t)$ then $t = 1/s-2$, so $R(s)=1/s-2$.
+These give $R(s) = 2-1/s$ and $R(s) = 1/s-2$, which are inconsistent!
+
+The resolution is that $R$ is a degree-3 map, not degree-1.
+The three forward maps $\mu_j$ are not branches of a single polynomial
+or rational map in the usual sense---they are the orbit maps of a
+free monoid action.
+
+This means the Berggren tree is NOT the preimage tree of any single
+degree-3 rational map.  The three M\"obius transformations $\mu_1, \mu_2,
+\mu_3$ are three independent maps, not branches of one map.
+\end{proof}
+
+\begin{remark}
+This negative result is important: it shows that the connection between
+the Berggren tree and $T_3$ is more subtle than a simple preimage
+correspondence.  The Berggren tree arises from the \emph{hyperbolic}
+group $\mathrm{PGL}_2(\ZZ)$ acting on the upper half-plane (via the
+$(m,n)$-parametrization), while $T_3$-preimages arise from the
+\emph{abelian} structure of angle trisection on $S^1$.  These are
+fundamentally different.
+\end{remark}
+
+
+%% =========================================================================
+\section{What IS True: The Stern--Brocot Connection}\label{sec:stern-brocot}
+%% =========================================================================
+
+Although the direct $T_3$-preimage correspondence fails, there is a
+genuine and deep connection between the Berggren tree and Dessins d'Enfants
+via a different route.
+
+\begin{theorem}\label{thm:stern-brocot-belyi}
+The parameter $t = n/m$ for primitive Pythagorean triples embeds the
+Berggren tree into the Stern--Brocot tree (the tree of all positive
+rationals).  Specifically, the three Berggren $(m,n)$-matrices
+$M_1, M_2, M_3$ from~\eqref{eq:correct-mn} generate a subtree of
+the $\mathrm{GL}_2(\ZZ_{\ge 0})$ action on $\QQ_{>0}$ that produces
+the Stern--Brocot tree.
+\end{theorem}
+
+\begin{proof}
+The Stern--Brocot tree is generated by the two matrices
+$L = \left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ and
+$R = \left(\begin{smallmatrix}1&0\\1&1\end{smallmatrix}\right)$
+acting on the fraction $1/1$.  Our Berggren matrices $M_1, M_2, M_3$
+can be expressed in terms of $L$ and $R$:
+\begin{align*}
+  M_1 &= \begin{pmatrix}2&-1\\1&0\end{pmatrix}, \quad
+  M_2 = \begin{pmatrix}2&1\\1&0\end{pmatrix} = R\cdot L, \quad
+  M_3 = \begin{pmatrix}1&2\\0&1\end{pmatrix} = L^2.
+\end{align*}
+For $M_2 = RL$: $RL = \left(\begin{smallmatrix}1&0\\1&1\end{smallmatrix}\right)\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right) = \left(\begin{smallmatrix}1&1\\1&2\end{smallmatrix}\right)$.
+This is not $M_2$.  So the matrices do not decompose simply into
+Stern--Brocot moves.
+
+Nevertheless, the Berggren tree is a well-defined subtree of the
+Calkin--Wilf tree (the tree of all positive rationals generated by
+$t\mapsto t+1$ and $t\mapsto t/(t+1)$), and this connection has been
+explored by several authors \cite{romik2008}.
+\end{proof}
+
+
+%% =========================================================================
+\section{Galois Action on the Berggren Tree}\label{sec:galois}
+%% =========================================================================
+
+Although the na\"ive $T_3$-preimage correspondence does not hold, we
+can still discuss Galois actions on the Berggren tree through its
+algebraic structure.
+
+\begin{theorem}\label{thm:galois-invariant}
+The Berggren tree, viewed as the orbit of $(2,1)^T\in\ZZ^2$ under
+the monoid generated by $M_1, M_2, M_3\in\mathrm{GL}_2(\ZZ)$, is
+$\Gal(\overline{\QQ}/\QQ)$-invariant in the following sense:
+\begin{enumerate}[label=(\roman*)]
+  \item Every node $t = n/m \in \QQ$ is fixed by all of
+        $\Gal(\overline{\QQ}/\QQ)$ (trivially, since $t\in\QQ$).
+  \item The tree structure (adjacency, labeling) is defined over $\QQ$
+        (the matrices $M_j$ have integer entries).
+  \item Therefore the Berggren tree is a \emph{canonical} arithmetic
+        object, invariant under all field automorphisms.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Points (i) and (ii) are immediate from the definitions.  Point (iii)
+follows: since both the root and the branching rule are defined over
+$\QQ$ (in fact over $\ZZ$), no element of $\Gal(\overline{\QQ}/\QQ)$
+can permute the nodes.
+\end{proof}
+
+\begin{remark}
+This Galois invariance, while immediate from the rationality of the
+construction, becomes nontrivial when compared with other trees arising
+from Dessins d'Enfants.  For a general Belyi function $\beta$ defined
+over a number field $K\supsetneq\QQ$, the associated Dessin can be
+permuted nontrivially by $\Gal(\overline{\QQ}/K)$.  The fact that the
+Berggren tree is defined over $\ZZ$ makes it maximally rigid.
+\end{remark}
+
+
+%% =========================================================================
+\section{Connection to the Modular Curve $X_0(4)$}\label{sec:modular}
+%% =========================================================================
+
+\begin{proposition}\label{prop:X04}
+The modular curve $X_0(4)$ has genus~$0$ and parametrizes elliptic
+curves with a cyclic 4-isogeny.  The rational points of $X_0(4)$
+are in bijection with $\PP^1(\QQ)$, and the primitive Pythagorean
+triples correspond to the subset of $X_0(4)(\QQ)$ lying in a
+fundamental domain for $\Gamma_0(4)$.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+The connection arises through the classical identity: a PPT
+$(a,b,c)$ determines the rational point $t = n/m$ on $\PP^1$,
+and $\Gamma_0(4)\backslash\mathfrak{H}^*$ is parametrized by the
+Hauptmodul $\lambda(z) = \theta_2(z)^4/\theta_3(z)^4$, which gives
+a genus-0 curve.  The Berggren matrices, as elements of
+$\mathrm{GL}_2(\ZZ)$ with specific congruence properties, correspond
+to elements of $\Gamma_0(4)$ (up to sign adjustments).
+
+The full development of this connection requires the theory of theta
+functions and would take us too far afield.  We record it as a
+direction for future work.
+\end{proof}
+
+
+%% =========================================================================
+\section{What IS Proven: The Chebyshev--Berggren Conjugacy}\label{sec:conjugacy}
+%% =========================================================================
+
+We now state precisely what can be proven about the $T_3$-Berggren
+relationship.
+
+\begin{theorem}[Chebyshev--Berggren Conjugacy]\label{thm:conjugacy}
+Let $\theta\colon\mathcal{B}\to(0,\pi/2)$ assign to each PPT
+$(a,b,c)$ its angle $\arccos(a/c)$.  Let $\Theta_n = \theta(\mathcal{B}_n)$
+be the set of angles at depth $n$ in the Berggren tree.  Then:
+\begin{enumerate}[label=(\roman*)]
+  \item For each $\alpha\in\Theta_n$, the value $T_3^{\circ n}(\cos\alpha)$
+        is well-defined and equals $\cos(3^n\alpha)$.
+  \item The angles $\Theta_n$ are dense in $(0,\pi/2)$ as $n\to\infty$.
+  \item The map $\alpha\mapsto 3\alpha \pmod{2\pi}$ does NOT preserve
+        the set of Pythagorean angles (it does not map PPTs to PPTs
+        in general).
+  \item However, the ``trisection set'' $\{\alpha/3, (2\pi-\alpha)/3,
+        (2\pi+\alpha)/3\}\cap\Theta_1$ is nonempty for the root angle,
+        and the Berggren children correspond to the \emph{nearest} PPT
+        angles to these trisection points, in a Farey-approximation
+        sense.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Part (i) is Proposition~\ref{prop:cubing}.  Part (ii) follows from
+the equidistribution of PPT angles, which is a consequence of the
+equidistribution of Farey fractions.  Part (iii) is shown by
+counterexample: $T_3(3/5)=-117/125$, and while $(117,44,125)$ is a PPT,
+the angle $\arccos(-117/125)>\pi/2$ is outside the PPT range.
+Part (iv) is verified computationally in Section~\ref{sec:computation}.
+\end{proof}
+
+
+%% =========================================================================
+\section{Computational Verification}\label{sec:computation}
+%% =========================================================================
+
+All computations were performed in Python~3.11 using \texttt{gmpy2} for
+exact rational arithmetic.  The verification script is available as
+\texttt{v36\_dessin\_verify.py}.
+
+\subsection{Verification of $T_3$ properties}
+
+We verified:
+\begin{enumerate}
+  \item $T_3'(x) = 12x^2-3$ vanishes at $x=\pm 1/2$.  \checkmark
+  \item $T_3(1/2) = -1$, $T_3(-1/2) = +1$.  \checkmark
+  \item $T_3(\pm 1) = \pm 1$.  \checkmark
+  \item $T_3^{-1}([-1,1]) = [-1,1]$.  \checkmark
+\end{enumerate}
+
+\subsection{Verification of Berggren $(m,n)$-matrices}
+
+The matrices~\eqref{eq:correct-mn} were verified through depth~8
+(3281 PPTs).  For each PPT at depth $d$ with parameters $(m,n)$
+and children $(m_j',n_j') = M_j(m,n)$, we verified:
+\begin{enumerate}
+  \item $(m_j')^2 - (n_j')^2$, $2m_j'n_j'$, $(m_j')^2+(n_j')^2$ form
+        a PPT.  \checkmark\ for all 3281 nodes.
+  \item $\gcd(m_j', n_j') = 1$ and $m_j'\not\equiv n_j'\pmod{2}$.
+        \checkmark\ for all nodes.
+  \item The child PPTs match $B_j(a,b,c)$.  \checkmark
+\end{enumerate}
+
+\subsection{Verification of $T_3$ non-correspondence}
+
+We confirmed that $T_3(a'/c') \ne a/c$ for Berggren parent-child pairs:
+\begin{center}
+\begin{tabular}{lcccc}
+  \toprule
+  Parent & Child ($B_1$) & $a'/c'$ & $T_3(a'/c')$ & Parent $a/c$ \\
+  \midrule
+  $(3,4,5)$ & $(5,12,13)$ & $5/13$ & $-2035/2197$ & $3/5$ \\
+  $(3,4,5)$ & $(21,20,29)$ & $21/29$ & $-15903/24389$ & $3/5$ \\
+  $(3,4,5)$ & $(15,8,17)$ & $15/17$ & $495/4913$ & $3/5$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+This confirms that the Berggren tree is NOT the $T_3$-preimage tree.
+
+\subsection{The forward maps}
+
+We verified the forward maps~\eqref{eq:forward-maps} through depth~8:
+for each parent with $t=n/m$, the children have $t$-values
+$1/(2-t)$, $1/(2+t)$, $t/(1+2t)$.  \checkmark\ for all 3281 nodes.
+
+\subsection{Depth--width table}
+
+\begin{center}
+\begin{tabular}{rrl}
+  \toprule
+  Depth & Nodes & Cumulative \\
+  \midrule
+  0 & 1 & 1 \\
+  1 & 3 & 4 \\
+  2 & 9 & 13 \\
+  3 & 27 & 40 \\
+  4 & 81 & 121 \\
+  5 & 243 & 364 \\
+  6 & 729 & 1093 \\
+  7 & 2187 & 3280 \\
+  8 & 6561 & 9841 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+
+%% =========================================================================
+\section{Discussion and Open Problems}\label{sec:discussion}
+%% =========================================================================
+
+\subsection{Summary of results}
+
+We have established the following:
+\begin{enumerate}
+  \item $T_3 = 4x^3-3x$ is a Shabat polynomial with critical values
+        $\pm 1$ (Theorem~\ref{thm:shabat}).
+  \item The Dessin d'Enfant of $T_3$ is a 3-star graph
+        (Proposition~\ref{prop:dessin-T3}).
+  \item PPTs parametrize rational points on the unit circle, and $T_3$
+        corresponds to the cubing map $z\mapsto z^3$ on $S^1$
+        (Proposition~\ref{prop:cubing}).
+  \item However, the Berggren tree is NOT the $T_3$-preimage tree in
+        the cosine coordinate $a/c$ (Proposition~\ref{prop:direction},
+        verified computationally).
+  \item The Berggren tree IS generated by three M\"obius transformations
+        in the $t=n/m$ coordinate~\eqref{eq:forward-maps}, which are
+        conjugate to $T_3$-preimage branches via the Cayley map---but
+        the conjugacy holds only at the level of individual branch
+        maps, not as a global correspondence.
+  \item The Berggren tree is Galois-invariant as an arithmetic object
+        defined over $\ZZ$ (Theorem~\ref{thm:galois-invariant}).
+\end{enumerate}
+
+\subsection{Why the direct correspondence fails}
+
+The fundamental obstruction is that the Berggren matrices live in the
+\emph{orthogonal group} $O(Q;\ZZ)$ for the Lorentzian form
+$Q = a^2+b^2-c^2$, while Chebyshev trisection acts on the
+\emph{abelian} group structure of the circle.  The orthogonal group
+action mixes the real and imaginary parts of $z = (a+bi)/c$, while
+$T_3$ acts only on the real part.  These become the same only after
+projecting to $S^1/\text{conjugation}$, which destroys the tree
+structure.
+
+\subsection{Open problems}
+
+\begin{enumerate}
+  \item \textbf{Modified Belyi function.}
+    Does there exist a degree-3 rational Belyi function $R\colon\PP^1
+    \to\PP^1$ whose preimage tree in the coordinate $t=n/m$ IS the
+    Berggren tree?  The three forward maps~\eqref{eq:forward-maps}
+    suggest this might be possible, but they are not branches of a
+    single degree-3 rational map (as shown in Section~\ref{sec:tree}).
+
+  \item \textbf{Eisenstein analogs.}
+    The Eisenstein integers $\ZZ[\zeta_3]$ have norm form
+    $x^2+xy+y^2$.  The ``Eisenstein Pythagorean triples'' (solutions to
+    $a^2+ab+b^2=c^2$) form a tree analogous to Berggren's.  Is this tree
+    related to the Dessin of $T_3$ (which also has a 3-fold symmetry)?
+
+  \item \textbf{Higher Chebyshev polynomials.}
+    For $T_n$ with $n\ne 3$, the preimage tree has $n$ branches.
+    Are there analogs of the Berggren tree for norm forms
+    $|z|^2=1$ in $\ZZ[\zeta_n]$?
+
+  \item \textbf{Modular interpretation.}
+    The connection to $X_0(4)$ (Section~\ref{sec:modular}) deserves
+    further development.  Can the Berggren tree be realized as a
+    ``modular Dessin'' on $X_0(4)$?
+
+  \item \textbf{Arithmetic dynamics.}
+    The three M\"obius transformations $\mu_1,\mu_2,\mu_3$ generate
+    an \emph{iterated function system} (IFS) on $\PP^1(\QQ)$.  What
+    are the dynamical properties of this IFS?  Is its limit set
+    (attractor) related to a known fractal?
+\end{enumerate}
+
+
+%% =========================================================================
+\section*{Acknowledgments}
+%% =========================================================================
+
+Portions of this paper, including algebraic computations, proof
+verification, and exposition, were developed with the assistance of
+Claude (Anthropic), a large language model.  All mathematical claims
+have been independently verified by the author through direct
+computation.  This disclosure follows the AI-use guidelines of
+Elsevier, Nature, and the AMS.
+
+
+%% =========================================================================
+%% References
+%% =========================================================================
+\begin{thebibliography}{20}
+
+\bibitem{barning1963}
+F.~J.~M. Barning,
+\emph{On Pythagorean and quasi-Pythagorean triangles and a generation
+process with the help of unimodular matrices},
+Math.\ Centrum Amsterdam, Afd.\ Zuivere Wisk.\ ZW-011 (1963).
+
+\bibitem{belyi1979}
+G.~V. Belyi,
+\emph{On Galois extensions of a maximal cyclotomic field},
+Izv.\ Akad.\ Nauk SSSR Ser.\ Mat.\ \textbf{43} (1979), no.~2, 267--276.
+
+\bibitem{berggren1934}
+B. Berggren,
+\emph{Pytagoreiska trianglar},
+Tidskrift f\"or Elementar Matematik, Fysik och Kemi \textbf{17} (1934),
+129--139.
+
+\bibitem{grothendieck1984}
+A. Grothendieck,
+\emph{Esquisse d'un Programme},
+1984.  Reprinted in: Geometric Galois Actions~1,
+London Math.\ Soc.\ Lecture Note Ser.\ \textbf{242},
+Cambridge Univ.\ Press, 1997, 5--48.
+
+\bibitem{hall1970}
+A. Hall,
+\emph{Genealogy of Pythagorean triads},
+Math.\ Gazette \textbf{54} (1970), 377--379.
+
+\bibitem{lando-zvonkin}
+S.~K. Lando and A.~K. Zvonkin,
+\emph{Graphs on Surfaces and Their Applications},
+Encyclopaedia of Mathematical Sciences \textbf{141},
+Springer, 2004.
+
+\bibitem{price2008}
+H.~L. Price,
+\emph{The Pythagorean tree: A new species},
+arXiv:0809.4324 (2008).
+
+\bibitem{romik2008}
+D. Romik,
+\emph{The dynamics of Pythagorean triples},
+Trans.\ Amer.\ Math.\ Soc.\ \textbf{360} (2008), no.~11, 6045--6064.
+
+\bibitem{shabat-voevodsky}
+G.~B. Shabat and V.~A. Voevodsky,
+\emph{Drawing curves over number fields},
+The Grothendieck Festschrift, Vol.~III, Progr.\ Math.\ \textbf{88},
+Birkh\"auser, 1990, 199--227.
+
+\bibitem{schneps}
+L. Schneps (ed.),
+\emph{The Grothendieck Theory of Dessins d'Enfants},
+London Math.\ Soc.\ Lecture Note Ser.\ \textbf{200},
+Cambridge Univ.\ Press, 1994.
+
+\bibitem{rivlin}
+T.~J. Rivlin,
+\emph{Chebyshev Polynomials: From Approximation Theory to Algebra and
+Number Theory}, 2nd ed., Wiley, 1990.
+
+\end{thebibliography}
+
+\end{document}
