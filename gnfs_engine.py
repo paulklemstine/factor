@@ -73,6 +73,83 @@ def _load_gnfs_sieve():
         ]
     return _gnfs_sieve_lib
 
+# Load GPU trial division kernel
+_gpu_trialdiv_lib = None
+def _load_gpu_trialdiv():
+    """Load GPU trial division .so (compiled from gnfs_gpu_trialdiv.cu)."""
+    global _gpu_trialdiv_lib
+    if _gpu_trialdiv_lib is not None:
+        return _gpu_trialdiv_lib
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    so_path = os.path.join(base_dir, 'gnfs_gpu_trialdiv.so')
+    cu_path = os.path.join(base_dir, 'gnfs_gpu_trialdiv.cu')
+    # Compile if .so missing or older than .cu
+    if not os.path.exists(so_path) or (
+        os.path.exists(cu_path) and os.path.getmtime(cu_path) > os.path.getmtime(so_path)):
+        try:
+            import subprocess
+            result = subprocess.run(
+                ['nvcc', '--shared', '-Xcompiler', '-fPIC', '-O2',
+                 '-o', so_path, cu_path],
+                capture_output=True, timeout=60)
+            if result.returncode != 0:
+                return None
+        except Exception:
+            return None
+    if os.path.exists(so_path):
+        try:
+            lib = ctypes.CDLL(so_path)
+            lib.gpu_trial_divide.restype = ctypes.c_int
+            lib.gpu_trial_divide.argtypes = [
+                ctypes.POINTER(ctypes.c_int64), ctypes.c_int,   # h_norms, n_cands
+                ctypes.POINTER(ctypes.c_int64), ctypes.c_int,   # h_primes, n_primes
+                ctypes.POINTER(ctypes.c_int),                    # h_exponents (n_cands * n_primes)
+            ]
+            _gpu_trialdiv_lib = lib
+        except Exception:
+            return None
+    return _gpu_trialdiv_lib
+
+
+def gpu_trial_divide_batch(norms, primes, n_cands, n_primes):
+    """
+    GPU-accelerated trial division of norms by factor base primes.
+
+    Parameters
+    ----------
+    norms : array-like of int64, length n_cands
+        Absolute values of candidate norms to trial divide.
+    primes : array-like of int64, length n_primes
+        Factor base primes.
+    n_cands : int
+        Number of candidates.
+    n_primes : int
+        Number of primes.
+
+    Returns
+    -------
+    exponents : np.ndarray of int32, shape (n_cands, n_primes)
+        Exponent matrix: exponents[i][j] = power of primes[j] dividing norms[i].
+        Returns None if GPU is unavailable.
+    """
+    lib = _load_gpu_trialdiv()
+    if lib is None:
+        return None
+    norms_arr = np.array(norms, dtype=np.int64)
+    primes_arr = np.array(primes, dtype=np.int64)
+    exponents = np.zeros(n_cands * n_primes, dtype=np.int32)
+    ret = lib.gpu_trial_divide(
+        norms_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+        ctypes.c_int(n_cands),
+        primes_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+        ctypes.c_int(n_primes),
+        exponents.ctypes.data_as(ctypes.POINTER(ctypes.c_int)),
+    )
+    if ret != 0:
+        return None
+    return exponents.reshape(n_cands, n_primes)
+
+
 # Load C lattice sieve extension
 _lattice_sieve_lib = None
 _lattice_sieve_has_verify = False  # True if gnfs_lattice_sieve_c.so with integrated verify
@@ -357,8 +434,8 @@ def base_m_poly(n, d=None):
     else:
         wide_range = 5000
 
-    # Phase 1a: Coarse scan every 10th value across wide range
-    coarse_step = 10
+    # Phase 1a: Coarse scan across wide range (finer for d=4)
+    coarse_step = 5 if d == 4 else 10
     coarse_best_delta = 0
     coarse_best_score = float('inf')
     for delta in range(-wide_range, wide_range + 1, coarse_step):
@@ -377,8 +454,8 @@ def base_m_poly(n, d=None):
             coarse_best_score = score
             coarse_best_delta = delta
 
-    # Phase 1b: Fine scan ±50 around the best coarse candidate
-    fine_range = 50
+    # Phase 1b: Fine scan ±100 around the best coarse candidate
+    fine_range = 100
     fine_center = int(m0) + coarse_best_delta
     for delta in range(-fine_range, fine_range + 1):
         m_try = fine_center + delta
@@ -429,6 +506,35 @@ def base_m_poly(n, d=None):
 
     coeffs = best_coeffs
     m = best_m
+
+    # Root optimization: try translations x -> x+k to reduce coefficient size
+    # f(x+k) = sum_i f_i * (x+k)^i — use binomial expansion
+    # This preserves f(m-k) = n, so shifted_m = m - k
+    best_root_score = _poly_norm_score(coeffs, d)
+    best_root_coeffs = coeffs
+    best_root_m = m
+    for k in range(-5, 6):
+        if k == 0:
+            continue
+        shifted = [0] * (d + 1)
+        for i in range(d + 1):
+            for j in range(i + 1):
+                binom = math.comb(i, j)
+                shifted[j] += coeffs[i] * binom * k ** (i - j)
+        shifted_m = m - k
+        if shifted_m < 2:
+            continue
+        # Verify: evaluate shifted poly at shifted_m should equal n
+        check = sum(shifted[i] * shifted_m ** i for i in range(d + 1))
+        if check != int(n):
+            continue
+        score = _poly_norm_score(shifted, d)
+        if score < best_root_score:
+            best_root_score = score
+            best_root_coeffs = shifted
+            best_root_m = shifted_m
+    coeffs = best_root_coeffs
+    m = best_root_m
 
     # Skewness estimate: s ≈ (a_0 / a_d)^(1/d)
     if coeffs[-1] != 0:
@@ -3367,11 +3473,21 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     t_sieve = time.time()
     num_sq = 0
 
-    # Use lattice sieve for 55d+ when C sieve available, 80d+ for Python fallback
-    # Below 55d, line sieve + SLP is faster (lattice overhead dominates at small sizes)
+    # Use lattice sieve for 48d+ when C sieve available, 80d+ for Python fallback
+    # For 48-54d: hybrid mode (line sieve b=1..50000, then lattice for remainder)
+    # For 55d+: pure lattice sieve
     _c_lattice_available = _load_lattice_sieve() is not None
-    _lattice_threshold = 55 if _c_lattice_available else 80
-    if nd >= _lattice_threshold:
+    _lattice_threshold = 48 if _c_lattice_available else 80
+    if nd >= _lattice_threshold and nd < 55 and _c_lattice_available:
+        # Hybrid mode: line sieve for small b (fast, high yield) + lattice for remainder
+        if verbose:
+            print(f"    Using hybrid sieve: line sieve b=1..50000 + lattice sieve")
+        # Phase 1: line sieve — handled in the else branch below, but we set a flag
+        _hybrid_mode = True
+        _hybrid_line_b_max = 50000
+        # Fall through to line sieve code, which will hand off to lattice after
+    elif (nd >= 55 if _c_lattice_available else nd >= 80):
+        _hybrid_mode = False
         # Lattice sieve with special-q
         if verbose:
             print(f"    Using lattice sieve (special-q)")
@@ -3387,6 +3503,8 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             print(f"    Merged: {len(raw_relations)} raw → {len(verified_relations)} "
                   f"merged ({n_singleton} singletons discarded)")
     else:
+        _hybrid_mode = False
+    if _hybrid_mode or (nd < _lattice_threshold if _c_lattice_available else nd < 80):
         # Line sieve for small numbers
         verified_relations = []
         A = min(params['A'], 500000)
@@ -3427,6 +3545,9 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             out_b = (ctypes.c_int * max_cands)()
 
             B_max = params['B_max']
+            # In hybrid mode, cap line sieve at 50000 b-lines
+            if _hybrid_mode:
+                B_max = min(B_max, _hybrid_line_b_max)
             # Larger batch for efficiency: more b-lines per C sieve call
             batch_size = min(1000, max(100, B_max // 100))
             f_coeffs_arr = np.array(f_coeffs, dtype=np.int64)
@@ -3687,30 +3808,54 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                         out_a, out_b, max_cands)
                     if n_cands == 0:
                         continue
-                    # Brute-force verify fallback
-                    for chunk_start in range(0, n_cands, max_cands_verify):
-                        chunk_end = min(chunk_start + max_cands_verify, n_cands)
-                        chunk_n = chunk_end - chunk_start
-                        chunk_out_a = (ctypes.c_int * chunk_n)(*[out_a[chunk_start + i] for i in range(chunk_n)])
-                        chunk_out_b = (ctypes.c_int * chunk_n)(*[out_b[chunk_start + i] for i in range(chunk_n)])
-                        c_lib.verify_candidates_c(
-                            chunk_out_a, chunk_out_b, chunk_n,
-                            ctypes.c_int64(int(m)),
-                            f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            d,
-                            rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            len(rat_fb),
-                            alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            len(alg_fb),
-                            ctypes.c_int64(int(lp_bound)),
-                            c_verify_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            c_verify_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            c_verify_signs, c_verify_mask,
-                            c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                            c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
-                        )
-                        n_verified = chunk_n  # process all candidates from brute-force
+
+                    # Try GPU trial division for rational norms if available
+                    _gpu_td_lib = _load_gpu_trialdiv()
+                    _gpu_used = False
+                    if _gpu_td_lib is not None and n_cands <= 100000:
+                        try:
+                            # Compute rational norms: |a + b*m| for each candidate
+                            _cand_a = np.array([out_a[i] for i in range(n_cands)], dtype=np.int64)
+                            _cand_b = np.array([out_b[i] for i in range(n_cands)], dtype=np.int64)
+                            _rat_norms = np.abs(_cand_a + _cand_b * int(m))
+                            _rat_primes_gpu = np.array(rat_fb_list if 'rat_fb_list' in dir() else [int(p) for p in rat_fb], dtype=np.int64)
+                            _gpu_exps = gpu_trial_divide_batch(
+                                _rat_norms, _rat_primes_gpu, n_cands, len(_rat_primes_gpu))
+                            if _gpu_exps is not None:
+                                # GPU succeeded — write results into c_verify_rat_exps
+                                n_rat_fb = len(rat_fb)
+                                for ci in range(min(n_cands, max_cands_verify)):
+                                    for pi in range(n_rat_fb):
+                                        c_verify_rat_exps[ci * n_rat_fb + pi] = int(_gpu_exps[ci, pi])
+                                _gpu_used = True
+                        except Exception:
+                            _gpu_used = False
+
+                    if not _gpu_used:
+                        # CPU brute-force verify fallback
+                        for chunk_start in range(0, n_cands, max_cands_verify):
+                            chunk_end = min(chunk_start + max_cands_verify, n_cands)
+                            chunk_n = chunk_end - chunk_start
+                            chunk_out_a = (ctypes.c_int * chunk_n)(*[out_a[chunk_start + i] for i in range(chunk_n)])
+                            chunk_out_b = (ctypes.c_int * chunk_n)(*[out_b[chunk_start + i] for i in range(chunk_n)])
+                            c_lib.verify_candidates_c(
+                                chunk_out_a, chunk_out_b, chunk_n,
+                                ctypes.c_int64(int(m)),
+                                f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                d,
+                                rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                len(rat_fb),
+                                alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                len(alg_fb),
+                                ctypes.c_int64(int(lp_bound)),
+                                c_verify_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                c_verify_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                c_verify_signs, c_verify_mask,
+                                c_verify_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                                c_verify_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+                            )
+                            n_verified = chunk_n  # process all candidates from brute-force
 
                 if n_verified == 0:
                     continue
@@ -3795,8 +3940,17 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                 # Estimate total with SLP + DLP matching
                 n_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values())
                 n_slp_est += sum(max(0, len(v) - 1) for v in partials_rat.values())
-                # DLP estimate: conservative (actual usable is much less than total)
+                # DLP estimate: union-find on bipartite graph (rat_lp, alg_ideal) nodes
+                # Usable relations = edges - nodes + components_with_edges
                 n_dlp_est = 0
+                if partials_dlp:
+                    _dlp_lps = set()
+                    for _r in partials_dlp:
+                        _dlp_lps.add(('R', _r.get('rat_lp', 0)))
+                        _dlp_lps.add(('A', _r.get('alg_lp', 0)))
+                    n_dlp_nodes = len(_dlp_lps)
+                    n_dlp_edges = len(partials_dlp)
+                    n_dlp_est = max(0, n_dlp_edges - n_dlp_nodes)
                 total_est = len(verified_relations) + n_slp_est + n_dlp_est
 
                 if verbose and (b_end % 500 == 0 or (b_end <= phase1_b_max and b_end % 100 == 0)):
@@ -3808,7 +3962,8 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
         else:
             # Python fallback sieve with batch norm evaluation
             alg_primes_list = [p for p, r in alg_fb]
-            for b in range(1, params['B_max'] + 1):
+            _py_b_max = min(params['B_max'], _hybrid_line_b_max) if _hybrid_mode else params['B_max']
+            for b in range(1, _py_b_max + 1):
                 if time.time() - t0 > time_limit:
                     break
                 pairs = sieve_line(b, A, m, f_coeffs, rat_fb, alg_fb,
@@ -3841,6 +3996,35 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                     print(f"    [b={b}] {len(verified_relations)}/{needed} verified ({elapsed:.1f}s)")
                 if len(verified_relations) >= needed:
                     break
+
+    # Hybrid mode: if line sieve didn't collect enough, run lattice sieve for remainder
+    if _hybrid_mode:
+        # Count what we have so far (full + estimated SLP + DLP)
+        _hybrid_n_full = len(verified_relations)
+        _hybrid_n_slp = 0
+        if 'partials_alg' in dir():
+            _hybrid_n_slp += sum(max(0, len(v) - 1) for v in partials_alg.values())
+            _hybrid_n_slp += sum(max(0, len(v) - 1) for v in partials_rat.values())
+        _hybrid_total = _hybrid_n_full + _hybrid_n_slp
+        if _hybrid_total < needed:
+            _hybrid_remaining = needed - _hybrid_total
+            if verbose:
+                print(f"    Hybrid: line sieve got {_hybrid_n_full}+{_hybrid_n_slp}slp/{needed}, "
+                      f"need {_hybrid_remaining} more from lattice sieve")
+            # Run lattice sieve for remaining relations (overshoot 3x for singleton removal)
+            _lat_raw, _lat_sq_map = lattice_sieve_collect(
+                n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
+                _hybrid_remaining * 3, verbose=verbose,
+                time_limit=max(60, time_limit - (time.time() - t0)),
+                t0=t0, inert_qc_primes=inert_qc_primes)
+            # Merge lattice relations (eliminate SQ columns)
+            _lat_merged, _lat_singletons = merge_sq_relations(_lat_raw)
+            verified_relations.extend(_lat_merged)
+            if verbose:
+                print(f"    Hybrid lattice: {len(_lat_raw)} raw -> {len(_lat_merged)} merged "
+                      f"({_lat_singletons} singletons), total now {len(verified_relations)}")
+        elif verbose:
+            print(f"    Hybrid: line sieve sufficient ({_hybrid_total}/{needed})")
 
     # Helper: compute deferred inert QC bits
     def _ensure_inert_qc(rel):
@@ -3903,48 +4087,161 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
         if verbose and (n_part_alg + n_part_rat) > 0:
             print(f"    SLP: {n_part_alg} alg-partial + {n_part_rat} rat-partial → {n_slp} combined")
 
-    # DLP processing: add individual DLP relations with LP columns
+    # DLP processing: union-find cycle-finding on bipartite graph
+    # Nodes = (side, lp_value), edges = DLP relations
+    # Each connected component with k edges and v nodes yields k - v + 1 usable relations
     num_lp_cols = 0
     if 'partials_dlp' in dir() and partials_dlp and len(verified_relations) < needed:
-        from collections import Counter
         # Compute alg ideals for all DLP rels
         for rel in partials_dlp:
             _ensure_inert_qc(rel)
             alp = rel['alg_lp']
             rel['_alg_ideal'] = (alp, (-rel['a'] * pow(rel['b'], -1, alp)) % alp)
 
-        # Count LP occurrences — only keep LPs appearing 2+ times
-        rlp_cnt = Counter(r['rat_lp'] for r in partials_dlp)
-        alp_cnt = Counter(r['_alg_ideal'] for r in partials_dlp)
+        # Union-Find
+        _uf_parent = {}
+        _uf_rank = {}
 
-        # Filter: keep DLP rels where BOTH LPs appear 2+ times
-        useful_dlp = [r for r in partials_dlp
-                      if rlp_cnt[r['rat_lp']] >= 2 and alp_cnt[r['_alg_ideal']] >= 2]
+        def _uf_find(x):
+            while _uf_parent[x] != x:
+                _uf_parent[x] = _uf_parent[_uf_parent[x]]
+                x = _uf_parent[x]
+            return x
 
-        if useful_dlp:
-            # Assign LP column indices
-            unique_rlps = sorted(set(r['rat_lp'] for r in useful_dlp))
-            unique_alps = sorted(set(r['_alg_ideal'] for r in useful_dlp))
-            rlp_to_col = {lp: i for i, lp in enumerate(unique_rlps)}
-            alp_to_col = {ideal: i + len(unique_rlps) for i, ideal in enumerate(unique_alps)}
-            num_lp_cols = len(unique_rlps) + len(unique_alps)
+        def _uf_union(x, y):
+            rx, ry = _uf_find(x), _uf_find(y)
+            if rx == ry:
+                return False
+            if _uf_rank[rx] < _uf_rank[ry]:
+                rx, ry = ry, rx
+            _uf_parent[ry] = rx
+            if _uf_rank[rx] == _uf_rank[ry]:
+                _uf_rank[rx] += 1
+            return True
 
-            for rel in useful_dlp:
-                # Convert int16 exps to lists for consistency
-                if isinstance(rel['rat_exps'], np.ndarray):
-                    rel['rat_exps'] = rel['rat_exps'].tolist()
-                if isinstance(rel['alg_exps'], np.ndarray):
-                    rel['alg_exps'] = rel['alg_exps'].tolist()
-                rel['lp_cols'] = [rlp_to_col[rel['rat_lp']],
-                                  alp_to_col[rel['_alg_ideal']]]
-                verified_relations.append(rel)
+        # Build bipartite graph and union-find
+        for rel in partials_dlp:
+            node_r = ('R', rel['rat_lp'])
+            node_a = ('A', rel['_alg_ideal'])
+            for nd_val in (node_r, node_a):
+                if nd_val not in _uf_parent:
+                    _uf_parent[nd_val] = nd_val
+                    _uf_rank[nd_val] = 0
+            _uf_union(node_r, node_a)
 
-            # Update needed: more columns now
-            needed = int((1 + len(rat_fb) + len(alg_fb) + num_qc + num_sq + num_lp_cols + 1) * 1.10)
+        # Group by component
+        _comp_edges = defaultdict(list)
+        _comp_nodes = defaultdict(set)
+        for idx, rel in enumerate(partials_dlp):
+            node_r = ('R', rel['rat_lp'])
+            root = _uf_find(node_r)
+            _comp_edges[root].append(idx)
+            _comp_nodes[root].add(node_r)
+            _comp_nodes[root].add(('A', rel['_alg_ideal']))
 
+        # For each component with cycles, combine via BFS spanning tree
+        from collections import deque as _deque_dlp
+        combined_dlp = []
+        for root, edge_idxs in _comp_edges.items():
+            v = len(_comp_nodes[root])
+            k = len(edge_idxs)
+            n_usable = k - v + 1
+            if n_usable <= 0:
+                continue
+
+            comp_rels = [partials_dlp[i] for i in edge_idxs]
+            comp_node_list = sorted(_comp_nodes[root], key=str)
+
+            # Build edge list and adjacency for this component
+            comp_adj = defaultdict(list)
+            comp_edge_list = []
+            for ci, rel in enumerate(comp_rels):
+                nr = ('R', rel['rat_lp'])
+                na = ('A', rel['_alg_ideal'])
+                comp_edge_list.append((nr, na, ci))
+                comp_adj[nr].append((na, ci))
+                comp_adj[na].append((nr, ci))
+
+            # BFS spanning tree
+            tree_parent = {}
+            visited = set()
+            start_node = comp_node_list[0]
+            queue = _deque_dlp([start_node])
+            visited.add(start_node)
+            tree_edges = set()
+
+            while queue:
+                cur = queue.popleft()
+                for nbr, ci in comp_adj[cur]:
+                    if nbr not in visited:
+                        visited.add(nbr)
+                        tree_parent[nbr] = (cur, ci)
+                        tree_edges.add(ci)
+                        queue.append(nbr)
+
+            # Find tree path between two nodes via LCA
+            def _tree_path(src, dst, _tp=tree_parent):
+                path_s, path_d = [], []
+                cur = src
+                anc_s = {cur: 0}
+                idx_s = 0
+                while cur in _tp:
+                    par, ci = _tp[cur]
+                    path_s.append(ci)
+                    cur = par
+                    idx_s += 1
+                    anc_s[cur] = idx_s
+                cur = dst
+                while cur not in anc_s:
+                    par, ci = _tp[cur]
+                    path_d.append(ci)
+                    cur = par
+                lca_depth = anc_s[cur]
+                return path_s[:lca_depth] + path_d
+
+            # Each non-tree edge forms a cycle
+            for nr, na, ci in comp_edge_list:
+                if ci in tree_edges:
+                    continue
+                cycle_idxs = [ci] + _tree_path(nr, na)
+                cycle_rels = [comp_rels[i] for i in cycle_idxs]
+
+                nrat = len(cycle_rels[0]['rat_exps'])
+                nalg = len(cycle_rels[0]['alg_exps'])
+                nqc = len(cycle_rels[0].get('qc_bits', []))
+                comb_rat = [0] * nrat
+                comb_alg = [0] * nalg
+                comb_qc = [0] * nqc
+                comb_sign = 0
+                for cr in cycle_rels:
+                    re = cr['rat_exps']
+                    ae = cr['alg_exps']
+                    if isinstance(re, (np.ndarray, bytes)):
+                        re = list(re)
+                    if isinstance(ae, (np.ndarray, bytes)):
+                        ae = list(ae)
+                    for j in range(nrat):
+                        comb_rat[j] += re[j]
+                    for j in range(nalg):
+                        comb_alg[j] += ae[j]
+                    qb = cr.get('qc_bits', [])
+                    for j in range(nqc):
+                        comb_qc[j] ^= qb[j]
+                    comb_sign += cr.get('rat_sign', 0)
+
+                combined_dlp.append({
+                    'a': cycle_rels[0]['a'], 'b': cycle_rels[0]['b'],
+                    'rat_exps': comb_rat,
+                    'rat_sign': comb_sign,
+                    'alg_exps': comb_alg,
+                    'qc_bits': comb_qc,
+                })
+
+        if combined_dlp:
+            verified_relations.extend(combined_dlp)
             if verbose:
-                print(f"    DLP: {len(useful_dlp)}/{len(partials_dlp)} usable → "
-                      f"{len(unique_rlps)} rat-LP + {len(unique_alps)} alg-LP cols")
+                print(f"    DLP cycle-finding: {len(combined_dlp)} combined from "
+                      f"{len(partials_dlp)} partials ({len(_comp_edges)} components)")
 
     sieve_time = time.time() - t_sieve
     if verbose:
