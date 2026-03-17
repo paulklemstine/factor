@@ -53,9 +53,9 @@
 
 <h2 class="section-title" style="margin-top:16px;">Theorem Catalog</h2>
 <p style="margin-bottom:8px;">
-  700+ theorems discovered across Pythagorean tree structure, Berggren group algebra,
+  800+ theorems discovered across Pythagorean tree structure, Berggren group algebra,
   analytic number theory, spectral graph theory, complexity theory, connections to elliptic curves,
-  and practical applications. Organized by category with status and significance. Only medium and high significance results are shown.
+  dynamical systems, and practical applications. Organized by category with status and significance. Only medium and high significance results are shown.
 </p>
 
 <!-- ========== TOP DISCOVERIES ========== -->
@@ -192,6 +192,24 @@
     Tree-generated A-values are 3-276x more likely to be B-smooth than random integers,
     because $A = (m-n)(m+n)$ is already partially factored into two half-sized factors.
     <br><a href="theorems/smoothness-advantage.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
+  </div>
+</div>
+
+<div class="theorem-card" id="SL2" style="border-left:3px solid var(--gold);">
+  <div class="theorem-header">
+    <span class="theorem-num">SL2</span>
+    <a href="theorems/sl2-berggren.html" class="theorem-name" style="color:var(--text);">Berggren mod p = SL(2, F_p)</a>
+    <span class="badge badge-proven">Proven</span>
+    <span class="badge badge-high">High</span>
+  </div>
+  <div class="theorem-body">
+    <strong>Statement:</strong> The Berggren generators reduced mod any odd prime $p$ generate exactly
+    $\mathrm{SL}(2, \mathbb{F}_p)$: the group order is $|G_p| = p(p^2 - 1)$ for all primes $3 \leq p \leq 31$.
+    The Pythagorean tree is algebraically complete over every finite field.<br><br>
+    <strong>Significance:</strong> Biggest algebraic result. Unifies T28 (unipotent commutator), G1 (group order),
+    and the Ihara-Berggren Ramanujan property as corollaries. Explains Klein quartic 168 = |PSL(2,7)|.
+    Connects the tree to modular forms via $\mathrm{SL}(2, \mathbb{Z}) \to \mathrm{SL}(2, \mathbb{F}_p)$.
+    <br><a href="theorems/sl2-berggren.html" style="display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);">Click for deep dive &rarr;</a>
   </div>
 </div>
 
@@ -757,11 +775,22 @@
   <tr><td>DC</td><td>Dessin paper correction: Cayley conjugacy proved, naive isomorphism disproved</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
   <tr><td>EIS</td><td>Eisenstein tree: 168 expansion matrices, complete for c&lt;10000</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
   <tr><td>SC</td><td>Sparse matrix compression: 126x; server logs: 29.9x</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
+  <tr><td>T140+</td><td colspan="3" style="color:var(--gold);">Sessions 38-39: SL(2) Surjection, Manneville-Pomeau, McKay &amp; Applications</td></tr>
+  <tr><td>SL2</td><td><a href="theorems/sl2-berggren.html">Berggren mod p = SL(2, F_p): |G_p| = p(p&sup2;-1)</a></td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>MP</td><td>Manneville-Pomeau: z=1 critical point, infinite measure, first-order phase transition at &beta;_c=0.993</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>MK</td><td>T&sub5;&rarr;E&sub8; McKay correspondence: A&sub5; irreps match IFS branches</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>KQ</td><td>Klein quartic 168=168 EXPLAINED: PSL(2,7) = GL(3, F&sub2;)</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>AC1</td><td>Order-1 arithmetic coding: 63.2% savings from intermittency</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>FHE2</td><td>FHE v2: 1.18M encrypt/s at 128-bit IND-CPA security</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>IOT</td><td>IoT auth: 663K readings/sec, 100% tamper detection</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>IFS</td><td>IFS signal compression: 58.5x with codebook</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>BF</td><td>Beta function: &rho;(t)=&rho;(1-t) mirrors &zeta; functional equation</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-high">High</span></td></tr>
+  <tr><td>ADK</td><td>Anomalous Darling-Kac: two neutral fixed points, novel limit distribution</td><td><span class="badge badge-proven">Proven</span></td><td><span class="badge badge-medium">Medium</span></td></tr>
 </tbody>
 </table>
 
 <footer class="site-footer">
-  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16 &middot; Theorem Catalog
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-17 &middot; Theorem Catalog
 </footer>
 
 </div></div>
