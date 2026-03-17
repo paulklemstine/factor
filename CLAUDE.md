@@ -26,7 +26,6 @@ When significant new theorems, proofs, or algorithms are discovered:
 
 ## Key Constraints
 - **RAM limit**: Keep under 6GB total (WSL2 with ~12GB RAM, 5GB practical)
-- **Sudo password**: jerusalem
 - **Website**: Firebase at https://paulklemstine.web.app
 - **Papers**: All in `website/paper/`, amsart class, Paul Klemstine author
 - **No AI co-authors** — disclose in Acknowledgments only
