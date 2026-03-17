@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.16)  16 MAR 2026 03:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.16)  16 MAR 2026 22:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -386,7 +386,11 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count301
 \l__pdf_internal_box=\box58
 )
-(./b3_paper.aux)
+(./b3_paper.aux
+
+LaTeX Warning: Label `sec:conclusion' multiply defined.
+
+)
 \openout1 = `b3_paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
@@ -409,6 +413,7 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
 
@@ -532,7 +537,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 dvips/cm-super/cm-super-t1.enc}] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12]
  [13]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-028.
+044.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
@@ -541,23 +546,71 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [14{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [15] [16] [17
-] (./b3_paper.aux)
+ [14{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [15]
+Overfull \hbox (0.96895pt too wide) detected at line 1095
+[]  []  \OT1/cmr/m/n/12 [\OML/cmm/m/it/12 a[]\OT1/cmr/m/n/12 ; \OML/cmm/m/it/12
+ a[]; [] ; a[]\OT1/cmr/m/n/12 ]  []  \OML/cmm/m/it/12 m=n  []  \OT1/cmr/m/n/12 
+(\OML/cmm/m/it/12 m[][]n[];  \OT1/cmr/m/n/12 2\OML/cmm/m/it/12 mn;  m[][]n[]\OT
+1/cmr/m/n/12 )\OML/cmm/m/it/12 :
+ []
+
+[16] [17] [18]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 1.95827pt
+(hyperref)                removed on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 1.95827pt
+(hyperref)                removed on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 1.95827pt
+(hyperref)                removed on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 1338.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 1.95827pt
+(hyperref)                removed on input line 1338.
+
+[19] [20] [21] [22] (./b3_paper.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `b3_paper.out' has not changed.
-(rerunfilecheck)             Checksum: 1F4B016E69BE5386541CA3EF15203EDD;8009.
+(rerunfilecheck)             Checksum: 32A0AC3C7D5CF2410D3F06E9BA7919AF;11206.
  ) 
 Here is how much of TeX's memory you used:
- 14026 strings out of 476182
- 217311 string characters out of 5795595
+ 14139 strings out of 476182
+ 218622 string characters out of 5795595
  1942975 words of memory out of 5000000
- 35368 multiletter control sequences out of 15000+600000
- 591438 words of font info for 253 fonts, out of 8000000 for 9000
+ 35406 multiletter control sequences out of 15000+600000
+ 593073 words of font info for 274 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,10n,79p,1005b,749s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,1005b,752s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
@@ -576,13 +629,13 @@ pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texm
 f/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public
 /cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.p
 fb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.pfb></usr/share/texmf
-/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/
-cm-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pf
-b>
-Output written on b3_paper.pdf (17 pages, 486098 bytes).
+/fonts/type1/public/cm-super/sfti0800.pfb></usr/share/texmf/fonts/type1/public/
+cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pf
+b></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on b3_paper.pdf (22 pages, 542586 bytes).
 PDF statistics:
- 540 PDF objects out of 1000 (max. 8388607)
- 467 compressed objects within 5 object streams
- 155 named destinations out of 1000 (max. 500000)
- 49985 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 650 PDF objects out of 1000 (max. 8388607)
+ 569 compressed objects within 6 object streams
+ 188 named destinations out of 1000 (max. 500000)
+ 50113 words of extra memory for PDF output out of 51595 (max. 10000000)
 

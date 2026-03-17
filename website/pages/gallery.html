@@ -127,6 +127,16 @@
     }
   });
 
+  // v28 Visualizations
+  var v28Files = [
+    'v28_music_of_primes.png', 'v28_zero_constellation.png', 'v28_importance_sampling.png',
+    'v28_gue_comparison.png', 'v28_prime_accuracy.png', 'v28_ppt_tree.png',
+    'v28_compression_evolution.png', 'v28_rosetta_stone.png', 'v28_millennium_network.png'
+  ];
+  v28Files.forEach(function(f) {
+    allImages.push({ file: f, label: f.replace('.png','').replace(/_/g,' '), cat: 'v28' });
+  });
+
   // Berggren-Price
   var bpFiles = [
     'bp_connection_density.png', 'bp_cross_tree_graph.png', 'bp_depth_scatter.png',
@@ -158,12 +168,14 @@
   seriesOrder.forEach(function(l) {
     categories.push({ id: l, name: 'Series ' + l });
   });
+  categories.push({ id: 'v28', name: 'v28 Visualizations' });
   categories.push({ id: 'bp', name: 'Berggren-Price' });
   categories.push({ id: 'pt', name: 'Prime Trees' });
 
   var catNames = {
     'standalone': 'Standalone Visualizations',
     'viz': 'Viz Series (01-10)',
+    'v28': 'v28 Publication Visualizations (Sessions 26-28)',
     'bp': 'Berggren-Price Analysis',
     'pt': 'Prime Tree Exploration'
   };
@@ -203,7 +215,7 @@
 
   // ---- Build grouped gallery sections ----
   var sectionsContainer = document.getElementById('gallery-sections');
-  var groupOrder = ['standalone', 'viz'].concat(seriesOrder).concat(['bp', 'pt']);
+  var groupOrder = ['standalone', 'viz'].concat(seriesOrder).concat(['v28', 'bp', 'pt']);
 
   groupOrder.forEach(function(catId) {
     var catImgs = allImages.filter(function(img) { return img.cat === catId; });

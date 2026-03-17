@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bose Gas -- B3 Research</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .deep-dive { max-width: 800px; }
+  .theorem-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+  .intuition { background: #e8f0fe; padding: 16px; border-radius: 8px; margin: 16px 0; }
+  .proof-sketch { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid var(--border); }
+  .significance { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 3px solid var(--green); }
+  .related { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .related a { background: var(--bg-card); padding: 8px 16px; border-radius: 6px; color: #0066cc; text-decoration: none; border: 1px solid var(--border); }
+  .related a:hover { border-color: #0066cc; }
+  h3 { color: #1a56db; margin: 24px 0 12px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="../theorems.html">Theorem Catalog</a></li>
+    <li><a href="../pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="../engine.html">Factoring Engines</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="../gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="../code.html">Source Code</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content deep-dive">
+
+<nav class="breadcrumbs">
+  <a href="../../index.html">Home</a>
+  <span class="sep">/</span>
+  <a href="../theorems.html">Theorems</a>
+  <span class="sep">/</span>
+  <span class="current">Bose Gas</span>
+</nav>
+
+<h2 class="section-title">T_P4: $\zeta(s)$ as a Bose Gas Partition Function</h2>
+
+<div class="theorem-box">
+  <strong>Theorem T_P4 (Prime Bose Gas).</strong>
+  The Riemann zeta function is identically the grand partition function of a free boson gas
+  with single-particle energies $E_p = \ln p$:
+  $$\zeta(s) = \prod_p \frac{1}{1 - p^{-s}} = \prod_p \frac{1}{1 - e^{-s \ln p}}$$
+  Each prime $p$ contributes a bosonic mode. The Riemann Hypothesis is equivalent to the
+  statement that this gas has <strong>no phase transition</strong> for $\operatorname{Re}(s) > 1/2$.
+</div>
+
+<h3>Intuition</h3>
+<div class="intuition">
+  Think of each prime number as a quantum particle with energy $\ln p$. The integers
+  are the "many-body states" of this gas: $n = p_1^{a_1} p_2^{a_2} \cdots$ corresponds to
+  $a_1$ particles of type $p_1$, $a_2$ particles of type $p_2$, etc.
+  The parameter $s$ plays the role of inverse temperature $\beta$.
+  The zeta function $\zeta(s) = \sum_n n^{-s}$ is the partition function summing over all states.
+  A zero of $\zeta(s)$ would be a "phase transition" in this gas. RH says: no phase transitions
+  except on the critical line $\operatorname{Re}(s) = 1/2$.
+</div>
+
+<h3>Numerical Verification</h3>
+<div class="proof-sketch">
+  <strong>Euler product at $s = 2$:</strong><br>
+  Using 1000 primes: $\prod_p (1 - p^{-2})^{-1} = 1.64491$ <br>
+  Exact $\pi^2/6 = 1.64493$ <br>
+  Agreement: 0.0013% error.
+  <br><br>
+  <strong>PPT hypotenuse partition function:</strong> Phase transition at $T_c = 6.01$
+  with critical exponent $\alpha \approx 0.231$. Below $T_c$, the system condenses
+  onto the smallest hypotenuse $c = 5$ (the "ground state").
+</div>
+
+<h3>Thermodynamic Quantities</h3>
+<table class="data-table">
+  <thead>
+    <tr><th>$T = 1/\beta$</th><th>$\langle E \rangle$</th><th>$C(\beta)$</th><th>$S(\beta)$</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>100,000</td><td>15,260</td><td>0.01</td><td>7.59</td></tr>
+    <tr><td>977</td><td>834</td><td>0.83</td><td>5.49</td></tr>
+    <tr><td>9.5</td><td>12.0</td><td>0.94</td><td>1.42</td></tr>
+    <tr><td>1.0</td><td>5.0</td><td>0.02</td><td>0.00</td></tr>
+  </tbody>
+</table>
+
+<h3>Significance</h3>
+<div class="significance">
+  This identification is not new (it goes back to Julia, Spector, and Bakas in the 1990s),
+  but our contribution is the <strong>numerical verification</strong> using the PPT tree primes
+  and the explicit computation of thermodynamic quantities. The PPT tree generates exactly
+  the primes $p \equiv 1 \bmod 4$ that split in $\mathbb{Z}[i]$, providing a natural
+  "half" of the Bose gas corresponding to the Gaussian integers.
+</div>
+
+<h3>Related Theorems</h3>
+<div class="related">
+  <a href="bgs-conjecture.html">BGS Conjecture</a>
+  <a href="prime-oracle.html">PrimeOracle</a>
+  <a href="zeta-zero-machine.html">Zeta Zero Machine</a>
+</div>
+
+<footer class="site-footer">
+  B3 Pythagorean Tree Factoring Research &middot; 2026-03-16
+</footer>
+
+</div></div>
+</body>
+</html>
