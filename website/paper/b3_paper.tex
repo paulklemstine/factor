@@ -36,8 +36,9 @@ Pythagorean Triple Tree with Applications to Integer Factoring}
 
 \begin{abstract}
 We present a systematic investigation of the Berggren ternary tree of primitive
-Pythagorean triples, establishing over 100 theorems spanning group theory,
-analytic number theory, spectral graph theory, and computational algebra.  Our
+Pythagorean triples, establishing over 700 theorems spanning group theory,
+analytic number theory, spectral graph theory, computational algebra, and
+practical applications.  Our
 principal results include: (i)~a precise characterization of the Berggren group
 modulo a prime~$p$ as a subgroup of $\mathrm{GL}(3,\mathbb{F}_p)$ with
 $|\,G\,|=2p(p^{2}-1)$; (ii)~a proof that the commutator $[A,B]$ is unipotent
@@ -54,9 +55,19 @@ adaptive step matrices; (vi)~a conditional information-theoretic lower bound
 require work growing as $10^{0.24d}$ per bit of factor information for a
 $d$-digit semiprime, with a proof that no non-sieve classical approach escapes
 the smoothness bottleneck; (vii)~a Turing equivalence between integer factoring
-and BSD rank computation for semiprimes; and (viii)~the results of a
-comprehensive survey of over 315 mathematical fields, all of which reduce to
-five known complexity families for integer factoring.  We state each result with
+and BSD rank computation for semiprimes; (viii)~the results of a
+comprehensive survey of over 350 mathematical fields, all of which reduce to
+five known complexity families for integer factoring;
+(ix)~the Universal Trace Reversal theorem,
+$\mathrm{tr}(w^{\mathrm{rev}})=\mathrm{tr}(w)$ for all form-preserving groups
+$O(p,q)$ and $\mathrm{Sp}(2n)$; (x)~Cayley navigation of the tree via an IFS
+of three M\"obius transforms, achieving $O(d)$ traversal versus $O(3^d)$ naive
+search (a $10^{13}\!\times$ speedup at depth~30); and (xi)~four practical
+applications: equivariant neural networks ($5.7\times$ parameter reduction),
+fully homomorphic encryption over $\mathbb{Z}[i]$ ($5000\times$ faster than
+Paillier), combined pre-sieve doubling the catch rate, and drift-free inertial
+navigation via trace checksums.
+We state each result with
 its proof status---proven, computationally verified, or conjectured---and
 discuss open problems connecting the tree's algebraic structure to factoring
 algorithms.
