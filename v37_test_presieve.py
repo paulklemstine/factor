@@ -43,41 +43,61 @@ def make_semiprime(digit_target):
 
 
 def is_smooth(n, B):
-    """Check if n is B-smooth (all prime factors <= B)."""
+    """Check if n is B-smooth (all prime factors <= B). Fast: uses _SMALL_PRIMES cache."""
     n = abs(int(n))
     if n <= 1:
         return True
-    primes = _sieve_primes(min(B, 10_000_000))
-    for p in primes:
+    for p in _sieve_primes(min(B, 10_000_000)):
         if p > B:
             break
         while n % p == 0:
             n //= p
         if n == 1:
             return True
-    return n == 1 or is_prime(n) and n <= B
+    # Check if remaining cofactor is a prime <= B
+    return n == 1 or (gmpy2.is_prime(n) and int(n) <= B)
+
+
+def make_smooth_prime(bits, B_smooth):
+    """
+    Generate a prime p where p^2 + p + 1 is B_smooth-smooth AND p ≡ 2 mod 3.
+    Strategy: build p^2+p+1 from smooth factors, then solve for p.
+    Fallback: random search with fast smoothness check.
+    """
+    # Fast approach: random search. For small bit sizes this works.
+    # Use cached primes list for speed.
+    cached_primes = _sieve_primes(min(B_smooth, 10_000_000))
+    for _ in range(50000):
+        p = random_prime(bits)
+        if int(p) % 3 != 2:
+            continue
+        # Fast smoothness check: trial divide p^2+p+1
+        val = int(p) * int(p) + int(p) + 1
+        rem = val
+        for pp in cached_primes:
+            if pp > B_smooth:
+                break
+            while rem % pp == 0:
+                rem //= pp
+            if rem == 1:
+                break
+        if rem == 1 or (gmpy2.is_prime(rem) and rem <= B_smooth):
+            return int(p)
+    return None
 
 
 def make_eisenstein_friendly(digit_target, B1=500000):
     """
     Make a semiprime N = p * q where p^2 + p + 1 is B1-smooth.
-    This is Eisenstein's sweet spot: the group order in Z[zeta3]/(p)
-    for p inert (p ≡ 2 mod 3) divides p^2 + p + 1.
     """
     half_bits = int(digit_target * 3.32 / 2)
-    attempts = 0
-    while attempts < 100000:
-        attempts += 1
-        p = random_prime(half_bits)
-        if int(p) % 3 != 2:
-            continue  # need p ≡ 2 mod 3 for inert
-        val = int(p) * int(p) + int(p) + 1
-        if is_smooth(val, B1):
-            q = random_prime(half_bits)
-            while q == p:
-                q = random_prime(half_bits)
-            return int(p * q), int(p), int(q)
-    return None, None, None
+    p = make_smooth_prime(half_bits, B1)
+    if p is None:
+        return None, None, None
+    q = int(random_prime(half_bits))
+    while q == p:
+        q = int(random_prime(half_bits))
+    return p * q, p, q
 
 
 def make_pm1_friendly(digit_target, B1=500000):
@@ -247,23 +267,22 @@ def run_benchmark():
     eis_cases = []
     print(f"\n  Generating Eisenstein-friendly semiprimes (p^2+p+1 is {eis_B1}-smooth)...")
 
-    for target_nd in [30, 35, 40, 45, 50]:
-        for attempt in range(5):
+    for target_nd in [20, 24, 28, 30, 34, 38]:
+        n, p, q = make_eisenstein_friendly(target_nd, eis_B1)
+        if n is not None:
+            eis_cases.append((n, p, q, len(str(n))))
+            print(f"    Generated {len(str(n))}d case (target {target_nd}d)")
+        else:
+            print(f"    FAILED to generate {target_nd}d case")
+
+    if not eis_cases:
+        print("  WARNING: Could not generate Eisenstein-friendly cases")
+        print("  Trying with larger B1...")
+        eis_B1 = 2000000
+        for target_nd in [20, 24, 28]:
             n, p, q = make_eisenstein_friendly(target_nd, eis_B1)
             if n is not None:
                 eis_cases.append((n, p, q, len(str(n))))
-                break
-
-    if not eis_cases:
-        print("  WARNING: Could not generate Eisenstein-friendly cases (smoothness too rare)")
-        print("  Trying with larger B1...")
-        eis_B1 = 2000000
-        for target_nd in [30, 35, 40]:
-            for attempt in range(5):
-                n, p, q = make_eisenstein_friendly(target_nd, eis_B1)
-                if n is not None:
-                    eis_cases.append((n, p, q, len(str(n))))
-                    break
 
     print(f"  Generated {len(eis_cases)} targeted cases\n")
 

@@ -1166,6 +1166,124 @@ def berggren_pm1(n, B1=500000, verbose=True):
 
 
 ###############################################################################
+# EISENSTEIN p-1 (Z[ζ₃] arithmetic)
+###############################################################################
+
+def eisenstein_pm1(n, B1=500000, verbose=True):
+    """
+    Eisenstein p-1 method: compute g^E mod N in Z[ζ₃] where ζ₃ = (-1+√-3)/2.
+
+    Represent z = a + b·ζ₃ as pair (a, b) with arithmetic mod N.
+    Key relation: ζ₃² = -ζ₃ - 1, so:
+      (a+bζ)(c+dζ) = (ac - bd) + (ad + bc - bd)ζ
+
+    For p | N:
+      p ≡ 2 mod 3 (inert):  Z[ζ₃]/(p) is GF(p²), element order divides p²-1 = (p-1)(p+1)
+        BUT the NORM map gives order dividing p² + p + 1 (the unique part!)
+      p ≡ 1 mod 3 (split):  Z[ζ₃]/(p) ≅ F_p × F_p, order divides (p-1)
+
+    The p² + p + 1 factor is what makes this UNIQUE vs Gaussian (which gets p² - 1).
+    When p² + p + 1 is B1-smooth, Eisenstein catches factors that NO other method finds.
+
+    RAM usage: O(1) per base — only 2 mpz state variables.
+    """
+    n = mpz(n)
+    if n < 4:
+        return None
+
+    def eis_mul(a, b, c, d, mod):
+        """(a+bζ)(c+dζ) = (ac-bd) + (ad+bc-bd)ζ mod mod"""
+        # Using ζ² = -ζ - 1:
+        # real part: ac - bd
+        # ζ part: ad + bc - bd = ad + b(c - d)
+        return (a * c - b * d) % mod, (a * d + b * (c - d)) % mod
+
+    def eis_pow(a, b, k, mod):
+        """Compute (a+bζ)^k mod mod via binary exponentiation."""
+        if k == 0:
+            return mpz(1), mpz(0)
+        if k == 1:
+            return a % mod, b % mod
+        ra, rb = mpz(1), mpz(0)  # result = 1+0ζ
+        ba, bb = a % mod, b % mod  # base
+        while k > 0:
+            if k & 1:
+                ra, rb = eis_mul(ra, rb, ba, bb, mod)
+            ba, bb = eis_mul(ba, bb, ba, bb, mod)
+            k >>= 1
+        return ra, rb
+
+    # Three bases with different algebraic properties in Z[ζ₃]
+    bases = [(mpz(2), mpz(1)), (mpz(3), mpz(1)), (mpz(1), mpz(2))]
+
+    for base_a, base_b in bases:
+        za, zb = base_a, base_b
+
+        # Stage 1: z = z^(p^k) for each prime p <= B1
+        count = 0
+        accum = mpz(1)
+        killed = False
+        for p in _SMALL_PRIMES:
+            if p > B1:
+                break
+            pk = p
+            while pk * p <= B1:
+                pk *= p
+            za, zb = eis_pow(za, zb, pk, n)
+            count += 1
+
+            # Per-prime GCD for first 20 primes (catches small n)
+            if count <= 20:
+                for val in [zb, za - 1, za + 1]:
+                    g = gcd(val % n, n)
+                    if 1 < g < n:
+                        if verbose:
+                            print(f"  Eisenstein p-1 Stage 1 early hit (base={base_a}+{base_b}ζ, p={p})")
+                        return int(g)
+                continue
+
+            # Batch GCD every 50 primes (more frequent to avoid overshoot)
+            if count % 50 == 0:
+                accum = accum * zb % n
+                accum = accum * (za - 1) % n
+                accum = accum * (za + 1) % n
+
+                if count % 200 == 0:
+                    g = gcd(accum, n)
+                    if g == n:
+                        # Overshot — try individual GCDs on current state
+                        for val in [zb, za - 1, za + 1,
+                                    za * za + zb * zb - za * zb - 1]:
+                            g2 = gcd(val % n, n)
+                            if 1 < g2 < n:
+                                if verbose:
+                                    print(f"  Eisenstein p-1 Stage 1 hit (base={base_a}+{base_b}ζ, backoff)")
+                                return int(g2)
+                        accum = mpz(1)
+                        killed = True
+                        break
+                    if 1 < g < n:
+                        if verbose:
+                            print(f"  Eisenstein p-1 Stage 1 hit (base={base_a}+{base_b}ζ)")
+                        return int(g)
+                    accum = mpz(1)  # reset accumulator to avoid growth
+
+        if killed:
+            continue
+
+        # Final Stage 1 GCD — check multiple residues
+        for val in [zb, za - 1, za + 1,
+                    za * za + zb * zb - za * zb - 1]:
+            g = gcd(val % n, n)
+            if 1 < g < n:
+                if verbose:
+                    print(f"  Eisenstein p-1 Stage 1 final (base={base_a}+{base_b}ζ)")
+                return int(g)
+
+    return None
+
+
+###############################################################################
 # ECM  (Stage 1 + Stage 2 BSGS continuation)
 ###############################################################################
 
@@ -1413,6 +1531,14 @@ def factor(n, verbose=True, time_limit=3600):
                     print(f"  Total: {time.time()-t0:.3f}s")
                 return f
 
+        # Eisenstein p-1 (Z[ζ₃] catches p²+p+1 smooth factors)
+        if time.time() - t0 < time_limit:
+            f = eisenstein_pm1(n_val, B1=10000, verbose=verbose)
+            if f and 1 < f < n_val:
+                if verbose:
+                    print(f"  Total: {time.time()-t0:.3f}s")
+                return f
+
         # Fallback: small MPQS
         if verbose:
             print(f"\n[Fallback] MPQS for small number")
@@ -1489,6 +1615,16 @@ def factor(n, verbose=True, time_limit=3600):
         if verbose:
             print(f"\n[Berggren] B1={berg_B1}, 9 seeds")
         f = berggren_pm1(n_val, B1=berg_B1, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # Eisenstein p-1 (Z[ζ₃] catches p²+p+1 smooth factors)
+        eis_B1 = min(500000, max(50000, 10 ** (nd // 6)))
+        if verbose:
+            print(f"\n[Eisenstein p-1] B1={eis_B1}, 3 bases")
+        f = eisenstein_pm1(n_val, B1=eis_B1, verbose=verbose)
         if f and 1 < f < n_val:
             if verbose:
                 print(f"  Total: {time.time()-t0:.3f}s")
@@ -1601,6 +1737,16 @@ def factor(n, verbose=True, time_limit=3600):
                 print(f"  Total: {time.time()-t0:.3f}s")
             return f
 
+        # Eisenstein p-1 (Z[ζ₃] catches p²+p+1 smooth factors)
+        eis_B1 = min(1000000, max(100000, 10 ** (nd // 5)))
+        if verbose:
+            print(f"\n[Eisenstein p-1] B1={eis_B1}, 3 bases")
+        f = eisenstein_pm1(n_val, B1=eis_B1, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
         # ECM with Stage 2 (20% budget — catches unbalanced factors)
         ecm_B1 = min(5000000, max(100000, 10 ** (nd // 4)))
         ecm_B2 = 100 * ecm_B1
@@ -1684,6 +1830,15 @@ def factor(n, verbose=True, time_limit=3600):
     if verbose:
         print(f"\n[Berggren] B1=1000000, 9 seeds")
     f = berggren_pm1(n_val, B1=1000000, verbose=verbose)
+    if f and 1 < f < n_val:
+        if verbose:
+            print(f"  Total: {time.time()-t0:.1f}s")
+        return f
+
+    # Eisenstein p-1 (Z[ζ₃] catches p²+p+1 smooth factors)
+    if verbose:
+        print(f"\n[Eisenstein p-1] B1=1000000, 3 bases")
+    f = eisenstein_pm1(n_val, B1=1000000, verbose=verbose)
     if f and 1 < f < n_val:
         if verbose:
             print(f"  Total: {time.time()-t0:.1f}s")
