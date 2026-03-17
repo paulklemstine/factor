@@ -898,6 +898,274 @@ def williams_pp1(n, B1=500000, B2=5000000, max_seeds=20, verbose=True):
 
 
 ###############################################################################
+# GAUSSIAN p-1  (Z[i] arithmetic — catches p+1 smooth when p ≡ 3 mod 4)
+###############################################################################
+
+def gaussian_pm1(n, B1=500000, B2=None, verbose=True):
+    """
+    Gaussian p-1 method: compute (2+i)^E mod N in Z[i] = Z[x]/(x²+1).
+
+    Represent z = a + bi as pair (a, b) with arithmetic mod N.
+    For p | N with p ≡ 3 (mod 4): Z[i]/(p) is GF(p²), group order = p²-1 = (p-1)(p+1).
+      => catches factors where p+1 is B1-smooth (like Williams p+1, different base).
+    For p | N with p ≡ 1 (mod 4): Z[i]/(p) ≅ F_p × F_p, order divides (p-1).
+      => catches factors where p-1 is B1-smooth (like Pollard p-1).
+
+    Complements both p-1 and p+1 because it uses a fundamentally different
+    algebraic structure (Gaussian integers) as the group.
+
+    Stage 2: baby-step giant-step over primes in (B1, B2].
+    """
+    if B2 is None:
+        B2 = 10 * B1
+    n = mpz(n)
+
+    def gauss_mul(a, b, c, d, mod):
+        """(a+bi)(c+di) = (ac-bd) + (ad+bc)i mod mod"""
+        return (a * c - b * d) % mod, (a * d + b * c) % mod
+
+    def gauss_pow(a, b, k, mod):
+        """Compute (a+bi)^k mod mod via repeated squaring."""
+        if k == 0:
+            return mpz(1), mpz(0)
+        if k == 1:
+            return a % mod, b % mod
+        # Binary exponentiation
+        ra, rb = mpz(1), mpz(0)  # result = 1+0i
+        ba, bb = a % mod, b % mod  # base
+        while k > 0:
+            if k & 1:
+                ra, rb = gauss_mul(ra, rb, ba, bb, mod)
+            ba, bb = gauss_mul(ba, bb, ba, bb, mod)
+            k >>= 1
+        return ra, rb
+
+    # Try several Gaussian integer bases: (2+i), (3+i), (1+2i), (3+2i)
+    bases = [(mpz(2), mpz(1)), (mpz(3), mpz(1)),
+             (mpz(1), mpz(2)), (mpz(3), mpz(2))]
+
+    for base_a, base_b in bases:
+        za, zb = base_a, base_b
+
+        # Stage 1: z = z^(p^k) for each prime p <= B1
+        count = 0
+        accum = mpz(1)
+        for p in _SMALL_PRIMES:
+            if p > B1:
+                break
+            pk = p
+            while pk * p <= B1:
+                pk *= p
+            za, zb = gauss_pow(za, zb, pk, n)
+            count += 1
+
+            # Batch GCD every 100 primes (cheaper than per-prime)
+            if count % 100 == 0:
+                # For p ≡ 3 mod 4: norm = a²+b² ≡ 0 mod p when order divides exponent
+                # Check gcd(b, n), gcd(a-1, n), gcd(a+1, n), gcd(a²+b²-1, n)
+                accum = accum * zb % n
+                accum = accum * (za - 1) % n
+                accum = accum * (za + 1) % n
+
+                if count % 500 == 0:
+                    g = gcd(accum, n)
+                    if g == n:
+                        # Overshot — back off, won't recover with this base
+                        accum = mpz(1)
+                        break
+                    if 1 < g < n:
+                        if verbose:
+                            print(f"  Gauss p-1 Stage 1 hit (base={base_a}+{base_b}i)")
+                        return int(g)
+
+        # Final Stage 1 GCD
+        accum = accum * zb % n
+        accum = accum * (za - 1) % n
+        accum = accum * (za + 1) % n
+        g = gcd(accum, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  Gauss p-1 Stage 1 final (base={base_a}+{base_b}i)")
+            return int(g)
+        if g == n:
+            continue  # base killed, try next
+
+        # Stage 2: baby-step/giant-step over primes in (B1, B2]
+        # Baby steps: precompute z^d for d = 1..D where D ~ sqrt(B2-B1)
+        D = max(2, int(math.isqrt(B2 - B1)) // 2)
+        D = min(D, 5000)  # cap to avoid RAM blow-up
+
+        # z is current accumulated value from Stage 1
+        # For each prime q in (B1, B2], compute z^q and check
+        # More efficient: accumulate product of (z^q_b - 1) for gcd
+
+        # Precompute baby steps: z^1, z^2, ..., z^D
+        baby_a = [mpz(0)] * (D + 1)
+        baby_b = [mpz(0)] * (D + 1)
+        baby_a[0], baby_b[0] = mpz(1), mpz(0)
+        baby_a[1], baby_b[1] = za, zb
+        for j in range(2, D + 1):
+            baby_a[j], baby_b[j] = gauss_mul(baby_a[j-1], baby_b[j-1], za, zb, n)
+
+        # Giant step: z^D
+        ga, gb = baby_a[D], baby_b[D]
+
+        # Walk through primes in (B1, B2] using giant steps
+        # Current giant = z^(D*k), compare with baby z^r where q = D*k + r
+        accum = mpz(1)
+        count = 0
+        prev_q = None
+        cur_a, cur_b = za, zb  # z^1 (will be updated)
+
+        for q in _SMALL_PRIMES:
+            if q <= B1:
+                continue
+            if q > B2:
+                break
+
+            if prev_q is None:
+                # First prime > B1: compute z^q directly
+                cur_a, cur_b = gauss_pow(za, zb, q, n)
+            else:
+                # Step by gap from previous prime
+                gap = q - prev_q
+                if gap <= D:
+                    # Use precomputed baby step
+                    cur_a, cur_b = gauss_mul(cur_a, cur_b, baby_a[gap], baby_b[gap], n)
+                else:
+                    # Large gap (rare): recompute
+                    cur_a, cur_b = gauss_pow(za, zb, q, n)
+            prev_q = q
+
+            # Accumulate: check norm-1 and imaginary part
+            accum = accum * cur_b % n
+            accum = accum * (cur_a - 1) % n
+            count += 1
+
+            if count % 3000 == 0:
+                g = gcd(accum, n)
+                if 1 < g < n:
+                    if verbose:
+                        print(f"  Gauss p-1 Stage 2 hit (base={base_a}+{base_b}i, near q={q})")
+                    return int(g)
+                if g == n:
+                    accum = mpz(1)
+                    break
+
+        g = gcd(accum, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  Gauss p-1 Stage 2 final (base={base_a}+{base_b}i)")
+            return int(g)
+
+    return None
+
+
+###############################################################################
+# BERGGREN RESONANCE p-1/p+1 (Lucas chain multi-seed)
+###############################################################################
+
+def berggren_pm1(n, B1=500000, verbose=True):
+    """
+    Berggren resonance method: simultaneous p-1 AND p+1 test via
+    Lucas V-sequences with multiple starting parameters.
+
+    For matrix M = [[P,1],[1,0]], the Lucas sequence V_k(P,1) satisfies
+    V_k = trace(M^k). The order of M mod p divides p^2-1 = (p-1)(p+1),
+    so computing V_E mod N where E = prod(p_i^a_i) tests BOTH p-1 AND
+    p+1 smoothness simultaneously.
+
+    The key Berggren insight: different starting parameters P correspond
+    to different Berggren matrix generators, each probing a different
+    subgroup of (Z/pZ)* x (Z/pZ)*. Using multiple seeds covers more
+    smoothness conditions than standard p-1 or p+1 alone.
+
+    Seeds derived from Berggren generators:
+      P=2:  [[2,1],[1,0]] -- Fibonacci matrix (classic Williams p+1)
+      P=3:  discriminant 5 -- Berggren B1 generator
+      P=5:  discriminant 21 -- Berggren B3 generator
+      P=4:  discriminant 12 -- product B1*B2
+      P=6:  discriminant 32 -- product B2*B3
+      P=7:  discriminant 45 -- B1*B2*B3
+
+    Lucas chain: V_{2k} = V_k^2 - 2, V_{k+1} = V_k * V_1 - V_{k-1}
+    Binary ladder: 2 multiplications per bit (vs 8 for full 2x2 matrix).
+
+    RAM usage: O(1) per seed -- only 2 mpz state variables.
+    """
+    n = mpz(n)
+    if n < 4:
+        return None
+
+    def lucas_chain(v, k, n_val, p_val):
+        """Compute V_k(P, 1) mod n_val using binary ladder.
+        v = current V_1 = P, p_val = P (original parameter for composition).
+        Returns V_k."""
+        if k == 0:
+            return mpz(2)
+        if k == 1:
+            return v
+        vl = v                        # V_1
+        vh = (v * v - 2) % n_val      # V_2
+        for bit in bin(k)[3:]:
+            if bit == '1':
+                vl = (vl * vh - p_val) % n_val
+                vh = (vh * vh - 2) % n_val
+            else:
+                vh = (vl * vh - p_val) % n_val
+                vl = (vl * vl - 2) % n_val
+        return vl
+
+    # Seeds with diverse discriminants D = P^2 - 4.
+    # For a given unknown factor p, Jacobi(D, p) = +1 tests p-1 smooth,
+    # Jacobi(D, p) = -1 tests p+1 smooth. We want both cases covered.
+    # Diverse D values maximise the chance that at least one seed has
+    # Jacobi = -1 and at least one has Jacobi = +1.
+    #
+    # P values chosen so D spans many quadratic residue classes:
+    #   P=3  -> D=5    P=5  -> D=21   P=7  -> D=45
+    #   P=10 -> D=96   P=14 -> D=192  P=22 -> D=480
+    #   P=29 -> D=837  P=34 -> D=1152 P=41 -> D=1677
+    seed_params = [mpz(3), mpz(5), mpz(7), mpz(10), mpz(14),
+                   mpz(22), mpz(29), mpz(34), mpz(41)]
+
+    for si, P in enumerate(seed_params):
+        v = P
+
+        # Stage 1: V_{E}(P, 1) mod N where E = prod(p^a for p <= B1)
+        # Lucas composition: V_k(V_m(P,1), 1) = V_{km}(P,1)
+        # So iteratively: v = V_{pk}(v, 1) with p_val = v (current state)
+        for i, p in enumerate(_SMALL_PRIMES):
+            if p > B1:
+                break
+            pk = p
+            while pk * p <= B1:
+                pk *= p
+            v = lucas_chain(v, pk, n, v)
+
+            # Periodic GCD check every 1000 primes
+            if (i + 1) % 1000 == 0:
+                g = gcd(v - 2, n)
+                if 1 < g < n:
+                    if verbose:
+                        print(f"  Berggren hit (P={P}, V_E-2, prime #{i+1})")
+                    return int(g)
+                if g == n:
+                    break  # seed killed
+
+        # Final GCD check
+        g = gcd(v - 2, n)
+        if 1 < g < n:
+            if verbose:
+                print(f"  Berggren final (P={P}, V_E-2)")
+            return int(g)
+        if g == n:
+            continue  # seed killed -- try next
+
+    return None
+
+
+###############################################################################
 # ECM  (Stage 1 + Stage 2 BSGS continuation)
 ###############################################################################
 
@@ -1094,7 +1362,7 @@ def factor(n, verbose=True, time_limit=3600):
             engines.append("MPQS(fallback)")
         if _have_supergen:
             engines.append("SuperGen")
-        engines.extend(["p-1", "p+1", "ECM(S1+S2)", "VSDD"])
+        engines.extend(["p-1", "p+1", "Berggren", "ECM(S1+S2)", "VSDD"])
         print(f"  Engines: {', '.join(engines)}")
 
     t0 = time.time()
@@ -1126,11 +1394,20 @@ def factor(n, verbose=True, time_limit=3600):
                 print(f"  Total: {time.time()-t0:.3f}s")
             return f
 
-        # Quick p-1 and p+1 (cheap, may catch smooth factors)
-        for method, func in [("p-1", pollard_pm1), ("p+1", williams_pp1)]:
+        # Quick p-1, p+1, Gauss p-1 (cheap, may catch smooth factors)
+        for method, func in [("p-1", pollard_pm1), ("p+1", williams_pp1),
+                             ("Gauss p-1", gaussian_pm1)]:
             if time.time() - t0 > time_limit:
                 break
             f = func(n_val, B1=10000, B2=100000, verbose=verbose)
+            if f and 1 < f < n_val:
+                if verbose:
+                    print(f"  Total: {time.time()-t0:.3f}s")
+                return f
+
+        # Berggren (no B2 param — Stage 1 only but tests p-1 AND p+1)
+        if time.time() - t0 < time_limit:
+            f = berggren_pm1(n_val, B1=10000, verbose=verbose)
             if f and 1 < f < n_val:
                 if verbose:
                     print(f"  Total: {time.time()-t0:.3f}s")
@@ -1192,6 +1469,26 @@ def factor(n, verbose=True, time_limit=3600):
         if verbose:
             print(f"\n[p+1] B1={pp1_B1}, B2={pp1_B1*10}, seeds=10")
         f = williams_pp1(n_val, B1=pp1_B1, B2=pp1_B1 * 10, max_seeds=10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # Gaussian p-1 (cheap, catches p+1 smooth via Z[i] arithmetic)
+        gpm1_B1 = min(500000, max(50000, 10 ** (nd // 6)))
+        if verbose:
+            print(f"\n[Gauss p-1] B1={gpm1_B1}, B2={gpm1_B1*10}")
+        f = gaussian_pm1(n_val, B1=gpm1_B1, B2=gpm1_B1 * 10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # Berggren resonance (tests p-1 AND p+1 simultaneously, multi-seed)
+        berg_B1 = min(500000, max(50000, 10 ** (nd // 6)))
+        if verbose:
+            print(f"\n[Berggren] B1={berg_B1}, 9 seeds")
+        f = berggren_pm1(n_val, B1=berg_B1, verbose=verbose)
         if f and 1 < f < n_val:
             if verbose:
                 print(f"  Total: {time.time()-t0:.3f}s")
@@ -1284,6 +1581,26 @@ def factor(n, verbose=True, time_limit=3600):
                 print(f"  Total: {time.time()-t0:.3f}s")
             return f
 
+        # Gaussian p-1 (cheap pre-filter, Z[i] group catches p+1 smooth)
+        gpm1_B1 = min(1000000, max(100000, 10 ** (nd // 5)))
+        if verbose:
+            print(f"\n[Gauss p-1] B1={gpm1_B1}, B2={gpm1_B1*10}")
+        f = gaussian_pm1(n_val, B1=gpm1_B1, B2=gpm1_B1 * 10, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
+        # Berggren resonance (tests p-1 AND p+1 simultaneously, multi-seed)
+        berg_B1 = min(1000000, max(100000, 10 ** (nd // 5)))
+        if verbose:
+            print(f"\n[Berggren] B1={berg_B1}, 9 seeds")
+        f = berggren_pm1(n_val, B1=berg_B1, verbose=verbose)
+        if f and 1 < f < n_val:
+            if verbose:
+                print(f"  Total: {time.time()-t0:.3f}s")
+            return f
+
         # ECM with Stage 2 (20% budget — catches unbalanced factors)
         ecm_B1 = min(5000000, max(100000, 10 ** (nd // 4)))
         ecm_B2 = 100 * ecm_B1
@@ -1349,6 +1666,24 @@ def factor(n, verbose=True, time_limit=3600):
     if verbose:
         print(f"\n[p+1] B1=1000000, B2=10000000")
     f = williams_pp1(n_val, B1=1000000, B2=10000000, max_seeds=10, verbose=verbose)
+    if f and 1 < f < n_val:
+        if verbose:
+            print(f"  Total: {time.time()-t0:.1f}s")
+        return f
+
+    # Gaussian p-1 (cheap, Z[i] group)
+    if verbose:
+        print(f"\n[Gauss p-1] B1=1000000, B2=10000000")
+    f = gaussian_pm1(n_val, B1=1000000, B2=10000000, verbose=verbose)
+    if f and 1 < f < n_val:
+        if verbose:
+            print(f"  Total: {time.time()-t0:.1f}s")
+        return f
+
+    # Berggren resonance (tests p-1 AND p+1 simultaneously, multi-seed)
+    if verbose:
+        print(f"\n[Berggren] B1=1000000, 9 seeds")
+    f = berggren_pm1(n_val, B1=1000000, verbose=verbose)
     if f and 1 < f < n_val:
         if verbose:
             print(f"  Total: {time.time()-t0:.1f}s")

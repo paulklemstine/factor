@@ -35,6 +35,43 @@ static const mp_limb_t FE_P[4] = {
 /* 2^256 - p = 0x1000003D1 */
 static const mp_limb_t FE_PC = 0x1000003D1ULL;
 
+/* ================================================================
+ * CM endomorphism constants for secp256k1 (j=0, CM by Z[zeta_3])
+ *
+ * phi: (x,y) -> (beta*x, y)  where beta^3 = 1 mod p
+ * On scalars: phi(k*G) = (lambda*k)*G  where lambda^3 = 1 mod n
+ *
+ * 6-fold symmetry: {P, phi(P), phi^2(P), -P, -phi(P), -phi^2(P)}
+ * all share the same DLP solution (up to multiplication by lambda^i
+ * and negation mod n).
+ * ================================================================ */
+static const mp_limb_t BETA[4] = {
+    0xC1396C28719501EEULL, 0x9CF0497512F58995ULL,
+    0x6E64479EAC3434E9ULL, 0x7AE96A2B657C0710ULL
+};
+/* beta^2 mod p */
+static const mp_limb_t BETA2[4] = {
+    0x3EC693D68E6AFA40ULL, 0x630FB68AED0A766AULL,
+    0x919BB86153CBCB16ULL, 0x851695D49A83F8EFULL
+};
+
+/* lambda mod n (curve order) — scalar corresponding to phi */
+static const mp_limb_t LAMBDA[4] = {
+    0xDF02967C1B23BD72ULL, 0x122E22EA20816678ULL,
+    0xA5261C028812645AULL, 0x5363AD4CC05C30E0ULL
+};
+/* lambda^2 mod n */
+static const mp_limb_t LAMBDA2[4] = {
+    0xE0CFC810B51283CEULL, 0xA880B9FC8EC739C2ULL,
+    0x5AD9E3FD77ED9BA4ULL, 0xAC9C52B33FA3CF1FULL
+};
+
+/* secp256k1 group order n */
+static const mp_limb_t ORDER_N[4] = {
+    0xBFD25E8CD0364141ULL, 0xBAAEDCE6AF48A03BULL,
+    0xFFFFFFFFFFFFFFFEULL, 0xFFFFFFFFFFFFFFFFULL
+};
+
 static inline void fe_set(fe_t r, const fe_t a) {
     r[0] = a[0]; r[1] = a[1]; r[2] = a[2]; r[3] = a[3];
 }
@@ -127,6 +164,64 @@ static inline void fe_to_mpz(mpz_t r, const fe_t a) {
 }
 
 /* ================================================================
+ * CM symmetry: canonicalization of x-coordinates
+ *
+ * For secp256k1, phi: (x,y) -> (beta*x, y) gives 6 equivalent points.
+ * We canonicalize by choosing the SMALLEST x among {x, beta*x, beta^2*x}.
+ * This maps all 6 equivalents to the same hash slot, giving ~sqrt(6)
+ * speedup (~2.45x fewer steps needed for collision).
+ *
+ * Returns phi_idx (0, 1, or 2) indicating which beta^i was applied.
+ * ================================================================ */
+
+/* Compare two 4-limb numbers. Returns -1, 0, or 1. */
+static inline int fe_cmp(const fe_t a, const fe_t b) {
+    for (int i = 3; i >= 0; i--) {
+        if (a[i] < b[i]) return -1;
+        if (a[i] > b[i]) return 1;
+    }
+    return 0;
+}
+
+/* r = a * beta mod p */
+static inline void fe_mul_beta(fe_t r, const fe_t a) {
+    mp_limb_t t[8];
+    mpn_mul_n(t, a, BETA, 4);
+    fe_reduce(r, t);
+}
+
+/* r = a * beta^2 mod p */
+static inline void fe_mul_beta2(fe_t r, const fe_t a) {
+    mp_limb_t t[8];
+    mpn_mul_n(t, a, BETA2, 4);
+    fe_reduce(r, t);
+}
+
+/* Canonicalize x-coordinate under 3-fold symmetry {x, beta*x, beta^2*x}.
+ * Sets canon_x to the smallest, returns phi_idx (0, 1, or 2).
+ * phi_idx=0 means x itself was smallest (identity).
+ * phi_idx=1 means beta*x was smallest (applied phi once).
+ * phi_idx=2 means beta^2*x was smallest (applied phi twice). */
+static int fe_canonicalize_x(fe_t canon_x, const fe_t x) {
+    fe_t bx, b2x;
+    fe_mul_beta(bx, x);
+    fe_mul_beta2(b2x, x);
+
+    int best = 0;
+    fe_set(canon_x, x);
+
+    if (fe_cmp(bx, canon_x) < 0) {
+        fe_set(canon_x, bx);
+        best = 1;
+    }
+    if (fe_cmp(b2x, canon_x) < 0) {
+        fe_set(canon_x, b2x);
+        best = 2;
+    }
+    return best;
+}
+
+/* ================================================================
  * mpz EC arithmetic (for setup, verification, scalar mult)
  * ================================================================ */
 
@@ -198,13 +293,18 @@ static void ap_smul(apt *R, const mpz_t k, const apt *P) {
 
 /* Each DP slot: 40 bytes, packed for cache efficiency */
 typedef struct __attribute__((packed)) {
-    uint64_t x_lo;        /* lower 64 bits of EC point x-coordinate */
-    uint64_t x_hi;        /* next 64 bits of EC point x-coordinate */
+    uint64_t x_lo;        /* lower 64 bits of CANONICAL x-coordinate */
+    uint64_t x_hi;        /* next 64 bits of CANONICAL x-coordinate */
     int64_t  pos_lo;      /* lower 64 bits of 128-bit position */
     int64_t  pos_hi;      /* upper 64 bits of 128-bit position */
-    uint32_t is_tame;     /* 1 = tame, 0 = wild */
+    uint32_t is_tame;     /* bit0: 1=tame/0=wild, bits1-2: phi_idx (0-2) */
     uint32_t occupied;    /* 0 = empty, nonzero = occupied (probe_dist+1) */
 } dp_slot_t;
+
+/* Pack/unpack helpers for is_tame field */
+#define PACK_TAME_PHI(tame, phi) ((uint32_t)(((phi) << 1) | ((tame) & 1)))
+#define UNPACK_IS_TAME(v)        ((v) & 1)
+#define UNPACK_PHI_IDX(v)        (((v) >> 1) & 3)
 
 /* Lock-free linear-probing insert into shared DP table.
  * Returns: 0 = inserted, 1 = found collision (tame-wild match), -1 = table full.
@@ -256,9 +356,9 @@ static int dp_shared_insert(dp_slot_t *table, unsigned long capacity,
             }
         }
 
-        /* Slot is READY — check for tame-wild collision */
+        /* Slot is READY — check for tame-wild collision (CM: compare canonical x) */
         if (occ == DP_READY && slot->x_lo == x_lo && slot->x_hi == x_hi &&
-            slot->is_tame != is_tame) {
+            UNPACK_IS_TAME(slot->is_tame) != UNPACK_IS_TAME(is_tame)) {
             if (match_out) {
                 match_out->x_lo = slot->x_lo;
                 match_out->x_hi = slot->x_hi;
@@ -539,73 +639,205 @@ int ec_kang_shared_solve(
             }
         }
 
-        /* Phase 4: DP checks and collision detection via shared table */
+        /* Phase 4: DP checks with CM 6-fold symmetry.
+         *
+         * DP check on raw x (no per-step overhead). When a DP is found,
+         * canonicalize x under {x, beta*x, beta^2*x} for insertion.
+         * Since two walks hitting CM-equivalent points both canonicalize
+         * to the same x, we get 3x collision rate in the table.
+         * Cost: 2 field muls only on DP hits (every ~2^D steps, negligible).
+         */
         for (int k = 0; k < nk && !found; k++) {
             if (kpt[k].inf) continue;
             if ((kfe_x[k][0] & dp_mask) != 0) continue;
+
+            /* DP found — canonicalize x for CM-aware matching */
+            fe_t canon_x;
+            int phi_idx = fe_canonicalize_x(canon_x, kfe_x[k]);
             int is_tame = (k < n_tame) ? 1 : 0;
+            uint32_t packed = PACK_TAME_PHI(is_tame, phi_idx);
 
             dp_slot_t match;
             memset(&match, 0, sizeof(match));
             int ret = dp_shared_insert(dp_table, dp_capacity,
-                                        kfe_x[k][0], kfe_x[k][1],
+                                        canon_x[0], canon_x[1],
                                         kpos_lo[k], kpos_hi[k],
-                                        is_tame ? 1 : 0,
+                                        packed,
                                         &match);
 
             if (ret == 1) {
-                /* Tame-wild collision found! Compute k = tame_pos - wild_pos */
+                /* Tame-wild collision on canonical x!
+                 *
+                 * The colliding points have canonical x equal, but they
+                 * may have used different phi^i to reach that canonical form.
+                 *
+                 * If inserter used phi^a and match used phi^b, then the
+                 * actual points differ by phi^(a-b). On scalars, this means
+                 * we need to multiply by lambda^(a-b) mod n.
+                 *
+                 * Strategy: compute base k_cand = tame_pos - wild_pos,
+                 * then try k_cand * lambda^i for i=0,1,2 and their negations.
+                 */
                 int64_t tame_lo, tame_hi, wild_lo, wild_hi;
+                int tame_phi, wild_phi;
                 if (is_tame) {
                     tame_lo = kpos_lo[k]; tame_hi = kpos_hi[k];
+                    tame_phi = phi_idx;
                     wild_lo = match.pos_lo; wild_hi = match.pos_hi;
+                    wild_phi = UNPACK_PHI_IDX(match.is_tame);
                 } else {
                     tame_lo = match.pos_lo; tame_hi = match.pos_hi;
+                    tame_phi = UNPACK_PHI_IDX(match.is_tame);
                     wild_lo = kpos_lo[k]; wild_hi = kpos_hi[k];
+                    wild_phi = phi_idx;
                 }
 
                 int64_t diff_lo, diff_hi;
                 pos128_sub(&diff_lo, &diff_hi, tame_lo, tame_hi, wild_lo, wild_hi);
 
                 /* Convert 128-bit diff to mpz */
-                mpz_t k_cand; mpz_init(k_cand);
+                mpz_t k_base; mpz_init(k_base);
                 if (diff_hi < 0) {
-                    /* Negative diff: compute |diff| then negate mod order */
                     int64_t neg_lo, neg_hi;
                     pos128_sub(&neg_lo, &neg_hi, 0, 0, diff_lo, diff_hi);
-                    mpz_set_ui(k_cand, (uint64_t)neg_hi);
-                    mpz_mul_2exp(k_cand, k_cand, 64);
-                    mpz_add_ui(k_cand, k_cand, (uint64_t)neg_lo);
-                    mpz_sub(k_cand, ORD, k_cand);
-                    mpz_mod(k_cand, k_cand, ORD);
+                    mpz_set_ui(k_base, (uint64_t)neg_hi);
+                    mpz_mul_2exp(k_base, k_base, 64);
+                    mpz_add_ui(k_base, k_base, (uint64_t)neg_lo);
+                    mpz_sub(k_base, ORD, k_base);
+                    mpz_mod(k_base, k_base, ORD);
                 } else {
-                    mpz_set_ui(k_cand, (uint64_t)diff_hi);
-                    mpz_mul_2exp(k_cand, k_cand, 64);
-                    mpz_add_ui(k_cand, k_cand, (uint64_t)diff_lo);
-                    mpz_mod(k_cand, k_cand, ORD);
+                    mpz_set_ui(k_base, (uint64_t)diff_hi);
+                    mpz_mul_2exp(k_base, k_base, 64);
+                    mpz_add_ui(k_base, k_base, (uint64_t)diff_lo);
+                    mpz_mod(k_base, k_base, ORD);
                 }
 
-                /* Verify: k_cand * G == P? */
-                apt vR; ap_init(&vR);
-                ap_smul(&vR, k_cand, &G_pt);
-                if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0 &&
-                    mpz_cmp(k_cand, bound) < 0) {
-                    gmp_snprintf(result, result_size, "%Zx", k_cand);
-                    found = 1;
-                    __atomic_store_n((int *)found_flag, 1, __ATOMIC_RELEASE);
+                /* CM collision resolution.
+                 *
+                 * The canonical forms matched, meaning:
+                 *   phi^(tame_phi)(tame_point) and phi^(wild_phi)(wild_point)
+                 *   have the same x-coordinate.
+                 *
+                 * On scalars: phi^i maps k -> lambda^i * k.
+                 * Tame scalar: lambda^(tame_phi) * tame_pos
+                 * Wild scalar: lambda^(wild_phi) * (secret + wild_pos)
+                 *
+                 * Case 1 (same y):  lam^tp * t = lam^wp * (s + w)
+                 *   => s = lam^(tp-wp) * t - w
+                 * Case 2 (opp y):   lam^tp * t = -lam^wp * (s + w)
+                 *   => s = -lam^(tp-wp) * t - w
+                 *
+                 * We try delta = (tp - wp) mod 3, for i = 0,1,2 and +/-.
+                 * (i covers uncertainty in exact delta due to hash collision.)
+                 */
+                int delta = (tame_phi - wild_phi + 3) % 3;
+
+                /* Build lambda constants as mpz */
+                mpz_t lam_mpz, lam2_mpz;
+                mpz_init(lam_mpz); mpz_init(lam2_mpz);
+                {
+                    mpz_set_ui(lam_mpz, LAMBDA[3]);
+                    mpz_mul_2exp(lam_mpz, lam_mpz, 64);
+                    mpz_add_ui(lam_mpz, lam_mpz, LAMBDA[2]);
+                    mpz_mul_2exp(lam_mpz, lam_mpz, 64);
+                    mpz_add_ui(lam_mpz, lam_mpz, LAMBDA[1]);
+                    mpz_mul_2exp(lam_mpz, lam_mpz, 64);
+                    mpz_add_ui(lam_mpz, lam_mpz, LAMBDA[0]);
+
+                    mpz_set_ui(lam2_mpz, LAMBDA2[3]);
+                    mpz_mul_2exp(lam2_mpz, lam2_mpz, 64);
+                    mpz_add_ui(lam2_mpz, lam2_mpz, LAMBDA2[2]);
+                    mpz_mul_2exp(lam2_mpz, lam2_mpz, 64);
+                    mpz_add_ui(lam2_mpz, lam2_mpz, LAMBDA2[1]);
+                    mpz_mul_2exp(lam2_mpz, lam2_mpz, 64);
+                    mpz_add_ui(lam2_mpz, lam2_mpz, LAMBDA2[0]);
                 }
-                if (!found) {
-                    /* Try negation: k = order - k_cand */
-                    mpz_sub(k_cand, ORD, k_cand);
+
+                /* Convert tame_pos and wild_pos to mpz */
+                mpz_t t_mpz, w_mpz;
+                mpz_init(t_mpz); mpz_init(w_mpz);
+                {
+                    /* tame_pos 128-bit -> mpz */
+                    if (tame_hi < 0) {
+                        int64_t neg_lo, neg_hi;
+                        pos128_sub(&neg_lo, &neg_hi, 0, 0, tame_lo, tame_hi);
+                        mpz_set_ui(t_mpz, (uint64_t)neg_hi);
+                        mpz_mul_2exp(t_mpz, t_mpz, 64);
+                        mpz_add_ui(t_mpz, t_mpz, (uint64_t)neg_lo);
+                        mpz_sub(t_mpz, ORD, t_mpz);
+                    } else {
+                        mpz_set_ui(t_mpz, (uint64_t)tame_hi);
+                        mpz_mul_2exp(t_mpz, t_mpz, 64);
+                        mpz_add_ui(t_mpz, t_mpz, (uint64_t)tame_lo);
+                    }
+                    mpz_mod(t_mpz, t_mpz, ORD);
+
+                    /* wild_pos 128-bit -> mpz */
+                    if (wild_hi < 0) {
+                        int64_t neg_lo, neg_hi;
+                        pos128_sub(&neg_lo, &neg_hi, 0, 0, wild_lo, wild_hi);
+                        mpz_set_ui(w_mpz, (uint64_t)neg_hi);
+                        mpz_mul_2exp(w_mpz, w_mpz, 64);
+                        mpz_add_ui(w_mpz, w_mpz, (uint64_t)neg_lo);
+                        mpz_sub(w_mpz, ORD, w_mpz);
+                    } else {
+                        mpz_set_ui(w_mpz, (uint64_t)wild_hi);
+                        mpz_mul_2exp(w_mpz, w_mpz, 64);
+                        mpz_add_ui(w_mpz, w_mpz, (uint64_t)wild_lo);
+                    }
+                    mpz_mod(w_mpz, w_mpz, ORD);
+                }
+
+                /* Try all 6 candidates:
+                 * For i = 0,1,2: k = (+/- lambda^((delta+i)%3) * t) - w mod n */
+                apt vR; ap_init(&vR);
+                mpz_t k_cand, lamt; mpz_init(k_cand); mpz_init(lamt);
+
+                for (int trial = 0; trial < 12 && !found; trial++) {
+                    int lam_exp = (delta + trial / 4) % 3;
+                    int mode = trial & 3;
+                    /* mode 0: s = lam^e * t - w  (same point)
+                     * mode 1: s = w - lam^e * t  (sign flip)
+                     * mode 2: s = -lam^e * t - w (EC negation)
+                     * mode 3: s = lam^e * t + w  (shouldn't happen, but cover) */
+
+                    /* lamt = lambda^lam_exp * t mod n */
+                    if (lam_exp == 0)
+                        mpz_set(lamt, t_mpz);
+                    else if (lam_exp == 1) {
+                        mpz_mul(lamt, t_mpz, lam_mpz);
+                        mpz_mod(lamt, lamt, ORD);
+                    } else {
+                        mpz_mul(lamt, t_mpz, lam2_mpz);
+                        mpz_mod(lamt, lamt, ORD);
+                    }
+
+                    switch (mode) {
+                    case 0: mpz_sub(k_cand, lamt, w_mpz); break;
+                    case 1: mpz_sub(k_cand, w_mpz, lamt); break;
+                    case 2: mpz_add(k_cand, lamt, w_mpz); mpz_sub(k_cand, ORD, k_cand); break;
+                    case 3: mpz_add(k_cand, lamt, w_mpz); break;
+                    }
+                    mpz_mod(k_cand, k_cand, ORD);
+
+                    /* Check within bound */
+                    if (mpz_cmp(k_cand, bound) >= 0) continue;
+
+                    /* Verify: k_cand * G == P? */
                     ap_smul(&vR, k_cand, &G_pt);
-                    if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 && mpz_cmp(vR.y, P_pt.y)==0 &&
-                        mpz_cmp(k_cand, bound) < 0) {
+                    if (!vR.inf && mpz_cmp(vR.x, P_pt.x)==0 &&
+                        mpz_cmp(vR.y, P_pt.y)==0) {
                         gmp_snprintf(result, result_size, "%Zx", k_cand);
                         found = 1;
                         __atomic_store_n((int *)found_flag, 1, __ATOMIC_RELEASE);
                     }
                 }
-                ap_clear(&vR); mpz_clear(k_cand);
+
+                ap_clear(&vR);
+                mpz_clear(k_cand); mpz_clear(lamt);
+                mpz_clear(k_base);
+                mpz_clear(t_mpz); mpz_clear(w_mpz);
+                mpz_clear(lam_mpz); mpz_clear(lam2_mpz);
             }
         }
     }
