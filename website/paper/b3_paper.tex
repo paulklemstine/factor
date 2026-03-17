@@ -1,9 +1,8 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt]{amsart}
 
 % ─── Packages ────────────────────────────────────────────────────────────────
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath,amsthm,amssymb,amsfonts}
 \usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage{hyperref}
@@ -28,17 +27,12 @@
 \title{Novel Algebraic and Number-Theoretic Properties of the Berggren\\
 Pythagorean Triple Tree with Applications to Integer Factoring}
 
-\author{Resonance Factoring Research Group}
+\author{Paul Klemstine}
+\address{Independent Researcher, Menasha, WI}
 
 \date{March 2026}
 
 \begin{document}
-
-\maketitle
-
-% ═════════════════════════════════════════════════════════════════════════════
-% ABSTRACT
-% ═════════════════════════════════════════════════════════════════════════════
 
 \begin{abstract}
 We present a systematic investigation of the Berggren ternary tree of primitive
@@ -67,6 +61,8 @@ its proof status---proven, computationally verified, or conjectured---and
 discuss open problems connecting the tree's algebraic structure to factoring
 algorithms.
 \end{abstract}
+
+\maketitle
 
 % ═════════════════════════════════════════════════════════════════════════════
 % 1. INTRODUCTION
@@ -1128,6 +1124,26 @@ We conclude with several open problems:
     matrix.  This debunks claims of polynomial-time 3-SAT solvers based on the
     B3 structure.
 \end{enumerate}
+
+\subsection{Computational methods}
+
+All computations were performed in Python~3.11 on WSL2 Ubuntu with an
+Intel processor, 12\,GB RAM, and an NVIDIA RTX~4050 GPU (6\,GB VRAM).
+Libraries used include \texttt{gmpy2} for arbitrary-precision arithmetic,
+\texttt{numpy} for matrix operations and sieve arrays, \texttt{mpmath} for
+extended-precision verification, and \texttt{matplotlib} for visualization.
+C extensions were compiled with GCC and linked via \texttt{ctypes}.
+
+% ═════════════════════════════════════════════════════════════════════════════
+% ACKNOWLEDGMENTS
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section*{Acknowledgments}
+The author utilized Large Language Models (Anthropic Claude) for \LaTeX{}
+formatting, code generation for computational experiments, and exploratory
+derivation assistance. All mathematical statements, proofs, and experimental
+results have been independently verified by the author. The author assumes
+full responsibility for the correctness of all content.
 
 % ═════════════════════════════════════════════════════════════════════════════
 % REFERENCES

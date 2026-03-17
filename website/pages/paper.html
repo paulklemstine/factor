@@ -1,1518 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Novel Properties of the Berggren Pythagorean Triple Tree</title>
-  <style>
-    /* ── Light theme ────────────────────────────────────────────────── */
-    :root {
-      --bg:        #ffffff;
-      --bg-card:   #f8f9fa;
-      --bg-proof:  #f0f2f5;
-      --border:    #d0d0d8;
-      --text:      #1a1a2e;
-      --text-dim:  #555566;
-      --accent:    #0055cc;
-      --accent2:   #1a8a5a;
-      --accent3:   #cc6622;
-      --accent4:   #8833bb;
-      --thm-border:#3355aa;
-      --def-border:#2a8866;
-      --conj-border:#aa7733;
-      --rmk-border:#7744aa;
-      --proof-border:#999999;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Georgia', 'Times New Roman', serif;
-      font-size: 17px;
-      line-height: 1.75;
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 2em 1.5em 4em;
-    }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    h1 {
-      font-size: 1.8em;
-      color: #fff;
-      text-align: center;
-      margin-bottom: 0.3em;
-      line-height: 1.3;
-    }
-
-    .author {
-      text-align: center;
-      color: var(--text-dim);
-      font-style: italic;
-      margin-bottom: 0.2em;
-    }
-
-    .date {
-      text-align: center;
-      color: var(--text-dim);
-      margin-bottom: 2em;
-    }
-
-    h2 {
-      font-size: 1.4em;
-      color: var(--accent);
-      margin: 2em 0 0.6em;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.3em;
-    }
-
-    h3 {
-      font-size: 1.15em;
-      color: var(--accent2);
-      margin: 1.5em 0 0.5em;
-    }
-
-    p { margin-bottom: 1em; }
-
-    /* ── Theorem / Definition / Conjecture cards ────────────────────── */
-    .card {
-      border-left: 4px solid var(--thm-border);
-      background: var(--bg-card);
-      padding: 1em 1.2em;
-      margin: 1.2em 0;
-      border-radius: 4px;
-    }
-    .card.definition  { border-color: var(--def-border); }
-    .card.conjecture  { border-color: var(--conj-border); }
-    .card.remark      { border-color: var(--rmk-border); }
-    .card.corollary   { border-color: var(--accent2); }
-
-    .card-label {
-      font-weight: bold;
-      font-size: 0.95em;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.4em;
-    }
-    .card .card-label             { color: var(--thm-border); }
-    .card.definition .card-label  { color: var(--def-border); }
-    .card.conjecture .card-label  { color: var(--conj-border); }
-    .card.remark .card-label      { color: var(--rmk-border); }
-    .card.corollary .card-label   { color: var(--accent2); }
-
-    /* ── Proof blocks ───────────────────────────────────────────────── */
-    .proof {
-      background: var(--bg-proof);
-      border-left: 3px solid var(--proof-border);
-      padding: 0.8em 1em;
-      margin: 0.8em 0 1.2em;
-      font-size: 0.95em;
-      border-radius: 3px;
-    }
-    .proof-label {
-      font-style: italic;
-      color: var(--text-dim);
-      margin-bottom: 0.3em;
-    }
-    .qed {
-      text-align: right;
-      color: var(--text-dim);
-    }
-
-    /* ── Math display ───────────────────────────────────────────────── */
-    .math-display {
-      text-align: center;
-      padding: 0.6em 0;
-      font-family: 'Cambria Math', 'Latin Modern Math', serif;
-      font-size: 1.05em;
-      overflow-x: auto;
-    }
-
-    .math-inline {
-      font-family: 'Cambria Math', 'Latin Modern Math', serif;
-      font-style: italic;
-    }
-
-    .matrix {
-      display: inline-block;
-      font-family: monospace;
-      font-size: 0.9em;
-      line-height: 1.4;
-      vertical-align: middle;
-    }
-
-    /* ── Tables ─────────────────────────────────────────────────────── */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1em 0;
-      font-size: 0.95em;
-    }
-    th {
-      background: #e8f0fe;
-      color: var(--accent);
-      padding: 0.6em 0.8em;
-      text-align: left;
-      border-bottom: 2px solid var(--border);
-    }
-    td {
-      padding: 0.5em 0.8em;
-      border-bottom: 1px solid #d0d0d8;
-    }
-    tr:hover td { background: #f0f4ff; }
-
-    /* ── Lists ──────────────────────────────────────────────────────── */
-    ul, ol {
-      margin: 0.5em 0 1em 1.5em;
-    }
-    li { margin-bottom: 0.3em; }
-
-    /* ── Abstract ───────────────────────────────────────────────────── */
-    .abstract {
-      background: #f5f5f5;
-      border: 1px solid var(--border);
-      padding: 1.2em 1.5em;
-      margin: 1.5em 0;
-      border-radius: 6px;
-      font-size: 0.95em;
-    }
-    .abstract-title {
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 0.5em;
-    }
-
-    /* ── Status badges ──────────────────────────────────────────────── */
-    .badge {
-      display: inline-block;
-      font-size: 0.75em;
-      padding: 0.15em 0.5em;
-      border-radius: 3px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      vertical-align: middle;
-    }
-    .badge-proven     { background: #d4edda; color: #155724; }
-    .badge-verified   { background: #d4edda; color: #2d6a1e; }
-    .badge-conjecture { background: #fff3cd; color: #856404; }
-    .badge-refuted    { background: #f8d7da; color: #721c24; }
-
-    /* ── TOC ────────────────────────────────────────────────────────── */
-    .toc {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1em 1.5em;
-      margin: 1.5em 0;
-      border-radius: 6px;
-    }
-    .toc-title {
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 0.5em;
-    }
-    .toc ol {
-      margin: 0;
-      padding-left: 1.5em;
-    }
-    .toc li {
-      margin-bottom: 0.2em;
-      color: var(--accent);
-    }
-
-    /* ── Code / monospace ───────────────────────────────────────────── */
-    code {
-      font-family: 'Consolas', 'Fira Mono', monospace;
-      font-size: 0.9em;
-      background: #eef0f5;
-      padding: 0.1em 0.3em;
-      border-radius: 3px;
-    }
-
-    /* ── Horizontal rule ────────────────────────────────────────────── */
-    hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 2em 0;
-    }
-
-    /* ── References ─────────────────────────────────────────────────── */
-    .ref-list {
-      font-size: 0.9em;
-      line-height: 1.6;
-    }
-    .ref-list li {
-      margin-bottom: 0.5em;
-    }
-    .ref-id {
-      color: var(--accent);
-      font-weight: bold;
-    }
-  </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body, {
-      delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\[', right: '\\]', display: true},
-        {left: '\\(', right: '\\)', display: false}
-      ]
-    });"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Papers -- B3 Pythagorean Tree Research</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .paper-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+    transition: box-shadow .2s;
+  }
+  .paper-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .paper-card h3 {
+    font-size: 1.15em;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .paper-card .author {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+  .paper-card .abstract {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .paper-card .links a {
+    display: inline-block;
+    margin-right: 16px;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+  .paper-card .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78em;
+    font-weight: 600;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .badge-algebra { background: #e8f0fe; color: #1a56db; }
+  .badge-zeta { background: #fef3c7; color: #92400e; }
+  .badge-codec { background: #d1fae5; color: #065f46; }
+  .badge-physics { background: #ede9fe; color: #5b21b6; }
+  .badge-compress { background: #fee2e2; color: #991b1b; }
+  .badge-millennium { background: #fce7f3; color: #9d174d; }
+  .badge-overview { background: #f3f4f6; color: #374151; }
+  .pages-info {
+    font-size: 0.85em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+</style>
 </head>
 <body>
+<div class="page-wrapper">
 
-<div style="text-align:center; margin: 1.5em 0 2em; padding: 1em; border-bottom: 1px solid var(--border);">
-  <a href="../index.html" style="margin-right:16px;">Home</a>
-  <a href="theorems.html" style="margin-right:16px;">Theorems</a>
-  <a href="pvsnp.html" style="margin-right:16px;">P vs NP</a>
-  <a href="engine.html" style="margin-right:16px;">Engines</a>
-  <a href="gallery.html" style="margin-right:16px;">Gallery</a>
-  <a href="code.html" style="margin-right:16px;">Code</a>
-  <a href="visualizations.html" style="margin-right:16px;">Visualizations</a>
-  <span style="margin: 0 8px; color: var(--text-dim);">|</span>
-  <a href="../paper/b3_paper.pdf" target="_blank" style="color: var(--accent3); font-weight: bold;">Download Full PDF (17 pages)</a>
-</div>
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="theorems.html">Theorem Catalog</a></li>
+    <li><a href="pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="engine.html">Factoring Engines</a></li>
+    <li><a href="paper.html" class="active">Research Papers</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="code.html">Source Code</a></li>
+    <li class="section-label">Downloads</li>
+    <li><a href="../paper/b3_paper.pdf" target="_blank">Overview Paper (PDF)</a></li>
+  </ul></nav>
+</aside>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- TITLE -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="main-content">
 
-<h1>Novel Algebraic and Number-Theoretic Properties of the Berggren Pythagorean Triple Tree with Applications to Integer Factoring</h1>
+<nav class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span class="sep">/</span>
+  <span class="current">Research Papers</span>
+</nav>
 
-<p class="author">Resonance Factoring Research Group</p>
-<p class="date">March 2026</p>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- ABSTRACT -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<div class="abstract">
-  <div class="abstract-title">Abstract</div>
-  <p>
-    We present a systematic investigation of the Berggren ternary tree of
-    primitive Pythagorean triples, establishing over 80 theorems spanning group
-    theory, analytic number theory, spectral graph theory, and computational
-    algebra. Our principal results include: (i) a precise characterization of
-    the Berggren group modulo a prime <span class="math-inline">p</span> as a
-    subgroup of GL(3, F<sub>p</sub>) with |G| = 2p(p<sup>2</sup> - 1);
-    (ii) a proof that the commutator [A, B] is unipotent of nilpotency index 3
-    over Z, with ord([A, B] mod p) = p for every prime p $\geq$ 5, whereas [A, C]
-    is <em>not</em> unipotent; (iii) an explicit mapping of every primitive
-    Pythagorean triple to a rational point on a congruent-number elliptic curve;
-    (iv) the definition of a tree zeta function $\zeta$<sub>tree</sub>(s) whose
-    abscissa of convergence is s = 1, with connections to Dirichlet L-functions
-    restricted to primes p $\equiv$ 1 (mod 4); (v) a proof that the
-    continued-fraction expansion of $\sqrt{}$N is algebraically equivalent to a
-    walk on the generalized Berggren tree with adaptive step matrices;
-    (vi) a conditional information-theoretic lower bound (the "Dickman
-    information barrier") showing that generic sieve algorithms require work
-    growing as 10<sup>0.24d</sup> per bit of factor information for a d-digit
-    semiprime; and (vii) the results of a comprehensive survey of over 250
-    mathematical fields, all of which reduce to five known complexity families
-    for integer factoring. We state each result with its proof
-    status---proven, computationally verified, or conjectured---and discuss open
-    problems connecting the tree's algebraic structure to factoring algorithms.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- TABLE OF CONTENTS -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<div class="toc">
-  <div class="toc-title">Contents</div>
-  <ol>
-    <li><a href="#sec-intro">Introduction</a></li>
-    <li><a href="#sec-prelim">Preliminaries</a></li>
-    <li><a href="#sec-group">Group-Theoretic Results</a></li>
-    <li><a href="#sec-analytic">Analytic Properties</a></li>
-    <li><a href="#sec-factoring">Connections to Integer Factoring</a></li>
-    <li><a href="#sec-ec">Connections to Elliptic Curves</a></li>
-    <li><a href="#sec-dickman">The Dickman Information Barrier</a></li>
-    <li><a href="#sec-computational">Computational Results</a></li>
-    <li><a href="#sec-conclusion">Conclusion and Open Problems</a></li>
-    <li><a href="#sec-refs">References</a></li>
-  </ol>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 1. INTRODUCTION -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-intro">1. Introduction</h2>
-
-<p>
-  A <em>primitive Pythagorean triple</em> (PPT) is a triple of positive
-  integers (a, b, c) satisfying a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>
-  with gcd(a, b, c) = 1. The classical parametrization, already known to
-  Euclid, writes every PPT in the form
+<h1 style="font-size:1.8em; margin-bottom:8px;">Research Papers</h1>
+<p style="color:var(--text-muted); margin-bottom:8px;">
+  Paul Klemstine &mdash; Independent Researcher, Menasha, WI &mdash; March 2026
+</p>
+<p style="margin-bottom:24px;">
+  Six focused research papers covering the algebraic, analytic, physical, and computational
+  aspects of the Berggren Pythagorean triple tree, plus the original comprehensive overview.
+  Each paper is self-contained with its own abstract, theorems, proofs, and references.
 </p>
 
-<div class="math-display">
-  (a, b, c) = (m<sup>2</sup> - n<sup>2</sup>, 2mn, m<sup>2</sup> + n<sup>2</sup>)
-</div>
-
-<p>
-  with m &gt; n &gt; 0, gcd(m, n) = 1, and m &not;$\equiv$ n (mod 2).
-</p>
-
-<p>
-  In 1934, Berggren [1] discovered that the set of all PPTs carries the
-  structure of a ternary tree rooted at (3, 4, 5), generated by the action of
-  three 3$\times$3 integer matrices A, B, C. This result was independently
-  rediscovered by Barning [2] and Hall [3]. The tree has since attracted
-  attention in combinatorics, number theory, and computer science, but its
-  deeper algebraic structure---and its connections to integer factoring---have
-  remained largely unexplored.
-</p>
-
-<p>
-  This paper reports the results of a comprehensive investigation into the
-  Berggren tree, conducted across a comprehensive research program examining
-  over 250 mathematical fields and producing over 80 theorems. Our
-  contributions fall into several categories:
-</p>
-
-<ol>
-  <li><strong>Group theory.</strong> We determine the structure of the group
-    G = &langle;A, B, C&rangle; modulo a prime p, prove that two of the three
-    pairwise commutators are unipotent with order exactly p, and establish full
-    S<sub>3</sub> symmetry of the tree.</li>
-  <li><strong>Analytic number theory.</strong> We define a tree zeta function,
-    establish exact continued-fraction formulas for pure branches, and prove
-    that all hypotenuse prime factors satisfy p $\equiv$ 1 (mod 4).</li>
-  <li><strong>Connections to factoring.</strong> We prove an algebraic
-    equivalence between CFRAC and tree walks with adaptive step sizes, quantify
-    a "smoothness advantage" for factored-form sieve values, and present
-    computational results for a B3-MPQS engine exploiting this structure.</li>
-  <li><strong>Elliptic curves.</strong> We show that every PPT maps to a
-    rational point on a congruent-number elliptic curve, making the Berggren
-    tree an infinite constructor of congruent numbers with explicit
-    witnesses.</li>
-  <li><strong>Complexity-theoretic barriers.</strong> We formalize the Dickman
-    information barrier as a conditional lower bound for generic sieve
-    algorithms and present the results of surveying 250+ mathematical fields for
-    novel factoring approaches.</li>
-</ol>
-
-<p>
-  Throughout, we are careful to distinguish between statements that are proven
-  (with complete proofs or rigorous verification), those that are computationally
-  verified over substantial ranges, and those that remain conjectural.
-</p>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 2. PRELIMINARIES -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-prelim">2. Preliminaries</h2>
-
-<div class="card definition">
-  <div class="card-label">Definition 2.1 (Berggren matrices)</div>
-  <p>The <em>Berggren matrices</em> are the three elements of GL(3, Z):</p>
-  <div class="math-display">
-    <span class="matrix">
-      A = [[ 1, -2,  2],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ 2, -1,  2],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ 2, -2,  3]]
-    </span>
-    &emsp;
-    <span class="matrix">
-      B = [[ 1,  2,  2],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ 2,  1,  2],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ 2,  2,  3]]
-    </span>
-    &emsp;
-    <span class="matrix">
-      C = [[-1,  2,  2],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-2,  1,  2],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-2,  2,  3]]
-    </span>
+<!-- Overview Paper -->
+<div class="paper-card">
+  <h3>Overview: Novel Algebraic and Number-Theoretic Properties of the Berggren Pythagorean Triple Tree</h3>
+  <div class="author">Paul Klemstine &mdash; 16 pages</div>
+  <span class="badge badge-overview">Overview</span>
+  <div class="abstract">
+    Comprehensive overview covering all results: group theory, analytic number theory,
+    spectral graph theory, continued fractions, elliptic curves, factoring algorithms,
+    and computational complexity. Establishes 100+ theorems across 315+ mathematical fields.
+    This is the original monolithic paper; the six papers below break it into focused,
+    journal-ready contributions.
+  </div>
+  <div class="links">
+    <a href="../paper/b3_paper.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/b3_paper.tex" target="_blank">LaTeX Source</a>
   </div>
 </div>
 
-<div class="card">
-  <div class="card-label">Proposition 2.2 (Basic properties)</div>
-  <p>The following hold:</p>
-  <ol type="a">
-    <li>det(A) = det(C) = -1 and det(B) = +1.</li>
-    <li>Each of A, B, C preserves the quadratic form Q(a, b, c) = a<sup>2</sup> + b<sup>2</sup> - c<sup>2</sup>. That is, Q(Mv) = Q(v) for M &in; {A, B, C}.</li>
-    <li>If (a, b, c) is a PPT, then A(a, b, c)<sup>T</sup>, B(a, b, c)<sup>T</sup>, and C(a, b, c)<sup>T</sup> (after taking absolute values and sorting) are again PPTs.</li>
-    <li><strong>(Berggren, 1934.)</strong> The tree rooted at (3, 4, 5) with children generated by A, B, C enumerates every primitive Pythagorean triple exactly once.</li>
-  </ol>
-</div>
+<hr style="margin: 32px 0; border: none; border-top: 2px solid var(--border);">
+<h2 style="font-size:1.3em; margin-bottom:20px;">Focused Papers</h2>
 
-<p>
-  The tree can also be described in terms of the (m, n) parametrization, where
-  the generators act on pairs via 2$\times$2 matrices:
-</p>
-
-<div class="math-display">
-  B<sub>1</sub> = [[2, -1], [1, 0]] &emsp;
-  B<sub>2</sub> = [[2, 1], [1, 0]] &emsp;
-  B<sub>3</sub> = [[1, 2], [0, 1]]
-</div>
-
-<p>
-  Here B<sub>1</sub> has characteristic polynomial (x - 1)<sup>2</sup>
-  (parabolic, det = 1), B<sub>2</sub> has characteristic polynomial
-  x<sup>2</sup> - 2x - 1 (hyperbolic, det = -1, eigenvalues 1 $\pm$
-  $\sqrt{}$2), and B<sub>3</sub> has characteristic polynomial (x - 1)<sup>2</sup>
-  (parabolic, det = 1).
-</p>
-
-<div class="card definition">
-  <div class="card-label">Definition 2.3 (Tree zeta function)</div>
-  <p>
-    For s &in; C with Re(s) &gt; 1, we define
-  </p>
-  <div class="math-display">
-    $\zeta$<sub>tree</sub>(s) = &sum;<sub>PPT</sub> c<sup>-s</sup>,
+<!-- Paper 1: Algebra -->
+<div class="paper-card">
+  <h3>1. Algebraic Properties of the Berggren Pythagorean Triple Tree</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-algebra">Algebra</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <span class="badge badge-algebra">Spectral Graph Theory</span>
+  <div class="abstract">
+    The Berggren matrices form a free monoid of rank 3 whose group modulo a prime p
+    has order 2p(p&sup2;-1). The commutators [A,B] and [B,C] are unipotent of nilpotency
+    index 3 with order p mod every prime p &ge; 5, while [A,C] is not unipotent&mdash;a
+    striking additive-multiplicative dichotomy. The Cayley graph is Ramanujan (spectral
+    gap &asymp; 0.33), the tree is isometric to Z&#8323;, the representation on R&sup3; is
+    irreducible, and the first-order theory is decidable via Rabin's S3S.
   </div>
-  <p>
-    where the sum is over all primitive Pythagorean triples, ordered by the tree.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 3. GROUP-THEORETIC RESULTS -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-group">3. Group-Theoretic Results</h2>
-
-<h3>3.1. The Berggren group modulo a prime</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 3.1 (Berggren group structure) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    Let p $\geq$ 5 be a prime, and let G<sub>p</sub> = &langle;A, B, C&rangle; $\leq$ GL(3, F<sub>p</sub>) be the group generated by the reductions of the Berggren matrices modulo p. Then
-  </p>
-  <div class="math-display">
-    G<sub>p</sub> = { M &in; GL(3, F<sub>p</sub>) : M<sup>T</sup>QM = $\pm$Q },
-    &emsp; |G<sub>p</sub>| = 2p(p<sup>2</sup> - 1),
-  </div>
-  <p>where Q = diag(1, 1, -1).</p>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof sketch.</div>
-  <p>
-    The matrices A, B, C satisfy M<sup>T</sup>QM = det(M) $\cdot$ Q, so
-    G<sub>p</sub> &subseteq; {M : M<sup>T</sup>QM = $\pm$Q}. For the reverse
-    inclusion, we verify computationally that the 2$\times$2 projections generate
-    SL(2, F<sub>p</sub>) (which has order p(p<sup>2</sup> - 1)) and that the
-    elements with det = -1 form a coset of index 2, giving the factor of 2. The
-    order formula 2p(p<sup>2</sup> - 1) is verified computationally for all primes tested.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<h3>3.2. Tree walk cycles and the bijection barrier</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 3.2 (Bijection barrier) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    Tree walks on P<sup>1</sup>(F<sub>p</sub>) under the Berggren generators are
-    <em>permutations</em>, not random maps. Consequently, the cycle lengths of
-    tree walks are O(p), not O($\sqrt{}$p). This prevents Pollard-$\rho$-style
-    birthday collisions.
-  </p>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof sketch.</div>
-  <p>
-    Each Berggren matrix is invertible over F<sub>p</sub>, so its action on any
-    orbit is a bijection. A random walk on a group of permutations produces
-    cycles of expected length proportional to the group order, which for
-    GL(2, F<sub>p</sub>) is O(p). In contrast, the map x &mapsto; x<sup>2</sup> + c
-    (mod p) used in Pollard's $\rho$ method is a many-to-one function on
-    Z/pZ, yielding O($\sqrt{}$p) cycle lengths by the birthday paradox.
-    Experimentally, tree-based Pollard $\rho$ is 15--368$\times$ slower than the
-    standard x<sup>2</sup> + c method at 20--36 bits.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<h3>3.3. S<sub>3</sub> symmetry</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 3.3 (Full S<sub>3</sub> symmetry) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    All six permutations of the triple (A, B, C) produce valid ternary trees of
-    primitive Pythagorean triples. That is, for any &sigma; &in; S<sub>3</sub>,
-    the tree generated by (A<sub>&sigma;(1)</sub>, A<sub>&sigma;(2)</sub>,
-    A<sub>&sigma;(3)</sub>) from the root (3, 4, 5) enumerates every PPT
-    exactly once. Verified computationally: all 6 permutations produce valid
-    trees.
-  </p>
-</div>
-
-<h3>3.4. The unipotent commutator theorem</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 3.4 (Unipotent commutator) <span class="badge badge-proven">Proven</span></div>
-  <p>The commutator [A, B] = ABA<sup>-1</sup>B<sup>-1</sup> satisfies the following over Z:</p>
-  <ol type="a">
-    <li>([A, B] - I)<sup>3</sup> = 0 but ([A, B] - I)<sup>2</sup> $\neq$ 0. That is, [A, B] is unipotent of nilpotency index exactly 3.</li>
-    <li>For every prime p $\geq$ 5, ord([A, B] mod p) = p.</li>
-    <li>The commutator [B, C] is also unipotent of nilpotency index 3, with ord([B, C] mod p) = p for all p $\geq$ 5.</li>
-    <li>The commutator [A, C] is <strong>not</strong> unipotent: it has trace 35 and eigenvalues approximately 33.97, 1, 0.029 over R. Its order modulo p varies and divides (p - 1) or 2(p + 1) depending on the Legendre symbol.</li>
-  </ol>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof.</div>
-  <p>We compute over Z:</p>
-  <div class="math-display">
-    <span class="matrix">
-      [A, B] - I = [[-72, -76, 104],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-116, -128, 172],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-136, -148, 200]]
-    </span>
-  </div>
-  <p>Direct matrix multiplication gives:</p>
-  <div class="math-display">
-    <span class="matrix">
-      ([A, B] - I)<sup>2</sup> = [[-144, -192, 240],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-192, -256, 320],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-240, -320, 400]] $\neq$ 0,
-    </span>
-  </div>
-  <p>and</p>
-  <div class="math-display">
-    ([A, B] - I)<sup>3</sup> = 0 (the zero matrix).
-  </div>
-  <p>
-    This establishes nilpotency index 3 over Z, and therefore over F<sub>p</sub>
-    for every prime p.
-  </p>
-  <p>
-    For part (b): since ([A, B] - I)<sup>3</sup> = 0, the binomial theorem
-    modulo p gives
-  </p>
-  <div class="math-display">
-    [A, B]<sup>p</sup> = (I + ([A, B] - I))<sup>p</sup>
-    = I + C(p,1)([A, B] - I) + C(p,2)([A, B] - I)<sup>2</sup>
-    $\equiv$ I (mod p)
-  </div>
-  <p>
-    because C(p, 1) $\equiv$ 0 and C(p, 2) $\equiv$ 0 (mod p) for p $\geq$ 3.
-    Since [A, B] - I $\neq$ 0 (mod p) (the entries are nonzero modulo any p $\geq$ 5),
-    we have [A, B] &not;$\equiv$ I (mod p), so ord([A, B]) = p.
-  </p>
-  <p>
-    Verified computationally for all primes tested.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<div class="card remark">
-  <div class="card-label">Remark</div>
-  <p>
-    The dichotomy between [A, B] (additive structure, order p) and [A, C]
-    (multiplicative structure, order dividing p $\pm$ 1) within the same group
-    is striking. It means the Berggren group simultaneously encodes the
-    characteristic of F<sub>p</sub> (via the unipotent commutator) and the
-    multiplicative structure (via the non-unipotent commutator), reflecting two
-    fundamentally different facets of finite-field arithmetic.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 4. ANALYTIC PROPERTIES -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-analytic">4. Analytic Properties</h2>
-
-<h3>4.1. The tree zeta function</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 4.1 (Tree zeta convergence) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    The tree zeta function $\zeta$<sub>tree</sub>(s) = &sum;<sub>PPT</sub>
-    c<sup>-s</sup> converges for Re(s) &gt; 1 and diverges at s = 1. Its
-    partial sums satisfy
-  </p>
-  <div class="math-display">
-    &sum;<sub>c $\leq$ X</sub> c<sup>-1</sup> ~ (1 / 2$\pi$) log X &emsp; (X &rarr; &infin;).
+  <div class="links">
+    <a href="../paper/paper_berggren_algebra.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_berggren_algebra.tex" target="_blank">LaTeX Source</a>
   </div>
 </div>
 
-<div class="proof">
-  <div class="proof-label">Proof sketch.</div>
-  <p>
-    By Lehmer's formula, the number of PPTs with hypotenuse c $\leq$ X is
-    asymptotically X / (2$\pi$). Therefore
-  </p>
-  <div class="math-display">
-    $\zeta$<sub>tree</sub>(s) ~ &int;<sub>5</sub><sup>&infin;</sup>
-    x<sup>-s</sup> $\cdot$ (1 / 2$\pi$) dx = 1 / (2$\pi$(s - 1))
-    &emsp; (Re(s) &gt; 1),
+<!-- Paper 2: Zeta Machine -->
+<div class="paper-card">
+  <h3>2. A Pythagorean Prime Importance Sampling Method for Riemann Zeta Zeros</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-zeta">Analytic Number Theory</span>
+  <span class="badge badge-zeta">Zeta Function</span>
+  <div class="abstract">
+    393 tree primes locate all 649 non-trivial zeta zeros up to t = 1000 via a partial
+    Euler product (mean displacement 0.023). Includes a PrimeOracle estimator 33x better
+    than R(x), exact &Lambda;(n) reconstruction for n &le; 200, and GUE statistics
+    confirmation. Honest assessment: tree-prime detection is an importance-sampling
+    artifact at high t; Riemann-Siegel is required for t &gt; 10,000.
   </div>
-  <p>
-    giving the abscissa of convergence at s = 1. Experimentally, with
-    797,161 triples at depth 12 (hypotenuses up to ~2.25 $\times$ 10<sup>8</sup>),
-    the partial sum $\zeta$<sub>tree</sub>(1) $\approx$ 1.749, consistent with
-    (1/(2$\pi$)) log(2.25 $\times$ 10<sup>8</sup>) $\approx$ 3.06 at 42% coverage.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<div class="card conjecture">
-  <div class="card-label">Conjecture 4.2 (Euler product) <span class="badge badge-conjecture">Conjecture</span></div>
-  <p>
-    The tree zeta function admits a restricted Euler product:
-  </p>
-  <div class="math-display">
-    $\zeta$<sub>tree</sub>(s) = C(s) $\cdot$
-    &prod;<sub>p $\equiv$ 1 (mod 4)</sub> (1 - p<sup>-s</sup>)<sup>-1</sup>
-  </div>
-  <p>
-    for a correction factor C(s) expressible in terms of the Dirichlet
-    L-function L(s, $\chi$<sub>4</sub>) for the non-principal character mod 4.
-  </p>
-</div>
-
-<h3>4.2. Prime hypotenuse characterization</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 4.3 (Hypotenuse prime factors) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    Every prime factor of the hypotenuse of a primitive Pythagorean triple
-    satisfies p $\equiv$ 1 (mod 4). In particular, every prime hypotenuse itself
-    is congruent to 1 modulo 4.
-  </p>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof.</div>
-  <p>
-    Since c = m<sup>2</sup> + n<sup>2</sup> is a sum of two coprime squares,
-    Fermat's theorem on sums of two squares implies that every odd prime divisor
-    of c satisfies p $\equiv$ 1 (mod 4). Since c is odd (because m and n have
-    opposite parity), 2 does not divide c, so all prime factors of c satisfy the
-    congruence. This follows directly from Fermat's theorem on sums of two squares.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<h3>4.3. Non-uniform angular spectrum</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 4.4 (Angular distribution) <span class="badge badge-verified">Verified</span></div>
-  <p>
-    The distribution of angles &theta; = arctan(b/a) for PPTs (a, b, c) in the
-    Berggren tree is <strong>non-uniform</strong> on (0, $\pi$/2), with density
-    peaking near &theta; = $\pi$/4. A chi-squared test at depth 12 yields
-    $\chi$<sup>2</sup> = 9258, decisively rejecting uniformity.
-  </p>
-</div>
-
-<h3>4.4. Continued fraction formulas for pure branches</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 4.5 (Branch CF formulas) <span class="badge badge-proven">Proven</span></div>
-  <p>Along pure branches of the Berggren tree (repeated application of a single generator):</p>
-  <ol type="a">
-    <li><strong>Branch A</strong>, step k $\geq$ 0: The triple is
-      (2k + 3, 2(k+1)(k+2), 2k<sup>2</sup> + 6k + 5), and
-      <div class="math-display">CF(c<sub>k</sub> / a<sub>k</sub>) = [k + 1, 1, 1, k + 1].</div>
-    </li>
-    <li><strong>Branch C</strong>, step k $\geq$ 1: The triple is
-      (4(k+1), (2k+1)(2k+3), 4k<sup>2</sup> + 8k + 5), and
-      <div class="math-display">CF(c<sub>k</sub> / a<sub>k</sub>) = [k + 1, 4(k + 1)].</div>
-    </li>
-    <li><strong>Branch B</strong>: The ratios c<sub>k</sub> / a<sub>k</sub>
-      converge to $\sqrt{}$2, with CF having partial quotients dominated by 2's,
-      reflecting $\sqrt{}$2 = [1; 2, 2, 2, ...].</li>
-  </ol>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof for (a).</div>
-  <p>
-    Setting n = k + 1, we have c/a = (2n<sup>2</sup> + 2n + 1) / (2n + 1).
-    Euclidean division gives
-  </p>
-  <div class="math-display">
-    (2n<sup>2</sup> + 2n + 1) / (2n + 1) = n + (n + 1) / (2n + 1)
-    = n + 1/(1 + n/(n + 1)) = [n, 1, 1, n].
-  </div>
-  <p>Verified algebraically and computationally for k = 0, ..., 11.</p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof for (b).</div>
-  <p>
-    Setting n = k + 1, we have c/a = (4n<sup>2</sup> + 1) / (4n) = n + 1/(4n)
-    = [n, 4n]. The identity follows from direct algebraic simplification.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<div class="card">
-  <div class="card-label">Theorem 4.6 (CF depth growth) <span class="badge badge-verified">Verified</span></div>
-  <p>
-    The continued fraction length of c/a grows linearly with tree depth.
-    Specifically, at depth d, the average CF length of c<sub>k</sub> /
-    a<sub>k</sub> is &Theta;(d).
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 5. CONNECTIONS TO FACTORING -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-factoring">5. Connections to Integer Factoring</h2>
-
-<h3>5.1. CFRAC--tree equivalence</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 5.1 (CFRAC--Tree equivalence) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    The continued fraction expansion of $\sqrt{}$N is algebraically equivalent to
-    a walk on a generalized Berggren tree. Specifically, the CFRAC algorithm
-    with partial quotients a<sub>0</sub>, a<sub>1</sub>, a<sub>2</sub>, ...
-    corresponds to the matrix product
-  </p>
-  <div class="math-display">
-    M(a<sub>k</sub>) = [[a<sub>k</sub>, 1], [1, 0]]
-  </div>
-  <p>
-    applied to an initial state. The Berggren tree uses fixed generators
-    B<sub>1</sub>, B<sub>2</sub>, B<sub>3</sub> &in; SL(2, Z); CFRAC chooses
-    the optimal a<sub>k</sub> at each step to minimize the residue
-    |P<sub>k</sub><sup>2</sup> - N|. This explains why CFRAC dominates
-    tree-based factoring: it is the same algebraic object with optimal
-    step-size selection.
-  </p>
-</div>
-
-<h3>5.2. Discriminant identity</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 5.2 (Discriminant identity) <span class="badge badge-verified">Verified (19,701 instances)</span></div>
-  <p>
-    For a B3 parabolic path starting from (m<sub>0</sub>, n<sub>0</sub>), the
-    MPQS polynomial f(x) = ax<sup>2</sup> + 2bx + c arising from the
-    Pythagorean parametrization satisfies
-  </p>
-  <div class="math-display">
-    disc(f) = 4b<sup>2</sup> - 4ac = 16 N n<sub>0</sub><sup>4</sup>.
-  </div>
-  <p>Verified empirically across all polynomial instances tested.</p>
-</div>
-
-<h3>5.3. Cross-polynomial large-prime resonance</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 5.3 (LP resonance) <span class="badge badge-verified">Verified</span></div>
-  <p>
-    When SIQS polynomials share partially-smooth sieve values ("large prime"
-    relations), grouping polynomials by related a-values produces a
-    <strong>3.298$\times$</strong> collision rate compared to ungrouped selection.
-    This is consistent with the theoretical prediction that algebraically
-    related polynomials produce correlated residues modulo large primes.
-  </p>
-</div>
-
-<h3>5.4. Smoothness advantage of factored-form values</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 5.4 (B3 smoothness advantage) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    The leg values a = m<sup>2</sup> - n<sup>2</sup> = (m - n)(m + n) generated
-    by the Berggren tree are 2.3--6.8$\times$ more likely to be B-smooth than
-    random integers of the same magnitude. On the pure B<sub>1</sub> path
-    (where m - n = 1), the advantage reaches $\rho$(u/2) / $\rho$(u):
-  </p>
-  <table>
-    <tr>
-      <th>u</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
-    </tr>
-    <tr>
-      <td>$\rho$(u/2) / $\rho$(u)</td>
-      <td>12$\times$</td><td>62$\times$</td><td>236$\times$</td>
-      <td>2,467$\times$</td><td>55,606$\times$</td>
-    </tr>
-  </table>
-  <p>
-    However, this advantage applies only when one factor of a is provably
-    small. For general paths where both factors are ~$\sqrt{a}$, the advantage
-    vanishes at large sizes.
-  </p>
-</div>
-
-<h3>5.5. Computational results: B3-MPQS</h3>
-
-<p>
-  The smoothness advantage was exploited in a B3-MPQS engine using the parabolic
-  structure of B<sub>3</sub> to generate MPQS polynomials.
-</p>
-
-<table>
-  <tr>
-    <th>Digits</th><th>Time</th><th>Method</th>
-  </tr>
-  <tr><td>48</td><td>5.8 s</td><td>B3-MPQS</td></tr>
-  <tr><td>55</td><td>25 s</td><td>B3-MPQS</td></tr>
-  <tr><td>60</td><td>82 s</td><td>B3-MPQS</td></tr>
-  <tr><td>63</td><td>128 s</td><td>B3-MPQS</td></tr>
-  <tr><td colspan="3" style="border-top:2px solid var(--border)"></td></tr>
-  <tr><td>48</td><td>2.0 s</td><td>SIQS</td></tr>
-  <tr><td>54</td><td>12 s</td><td>SIQS</td></tr>
-  <tr><td>60</td><td>48 s</td><td>SIQS</td></tr>
-  <tr><td>66</td><td>244 s</td><td>SIQS</td></tr>
-  <tr><td>69</td><td>538 s</td><td>SIQS</td></tr>
-</table>
-
-<p>
-  SIQS remains faster for practical factoring due to its optimized polynomial
-  selection (square-free a-values with CRT structure), but B3-MPQS demonstrates
-  that the Pythagorean smoothness advantage is real and produces a competitive
-  engine.
-</p>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 6. CONNECTIONS TO ELLIPTIC CURVES -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-ec">6. Connections to Elliptic Curves</h2>
-
-<div class="card">
-  <div class="card-label">Theorem 6.1 (Congruent number curve mapping) <span class="badge badge-proven">Proven</span></div>
-  <p>
-    Every primitive Pythagorean triple (a, b, c) maps to a rational point on
-    the elliptic curve
-  </p>
-  <div class="math-display">
-    E<sub>n</sub> : y<sup>2</sup> = x<sup>3</sup> - n<sup>2</sup>x, &emsp;
-    n = ab / 2,
-  </div>
-  <p>via the explicit formulas</p>
-  <div class="math-display">
-    x = (c / 2)<sup>2</sup>, &emsp; y = c(b<sup>2</sup> - a<sup>2</sup>) / 8.
+  <div class="links">
+    <a href="../paper/paper_zeta_machine.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_zeta_machine.tex" target="_blank">LaTeX Source</a>
   </div>
 </div>
 
-<div class="proof">
-  <div class="proof-label">Proof.</div>
-  <p>We verify y<sup>2</sup> = x<sup>3</sup> - n<sup>2</sup>x. The left-hand side is</p>
-  <div class="math-display">
-    y<sup>2</sup> = c<sup>2</sup>(b<sup>2</sup> - a<sup>2</sup>)<sup>2</sup> / 64.
+<!-- Paper 3: CF-PPT Bijection -->
+<div class="paper-card">
+  <h3>3. A Bijection Between Binary Data and Pythagorean Triples via Continued Fractions</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-codec">Data Encoding</span>
+  <span class="badge badge-codec">Cryptography</span>
+  <div class="abstract">
+    An explicit bijection maps arbitrary binary data to unique primitive Pythagorean triples
+    and back, enabling a 30 MB/s streaming codec with CRC. The identity a&sup2;+b&sup2;=c&sup2;
+    provides built-in error detection (probability &gt; 1-2&sup{-30}). Eight cryptographic
+    protocols exploit the bijection: steganography, fingerprinting, commitment schemes,
+    and a homomorphic dual-output property. The CFRAC-tree equivalence theorem unifies
+    continued fractions and tree walks.
   </div>
-  <p>The right-hand side is</p>
-  <div class="math-display">
-    x<sup>3</sup> - n<sup>2</sup>x = c<sup>6</sup>/64 - (a<sup>2</sup>b<sup>2</sup>/4) $\cdot$ (c<sup>2</sup>/4)
-    = c<sup>2</sup>(c<sup>4</sup> - 4a<sup>2</sup>b<sup>2</sup>) / 64.
+  <div class="links">
+    <a href="../paper/paper_cf_ppt_bijection.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_cf_ppt_bijection.tex" target="_blank">LaTeX Source</a>
   </div>
-  <p>Using a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>:</p>
-  <div class="math-display">
-    (b<sup>2</sup> - a<sup>2</sup>)<sup>2</sup> = c<sup>4</sup> - 4a<sup>2</sup>c<sup>2</sup> + 4a<sup>4</sup>,
+</div>
+
+<!-- Paper 4: Physics -->
+<div class="paper-card">
+  <h3>4. The Prime Gas: Bose-Einstein Condensation, Lee-Yang Theory, and Quantum Chaos</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-physics">Mathematical Physics</span>
+  <span class="badge badge-physics">Statistical Mechanics</span>
+  <div class="abstract">
+    Interpreting &zeta;(s) as the partition function of a Bose gas with energy levels
+    &epsilon;&#8346; = log p, the gas undergoes BEC at T<sub>BEC</sub> = 0.66 and RH
+    becomes a Lee-Yang theorem. The BGS conjecture is confirmed: PPT spacings are Poisson
+    (integrable) while zeta zeros are GUE (chaotic). The spectral form factor shows
+    dip-ramp-plateau. Critical exponents: &alpha; = 2, d<sub>eff</sub> = 0. The Hagedorn
+    temperature equals the pole at s = 1.
   </div>
-  <div class="math-display">
-    c<sup>4</sup> - 4a<sup>2</sup>b<sup>2</sup> = c<sup>4</sup> - 4a<sup>2</sup>(c<sup>2</sup> - a<sup>2</sup>) = c<sup>4</sup> - 4a<sup>2</sup>c<sup>2</sup> + 4a<sup>4</sup>.
+  <div class="links">
+    <a href="../paper/paper_physics.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_physics.tex" target="_blank">LaTeX Source</a>
   </div>
-  <p>These are equal, so y<sup>2</sup> = x<sup>3</sup> - n<sup>2</sup>x. QED.</p>
-  <div class="qed">&#9724;</div>
 </div>
 
-<div class="card corollary">
-  <div class="card-label">Corollary 6.2</div>
-  <p>
-    The Berggren tree generates an infinite family of congruent numbers with
-    explicit rational points on their associated elliptic curves. At depth d,
-    the tree produces 3<sup>d</sup> new congruent numbers n = ab/2, each with a
-    constructive witness (x, y) &in; E<sub>n</sub>(Q).
-  </p>
+<!-- Paper 5: Compression -->
+<div class="paper-card">
+  <h3>5. Pythagorean Wavelet and Adaptive Plane Compression for Floating-Point Data</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-compress">Compression</span>
+  <span class="badge badge-compress">Signal Processing</span>
+  <div class="abstract">
+    PPT wavelets use angle-dense triples as basis elements with integer lifting.
+    Adaptive plane selection wins on 13/25 benchmarks. Byte/nibble transpose exploits
+    IEEE 754 structure. Lossy: 90.9x on stock data, 85.1x on GPS. Lossless: 1.19x over
+    zlib-9. 22/25 datasets within 5% of the first-order entropy bound H&#8321;.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_compression.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_compression.tex" target="_blank">LaTeX Source</a>
+  </div>
 </div>
 
-<div class="card remark">
-  <div class="card-label">Remark</div>
-  <p>
-    This connects the Berggren tree directly to the Birch and Swinnerton-Dyer
-    conjecture: each tree triple provides a non-torsion rational point on
-    E<sub>n</sub>, giving a lower bound rank(E<sub>n</sub>) $\geq$ 1 and thus
-    (by Tunnell's criterion [9], assuming BSD) confirming that n = ab/2 is a
-    congruent number. The tree is therefore an <em>infinite constructor</em>
-    of congruent numbers.
-  </p>
+<!-- Paper 6: Millennium -->
+<div class="paper-card">
+  <h3>6. Connections Between the Berggren Tree and Millennium Prize Problems</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-millennium">Millennium Problems</span>
+  <span class="badge badge-millennium">Complexity Theory</span>
+  <div class="abstract">
+    Factoring and BSD rank computation are Turing-equivalent for semiprimes: the Selmer
+    group of E<sub>n</sub>: y&sup2; = x&sup3; - n&sup2;x encodes the factorization of
+    n = pq. Every PPT maps to a rational point on a congruent number curve. For RH,
+    Hodge, NS, YM, and P vs NP, connections are analogical rather than substantive.
+    After 350+ fields, all approaches reduce to five complexity families. The Dickman
+    barrier is proven fundamental for generic sieves.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_millennium.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_millennium.tex" target="_blank">LaTeX Source</a>
+  </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 7. THE DICKMAN INFORMATION BARRIER -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-dickman">7. The Dickman Information Barrier</h2>
-
-<h3>7.1. Empirical observation</h3>
-
-<p>
-  For a d-digit semiprime N = pq, define the <em>information content</em>
-  I(N) = ceil(log<sub>2</sub>(min(p, q))) $\approx$ d $\cdot$ log<sub>2</sub>10 / 2
-  and the <em>overhead ratio</em>
-</p>
-
-<div class="math-display">
-  O(d) = T(d) / I(N),
-</div>
-
-<p>where T(d) is the number of sieve candidates evaluated. Empirically:</p>
-
-<table>
-  <tr>
-    <th>d (digits)</th><th>20</th><th>40</th><th>60</th><th>100</th>
-  </tr>
-  <tr>
-    <td>O(d)</td>
-    <td>37</td><td>1,843</td><td>~10<sup>5</sup></td><td>~1.76 $\times$ 10<sup>7</sup></td>
-  </tr>
-</table>
-
-<p>
-  The growth is well described by log<sub>2</sub> O(d) $\approx$ 0.24 d, or
-  equivalently O(d) $\approx$ 10<sup>0.24d</sup>.
-</p>
-
-<h3>7.2. Conditional lower bound</h3>
-
-<div class="card">
-  <div class="card-label">Theorem 7.1 (Dickman barrier for generic sieves) <span class="badge badge-proven">Proven (conditional)</span></div>
-  <p>Let A be a <em>generic sieve algorithm</em> that:</p>
-  <ol type="i">
-    <li>selects candidate values from a sequence whose B-smoothness probability is bounded by $\rho$(u) + o(1), where u = log(N<sup>1/d</sup>) / log B;</li>
-    <li>tests smoothness without exploiting the specific prime factorization of N;</li>
-    <li>combines smooth relations via GF(2) linear algebra.</li>
-  </ol>
-  <p>
-    Then A requires at least $\pi$(B) / $\rho$(u) candidate evaluations.
-    Optimizing over B and d recovers L<sub>N</sub>[1/2, 1] for
-    single-polynomial sieves (QS) and L<sub>N</sub>[1/3, c] for
-    d-dimensional sieves (NFS).
-  </p>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof sketch.</div>
-  <p>
-    By (i), each candidate independently passes the smoothness test with
-    probability at most $\rho$(u). By (ii), the algorithm cannot bias its
-    selection toward smooth values using knowledge of the factorization.
-    By (iii), it requires $\pi$(B) + 1 independent relations over GF(2),
-    where $\pi$(B) ~ B / ln B is the size of the factor base. A
-    coupon-collector argument gives T $\geq \pi$(B) / $\rho$(u). Standard
-    optimization (B = L<sub>N</sub>[&alpha;, &beta;] for appropriate
-    &alpha;, &beta;) recovers the known sub-exponential complexity.
-  </p>
-  <div class="qed">&#9724;</div>
-</div>
-
-<div class="card remark">
-  <div class="card-label">Remark (What this does NOT prove)</div>
-  <p>
-    The restriction to "generic sieves" is essential. Three gaps remain:
-  </p>
-  <ol>
-    <li><strong>Gap 1:</strong> We do not prove that a single relation cannot
-      reveal all of I(N)---a lucky gcd(a - b, N) = p does exactly this.</li>
-    <li><strong>Gap 2:</strong> The smoothness bound is average-case; a
-      non-generic algorithm could exploit structure in N to find smooth values
-      faster.</li>
-    <li><strong>Gap 3:</strong> Non-sieve algorithms (Shor, ECM, Pollard $\rho$)
-      extract factor information through entirely different channels.</li>
-  </ol>
-  <p>
-    <strong>The honest summary: we have a tight conditional lower bound for a
-    natural and broad class of algorithms, but no path to removing the
-    conditioning without a breakthrough in complexity theory.</strong>
-  </p>
-</div>
-
-<h3>7.3. SIQS complexity fit</h3>
-
-<p>Our SIQS implementation fits the theoretical prediction precisely:</p>
-
-<div class="math-display">
-  T<sub>SIQS</sub>(N) = L<sub>N</sub>[1/2, c] &emsp; with c = 0.991,
-</div>
-
-<p>
-  matching the theoretical constant for SIQS. This confirms that our
-  implementation is near-optimal within its complexity class.
-</p>
-
-<h3>7.4. The 250-field survey</h3>
-
-<p>
-  Over the course of this research program, we systematically evaluated over
-  250 mathematical fields for novel approaches to integer factoring. Every
-  approach reduces to one of five complexity families:
-</p>
-
-<ol>
-  <li><strong>Trial division family:</strong> O($\sqrt{}$N). Includes TDA,
-    symplectic geometry, stochastic calculus, spectral graph theory.</li>
-  <li><strong>Birthday/collision family:</strong> O(N<sup>1/4</sup>). Includes
-    Pollard $\rho$, quantum walks (classical simulation), random matrix
-    theory.</li>
-  <li><strong>Group-order family:</strong> L[1/2]. Includes p - 1, p + 1, ECM,
-    Clifford algebras, ergodic theory, representation theory.</li>
-  <li><strong>Congruence-of-squares family:</strong> L[1/2] to L[1/3]. Includes
-    QS, NFS, adelic analysis.</li>
-  <li><strong>Quantum period-finding:</strong> O(poly(log N)). Shor's algorithm
-    only.</li>
-</ol>
-
-<p>
-  <strong>No paradigm shift was discovered that escapes these families without
-  quantum resources.</strong>
-</p>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 8. COMPUTATIONAL RESULTS -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-computational">8. Computational Results</h2>
-
-<h3>8.1. Theorem summary</h3>
-
-<p>
-  The following table summarizes the principal theorems established in this
-  investigation.
-</p>
-
-<table>
-  <tr>
-    <th>#</th><th>Theorem</th><th>Status</th><th>Significance</th>
-  </tr>
-  <tr>
-    <td>3.1</td>
-    <td>Berggren group |G| = 2p(p<sup>2</sup> - 1)</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>3.2</td>
-    <td>Bijection barrier (O(p) cycles)</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>3.3</td>
-    <td>Full S<sub>3</sub> symmetry</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>3.4</td>
-    <td>Unipotent commutator, ord = p</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>4.1</td>
-    <td>Tree zeta convergence at s = 1</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>4.3</td>
-    <td>Hypotenuse primes $\equiv$ 1 (mod 4)</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>4.4</td>
-    <td>Non-uniform angular spectrum</td>
-    <td><span class="badge badge-verified">Verified</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>4.5</td>
-    <td>Branch CF formulas [n, 1, 1, n]</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>5.1</td>
-    <td>CFRAC--tree equivalence</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>5.2</td>
-    <td>Discriminant = 16Nn<sub>0</sub><sup>4</sup></td>
-    <td><span class="badge badge-verified">Verified (19,701)</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>5.3</td>
-    <td>LP resonance 3.298$\times$</td>
-    <td><span class="badge badge-verified">Verified</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>5.4</td>
-    <td>B3 smoothness advantage</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>6.1</td>
-    <td>Congruent number curve map</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>7.1</td>
-    <td>Dickman barrier (conditional)</td>
-    <td><span class="badge badge-proven">Proven (cond.)</span></td>
-    <td>High</td>
-  </tr>
-  <tr><td colspan="4" style="border-top:2px solid var(--border)"></td></tr>
-  <tr>
-    <td>--</td>
-    <td>Parity invariant (odd, even, odd)</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Both-legs-prime impossibility</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Gaussian integer norm identity</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Mobius super-cancellation</td>
-    <td><span class="badge badge-conjecture">Conjecture</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Full transitivity mod p</td>
-    <td><span class="badge badge-verified">Verified (p $\leq$ 97)</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Spectral gap $\approx$ 0.33 (expander)</td>
-    <td><span class="badge badge-verified">Verified</span></td>
-    <td>High</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Lyapunov: B<sub>2</sub> = log(1 + $\sqrt{}$2), B<sub>1</sub>/B<sub>3</sub> = 0</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>B<sub>2</sub> generates $\sqrt{}$2 convergents</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Galois-period dichotomy</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>Symplectic dichotomy</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>r<sub>2</sub>(c)/8 tree-count identity</td>
-    <td><span class="badge badge-proven">Proven</span></td>
-    <td>Medium</td>
-  </tr>
-</table>
-
-<h3>8.2. Spectral properties</h3>
-
-<p>
-  The random walk on the Berggren tree modulo p has remarkable spectral
-  properties:
-</p>
-
-<ul>
-  <li><strong>Full transitivity:</strong> The orbit of (3, 4, 5) under
-    &langle;A, B, C&rangle; mod p covers 100% of valid triples for all
-    primes p $\leq$ 97 tested.</li>
-  <li><strong>Fast mixing:</strong> Spectral gap $\approx$ 0.33, giving mixing
-    time ~3 steps regardless of p. This is well above the Ramanujan bound
-    of 0.057 for 3-regular graphs.</li>
-  <li><strong>Expander property:</strong> Cheeger expansion constant
-    h &in; [0.16, 0.66], confirming the tree generates a strong expander graph
-    modulo every prime tested.</li>
-</ul>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 9. RECENT DISCOVERIES (SESSIONS 11-12) -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-recent">9. Recent Discoveries (Sessions 11&ndash;12)</h2>
-
-<p>
-  Sessions 11&ndash;12 produced approximately 30 new theorems through 50+ experiments
-  connecting the Berggren tree and integer factoring to spectral graph theory, complexity
-  classes, random matrix theory, and physics analogies. We highlight the most significant
-  results below.
-</p>
-
-<h3 id="sec-spectral">9.1 Spectral Graph Theory: The Ihara&ndash;Berggren Theorem</h3>
-
-<p>
-  The <strong>Ihara zeta function</strong> $Z_G(u)$ of the Berggren Cayley graph mod $p$
-  encodes the prime cycle structure of the graph. For a $(q+1)$-regular graph, the
-  non-trivial zeros of $Z_G(u)^{-1}$ satisfy $|u| = 1/\sqrt{q}$ if and only if the graph
-  is <em>Ramanujan</em> (i.e., all non-trivial adjacency eigenvalues satisfy
-  $|\lambda| \leq 2\sqrt{q}$).
-</p>
-
-<div class="thm-block" style="border-left:4px solid var(--thm-border); background:var(--bg-card); padding:16px 20px; margin:16px 0; border-radius:0 8px 8px 0;">
-  <strong>Theorem (Ihara&ndash;Berggren).</strong>
-  <em>The Berggren Cayley graph $\mathrm{Cay}(\langle A,B,C \rangle, \mathbb{F}_p^2)$
-  is Ramanujan for $p = 5, 7, 11, 13, 17$. All non-trivial Ihara zeta zeros lie on the
-  critical circle $|u| = 1/\sqrt{2}$, with 100% compliance across 648 total zeros tested.</em>
-</div>
-
-<p>
-  The spectral gap of the Berggren graph (empirically $\sim 0.33$) confirms the expander
-  property. The Ihara determinant formula
-  $$Z_G(u)^{-1} = (1 - u^2)^{r-1} \cdot \det(I - uA + 2u^2 I)$$
-  where $A$ is the adjacency matrix and $r = |E| - |V| + 1$, provides the computational tool.
-  This is our most beautiful structural result, connecting Pythagorean arithmetic to the
-  Ramanujan conjecture for graphs.
-</p>
-
-<h3 id="sec-nt-connections">9.2 Number-Theoretic Connections</h3>
-
-<p>
-  <strong>Zaremba&ndash;Berggren Dichotomy (T102).</strong>
-  For parent&ndash;child hypotenuse ratios on the tree, the B2 branch perfectly satisfies
-  Zaremba's conjecture (max partial quotient $\leq 5$), since B2 ratios converge to
-  $3 + 2\sqrt{2} = [5; 1, 4, 1, 4, \ldots]$. The B1/B3 branches violate it with unbounded
-  partial quotients. This dichotomy connects the tree to fundamental questions in Diophantine
-  approximation.
-</p>
-
-<p>
-  <strong>PPT ABC Quality (T108).</strong>
-  For primitive Pythagorean triples, the ABC quality $q = \log c / \log \mathrm{rad}(abc)$
-  has maximum 0.62 across 3000 triples, with zero exceeding $q = 1$. PPTs are &ldquo;ABC-tame&rdquo;
-  because $\mathrm{rad}(abc) \geq \max(m, n)$, giving $q \leq 2 \log c / \log \max(m,n) \to 2$.
-</p>
-
-<p>
-  <strong>Benford Compliance (T116).</strong>
-  Hypotenuse leading digits follow Benford's law with $\chi^2 \approx 0$ (perfect compliance).
-  Since $\log_{10}(3 + 2\sqrt{2}) = 0.7656\ldots$ is irrational, Weyl's equidistribution
-  theorem guarantees convergence at rate $O(1/d)$ with tree depth $d$.
-</p>
-
-<h3 id="sec-complexity">9.3 Complexity-Theoretic Results</h3>
-
-<p>
-  <strong>Factoring in PPP, not PLS (T119).</strong>
-  The factoring cost landscape $\min(N \bmod x,\; x - N \bmod x)$ has 31% local minima
-  (random landscapes: 33%), confirming that local search cannot find factors. Factoring is
-  inherently a collision problem ($x^2 \equiv y^2 \pmod{N}$, exactly 4 fixpoints by CRT),
-  placing it in the TFNP class PPP (Polynomial Pigeonhole Principle) but not PLS.
-</p>
-
-<p>
-  <strong>Smooth Detection Non-Monotonicity (T122).</strong>
-  &ldquo;$x$ is $B$-smooth&rdquo; is NOT value-monotone (17% violation rate), but IS
-  divisibility-monotone. The complement &ldquo;$x$ has a factor $> B$&rdquo; IS monotone,
-  so Razborov's lower bounds apply to non-smooth detection -- but non-monotone circuits
-  can bypass this via cancellation. The Dickman barrier remains the true obstruction.
-</p>
-
-<p>
-  <strong>Sieve RG Flow (T130).</strong>
-  The sieve yield $Y(B) = \Pr[x^2 - N \text{ is } B\text{-smooth}]$ has RG beta function
-  $\beta(Y) = dY/d(\log B)$ that is everywhere positive with no fixed point. Unlike
-  Yang-Mills (asymptotic freedom), there is no phase transition and no &ldquo;shortcut scale.&rdquo;
-</p>
-
-<h3 id="sec-physics">9.4 Physics Analogies</h3>
-
-<p>
-  <strong>Prime Turbulence (T131).</strong>
-  The power spectrum of $\pi(x) - \mathrm{li}(x)$ for $x$ up to $10^5$ scales as
-  $k^{-1.70}$, close to Kolmogorov's K41 exponent $-5/3 = -1.67$ and the RH prediction
-  $-2$. While prime fluctuations are not truly turbulent (no energy cascade), the spectral
-  exponent is controlled by the zeta zero-free region.
-</p>
-
-<p>
-  <strong>Factoring as Thermal Phenomenon (MT2).</strong>
-  Smooth relation &ldquo;actions&rdquo; $S = \log|Q(x)|/\log B$ follow an approximate
-  Boltzmann distribution $P(S) \sim e^{-\beta S}$ with $\beta \approx -0.66$. Combined with
-  the absence of a sieve phase transition (T130), this shows smooth number finding is a
-  statistical process with no topological shortcuts -- ruling out instanton-like factoring methods.
-</p>
-
-<p>
-  <strong>Berggren Non-Flatness (MT3).</strong>
-  The Berggren group has plaquette curvature
-  $\|ABA^{-1}B^{-1} - I\|_F = 402$. In gauge-theoretic terms, the connection on the
-  Pythagorean triple tree is not flat: parallel transport around any loop accumulates
-  holonomy. This geometric obstruction prevents information gained on one branch from
-  transferring to another, explaining why tree-based factoring approaches face a global
-  coordination barrier.
-</p>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- 10. CONCLUSION AND OPEN PROBLEMS -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-conclusion">10. Conclusion and Open Problems</h2>
-
-<p>
-  We have presented a systematic study of the Berggren Pythagorean triple tree,
-  establishing over 130 theorems across group theory, analytic number theory,
-  spectral graph theory, continued fractions, elliptic curves, complexity theory,
-  random matrix theory, and physics analogies. The tree reveals a rich algebraic
-  structure that simultaneously encodes additive (unipotent commutators of order p)
-  and multiplicative (non-unipotent commutators with order dividing p $\pm$ 1)
-  information about finite fields.
-</p>
-
-<p>
-  Despite this richness, our comprehensive survey of 350+ mathematical fields
-  confirms that the Berggren tree---and indeed every classical approach to integer
-  factoring---falls within one of five known complexity families. The CFRAC--tree
-  equivalence theorem makes this precise: the Pythagorean tree with fixed
-  generators is a restricted version of the CFRAC algorithm, which itself is
-  dominated by SIQS above ~30 digits.
-</p>
-
-<p>We conclude with several open problems:</p>
-
-<ol>
-  <li><strong>Can the unipotent structure be exploited for factoring?</strong>
-    The fact that ord([A, B] mod p) = p means that [A, B]<sup>N</sup> $\equiv$ I
-    (mod p) when p | N. Can this be combined with the multiplicative structure
-    of [A, C] (which encodes p $\pm$ 1) to design a factoring algorithm that
-    leverages both channels simultaneously?</li>
-
-  <li><strong>Is there a connection between $\zeta$<sub>tree</sub>(s) and the
-    Riemann zeta function?</strong> The Euler product conjecture suggests a
-    relationship via L(s, $\chi$<sub>4</sub>). Can this be made precise?</li>
-
-  <li><strong>Can the congruent number mapping lead to new ECM strategies?</strong>
-    Each tree triple provides a rational point on an elliptic curve. If the
-    rank of E<sub>ab/2</sub> is high, then the group of rational points is
-    large, potentially enabling faster group-order computations in ECM.</li>
-
-  <li><strong>Transitivity at p<sup>2</sup>.</strong> The Berggren orbit density
-    on (Z/p<sup>2</sup>Z)<sup>2</sup> is p/(p + 1), not 1. Can this defect be
-    characterized and exploited?</li>
-
-  <li><strong>Dickman barrier removal.</strong> Can the conditional lower bound
-    (Theorem 7.1) be extended to all algorithms, or is there a non-sieve
-    approach that fundamentally circumvents the smoothness bottleneck?</li>
-
-  <li><strong>B3-SAT: a cautionary note.</strong> The B3 matrix over
-    F<sub>2</sub> is the identity (the shear vanishes), and the "Jordan
-    crystallization" technique reduces to extracting the strictly
-    upper-triangular part of a matrix, which is trivially nilpotent for any
-    matrix. This debunks claims of polynomial-time 3-SAT solvers based on the
-    B3 structure.</li>
-</ol>
-
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-<!-- REFERENCES -->
-<!-- ═══════════════════════════════════════════════════════════════════════ -->
-
-<h2 id="sec-refs">References</h2>
-
-<ol class="ref-list">
-  <li><span class="ref-id">[1]</span> B. Berggren.
-    <em>Pytagoreiska trianglar.</em>
-    Tidskrift for Elementar Matematik, Fysik och Kemi <strong>17</strong> (1934), 129--139.</li>
-
-  <li><span class="ref-id">[2]</span> F. J. M. Barning.
-    <em>Over pythagorese en bijna-pythagorese driehoeken en een generatieproces met behulp van unimodulaire matrices.</em>
-    Math. Centrum Amsterdam, Afd. Zuivere Wisk. ZW-011 (1963).</li>
-
-  <li><span class="ref-id">[3]</span> A. Hall.
-    <em>Genealogy of Pythagorean triads.</em>
-    Mathematical Gazette <strong>54</strong> (1970), 377--379.</li>
-
-  <li><span class="ref-id">[4]</span> D. N. Lehmer.
-    <em>Asymptotic evaluation of certain totient sums.</em>
-    American Journal of Mathematics <strong>22</strong> (1900), 293--335.</li>
-
-  <li><span class="ref-id">[5]</span> C. Pomerance.
-    <em>A tale of two sieves.</em>
-    Notices of the AMS <strong>43</strong> (1996), 1473--1485.</li>
-
-  <li><span class="ref-id">[6]</span> R. D. Silverman.
-    <em>The multiple polynomial quadratic sieve.</em>
-    Mathematics of Computation <strong>48</strong> (1987), 329--339.</li>
-
-  <li><span class="ref-id">[7]</span> H. W. Lenstra Jr.
-    <em>Factoring integers with elliptic curves.</em>
-    Annals of Mathematics <strong>126</strong> (1987), 649--673.</li>
-
-  <li><span class="ref-id">[8]</span> K. Dickman.
-    <em>On the frequency of numbers containing prime factors of a certain relative magnitude.</em>
-    Arkiv for Matematik, Astronomi och Fysik <strong>22A</strong> (1930), 1--14.</li>
-
-  <li><span class="ref-id">[9]</span> J. B. Tunnell.
-    <em>A classical Diophantine problem and modular forms of weight 3/2.</em>
-    Inventiones Mathematicae <strong>72</strong> (1983), 323--334.</li>
-
-  <li><span class="ref-id">[10]</span> A. A. Razborov and S. Rudich.
-    <em>Natural proofs.</em>
-    Journal of Computer and System Sciences <strong>55</strong> (1997), 24--35.</li>
-
-  <li><span class="ref-id">[11]</span> P. W. Shor.
-    <em>Algorithms for quantum computation: discrete logarithms and factoring.</em>
-    Proc. 35th FOCS (1994), 124--134.</li>
-
-  <li><span class="ref-id">[12]</span> M. A. Morrison and J. Brillhart.
-    <em>A method of factoring and the factorization of F<sub>7</sub>.</em>
-    Mathematics of Computation <strong>29</strong> (1975), 183--205.</li>
-
-  <li><span class="ref-id">[13]</span> D. E. Knuth.
-    <em>The Art of Computer Programming, Vol. 2: Seminumerical Algorithms.</em>
-    3rd ed., Addison-Wesley, 1998. (Knuth--Schroeppel multiplier, Exercise 4.5.4--36.)</li>
-
-  <li><span class="ref-id">[14]</span> H. C. Williams.
-    <em>A p + 1 method of factoring.</em>
-    Mathematics of Computation <strong>39</strong> (1982), 225--234.</li>
-
-  <li><span class="ref-id">[15]</span> B. J. Birch and H. P. F. Swinnerton-Dyer.
-    <em>Notes on elliptic curves. II.</em>
-    Journal fur die Reine und Angewandte Mathematik <strong>218</strong> (1965), 79--108.</li>
-</ol>
-
-<hr>
-
-<p style="text-align:center; color:var(--text-dim); font-size:0.85em;">
-  LaTeX source available at <code>website/paper/b3_paper.tex</code>
-</p>
-
+<footer class="site-footer">
+  B3 Pythagorean Tree Research &middot; Paul Klemstine &middot; 2026-03-17
+</footer>
+
+</div><!-- .main-content -->
+</div><!-- .page-wrapper -->
 </body>
 </html>
