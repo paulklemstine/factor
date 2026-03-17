@@ -1,0 +1,35 @@
+\contentsline {section}{\tocsection {}{1}{Introduction}}{2}{section.1}%
+\contentsline {subsection}{\tocsubsection {}{}{The tower}}{2}{section*.2}%
+\contentsline {subsection}{\tocsubsection {}{}{Significance}}{2}{section*.3}%
+\contentsline {subsection}{\tocsubsection {}{}{What is proven vs.\ cited}}{2}{section*.4}%
+\contentsline {section}{\tocsection {}{2}{The Theta Group $\Gamma _\theta $}}{3}{section.2}%
+\contentsline {subsection}{\tocsubsection {}{2.1}{The Berggren matrices}}{3}{subsection.2.1}%
+\contentsline {subsection}{\tocsubsection {}{2.2}{Berggren generates the theta group}}{3}{subsection.2.2}%
+\contentsline {subsection}{\tocsubsection {}{2.3}{The theta group as modular group}}{3}{subsection.2.3}%
+\contentsline {section}{\tocsection {}{3}{The $\mathrm {SL}(2,\mathbb {F}_p)$ Theorem}}{4}{section.3}%
+\contentsline {section}{\tocsection {}{4}{ADE Classification}}{4}{section.4}%
+\contentsline {section}{\tocsection {}{5}{Klein Quartic and Exceptional Isomorphisms}}{5}{section.5}%
+\contentsline {section}{\tocsection {}{6}{Sporadic Groups: Mathieu Groups}}{5}{section.6}%
+\contentsline {subsection}{\tocsubsection {}{6.1}{$M_{11}$ from $p = 11$}}{5}{subsection.6.1}%
+\contentsline {subsection}{\tocsubsection {}{6.2}{$M_{24}$ from $p = 23$}}{6}{subsection.6.2}%
+\contentsline {section}{\tocsection {}{7}{The Leech Lattice}}{6}{section.7}%
+\contentsline {section}{\tocsection {}{8}{Monstrous Moonshine}}{7}{section.8}%
+\contentsline {subsection}{\tocsubsection {}{8.1}{From $\Gamma _\theta $ to the $j$-invariant}}{7}{subsection.8.1}%
+\contentsline {subsection}{\tocsubsection {}{8.2}{The moonshine module}}{7}{subsection.8.2}%
+\contentsline {subsection}{\tocsubsection {}{8.3}{The complete chain}}{8}{subsection.8.3}%
+\contentsline {section}{\tocsection {}{9}{Physical Interpretation}}{8}{section.9}%
+\contentsline {subsection}{\tocsubsection {}{9.1}{Bosonic string theory}}{8}{subsection.9.1}%
+\contentsline {subsection}{\tocsubsection {}{9.2}{$E_8$ heterotic string}}{8}{subsection.9.2}%
+\contentsline {subsection}{\tocsubsection {}{9.3}{Gravitational partition function}}{8}{subsection.9.3}%
+\contentsline {section}{\tocsection {}{10}{Computational Verification}}{9}{section.10}%
+\contentsline {subsection}{\tocsubsection {}{10.1}{Group generation modulo $p$}}{9}{subsection.10.1}%
+\contentsline {subsection}{\tocsubsection {}{10.2}{McKay graph verification}}{9}{subsection.10.2}%
+\contentsline {subsection}{\tocsubsection {}{10.3}{Modular function computation}}{9}{subsection.10.3}%
+\contentsline {subsection}{\tocsubsection {}{10.4}{Golay code verification}}{9}{subsection.10.4}%
+\contentsline {subsection}{\tocsubsection {}{10.5}{Platform}}{9}{subsection.10.5}%
+\contentsline {section}{\tocsection {}{11}{Discussion}}{9}{section.11}%
+\contentsline {subsection}{\tocsubsection {}{11.1}{Uniqueness of the Berggren tree}}{9}{subsection.11.1}%
+\contentsline {subsection}{\tocsubsection {}{11.2}{The role of primes}}{9}{subsection.11.2}%
+\contentsline {subsection}{\tocsubsection {}{11.3}{Open problems}}{10}{subsection.11.3}%
+\contentsline {section}{\tocsection {}{}{Acknowledgments}}{10}{section*.5}%
+\contentsline {section}{\tocsection {}{}{References}}{10}{section*.6}%

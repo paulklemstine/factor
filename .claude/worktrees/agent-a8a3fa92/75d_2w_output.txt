@@ -1,0 +1,16 @@
+============================================================
+SIQS 75d (2 workers): N = 1000000000000000000000000000000000091100...
+Known: 1000000000000000000000000000000000067 x 10000000000000000000000000000000000241
+  SIQS: 74d (244b), FB=8500, M=6200000
+    FB[2..187877] built (0.0s)
+    Need 8600 rels, T_bits=60, LP_bound=7d
+    s=7, 64 polys/a, select FB[1053..1123]
+    Parallel sieve: 2 workers (random a-selection)
+      [585s] a=4 poly=256 sm=48/8600 part=819 dlp=357 rate=0.1/s eta=99999s
+      [602s] a=8 poly=512 sm=100/8600 part=1657 dlp=727 rate=0.2/s eta=51191s
+      [620s] a=12 poly=768 sm=152/8600 part=2484 dlp=1080 rate=0.2/s eta=34444s
+      [637s] a=16 poly=1024 sm=206/8600 part=3293 dlp=1466 rate=0.3/s eta=25951s
+      [655s] a=20 poly=1280 sm=266/8600 part=4139 dlp=1805 rate=0.4/s eta=20529s
+      [673s] a=24 poly=1536 sm=328/8600 part=4961 dlp=2153 rate=0.5/s eta=16985s
+      [694s] a=28 poly=1792 sm=391/8600 part=5796 dlp=2544 rate=0.6/s eta=14577s
+      [713s] a=32 poly=2048 sm=470/8600 part=6667 dlp=2940 rate=0.7/s eta=12337s

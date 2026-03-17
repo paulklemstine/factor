@@ -3477,7 +3477,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     # For 48-54d: hybrid mode (line sieve b=1..50000, then lattice for remainder)
     # For 55d+: pure lattice sieve
     _c_lattice_available = _load_lattice_sieve() is not None
-    _lattice_threshold = 48 if _c_lattice_available else 80
+    _lattice_threshold = 55 if _c_lattice_available else 80  # lattice too slow for <55d
     if nd >= _lattice_threshold and nd < 55 and _c_lattice_available:
         # Hybrid mode: line sieve for small b (fast, high yield) + lattice for remainder
         if verbose:

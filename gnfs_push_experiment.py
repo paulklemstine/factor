@@ -22,9 +22,9 @@ def make_semiprime(target_digits, seed=42):
 
 from gnfs_engine import gnfs_factor
 
-# Iteration 9: push to 50d after 48d success
+# Iteration 11: line sieve only (lattice too slow at 50d), DLP+poly opt
 targets = [50]
-time_limit = 2100  # 35 min — 50d will need more sieve time
+time_limit = 4200  # 70 min — 50d needs ~4000s line sieve
 
 results = []
 for td in targets:

@@ -1,0 +1,32 @@
+============================================================
+SIQS 72d (2 workers): N = 1000000000000000000000000000000003700000...
+Known: 100000000000000000000000000000000069 x 100000000000000000000000000000000301
+  SIQS: 71d (234b), FB=7000, M=3800000
+    FB[2..151201] built (0.0s)
+    Need 7100 rels, T_bits=57, LP_bound=7d
+    s=8, 128 polys/a, select FB[211..291]
+    Parallel sieve: 2 workers (random a-selection)
+      [21s] a=4 poly=512 sm=220/7100 part=2874 dlp=1476 rate=10.5/s eta=658s
+      [40s] a=8 poly=1024 sm=464/7100 part=5841 dlp=2933 rate=11.6/s eta=574s
+      [59s] a=12 poly=1536 sm=730/7100 part=8625 dlp=4436 rate=12.3/s eta=517s
+      [80s] a=16 poly=2048 sm=1065/7100 part=11409 dlp=5979 rate=13.3/s eta=452s
+      [99s] a=20 poly=2560 sm=1436/7100 part=14177 dlp=7527 rate=14.5/s eta=391s
+      [119s] a=24 poly=3072 sm=1826/7100 part=16874 dlp=8984 rate=15.4/s eta=342s
+      [139s] a=28 poly=3584 sm=2232/7100 part=19596 dlp=10467 rate=16.1/s eta=303s
+      [158s] a=32 poly=4096 sm=2680/7100 part=22238 dlp=12042 rate=16.9/s eta=261s
+      [182s] a=36 poly=4608 sm=3195/7100 part=24906 dlp=13583 rate=17.5/s eta=223s
+      [209s] a=40 poly=5120 sm=3711/7100 part=27425 dlp=15054 rate=17.8/s eta=191s
+      [233s] a=44 poly=5632 sm=4329/7100 part=30010 dlp=16557 rate=18.5/s eta=149s
+      [255s] a=48 poly=6144 sm=4903/7100 part=32505 dlp=18110 rate=19.3/s eta=114s
+      [277s] a=52 poly=6656 sm=5543/7100 part=34952 dlp=19605 rate=20.0/s eta=78s
+      [301s] a=56 poly=7168 sm=6238/7100 part=37347 dlp=21060 rate=20.8/s eta=42s
+      [591s] a=60 poly=7680 sm=6935/7100 part=39784 dlp=22567 rate=11.7/s eta=14s
+      [602s] a=61 poly=7808 sm=7123/7100 part=40396 dlp=22940 rate=11.8/s eta=-2s
+
+    LA: 7123 x 7001
+    Filtering: 7123 -> 6867 rows (4% removed)
+    LA: 19.9s, 173 null vecs
+
+    *** FACTOR: 100000000000000000000000000000000069 (635.4s) ***
+
+SUCCESS: 72d (2w) in 651.1s

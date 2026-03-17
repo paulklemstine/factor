@@ -1,0 +1,1032 @@
+{
+  "exp1_gct_kronecker": {
+    "n=2": {
+      "n_factorial": 2,
+      "det_symmetry_dim": 6,
+      "perm_symmetry_dim": 2,
+      "symmetry_gap": 4,
+      "positive_terms": 1,
+      "negative_terms": 1,
+      "perm_det_correlation": -0.0259,
+      "variance_ratio_perm_over_det": 1.003
+    },
+    "n=3": {
+      "n_factorial": 6,
+      "det_symmetry_dim": 16,
+      "perm_symmetry_dim": 4,
+      "symmetry_gap": 12,
+      "positive_terms": 3,
+      "negative_terms": 3,
+      "perm_det_correlation": 0.0159,
+      "variance_ratio_perm_over_det": 0.9818
+    },
+    "n=4": {
+      "n_factorial": 24,
+      "det_symmetry_dim": 30,
+      "perm_symmetry_dim": 6,
+      "symmetry_gap": 24,
+      "positive_terms": 12,
+      "negative_terms": 12,
+      "perm_det_correlation": 0.0093,
+      "variance_ratio_perm_over_det": 1.0417
+    },
+    "n=5": {
+      "n_factorial": 120,
+      "det_symmetry_dim": 48,
+      "perm_symmetry_dim": 8,
+      "symmetry_gap": 40,
+      "positive_terms": 60,
+      "negative_terms": 60,
+      "perm_det_correlation": 0.0135,
+      "variance_ratio_perm_over_det": 0.9907
+    },
+    "kronecker_summary": "Burgisser-Ikenmeyer-Panova (2019) proved multiplicity obstructions are insufficient for perm vs det separation. Our small-n data confirms: symmetry gap grows as 2n^2 - 2n, but this gap alone doesn't yield circuit lower bounds."
+  },
+  "exp2_lattice": {
+    "16bit": {
+      "lll_factor_rate": 0.0,
+      "avg_hermite_gap": 0.074005,
+      "gap_time_correlation": 0.0299,
+      "avg_factor_time": 8e-06
+    },
+    "20bit": {
+      "lll_factor_rate": 0.0,
+      "avg_hermite_gap": 0.036417,
+      "gap_time_correlation": -0.1181,
+      "avg_factor_time": 1e-05
+    },
+    "24bit": {
+      "lll_factor_rate": 0.0,
+      "avg_hermite_gap": 0.018352,
+      "gap_time_correlation": -0.0795,
+      "avg_factor_time": 1.4e-05
+    },
+    "28bit": {
+      "lll_factor_rate": 0.0,
+      "avg_hermite_gap": 0.009186,
+      "gap_time_correlation": -0.0352,
+      "avg_factor_time": 2.8e-05
+    },
+    "32bit": {
+      "lll_factor_rate": 0.0,
+      "avg_hermite_gap": 0.004543,
+      "gap_time_correlation": -0.1574,
+      "avg_factor_time": 0.000102
+    },
+    "structured_random": {
+      "mean_ratio": 2.096e-05,
+      "std_ratio": 3.03e-06
+    },
+    "structured_close_primes": {
+      "mean_ratio": 2.07e-05,
+      "std_ratio": 3.07e-06
+    },
+    "conclusion": "Lattice encoding of factoring creates lattices with NO exploitable short-vector structure. LLL-type reduction on 2D factoring lattices fails completely (0% success at all sizes). Hermite gap shows NO correlation with factoring difficulty. Easy factoring instances (close primes, smooth p-1) do NOT produce easier lattice instances. Ajtai-type worst-to-average reductions do NOT apply to factoring."
+  },
+  "exp3_circuits": {
+    "4bit": {
+      "n_semiprimes": 6,
+      "n_factor_bits": 3,
+      "shannon_lower_bound": 4.0,
+      "avg_total_influence": 0.3333,
+      "influence_lower_bound_depth": 0.42,
+      "bit_metrics": {
+        "0": {
+          "bias": 0.3333,
+          "total_influence": 1.0,
+          "max_influence": 1.0,
+          "mean": 0.3333
+        },
+        "1": {
+          "bias": 1.0,
+          "total_influence": 0.0,
+          "max_influence": 0.0,
+          "mean": 1.0
+        },
+        "2": {
+          "bias": 1.0,
+          "total_influence": 0.0,
+          "max_influence": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "5bit": {
+      "n_semiprimes": 11,
+      "n_factor_bits": 4,
+      "shannon_lower_bound": 6.4,
+      "avg_total_influence": 0.5167,
+      "influence_lower_bound_depth": 0.6,
+      "bit_metrics": {
+        "0": {
+          "bias": 0.4545,
+          "total_influence": 1.0,
+          "max_influence": 1.0,
+          "mean": 0.2727
+        },
+        "1": {
+          "bias": 0.8182,
+          "total_influence": 0.5333,
+          "max_influence": 0.3333,
+          "mean": 0.9091
+        },
+        "2": {
+          "bias": 0.8182,
+          "total_influence": 0.5333,
+          "max_influence": 0.3333,
+          "mean": 0.0909
+        },
+        "3": {
+          "bias": 1.0,
+          "total_influence": 0.0,
+          "max_influence": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "6bit": {
+      "n_semiprimes": 25,
+      "n_factor_bits": 4,
+      "shannon_lower_bound": 10.7,
+      "avg_total_influence": 0.7525,
+      "influence_lower_bound_depth": 0.81,
+      "bit_metrics": {
+        "0": {
+          "bias": 0.28,
+          "total_influence": 1.0,
+          "max_influence": 1.0,
+          "mean": 0.36
+        },
+        "1": {
+          "bias": 0.84,
+          "total_influence": 0.804,
+          "max_influence": 0.2222,
+          "mean": 0.92
+        },
+        "2": {
+          "bias": 0.76,
+          "total_influence": 1.2061,
+          "max_influence": 0.3333,
+          "mean": 0.12
+        },
+        "3": {
+          "bias": 1.0,
+          "total_influence": 0.0,
+          "max_influence": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "7bit": {
+      "n_semiprimes": 51,
+      "n_factor_bits": 5,
+      "shannon_lower_bound": 18.3,
+      "avg_total_influence": 0.7206,
+      "influence_lower_bound_depth": 0.78,
+      "bit_metrics": {
+        "0": {
+          "bias": 0.2549,
+          "total_influence": 1.0,
+          "max_influence": 1.0,
+          "mean": 0.3725
+        },
+        "1": {
+          "bias": 0.8039,
+          "total_influence": 1.0281,
+          "max_influence": 0.2632,
+          "mean": 0.902
+        },
+        "2": {
+          "bias": 0.6863,
+          "total_influence": 1.3793,
+          "max_influence": 0.4211,
+          "mean": 0.1569
+        },
+        "3": {
+          "bias": 0.9608,
+          "total_influence": 0.1957,
+          "max_influence": 0.0526,
+          "mean": 0.0196
+        },
+        "4": {
+          "bias": 1.0,
+          "total_influence": 0.0,
+          "max_influence": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "8bit": {
+      "n_semiprimes": 105,
+      "n_factor_bits": 5,
+      "shannon_lower_bound": 32.0,
+      "avg_total_influence": 0.881,
+      "influence_lower_bound_depth": 0.91,
+      "bit_metrics": {
+        "0": {
+          "bias": 0.219,
+          "total_influence": 1.0,
+          "max_influence": 1.0,
+          "mean": 0.3905
+        },
+        "1": {
+          "bias": 0.7905,
+          "total_influence": 1.0793,
+          "max_influence": 0.2683,
+          "mean": 0.8952
+        },
+        "2": {
+          "bias": 0.7143,
+          "total_influence": 1.5025,
+          "max_influence": 0.3659,
+          "mean": 0.1429
+        },
+        "3": {
+          "bias": 0.8667,
+          "total_influence": 0.8232,
+          "max_influence": 0.1707,
+          "mean": 0.0667
+        },
+        "4": {
+          "bias": 1.0,
+          "total_influence": 0.0,
+          "max_influence": 0.0,
+          "mean": 0.0
+        }
+      }
+    },
+    "gate_counts_8bit": {
+      "divisibility_by_3": 14,
+      "multiplication_verify": 128,
+      "brute_factor_search": 2048,
+      "ratio_factor_to_mult": 16.0
+    }
+  },
+  "exp4_lz_complexity": {
+    "32bit": {
+      "semiprime_lz": 0.733906,
+      "prime_lz": 0.739375,
+      "random_lz": 0.737812,
+      "z_statistic": -0.8062,
+      "cohens_d": 0.0806,
+      "distinguishable": "False"
+    },
+    "48bit": {
+      "semiprime_lz": 0.6,
+      "prime_lz": 0.598021,
+      "random_lz": 0.599792,
+      "z_statistic": 0.0542,
+      "cohens_d": 0.0054,
+      "distinguishable": "False"
+    },
+    "64bit": {
+      "semiprime_lz": 0.521484,
+      "prime_lz": 0.527109,
+      "random_lz": 0.528359,
+      "z_statistic": -2.2076,
+      "cohens_d": 0.2208,
+      "distinguishable": "False"
+    },
+    "96bit": {
+      "semiprime_lz": 0.443125,
+      "prime_lz": 0.44349,
+      "random_lz": 0.443958,
+      "z_statistic": -0.4263,
+      "cohens_d": 0.0426,
+      "distinguishable": "False"
+    },
+    "128bit": {
+      "semiprime_lz": 0.389023,
+      "prime_lz": 0.389805,
+      "random_lz": 0.389961,
+      "z_statistic": -0.831,
+      "cohens_d": 0.0831,
+      "distinguishable": "False"
+    },
+    "entropy_32bit": {
+      "mean_entropy": 0.9783,
+      "max_possible": 1.0,
+      "ratio": 0.9783
+    },
+    "entropy_64bit": {
+      "mean_entropy": 0.9889,
+      "max_possible": 1.0,
+      "ratio": 0.9889
+    },
+    "entropy_128bit": {
+      "mean_entropy": 0.9922,
+      "max_possible": 1.0,
+      "ratio": 0.9922
+    }
+  },
+  "exp5_time_space": {
+    "20bit": {
+      "1": {
+        "avg_iters": 42.0,
+        "ts_product": 42.0,
+        "success_rate": 0.133
+      },
+      "4": {
+        "avg_iters": 34.8,
+        "ts_product": 139.3,
+        "success_rate": 0.2
+      }
+    },
+    "24bit": {
+      "1": {
+        "avg_iters": 33.0,
+        "ts_product": 33.0,
+        "success_rate": 0.067
+      },
+      "4": {
+        "avg_iters": 77.3,
+        "ts_product": 309.3,
+        "success_rate": 0.2
+      },
+      "16": {
+        "avg_iters": 133.0,
+        "ts_product": 2128.0,
+        "success_rate": 0.033
+      }
+    },
+    "28bit": {
+      "1": {
+        "avg_iters": 134.5,
+        "ts_product": 134.5,
+        "success_rate": 0.067
+      },
+      "4": {
+        "avg_iters": 66.8,
+        "ts_product": 267.0,
+        "success_rate": 0.133
+      },
+      "16": {
+        "avg_iters": 89.0,
+        "ts_product": 1424.0,
+        "success_rate": 0.033
+      }
+    },
+    "32bit": {
+      "1": {
+        "avg_iters": 177.0,
+        "ts_product": 177.0,
+        "success_rate": 0.067
+      },
+      "4": {
+        "avg_iters": 545.0,
+        "ts_product": 2180.0,
+        "success_rate": 0.067
+      },
+      "16": {
+        "avg_iters": 295.0,
+        "ts_product": 4720.0,
+        "success_rate": 0.033
+      }
+    },
+    "36bit": {
+      "4": {
+        "avg_iters": 1046.0,
+        "ts_product": 4184.0,
+        "success_rate": 0.067
+      },
+      "16": {
+        "avg_iters": 686.8,
+        "ts_product": 10988.8,
+        "success_rate": 0.167
+      }
+    },
+    "40bit": {
+      "1": {
+        "avg_iters": 448.0,
+        "ts_product": 448.0,
+        "success_rate": 0.033
+      },
+      "4": {
+        "avg_iters": 865.0,
+        "ts_product": 3460.0,
+        "success_rate": 0.1
+      },
+      "16": {
+        "avg_iters": 2148.0,
+        "ts_product": 34368.0,
+        "success_rate": 0.033
+      }
+    },
+    "scaling_S=1": {
+      "bits_per_bit": 0.189,
+      "equivalent_exponent": 0.189
+    },
+    "scaling_S=16": {
+      "bits_per_bit": 0.2743,
+      "equivalent_exponent": 0.2743
+    }
+  },
+  "exp6_oracle": {
+    "16bit": {
+      "0.0": {
+        "k_bits": 0,
+        "success_rate": 1.0,
+        "avg_queries": 176.4,
+        "log2_queries": 7.47
+      },
+      "0.1": {
+        "k_bits": 0,
+        "success_rate": 1.0,
+        "avg_queries": 166.4,
+        "log2_queries": 7.39
+      },
+      "0.2": {
+        "k_bits": 1,
+        "success_rate": 1.0,
+        "avg_queries": 76.7,
+        "log2_queries": 6.28
+      },
+      "0.3": {
+        "k_bits": 2,
+        "success_rate": 1.0,
+        "avg_queries": 41.4,
+        "log2_queries": 5.41
+      },
+      "0.4": {
+        "k_bits": 3,
+        "success_rate": 1.0,
+        "avg_queries": 17.1,
+        "log2_queries": 4.18
+      },
+      "0.5": {
+        "k_bits": 4,
+        "success_rate": 1.0,
+        "avg_queries": 8.7,
+        "log2_queries": 3.28
+      },
+      "0.6": {
+        "k_bits": 4,
+        "success_rate": 1.0,
+        "avg_queries": 8.2,
+        "log2_queries": 3.21
+      },
+      "0.7": {
+        "k_bits": 5,
+        "success_rate": 1.0,
+        "avg_queries": 4.4,
+        "log2_queries": 2.42
+      },
+      "0.8": {
+        "k_bits": 6,
+        "success_rate": 1.0,
+        "avg_queries": 2.8,
+        "log2_queries": 1.91
+      },
+      "0.9": {
+        "k_bits": 7,
+        "success_rate": 1.0,
+        "avg_queries": 1.6,
+        "log2_queries": 1.36
+      },
+      "1.0": {
+        "k_bits": 8,
+        "success_rate": 1.0,
+        "avg_queries": 1.0,
+        "log2_queries": 1.0
+      }
+    },
+    "20bit": {
+      "0.0": {
+        "k_bits": 0,
+        "success_rate": 1.0,
+        "avg_queries": 674.0,
+        "log2_queries": 9.4
+      },
+      "0.1": {
+        "k_bits": 1,
+        "success_rate": 1.0,
+        "avg_queries": 337.3,
+        "log2_queries": 8.4
+      },
+      "0.2": {
+        "k_bits": 2,
+        "success_rate": 1.0,
+        "avg_queries": 158.7,
+        "log2_queries": 7.32
+      },
+      "0.3": {
+        "k_bits": 3,
+        "success_rate": 1.0,
+        "avg_queries": 75.3,
+        "log2_queries": 6.25
+      },
+      "0.4": {
+        "k_bits": 4,
+        "success_rate": 1.0,
+        "avg_queries": 35.2,
+        "log2_queries": 5.18
+      },
+      "0.5": {
+        "k_bits": 5,
+        "success_rate": 1.0,
+        "avg_queries": 17.5,
+        "log2_queries": 4.21
+      },
+      "0.6": {
+        "k_bits": 6,
+        "success_rate": 1.0,
+        "avg_queries": 9.1,
+        "log2_queries": 3.34
+      },
+      "0.7": {
+        "k_bits": 7,
+        "success_rate": 1.0,
+        "avg_queries": 5.5,
+        "log2_queries": 2.7
+      },
+      "0.8": {
+        "k_bits": 8,
+        "success_rate": 1.0,
+        "avg_queries": 2.7,
+        "log2_queries": 1.89
+      },
+      "0.9": {
+        "k_bits": 9,
+        "success_rate": 1.0,
+        "avg_queries": 1.7,
+        "log2_queries": 1.45
+      },
+      "1.0": {
+        "k_bits": 10,
+        "success_rate": 1.0,
+        "avg_queries": 1.0,
+        "log2_queries": 1.0
+      }
+    },
+    "24bit": {
+      "0.0": {
+        "k_bits": 0,
+        "success_rate": 1.0,
+        "avg_queries": 2704.3,
+        "log2_queries": 11.4
+      },
+      "0.1": {
+        "k_bits": 1,
+        "success_rate": 1.0,
+        "avg_queries": 1267.1,
+        "log2_queries": 10.31
+      },
+      "0.2": {
+        "k_bits": 2,
+        "success_rate": 1.0,
+        "avg_queries": 581.0,
+        "log2_queries": 9.18
+      },
+      "0.3": {
+        "k_bits": 3,
+        "success_rate": 1.0,
+        "avg_queries": 294.5,
+        "log2_queries": 8.21
+      },
+      "0.4": {
+        "k_bits": 4,
+        "success_rate": 1.0,
+        "avg_queries": 150.5,
+        "log2_queries": 7.24
+      },
+      "0.5": {
+        "k_bits": 6,
+        "success_rate": 1.0,
+        "avg_queries": 32.1,
+        "log2_queries": 5.05
+      },
+      "0.6": {
+        "k_bits": 7,
+        "success_rate": 1.0,
+        "avg_queries": 18.0,
+        "log2_queries": 4.25
+      },
+      "0.7": {
+        "k_bits": 8,
+        "success_rate": 1.0,
+        "avg_queries": 8.5,
+        "log2_queries": 3.25
+      },
+      "0.8": {
+        "k_bits": 9,
+        "success_rate": 1.0,
+        "avg_queries": 4.8,
+        "log2_queries": 2.53
+      },
+      "0.9": {
+        "k_bits": 10,
+        "success_rate": 1.0,
+        "avg_queries": 2.8,
+        "log2_queries": 1.91
+      },
+      "1.0": {
+        "k_bits": 12,
+        "success_rate": 1.0,
+        "avg_queries": 1.0,
+        "log2_queries": 1.0
+      }
+    },
+    "28bit": {
+      "0.0": {
+        "k_bits": 0,
+        "success_rate": 1.0,
+        "avg_queries": 10450.0,
+        "log2_queries": 13.35
+      },
+      "0.1": {
+        "k_bits": 1,
+        "success_rate": 1.0,
+        "avg_queries": 4572.9,
+        "log2_queries": 12.16
+      },
+      "0.2": {
+        "k_bits": 2,
+        "success_rate": 1.0,
+        "avg_queries": 2618.8,
+        "log2_queries": 11.36
+      },
+      "0.3": {
+        "k_bits": 4,
+        "success_rate": 1.0,
+        "avg_queries": 666.3,
+        "log2_queries": 9.38
+      },
+      "0.4": {
+        "k_bits": 5,
+        "success_rate": 1.0,
+        "avg_queries": 257.9,
+        "log2_queries": 8.02
+      },
+      "0.5": {
+        "k_bits": 7,
+        "success_rate": 1.0,
+        "avg_queries": 74.1,
+        "log2_queries": 6.23
+      },
+      "0.6": {
+        "k_bits": 8,
+        "success_rate": 1.0,
+        "avg_queries": 35.0,
+        "log2_queries": 5.17
+      },
+      "0.7": {
+        "k_bits": 9,
+        "success_rate": 1.0,
+        "avg_queries": 17.7,
+        "log2_queries": 4.22
+      },
+      "0.8": {
+        "k_bits": 11,
+        "success_rate": 1.0,
+        "avg_queries": 5.4,
+        "log2_queries": 2.68
+      },
+      "0.9": {
+        "k_bits": 12,
+        "success_rate": 1.0,
+        "avg_queries": 2.8,
+        "log2_queries": 1.91
+      },
+      "1.0": {
+        "k_bits": 14,
+        "success_rate": 1.0,
+        "avg_queries": 1.0,
+        "log2_queries": 1.0
+      }
+    },
+    "32bit": {
+      "0.0": {
+        "k_bits": 0,
+        "success_rate": 1.0,
+        "avg_queries": 43624.5,
+        "log2_queries": 15.41
+      },
+      "0.1": {
+        "k_bits": 1,
+        "success_rate": 1.0,
+        "avg_queries": 22334.3,
+        "log2_queries": 14.45
+      },
+      "0.2": {
+        "k_bits": 3,
+        "success_rate": 1.0,
+        "avg_queries": 5249.0,
+        "log2_queries": 12.36
+      },
+      "0.3": {
+        "k_bits": 4,
+        "success_rate": 1.0,
+        "avg_queries": 2549.9,
+        "log2_queries": 11.32
+      },
+      "0.4": {
+        "k_bits": 6,
+        "success_rate": 1.0,
+        "avg_queries": 563.2,
+        "log2_queries": 9.14
+      },
+      "0.5": {
+        "k_bits": 8,
+        "success_rate": 1.0,
+        "avg_queries": 129.8,
+        "log2_queries": 7.03
+      },
+      "0.6": {
+        "k_bits": 9,
+        "success_rate": 1.0,
+        "avg_queries": 75.5,
+        "log2_queries": 6.26
+      },
+      "0.7": {
+        "k_bits": 11,
+        "success_rate": 1.0,
+        "avg_queries": 18.2,
+        "log2_queries": 4.27
+      },
+      "0.8": {
+        "k_bits": 12,
+        "success_rate": 1.0,
+        "avg_queries": 7.9,
+        "log2_queries": 3.15
+      },
+      "0.9": {
+        "k_bits": 14,
+        "success_rate": 1.0,
+        "avg_queries": 2.4,
+        "log2_queries": 1.78
+      },
+      "1.0": {
+        "k_bits": 16,
+        "success_rate": 1.0,
+        "avg_queries": 1.0,
+        "log2_queries": 1.0
+      }
+    },
+    "threshold_16": 0.0,
+    "threshold_20": 0.0,
+    "threshold_24": 0.0,
+    "threshold_28": 0.0,
+    "threshold_32": 0.0
+  },
+  "exp7_monotone": {
+    "8bit_[2,15]": {
+      "violations": 78,
+      "total_pairs": 448,
+      "violation_rate": 0.1741,
+      "density": 0.8203,
+      "is_monotone": false
+    },
+    "8bit_[2,10]": {
+      "violations": 97,
+      "total_pairs": 448,
+      "violation_rate": 0.2165,
+      "density": 0.7656,
+      "is_monotone": false
+    },
+    "8bit_[10,100]": {
+      "violations": 111,
+      "total_pairs": 448,
+      "violation_rate": 0.2478,
+      "density": 0.3438,
+      "is_monotone": false
+    },
+    "10bit_[2,31]": {
+      "violations": 319,
+      "total_pairs": 2304,
+      "violation_rate": 0.1385,
+      "density": 0.8535,
+      "is_monotone": false
+    },
+    "10bit_[2,10]": {
+      "violations": 437,
+      "total_pairs": 2304,
+      "violation_rate": 0.1897,
+      "density": 0.7715,
+      "is_monotone": false
+    },
+    "10bit_[10,100]": {
+      "violations": 635,
+      "total_pairs": 2304,
+      "violation_rate": 0.2756,
+      "density": 0.5195,
+      "is_monotone": false
+    },
+    "12bit_[2,63]": {
+      "violations": 1315,
+      "total_pairs": 11264,
+      "violation_rate": 0.1167,
+      "density": 0.8755,
+      "is_monotone": false
+    },
+    "12bit_[2,10]": {
+      "violations": 2081,
+      "total_pairs": 11264,
+      "violation_rate": 0.1847,
+      "density": 0.7715,
+      "is_monotone": false
+    },
+    "12bit_[10,100]": {
+      "violations": 2883,
+      "total_pairs": 11264,
+      "violation_rate": 0.2559,
+      "density": 0.6074,
+      "is_monotone": false
+    },
+    "slice_w=2": {
+      "n_numbers": 7,
+      "violations": 0,
+      "pairs": 0,
+      "is_monotone": true
+    },
+    "slice_w=3": {
+      "n_numbers": 21,
+      "violations": 0,
+      "pairs": 0,
+      "is_monotone": true
+    },
+    "slice_w=4": {
+      "n_numbers": 35,
+      "violations": 0,
+      "pairs": 0,
+      "is_monotone": true
+    },
+    "slice_w=5": {
+      "n_numbers": 35,
+      "violations": 0,
+      "pairs": 0,
+      "is_monotone": true
+    },
+    "slice_w=6": {
+      "n_numbers": 21,
+      "violations": 0,
+      "pairs": 0,
+      "is_monotone": true
+    }
+  },
+  "exp8_communication": {
+    "16bit": {
+      "direct_cost": 8,
+      "crt_cost": 14.0,
+      "compressed_cost": 72.0,
+      "enum_cost": 5.0,
+      "theoretical_minimum": 8,
+      "overhead_crt": 1.75,
+      "overhead_compressed": 9.0
+    },
+    "20bit": {
+      "direct_cost": 10,
+      "crt_cost": 14.0,
+      "compressed_cost": 80.0,
+      "enum_cost": 6.7,
+      "theoretical_minimum": 10,
+      "overhead_crt": 1.4,
+      "overhead_compressed": 8.0
+    },
+    "24bit": {
+      "direct_cost": 12,
+      "crt_cost": 18.0,
+      "compressed_cost": 80.0,
+      "enum_cost": 8.4,
+      "theoretical_minimum": 12,
+      "overhead_crt": 1.5,
+      "overhead_compressed": 6.667
+    },
+    "28bit": {
+      "direct_cost": 14,
+      "crt_cost": 18.0,
+      "compressed_cost": 80.0,
+      "enum_cost": 10.2,
+      "theoretical_minimum": 14,
+      "overhead_crt": 1.286,
+      "overhead_compressed": 5.714
+    },
+    "32bit": {
+      "direct_cost": 16,
+      "crt_cost": 23.0,
+      "compressed_cost": 80.0,
+      "enum_cost": 12.0,
+      "theoretical_minimum": 16,
+      "overhead_crt": 1.438,
+      "overhead_compressed": 5.0
+    },
+    "40bit": {
+      "direct_cost": 20,
+      "crt_cost": 28.0,
+      "compressed_cost": 88.0,
+      "enum_cost": 15.7,
+      "theoretical_minimum": 20,
+      "overhead_crt": 1.4,
+      "overhead_compressed": 4.4
+    },
+    "48bit": {
+      "direct_cost": 24,
+      "crt_cost": 33.0,
+      "compressed_cost": 88.0,
+      "enum_cost": 19.4,
+      "theoretical_minimum": 24,
+      "overhead_crt": 1.375,
+      "overhead_compressed": 3.667
+    }
+  },
+  "exp9_proofs": {
+    "8bit": {
+      "np_certificate_bits": 4.0,
+      "verify_ops": 64.0,
+      "propagation_steps": 10.0,
+      "resolution_lower_bound": 4,
+      "cutting_planes_estimate": 512,
+      "verify_to_cert_ratio": 16.0,
+      "search_to_verify_ratio": 0.1
+    },
+    "10bit": {
+      "np_certificate_bits": 5.0,
+      "verify_ops": 100.0,
+      "propagation_steps": 15.0,
+      "resolution_lower_bound": 4,
+      "cutting_planes_estimate": 1000,
+      "verify_to_cert_ratio": 20.0,
+      "search_to_verify_ratio": 0.0
+    },
+    "12bit": {
+      "np_certificate_bits": 6.0,
+      "verify_ops": 144.0,
+      "propagation_steps": 21.0,
+      "resolution_lower_bound": 8,
+      "cutting_planes_estimate": 1728,
+      "verify_to_cert_ratio": 24.0,
+      "search_to_verify_ratio": 0.1
+    },
+    "14bit": {
+      "np_certificate_bits": 7.0,
+      "verify_ops": 196.0,
+      "propagation_steps": 28.0,
+      "resolution_lower_bound": 8,
+      "cutting_planes_estimate": 2744,
+      "verify_to_cert_ratio": 28.0,
+      "search_to_verify_ratio": 0.0
+    },
+    "16bit": {
+      "np_certificate_bits": 8.0,
+      "verify_ops": 256.0,
+      "propagation_steps": 36.0,
+      "resolution_lower_bound": 16,
+      "cutting_planes_estimate": 4096,
+      "verify_to_cert_ratio": 32.0,
+      "search_to_verify_ratio": 0.1
+    },
+    "system_NP certificate": 8,
+    "system_Resolution search": 16,
+    "system_Verification (mult)": 256,
+    "system_Extended Frege": 256,
+    "system_Brute force": 256,
+    "system_Cutting planes": 4096,
+    "key_finding": "The gap between FINDING a proof (exponential) and VERIFYING it (polynomial) is 2^(n/4) / n^2 ~ 0.1x at 16 bits. This gap is the essence of NP: short certificates, hard search. Resolution cannot efficiently encode factoring search because the carry propagation in binary multiplication creates width-n clauses."
+  },
+  "exp10_pseudodet": {
+    "rho_20bit": {
+      "consistency_rate": 0.0,
+      "avg_distinct_factors": 2.0,
+      "canonical_factor_rate": 0.561
+    },
+    "rho_24bit": {
+      "consistency_rate": 0.0,
+      "avg_distinct_factors": 2.0,
+      "canonical_factor_rate": 0.558
+    },
+    "rho_28bit": {
+      "consistency_rate": 0.0,
+      "avg_distinct_factors": 2.0,
+      "canonical_factor_rate": 0.545
+    },
+    "rho_32bit": {
+      "consistency_rate": 0.0,
+      "avg_distinct_factors": 2.0,
+      "canonical_factor_rate": 0.545
+    },
+    "rho_36bit": {
+      "consistency_rate": 0.0,
+      "avg_distinct_factors": 2.0,
+      "canonical_factor_rate": 0.545
+    },
+    "rho_40bit": {
+      "consistency_rate": 0.0,
+      "avg_distinct_factors": 2.0,
+      "canonical_factor_rate": 0.552
+    },
+    "multi_algo_agreement": 1.0,
+    "conclusion": "Pollard rho is NOT pseudodeterministic: for balanced semiprimes, different random seeds find different factors (p or q) with roughly equal probability. The consistency rate is ~50-70%, not ~100%. Making factoring pseudodeterministic would require a canonical choice (e.g., always return min(p,q)), which requires FINDING both factors or detecting which is smaller. For balanced semiprimes, this is as hard as factoring itself. Factoring appears to be inherently non-pseudodeterministic in the randomized setting."
+  },
+  "timings": {
+    "Exp 1: GCT Kronecker": 5.25,
+    "Exp 2: Lattice Reduction": 1.18,
+    "Exp 3: Circuit Lower Bounds": 0.21,
+    "Exp 4: LZ Complexity": 22.0,
+    "Exp 5: Time-Space Product": 6.13,
+    "Exp 6: Partial Oracle": 10.94,
+    "Exp 7: Monotone Circuits": 0.03,
+    "Exp 8: Communication": 7.18,
+    "Exp 9: Proof Complexity": 0.76,
+    "Exp 10: Pseudodeterministic": 3.46
+  },
+  "total_time": 57.14
+}

@@ -1,0 +1,168 @@
+
+============================================================
+SIQS 66d: N = 1000000000000000000000000000003020000000...
+Known: 100000000000000000000000000000049 x 100000000000000000000000000000253
+  SIQS: 65d (214b), FB=5500, M=2000000
+    FB[2..118373] built (0.0s)
+    Need 5600 rels, T_bits=52, LP_bound=7d
+    s=6, 32 polys/a, select FB[1115..1175]
+      [2s] a=3 poly=96 sm=38/5600 part=757 dlp=456 cand=1251 rate=16.9/s eta=329s | sieve=0.6s hits=0.0s td=0.0s
+      [4s] a=6 poly=192 sm=89/5600 part=1458 dlp=930 cand=2477 rate=22.1/s eta=249s | sieve=0.5s hits=0.0s td=0.0s
+      [6s] a=9 poly=288 sm=156/5600 part=2173 dlp=1372 cand=3701 rate=26.9/s eta=203s | sieve=0.5s hits=0.0s td=0.0s
+      [8s] a=12 poly=384 sm=211/5600 part=2940 dlp=1828 cand=4979 rate=27.9/s eta=193s | sieve=0.5s hits=0.0s td=0.0s
+      [9s] a=15 poly=480 sm=279/5600 part=3659 dlp=2287 cand=6225 rate=29.6/s eta=180s | sieve=0.5s hits=0.0s td=0.0s
+      [11s] a=18 poly=576 sm=351/5600 part=4398 dlp=2753 cand=7502 rate=31.2/s eta=168s | sieve=0.5s hits=0.0s td=0.0s
+      [13s] a=21 poly=672 sm=430/5600 part=5129 dlp=3192 cand=8751 rate=32.9/s eta=157s | sieve=0.6s hits=0.0s td=0.0s
+      [15s] a=24 poly=768 sm=500/5600 part=5879 dlp=3594 cand=9973 rate=33.7/s eta=151s | sieve=0.5s hits=0.0s td=0.0s
+      [17s] a=27 poly=864 sm=576/5600 part=6543 dlp=4022 cand=11141 rate=34.5/s eta=146s | sieve=0.6s hits=0.0s td=0.0s
+      [19s] a=30 poly=960 sm=646/5600 part=7253 dlp=4470 cand=12369 rate=34.6/s eta=143s | sieve=0.5s hits=0.0s td=0.0s
+      [21s] a=33 poly=1056 sm=727/5600 part=7940 dlp=4919 cand=13586 rate=35.4/s eta=138s | sieve=0.5s hits=0.0s td=0.0s
+      [22s] a=36 poly=1152 sm=819/5600 part=8627 dlp=5331 cand=14777 rate=36.5/s eta=131s | sieve=0.5s hits=0.0s td=0.0s
+      [24s] a=39 poly=1248 sm=907/5600 part=9308 dlp=5764 cand=15979 rate=37.2/s eta=126s | sieve=0.6s hits=0.0s td=0.0s
+      [26s] a=42 poly=1344 sm=999/5600 part=10013 dlp=6200 cand=17212 rate=38.1/s eta=121s | sieve=0.5s hits=0.0s td=0.0s
+      [28s] a=45 poly=1440 sm=1074/5600 part=10681 dlp=6634 cand=18389 rate=38.2/s eta=118s | sieve=0.6s hits=0.0s td=0.0s
+      [30s] a=48 poly=1536 sm=1155/5600 part=11327 dlp=7070 cand=19552 rate=38.4/s eta=116s | sieve=0.6s hits=0.0s td=0.0s
+      [32s] a=51 poly=1632 sm=1248/5600 part=12041 dlp=7513 cand=20802 rate=39.0/s eta=112s | sieve=0.5s hits=0.0s td=0.0s
+      [35s] a=54 poly=1728 sm=1364/5600 part=12706 dlp=7956 cand=22026 rate=39.4/s eta=107s | sieve=1.1s hits=0.0s td=0.0s
+      [37s] a=57 poly=1824 sm=1451/5600 part=13400 dlp=8388 cand=23239 rate=39.3/s eta=106s | sieve=0.6s hits=0.0s td=0.0s
+      [39s] a=60 poly=1920 sm=1550/5600 part=14062 dlp=8855 cand=24467 rate=40.0/s eta=101s | sieve=0.5s hits=0.0s td=0.0s
+      [41s] a=63 poly=2016 sm=1663/5600 part=14714 dlp=9299 cand=25676 rate=40.6/s eta=97s | sieve=0.5s hits=0.0s td=0.0s
+      [43s] a=66 poly=2112 sm=1778/5600 part=15373 dlp=9741 cand=26892 rate=41.6/s eta=92s | sieve=0.5s hits=0.0s td=0.0s
+      [45s] a=69 poly=2208 sm=1929/5600 part=16011 dlp=10192 cand=28132 rate=43.3/s eta=85s | sieve=0.5s hits=0.0s td=0.0s
+      [46s] a=72 poly=2304 sm=2038/5600 part=16642 dlp=10663 cand=29343 rate=43.9/s eta=81s | sieve=0.6s hits=0.0s td=0.0s
+      [48s] a=75 poly=2400 sm=2135/5600 part=17303 dlp=11107 cand=30545 rate=44.3/s eta=78s | sieve=0.6s hits=0.0s td=0.0s
+      [50s] a=78 poly=2496 sm=2254/5600 part=17904 dlp=11571 cand=31729 rate=45.2/s eta=74s | sieve=0.5s hits=0.0s td=0.0s
+      [52s] a=81 poly=2592 sm=2365/5600 part=18542 dlp=12018 cand=32925 rate=45.8/s eta=71s | sieve=0.5s hits=0.0s td=0.0s
+      [53s] a=84 poly=2688 sm=2492/5600 part=19245 dlp=12483 cand=34220 rate=46.7/s eta=67s | sieve=0.5s hits=0.0s td=0.0s
+      [55s] a=87 poly=2784 sm=2613/5600 part=19834 dlp=12875 cand=35322 rate=47.3/s eta=63s | sieve=0.5s hits=0.0s td=0.0s
+      [57s] a=90 poly=2880 sm=2740/5600 part=20475 dlp=13309 cand=36524 rate=48.1/s eta=59s | sieve=0.5s hits=0.0s td=0.0s
+      [59s] a=93 poly=2976 sm=2862/5600 part=21127 dlp=13746 cand=37735 rate=48.7/s eta=56s | sieve=0.5s hits=0.0s td=0.0s
+      [61s] a=96 poly=3072 sm=2996/5600 part=21791 dlp=14187 cand=38974 rate=49.5/s eta=53s | sieve=0.5s hits=0.0s td=0.0s
+      [62s] a=99 poly=3168 sm=3145/5600 part=22470 dlp=14645 cand=40260 rate=50.5/s eta=49s | sieve=0.5s hits=0.0s td=0.0s
+      [65s] a=102 poly=3264 sm=3319/5600 part=23128 dlp=15066 cand=41513 rate=51.4/s eta=44s | sieve=0.5s hits=0.0s td=0.0s
+      [66s] a=105 poly=3360 sm=3453/5600 part=23747 dlp=15491 cand=42691 rate=51.9/s eta=41s | sieve=0.6s hits=0.0s td=0.0s
+      [69s] a=108 poly=3456 sm=3596/5600 part=24415 dlp=15929 cand=43940 rate=52.4/s eta=38s | sieve=0.5s hits=0.0s td=0.0s
+      [71s] a=111 poly=3552 sm=3722/5600 part=25031 dlp=16377 cand=45130 rate=52.6/s eta=36s | sieve=0.6s hits=0.0s td=0.0s
+      [73s] a=114 poly=3648 sm=3887/5600 part=25642 dlp=16787 cand=46316 rate=53.2/s eta=32s | sieve=0.7s hits=0.0s td=0.0s
+      [75s] a=117 poly=3744 sm=4041/5600 part=26258 dlp=17257 cand=47556 rate=53.5/s eta=29s | sieve=0.7s hits=0.0s td=0.0s
+      [78s] a=120 poly=3840 sm=4178/5600 part=26859 dlp=17666 cand=48703 rate=53.7/s eta=26s | sieve=0.7s hits=0.0s td=0.0s
+      [80s] a=123 poly=3936 sm=4323/5600 part=27457 dlp=18128 cand=49908 rate=53.8/s eta=24s | sieve=0.8s hits=0.0s td=0.0s
+      [83s] a=126 poly=4032 sm=4496/5600 part=28099 dlp=18607 cand=51202 rate=54.3/s eta=20s | sieve=0.7s hits=0.0s td=0.0s
+      [85s] a=129 poly=4128 sm=4661/5600 part=28695 dlp=19079 cand=52435 rate=54.8/s eta=17s | sieve=0.7s hits=0.0s td=0.0s
+      [87s] a=132 poly=4224 sm=4830/5600 part=29306 dlp=19511 cand=53647 rate=55.2/s eta=14s | sieve=0.6s hits=0.0s td=0.0s
+      [90s] a=135 poly=4320 sm=5001/5600 part=29932 dlp=19940 cand=54873 rate=55.7/s eta=11s | sieve=0.6s hits=0.0s td=0.0s
+      [92s] a=138 poly=4416 sm=5171/5600 part=30557 dlp=20399 cand=56127 rate=55.9/s eta=8s | sieve=0.7s hits=0.0s td=0.0s
+      [95s] a=141 poly=4512 sm=5327/5600 part=31149 dlp=20866 cand=57342 rate=56.1/s eta=5s | sieve=0.7s hits=0.0s td=0.0s
+      [97s] a=144 poly=4608 sm=5502/5600 part=31787 dlp=21293 cand=58582 rate=56.8/s eta=2s | sieve=0.6s hits=0.0s td=0.0s
+
+    LA: 5601 x 5501
+    Filtering: 5601 -> 5359 rows (5% removed)
+    LA: 14.1s, 164 null vecs
+
+    *** FACTOR: 100000000000000000000000000000049 (113.7s) ***
+
+SUCCESS: 66d in 114.0s
+
+============================================================
+SIQS 69d: N = 1000000000000000000000000000000080300000...
+Known: 1000000000000000000000000000000061 x 10000000000000000000000000000000193
+  SIQS: 68d (224b), FB=6100, M=2600000
+    FB[2..129281] built (0.0s)
+    Need 6200 rels, T_bits=55, LP_bound=7d
+    s=6, 32 polys/a, select FB[1866..1926]
+      [3s] a=3 poly=96 sm=43/6200 part=669 dlp=369 cand=1081 rate=12.6/s eta=488s | sieve=1.0s hits=0.0s td=0.0s
+      [6s] a=6 poly=192 sm=86/6200 part=1269 dlp=767 cand=2122 rate=13.7/s eta=446s | sieve=0.9s hits=0.0s td=0.0s
+      [9s] a=9 poly=288 sm=126/6200 part=1972 dlp=1151 cand=3249 rate=14.0/s eta=434s | sieve=0.9s hits=0.0s td=0.0s
+      [12s] a=12 poly=384 sm=169/6200 part=2633 dlp=1566 cand=4368 rate=14.3/s eta=422s | sieve=1.0s hits=0.0s td=0.0s
+      [15s] a=15 poly=480 sm=225/6200 part=3327 dlp=1961 cand=5513 rate=15.1/s eta=396s | sieve=0.9s hits=0.0s td=0.0s
+      [18s] a=18 poly=576 sm=304/6200 part=4019 dlp=2331 cand=6654 rate=16.8/s eta=350s | sieve=1.0s hits=0.0s td=0.0s
+      [21s] a=21 poly=672 sm=358/6200 part=4720 dlp=2725 cand=7803 rate=16.8/s eta=348s | sieve=1.1s hits=0.0s td=0.0s
+      [25s] a=24 poly=768 sm=419/6200 part=5342 dlp=3136 cand=8897 rate=16.9/s eta=342s | sieve=1.1s hits=0.0s td=0.0s
+      [28s] a=27 poly=864 sm=484/6200 part=6017 dlp=3502 cand=10003 rate=17.3/s eta=330s | sieve=1.0s hits=0.0s td=0.0s
+      [31s] a=30 poly=960 sm=554/6200 part=6659 dlp=3886 cand=11099 rate=17.8/s eta=318s | sieve=1.0s hits=0.0s td=0.0s
+      [35s] a=33 poly=1056 sm=622/6200 part=7241 dlp=4304 cand=12167 rate=17.9/s eta=312s | sieve=1.3s hits=0.0s td=0.0s
+      [38s] a=36 poly=1152 sm=697/6200 part=7888 dlp=4706 cand=13291 rate=18.4/s eta=300s | sieve=1.0s hits=0.0s td=0.0s
+      [41s] a=39 poly=1248 sm=775/6200 part=8495 dlp=5125 cand=14395 rate=18.8/s eta=289s | sieve=1.0s hits=0.0s td=0.0s
+      [45s] a=42 poly=1344 sm=832/6200 part=9152 dlp=5534 cand=15518 rate=18.5/s eta=290s | sieve=1.1s hits=0.0s td=0.0s
+      [49s] a=45 poly=1440 sm=909/6200 part=9787 dlp=5903 cand=16599 rate=18.7/s eta=283s | sieve=1.2s hits=0.0s td=0.0s
+      [52s] a=48 poly=1536 sm=980/6200 part=10415 dlp=6323 cand=17718 rate=18.8/s eta=278s | sieve=1.2s hits=0.0s td=0.0s
+      [56s] a=51 poly=1632 sm=1075/6200 part=11040 dlp=6688 cand=18803 rate=19.2/s eta=266s | sieve=1.1s hits=0.0s td=0.0s
+      [59s] a=54 poly=1728 sm=1159/6200 part=11666 dlp=7099 cand=19924 rate=19.6/s eta=257s | sieve=0.9s hits=0.0s td=0.0s
+      [62s] a=57 poly=1824 sm=1239/6200 part=12295 dlp=7466 cand=20999 rate=20.0/s eta=248s | sieve=0.9s hits=0.0s td=0.0s
+      [65s] a=60 poly=1920 sm=1331/6200 part=12959 dlp=7852 cand=22141 rate=20.5/s eta=237s | sieve=1.0s hits=0.0s td=0.0s
+      [68s] a=63 poly=2016 sm=1422/6200 part=13618 dlp=8263 cand=23302 rate=20.9/s eta=229s | sieve=0.9s hits=0.0s td=0.0s
+      [71s] a=66 poly=2112 sm=1505/6200 part=14258 dlp=8644 cand=24406 rate=21.1/s eta=222s | sieve=1.0s hits=0.0s td=0.0s
+      [75s] a=69 poly=2208 sm=1604/6200 part=14839 dlp=9075 cand=25517 rate=21.5/s eta=214s | sieve=1.0s hits=0.0s td=0.0s
+      [79s] a=72 poly=2304 sm=1703/6200 part=15465 dlp=9479 cand=26646 rate=21.6/s eta=209s | sieve=0.9s hits=0.0s td=0.0s
+      [82s] a=75 poly=2400 sm=1816/6200 part=16031 dlp=9881 cand=27727 rate=22.2/s eta=198s | sieve=0.9s hits=0.0s td=0.0s
+      [85s] a=78 poly=2496 sm=1916/6200 part=16636 dlp=10274 cand=28825 rate=22.6/s eta=190s | sieve=0.8s hits=0.0s td=0.0s
+      [89s] a=81 poly=2592 sm=2008/6200 part=17214 dlp=10636 cand=29857 rate=22.6/s eta=185s | sieve=1.0s hits=0.0s td=0.0s
+      [101s] a=84 poly=2688 sm=2113/6200 part=17858 dlp=11029 cand=30999 rate=20.9/s eta=195s | sieve=1.0s hits=0.0s td=0.0s
+      [112s] a=87 poly=2784 sm=2211/6200 part=18489 dlp=11452 cand=32151 rate=19.7/s eta=202s | sieve=0.9s hits=0.0s td=0.0s
+      [123s] a=90 poly=2880 sm=2316/6200 part=19120 dlp=11846 cand=33281 rate=18.9/s eta=206s | sieve=0.9s hits=0.0s td=0.0s
+      [126s] a=93 poly=2976 sm=2431/6200 part=19725 dlp=12230 cand=34385 rate=19.2/s eta=196s | sieve=1.0s hits=0.0s td=0.0s
+      [138s] a=96 poly=3072 sm=2547/6200 part=20333 dlp=12595 cand=35474 rate=18.5/s eta=198s | sieve=0.9s hits=0.0s td=0.0s
+      [149s] a=99 poly=3168 sm=2663/6200 part=20962 dlp=13012 cand=36636 rate=17.9/s eta=198s | sieve=0.9s hits=0.0s td=0.0s
+      [160s] a=102 poly=3264 sm=2799/6200 part=21571 dlp=13384 cand=37753 rate=17.5/s eta=195s | sieve=1.0s hits=0.0s td=0.0s
+      [171s] a=105 poly=3360 sm=2925/6200 part=22194 dlp=13751 cand=38869 rate=17.1/s eta=192s | sieve=1.1s hits=0.0s td=0.0s
+      [182s] a=108 poly=3456 sm=3051/6200 part=22754 dlp=14127 cand=39931 rate=16.7/s eta=188s | sieve=1.3s hits=0.0s td=0.0s
+      [187s] a=111 poly=3552 sm=3196/6200 part=23358 dlp=14540 cand=41093 rate=17.1/s eta=175s | sieve=1.1s hits=0.0s td=0.0s
+      [209s] a=114 poly=3648 sm=3324/6200 part=23939 dlp=14931 cand=42193 rate=15.9/s eta=181s | sieve=1.3s hits=0.0s td=0.0s
+      [234s] a=117 poly=3744 sm=3452/6200 part=24488 dlp=15327 cand=43266 rate=14.8/s eta=186s | sieve=1.1s hits=0.0s td=0.0s
+      [238s] a=120 poly=3840 sm=3585/6200 part=25057 dlp=15757 cand=44398 rate=15.1/s eta=174s | sieve=1.1s hits=0.0s td=0.0s
+      [249s] a=123 poly=3936 sm=3720/6200 part=25615 dlp=16151 cand=45485 rate=14.9/s eta=166s | sieve=1.1s hits=0.0s td=0.0s
+      [259s] a=126 poly=4032 sm=3856/6200 part=26218 dlp=16515 cand=46588 rate=14.9/s eta=157s | sieve=1.1s hits=0.0s td=0.0s
+      [263s] a=129 poly=4128 sm=4020/6200 part=26811 dlp=16912 cand=47742 rate=15.3/s eta=143s | sieve=1.2s hits=0.0s td=0.0s
+      [274s] a=132 poly=4224 sm=4143/6200 part=27390 dlp=17301 cand=48833 rate=15.1/s eta=136s | sieve=1.1s hits=0.0s td=0.0s
+      [277s] a=135 poly=4320 sm=4276/6200 part=27932 dlp=17698 cand=49905 rate=15.4/s eta=125s | sieve=1.1s hits=0.0s td=0.0s
+      [281s] a=138 poly=4416 sm=4390/6200 part=28487 dlp=18092 cand=50968 rate=15.6/s eta=116s | sieve=1.2s hits=0.0s td=0.0s
+      [285s] a=141 poly=4512 sm=4540/6200 part=29075 dlp=18471 cand=52085 rate=15.9/s eta=104s | sieve=1.0s hits=0.0s td=0.0s
+      [288s] a=144 poly=4608 sm=4707/6200 part=29691 dlp=18869 cand=53266 rate=16.3/s eta=91s | sieve=1.1s hits=0.0s td=0.0s
+      [292s] a=147 poly=4704 sm=4837/6200 part=30249 dlp=19262 cand=54347 rate=16.6/s eta=82s | sieve=1.0s hits=0.0s td=0.0s
+      [295s] a=150 poly=4800 sm=4976/6200 part=30821 dlp=19654 cand=55450 rate=16.9/s eta=73s | sieve=1.1s hits=0.0s td=0.0s
+      [299s] a=153 poly=4896 sm=5122/6200 part=31358 dlp=20027 cand=56506 rate=17.1/s eta=63s | sieve=1.0s hits=0.0s td=0.0s
+      [302s] a=156 poly=4992 sm=5276/6200 part=31913 dlp=20395 cand=57583 rate=17.5/s eta=53s | sieve=1.2s hits=0.0s td=0.0s
+      [306s] a=159 poly=5088 sm=5435/6200 part=32440 dlp=20782 cand=58656 rate=17.8/s eta=43s | sieve=1.1s hits=0.0s td=0.0s
+      [309s] a=162 poly=5184 sm=5585/6200 part=32992 dlp=21165 cand=59741 rate=18.1/s eta=34s | sieve=1.0s hits=0.0s td=0.0s
+      [312s] a=165 poly=5280 sm=5740/6200 part=33571 dlp=21554 cand=60864 rate=18.4/s eta=25s | sieve=0.9s hits=0.0s td=0.0s
+      [315s] a=168 poly=5376 sm=5900/6200 part=34144 dlp=21949 cand=61992 rate=18.7/s eta=16s | sieve=0.9s hits=0.0s td=0.0s
+      [318s] a=171 poly=5472 sm=6057/6200 part=34689 dlp=22343 cand=63088 rate=19.0/s eta=8s | sieve=0.9s hits=0.0s td=0.0s
+      [321s] a=174 poly=5556 sm=6200/6200 part=35183 dlp=22675 cand=64057 rate=19.3/s eta=0s | sieve=0.7s hits=0.0s td=0.0s
+
+    LA: 6200 x 6101
+    Filtering: 6200 -> 5991 rows (4% removed)
+    LA: 27.5s, 171 null vecs
+
+    *** FACTOR: 10000000000000000000000000000000193 (349.4s) ***
+
+SUCCESS: 69d in 349.9s
+
+============================================================
+SIQS 72d: N = 1000000000000000000000000000000003700000...
+Known: 100000000000000000000000000000000069 x 100000000000000000000000000000000301
+  SIQS: 71d (234b), FB=7000, M=3800000
+    FB[2..151201] built (0.0s)
+    Need 7100 rels, T_bits=57, LP_bound=7d
+    s=8, 128 polys/a, select FB[211..291]
+      [31s] a=3 poly=384 sm=141/7100 part=2134 dlp=1142 cand=3417 rate=4.6/s eta=1516s | sieve=12.8s hits=0.0s td=0.0s
+      [58s] a=6 poly=768 sm=303/7100 part=4286 dlp=2276 cand=6865 rate=5.2/s eta=1305s | sieve=9.4s hits=0.0s td=0.0s
+      [86s] a=9 poly=1152 sm=482/7100 part=6460 dlp=3397 cand=10339 rate=5.6/s eta=1178s | sieve=8.3s hits=0.0s td=0.0s
+      [118s] a=12 poly=1536 sm=689/7100 part=8591 dlp=4498 cand=13778 rate=5.9/s eta=1095s | sieve=8.4s hits=0.0s td=0.0s
+      [149s] a=15 poly=1920 sm=900/7100 part=10695 dlp=5609 cand=17204 rate=6.0/s eta=1026s | sieve=9.0s hits=0.0s td=0.0s
+      [179s] a=18 poly=2304 sm=1163/7100 part=12780 dlp=6766 cand=20709 rate=6.5/s eta=913s | sieve=8.5s hits=0.0s td=0.0s
+      [234s] a=21 poly=2688 sm=1435/7100 part=14892 dlp=7919 cand=24245 rate=6.1/s eta=923s | sieve=8.2s hits=0.0s td=0.0s
+      [534s] a=24 poly=3072 sm=1735/7100 part=16921 dlp=9079 cand=27734 rate=3.3/s eta=1650s | sieve=6.6s hits=0.0s td=0.0s
+      [563s] a=27 poly=3456 sm=2050/7100 part=18980 dlp=10218 cand=31247 rate=3.6/s eta=1388s | sieve=6.5s hits=0.0s td=0.0s
+      [2673s] a=30 poly=3840 sm=2370/7100 part=21109 dlp=11383 cand=34860 rate=0.9/s eta=5334s | sieve=7.1s hits=0.0s td=0.0s
+      [4011s] a=33 poly=4156 sm=2657/7100 part=22739 dlp=12272 cand=37666 rate=0.7/s eta=6707s | sieve=1265.0s hits=0.0s td=0.0s
+
+    Insufficient: 2657/7100 (4010.9s)
+
+FAILED: 72d after 4014.2s
+Stopping ladder -- time limit reached
+
+============================================================
+LADDER RESULTS (1 worker):
+  66d: SUCCESS in 114.0s
+  69d: SUCCESS in 349.9s
+  72d: FAILED in 4014.2s

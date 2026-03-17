@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.16)  17 MAR 2026 01:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.16)  17 MAR 2026 02:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -544,7 +544,7 @@ PYTHAGOREAN TRIPLE TREE WITH APPLICATIONS TO INTEGER FACTORING []
 
 [5]
 ! Undefined control sequence.
-l.433 parity), $2\nmid
+l.444 parity), $2\nmid
                        c$, so all prime factors of~$c$ satisfy the congruence.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -578,7 +578,7 @@ PYTHAGOREAN TRIPLE TREE WITH APPLICATIONS TO INTEGER FACTORING []
 
 [13]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-024.
+035.
  (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -605,13 +605,13 @@ Package rerunfilecheck Info: File `b3_paper.out' has not changed.
 (rerunfilecheck)             Checksum: 0D0EC4BCC3A2C25A9CC7A79D5EFA0505;9448.
  ) 
 Here is how much of TeX's memory you used:
- 13945 strings out of 476182
- 215909 string characters out of 5795595
+ 13951 strings out of 476182
+ 215971 string characters out of 5795595
  1944975 words of memory out of 5000000
  35147 multiletter control sequences out of 15000+600000
- 586643 words of font info for 235 fonts, out of 8000000 for 9000
+ 586817 words of font info for 238 fonts, out of 8000000 for 9000
  175 hyphenation exceptions out of 8191
- 75i,10n,79p,1005b,752s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,10n,79p,1005b,642s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
@@ -635,7 +635,7 @@ blic/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm09
 exmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/pub
 lic/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti120
 0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on b3_paper.pdf (16 pages, 511957 bytes).
+Output written on b3_paper.pdf (16 pages, 515213 bytes).
 PDF statistics:
  558 PDF objects out of 1000 (max. 8388607)
  481 compressed objects within 5 object streams
