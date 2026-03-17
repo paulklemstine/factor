@@ -144,6 +144,104 @@ def _load_lattice_sieve():
 
 
 ###############################################################################
+# Parallel Sieve Worker (multiprocessing)
+###############################################################################
+
+def _parallel_sieve_worker(args):
+    """
+    Worker for parallel line sieve. Each process loads its own C library
+    and runs sieve_and_verify_c on its assigned b-ranges.
+
+    Returns list of tuples: (a, b, mask, rat_exps_bytes, alg_exps_bytes,
+                             rat_sign, rat_lp, alg_lp)
+    """
+    (b_ranges, rat_fb_list, alg_p_list, alg_r_list, m_int, f_coeffs_list,
+     d, lp_bound_int, rat_frac_x1000, alg_frac_x1000, max_cands_verify) = args
+
+    import ctypes, os, numpy as np
+
+    # Load C library fresh in this process
+    so_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gnfs_sieve_c.so')
+    c_lib = ctypes.CDLL(so_path)
+    c_lib.sieve_and_verify_c.restype = ctypes.c_int
+    c_lib.sieve_and_verify_c.argtypes = [
+        ctypes.c_int, ctypes.c_int, ctypes.c_int,
+        ctypes.POINTER(ctypes.c_int64), ctypes.c_int, ctypes.c_int64,
+        ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64), ctypes.c_int,
+        ctypes.c_int, ctypes.c_int,
+        ctypes.c_int, ctypes.c_int64, ctypes.c_int64,
+        ctypes.POINTER(ctypes.c_int64),
+        ctypes.c_int64,
+        ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),
+        ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int),
+        ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_int64),
+        ctypes.c_int,
+    ]
+
+    # Prepare arrays
+    rat_p_arr = np.array(rat_fb_list, dtype=np.int64)
+    alg_p_arr = np.array(alg_p_list, dtype=np.int64)
+    alg_r_arr = np.array(alg_r_list, dtype=np.int64)
+    f_coeffs_arr = np.array(f_coeffs_list, dtype=np.int64)
+    n_rat = len(rat_fb_list)
+    n_alg = len(alg_p_list)
+    f0_abs = abs(f_coeffs_list[0]) if f_coeffs_list[0] != 0 else 1
+    fd_abs = abs(f_coeffs_list[d]) if f_coeffs_list[d] != 0 else 1
+
+    # Allocate output buffers
+    out_a = (ctypes.c_int * max_cands_verify)()
+    out_b = (ctypes.c_int * max_cands_verify)()
+    c_rat_exps = np.zeros(max_cands_verify * n_rat, dtype=np.int64)
+    c_alg_exps = np.zeros(max_cands_verify * n_alg, dtype=np.int64)
+    c_signs = (ctypes.c_int * max_cands_verify)()
+    c_mask = (ctypes.c_int * max_cands_verify)()
+    c_rat_lp = np.zeros(max_cands_verify, dtype=np.int64)
+    c_alg_lp = np.zeros(max_cands_verify, dtype=np.int64)
+
+    results = []
+    for b_start, b_end, A_use in b_ranges:
+        n_verified = c_lib.sieve_and_verify_c(
+            b_start, b_end, A_use,
+            rat_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            n_rat, ctypes.c_int64(m_int),
+            alg_p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            alg_r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            n_alg,
+            rat_frac_x1000, alg_frac_x1000,
+            d, ctypes.c_int64(f0_abs), ctypes.c_int64(fd_abs),
+            f_coeffs_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            ctypes.c_int64(lp_bound_int),
+            out_a, out_b,
+            c_rat_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            c_alg_exps.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            c_signs, c_mask,
+            c_rat_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            c_alg_lp.ctypes.data_as(ctypes.POINTER(ctypes.c_int64)),
+            max_cands_verify)
+
+        if n_verified <= 0:
+            continue
+
+        sv_rat = c_rat_exps.reshape(-1, n_rat)
+        sv_alg = c_alg_exps.reshape(-1, n_alg)
+
+        for ci in range(min(n_verified, max_cands_verify)):
+            mtype = c_mask[ci]
+            if mtype == 0:
+                continue
+            results.append((
+                int(out_a[ci]), int(out_b[ci]), int(mtype),
+                bytes(sv_rat[ci].astype(np.uint8)),
+                bytes(sv_alg[ci].astype(np.uint8)),
+                int(c_signs[ci]),
+                int(c_rat_lp[ci]), int(c_alg_lp[ci])
+            ))
+
+    return results
+
+
+###############################################################################
 # Phase 1: Polynomial Selection (Base-m Method)
 ###############################################################################
 
@@ -255,7 +353,7 @@ def base_m_poly(n, d=None):
     if d <= 3:
         wide_range = 20000
     elif d == 4:
-        wide_range = 10000
+        wide_range = 30000   # wider search: better poly = faster sieve
     else:
         wide_range = 5000
 
@@ -300,6 +398,7 @@ def base_m_poly(n, d=None):
     # smaller coefficients and better smoothness (T7 conjecture: 10-56x).
     # We sample (a,b) pairs with a^2 + b^2 ≈ m0 to generate candidates.
     import random as _rng
+    _rng.seed(int(n) % (2**31))  # deterministic poly search for reproducibility
     m0_int = int(m0)
     m0_sqrt = int(math.isqrt(m0_int))
     tree_candidates_tried = 0
@@ -552,15 +651,15 @@ def gnfs_params(n):
     elif nd < 40:
         fb_bound = 70000
     elif nd < 46:
-        fb_bound = 80000
+        fb_bound = 80000    # line sieve sweet spot for 40-45d
     elif nd < 50:
-        fb_bound = 100000
+        fb_bound = 100000   # need enough primes for smoothness at 48d norms
     elif nd < 56:
-        fb_bound = 80000   # reduced: 5GB RAM limit, post-SGE matrix must be <15K
+        fb_bound = 120000   # balance: enough for smoothness, not too many rels needed
     elif nd < 60:
-        fb_bound = 100000  # reduced for RAM
+        fb_bound = 200000
     elif nd < 65:
-        fb_bound = 150000  # reduced for RAM
+        fb_bound = 300000
     elif nd < 70:
         fb_bound = 1200000
     elif nd < 80:
@@ -576,18 +675,19 @@ def gnfs_params(n):
     # With LP relations (SLP), norms can be slightly larger than FB bound
     # and still contribute, so A ~ FB is a good balance.
     A = fb_bound
-    A = min(A, 5_000_000)  # cap for memory
+    A = min(A, 10_000_000)  # cap for memory (52GB remote allows more)
 
     # B_max: generous — more b values is cheap with C sieve
     # For larger numbers, need more b values to find enough relations
     # 49d with B=150K needed B_max>2.25M (93% at 2.25M), so use 25x for 40-49d
+    # B_max: productive range. Line sieve yield drops at high b but SLP partials accumulate.
     if nd >= 50:
-        B_max = max(fb_bound * 30, 10000)
+        B_max = max(fb_bound * 20, 10000)
     elif nd >= 40:
-        B_max = max(fb_bound * 25, 5000)
+        B_max = max(fb_bound * 20, 5000)
     else:
         B_max = max(fb_bound * 4, 5000)
-    B_max = min(B_max, 8000000)
+    B_max = min(B_max, 5000000)
 
     return {
         'd': d,
@@ -865,7 +965,7 @@ def lattice_sieve_collect(n, f_coeffs, m, rat_fb, alg_fb, qc_primes, params,
             print("    Using C lattice sieve (lattice_sieve_c.so)")
 
     # Batch special-q collection for C sieve
-    Q_BATCH_SIZE = 50  # process this many (q, root) pairs per C call
+    Q_BATCH_SIZE = 150  # larger batches for lower latency (52GB RAM allows it)
 
     while q <= q_max and len(verified) < needed:
         if time.time() - t0 > time_limit:
@@ -3065,7 +3165,7 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
 
     # Precompute splitting primes (only once for all null vecs)
     # For degree 4+, need more splitting primes for CRT fallback
-    num_sp = max(nb // 17 + 5, 30 if d >= 4 else 15)
+    num_sp = max(nb // 10 + 10, 40 if d >= 4 else 20)  # more primes for reliable CRT
     splitting_primes = []
     min_p = 100000
     for _ in range(num_sp * 5):
@@ -3141,10 +3241,10 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
         if (total_sign // 2) % 2 == 1:
             x_val = (-x_val) % n
 
-        # Try Hensel-based algebraic sqrt (skip for large vecs — OOM risk)
+        # Try Hensel-based algebraic sqrt (skip for very large vecs — OOM risk)
         found = False
         n_ab_pairs = sum(len(relations[i].get('a_list', [0])) for i in indices)
-        use_hensel = n_ab_pairs < 8000  # Hensel needs O(n_pairs * bits) memory
+        use_hensel = n_ab_pairs < 20000  # 52GB allows larger Hensel lifts
         for y_h in (algebraic_square_root(
                 relations, indices, f_coeffs, m, n, splitting_primes) if use_hensel else []):
             for diff in [x_val - y_h, x_val + y_h]:
@@ -3158,16 +3258,16 @@ def extract_factor(n, null_vecs, relations, m, rat_fb, alg_fb, f_coeffs):
             print(f" no factor ({time.time()-t_vec:.1f}s)")
         else:
             if use_hensel:
-                print(f" Hensel failed ({time.time()-t_vec:.1f}s), trying CRT...")
+                print(f" Hensel failed ({time.time()-t_vec:.1f}s), trying direct CRT...")
             else:
-                print(f" CRT sqrt ({n_ab_pairs} pairs)...")
-            # CRT-based algebraic sqrt (bounded memory, works for any size)
-            for y_c in algebraic_sqrt_crt(relations, indices, f_coeffs, m, n,
-                                          max_primes=max(80, nb // 4)):
+                print(f" direct CRT sqrt ({n_ab_pairs} pairs)...")
+            # Direct CRT: evaluates s(m) mod q with brute-force sign resolution per prime
+            for y_c in _algebraic_sqrt_direct_mod_n(relations, indices, f_coeffs, m, n,
+                                                     splitting_primes):
                 for diff in [x_val - y_c, x_val + y_c]:
                     g = gcd(diff % n, n)
                     if 1 < g < n:
-                        print(f"    CRT sqrt: FACTOR in {time.time()-t_vec:.1f}s")
+                        print(f"    Direct CRT: FACTOR in {time.time()-t_vec:.1f}s")
                         return int(g)
 
         # Time limit for sqrt phase: 10 minutes
@@ -3267,10 +3367,10 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
     t_sieve = time.time()
     num_sq = 0
 
-    # Use lattice sieve for 50d+ when C sieve available, 80d+ for Python fallback
-    # Below 50d, line sieve + SLP/DLP is faster due to higher smoothness probability
+    # Use lattice sieve for 55d+ when C sieve available, 80d+ for Python fallback
+    # Below 55d, line sieve + SLP is faster (lattice overhead dominates at small sizes)
     _c_lattice_available = _load_lattice_sieve() is not None
-    _lattice_threshold = 60 if _c_lattice_available else 80
+    _lattice_threshold = 55 if _c_lattice_available else 80
     if nd >= _lattice_threshold:
         # Lattice sieve with special-q
         if verbose:
@@ -3402,20 +3502,157 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
             phase_schedule = []
             if phase1_b_max > 0:
                 for b in range(1, phase1_b_max + 1):
-                    phase_schedule.append((b, b, A_large, phase1_batch))
+                    phase_schedule.append((b, b, A_large))
             for b_s in range(phase1_b_max + 1, B_max + 1, batch_size):
                 b_e = min(b_s + batch_size - 1, B_max)
-                phase_schedule.append((b_s, b_e, A, batch_size))
+                phase_schedule.append((b_s, b_e, A))
 
-            for b_start, b_end, A_use, _ in phase_schedule:
+            # ============= PARALLEL SIEVE PATH =============
+            import multiprocessing as mp
+            n_workers = min(mp.cpu_count(), 6)  # cap at 6 to control memory
+            rat_frac_x1000 = max(650, 1050 - nd * 5)
+            alg_frac_x1000 = max(550, 950 - nd * 5)
+
+            if False and n_workers >= 4 and len(phase_schedule) > 100:  # DISABLED: sequential is faster for <55d
+                # Smaller per-worker buffer to control memory
+                par_max_cands = min(max_cands_verify, 5000)
+
+                # ROUND-ROBIN distribution: interleave ranges across workers
+                # so each gets a mix of light (phase 1) and heavy (phase 2) work
+                worker_ranges = [[] for _ in range(n_workers)]
+                for idx, item in enumerate(phase_schedule):
+                    worker_ranges[idx % n_workers].append(item)
+
+                if verbose:
+                    lens = [len(wr) for wr in worker_ranges]
+                    print(f"    Parallel sieve: {n_workers} workers, {len(phase_schedule)} b-ranges (round-robin: {min(lens)}-{max(lens)} each)")
+
+                shared_args = (
+                    list(rat_fb),
+                    [p for p, r in alg_fb],
+                    [r for p, r in alg_fb],
+                    int(m),
+                    list(f_coeffs),
+                    d,
+                    int(lp_bound),
+                    rat_frac_x1000,
+                    alg_frac_x1000,
+                    par_max_cands,
+                )
+                worker_chunks = []
+                for wr in worker_ranges:
+                    worker_chunks.append((wr,) + shared_args)
+
+                # Process in waves: run parallel batches, check if enough, continue
+                all_raw = []
+                wave_size = n_workers  # one chunk per worker per wave
+                wave_idx = 0
+                pool = mp.Pool(n_workers)
+                try:
+                    while wave_idx < len(worker_chunks):
+                        wave_end = min(wave_idx + wave_size, len(worker_chunks))
+                        wave_batch = worker_chunks[wave_idx:wave_end]
+                        wave_results = pool.map(_parallel_sieve_worker, wave_batch)
+                        for wr in wave_results:
+                            all_raw.extend(wr)
+                        wave_idx = wave_end
+                        if verbose:
+                            elapsed = time.time() - t0
+                            n_full_est = sum(1 for r in all_raw if r[2] == 1)
+                            print(f"    [wave {wave_idx}/{len(worker_chunks)}] {len(all_raw)} raw ({n_full_est} full) in {elapsed:.1f}s")
+                        if time.time() - t0 > time_limit:
+                            break
+                finally:
+                    pool.terminate()
+                    pool.join()
+
+                if verbose:
+                    print(f"    Parallel sieve done: {len(all_raw)} raw verified in {time.time()-t_sieve:.1f}s")
+
+                # Process merged results: classify into full/SLP/DLP
+                for (a_val, b_val, mtype, rat_exps_b, alg_exps_b,
+                     rat_sign, rat_lp_val, alg_lp_val) in all_raw:
+                    if mtype == 1:
+                        # Full relation — compute QC
+                        qc_bits = []
+                        for qi in range(n_split_qc):
+                            qp, qr = int(qc_q_arr[qi]), int(qc_r_arr[qi])
+                            val = (a_val + b_val * qr) % qp
+                            qc_bits.append(0 if gmpy2.jacobi(val, qp) >= 0 else 1)
+                        if inert_qc_primes:
+                            qc_bits += compute_inert_qc_vector(
+                                a_val, b_val, inert_qc_primes, f_coeffs)
+                        verified_relations.append({
+                            'a': a_val, 'b': b_val,
+                            'rat_exps': list(rat_exps_b),
+                            'rat_sign': rat_sign,
+                            'alg_exps': list(alg_exps_b),
+                            'qc_bits': qc_bits,
+                        })
+                    elif total_partials < max_partials:
+                        rel = {
+                            'a': a_val, 'b': b_val,
+                            'rat_exps': rat_exps_b,
+                            'rat_sign': rat_sign,
+                            'alg_exps': alg_exps_b,
+                            'qc_bits': [],
+                            '_needs_inert_qc': True,
+                        }
+                        # Compute split QC for partial too
+                        qc_bits = []
+                        for qi in range(n_split_qc):
+                            qp, qr = int(qc_q_arr[qi]), int(qc_r_arr[qi])
+                            val = (a_val + b_val * qr) % qp
+                            qc_bits.append(0 if gmpy2.jacobi(val, qp) >= 0 else 1)
+                        rel['qc_bits'] = qc_bits
+                        if mtype == 3:
+                            alp = alg_lp_val
+                            r_ideal = (-a_val * pow(b_val, -1, alp)) % alp
+                            partials_alg[(alp, r_ideal)].append(rel)
+                        elif mtype == 2:
+                            partials_rat[rat_lp_val].append(rel)
+                        elif mtype == 4:
+                            rel['rat_lp'] = rat_lp_val
+                            rel['alg_lp'] = alg_lp_val
+                            partials_dlp.append(rel)
+                        total_partials += 1
+
+                if verbose:
+                    n_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values())
+                    n_slp_est += sum(max(0, len(v) - 1) for v in partials_rat.values())
+                    n_part = sum(len(v) for v in partials_alg.values()) + sum(len(v) for v in partials_rat.values())
+                    print(f"    {len(verified_relations)} full + {n_slp_est} SLP est ({n_part} partials, {len(partials_dlp)} DLP) / {needed}")
+            else:
+                # ============= SEQUENTIAL FALLBACK =============
+                pass  # fall through to sequential loop below
+
+            # Sequential sieve loop — only for ranges NOT processed by parallel
+            # If parallel ran, it processed all of phase_schedule already.
+            # Build an extended schedule beyond B_max for sequential top-up.
+            _par_slp_est = sum(max(0, len(v) - 1) for v in partials_alg.values()) + \
+                           sum(max(0, len(v) - 1) for v in partials_rat.values())
+            _par_total = len(verified_relations) + _par_slp_est
+            _parallel_ran = _par_total > 0 and n_workers >= 4 and len(phase_schedule) > 100
+            if _parallel_ran and _par_total < needed:
+                # Extend sieve beyond parallel's B_max range
+                ext_b_start = B_max + 1
+                ext_b_end = min(B_max * 3, 5000000)  # up to 3x original B_max
+                seq_schedule = []
+                for b_s in range(ext_b_start, ext_b_end + 1, batch_size):
+                    b_e = min(b_s + batch_size - 1, ext_b_end)
+                    seq_schedule.append((b_s, b_e, A))
+                if verbose:
+                    print(f"    Sequential top-up: b={ext_b_start}..{ext_b_end} ({len(seq_schedule)} ranges)")
+            elif not _parallel_ran:
+                seq_schedule = phase_schedule
+            else:
+                seq_schedule = []  # parallel got enough
+            for b_start, b_end, A_use in seq_schedule:
                 if time.time() - t0 > time_limit:
                     break
 
-                # Use combined sieve+verify (sieve-informed verification)
-                # This records which FB primes hit each sieve position during the sieve,
-                # then only trial-divides those primes (~30 per candidate vs ~14K brute force).
-                rat_frac_x1000 = max(700, 1100 - nd * 5)
-                alg_frac_x1000 = max(600, 1000 - nd * 5)
+                rat_frac_x1000 = max(650, 1050 - nd * 5)
+                alg_frac_x1000 = max(550, 950 - nd * 5)
 
                 n_verified = c_lib.sieve_and_verify_c(
                     b_start, b_end, A_use,
@@ -3543,7 +3780,7 @@ def gnfs_factor(n, verbose=True, time_limit=3600):
                             partials_dlp.append(rel)
                         total_partials += 1
                         # Cap partials to prevent OOM (~30K partials ≈ 300MB with bytes)
-                        if total_partials > 30000:
+                        if total_partials > 100000:  # 52GB allows more partials
                             # Prune: keep only partials with 2+ entries (combinable)
                             for key in list(partials_alg.keys()):
                                 if len(partials_alg[key]) < 2:
