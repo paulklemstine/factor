@@ -14,15 +14,17 @@ import Mathlib
 
 open Matrix
 
+set_option maxRecDepth 10000
+
 /-- Part (i): |SL(2, 𝔽₃)| = 24 -/
 theorem thm41_sl2_F3_card :
     Fintype.card (SpecialLinearGroup (Fin 2) (ZMod 3)) = 24 := by
-  native_decide
+  decide
 
 /-- Part (ii): |SL(2, 𝔽₅)| = 120 -/
 theorem thm41_sl2_F5_card :
     Fintype.card (SpecialLinearGroup (Fin 2) (ZMod 5)) = 120 := by
-  native_decide
+  decide
 
 /-- The order formula |SL(2, 𝔽_p)| = p(p²-1) for p=3 gives 3·(9-1) = 24. -/
 theorem thm41_order_formula_p3 : 3 * (3 ^ 2 - 1) = 24 := by norm_num

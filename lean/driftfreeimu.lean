@@ -24,7 +24,9 @@ the product of the reversed list of inverses equals 1. This is the
 abstract checksum that underlies drift detection. -/
 theorem group_reversal_identity {G : Type*} [Group G] (L : List G) :
     L.prod * (L.map (·⁻¹)).reverse.prod = 1 := by
-  induction' L using List.reverseRecOn with G _ ih <;> simp +decide [*, mul_assoc]
+  induction L using List.reverseRecOn with
+  | nil => simp
+  | append_singleton a IH => simp [*, mul_assoc]
 /-! ### Part 2: Trace of the Identity Matrix -/
 /-- The trace of the n×n identity matrix equals n. For 3×3 rotation
 matrices (n = 3), this gives the checksum target value of 3. -/

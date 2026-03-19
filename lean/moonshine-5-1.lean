@@ -1,5 +1,9 @@
 import Mathlib
 
+set_option maxRecDepth 10000
+set_option diagnostics true
+
+
 /-!
 # Verification of Theorem 5.1 (Sporadic Groups: Mathieu Groups — M₁₁ from p = 11)
 
@@ -27,24 +31,30 @@ PROBLEM
 |SL(2, F₁₁)| = 1320. The paper uses this: |PSL(2,F₁₁)| = |SL|/|{±I}| = 1320/2 = 660.
 
 PROVIDED SOLUTION
-This is a computation: use native_decide or decide to verify that the cardinality of SL(2, ZMod 11) is 1320.
+This is a computation: use native_decide or
+decide to verify that the cardinality of SL(2, ZMod 11) is 1320.
 -/
+set_option maxHeartbeats 5000000 in
+-- Increased from default (100000) because `decide` tactics on large finite type
+-- cardinality computations (SL(2, F₁₁), divisibility checks, prime factorization)
+-- require substantial computation and can exceed the default heartbeat limit.
+-- (This linter can be disabled with `set_option linter.style.maxHeartbeats false`)
 theorem card_SL2_F11 :
     Fintype.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 11)) = 1320 := by
-  native_decide +revert
+  decide
 
 /-
 The paper's arithmetic claim: 11 · 120 / 2 = 660.
 -/
 theorem PSL2_F11_order_arithmetic : 11 * 120 / 2 = 660 := by
-  native_decide +revert
+  decide
 
 /-
 |PSL(2, F₁₁)| = 660, derived as |SL(2, F₁₁)| / 2.
     (The center {±I} has order 2 since char F₁₁ ≠ 2.)
 -/
 theorem card_PSL2_F11 : 1320 / 2 = 660 := by
-  norm_num +zetaDelta at *
+  norm_num
 
 /-
 P¹(F₁₁) has 12 elements (= 11 + 1), so M₁₁ acts on 12 points.
@@ -56,10 +66,10 @@ theorem card_projective_line_F11 : 11 + 1 = 12 := by
 660 divides 7920, consistent with PSL(2, F₁₁) being a subgroup of M₁₁.
 -/
 theorem PSL2_order_divides_M11_order : 660 ∣ 7920 := by
-  decide +kernel
+  decide
 
 /-
 The paper states |M₁₁| = 7920. We verify: 7920 = 2⁴ · 3² · 5 · 11.
 -/
 theorem M11_order_factorization : 7920 = 2 ^ 4 * 3 ^ 2 * 5 * 11 := by
-  native_decide +revert
+  decide

@@ -1,5 +1,7 @@
 import Mathlib
 
+set_option maxRecDepth 2000
+
 /-!
 # Theorem 3.1: ADE Tower from PPTs
 
@@ -17,10 +19,10 @@ These orders follow from the general formula |SL(2, 𝔽_p)| = p(p² − 1):
     (the McKay correspondent of E₆). -/
 theorem SL2_F3_card :
     Fintype.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)) = 24 := by
-  native_decide +revert
+  decide
 
 /-- SL(2, 𝔽₅) has order 120, identifying it as the binary icosahedral group Ĩ
     (the McKay correspondent of E₈). -/
 theorem SL2_F5_card :
     Fintype.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) = 120 := by
-  native_decide +revert
+  decide
