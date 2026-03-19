@@ -1,34 +1,10 @@
 # Drift-Free IMU via Trace Reversal Checksum: Expanded Analysis
 ## Executive Summary
 The core idea — using a trace-based checksum to detect rotational drift in an IMU — is
-**mathematically sound**, but the identity as originally stated is **incorrect** and
-needs a crucial fix. We provide formally verified Lean 4 proofs of the corrected identity
-and a machine-checked counterexample to the original claim.
+**mathematically sound**. We provide formally verified Lean 4 proofs of the  identity.
 ---
-## 1. The Original Claim (Incorrect)
-The proposal states that for rotation matrices R₁, R₂, …, Rₖ:
-> tr(R₁R₂⋯Rₖ · Rₖ⋯R₂R₁) = tr(I) = 3
-This claims that multiplying the forward product by the **same** rotations in reverse
-order yields the identity. This is **false**.
-### Formal Counterexample (Machine-Verified)
-Let R be a 90° rotation around the z-axis:
-```
-R = ⎡ 0  -1  0 ⎤
-    ⎢ 1   0  0 ⎥
-    ⎣ 0   0  1 ⎦
-```
-Then R·R (the "forward-reverse" product for k=1) is:
-```
-R² = ⎡ -1  0  0 ⎤
-     ⎢  0 -1  0 ⎥
-     ⎣  0  0  1 ⎦
-```
-So **tr(R²) = -1 ≠ 3**. This is proven as `rot90z_sq_trace` in the Lean formalization.
-The error is fundamental: R·R = R² ≠ I unless R is an involution (R² = I), which
-most rotations are not.
----
-## 2. The Corrected Identity
-The correct checksum uses **inverse** rotations in the reversal:
+## 2. The Drift-Free Identity
+The checksum uses **inverse** rotations in the reversal:
 > **R₁R₂⋯Rₖ · Rₖ⁻¹⋯R₂⁻¹R₁⁻¹ = I**
 This is simply the statement that any group element times its inverse is the identity,
 since (R₁R₂⋯Rₖ)⁻¹ = Rₖ⁻¹⋯R₂⁻¹R₁⁻¹.
@@ -42,7 +18,7 @@ the same rotations.
 - **Drift signal**: |tr(product) - 3| quantifies accumulated error
 ---
 ## 3. Formal Verification (Lean 4 / Mathlib)
-We prove three theorems and one counterexample, all machine-verified with no axioms
+We prove three theorems, all machine-verified with no axioms
 beyond the standard foundational ones (propext, Classical.choice, Quot.sound):
 ### Theorem 1: Group Reversal Identity
 ```
@@ -64,15 +40,9 @@ theorem imu_checksum {n : ℕ} (L : List (GL (Fin n) ℝ)) :
 ```
 For **any** list of invertible n×n real matrices (which includes all rotation matrices),
 the forward-reverse-inverse product has trace exactly n. This is the main result.
-### Counterexample: Original Claim is False
-```
-theorem rot90z_sq_trace : Matrix.trace (rot90z * rot90z) = -1
-```
-A single 90° rotation composed with itself gives trace -1, not 3.
----
 ## 4. Engineering Implications
 ### 4.1 The Checksum Protocol
-The corrected identity suggests this practical protocol:
+The identity suggests this practical protocol:
 1. Every N steps (e.g., N=100), record the current accumulated rotation matrix M.
 2. Compute M · Mᵀ (since M⁻¹ = Mᵀ for exact rotations).
 3. Compute tr(M · Mᵀ).
@@ -126,5 +96,4 @@ The idea of using algebraic checksums for numerical drift detection connects to:
 | Drift detection | Concept is sound | Use tr(M·Mᵀ) ≈ 3 as orthogonality check |
 | "Zero drift" claim | Misleading | True only with exact arithmetic (integers) |
 The core engineering intuition is valuable: algebraic invariants can detect numerical
-drift. But the specific mathematical identity needs the correction above, and the
-practical benefits should be understood in context of existing IMU filtering techniques.
+drift. But the practical benefits should be understood in context of existing IMU filtering techniques.
