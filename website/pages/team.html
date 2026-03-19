@@ -13,30 +13,31 @@
     padding: 28px;
     margin-bottom: 24px;
   }
-  .team-member h3 { color: var(--accent); margin-bottom: 8px; }
-  .team-member .role { color: var(--accent2); font-size: 14px; margin-bottom: 16px; }
+  .team-member h3 { color: var(--cyan); margin-bottom: 8px; }
+  .team-member .role { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
   .team-member p { color: var(--text); line-height: 1.7; margin-bottom: 12px; }
   .profile-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
   .profile-links a {
     display: inline-flex; align-items: center; gap: 6px;
-    background: #1a1a3a; color: var(--accent); padding: 8px 16px;
+    background: rgba(0,102,204,.06); color: var(--cyan); padding: 8px 16px;
     border-radius: 6px; text-decoration: none; border: 1px solid var(--border);
-    font-size: 14px; transition: border-color 0.2s;
+    font-size: 14px; transition: all 0.2s;
   }
-  .profile-links a:hover { border-color: var(--accent); }
+  .profile-links a:hover { border-color: var(--cyan); background: rgba(0,102,204,.14); }
   .research-stats {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 12px; margin: 24px 0;
   }
-  .stat-item { background: #1a1a3a; padding: 16px; border-radius: 8px; text-align: center; }
-  .stat-item .num { font-size: 24px; font-weight: bold; color: var(--accent); }
-  .stat-item .lbl { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .stat-item { background: var(--bg-card); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .stat-item .num { font-size: 24px; font-weight: bold; color: var(--cyan); }
+  .stat-item .lbl { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
   .paper-highlight {
-    background: linear-gradient(135deg, #1a1a3a, #1a2a3a);
-    border: 1px solid var(--accent);
+    background: linear-gradient(135deg, var(--bg-card), rgba(0,102,204,.04));
+    border: 1px solid var(--border);
     border-radius: 12px; padding: 24px; margin: 24px 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
   }
-  .paper-highlight h4 { color: var(--accent); margin-bottom: 8px; }
+  .paper-highlight h4 { color: var(--cyan); margin-bottom: 8px; }
 </style>
 </head>
 <body>
@@ -77,14 +78,14 @@
 <h2 class="section-title" style="margin-top:16px;">Research Team</h2>
 
 <div class="team-member" style="display:flex; gap:28px; align-items:flex-start; flex-wrap:wrap;">
-  <img src="../images/paulklemstine.jpg" alt="Paul Klemstine" style="width:160px; height:160px; border-radius:50%; object-fit:cover; border:3px solid var(--accent); flex-shrink:0;">
+  <img src="../images/paulklemstine.jpg" alt="Paul Klemstine" style="width:160px; height:160px; border-radius:50%; object-fit:cover; border:3px solid var(--cyan); flex-shrink:0;">
   <div style="flex:1; min-width:280px;">
   <h3>Paul Klemstine</h3>
   <div class="role">Principal Investigator &amp; Lead Researcher — AI Engineer at Gauntlet AI</div>
   <p>
     Senior software architect and AI engineer with deep expertise in computational number theory,
     elliptic curve cryptography, and algorithmic complexity. Currently at
-    <a href="https://www.gauntletai.com/" target="_blank" style="color:var(--accent);">Gauntlet AI</a>.
+    <a href="https://www.gauntletai.com/" target="_blank" style="color:var(--cyan);">Gauntlet AI</a>.
     Previously Senior Architect at Dodles. Initiated and led the B3 Pythagorean Tree Factoring
     Research Program, which produced 100+ original theorems spanning group theory, analytic number
     theory, spectral graph theory, and connections to elliptic curves and the Millennium Prize Problems.
@@ -133,10 +134,10 @@
 <div class="paper-highlight">
   <h4>Featured Publication</h4>
   <p style="color:var(--text); margin-bottom:8px;">
-    <strong style="color:var(--accent);">"Novel Algebraic and Number-Theoretic Properties of the Berggren
+    <strong style="color:var(--cyan);">"Novel Algebraic and Number-Theoretic Properties of the Berggren
     Pythagorean Triple Tree with Applications to Integer Factoring"</strong>
   </p>
-  <p style="color:var(--text-dim); font-size:14px; margin-bottom:12px;">
+  <p style="color:var(--text-muted); font-size:14px; margin-bottom:12px;">
     Paul Klemstine — Resonance Factoring Research Group, March 2026
   </p>
   <p style="color:var(--text); font-size:14px;">
@@ -147,10 +148,24 @@
     approaches.
   </p>
   <div style="margin-top:16px;">
-    <a href="../paper/b3_paper.pdf" target="_blank" style="display:inline-block; background:var(--accent); color:#000; padding:10px 24px; border-radius:6px; text-decoration:none; font-weight:bold;">
+    <a href="../paper/b3_paper.pdf" target="_blank" style="display:inline-block; background:var(--cyan); color:#fff; padding:10px 24px; border-radius:6px; text-decoration:none; font-weight:bold; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
       Download Full Paper (17 pages, PDF)
     </a>
   </div>
+
+  <h4 style="margin-top:32px; margin-bottom:16px; color:var(--cyan); border-bottom:1px solid var(--border); padding-bottom:8px;">All 10 Research Papers</h4>
+  <ul style="color:var(--text); line-height:1.7; padding-left:24px; font-size:14px; margin-bottom:0;">
+    <li><a href="../paper/paper_berggren_algebra.pdf" target="_blank">1. Algebraic Properties of the Berggren Pythagorean Triple Tree</a></li>
+    <li><a href="../paper/paper_zeta_machine.pdf" target="_blank">2. A Pythagorean Prime Importance Sampling Method for Riemann Zeta Zeros</a></li>
+    <li><a href="../paper/paper_cf_ppt_bijection.pdf" target="_blank">3. A Bijection Between Binary Data and Pythagorean Triples via Continued Fractions</a></li>
+    <li><a href="../paper/paper_physics.pdf" target="_blank">4. The Prime Gas: Bose-Einstein Condensation, Lee-Yang Theory, and Quantum Chaos</a></li>
+    <li><a href="../paper/paper_compression.pdf" target="_blank">5. Pythagorean Wavelet and Adaptive Plane Compression for Floating-Point Data</a></li>
+    <li><a href="../paper/paper_millennium.pdf" target="_blank">6. Connections Between the Berggren Tree and Millennium Prize Problems</a></li>
+    <li><a href="../paper/paper_dessin_berggren.pdf" target="_blank">7. Dessins d'Enfants, Cayley Conjugacy, and the Berggren Tree</a></li>
+    <li><a href="../paper/paper_berggren_identity.pdf" target="_blank">8. The Berggren Identity and Pythagorean Triple Combinatorics</a></li>
+    <li><a href="../paper/paper_sl2_berggren.pdf" target="_blank">9. The Berggren Group, the Theta Group, and Surjectivity onto SL(2,F_p)</a></li>
+    <li><a href="../paper/paper_ppt_monster.pdf" target="_blank">10. From Pythagorean Triples to the Monster: A Tower of Exceptional Structures via the Theta Group</a></li>
+  </ul>
 </div>
 
 <h2 class="section-title">Research Program Statistics</h2>
@@ -177,7 +192,7 @@
 </ul>
 <p style="margin-top:12px;">
   All experiments are reproducible from the
-  <a href="https://github.com/paulklemstine/factor" target="_blank" style="color:var(--accent);">public repository</a>.
+  <a href="https://github.com/paulklemstine/factor" target="_blank" style="color:var(--cyan);">public repository</a>.
 </p>
 
 </div>
