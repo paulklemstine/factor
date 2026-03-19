@@ -8,15 +8,6 @@ A **checksum** can detect drift: after performing rotations R₁ through Rₖ, p
 reverse each rotation by applying Rₖ⁻¹, …, R₂⁻¹, R₁⁻¹. The mathematical identity
 guarantees the composed result is exactly the identity matrix I, so `tr(result) = 3`.
 Any deviation from 3 in the measured trace quantifies the accumulated numerical error.
-## Correction to the Original Claim
-The original claim states that `tr(R₁R₂⋯Rₖ · Rₖ⋯R₂R₁) = 3`, i.e., that multiplying
-by the *same* rotations in reverse order yields the identity. This is **false** in general.
-**Counterexample**: Let R be a 90° rotation around the z-axis.
-Then R² has trace -1, not 3.
-The **correct** identity uses *inverse* rotations in the reversal:
-  `R₁R₂⋯Rₖ · Rₖ⁻¹⋯R₂⁻¹R₁⁻¹ = I`
-For orthogonal/rotation matrices, Rᵢ⁻¹ = Rᵢᵀ, so the physical reversal means
-applying the *transpose* (= time-reversed) rotations, not repeating the same ones.
 ## What We Formalize
 1. **Group-level identity**: For any list of group elements,
    `L.prod * (L.map (·⁻¹)).reverse.prod = 1`
@@ -56,18 +47,3 @@ theorem imu_checksum {n : ℕ} (L : List (GL (Fin n) ℝ)) :
     Matrix.trace ((L.prod : GL (Fin n) ℝ) * (L.map (·⁻¹)).reverse.prod).1 = (n : ℝ) := by
   rw [group_reversal_identity]
   convert trace_identity_eq n
-/-! ### Part 4: Why the Original Claim is False
-We formalize the counterexample: a single 90° rotation R around
-the z-axis satisfies tr(R · R) = -1 ≠ 3.
--/
-/-- The 90° rotation matrix around the z-axis. -/
-noncomputable def rot90z : Matrix (Fin 3) (Fin 3) ℝ :=
-  !![0, -1, 0;
-     1,  0, 0;
-     0,  0, 1]
-/-- The square of a 90° rotation has trace -1, not 3.
-This disproves the original (uncorrected) claim that
-`tr(R₁⋯Rₖ · Rₖ⋯R₁) = 3`. -/
-theorem rot90z_sq_trace : Matrix.trace (rot90z * rot90z) = -1 := by
-  unfold rot90z; norm_num [Matrix.trace, Matrix.mul_apply]; ring_nf;
-  simp +decide [Fin.sum_univ_succ]
