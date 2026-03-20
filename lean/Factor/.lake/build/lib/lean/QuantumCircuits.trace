@@ -1,0 +1,39 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["fc9de84fe3e649da.olean"],
+  "i": "b83e1273c8e9fdbd.ilean",
+  "c": "87470b6b04e0421d.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/raver1975/factor/lean/Factor/.lake/packages/Cli/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/batteries/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/Qq/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/aesop/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/importGraph/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/plausible/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/mathlib/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/build/lib/lean /home/raver1975/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /home/raver1975/factor/lean/Factor/QuantumCircuits.lean -o /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/QuantumCircuits.olean -i /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/QuantumCircuits.ilean -c /home/raver1975/factor/lean/Factor/.lake/build/ir/QuantumCircuits.c --setup /home/raver1975/factor/lean/Factor/.lake/build/ir/QuantumCircuits.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "QuantumCircuits.lean:90:10: This simp argument is unused:\n  Matrix.one_apply\n\nHint: Omit it from the simp argument list.\n  simp [hadamard_scaled, Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply, M̵a̵t̵r̵i̵x̵.̵o̵n̵e̵_̵a̵p̵p̵l̵y̵,̵ ̵Fin.val]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "QuantumCircuits.lean:90:28: This simp argument is unused:\n  Fin.val\n\nHint: Omit it from the simp argument list.\n  simp [hadamard_scaled, Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply,\n  ̵  ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵ ̵Matrix.one_apply,̵ ̵F̵i̵n̵.̵v̵a̵l̵]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "QuantumCircuits.lean:156:56: This simp argument is unused:\n  Fin.sum_univ_zero\n\nHint: Omit it from the simp argument list.\n  simp [Toffoli, Matrix.mul_apply, Fin.sum_univ_succ,̵ ̵F̵i̵n̵.̵s̵u̵m̵_̵u̵n̵i̵v̵_̵z̵e̵r̵o̵]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"}],
+ "inputs":
+ [["QuantumCircuits:deps",
+   [["deps",
+     [["RequestProject/QuantumCircuits:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "8fd896a9b3011bd6"],
+        ["Mathlib:importAllArts", "8fc2a9ec06d95bdc"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/home/raver1975/factor/lean/Factor/QuantumCircuits.lean",
+   "7819df1f08202613"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "ba3987767d3efadc"}

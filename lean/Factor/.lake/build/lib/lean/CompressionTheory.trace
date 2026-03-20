@@ -1,0 +1,42 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["e2c2cefa7dc77fb0.olean"],
+  "i": "f4bbcfb003008210.ilean",
+  "c": "faa90cb572b4894e.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/raver1975/factor/lean/Factor/.lake/packages/Cli/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/batteries/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/Qq/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/aesop/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/importGraph/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/plausible/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/mathlib/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/build/lib/lean /home/raver1975/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /home/raver1975/factor/lean/Factor/CompressionTheory.lean -o /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/CompressionTheory.olean -i /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/CompressionTheory.ilean -c /home/raver1975/factor/lean/Factor/.lake/build/ir/CompressionTheory.c --setup /home/raver1975/factor/lean/Factor/.lake/build/ir/CompressionTheory.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "CompressionTheory.lean:38:39: unused variable `hD`\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "CompressionTheory.lean:55:40: unused variable `hn`\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "CompressionTheory.lean:132:33: unused variable `hn`\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"},
+  {"message":
+   "CompressionTheory.lean:172:37: unused variable `hn`\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"}],
+ "inputs":
+ [["CompressionTheory:deps",
+   [["deps",
+     [["RequestProject/CompressionTheory:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "8fd896a9b3011bd6"],
+        ["Mathlib:importAllArts", "8fc2a9ec06d95bdc"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/home/raver1975/factor/lean/Factor/CompressionTheory.lean",
+   "07248fcd3d8c8e76"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "e8d5f968f7c2a95b"}

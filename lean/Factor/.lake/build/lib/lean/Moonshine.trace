@@ -1,0 +1,35 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["699cf4bd316ffe0a.olean"],
+  "i": "8c6cf3010d10885d.ilean",
+  "c": "4ea051828fb23f7a.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/raver1975/factor/lean/Factor/.lake/packages/Cli/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/batteries/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/Qq/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/aesop/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/importGraph/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/plausible/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/mathlib/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/build/lib/lean /home/raver1975/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /home/raver1975/factor/lean/Factor/Moonshine.lean -o /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/Moonshine.olean -i /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/Moonshine.ilean -c /home/raver1975/factor/lean/Factor/.lake/build/ir/Moonshine.c --setup /home/raver1975/factor/lean/Factor/.lake/build/ir/Moonshine.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "Moonshine.lean:56:63: This simp argument is unused:\n  berggren_M1\n\nHint: Omit it from the simp argument list.\n  simp +decide [berggren_M1̵,̵ ̵b̵e̵r̵g̵g̵r̵e̵n̵_̵M̵3]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"},
+  {"message":
+   "Moonshine.lean:56:76: This simp argument is unused:\n  berggren_M3\n\nHint: Omit it from the simp argument list.\n  simp +decide [berggren_M1,̵ ̵b̵e̵r̵g̵g̵r̵e̵n̵_̵M̵3̵]\n\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+   "level": "warning"}],
+ "inputs":
+ [["Moonshine:deps",
+   [["deps",
+     [["RequestProject/Moonshine:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "8fd896a9b3011bd6"],
+        ["Mathlib:importAllArts", "8fc2a9ec06d95bdc"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/home/raver1975/factor/lean/Factor/Moonshine.lean", "22532ad2c4fec6e8"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "e94dba834ec7240c"}

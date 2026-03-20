@@ -1,5 +1,5 @@
 name = "RequestProject"
-defaultTargets = ["Basic", "Berggren", "BerggrenTree", "CongruentNumber", "Extensions", "FermatFactor", "DriftFreeIMU", "Moonshine", "FLT4", "MillenniumConnections", "NewTheorems", "SL2Theory", "ArithmeticGeometry", "Applications", "GaussianIntegers", "QuadraticForms", "DescentTheory", "SpectralTheory", "QuantumGateSynthesis", "QuantumCompression", "QuantumCircuits", "CompressionTheory", "NewDirections"]
+defaultTargets = ["Basic", "Berggren", "BerggrenTree", "CongruentNumber", "Extensions", "FermatFactor", "DriftFreeIMU", "Moonshine", "FLT4", "MillenniumConnections", "NewTheorems", "SL2Theory", "ArithmeticGeometry", "Applications", "GaussianIntegers", "QuadraticForms", "DescentTheory", "SpectralTheory", "QuantumGateSynthesis", "QuantumCompression", "QuantumCircuits", "CompressionTheory", "NewDirections", "Combinatorics", "GroupTheoryExploration", "AnalysisInequalities", "NumberTheoryDeep", "LinearAlgebraExploration", "TopologyDynamics", "PolynomialTheory", "SetTheoryLogic", "ProbabilityExploration", "CategoryRepresentation", "CryptographyApplications", "OptimizationConvexity", "AlgebraicStructures", "RealWorldApplications"]
 
 [[require]]
 name = "mathlib"
@@ -97,3 +97,59 @@ globs = ["CompressionTheory"]
 [[lean_lib]]
 name = "NewDirections"
 globs = ["NewDirections"]
+
+[[lean_lib]]
+name = "Combinatorics"
+globs = ["Combinatorics"]
+
+[[lean_lib]]
+name = "GroupTheoryExploration"
+globs = ["GroupTheoryExploration"]
+
+[[lean_lib]]
+name = "AnalysisInequalities"
+globs = ["AnalysisInequalities"]
+
+[[lean_lib]]
+name = "NumberTheoryDeep"
+globs = ["NumberTheoryDeep"]
+
+[[lean_lib]]
+name = "LinearAlgebraExploration"
+globs = ["LinearAlgebraExploration"]
+
+[[lean_lib]]
+name = "TopologyDynamics"
+globs = ["TopologyDynamics"]
+
+[[lean_lib]]
+name = "PolynomialTheory"
+globs = ["PolynomialTheory"]
+
+[[lean_lib]]
+name = "SetTheoryLogic"
+globs = ["SetTheoryLogic"]
+
+[[lean_lib]]
+name = "ProbabilityExploration"
+globs = ["ProbabilityExploration"]
+
+[[lean_lib]]
+name = "CategoryRepresentation"
+globs = ["CategoryRepresentation"]
+
+[[lean_lib]]
+name = "CryptographyApplications"
+globs = ["CryptographyApplications"]
+
+[[lean_lib]]
+name = "OptimizationConvexity"
+globs = ["OptimizationConvexity"]
+
+[[lean_lib]]
+name = "AlgebraicStructures"
+globs = ["AlgebraicStructures"]
+
+[[lean_lib]]
+name = "RealWorldApplications"
+globs = ["RealWorldApplications"]

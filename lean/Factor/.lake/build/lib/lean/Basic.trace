@@ -1,0 +1,29 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["c2b51bb4c3a5ef3e.olean"],
+  "i": "b940e3ee10bf11a2.ilean",
+  "c": "f69c70a8694e23c6.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/raver1975/factor/lean/Factor/.lake/packages/Cli/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/batteries/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/Qq/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/aesop/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/importGraph/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/plausible/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/mathlib/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/build/lib/lean /home/raver1975/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /home/raver1975/factor/lean/Factor/Basic.lean -o /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/Basic.olean -i /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/Basic.ilean -c /home/raver1975/factor/lean/Factor/.lake/build/ir/Basic.c --setup /home/raver1975/factor/lean/Factor/.lake/build/ir/Basic.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["Basic:deps",
+   [["deps",
+     [["RequestProject/Basic:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "8fd896a9b3011bd6"],
+        ["Mathlib:importAllArts", "8fc2a9ec06d95bdc"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/home/raver1975/factor/lean/Factor/Basic.lean", "70bcf714b0e8813d"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "9633b66d8fa275ab"}

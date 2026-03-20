@@ -1,0 +1,30 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["c7626008f511419c.olean"],
+  "i": "cbbf809aee47dcc9.ilean",
+  "c": "cbbc8006029c077b.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/raver1975/factor/lean/Factor/.lake/packages/Cli/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/batteries/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/Qq/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/aesop/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/importGraph/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/plausible/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/mathlib/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/build/lib/lean /home/raver1975/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /home/raver1975/factor/lean/Factor/ArithmeticGeometry.lean -o /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/ArithmeticGeometry.olean -i /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/ArithmeticGeometry.ilean -c /home/raver1975/factor/lean/Factor/.lake/build/ir/ArithmeticGeometry.c --setup /home/raver1975/factor/lean/Factor/.lake/build/ir/ArithmeticGeometry.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["ArithmeticGeometry:deps",
+   [["deps",
+     [["RequestProject/ArithmeticGeometry:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "8fd896a9b3011bd6"],
+        ["Mathlib:importAllArts", "8fc2a9ec06d95bdc"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/home/raver1975/factor/lean/Factor/ArithmeticGeometry.lean",
+   "7a07398366c991ab"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "99e46483fc3adcc3"}

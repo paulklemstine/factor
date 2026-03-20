@@ -1,0 +1,49 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["2c14cb7d5f7beb1f.olean"],
+  "i": "f17f85251a9a0968.ilean",
+  "c": "5c405fc1204a7812.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/raver1975/factor/lean/Factor/.lake/packages/Cli/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/batteries/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/Qq/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/aesop/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/importGraph/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/plausible/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/packages/mathlib/.lake/build/lib/lean:/home/raver1975/factor/lean/Factor/.lake/build/lib/lean /home/raver1975/.elan/toolchains/leanprover--lean4---v4.28.0/bin/lean /home/raver1975/factor/lean/Factor/FermatFactor.lean -o /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/FermatFactor.olean -i /home/raver1975/factor/lean/Factor/.lake/build/lib/lean/FermatFactor.ilean -c /home/raver1975/factor/lean/Factor/.lake/build/ir/FermatFactor.c --setup /home/raver1975/factor/lean/Factor/.lake/build/ir/FermatFactor.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "FermatFactor.lean:193:0: [(3, 5), (5, 3), (3, 5), (3, 5), (5, 3), (3, 5), (3, 5), (5, 3), (3, 5), (5, 3), (3, 5), (3, 5), (5, 3), (3, 5), (5, 3),\n  (3, 5)]",
+   "level": "info"},
+  {"message":
+   "FermatFactor.lean:196:0: [(7, 11), (7, 11), (11, 7), (7, 11), (11, 7), (7, 11), (11, 7), (11, 7), (7, 11), (7, 11), (7, 11), (7, 11), (11, 7),\n  (7, 11), (11, 7), (7, 11), (7, 11), (7, 11), (11, 7), (7, 11), (11, 7), (11, 7), (11, 7), (7, 11), (7, 11), (11, 7),\n  (7, 11), (11, 7), (7, 11), (11, 7), (7, 11), (7, 11), (11, 7), (7, 11), (7, 11)]",
+   "level": "info"},
+  {"message":
+   "FermatFactor.lean:199:0: [(11, 13), (13, 11), (11, 13), (13, 11), (11, 13), (11, 13), (13, 11), (11, 13), (13, 11), (11, 13), (13, 11), (13, 11),\n  (11, 13), (11, 13), (11, 13), (11, 13), (13, 11), (11, 13), (11, 13), (11, 13), (13, 11), (13, 11), (11, 13),\n  (13, 11), (11, 13), (13, 11)]",
+   "level": "info"},
+  {"message":
+   "FermatFactor.lean:202:0: [(17, 13), (13, 17), (13, 17), (13, 17), (17, 13), (13, 17), (13, 17), (13, 17), (13, 17), (13, 17), (17, 13), (13, 17),\n  (17, 13), (17, 13), (17, 13), (13, 17), (13, 17), (13, 17), (13, 17), (13, 17), (13, 17), (13, 17), (17, 13),\n  (13, 17), (13, 17), (17, 13), (13, 17), (17, 13), (17, 13), (13, 17), (17, 13), (17, 13), (13, 17), (13, 17),\n  (17, 13), (17, 13), (13, 17), (13, 17), (13, 17), (17, 13), (17, 13), (13, 17), (17, 13), (17, 13), (13, 17),\n  (13, 17), (17, 13), (13, 17), (17, 13), (13, 17), (13, 17), ⋯]",
+   "level": "info"},
+  {"message":
+   "FermatFactor.lean:205:0: [(29, 37), (37, 29), (37, 29), (29, 37), (29, 37), (37, 29), (29, 37), (29, 37), (29, 37), (37, 29), (29, 37), (29, 37),\n  (29, 37), (37, 29), (29, 37), (29, 37), (29, 37), (37, 29), (37, 29), (29, 37), (37, 29), (29, 37), (29, 37)]",
+   "level": "info"},
+  {"message":
+   "FermatFactor.lean:208:0: [(103, 101), (101, 103), (101, 103), (103, 101), (101, 103), (103, 101), (101, 103)]",
+   "level": "info"}],
+ "inputs":
+ [["FermatFactor:deps",
+   [["deps",
+     [["RequestProject/FermatFactor:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Mathlib transitive imports (legacy)", "8fd896a9b3011bd6"],
+        ["Mathlib:importAllArts", "8fc2a9ec06d95bdc"],
+        ["BerggrenTree transitive imports (legacy)", "12c1ba7185138d42"],
+        ["BerggrenTree:importAllArts", "fcb81ef6888456ff"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["/home/raver1975/factor/lean/Factor/FermatFactor.lean", "56f67f157e31542b"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "ec050c4c6717b640"}
