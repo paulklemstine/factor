@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 *.pyo
 .numba_cache/
+lean/Factor/.lake/
