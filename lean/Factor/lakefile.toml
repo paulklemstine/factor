@@ -1,5 +1,5 @@
 name = "RequestProject"
-defaultTargets = ["Basic", "Berggren", "BerggrenTree", "CongruentNumber", "Extensions", "FermatFactor", "DriftFreeIMU", "Moonshine", "FLT4", "MillenniumConnections", "NewTheorems", "SL2Theory", "ArithmeticGeometry", "Applications", "GaussianIntegers", "QuadraticForms", "DescentTheory", "SpectralTheory"]
+defaultTargets = ["Basic", "Berggren", "BerggrenTree", "CongruentNumber", "Extensions", "FermatFactor", "DriftFreeIMU", "Moonshine", "FLT4", "MillenniumConnections", "NewTheorems", "SL2Theory", "ArithmeticGeometry", "Applications", "GaussianIntegers", "QuadraticForms", "DescentTheory", "SpectralTheory", "QuantumGateSynthesis", "QuantumCompression", "QuantumCircuits", "CompressionTheory", "NewDirections"]
 
 [[require]]
 name = "mathlib"
@@ -77,3 +77,23 @@ globs = ["DescentTheory"]
 [[lean_lib]]
 name = "SpectralTheory"
 globs = ["SpectralTheory"]
+
+[[lean_lib]]
+name = "QuantumGateSynthesis"
+globs = ["QuantumGateSynthesis"]
+
+[[lean_lib]]
+name = "QuantumCompression"
+globs = ["QuantumCompression"]
+
+[[lean_lib]]
+name = "QuantumCircuits"
+globs = ["QuantumCircuits"]
+
+[[lean_lib]]
+name = "CompressionTheory"
+globs = ["CompressionTheory"]
+
+[[lean_lib]]
+name = "NewDirections"
+globs = ["NewDirections"]
