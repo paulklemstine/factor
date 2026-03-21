@@ -109,13 +109,33 @@ theorem sauer_shelah' {n d : ℕ} (𝒜 : Finset (Finset (Fin n)))
 
 /-! ## LYM Inequality -/
 
-/-- **LYM inequality**: For an antichain in the power set of `Fin n`,
+/-
+PROBLEM
+**LYM inequality**: For an antichain in the power set of `Fin n`,
 `∑_{A ∈ 𝒜} 1/C(n, |A|) ≤ 1`.
-(Open — requires chain-counting double argument with permutations.) -/
+(Open — requires chain-counting double argument with permutations.)
+
+PROVIDED SOLUTION
+Convert the antichain hypothesis to IsAntichain (· ⊆ ·) on the set coercion. Then use Mathlib's Finset.sum_card_slice_div_choose_le_one with 𝕜 := ℚ. Finally show that our sum equals Mathlib's sum: ∑ A ∈ 𝒜, 1/C(n,|A|) = ∑ r in range(n+1), |𝒜.slice r|/C(n,r) by regrouping by cardinality. The key identity is that summing 1/C(n,r) over all A in 𝒜 with |A|=r gives |𝒜.slice r|/C(n,r).
+-/
 theorem lym_inequality (n : ℕ) (𝒜 : Finset (Finset (Fin n)))
     (hanti : ∀ A ∈ 𝒜, ∀ B ∈ 𝒜, A ≠ B → ¬(A ⊆ B)) :
     ∑ A ∈ 𝒜, (1 : ℚ) / Nat.choose n A.card ≤ 1 := by
-  sorry
+      have h_convert : ∀ A ∈ (𝒜 : (Finset (Finset (Fin n)))), ∀ B ∈ (𝒜 : (Finset (Finset (Fin n)))), A ≠ B → ¬(A ⊆ B) := by
+        assumption;
+      have h_convert : IsAntichain (· ⊆ ·) (𝒜 : Set (Finset (Fin n))) := by
+        exact fun x hx y hy hxy => by aesop;
+      have := @Finset.sum_card_slice_div_choose_le_one ℚ;
+      convert this h_convert using 1;
+      simp +decide [ div_eq_mul_inv, Finset.sum_filter ];
+      -- By definition of binomial coefficients, we can rewrite the sum as $\sum_{r=0}^{n} \frac{|\mathcal{A}_r|}{\binom{n}{r}}$.
+      have h_sum : ∑ x ∈ Finset.range (n + 1), (Finset.card (𝒜.filter (fun s => s.card = x))) * (Nat.choose n x : ℚ)⁻¹ = ∑ x ∈ Finset.biUnion (Finset.range (n + 1)) (fun r => Finset.filter (fun s => s.card = r) 𝒜), (Nat.choose n x.card : ℚ)⁻¹ := by
+        rw [ Finset.sum_biUnion ];
+        · exact Finset.sum_congr rfl fun x hx => by rw [ Finset.sum_congr rfl fun y hy => by rw [ Finset.mem_filter.mp hy |>.2 ] ] ; simp +decide [ mul_comm ] ;
+        · exact fun x hx y hy hxy => Finset.disjoint_left.mpr fun s hs hs' => hxy <| by aesop;
+      convert h_sum.symm using 2;
+      ext; simp [Finset.mem_biUnion];
+      exact fun _ => le_trans ( Finset.card_le_univ _ ) ( by norm_num )
 
 /-! ## Compression from Pigeonhole -/
 
