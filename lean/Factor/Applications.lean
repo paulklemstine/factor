@@ -1,104 +1,134 @@
+/-
+# Concrete Codebook Constructions and Real-World Applications
+
+Formal proofs about achievable compression:
+- Binary encoding of bounded alphabets
+- DNA base codebook (optimal 2-bit encoding)
+- Column encoding for databases
+- Run-length encoding properties
+- Identity codebooks and compression ratios
+-/
+
 import Mathlib
 
-/-!
-# Real-World Applications of Pythagorean Triple Theory
+open Finset Function
 
-Mathematical foundations underlying practical applications
-of Pythagorean triples and their algebraic structure.
+/-! ## Codebook Structure -/
 
-## Applications
+/-- A **codebook** for lossless encoding/decoding. -/
+structure Codebook' (Source : Type*) (Code : Type*) where
+  encode : Source → Code
+  decode : Code → Source
+  lossless : ∀ s, decode (encode s) = s
 
-1. **Signal Processing**: PPTs give exact rational rotations (no rounding error)
-2. **Computer Graphics**: Integer-coordinate circle approximations
-3. **Error-Correcting Codes**: Lattice codes from Gaussian integers
-4. **Quantum Computing**: SL(2,ℤ) gates for topological quantum computation
-5. **Surveying**: The 3-4-5 rope for exact right angles (ancient Egypt)
+/-- Any codebook has injective encoding. -/
+theorem Codebook'.encode_injective {Source Code : Type*} (cb : Codebook' Source Code) :
+    Injective cb.encode :=
+  fun a b h => by rw [← cb.lossless a, ← cb.lossless b, h]
 
-## Main Results
+/-! ## Binary Codebook -/
 
-- `exact_rotation_det`: PPT gives a unit-determinant rotation
-- `rotation_preserves_norm`: PPT rotation preserves distances
-- `gaussian_lattice_min_norm`: ℤ[i] lattice minimum distance
-- `eisenstein_min_norm`: ℤ[ω] lattice minimum distance
-- `S_gate_order4`: S gate has order 4 in SL(2,ℤ)
--/
+/-- For `n ≤ m`, binary strings of length `n` embed into binary strings of length `m`. -/
+noncomputable def binaryCodebook {n m : ℕ} (h : n ≤ m) :
+    Codebook' (Fin n → Bool) (Fin m → Bool) where
+  encode x i := if hi : i.val < n then x ⟨i.val, hi⟩ else false
+  decode y i := y ⟨i.val, by omega⟩
+  lossless x := by ext i; simp [i.isLt]
 
-open Matrix
+/-- The binary codebook has injective encoding. -/
+theorem binaryCodebook_injective {n m : ℕ} (h : n ≤ m) :
+    Injective (binaryCodebook h).encode :=
+  (binaryCodebook h).encode_injective
 
-/-! ## §1: Exact Rational Rotations -/
+/-! ## DNA Base Encoding -/
 
-/-- A PPT (a,b,c) gives an exact rational rotation:
-    (a/c)² + (b/c)² = 1. -/
-theorem exact_rotation_det (a b c : ℚ) (hc : c ≠ 0) (h : a ^ 2 + b ^ 2 = c ^ 2) :
-    (a / c) ^ 2 + (b / c) ^ 2 = 1 := by field_simp; linarith
+/-- DNA bases: 4 symbols. -/
+inductive DNABase | A | C | G | T
+  deriving Fintype, DecidableEq
 
-/-
-PROBLEM
-The rotation matrix preserves the Euclidean norm.
+/-- Optimal 2-bit encoding for DNA bases. -/
+def dnaCodebook : Codebook' DNABase (Fin 2 → Bool) where
+  encode
+    | .A => ![false, false]
+    | .C => ![false, true]
+    | .G => ![true, false]
+    | .T => ![true, true]
+  decode bits :=
+    match bits 0, bits 1 with
+    | false, false => .A
+    | false, true  => .C
+    | true,  false => .G
+    | true,  true  => .T
+  lossless b := by
+    cases b <;> simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
 
-PROVIDED SOLUTION
-After field_simp, both sides are rational polynomials. The identity to prove is: (ax-by)²c² + (bx+ay)²c² = (x²+y²)c⁴. Factor out c²: c²[(ax-by)² + (bx+ay)²] = c²·c²·(x²+y²). So need (ax-by)²+(bx+ay)² = c²(x²+y²). Expand LHS: a²x²-2abxy+b²y²+b²x²+2abxy+a²y² = (a²+b²)(x²+y²) = c²(x²+y²). This is just the hypothesis. After field_simp, try nlinarith with all relevant squares.
--/
-theorem rotation_preserves_norm (a b c x y : ℚ) (h : a ^ 2 + b ^ 2 = c ^ 2) (hc : c ≠ 0) :
-    (a / c * x - b / c * y) ^ 2 + (b / c * x + a / c * y) ^ 2 = x ^ 2 + y ^ 2 := by
-      grind +ring
+/-- DNA codebook is injective. -/
+theorem dnaCodebook_injective : Injective dnaCodebook.encode :=
+  dnaCodebook.encode_injective
 
-/-! ## §2: Integer Points on Circles -/
+/-- 2 bits is optimal for DNA: you can't do it in 1 bit (pigeonhole). -/
+theorem dna_needs_two_bits :
+    ¬ ∃ f : DNABase → (Fin 1 → Bool), Injective f := by
+  intro ⟨f, hf⟩
+  have h1 : Fintype.card DNABase = 4 := by decide
+  have h2 : Fintype.card (Fin 1 → Bool) = 2 := by decide
+  exact absurd (Fintype.card_le_of_injective f hf) (by omega)
 
-/-- Scaling a PPT gives integer points on larger circles. -/
-theorem scaled_circle_point (a b c k : ℤ) (h : a ^ 2 + b ^ 2 = c ^ 2) :
-    (k * a) ^ 2 + (k * b) ^ 2 = (k * c) ^ 2 := by ring_nf; nlinarith
+/-! ## Two-Symbol Optimal Code -/
 
-/-! ## §3: Lattice Codes -/
+/-- For a two-symbol source, the optimal code uses 1 bit per symbol. -/
+theorem two_symbol_optimal :
+    ∃ cb : Codebook' Bool (Fin 1 → Bool), Injective cb.encode := by
+  exact ⟨⟨fun b => ![b], fun bits => bits 0, fun b => by simp⟩,
+    fun a b h => by simpa using congr_fun h 0⟩
 
-/-- The Gaussian integer lattice ℤ[i] has minimum norm 1. -/
-theorem gaussian_lattice_min_norm (a b : ℤ) (h : ¬(a = 0 ∧ b = 0)) :
-    1 ≤ a ^ 2 + b ^ 2 := by
-  rcases not_and_or.mp h with ha | hb
-  · have : 1 ≤ a ^ 2 := by nlinarith [Int.one_le_abs ha, sq_abs a]
-    linarith [sq_nonneg b]
-  · have : 1 ≤ b ^ 2 := by nlinarith [Int.one_le_abs hb, sq_abs b]
-    linarith [sq_nonneg a]
+/-! ## Run-Length Encoding -/
 
-/-
-PROBLEM
-The Eisenstein integer lattice ℤ[ω] has minimum norm 1 for the
-    norm form N(a + bω) = a² + ab + b².
+/-- A run is a pair of (symbol, count). -/
+structure Run (α : Type*) where
+  symbol : α
+  count : ℕ
+  count_pos : 0 < count
 
-PROVIDED SOLUTION
-Note 4(a²+ab+b²) = (2a+b)² + 3b². If b ≠ 0 then 3b² ≥ 3, so 4(a²+ab+b²) ≥ 3 > 0, hence a²+ab+b² ≥ 1. If b = 0 then a ≠ 0 (from h), so a²+ab+b² = a² ≥ 1. Use rcases not_and_or.mp h, then Int.one_le_abs.
--/
-theorem eisenstein_min_norm (a b : ℤ) (h : ¬(a = 0 ∧ b = 0)) :
-    1 ≤ a ^ 2 + a * b + b ^ 2 := by
-      exact not_lt.1 fun contra : a^2 + a * b + b^2 < 1 => h ⟨ by nlinarith [ sq_nonneg ( a + b ) ], by nlinarith [ sq_nonneg ( a + b ) ] ⟩
+/-- Decode a list of runs back to a string. -/
+def decodeRuns {α : Type*} : List (Run α) → List α
+  | [] => []
+  | r :: rs => List.replicate r.count r.symbol ++ decodeRuns rs
 
-/-! ## §4: Quantum Computing — SL(2,ℤ) Gates -/
+/-- A single run decodes to a list of the correct length. -/
+theorem decodeRuns_singleton_length {α : Type*} (r : Run α) :
+    (decodeRuns [r]).length = r.count := by
+  simp [decodeRuns]
 
-/-- S² = -I in SL(2,ℤ). -/
-theorem S_gate_squared :
-    !![( 0 : ℤ), -1; 1, 0] * !![( 0 : ℤ), -1; 1, 0] = !![-1, 0; 0, -1] := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
+/-- Decoding preserves concatenation. -/
+theorem decodeRuns_append {α : Type*} (rs₁ rs₂ : List (Run α)) :
+    decodeRuns (rs₁ ++ rs₂) = decodeRuns rs₁ ++ decodeRuns rs₂ := by
+  induction rs₁ with
+  | nil => simp [decodeRuns]
+  | cons r rs ih => simp [decodeRuns, ih, List.append_assoc]
 
-/-- S⁴ = I: the S gate has order 4. -/
-theorem S_gate_order4 :
-    !![( 0 : ℤ), -1; 1, 0] * !![( 0 : ℤ), -1; 1, 0] *
-    (!![( 0 : ℤ), -1; 1, 0] * !![( 0 : ℤ), -1; 1, 0]) = 1 := by native_decide
+/-! ## Column Encoding for Databases -/
 
-/-- T² = [[1,2],[0,1]] connects the Berggren tree to quantum gate synthesis. -/
-theorem T_squared :
-    !![( 1 : ℤ), 1; 0, 1] * !![( 1 : ℤ), 1; 0, 1] = !![1, 2; 0, 1] := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
+/-- For a column with at most `2^k` distinct values, we can encode each value
+in exactly `k` bits with O(1) lookup. -/
+theorem column_encoding_exists (k : ℕ) (Values : Type*) [Fintype Values] [Nonempty Values]
+    (h : Fintype.card Values ≤ 2 ^ k) :
+    ∃ cb : Codebook' Values (Fin k → Bool), Injective cb.encode := by
+  have hle : Fintype.card Values ≤ Fintype.card (Fin k → Bool) := by
+    simp [Fintype.card_fun, Fintype.card_fin, Fintype.card_bool]; exact h
+  obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le hle
+  exact ⟨⟨e, Function.invFun e, fun s => Function.leftInverse_invFun e.injective s⟩,
+    e.injective⟩
 
-/-! ## §5: Digital Signal Processing -/
+/-! ## Identity and Compression Ratio -/
 
-/-- PPT-derived rational rotations give exact twiddle factors for DSP. -/
-theorem dsp_twiddle_exact (a b c : ℚ) (hc : c ≠ 0) (h : a ^ 2 + b ^ 2 = c ^ 2) :
-    (a / c) ^ 2 + (b / c) ^ 2 = 1 := exact_rotation_det a b c hc h
+/-- The identity codebook always exists and achieves ratio 1. -/
+theorem identity_always_works (α : Type*) :
+    ∃ cb : Codebook' α α, Injective cb.encode :=
+  ⟨⟨id, id, fun _ => rfl⟩, fun _ _ h => h⟩
 
-/-! ## §6: Surveying and Construction -/
-
-/-- The (3,4,5) rope for exact right angles. -/
-theorem rope_345 : (3 : ℤ) ^ 2 + 4 ^ 2 = 5 ^ 2 := by norm_num
-
-/-- The (5,12,13) triple provides another exact right angle construction. -/
-theorem rope_51213 : (5 : ℤ) ^ 2 + 12 ^ 2 = 13 ^ 2 := by norm_num
+/-- **Compression ratio theorem**: You can always achieve ratio 1 (no compression),
+but our impossibility theorem says you cannot achieve ratio < 1 universally. -/
+theorem compression_ratio_one (n : ℕ) :
+    ∃ cb : Codebook' (Fin n → Bool) (Fin n → Bool), Injective cb.encode :=
+  identity_always_works _
