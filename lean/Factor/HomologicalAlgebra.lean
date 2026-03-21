@@ -5,6 +5,7 @@ Formal proofs of chain complex and exact sequence properties:
 - Chain complex axiom d² = 0
 - Euler characteristic computations
 - Betti numbers of surfaces
+- Short exact sequence rank-nullity (over fields)
 -/
 
 import Mathlib
@@ -49,15 +50,23 @@ theorem rp2_euler_char' : (1 : ℤ) - 0 + 0 = 1 := by ring
 
 /-! ## Short Exact Sequences -/
 
-/-- Rank-nullity for a short exact sequence 0 → A → B → C → 0. -/
-theorem ses_rank_nullity' {R : Type*} [CommRing R]
+/-
+PROBLEM
+Rank-nullity for a short exact sequence 0 → A → B → C → 0 over a field.
+The original statement over a CommRing was too general (disproved); we need a field
+for finrank to behave additively.
+
+PROVIDED SOLUTION
+Use LinearMap.finrank_range_add_finrank_ker for g: finrank B = finrank (range g) + finrank (ker g). Since g is surjective, finrank (range g) = finrank C (via LinearMap.range_eq_top.mpr hg and Submodule.finrank_eq_top). Since h_exact says range f = ker g, and f is injective, finrank (ker g) = finrank (range f) = finrank A (via LinearMap.finrank_range_of_inj). Combine these.
+-/
+theorem ses_rank_nullity' {K : Type*} [Field K]
     {A B C : Type*} [AddCommGroup A] [AddCommGroup B] [AddCommGroup C]
-    [Module R A] [Module R B] [Module R C]
-    [Module.Free R A] [Module.Finite R A]
-    [Module.Free R B] [Module.Finite R B]
-    [Module.Free R C] [Module.Finite R C]
-    (f : A →ₗ[R] B) (g : B →ₗ[R] C)
+    [Module K A] [Module K B] [Module K C]
+    [FiniteDimensional K A] [FiniteDimensional K B] [FiniteDimensional K C]
+    (f : A →ₗ[K] B) (g : B →ₗ[K] C)
     (hf : Function.Injective f) (hg : Function.Surjective g)
     (h_exact : LinearMap.range f = LinearMap.ker g) :
-    Module.finrank R B = Module.finrank R A + Module.finrank R C := by
-  sorry
+    Module.finrank K B = Module.finrank K A + Module.finrank K C := by
+  rw [ ← LinearMap.finrank_range_add_finrank_ker g ];
+  rw [ ← h_exact, add_comm ];
+  rw [ LinearMap.finrank_range_of_inj hf, LinearMap.range_eq_top.mpr hg ] ; simp +decide [ hf, hg ]
