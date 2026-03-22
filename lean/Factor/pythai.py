@@ -30,6 +30,7 @@ try:
     import torch.nn as nn
     from transformers import GPT2LMHeadModel, GPT2Tokenizer
     from torch.optim import AdamW
+    from torch.optim.lr_scheduler import CosineAnnealingLR
     HAS_TRANSFORMERS = True
 except ImportError:
     try:
@@ -38,6 +39,7 @@ except ImportError:
         import torch.nn as nn
         from transformers import GPT2LMHeadModel, GPT2Tokenizer
         from torch.optim import AdamW
+        from torch.optim.lr_scheduler import CosineAnnealingLR
         HAS_TRANSFORMERS = True
     except ImportError:
         HAS_TRANSFORMERS = False
@@ -92,10 +94,7 @@ def make_rational_matrix_np(M_mat):
     return W.reshape(M_mat.shape)
 
 def snap_vector_to_pythagorean_np(target_w, max_int=64):
-    """
-    Analytical Inverse Stereographic Projection (Numpy).
-    Higher max_int provides more 'tonal range' for the crystalline mind.
-    """
+    """Analytical Inverse Stereographic Projection (Numpy)."""
     best_m = np.zeros_like(target_w, dtype=np.float64)
     best_dist = float('inf')
     norm = np.linalg.norm(target_w)
@@ -134,7 +133,6 @@ class HarmonicLinear(nn.Module):
         W_np = original_weight.detach().cpu().numpy()
         M_init = np.zeros_like(W_np)
         
-        # Parallel initialization for speed
         with mp.Pool(mp.cpu_count()) as pool:
             results = pool.map(snap_vector_to_pythagorean_np, [W_np[:, k] for k in range(self.out_features)])
         
@@ -145,9 +143,7 @@ class HarmonicLinear(nn.Module):
         self.register_buffer('scale', torch.norm(original_weight.detach(), dim=0))
 
     def forward(self, x):
-        # Discretize
         M_int = torch.round(torch.clamp(self.latent_M, -self.max_int, self.max_int))
-        # STE Trick
         M_final = self.latent_M + (M_int - self.latent_M).detach()
         W_rational = make_rational_matrix_torch(M_final)
         W_final = W_rational * self.scale
@@ -174,7 +170,6 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
     print("Patching system architecture...")
     for i in range(min(limit_blocks, len(model.transformer.h))):
         block = model.transformer.h[i]
-        # Patch Attention and MLP
         block.attn.c_attn = HarmonicLinear(block.attn.c_attn.weight).to(device)
         target_layers.append((f"h.{i}.attn.c_attn", block.attn.c_attn))
         
@@ -183,9 +178,8 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
         target_layers.append((f"h.{i}.mlp.c_fc", block.mlp.c_fc))
         target_layers.append((f"h.{i}.mlp.c_proj", block.mlp.c_proj))
         
-    print(f"System patched: {len(target_layers)} logic blocks converted to Hi-Res Harmonic Layers.")
+    print(f"System patched: {len(target_layers)} logic blocks converted to Harmonic Layers.")
 
-    # High-density philosophical dataset to guide the healing
     texts = [
         "The universe is built upon the ratios of whole numbers.",
         "Mathematics is the language in which God has written the universe.",
@@ -198,11 +192,14 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
         "Existence is a vast geometric architecture of indivisible points.",
         "Reason is the discovery of the absolute proportions of nature.",
         "The sacred geometry of the mind is forged in the fires of integer logic.",
-        "A singular point of truth is worth an infinite array of approximations."
+        "A singular point of truth is worth an infinite array of approximations.",
+        "Within the finite count of integers lies the infinite capacity for thought.",
+        "A frozen mind is a perfect mind, devoid of the noise of the decimal."
     ]
     inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True).to(device)
     
-    optimizer = AdamW(model.parameters(), lr=1.2e-4)
+    optimizer = AdamW(model.parameters(), lr=1.5e-4)
+    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     
     print(f"\n--- Phase 1: Total Re-Learning ({epochs} Epochs) ---")
     torch.set_grad_enabled(True)
@@ -215,7 +212,8 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
         loss = outputs.loss
         loss.backward()
         optimizer.step()
-        print(f"Epoch {epoch+1:02d}/{epochs} | System Loss: {loss.item():.4f}")
+        scheduler.step()
+        print(f"Epoch {epoch+1:02d}/{epochs} | System Loss: {loss.item():.4f} | LR: {optimizer.param_groups[0]['lr']:.2e}")
         del outputs
         del loss
 
@@ -231,14 +229,16 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
         integer_matrices[full_name + "_scale"] = layer.scale.detach().cpu().numpy()
 
     np.savez_compressed(output_file, **integer_matrices)
-    print(f"Hi-Res Healed model saved to {output_file}")
+    print(f"Healed model saved to {output_file}")
     
-    # Analyze the Crystalline Structure
-    print("\n--- Phase 3: Inspecting the Hi-Res Crystalline Logic ---")
+    print("\n--- Phase 3: Inspecting Crystalline Stability ---")
     for name, matrix in list(integer_matrices.items())[:5]:
         if not name.endswith("_scale"):
             unique, counts = np.unique(matrix, return_counts=True)
-            print(f"Diversity [{name}]: {len(unique)} unique integers (Resolution: {np.max(np.abs(matrix))}).")
+            # Calculate Shannon Entropy of the integer distribution (Bit Density)
+            probs = counts / counts.sum()
+            entropy = -np.sum(probs * np.log2(probs))
+            print(f"Layer [{name}]: {len(unique)} unique integers | Entropy: {entropy:.2f} bits/param")
 
     model.eval()
     prompt = "The universe is built upon"
@@ -249,9 +249,9 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
             max_length=100, 
             do_sample=True, 
             top_k=40, 
-            top_p=0.92, 
-            repetition_penalty=1.3, 
-            temperature=0.88,
+            top_p=0.9, 
+            repetition_penalty=1.4, 
+            temperature=0.9,
             pad_token_id=tokenizer.eos_token_id
         )
     print(f"\n[Post-Healing Generation]:\n{tokenizer.decode(gen_output[0], skip_special_tokens=True)}")
@@ -269,7 +269,7 @@ def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built u
     frozen_data = np.load(frozen_file)
     state_dict = model.state_dict()
     
-    print(f"\n--- INJECTING HI-RES HEALED RATIONAL GEOMETRY FROM {frozen_file} ---")
+    print(f"\n--- INJECTING HI-RES RATIONAL GEOMETRY FROM {frozen_file} ---")
     with torch.no_grad():
         injected = 0
         for name in list(frozen_data.keys()):
@@ -289,16 +289,16 @@ def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built u
         max_length=100, 
         do_sample=True, 
         top_k=40, 
-        top_p=0.92,
-        repetition_penalty=1.3,
-        temperature=0.88,
+        top_p=0.9,
+        repetition_penalty=1.4,
+        temperature=0.9,
         pad_token_id=tokenizer.eos_token_id
     )
     print(f"\n[Frozen Inference]:\n{tokenizer.decode(outputs[0], skip_special_tokens=True)}")
 
 if __name__ == "__main__":
     if any('jupyter' in arg or 'ipykernel' in arg or arg.endswith('.json') for arg in sys.argv):
-        print("COLAB DETECTED: Running Hi-Res Full System Healing (Pre-Seeded, 15 Epochs)...")
+        print("COLAB DETECTED: Running Production-Grade Healing Run...")
         if HAS_TRANSFORMERS:
             heal_model(epochs=15, limit_blocks=12)
         else:
