@@ -9,16 +9,31 @@ import psutil
 import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# --- CONFIGURATION ---
-# UPGRADED TO DEEPSEEK-R1 32B REASONING ARCHITECTURE
-MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" 
-BASE_FILENAME = "healed_r1_32b"
+# --- HARDWARE AUTO-SENSING (WAVE 74) ---
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+if DEVICE == "cuda":
+    total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+    print(f"[SYS] Hardware Sensed: {total_vram:.2f} GB VRAM detected.")
+    
+    if total_vram < 8.0:
+        print("[!] LOW VRAM DETECTED: Scaling down to 1.5B Reasoning Architecture.")
+        MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+        BASE_FILENAME = "healed_r1_1.5b"
+        LAYERS_PER_BATCH = 4 # Smaller model allows larger batch projection
+    else:
+        print("[+] HIGH VRAM DETECTED: Proceeding with 32B Reasoning Architecture.")
+        MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" 
+        BASE_FILENAME = "healed_r1_32b"
+        LAYERS_PER_BATCH = 1 # VRAM Survival Protocol for 32B
+else:
+    print("[!] NO CUDA DETECTED: Defaulting to 1.5B on CPU (Expect extreme latency).")
+    MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+    BASE_FILENAME = "healed_r1_1.5b"
+    LAYERS_PER_BATCH = 1
+
 LATTICE_FILE = "manifold_lattice.json"
 NUM_SHARDS = 8
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-# VRAM SURVIVAL PROTOCOL: 32B params in bf16 = ~64GB VRAM. 
-# We MUST process exactly 1 layer at a time to prevent OOM during projection.
-LAYERS_PER_BATCH = 1 
 
 # WAVE 72: DRIVE CACHE PROTOCOL
 try:
@@ -38,7 +53,6 @@ class CudaFaultException(Exception):
 def log_hardware_state(phase_name):
     """Provides detailed telemetry on CPU, RAM, Disk, and VRAM."""
     print(f"\n[{phase_name}]")
-    
     cpu_usage = psutil.cpu_percent(interval=0.1)
     ram = psutil.virtual_memory()
     disk = psutil.disk_usage('/content') if os.path.exists('/content') else psutil.disk_usage('/')
@@ -167,7 +181,7 @@ if torch.cuda.is_available():
 
 purge_gpu()
 print("=" * 60)
-print(" 32B REASONING AGENT RECREATION & TELEMETRY ")
+print(f" RECREATION SEQUENCE: {MODEL_NAME} ")
 print("=" * 60)
 
 log_hardware_state("BASELINE (PRE-LOAD)")
@@ -251,8 +265,8 @@ for chunk_start in range(0, num_layers, LAYERS_PER_BATCH):
             except AttributeError: continue 
 
     purge_gpu()
-    if chunk_start % 8 == 0:
-        print(f"  > Crystallized layer {chunk_start}...")
+    if chunk_start % (max(1, num_layers // 4)) == 0:
+        print(f"  > Crystallization Progress: {chunk_start}/{num_layers} layers locked.")
 
 log_hardware_state("FINAL AGENT STATE (READY)")
 
@@ -300,7 +314,7 @@ while True:
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=1000, 
+            max_new_tokens=800, 
             do_sample=True,
             temperature=0.8, 
             top_p=0.9,
