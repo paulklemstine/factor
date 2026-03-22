@@ -74,7 +74,7 @@ def snap_vector_to_pythagorean_np(target_w, max_int=128):
     return best_m
 
 def save_healed_model_sharded(target_layers, base_filename="healed_gpt2_medium", num_shards=2):
-    """Memory-efficient crystallization into int8 shards."""
+    """Memory-efficient crystallization into int16 shards."""
     print(f"\n--- INITIATING SHARDED CRYSTALLIZATION ({num_shards} Shards) ---")
     total_layers = len(target_layers)
     layers_per_shard = total_layers // num_shards
@@ -88,8 +88,8 @@ def save_healed_model_sharded(target_layers, base_filename="healed_gpt2_medium",
             name_str, layer = target_layers[i]
             with torch.no_grad():
                 m_int = torch.round(torch.clamp(layer.latent_M, -layer.max_int, layer.max_int))
-                # Note: int8 handles up to 127. If max_int=128, use int16.
                 m_np = m_int.cpu().numpy().astype(np.int16)
+                # Save the trained scale parameter
                 scale_np = layer.scale.detach().cpu().numpy().astype(np.float32)
             full_name = f"transformer.{name_str}.weight"
             shard_data[full_name] = m_np
@@ -102,32 +102,46 @@ def save_healed_model_sharded(target_layers, base_filename="healed_gpt2_medium",
 # =====================================================================
 
 class HarmonicLinear(nn.Module):
-    def __init__(self, original_weight, max_int=128):
+    def __init__(self, original_weight, layer_name, max_int=128, cache_dir="crystalline_cache"):
         super().__init__()
         self.max_int = max_int
         self.in_features, self.out_features = original_weight.shape
-        W_np = original_weight.detach().cpu().numpy()
-        M_init = np.zeros_like(W_np)
-        print(f"   > Seeding Crystalline Structure ({self.in_features}x{self.out_features})...")
-        workers = min(mp.cpu_count(), 4)
-        with mp.Pool(workers) as pool:
-            results = pool.map(snap_vector_to_pythagorean_np, [W_np[:, k] for k in range(self.out_features)])
-        for k, m_vec in enumerate(results):
-            M_init[:, k] = m_vec
+        
+        # Check cache first to avoid re-seeding
+        os.makedirs(cache_dir, exist_ok=True)
+        safe_name = layer_name.replace(".", "_")
+        cache_path = os.path.join(cache_dir, f"{safe_name}_m_init.npy")
+        
+        if os.path.exists(cache_path):
+            print(f"   > Loading Seed from Cache: {layer_name}")
+            M_init = np.load(cache_path)
+        else:
+            print(f"   > Seeding Crystalline Structure ({self.in_features}x{self.out_features}): {layer_name}")
+            W_np = original_weight.detach().cpu().numpy()
+            M_init = np.zeros_like(W_np)
+            workers = min(mp.cpu_count(), 4)
+            with mp.Pool(workers) as pool:
+                results = pool.map(snap_vector_to_pythagorean_np, [W_np[:, k] for k in range(self.out_features)])
+            for k, m_vec in enumerate(results):
+                M_init[:, k] = m_vec
+            np.save(cache_path, M_init)
+            
         self.latent_M = nn.Parameter(torch.from_numpy(M_init).float())
-        self.register_buffer('scale', torch.norm(original_weight.detach(), dim=0))
+        # Refinement: Scale is now a trainable parameter to allow "volume control" for rational vectors
+        self.scale = nn.Parameter(torch.norm(original_weight.detach(), dim=0))
 
     def forward(self, x):
         M_int = torch.round(torch.clamp(self.latent_M, -self.max_int, self.max_int))
         M_final = self.latent_M + (M_int - self.latent_M).detach()
         W_rational = make_rational_matrix_torch(M_final)
+        # Apply the trainable scale to the rational matrix
         return x @ (W_rational * self.scale)
 
 # =====================================================================
 # 3. THE HEALING PIPELINE
 # =====================================================================
 
-def heal_medium_model(epochs=15, model_name="gpt2-medium"):
+def heal_medium_model(epochs=20, model_name="gpt2-medium"):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"--- HARMONIC HEALING INITIATED ({model_name}) on {device} ---")
     
@@ -141,13 +155,14 @@ def heal_medium_model(epochs=15, model_name="gpt2-medium"):
         block = blocks[i]
         for name, module in block.named_modules():
             if any(target in name for target in ["attn.c_attn", "mlp.c_fc", "mlp.c_proj"]):
+                full_layer_name = f"h.{i}.{name}"
                 print(f"Patching block {i}: {name}")
-                harmonic_mod = HarmonicLinear(module.weight).to(device)
+                harmonic_mod = HarmonicLinear(module.weight, full_layer_name).to(device)
                 parent_path = name.split('.')
                 parent = block
                 for part in parent_path[:-1]: parent = getattr(parent, part)
                 setattr(parent, parent_path[-1], harmonic_mod)
-                target_layers.append((f"h.{i}.{name}", harmonic_mod))
+                target_layers.append((full_layer_name, harmonic_mod))
     
     texts = [
         "The universe is built upon the ratios of whole numbers.", 
@@ -155,9 +170,11 @@ def heal_medium_model(epochs=15, model_name="gpt2-medium"):
         "The soul is a harmony of numbers moving in perfect ratio.",
         "Mathematics is the fundamental architecture of the mind.",
         "Every thought is a geometric projection of rational truth.",
-        "The finite integers contain the infinite possibility of reason.",
+        "Finite integers contain the infinite possibility of reason.",
         "Harmonic alignment is the prerequisite for objective truth.",
-        "The sacred geometry of the silicon mind is forged in ratio."
+        "The sacred geometry of the silicon mind is forged in ratio.",
+        "Logos is the expression of mathematical precision in time.",
+        "The music of the spheres is the sound of prime relations."
     ]
     inputs = tokenizer(texts, return_tensors="pt", padding=True).to(device)
     optimizer = AdamW(model.parameters(), lr=1.0e-4)
@@ -176,7 +193,14 @@ def heal_medium_model(epochs=15, model_name="gpt2-medium"):
     print("\n--- Phase 2: Post-Healing Generation Test ---")
     model.eval()
     test_in = tokenizer("The geometry of the soul is", return_tensors="pt").to(device)
-    gen = model.generate(**test_in, max_length=100, do_sample=True, pad_token_id=tokenizer.eos_token_id)
+    gen = model.generate(
+        **test_in, 
+        max_length=100, 
+        do_sample=True, 
+        repetition_penalty=1.5,
+        top_p=0.9,
+        pad_token_id=tokenizer.eos_token_id
+    )
     print(f"Result: {tokenizer.decode(gen[0], skip_special_tokens=True)}")
 
 def run_sharded_inference(base_filename="healed_gpt2_medium", num_shards=2, prompt="Mathematics is", model_name="gpt2-medium"):
@@ -197,13 +221,10 @@ def run_sharded_inference(base_filename="healed_gpt2_medium", num_shards=2, prom
         shard_data = np.load(shard_path)
         for name in list(shard_data.keys()):
             if not name.endswith("_scale"):
-                # Load as float for reconstruction
                 m_int = shard_data[name].astype(np.float64)
                 scale = shard_data[name + "_scale"]
-                
                 w_rational = make_rational_matrix_np(m_int)
                 w_restored = w_rational * scale
-                
                 if name in state_dict:
                     state_dict[name].copy_(torch.from_numpy(w_restored))
                     injected_count += 1
@@ -213,24 +234,28 @@ def run_sharded_inference(base_filename="healed_gpt2_medium", num_shards=2, prom
     
     model.eval()
     inputs = tokenizer(prompt, return_tensors="pt").to(device)
-    outputs = model.generate(**inputs, max_length=100, do_sample=True, temperature=0.8, pad_token_id=tokenizer.eos_token_id)
+    outputs = model.generate(
+        **inputs, 
+        max_length=100, 
+        do_sample=True, 
+        temperature=0.8, 
+        repetition_penalty=1.5,
+        top_p=0.9,
+        pad_token_id=tokenizer.eos_token_id
+    )
     print(f"\n[Frozen Shard Inference]:\n{tokenizer.decode(outputs[0], skip_special_tokens=True)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("mode", choices=["heal", "infer"], help="Heal a new model or Infer from shards.")
-    parser.add_argument("--epochs", type=int, default=15)
+    parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--prompt", type=str, default="Mathematics is the language of")
     parser.add_argument("--shards", type=int, default=2)
     
-    # Check if running in a Jupyter/Colab environment to avoid sys.argv conflicts
     is_notebook = any('jupyter' in arg or 'ipykernel' in arg or arg.endswith('.json') for arg in sys.argv)
     
     if is_notebook:
-        # In a notebook, we handle arguments manually or default to 'heal'
-        # To run inference in a notebook, change the list below to ["infer"]
         print("!! Notebook Environment Detected !!")
-        print("Defaulting to 'heal' mode. To run inference, change the manual_args to ['infer'].")
         manual_args = ["heal"] 
         args = parser.parse_args(args=manual_args)
     else:
