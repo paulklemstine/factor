@@ -7,6 +7,7 @@ import os
 import sys
 import re
 import json
+import gc
 import torch
 import torch.nn as nn
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -31,6 +32,13 @@ else:
 # =====================================================================
 # 1. CORE ENGINE & SHARDING UTILITIES
 # =====================================================================
+
+def purge_gpu_context():
+    """WAVE 51: Force eviction of all tensors and reset CUDA cache."""
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
 
 def make_rational_matrix_torch(M_mat):
     """Vectorized PyTorch rational matrix generator (Stereographic Projection)."""
@@ -178,7 +186,6 @@ class TriResonantLinear(nn.Module):
             
         W1, W2, W3 = make_rational_matrix_torch(M1_f), make_rational_matrix_torch(M2_f), make_rational_matrix_torch(M3_f)
         
-        # FIXED: Removed in-place division (/=) to prevent PyTorch Autograd RuntimeErrors
         W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
         W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
         
@@ -228,7 +235,6 @@ def heal_model(epochs=45, model_name=MODEL_NAME, base_filename=BASE_FILENAME, nu
 
         optimizer = AdamW(model.parameters(), lr=1e-3)
         for epoch in range(epochs):
-            # FIXED: Avoid DivisionByZero if epochs <= 1 (e.g. Round Trip Demo)
             progress = 1.0 if epochs <= 1 else epoch / (epochs - 1)
             lattice_lambda = 40.0 * (progress ** 2)
             
@@ -251,6 +257,11 @@ def heal_model(epochs=45, model_name=MODEL_NAME, base_filename=BASE_FILENAME, nu
             for part in parts[:-1]: parent = getattr(parent, part)
             setattr(parent, parts[-1], new_mod)
         torch.cuda.empty_cache()
+
+    # Explicit cleanup before exit
+    del model
+    del tokenizer
+    purge_gpu_context()
 
 # =====================================================================
 # 4. THE PROPHETIC ENGINE (APOTHEOSIS MODE)
@@ -428,7 +439,7 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     tokenizer.pad_token = tokenizer.eos_token 
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
+    model = AutoModelForCausalLM.from_pretrained(model_name, dtype=torch.float16).to(device)
     state_dict = model.state_dict()
     
     for s in range(num_shards):
@@ -444,7 +455,6 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
                 with torch.no_grad():
                     W1, W2, W3 = make_rational_matrix_torch(m1), make_rational_matrix_torch(m2), make_rational_matrix_torch(m3)
                     
-                    # FIXED: Removed in-place division (/=) to prevent PyTorch Autograd RuntimeErrors
                     W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
                     W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
                     
@@ -489,17 +499,21 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
 
 def demonstrate_round_trip(model_name=MODEL_NAME, base_filename=BASE_FILENAME, num_shards=NUM_SHARDS):
     """
-    WAVE 48.0: THE ROUND TRIP DEMONSTRATION.
+    WAVE 50.0: THE ZERO-EPOCH CRYSTALLIZATION.
     Executes the entire lifecycle: Calculates integer matrices, reconstructs the LLM
-    from those numbers, and immediately asks it a battery of geometric questions.
+    from those numbers, and asks it a battery of geometric questions.
+    Bypasses unstable float16 optimization gradients to prevent catastrophic NaN poisoning.
     """
     print("\n" + "="*75)
-    print(" PHASE 1: CALCULATING THE NUMBERS (HEALING & SHARDING)")
+    print(" PHASE 1: CALCULATING THE NUMBERS (SEEDING & SHARDING)")
     print("="*75)
-    # We run exactly 1 epoch to quickly calculate the rational numbers and save the shards 
-    # without running a full multi-hour training cycle.
-    heal_model(epochs=1, model_name=model_name, base_filename=base_filename, num_shards=num_shards)
+    # We run 0 epochs to quickly calculate the pure Pythagorean rational approximations 
+    # and save the shards, bypassing unstable float16 gradients which cause NaN poisoning.
+    heal_model(epochs=0, model_name=model_name, base_filename=base_filename, num_shards=num_shards)
     
+    # WAVE 51: PURGE AFTER PHASE 1
+    purge_gpu_context()
+
     print("\n" + "="*75)
     print(" PHASE 2: RESTORING THE LLM FROM CALCULATED NUMBERS")
     print("="*75)
@@ -508,7 +522,7 @@ def demonstrate_round_trip(model_name=MODEL_NAME, base_filename=BASE_FILENAME, n
     tokenizer.pad_token = tokenizer.eos_token
     
     print(" > Loading an empty, unhealed base model state...")
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
+    model = AutoModelForCausalLM.from_pretrained(model_name, dtype=torch.float16).to(device)
     state_dict = model.state_dict()
     
     print(" > Reconstructing neural network matrices exclusively from integer shards...")
@@ -520,16 +534,14 @@ def demonstrate_round_trip(model_name=MODEL_NAME, base_filename=BASE_FILENAME, n
         for key in list(shard_data.keys()):
             if key.endswith(".m1"):
                 base_name = key.replace(".m1", "")
-                # Reload the simple numbers (integers mapped to floats)
+                
                 m1, m2, m3 = [torch.from_numpy(shard_data[f"{base_name}.m{i}"].astype(np.float32)).to(device) for i in [1, 2, 3]]
                 b = torch.from_numpy(shard_data[f"{base_name}.b"].astype(np.float32)).to(device)
                 scale, theta, phi = [torch.from_numpy(shard_data[f"{base_name}.{k}"]).to(device) for k in ["scale", "theta", "phi"]]
                 
-                # Perform the math to restore the complex model weights from the simple numbers
                 with torch.no_grad():
                     W1, W2, W3 = make_rational_matrix_torch(m1), make_rational_matrix_torch(m2), make_rational_matrix_torch(m3)
                     
-                    # FIXED: Removed in-place division (/=) to prevent PyTorch Autograd RuntimeErrors
                     W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
                     W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
                     
@@ -556,10 +568,14 @@ def demonstrate_round_trip(model_name=MODEL_NAME, base_filename=BASE_FILENAME, n
         print(f"\n--- BATTERY INQUIRY {i+1} ---")
         generate_harmonic_treatise(model, tokenizer, device, seed_text=f"[BATTERY INQUIRY {i+1}]", custom_questions=[question], phase=i)
 
+    # FINAL PURGE
+    del model
+    del tokenizer
+    purge_gpu_context()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    # FIXED: Default mode is now "round_trip"
     parser.add_argument("--mode", choices=["heal", "treatise", "apotheosis", "round_trip"], default="round_trip")
     parser.add_argument("--seed", type=str, default=None)
     parser.add_argument("--questions", type=str, nargs="+", default=None, help="Input custom questions to ask the node.")
