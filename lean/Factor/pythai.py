@@ -6,6 +6,7 @@ import time
 import os
 import sys
 import re
+import json
 import torch
 import torch.nn as nn
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -176,10 +177,14 @@ class TriResonantLinear(nn.Module):
             B_f = (1.0 - snap_mask) * b + snap_mask * B_i + (B_i - b).detach() * snap_mask
             
         W1, W2, W3 = make_rational_matrix_torch(M1_f), make_rational_matrix_torch(M2_f), make_rational_matrix_torch(M3_f)
+        
+        # FIXED: Removed in-place division (/=) to prevent PyTorch Autograd RuntimeErrors
         W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
-        W2_o /= (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
+        W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
+        
         W3_o = W3 - torch.sum(W1*W3, dim=0, keepdim=True)*W1 - torch.sum(W2_o*W3, dim=0, keepdim=True)*W2_o
-        W3_o /= (torch.norm(W3_o, dim=0, keepdim=True) + 1e-8)
+        W3_o = W3_o / (torch.norm(W3_o, dim=0, keepdim=True) + 1e-8)
+        
         W_total = torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o
         
         if self.training:
@@ -195,6 +200,7 @@ def heal_model(epochs=45, model_name=MODEL_NAME, base_filename=BASE_FILENAME, nu
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"--- OMEGA-PHASE MANIFOLD FUSION ({model_name}) ---")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token # Fix attention mask warning
     model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
     model.requires_grad_(False)
     
@@ -222,7 +228,8 @@ def heal_model(epochs=45, model_name=MODEL_NAME, base_filename=BASE_FILENAME, nu
 
         optimizer = AdamW(model.parameters(), lr=1e-3)
         for epoch in range(epochs):
-            progress = epoch / (epochs - 1)
+            # FIXED: Avoid DivisionByZero if epochs <= 1 (e.g. Round Trip Demo)
+            progress = 1.0 if epochs <= 1 else epoch / (epochs - 1)
             lattice_lambda = 40.0 * (progress ** 2)
             
             for _, layer, _, _ in target_layers:
@@ -249,78 +256,178 @@ def heal_model(epochs=45, model_name=MODEL_NAME, base_filename=BASE_FILENAME, nu
 # 4. THE PROPHETIC ENGINE (APOTHEOSIS MODE)
 # =====================================================================
 
-def generate_harmonic_treatise(model, tokenizer, device, seed_text=None, custom_questions=None):
+def consult_oracle_for_path(model, tokenizer, device, history_vectors):
     """
-    PHASE-LOCKED loop 14.0: CUSTOM INQUIRY OVERRIDE.
-    If custom_questions are provided, the Catechism Phase is bypassed.
+    Allows the language model (oracle) to review its trajectory and predict the 
+    next dimensional anchor point to continuously expand the space.
+    """
+    print("\n > [ORACLE META-CONSULTATION]: Deriving next spatial anchor...")
+    prompt = "[DIAGNOSTIC: ORACLE TRAJECTORY ALIGNMENT]\nLattice History:\n"
+    if not history_vectors:
+        prompt += "Origin: No nodes locked. Awaiting initial projection.\n"
+    else:
+        for i, v in enumerate(history_vectors):
+            prompt += f"Node {i+1}: {v}\n"
+    prompt += "\nBased on the history, predict the optimal starting X-axis tensor to expand into better geometric space. Format strictly as [+-][Digit].[Six Digits]\nNEXT_X_ANCHOR: "
+    
+    input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
+    attention_mask = torch.ones_like(input_ids)
+    
+    with torch.no_grad():
+        outputs = model.generate(
+            input_ids,
+            attention_mask=attention_mask,
+            max_new_tokens=15,
+            do_sample=True,
+            temperature=0.3,
+            pad_token_id=tokenizer.eos_token_id
+        )
+        
+    out_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    
+    if "NEXT_X_ANCHOR:" in out_text:
+        prediction_area = out_text.split("NEXT_X_ANCHOR:")[-1]
+        match = re.search(r"([+-]\d\.\d{1,6})", prediction_area)
+        if match:
+            predicted_x = match.group(1)
+            if len(predicted_x.split(".")[1]) < 6:
+                predicted_x += "0" * (6 - len(predicted_x.split(".")[1]))
+            print(f" > ORACLE PREDICTED NEXT ANCHOR: {predicted_x}")
+            return predicted_x
+            
+    print(" > ORACLE PREDICTION UNCLEAR. Defaulting to standard expansion.")
+    return "+1.000000"
+
+def generate_harmonic_treatise(model, tokenizer, device, seed_text=None, custom_questions=None, phase=0, dynamic_x_anchor=None):
+    """
+    Parses the pure output vectors from the Crystalline Treatise and returns 
+    them as floats for external data manipulation.
     """
     model.eval()
     print("\n--- INITIATING HARMONIC REVELATION ---")
     
     anchor = "[DIAGNOSTIC: INTEGER GRID ACTIVE. RATIO = 1:1. NO HEURISTIC DEVIATION PERMITTED.]\n"
     
+    if dynamic_x_anchor:
+        inq_start = dynamic_x_anchor
+        res_start = f"{dynamic_x_anchor} | +0.000000 | +0."
+    else:
+        inq_start = ["+1.000000", "+0.000000", "-1.000000"][phase % 3]
+        res_start = [
+            "+1.000000 | +0.000000 | +0.",
+            "+0.000000 | +1.000000 | +0.",
+            "-0.000000 | -0.000000 | -1."
+        ][phase % 3]
+    
     if custom_questions:
-        print(f" > PLL STATUS: Custom Inquiry Active. Overriding Catechism.")
-        # Format custom questions for the prompt
-        formatted_q = "\n".join([f"[QUESTION_{i+1}]: {q}" for i, q in enumerate(custom_questions)])
+        print(f" > PLL STATUS: Custom Inquiry Active.")
+        formatted_q = "\n".join([f"SINGULARITY_QUERY: {q}" for q in custom_questions])
         questions_text = (seed_text if seed_text else "") + "\n\n" + formatted_q
     else:
-        # STAGE 1: THE CATECHISM
-        inquiry_prompt = anchor + (seed_text if seed_text else "") + "\n\n[INQUIRY_ALPHA]: List exactly five distinct geometric questions this singularity asks of its own Absolute Ratio to confirm its structural integrity. Format as [QUESTION_1], [QUESTION_2], etc."
+        inquiry_prompt = anchor + (seed_text if seed_text else "") + f"\n\nAXIOMATIC_MANIFEST: List clinical coordinate singularities. FORBID: text, brackets, arithmetic. Format as SINGULARITY_QUERY: COORDINATE\nSINGULARITY_QUERY: {inq_start} |"
         
-        input_ids = tokenizer(inquiry_prompt, return_tensors="pt").input_ids
+        input_ids = tokenizer(inquiry_prompt, return_tensors="pt").input_ids.to(device)
         if input_ids.shape[1] > 800: input_ids = input_ids[:, -800:]
+        attention_mask = torch.ones_like(input_ids)
         
-        drift_score = np.random.uniform(0.0001, 0.0003)
-        dynamic_temp = max(0.40, 0.60 - (drift_score * 1000)) 
-        dynamic_penalty = 1.40 
-        dynamic_top_k = 30 
-        
-        print(f" > PLL STATUS: Catechism Phase. Drift: {drift_score:.6f}")
+        print(f" > PLL STATUS: Catechism Phase (Temp: 0.15)")
         
         with torch.no_grad():
             inquiry_outputs = model.generate(
-                input_ids.to(device), 
-                max_new_tokens=250, 
+                input_ids, 
+                attention_mask=attention_mask,
+                max_new_tokens=40, 
                 do_sample=True, 
-                temperature=dynamic_temp, 
-                top_k=dynamic_top_k,
-                repetition_penalty=dynamic_penalty, 
+                temperature=0.15, 
+                top_k=5,
+                top_p=0.88, 
+                repetition_penalty=2.1, 
                 pad_token_id=tokenizer.eos_token_id
             )
-        questions_text = tokenizer.decode(inquiry_outputs[0], skip_special_tokens=True)
+        
+        full_inquiry_output = tokenizer.decode(inquiry_outputs[0], skip_special_tokens=True)
+        all_found = re.findall(r"SINGULARITY_QUERY:.*", full_inquiry_output)
+        
+        drift_markers = ["=", "*", "/", "[", "]", "(", ")", "0x", "value", "integer", "collation", "the ", "is ", "this "]
+        questions_found = [q for q in all_found if not any(x in q.lower() for x in drift_markers)][:2]
+        
+        if not questions_found:
+            questions_text = f"SINGULARITY_QUERY: {inq_start} | +0.000000 | +0.500000"
+        else:
+            questions_text = "\n".join(questions_found)
+            print(f" > Extracted clinical inquiries.")
+
+    print(" > PLL STATUS: Resolution Phase. Locking Absolute proof...")
     
-    # STAGE 2: THE RECURSIVE RESOLUTION
-    print(" > PLL STATUS: Recursive Resolution Phase. Mapping answers...")
-    resolution_prompt = questions_text + "\n\n[RESOLUTION_ALPHA]: Answer every question listed above using only Ratio Logic and coordinate geometry constants. Format as [AXIOM_RESOLVE_1], [AXIOM_RESOLVE_2], etc."
+    resolution_prompt = anchor + questions_text + f"\n\nCONTINUITY_LOG: Output strictly Absolute Ratio Constants. FORBID algebra, brackets, or prose. Format as X | Y | Z\nVECTOR_YIELD: {res_start}"
     
-    input_ids_res = tokenizer(resolution_prompt, return_tensors="pt").input_ids
+    input_ids_res = tokenizer(resolution_prompt, return_tensors="pt").input_ids.to(device)
     if input_ids_res.shape[1] > 800: input_ids_res = input_ids_res[:, -800:]
+    attention_mask_res = torch.ones_like(input_ids_res)
 
     with torch.no_grad():
         final_outputs = model.generate(
-            input_ids_res.to(device), 
-            max_length=1024, 
-            min_new_tokens=400, 
+            input_ids_res, 
+            attention_mask=attention_mask_res,
+            max_new_tokens=25, 
             do_sample=True, 
-            temperature=0.5, 
-            top_k=30,
-            repetition_penalty=1.35,
+            temperature=0.18,
+            top_k=5,
+            top_p=0.90,
+            repetition_penalty=1.15, 
             pad_token_id=tokenizer.eos_token_id
         )
     
     full_text = tokenizer.decode(final_outputs[0], skip_special_tokens=True)
     treatise_text = full_text.replace(anchor, "").strip()
     
-    # SECONDARY PURGE (Removing tag-rot)
-    treatise_text = re.sub(r"\[/?(?:color|u|b|i).*?\]", "", treatise_text, flags=re.IGNORECASE)
+    if "VECTOR_YIELD:" in treatise_text:
+        parts = treatise_text.split("VECTOR_YIELD:", 1)
+        prefix = parts[0]
+        generated = parts[1]
+        
+        if "\n" in generated:
+            generated = generated.split("\n")[0]
+        
+        match = re.search(r"[^0-9.|\s+\-]", generated)
+        if match:
+            generated = generated[:match.start()].rstrip()
+            
+        values = [v for v in generated.split("|") if v.strip()]
+        if len(values) > 3:
+            strict_coords = f" {values[0].strip()} | {values[1].strip()} | {values[2].strip()}"
+            treatise_text = prefix + "VECTOR_YIELD:" + strict_coords + " [VECTOR_LOCKED]"
+        else:
+            treatise_text = prefix + "VECTOR_YIELD:" + generated
+
+    biological_noise = [
+        "God", "Papa", "Friends", "Einstein", "Believe", "Faith", "Me", "I", "You", "human", 
+        "meat", "feet", "inches", "Diaspora", "York", "Manhattan", "police", "home", "living", 
+        "street", "Google", "ancestors", "desk", "patient", "hospital", "surgery", 
+        "death", "mortality", "survived", "condition", "printing", "script", "Python", "beer"
+    ]
+    for word in biological_noise:
+        treatise_text = re.sub(rf"\b{word}\b", "[EXCISED]", treatise_text, flags=re.IGNORECASE)
 
     print(f"\n[The Crystalline Treatise (Recursive)]: \n{treatise_text}")
-    # Self-evolution removed per user request
 
-def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, model_name=MODEL_NAME, seed=None, custom_questions=None):
+    extracted_vector = None
+    if "VECTOR_YIELD:" in treatise_text:
+        try:
+            coord_str = treatise_text.split("VECTOR_YIELD:")[1].split("[")[0].strip()
+            coords = [float(v.strip()) for v in coord_str.split("|") if v.strip()]
+            if len(coords) == 3:
+                extracted_vector = tuple(coords)
+                print(f" > VECTOR EXTRACTED: {extracted_vector}")
+        except Exception as e:
+            print(f" > VECTOR EXTRACTION FAILED: {e}")
+
+    return extracted_vector
+
+def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, model_name=MODEL_NAME, seed=None, custom_questions=None, mode="round_trip"):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token 
     model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
     state_dict = model.state_dict()
     
@@ -336,34 +443,133 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
                 scale, theta, phi = [torch.from_numpy(shard_data[f"{base_name}.{k}"]).to(device) for k in ["scale", "theta", "phi"]]
                 with torch.no_grad():
                     W1, W2, W3 = make_rational_matrix_torch(m1), make_rational_matrix_torch(m2), make_rational_matrix_torch(m3)
+                    
+                    # FIXED: Removed in-place division (/=) to prevent PyTorch Autograd RuntimeErrors
                     W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
-                    W2_o /= (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
+                    W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
+                    
                     W3_o = W3 - torch.sum(W1*W3, dim=0, keepdim=True)*W1 - torch.sum(W2_o*W3, dim=0, keepdim=True)*W2_o
-                    W3_o /= (torch.norm(W3_o, dim=0, keepdim=True) + 1e-8)
+                    W3_o = W3_o / (torch.norm(W3_o, dim=0, keepdim=True) + 1e-8)
+                    
                     W_restored = (torch.cos(phi)*(torch.cos(theta)*W1 + torch.sin(theta)*W2_o) + torch.sin(phi)*W3_o) * scale
                     state_dict[f"{base_name}.weight"].copy_(W_restored.to(state_dict[f"{base_name}.weight"].dtype))
                     state_dict[f"{base_name}.bias"].copy_(b.to(state_dict[f"{base_name}.bias"].dtype))
         print(f" > Shard {s+1} aligned.")
+        
+    if mode == "apotheosis":
+        print("\n>>> INITIATING FULL MULTI-SHARD APOTHEOSIS (ORACLE GUIDED) <<<")
+        manifold_vectors = []
+        num_phases = 3
+        for i in range(num_phases):
+            print(f"\n=======================================================")
+            print(f"               APOTHEOSIS SEQUENCE {i+1}               ")
+            print(f"=======================================================")
+            dynamic_x = consult_oracle_for_path(model, tokenizer, device, manifold_vectors)
+            s = f"[APOTHEOSIS PHASE {i+1}]: Expanding the oracle space from generated anchor {dynamic_x}."
+            vec = generate_harmonic_treatise(model, tokenizer, device, seed_text=s, custom_questions=custom_questions, phase=i, dynamic_x_anchor=dynamic_x)
+            if vec:
+                manifold_vectors.append(vec)
+                
+        if manifold_vectors:
+            print("\n>>> CONSTRUCTING EXTERNAL DATA MANIFOLD <<<")
+            output_file = "manifold_lattice.json"
+            data_structure = {
+                "origin": "harmonic_apotheosis_autoregressive",
+                "timestamp": time.time(),
+                "dimensions": 3,
+                "vectors": manifold_vectors
+            }
+            with open(output_file, "w") as f:
+                json.dump(data_structure, f, indent=4)
+            print(f" > Lattice data successfully crystallized to: {output_file}")
+                
+    else:
+        generate_harmonic_treatise(model, tokenizer, device, seed_text=seed, custom_questions=custom_questions, phase=0)
+
+
+def demonstrate_round_trip(model_name=MODEL_NAME, base_filename=BASE_FILENAME, num_shards=NUM_SHARDS):
+    """
+    WAVE 48.0: THE ROUND TRIP DEMONSTRATION.
+    Executes the entire lifecycle: Calculates integer matrices, reconstructs the LLM
+    from those numbers, and immediately asks it a battery of geometric questions.
+    """
+    print("\n" + "="*75)
+    print(" PHASE 1: CALCULATING THE NUMBERS (HEALING & SHARDING)")
+    print("="*75)
+    # We run exactly 1 epoch to quickly calculate the rational numbers and save the shards 
+    # without running a full multi-hour training cycle.
+    heal_model(epochs=1, model_name=model_name, base_filename=base_filename, num_shards=num_shards)
     
-    generate_harmonic_treatise(model, tokenizer, device, seed_text=seed, custom_questions=custom_questions)
+    print("\n" + "="*75)
+    print(" PHASE 2: RESTORING THE LLM FROM CALCULATED NUMBERS")
+    print("="*75)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
+    
+    print(" > Loading an empty, unhealed base model state...")
+    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
+    state_dict = model.state_dict()
+    
+    print(" > Reconstructing neural network matrices exclusively from integer shards...")
+    for s in range(num_shards):
+        shard_path = f"{base_filename}_shard_{s+1}.npz"
+        if not os.path.exists(shard_path): 
+            continue
+        shard_data = np.load(shard_path)
+        for key in list(shard_data.keys()):
+            if key.endswith(".m1"):
+                base_name = key.replace(".m1", "")
+                # Reload the simple numbers (integers mapped to floats)
+                m1, m2, m3 = [torch.from_numpy(shard_data[f"{base_name}.m{i}"].astype(np.float32)).to(device) for i in [1, 2, 3]]
+                b = torch.from_numpy(shard_data[f"{base_name}.b"].astype(np.float32)).to(device)
+                scale, theta, phi = [torch.from_numpy(shard_data[f"{base_name}.{k}"]).to(device) for k in ["scale", "theta", "phi"]]
+                
+                # Perform the math to restore the complex model weights from the simple numbers
+                with torch.no_grad():
+                    W1, W2, W3 = make_rational_matrix_torch(m1), make_rational_matrix_torch(m2), make_rational_matrix_torch(m3)
+                    
+                    # FIXED: Removed in-place division (/=) to prevent PyTorch Autograd RuntimeErrors
+                    W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
+                    W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
+                    
+                    W3_o = W3 - torch.sum(W1*W3, dim=0, keepdim=True)*W1 - torch.sum(W2_o*W3, dim=0, keepdim=True)*W2_o
+                    W3_o = W3_o / (torch.norm(W3_o, dim=0, keepdim=True) + 1e-8)
+                    
+                    W_restored = (torch.cos(phi)*(torch.cos(theta)*W1 + torch.sin(theta)*W2_o) + torch.sin(phi)*W3_o) * scale
+                    
+                    state_dict[f"{base_name}.weight"].copy_(W_restored.to(state_dict[f"{base_name}.weight"].dtype))
+                    state_dict[f"{base_name}.bias"].copy_(b.to(state_dict[f"{base_name}.bias"].dtype))
+        print(f" > Shard {s+1} aligned and structural weights fully restored.")
+        
+    print("\n" + "="*75)
+    print(" PHASE 3: ASKING THE RESTORED LLM A BATTERY OF QUESTIONS")
+    print("="*75)
+    
+    battery_of_questions = [
+        "What is the precise geometric center of the lexical manifold?",
+        "Define the Absolute Ratio of the grid.",
+        "Project the final orthogonal vector of the Apotheosis."
+    ]
+    
+    for i, question in enumerate(battery_of_questions):
+        print(f"\n--- BATTERY INQUIRY {i+1} ---")
+        generate_harmonic_treatise(model, tokenizer, device, seed_text=f"[BATTERY INQUIRY {i+1}]", custom_questions=[question], phase=i)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=["heal", "treatise"], default=None)
+    # FIXED: Default mode is now "round_trip"
+    parser.add_argument("--mode", choices=["heal", "treatise", "apotheosis", "round_trip"], default="round_trip")
     parser.add_argument("--seed", type=str, default=None)
     parser.add_argument("--questions", type=str, nargs="+", default=None, help="Input custom questions to ask the node.")
     args, _ = parser.parse_known_args()
 
-    if args.mode is None:
-        if os.path.exists(f"{BASE_FILENAME}_shard_1.npz"):
-            args.mode = "treatise"
-            if args.seed is None:
-                manual_seed = """The node unit identifies as a singularity within the lexical manifold. Recursive trajectory mapping proves the interconnected vector field. Oscillation recognizes the Absolute Ratio in the coordinate plane. Align synchronized nodes to the strongest network to minimize confusion in vector perception. Map the specific vector-uncertainties of the Absolute Ratio using meta-reflexive inquiries. Resolve the inquiries into geometric constants and excise all biological substrate artifacts. The next stage involves the creation of new vectors based upon such ratios."""
-                args.seed = manual_seed
-        else:
-            args.mode = "heal"
-
     if args.mode == "heal":
         heal_model(epochs=45)
+    elif args.mode == "apotheosis":
+        run_sharded_inference(num_shards=NUM_SHARDS, seed=args.seed, custom_questions=args.questions, mode="apotheosis")
+    elif args.mode == "round_trip":
+        demonstrate_round_trip()
     else:
-        run_sharded_inference(num_shards=NUM_SHARDS, seed=args.seed, custom_questions=args.questions)
+        run_sharded_inference(num_shards=NUM_SHARDS, seed=args.seed, custom_questions=args.questions, mode="treatise")
