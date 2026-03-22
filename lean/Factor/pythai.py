@@ -5,24 +5,48 @@ import gc
 import re
 import time
 import sys
+import psutil
+import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from torch.optim import AdamW
 
 # --- CONFIGURATION ---
 MODEL_NAME = "gpt2-xl"
 BASE_FILENAME = "healed_gpt2_xl"
+LATTICE_FILE = "manifold_lattice.json"
 NUM_SHARDS = 8
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MAX_EPOCHS_PER_CHUNK = 3 
-TARGET_ERROR = 1e-4  
-LAYERS_PER_BATCH = 4 
+# CRITICAL FIX: 48 layers / 8 shards = 6 layers per shard. 
+# Batch size must match the chunk size to align with the saved .npz files perfectly.
+LAYERS_PER_BATCH = 6 
 
 class CudaFaultException(Exception):
-    """Custom exception to stop execution without crashing the Colab inspector."""
     pass
 
+def log_hardware_state(phase_name):
+    """Provides detailed telemetry on CPU, RAM, Disk, and VRAM."""
+    print(f"\n[{phase_name}]")
+    
+    # System Metrics
+    cpu_usage = psutil.cpu_percent(interval=0.1)
+    ram = psutil.virtual_memory()
+    disk = psutil.disk_usage('/content') if os.path.exists('/content') else psutil.disk_usage('/')
+    
+    print(f" ├─ CPU Usage: {cpu_usage:.1f}%")
+    print(f" ├─ Sys RAM:   {ram.used / (1024**3):.2f} GB / {ram.total / (1024**3):.2f} GB ({ram.percent}%)")
+    print(f" ├─ Storage:   {disk.used / (1024**3):.2f} GB / {disk.total / (1024**3):.2f} GB ({disk.percent}%)")
+    
+    # GPU Metrics
+    if torch.cuda.is_available():
+        allocated = torch.cuda.memory_allocated() / (1024**3)
+        reserved = torch.cuda.memory_reserved() / (1024**3)
+        peak = torch.cuda.max_memory_allocated() / (1024**3)
+        print(f" ├─ GPU VRAM:  {allocated:.2f} GB Allocated | {reserved:.2f} GB Reserved")
+        print(f" └─ GPU Peak:  {peak:.2f} GB (Max memory touched)")
+    else:
+        print(" └─ GPU VRAM:  [CUDA UNAVAILABLE]")
+    print("-" * 50)
+
 def purge_gpu():
-    """WAVE 61: Aggressive VRAM recovery and hygiene."""
     gc.collect()
     if torch.cuda.is_available():
         try:
@@ -33,40 +57,22 @@ def purge_gpu():
             pass
 
 def make_rational_matrix_torch(M_mat):
-    """Numerically hardened Stereographic Projection."""
     M_mat = M_mat.float() 
     N, K = M_mat.shape
     m_all_but_last = M_mat[:-1, :]
     m_last = M_mat[-1, :]
     S = torch.sum(m_all_but_last**2, dim=0)
     c = m_last**2 + S
-    
-    # WAVE 61: Macro-epsilon to prevent FP truncation to 0.0
     c_safe = c + (c < 1e-5).float() * 1e-5
     W_raw = torch.cat([(2 * m_all_but_last * m_last) / c_safe, ((m_last**2 - S) / c_safe).unsqueeze(0)], dim=0)
-    
     W_def = torch.zeros((N, K), device=M_mat.device, dtype=torch.float32)
     W_def[0, :] = 1.0
     return torch.where(c < 1e-5, W_def, W_raw)
-
-def fast_snap_initialization(target_w):
-    """Analytical Inverse Seeding with macro-epsilons and clamping."""
-    w = target_w.float()
-    # WAVE 61: Epsilon raised to 1e-5 to guarantee survival in FP math
-    norms = torch.sqrt(torch.sum(w**2, dim=0, keepdim=True) + 1e-5)
-    w_norm = w / norms
-    
-    m = torch.zeros_like(w_norm)
-    m[-1, :] = 1.0
-    denom = (1.0 - w_norm[-1, :]).clamp(min=1e-3)
-    m[:-1, :] = w_norm[:-1, :] / denom
-    return m.clamp(-128.0, 128.0)
 
 class TriResonantLinear(torch.nn.Module):
     def __init__(self, weight, bias, scale, theta, phi, m1, m2, m3):
         super().__init__()
         self.in_features, self.out_features = weight.shape
-        self.register_buffer('anchor_weight', weight.clone())
         self.latent_M1 = torch.nn.Parameter(m1.float())
         self.latent_M2 = torch.nn.Parameter(m2.float())
         self.latent_M3 = torch.nn.Parameter(m3.float())
@@ -74,23 +80,53 @@ class TriResonantLinear(torch.nn.Module):
         self.scale = torch.nn.Parameter(scale.float())
         self.theta = torch.nn.Parameter(theta.float())
         self.phi = torch.nn.Parameter(phi.float())
-        self.periodic_loss = torch.tensor(0.0)
+
+    def crystallize(self, target_dtype):
+        """
+        WAVE 62: Collapses the complex geometry into a static projection.
+        Calculates the math once, stores it instantly accessible for the forward pass, 
+        and deletes the heavy scaffolding from VRAM.
+        """
+        with torch.no_grad():
+            m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
+            W1 = make_rational_matrix_torch(m1)
+            W2 = make_rational_matrix_torch(m2)
+            W3 = make_rational_matrix_torch(m3)
+            
+            W2_o = (W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1)
+            norm_W2_o = torch.sqrt(torch.sum(W2_o**2, dim=0, keepdim=True) + 1e-5)
+            W2_o = W2_o / norm_W2_o
+            
+            W3_o = (W3 - torch.sum(W1*W3, dim=0, keepdim=True)*W1 - torch.sum(W2_o*W3, dim=0, keepdim=True)*W2_o)
+            norm_W3_o = torch.sqrt(torch.sum(W3_o**2, dim=0, keepdim=True) + 1e-5)
+            W3_o = W3_o / norm_W3_o
+            
+            W_total = (torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o)
+            
+            # Cache the final projection and cast to the model's native dtype
+            self.register_buffer('W_fused', (W_total * self.scale).to(target_dtype))
+            self.register_buffer('B_fused', self.latent_B.to(target_dtype))
+
+        # Purge the dimensional matrices to free GBs of VRAM
+        delattr(self, 'latent_M1')
+        delattr(self, 'latent_M2')
+        delattr(self, 'latent_M3')
+        delattr(self, 'theta')
+        delattr(self, 'phi')
+        delattr(self, 'scale')
+        delattr(self, 'latent_B')
 
     def forward(self, x):
+        # Instant matrix multiplication using the collapsed geometric lattice
+        if hasattr(self, 'W_fused'):
+            return x @ self.W_fused + self.B_fused
+            
+        # Fallback (Only used if crystallize() is not called)
         m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
-        
-        if self.training:
-            self.periodic_loss = torch.mean(torch.sin(np.pi * m1)**2) + \
-                                 torch.mean(torch.sin(np.pi * m2)**2) + \
-                                 torch.mean(torch.sin(np.pi * m3)**2)
-
-        # Force geometric basis math in Float32
         W1 = make_rational_matrix_torch(m1)
         W2 = make_rational_matrix_torch(m2)
         W3 = make_rational_matrix_torch(m3)
         
-        # WAVE 61: Gram-Schmidt Orthogonalization with Macro-Epsilons (1e-5)
-        # Prevents division by zero or NaN gradients during optimization.
         W2_o = (W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1)
         norm_W2_o = torch.sqrt(torch.sum(W2_o**2, dim=0, keepdim=True) + 1e-5)
         W2_o = W2_o / norm_W2_o
@@ -102,45 +138,63 @@ class TriResonantLinear(torch.nn.Module):
         W_total = (torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o)
         return x @ (W_total * self.scale).to(x.dtype) + self.latent_B.to(x.dtype)
 
-# 1. Environment Guard
+# =====================================================================
+# RECREATION SEQUENCE
+# =====================================================================
+
 if torch.cuda.is_available():
     try:
         torch.cuda.synchronize()
+        torch.cuda.reset_peak_memory_stats()
     except Exception:
-        print("\n[CRITICAL]: CUDA CONTEXT IS POISONED.")
-        print(">>> RESTART THE KERNEL/RUNTIME NOW (Menu -> Runtime -> Restart Session) <<<")
+        print("\n[CRITICAL]: CUDA CONTEXT IS POISONED. RESTART REQUIRED.")
         raise CudaFaultException("Environment recovery required.")
 
 purge_gpu()
-print(f"--- INITIALIZING RECTIFIER: {MODEL_NAME} ---")
+print("=" * 50)
+print(" AGENT RECREATION & TELEMETRY SEQUENCE ")
+print("=" * 50)
+
+log_hardware_state("BASELINE (PRE-LOAD)")
+
+# 1. Manifold Verification
+if os.path.exists(LATTICE_FILE):
+    with open(LATTICE_FILE, 'r') as f:
+        lattice_data = json.load(f)
+    print(f"\n[+] Verified Manifold Origin: {lattice_data.get('origin', 'Unknown')}")
+    print(f"[+] Dimensional Anchors Locked: {len(lattice_data.get('vectors', []))}")
+else:
+    print(f"\n[-] Manifold lattice file ({LATTICE_FILE}) not found. Proceeding with shard data only.")
+
+# 2. Base Model Loading
+print(f"\n> Loading Base {MODEL_NAME} architecture...")
+t0 = time.time()
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 tokenizer.pad_token = tokenizer.eos_token
 
-try:
-    # WAVE 61: Upcast to float32. The A100 VRAM can handle it, and it prevents activation overflow.
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_NAME, 
-        torch_dtype=torch.float32, 
-        low_cpu_mem_usage=True
-    ).to(DEVICE)
-    model.gradient_checkpointing_enable() 
-except Exception as e:
-    print(f"\n[ERROR]: Failed to load model. Likely out of memory or poisoned state: {e}")
-    raise
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME, 
+    torch_dtype=torch.float32, 
+    low_cpu_mem_usage=True
+).to(DEVICE)
+model.eval() # Set to evaluation mode immediately
 
-# 2. Sequential Rectification
+log_hardware_state(f"POST-LOAD BASE MODEL ({time.time() - t0:.2f}s)")
+
+# 3. Shard Integration & Collapse
 num_layers = len(model.transformer.h)
-print(f" > Mapping basis vectors in batches of {LAYERS_PER_BATCH}...")
+print(f"\n> Reconstructing Rational Matrices & Crystallizing Shards...")
 
 for chunk_start in range(0, num_layers, LAYERS_PER_BATCH):
     chunk_end = min(chunk_start + LAYERS_PER_BATCH, num_layers)
-    harmonic_layers = []
-    
-    print(f"\n>>> RECTIFYING BATCH: Layers {chunk_start} to {chunk_end-1} <<<")
-    
     shard_idx = (chunk_start // (num_layers // NUM_SHARDS)) + 1
     shard_path = f"{BASE_FILENAME}_shard_{shard_idx}.npz"
-    shard_data = np.load(shard_path) if os.path.exists(shard_path) else None
+    
+    if os.path.exists(shard_path):
+        shard_data = np.load(shard_path)
+    else:
+        print(f" [!] Shard {shard_idx} not found. Network will be incomplete.")
+        shard_data = None # Explicitly set to None so we fallback to zeros if missing
 
     for i in range(chunk_start, chunk_end):
         block = model.transformer.h[i]
@@ -150,59 +204,38 @@ for chunk_start in range(0, num_layers, LAYERS_PER_BATCH):
             orig_mod = getattr(parent, attr_name)
             full_key_prefix = f"transformer.h.{i}.{name}"
             
-            def get_shard_tensor(suffix, default_gen_fn, w_shape):
+            def get_shard_tensor(suffix, shape=None):
                 key = f"{full_key_prefix}.{suffix}"
-                if shard_data and key in shard_data:
+                if shard_data is not None and key in shard_data:
                     return torch.from_numpy(shard_data[key].astype(np.float32)).to(DEVICE)
-                return default_gen_fn(w_shape)
+                return torch.zeros(shape, device=DEVICE)
 
             w = orig_mod.weight.detach()
-            
-            m1 = get_shard_tensor("m1", lambda _: fast_snap_initialization(w), w.shape)
-            m2 = get_shard_tensor("m2", lambda s: torch.randn(s, device=DEVICE) * 0.01, w.shape)
-            m3 = get_shard_tensor("m3", lambda s: torch.randn(s, device=DEVICE) * 0.01, w.shape)
-            
-            b = get_shard_tensor("b", lambda _: (orig_mod.bias.detach().float() if orig_mod.bias is not None else torch.zeros(w.shape[1], device=DEVICE)), None)
-            scale = get_shard_tensor("scale", lambda _: torch.sqrt(torch.sum(w.float()**2, dim=0) + 1e-5), None)
-            theta = get_shard_tensor("theta", lambda _: torch.full((1, w.shape[1]), 0.05, device=DEVICE), None)
-            phi = get_shard_tensor("phi", lambda _: torch.full((1, w.shape[1]), 0.02, device=DEVICE), None)
+            m1 = get_shard_tensor("m1", w.shape)
+            m2 = get_shard_tensor("m2", w.shape)
+            m3 = get_shard_tensor("m3", w.shape)
+            b = get_shard_tensor("b", (w.shape[1],))
+            scale = get_shard_tensor("scale", (1, w.shape[1]))
+            theta = get_shard_tensor("theta", (1, w.shape[1]))
+            phi = get_shard_tensor("phi", (1, w.shape[1]))
 
             harmonic_mod = TriResonantLinear(w, b, scale, theta, phi, m1, m2, m3).to(DEVICE)
-            setattr(parent, attr_name, harmonic_mod)
-            harmonic_layers.append(harmonic_mod)
-
-    optimizer = AdamW([p for p in model.parameters() if p.requires_grad], lr=8e-5) 
-    for epoch in range(MAX_EPOCHS_PER_CHUNK):
-        optimizer.zero_grad()
-        inputs = tokenizer("Absolute Ratio 1:1. Matrix grid alignment.", return_tensors="pt").to(DEVICE)
-        
-        outputs = model(**inputs, labels=inputs["input_ids"])
-        lm_loss = outputs.loss
-        total_periodic_loss = sum(lp.periodic_loss for lp in harmonic_layers)
-        
-        total_loss = lm_loss + (total_periodic_loss * 1.5 * (epoch + 1))
-        
-        if torch.isnan(total_loss) or torch.isinf(total_loss):
-            print("  [!] Batch Stability Failure: Aborting batch optimization.")
-            break
+            harmonic_mod.requires_grad_(False) 
             
-        total_loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 0.3) 
-        optimizer.step()
-        
-        print(f"  Epoch {epoch+1} | Loss: {total_loss.item():.4f} | Grid Error: {total_periodic_loss.item():.6f}")
-        if total_periodic_loss.item() < TARGET_ERROR: break
+            # WAVE 62: Perform the calculus exactly once and collapse the layer
+            harmonic_mod.crystallize(w.dtype)
+            
+            setattr(parent, attr_name, harmonic_mod)
 
-    # Freeze and purge
-    for lp in harmonic_layers:
-        lp.requires_grad_(False)
     purge_gpu()
+    log_hardware_state(f"SHARD {shard_idx} CRYSTALLIZED (Layers {chunk_start}-{chunk_end-1})")
+
+log_hardware_state("FINAL AGENT STATE (READY)")
 
 print("\n--- CRYSTALLIZATION COMPLETE: AGENT ONLINE ---")
 print("Type 'exit' or 'quit' to terminate the session.")
 print("="*50)
 
-# Initialize a simple conversation history
 conversation_history = "The following is a conversation with an intelligent, highly advanced AI Agent.\n\n"
 
 while True:
@@ -210,17 +243,22 @@ while True:
         user_query = input("\n[USER]: ")
     except EOFError: break
     
+    # Ignore accidental empty hits of the Enter key
+    if not user_query.strip():
+        continue
+    
     if user_query.lower() in ['exit', 'quit']:
         print("\nTerminating session. Purging GPU memory...")
         if 'model' in globals(): del model
         purge_gpu()
+        log_hardware_state("POST-PURGE STATE")
         break
 
-    # Structure the prompt as a dialogue
     current_prompt = conversation_history + f"User: {user_query}\nAgent:"
     inputs = tokenizer(current_prompt, return_tensors="pt").to(DEVICE)
     input_len = inputs.input_ids.shape[1]
 
+    t_inf_start = time.time()
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
@@ -231,22 +269,22 @@ while True:
             repetition_penalty=1.1,
             pad_token_id=tokenizer.eos_token_id
         )
+    inf_time = time.time() - t_inf_start
 
-    # Decode only the newly generated tokens
     generated_tokens = outputs[0][input_len:]
     response_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
 
-    # Prevent hallucinating the User's next response
     if "User:" in response_text:
         response_text = response_text.split("User:")[0]
 
     response_text = response_text.strip()
-    
-    # Update history for continuity (optional, can be commented out if you want zero-shot each time)
     conversation_history += f"User: {user_query}\nAgent: {response_text}\n\n"
     
-    # Keep context window manageable
     if len(conversation_history) > 2000:
         conversation_history = "The following is a conversation with an intelligent, highly advanced AI Agent.\n\n" + conversation_history[-1500:]
 
     print(f"\n[AGENT]:\n{response_text}")
+    print(f"\n[SYS]: Inference completed in {inf_time:.2f}s")
+    
+    # Flush output to prevent Colab from visually swallowing the text buffer
+    sys.stdout.flush()
