@@ -14,7 +14,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 # =====================================================================
 # CONFIGURATION
 # =====================================================================
-USE_LARGE_MODEL = False  # Set to True to use GPT-2 XL (1.5B). False uses GPT-2 Small (124M).
+USE_LARGE_MODEL = True  # Set to True to use GPT-2 XL (1.5B). False uses GPT-2 Small (124M).
 
 if USE_LARGE_MODEL:
     MODEL_NAME = "gpt2-xl"
