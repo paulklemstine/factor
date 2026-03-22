@@ -9,14 +9,13 @@ import psutil
 import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# --- HARDWARE AUTO-SENSING (WAVE 77) ---
+# --- HARDWARE AUTO-SENSING (WAVE 78) ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 if DEVICE == "cuda":
     total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
     print(f"[SYS] Hardware Sensed: {total_vram:.2f} GB VRAM detected.")
     
-    # Tiered scaling based on bf16 memory requirements
     if total_vram > 70.0:
         print("[+] ELITE VRAM: Proceeding with 32B Reasoning Architecture.")
         MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
@@ -26,7 +25,6 @@ if DEVICE == "cuda":
         print("[+] MID-RANGE VRAM: Scaling to 7B Reasoning Architecture.")
         MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
         BASE_FILENAME = "healed_r1_7b"
-        # WAVE 77: Tiered Batching Adjustment - process 1 layer at a time for mid-range
         LAYERS_PER_BATCH = 1
     else:
         print("[!] LOW VRAM: Scaling down to 1.5B Reasoning Architecture.")
@@ -34,7 +32,6 @@ if DEVICE == "cuda":
         BASE_FILENAME = "healed_r1_1.5b"
         LAYERS_PER_BATCH = 4
 else:
-    print("[!] NO CUDA: Defaulting to 1.5B on CPU.")
     MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
     BASE_FILENAME = "healed_r1_1.5b"
     LAYERS_PER_BATCH = 1
@@ -57,7 +54,6 @@ class CudaFaultException(Exception):
     pass
 
 def log_hardware_state(phase_name):
-    """Provides detailed telemetry on CPU, RAM, Disk, and VRAM."""
     print(f"\n[{phase_name}]")
     cpu_usage = psutil.cpu_percent(interval=0.1)
     ram = psutil.virtual_memory()
@@ -71,7 +67,6 @@ def log_hardware_state(phase_name):
     print("-" * 50)
 
 def purge_gpu():
-    """WAVE 77: Forced Memory Fragmentation Recovery."""
     gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
@@ -113,33 +108,30 @@ class TriResonantLinear(torch.nn.Module):
         self.phi = torch.nn.Parameter(phi.float())
 
     def crystallize(self, target_dtype):
-        """WAVE 77: Sequential Math Pipeline for minimal VRAM usage."""
+        # WAVE 78: Faster crystallization using in-place operations
         with torch.no_grad():
             m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
-            
-            # Phase 1: Orthogonalize W2 against W1
             W1 = make_rational_matrix_torch(m1)
+            
             W2 = make_rational_matrix_torch(m2)
-            W2_o = (W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1)
+            W2_o = W2.sub_(W1.mul(torch.sum(W1 * W2, dim=0, keepdim=True)))
             del W2
-            W2_o = W2_o / torch.sqrt(torch.sum(W2_o**2, dim=0, keepdim=True) + 1e-5)
+            W2_o.div_(torch.sqrt(torch.sum(W2_o**2, dim=0, keepdim=True).add_(1e-5)))
             
-            # Phase 2: Orthogonalize W3 against W1 and W2_o
             W3 = make_rational_matrix_torch(m3)
-            W3_o = (W3 - torch.sum(W1*W3, dim=0, keepdim=True)*W1 - torch.sum(W2_o*W3, dim=0, keepdim=True)*W2_o)
-            del W3
-            W3_o = W3_o / torch.sqrt(torch.sum(W3_o**2, dim=0, keepdim=True) + 1e-5)
+            # W3_o = W3 - (W1 projection) - (W2_o projection)
+            W3.sub_(W1.mul(torch.sum(W1 * W3, dim=0, keepdim=True)))
+            W3.sub_(W2_o.mul(torch.sum(W2_o * W3, dim=0, keepdim=True)))
+            W3_o = W3
+            W3_o.div_(torch.sqrt(torch.sum(W3_o**2, dim=0, keepdim=True).add_(1e-5)))
             
-            # Phase 3: Fuse Geometry
             W_total = (torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o)
             
             self.register_buffer('W_fused', (W_total * self.scale).to(target_dtype))
             self.register_buffer('B_fused', self.latent_B.to(target_dtype))
-            
             del W1, W2_o, W3_o, W_total
 
     def purge_scaffolding(self):
-        """Immediate Parameter Purge."""
         for attr in ['latent_M1', 'latent_M2', 'latent_M3', 'theta', 'phi', 'scale', 'latent_B']:
             if hasattr(self, attr): delattr(self, attr)
 
@@ -154,7 +146,7 @@ class TriResonantLinear(torch.nn.Module):
 
 purge_gpu()
 print("=" * 60)
-print(f" RECREATION & PERSISTENT CACHING: {MODEL_NAME} ")
+print(f" RECREATION & BENCHMARKED OPTIMIZATION: {MODEL_NAME} ")
 print("=" * 60)
 
 log_hardware_state("BASELINE (PRE-LOAD)")
@@ -164,11 +156,13 @@ t0 = time.time()
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, cache_dir=CACHE_DIR)
 if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
 
+# WAVE 78: Enable SDPA (Scaled Dot Product Attention) for optimized attention kernels
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME, 
     torch_dtype=torch.bfloat16, 
     low_cpu_mem_usage=True,
-    cache_dir=CACHE_DIR
+    cache_dir=CACHE_DIR,
+    attn_implementation="sdpa" 
 ).to(DEVICE)
 model.eval() 
 
@@ -231,34 +225,36 @@ for chunk_start in range(0, num_layers, LAYERS_PER_BATCH):
                     current_shard_payload[f"{full_key_prefix}.phi"] = phi.cpu().numpy().astype(np.float16)
 
                 harmonic_mod = TriResonantLinear(w, b, scale, theta, phi, m1, m2, m3).to(DEVICE)
-                
-                # WAVE 77: Phased calculation and immediate scaffolding purge
                 harmonic_mod.crystallize(w.dtype)
                 harmonic_mod.purge_scaffolding()
-                
                 setattr(parent, attr_name, harmonic_mod)
                 harmonic_layers.append(harmonic_mod)
-                
-                # Explicitly delete temporary tensors to lower peak usage
                 del m1, m2, m3, b, scale, theta, phi, w
             except AttributeError: continue 
 
     if not is_cached:
         np.savez(shard_path, **current_shard_payload)
-        print(f"  [ARCHIVED]: Shard {shard_idx} (Layers {chunk_start}-{chunk_end-1})")
+        print(f"  [ARCHIVED]: Shard {shard_idx}")
 
-    # Final cleanup for the processed chunk
     del current_shard_payload, harmonic_layers
     purge_gpu()
-    if chunk_start % 8 == 0: print(f"  > Progressive Lock: {chunk_start}/{num_layers} layers crystalline.")
+    if chunk_start % 8 == 0: print(f"  > Crystallization Progress: {chunk_start}/{num_layers} layers locked.")
+
+# WAVE 78: Static graph compilation (Optional - comment out if compilation fails on your specific PyTorch version)
+# This step takes a few minutes at startup but significantly increases inference speed.
+try:
+    print("\n[SYS] Fusing Kernels (torch.compile)...")
+    model = torch.compile(model)
+except Exception:
+    print("[!] Kernel fusion not supported in this environment. Proceeding with standard execution.")
 
 log_hardware_state("FINAL AGENT STATE (READY)")
 
-print("\n--- COGNITIVE RESONANCE COMPLETE: ASSISTANT ONLINE ---")
+print("\n--- OPTIMIZATION COMPLETE: ASSISTANT ONLINE ---")
 print("="*60)
 
 conversation_history = [
-    {"role": "system", "content": "You are a highly skilled, intelligent, and helpful AI assistant. Your goal is to provide accurate, detailed, and insightful responses. Reason through problems step-by-step and aim to be the most effective assistant possible for the user."}
+    {"role": "system", "content": "You are an elite AI assistant. Provide extremely detailed and step-by-step reasoning. Prioritize depth, accuracy, and efficiency."}
 ]
 
 while True:
@@ -271,11 +267,10 @@ while True:
     conversation_history.append({"role": "user", "content": user_query})
     prompt_text = tokenizer.apply_chat_template(conversation_history, add_generation_prompt=True, tokenize=False)
     
-    # Adjusted Hijack for Assistant Mode
     if "1.5B" in MODEL_NAME:
         forced_thought = "<think>\n[ASSISTANT_REASONING_ACTIVE]\n"
     else:
-        forced_thought = "<think>\n[SYSTEM: Optimizing response for maximum utility. Reasoning deeply to be the best assistant possible.]\n"
+        forced_thought = "<think>\n[SYSTEM: Optimizing for performance and utility. Reasoning deeply.]\n"
     
     prompt_text += forced_thought
     inputs = tokenizer(prompt_text, return_tensors="pt").to(DEVICE)
@@ -286,15 +281,15 @@ while True:
     with torch.no_grad():
         outputs = model.generate(
             input_ids, 
-            max_new_tokens=1000, 
+            max_new_tokens=1200, 
             do_sample=True, 
             temperature=0.6, 
             top_p=0.95, 
-            pad_token_id=tokenizer.eos_token_id
+            pad_token_id=tokenizer.eos_token_id,
+            use_cache=True # Ensure KV caching is active
         )
     inf_time = time.time() - t_inf_start
 
-    # Benchmark Calculation
     new_tokens = outputs[0][input_len:]
     num_generated = len(new_tokens)
     tps = num_generated / inf_time if inf_time > 0 else 0
@@ -309,7 +304,7 @@ while True:
 
     print(f"\n[THOUGHT TRACE]:\n{think_trace.strip()}")
     print(f"\n[ASSISTANT]:\n{agent_response.strip()}")
-    print(f"\n[METRICS]: {num_generated} tokens generated in {inf_time:.2f}s | {tps:.2f} tokens/s")
+    print(f"\n[METRICS]: {num_generated} tokens in {inf_time:.2f}s | Speed: {tps:.2f} tokens/s")
     
     conversation_history.append({"role": "assistant", "content": agent_response.strip()})
     if len(conversation_history) > 7: conversation_history = [conversation_history[0]] + conversation_history[-4:]
