@@ -1,3 +1,4 @@
+%%writefile harmonic_healing.py
 import numpy as np
 import multiprocessing as mp
 import argparse
