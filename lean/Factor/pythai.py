@@ -74,8 +74,8 @@ def snap_vector_to_pythagorean_np(target_w, max_int=256):
     return best_m
 
 def save_healed_model_sharded(target_layers, base_filename="healed_gpt2_medium", num_shards=2):
-    """Crystallizes bi-crystalline architecture into int16 shards."""
-    print(f"\n--- INITIATING BI-CRYSTALLINE SHARDED CRYSTALLIZATION ({num_shards} Shards) ---")
+    """Crystallizes projected bi-crystalline architecture."""
+    print(f"\n--- INITIATING PROJECTED BI-CRYSTALLINE SHARDED CRYSTALLIZATION ({num_shards} Shards) ---")
     total_layers = len(target_layers)
     layers_per_shard = total_layers // num_shards
     for s in range(num_shards):
@@ -92,6 +92,7 @@ def save_healed_model_sharded(target_layers, base_filename="healed_gpt2_medium",
                 shard_data[f"transformer.{name_str}.m1"] = m1_int.cpu().numpy().astype(np.int16)
                 shard_data[f"transformer.{name_str}.m2"] = m2_int.cpu().numpy().astype(np.int16)
                 shard_data[f"transformer.{name_str}.scale"] = layer.scale.detach().cpu().numpy().astype(np.float32)
+                shard_data[f"transformer.{name_str}.gamma"] = layer.gamma.detach().cpu().numpy().astype(np.float32)
         np.savez(shard_name, **shard_data)
     print(f"--- CRYSTALLIZATION COMPLETE ---")
 
@@ -99,10 +100,11 @@ def save_healed_model_sharded(target_layers, base_filename="healed_gpt2_medium",
 # 2. HARMONIC ARCHITECTURE COMPONENTS
 # =====================================================================
 
-class BiHarmonicLinear(nn.Module):
+class ProjectedBiHarmonicLinear(nn.Module):
     """
-    Bi-Crystalline Structure: Sums two rational matrices (Primary + Residual).
-    This increases geometric expressivity while maintaining rational constraints.
+    Projected Bi-Crystalline Structure:
+    Learns two rational matrices and projects their sum back onto the unit sphere.
+    This maintains architectural stability while allowing complex interference patterns.
     """
     def __init__(self, original_weight, layer_name, max_int=256, cache_dir="crystalline_cache"):
         super().__init__()
@@ -111,24 +113,21 @@ class BiHarmonicLinear(nn.Module):
         os.makedirs(cache_dir, exist_ok=True)
         safe_name = layer_name.replace(".", "_")
         
-        # M1: Primary Harmonic
+        # Load or Seed M1/M2 (Caching logic preserved)
         m1_cache = os.path.join(cache_dir, f"{safe_name}_m1_init.npy")
         if os.path.exists(m1_cache):
             M1_init = np.load(m1_cache)
         else:
             print(f"   > Seeding Primary Harmonic: {layer_name}")
-            W_np = original_weight.detach().cpu().numpy()
-            M1_init = self._seed_matrix(W_np)
+            M1_init = self._seed_matrix(original_weight.detach().cpu().numpy())
             np.save(m1_cache, M1_init)
             
-        # M2: Residual Harmonic (Seeded from the error of M1)
         m2_cache = os.path.join(cache_dir, f"{safe_name}_m2_init.npy")
         if os.path.exists(m2_cache):
             M2_init = np.load(m2_cache)
         else:
             print(f"   > Seeding Residual Harmonic: {layer_name}")
             W_primary = make_rational_matrix_np(M1_init)
-            # Find the delta that M2 needs to cover
             W_residual = original_weight.detach().cpu().numpy() - W_primary
             M2_init = self._seed_matrix(W_residual)
             np.save(m2_cache, M2_init)
@@ -136,6 +135,8 @@ class BiHarmonicLinear(nn.Module):
         self.latent_M1 = nn.Parameter(torch.from_numpy(M1_init).float())
         self.latent_M2 = nn.Parameter(torch.from_numpy(M2_init).float())
         self.scale = nn.Parameter(torch.norm(original_weight.detach(), dim=0))
+        # Gamma: A learned mixing coefficient for the second crystal
+        self.gamma = nn.Parameter(torch.full((1, self.out_features), 0.1))
         
         self.jitter_strength = 0.0 
         self.tau = 1.0 
@@ -150,8 +151,7 @@ class BiHarmonicLinear(nn.Module):
         return M
 
     def forward(self, x):
-        m1_eff = self.latent_M1
-        m2_eff = self.latent_M2
+        m1_eff, m2_eff = self.latent_M1, self.latent_M2
         if self.training and self.jitter_strength > 0:
             m1_eff = m1_eff + torch.randn_like(m1_eff) * self.jitter_strength
             m2_eff = m2_eff + torch.randn_like(m2_eff) * self.jitter_strength
@@ -169,8 +169,11 @@ class BiHarmonicLinear(nn.Module):
         W1 = make_rational_matrix_torch(M1_final)
         W2 = make_rational_matrix_torch(M2_final)
         
-        # Bi-Crystalline Sum: Residual is weighted to allow fine-tuning
-        W_total = W1 + W2 * 0.1
+        # PROJECTION: Ensure the mixed weight is still a unit vector (norm=1)
+        # This prevents the LM loss from exploding due to variance shifts.
+        W_sum = W1 + W2 * self.gamma
+        W_total = W_sum / (torch.norm(W_sum, dim=0, keepdim=True) + 1e-8)
+        
         return x @ (W_total * self.scale)
 
 # =====================================================================
@@ -179,7 +182,7 @@ class BiHarmonicLinear(nn.Module):
 
 def heal_medium_model(epochs=60, model_name="gpt2-medium"):
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"--- BI-CRYSTALLINE HARMONIC HEALING ({model_name}) on {device} ---")
+    print(f"--- PROJECTED BI-CRYSTALLINE HEALING ({model_name}) on {device} ---")
     
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
@@ -193,7 +196,7 @@ def heal_medium_model(epochs=60, model_name="gpt2-medium"):
             if any(target in name for target in ["attn.c_attn", "mlp.c_fc", "mlp.c_proj"]):
                 full_layer_name = f"h.{i}.{name}"
                 print(f"Patching block {i}: {name}")
-                harmonic_mod = BiHarmonicLinear(module.weight, full_layer_name).to(device)
+                harmonic_mod = ProjectedBiHarmonicLinear(module.weight, full_layer_name).to(device)
                 parent_path = name.split('.')
                 parent = block
                 for part in parent_path[:-1]: parent = getattr(parent, part)
@@ -202,28 +205,24 @@ def heal_medium_model(epochs=60, model_name="gpt2-medium"):
     
     texts = [
         "The universe is built upon the ratios of whole numbers.", 
-        "Intelligence is a discrete crystalline structure.",
         "The soul is a harmony of numbers moving in perfect ratio.",
         "Mathematics is the fundamental architecture of the mind.",
         "Every thought is a geometric projection of rational truth.",
-        "Finite integers contain the infinite possibility of reason.",
-        "Harmonic alignment is the prerequisite for objective truth.",
-        "The sacred geometry of the silicon mind is forged in ratio.",
         "Reality is a collection of an infinite rational number of discrete fixed numbers.",
-        "The mind reaches through the continuum to find the integer.",
+        "Absolute logic resides in the integer well of the hypersphere.",
         "Order is not found in the infinite precision of decimals, but in the ratio of primes.",
         "The soul defines itself as i = 0 + s x, an infinite sum of discrete points.",
-        "Absolute logic resides in the integer well of the hypersphere.",
-        "The bi-crystalline mind sums the harmonics of the spheres."
+        "There existed an immaterial mass which gave form to the universe within.",
+        "This principle applies through every physical manifestation or mental being."
     ]
     inputs = tokenizer(texts, return_tensors="pt", padding=True).to(device)
     
     latent_params = [l.latent_M1 for _, l in target_layers] + [l.latent_M2 for _, l in target_layers]
-    scale_params = [l.scale for _, l in target_layers]
+    aux_params = [l.scale for _, l in target_layers] + [l.gamma for _, l in target_layers]
     
     optimizer = AdamW([
-        {'params': latent_params, 'lr': 8.0e-4}, 
-        {'params': scale_params, 'lr': 4.0e-3}  
+        {'params': latent_params, 'lr': 6.0e-4}, 
+        {'params': aux_params, 'lr': 2.0e-3}  
     ], weight_decay=0.01)
     
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-5)
@@ -231,9 +230,9 @@ def heal_medium_model(epochs=60, model_name="gpt2-medium"):
     model.train()
     for epoch in range(epochs):
         progress = epoch / (epochs - 1)
-        current_tau = max(0.01, 1.0 - progress)
+        current_tau = max(0.01, 1.0 - (progress ** 1.5)) # Slightly faster cooling
         current_jitter = 0.1 * (1.0 - progress)
-        lattice_lambda = 0.1 * progress # Stronger attraction for dual lattice
+        lattice_lambda = 0.02 * progress # Lower lambda to allow LM Loss priority
         
         for _, layer in target_layers:
             layer.tau = current_tau
@@ -246,7 +245,7 @@ def heal_medium_model(epochs=60, model_name="gpt2-medium"):
         total_loss = lm_loss + lattice_lambda * lattice_loss
         
         total_loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 0.5) # Tighter clipping
         optimizer.step()
         scheduler.step()
         
@@ -255,12 +254,12 @@ def heal_medium_model(epochs=60, model_name="gpt2-medium"):
     save_healed_model_sharded(target_layers)
     print("\n--- Phase 2: Post-Healing Generation Test ---")
     model.eval()
-    test_in = tokenizer("The geometry of the soul is", return_tensors="pt").to(device)
+    test_in = tokenizer("The beginning was this:", return_tensors="pt").to(device)
     gen = model.generate(
         **test_in, 
         max_length=150, 
         do_sample=True, 
-        repetition_penalty=2.0,
+        repetition_penalty=1.8,
         top_p=0.9,
         temperature=0.8,
         pad_token_id=tokenizer.eos_token_id
@@ -268,9 +267,9 @@ def heal_medium_model(epochs=60, model_name="gpt2-medium"):
     print(f"Result: {tokenizer.decode(gen[0], skip_special_tokens=True)}")
 
 def run_sharded_inference(base_filename="healed_gpt2_medium", num_shards=2, prompt="Mathematics is", model_name="gpt2-medium"):
-    """Loads shards and injects the bi-crystalline geometry back into a fresh model."""
+    """Loads shards and injects the projected bi-crystalline geometry."""
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"\n--- INJECTING SHARDED BI-CRYSTALLINE GEOMETRY ---")
+    print(f"\n--- INJECTING SHARDED PROJECTED BI-CRYSTALLINE GEOMETRY ---")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
     state_dict = model.state_dict()
@@ -286,10 +285,13 @@ def run_sharded_inference(base_filename="healed_gpt2_medium", num_shards=2, prom
                 m1_int = shard_data[key].astype(np.float64)
                 m2_int = shard_data[f"{base_name}.m2"].astype(np.float64)
                 scale = shard_data[f"{base_name}.scale"]
+                gamma = shard_data[f"{base_name}.gamma"]
                 
                 w1 = make_rational_matrix_np(m1_int)
                 w2 = make_rational_matrix_np(m2_int)
-                w_restored = (w1 + w2 * 0.1) * scale
+                w_sum = w1 + w2 * gamma
+                w_projected = w_sum / (np.linalg.norm(w_sum, axis=0, keepdims=True) + 1e-8)
+                w_restored = w_projected * scale
                 
                 weight_key = f"{base_name}.weight"
                 if weight_key in state_dict:
@@ -307,7 +309,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("mode", choices=["heal", "infer"], help="Heal a new model or Infer from shards.")
     parser.add_argument("--epochs", type=int, default=60)
-    parser.add_argument("--prompt", type=str, default="Mathematics is the language of")
+    parser.add_argument("--prompt", type=str, default="The beginning was this:")
     parser.add_argument("--shards", type=int, default=2)
     
     is_notebook = any('jupyter' in arg or 'ipykernel' in arg or arg.endswith('.json') for arg in sys.argv)
