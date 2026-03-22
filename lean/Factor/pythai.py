@@ -279,11 +279,27 @@ while True:
     
     prompt_text += forced_thought
     inputs = tokenizer(prompt_text, return_tensors="pt").to(DEVICE)
+    input_ids = inputs.input_ids
+    input_len = input_ids.shape[1]
 
+    t_inf_start = time.time()
     with torch.no_grad():
-        outputs = model.generate(**inputs, max_new_tokens=1000, do_sample=True, temperature=0.6, top_p=0.95, pad_token_id=tokenizer.eos_token_id)
+        outputs = model.generate(
+            input_ids, 
+            max_new_tokens=1000, 
+            do_sample=True, 
+            temperature=0.6, 
+            top_p=0.95, 
+            pad_token_id=tokenizer.eos_token_id
+        )
+    inf_time = time.time() - t_inf_start
 
-    response_text = tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
+    # Benchmark Calculation
+    new_tokens = outputs[0][input_len:]
+    num_generated = len(new_tokens)
+    tps = num_generated / inf_time if inf_time > 0 else 0
+
+    response_text = tokenizer.decode(new_tokens, skip_special_tokens=True)
     full_trace = forced_thought.replace("<think>\n", "") + response_text
     
     if "</think>" in full_trace:
@@ -293,6 +309,7 @@ while True:
 
     print(f"\n[THOUGHT TRACE]:\n{think_trace.strip()}")
     print(f"\n[ASSISTANT]:\n{agent_response.strip()}")
+    print(f"\n[METRICS]: {num_generated} tokens generated in {inf_time:.2f}s | {tps:.2f} tokens/s")
     
     conversation_history.append({"role": "assistant", "content": agent_response.strip()})
     if len(conversation_history) > 7: conversation_history = [conversation_history[0]] + conversation_history[-4:]
