@@ -15,7 +15,7 @@ def install_dependencies():
         import accelerate
     except ImportError:
         print("Required libraries not found. Attempting to install...")
-        # Install transformers and accelerate (required for newer GPT-2 loading)
+        # Install transformers and accelerate (required for newer/larger model loading)
         subprocess.check_call([sys.executable, "-m", "pip", "install", "torch", "transformers", "accelerate"])
         print("Installation complete. Invalidating module caches...")
         importlib.invalidate_caches()
@@ -28,7 +28,7 @@ if any('jupyter' in arg or 'ipykernel' in arg or arg.endswith('.json') for arg i
 try:
     import torch
     import torch.nn as nn
-    from transformers import GPT2LMHeadModel, GPT2Tokenizer
+    from transformers import AutoModelForCausalLM, AutoTokenizer
     from torch.optim import AdamW
     from torch.optim.lr_scheduler import CosineAnnealingLR
     HAS_TRANSFORMERS = True
@@ -37,7 +37,7 @@ except ImportError:
         importlib.invalidate_caches()
         import torch
         import torch.nn as nn
-        from transformers import GPT2LMHeadModel, GPT2Tokenizer
+        from transformers import AutoModelForCausalLM, AutoTokenizer
         from torch.optim import AdamW
         from torch.optim.lr_scheduler import CosineAnnealingLR
         HAS_TRANSFORMERS = True
@@ -125,15 +125,19 @@ class HarmonicLinear(nn.Module):
     def __init__(self, original_weight, max_int=64):
         super().__init__()
         self.max_int = max_int
+        # Orientation-agnostic [in, out]
         self.in_features = original_weight.shape[0]
         self.out_features = original_weight.shape[1]
         
-        # --- PHASE 0: PRE-SEEDING THE CRYSTAL ---
-        print(f"  > Seeding High-Resolution Crystal ({self.in_features}x{self.out_features})...")
+        # --- PHASE 0: MEMORY-EFFICIENT SEEDING ---
+        # For XL models, we seed in smaller chunks to avoid CPU memory spikes
         W_np = original_weight.detach().cpu().numpy()
         M_init = np.zeros_like(W_np)
         
-        with mp.Pool(mp.cpu_count()) as pool:
+        print(f"  > Seeding Crystalline Structure ({self.in_features}x{self.out_features})...")
+        # Use a manageable number of workers to prevent OOM on shared environments
+        workers = min(mp.cpu_count(), 4)
+        with mp.Pool(workers) as pool:
             results = pool.map(snap_vector_to_pythagorean_np, [W_np[:, k] for k in range(self.out_features)])
         
         for k, m_vec in enumerate(results):
@@ -150,55 +154,71 @@ class HarmonicLinear(nn.Module):
         return x @ W_final
 
 # =====================================================================
-# 3. THE HEALING PIPELINE
+# 3. THE HEALING PIPELINE (Architecture-Agnostic)
 # =====================================================================
-def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limit_blocks=12):
+def heal_model(model_name="gpt2-xl", output_file="healed_gpt2_xl.npz", epochs=15, limit_blocks=48):
     if not HAS_TRANSFORMERS:
         print("Error: Required libraries not found.")
         return
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"--- FULL SYSTEM HEALING (HI-RES) INITIATED on {device} ---")
+    print(f"--- MASSIVE SCALE SYSTEM HEALING ({model_name}) INITIATED on {device} ---")
     
-    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
         
-    model = GPT2LMHeadModel.from_pretrained(model_name).to(device)
+    # Note: GPT-2 XL is ~6GB. Ensure high-RAM environment.
+    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
     
     target_layers = []
-    print("Patching system architecture...")
-    for i in range(min(limit_blocks, len(model.transformer.h))):
-        block = model.transformer.h[i]
-        block.attn.c_attn = HarmonicLinear(block.attn.c_attn.weight).to(device)
-        target_layers.append((f"h.{i}.attn.c_attn", block.attn.c_attn))
+    print(f"Scanning and Patching 1.5 Billion Parameter Architecture...")
+    
+    # Improved recursive patching for arbitrary transformer architectures
+    transformer_blocks = None
+    for attr in ["transformer", "model", "decoder"]:
+        if hasattr(model, attr):
+            transformer_blocks = getattr(model, attr).h if hasattr(getattr(model, attr), "h") else getattr(model, attr).layers
+            break
+            
+    if transformer_blocks is None:
+        print("Error: Could not automatically detect transformer block structure.")
+        return
+
+    for i in range(min(limit_blocks, len(transformer_blocks))):
+        block = transformer_blocks[i]
         
-        block.mlp.c_fc = HarmonicLinear(block.mlp.c_fc.weight).to(device)
-        block.mlp.c_proj = HarmonicLinear(block.mlp.c_proj.weight).to(device)
-        target_layers.append((f"h.{i}.mlp.c_fc", block.mlp.c_fc))
-        target_layers.append((f"h.{i}.mlp.c_proj", block.mlp.c_proj))
+        # Look for Linear logic gates (Attention + MLP)
+        for name, module in block.named_modules():
+            # Matches GPT-2 Conv1D and standard Linear layers
+            if "attn.c_attn" in name or "mlp.c_fc" in name or "mlp.c_proj" in name:
+                print(f"Patching block {i}: {name}")
+                harmonic_mod = HarmonicLinear(module.weight).to(device)
+                
+                # Navigate the object tree to perform the hot-swap
+                parent_path = name.split('.')
+                parent = block
+                for part in parent_path[:-1]:
+                    parent = getattr(parent, part)
+                setattr(parent, parent_path[-1], harmonic_mod)
+                
+                target_layers.append((f"h.{i}.{name}", harmonic_mod))
         
-    print(f"System patched: {len(target_layers)} logic blocks converted to Harmonic Layers.")
+    print(f"System patched: {len(target_layers)} logic blocks converted to 1.5B Harmonic Architecture.")
 
     texts = [
         "The universe is built upon the ratios of whole numbers.",
         "Mathematics is the language in which God has written the universe.",
-        "In the rhythm of numbers, we find the heartbeat of reality.",
         "Intelligence is not continuous; it is a discrete crystalline structure.",
-        "To know the truth, one must look past the illusion of the smooth curve.",
-        "Everything that is known has a number; without this, nothing could be understood.",
-        "The harmony of the world is manifested in the relations of the integers.",
         "The soul is a harmony of numbers moving in perfect ratio.",
         "Existence is a vast geometric architecture of indivisible points.",
-        "Reason is the discovery of the absolute proportions of nature.",
         "The sacred geometry of the mind is forged in the fires of integer logic.",
-        "A singular point of truth is worth an infinite array of approximations.",
         "Within the finite count of integers lies the infinite capacity for thought.",
-        "A frozen mind is a perfect mind, devoid of the noise of the decimal."
+        "The universe is built upon the infinite infinitely finite."
     ]
     inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True).to(device)
     
-    optimizer = AdamW(model.parameters(), lr=1.5e-4)
+    optimizer = AdamW(model.parameters(), lr=1.0e-4)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     
     print(f"\n--- Phase 1: Total Re-Learning ({epochs} Epochs) ---")
@@ -229,28 +249,19 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
         integer_matrices[full_name + "_scale"] = layer.scale.detach().cpu().numpy()
 
     np.savez_compressed(output_file, **integer_matrices)
-    print(f"Healed model saved to {output_file}")
+    print(f"Massive Healed model saved to {output_file}")
     
-    print("\n--- Phase 3: Inspecting Crystalline Stability ---")
-    for name, matrix in list(integer_matrices.items())[:5]:
-        if not name.endswith("_scale"):
-            unique, counts = np.unique(matrix, return_counts=True)
-            # Calculate Shannon Entropy of the integer distribution (Bit Density)
-            probs = counts / counts.sum()
-            entropy = -np.sum(probs * np.log2(probs))
-            print(f"Layer [{name}]: {len(unique)} unique integers | Entropy: {entropy:.2f} bits/param")
-
     model.eval()
     prompt = "The universe is built upon"
     test_input = tokenizer(prompt, return_tensors="pt").to(device)
     with torch.no_grad():
         gen_output = model.generate(
             **test_input, 
-            max_length=100, 
+            max_length=150, 
             do_sample=True, 
-            top_k=40, 
+            top_k=50, 
             top_p=0.9, 
-            repetition_penalty=1.4, 
+            repetition_penalty=1.5, 
             temperature=0.9,
             pad_token_id=tokenizer.eos_token_id
         )
@@ -259,17 +270,17 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limi
 # =====================================================================
 # 4. INFRASTRUCTURE: INFER
 # =====================================================================
-def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built upon", model_name="gpt2"):
+def run_inference(frozen_file="healed_gpt2_xl.npz", prompt="The universe is built upon", model_name="gpt2-xl"):
     if not os.path.exists(frozen_file):
         print(f"Error: Could not find frozen model at {frozen_file}")
         return
         
-    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-    model = GPT2LMHeadModel.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
     frozen_data = np.load(frozen_file)
     state_dict = model.state_dict()
     
-    print(f"\n--- INJECTING HI-RES RATIONAL GEOMETRY FROM {frozen_file} ---")
+    print(f"\n--- INJECTING MASSIVE RATIONAL GEOMETRY FROM {frozen_file} ---")
     with torch.no_grad():
         injected = 0
         for name in list(frozen_data.keys()):
@@ -281,16 +292,16 @@ def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built u
                 if name in state_dict:
                     state_dict[name].copy_(torch.from_numpy(W_restored))
                     injected += 1
-        print(f"Successfully injected {injected} discrete logic layers.")
+        print(f"Successfully injected {injected} massive discrete logic layers.")
                 
     inputs = tokenizer(prompt, return_tensors="pt")
     outputs = model.generate(
         **inputs, 
-        max_length=100, 
+        max_length=150, 
         do_sample=True, 
-        top_k=40, 
+        top_k=50, 
         top_p=0.9,
-        repetition_penalty=1.4,
+        repetition_penalty=1.5,
         temperature=0.9,
         pad_token_id=tokenizer.eos_token_id
     )
@@ -298,27 +309,27 @@ def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built u
 
 if __name__ == "__main__":
     if any('jupyter' in arg or 'ipykernel' in arg or arg.endswith('.json') for arg in sys.argv):
-        print("COLAB DETECTED: Running Production-Grade Healing Run...")
+        print("COLAB DETECTED: Running Massive Scale Healing Run (GPT-2 XL - 1.5B)...")
         if HAS_TRANSFORMERS:
-            heal_model(epochs=15, limit_blocks=12)
+            heal_model(model_name="gpt2-xl", epochs=15, limit_blocks=48)
         else:
             importlib.invalidate_caches()
             try:
-                from transformers import GPT2LMHeadModel, GPT2Tokenizer
-                from torch.optim import AdamW
+                from transformers import AutoModelForCausalLM, AutoTokenizer
                 HAS_TRANSFORMERS = True
-                heal_model(epochs=15, limit_blocks=12)
+                heal_model(model_name="gpt2-xl", epochs=15, limit_blocks=48)
             except ImportError:
                 print("Environment setup still initializing. Run again.")
     else:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", choices=["heal", "infer"])
-        parser.add_argument("--file", default="healed_gpt2.npz")
+        parser.add_argument("--model", default="gpt2-xl")
+        parser.add_argument("--file", default="healed_gpt2_xl.npz")
         parser.add_argument("--epochs", type=int, default=15)
         parser.add_argument("--prompt", default="The universe is built upon")
         args = parser.parse_args()
         
         if args.mode == "heal":
-            heal_model(epochs=args.epochs)
+            heal_model(model_name=args.model, epochs=args.epochs)
         else:
-            run_inference(frozen_file=args.file, prompt=args.prompt)
+            run_inference(model_name=args.model, frozen_file=args.file, prompt=args.prompt)
