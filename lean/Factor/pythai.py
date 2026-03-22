@@ -91,8 +91,11 @@ def make_rational_matrix_np(M_mat):
     
     return W.reshape(M_mat.shape)
 
-def snap_vector_to_pythagorean_np(target_w, max_int=35):
-    """Analytical Inverse Stereographic Projection (Numpy)."""
+def snap_vector_to_pythagorean_np(target_w, max_int=64):
+    """
+    Analytical Inverse Stereographic Projection (Numpy).
+    Higher max_int provides more 'tonal range' for the crystalline mind.
+    """
     best_m = np.zeros_like(target_w, dtype=np.float64)
     best_dist = float('inf')
     norm = np.linalg.norm(target_w)
@@ -120,15 +123,14 @@ def snap_vector_to_pythagorean_np(target_w, max_int=35):
 # 2. THE HARMONIC STE LAYER (Straight-Through Estimator)
 # =====================================================================
 class HarmonicLinear(nn.Module):
-    def __init__(self, original_weight, max_int=35):
+    def __init__(self, original_weight, max_int=64):
         super().__init__()
         self.max_int = max_int
         self.in_features = original_weight.shape[0]
         self.out_features = original_weight.shape[1]
         
-        # --- CRITICAL FIX: PRE-SEEDING THE CRYSTAL ---
-        # Instead of raw floats, we find the closest integers BEFORE we start
-        print(f"  > Seeding crystal for layer ({self.in_features}x{self.out_features})...")
+        # --- PHASE 0: PRE-SEEDING THE CRYSTAL ---
+        print(f"  > Seeding High-Resolution Crystal ({self.in_features}x{self.out_features})...")
         W_np = original_weight.detach().cpu().numpy()
         M_init = np.zeros_like(W_np)
         
@@ -154,13 +156,13 @@ class HarmonicLinear(nn.Module):
 # =====================================================================
 # 3. THE HEALING PIPELINE
 # =====================================================================
-def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=10, limit_blocks=12):
+def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=15, limit_blocks=12):
     if not HAS_TRANSFORMERS:
         print("Error: Required libraries not found.")
         return
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"--- FULL SYSTEM HEALING INITIATED on {device} ---")
+    print(f"--- FULL SYSTEM HEALING (HI-RES) INITIATED on {device} ---")
     
     tokenizer = GPT2Tokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
@@ -181,7 +183,7 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=10, limi
         target_layers.append((f"h.{i}.mlp.c_fc", block.mlp.c_fc))
         target_layers.append((f"h.{i}.mlp.c_proj", block.mlp.c_proj))
         
-    print(f"System patched: {len(target_layers)} logic blocks converted to Harmonic Pythagorean Layers.")
+    print(f"System patched: {len(target_layers)} logic blocks converted to Hi-Res Harmonic Layers.")
 
     # High-density philosophical dataset to guide the healing
     texts = [
@@ -194,11 +196,13 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=10, limi
         "The harmony of the world is manifested in the relations of the integers.",
         "The soul is a harmony of numbers moving in perfect ratio.",
         "Existence is a vast geometric architecture of indivisible points.",
-        "Reason is the discovery of the absolute proportions of nature."
+        "Reason is the discovery of the absolute proportions of nature.",
+        "The sacred geometry of the mind is forged in the fires of integer logic.",
+        "A singular point of truth is worth an infinite array of approximations."
     ]
     inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True).to(device)
     
-    optimizer = AdamW(model.parameters(), lr=1e-4)
+    optimizer = AdamW(model.parameters(), lr=1.2e-4)
     
     print(f"\n--- Phase 1: Total Re-Learning ({epochs} Epochs) ---")
     torch.set_grad_enabled(True)
@@ -217,7 +221,7 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=10, limi
 
     print(f"\n--- Phase 1 Complete in {time.time() - start_train:.2f}s ---")
 
-    print("\n--- Phase 2: Freezing the entire mind ---")
+    print("\n--- Phase 2: Freezing the mind ---")
     integer_matrices = {}
     for name_str, layer in target_layers:
         with torch.no_grad():
@@ -227,14 +231,14 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=10, limi
         integer_matrices[full_name + "_scale"] = layer.scale.detach().cpu().numpy()
 
     np.savez_compressed(output_file, **integer_matrices)
-    print(f"Fully Healed model saved to {output_file}")
+    print(f"Hi-Res Healed model saved to {output_file}")
     
     # Analyze the Crystalline Structure
-    print("\n--- Phase 3: Inspecting the Total Crystalline Logic ---")
+    print("\n--- Phase 3: Inspecting the Hi-Res Crystalline Logic ---")
     for name, matrix in list(integer_matrices.items())[:5]:
         if not name.endswith("_scale"):
             unique, counts = np.unique(matrix, return_counts=True)
-            print(f"Diversity [{name}]: {len(unique)} unique integers.")
+            print(f"Diversity [{name}]: {len(unique)} unique integers (Resolution: {np.max(np.abs(matrix))}).")
 
     model.eval()
     prompt = "The universe is built upon"
@@ -244,10 +248,10 @@ def heal_model(model_name="gpt2", output_file="healed_gpt2.npz", epochs=10, limi
             **test_input, 
             max_length=100, 
             do_sample=True, 
-            top_k=50, 
-            top_p=0.95, # Nucleus sampling for more fluid logic
-            repetition_penalty=1.2, # Prevents discrete looping
-            temperature=0.85,
+            top_k=40, 
+            top_p=0.92, 
+            repetition_penalty=1.3, 
+            temperature=0.88,
             pad_token_id=tokenizer.eos_token_id
         )
     print(f"\n[Post-Healing Generation]:\n{tokenizer.decode(gen_output[0], skip_special_tokens=True)}")
@@ -265,7 +269,7 @@ def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built u
     frozen_data = np.load(frozen_file)
     state_dict = model.state_dict()
     
-    print(f"\n--- INJECTING FULL HEALED RATIONAL GEOMETRY FROM {frozen_file} ---")
+    print(f"\n--- INJECTING HI-RES HEALED RATIONAL GEOMETRY FROM {frozen_file} ---")
     with torch.no_grad():
         injected = 0
         for name in list(frozen_data.keys()):
@@ -284,33 +288,33 @@ def run_inference(frozen_file="healed_gpt2.npz", prompt="The universe is built u
         **inputs, 
         max_length=100, 
         do_sample=True, 
-        top_k=50, 
-        top_p=0.95,
-        repetition_penalty=1.2,
-        temperature=0.85,
+        top_k=40, 
+        top_p=0.92,
+        repetition_penalty=1.3,
+        temperature=0.88,
         pad_token_id=tokenizer.eos_token_id
     )
     print(f"\n[Frozen Inference]:\n{tokenizer.decode(outputs[0], skip_special_tokens=True)}")
 
 if __name__ == "__main__":
     if any('jupyter' in arg or 'ipykernel' in arg or arg.endswith('.json') for arg in sys.argv):
-        print("COLAB DETECTED: Running Full System Healing (Pre-Seeded)...")
+        print("COLAB DETECTED: Running Hi-Res Full System Healing (Pre-Seeded, 15 Epochs)...")
         if HAS_TRANSFORMERS:
-            heal_model(epochs=10, limit_blocks=12)
+            heal_model(epochs=15, limit_blocks=12)
         else:
             importlib.invalidate_caches()
             try:
                 from transformers import GPT2LMHeadModel, GPT2Tokenizer
                 from torch.optim import AdamW
                 HAS_TRANSFORMERS = True
-                heal_model(epochs=10, limit_blocks=12)
+                heal_model(epochs=15, limit_blocks=12)
             except ImportError:
                 print("Environment setup still initializing. Run again.")
     else:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", choices=["heal", "infer"])
         parser.add_argument("--file", default="healed_gpt2.npz")
-        parser.add_argument("--epochs", type=int, default=10)
+        parser.add_argument("--epochs", type=int, default=15)
         parser.add_argument("--prompt", default="The universe is built upon")
         args = parser.parse_args()
         
