@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import multiprocessing as mp
+import time
 
 # =====================================================================
 # 1. N-DIMENSIONAL PYTHAGOREAN GEOMETRY ENGINE
@@ -64,6 +66,7 @@ def calculate_accuracy(model_forward_fn, X, y_true_labels):
 
 def train_continuous_network(X, Y, layer_dims, lr=0.01, iters=8000, use_qat=True):
     print(f"\n--- Phase 1: Continuous Training (QAT Enabled: {use_qat}) ---")
+    start_time = time.time()
     W1 = np.random.randn(layer_dims[0], layer_dims[1])
     W2 = np.random.randn(layer_dims[1], layer_dims[2])
     
@@ -93,16 +96,19 @@ def train_continuous_network(X, Y, layer_dims, lr=0.01, iters=8000, use_qat=True
             W2 /= (np.linalg.norm(W2, axis=0, keepdims=True) + 1e-8)
             
             if i > 0 and i % 3000 == 0 and i < iters - 1000:
-                print(f"  [QAT] Injecting {layer_dims[0]*layer_dims[1] + layer_dims[1]*layer_dims[2]} analytical discrete constraints at Iteration {i}...")
+                print(f"  [QAT] Injecting {layer_dims[0]*layer_dims[1] + layer_dims[1]*layer_dims[2]} analytical discrete constraints across {mp.cpu_count()} CPU cores at Iteration {i}...")
+                snap_start = time.time()
                 M1 = snap_matrix_to_integers(W1, max_int=20) 
                 W1 = make_rational_matrix(M1)
                 M2 = snap_matrix_to_integers(W2, max_int=20)
                 W2 = make_rational_matrix(M2)
+                print(f"  [QAT] Snap completed in {time.time() - snap_start:.2f}s.")
         
-        if (i + 1) % 1000 == 0:
+        if (i + 1) % 500 == 0:
             mse = np.mean((Y - Y_pred)**2)
-            print(f"Iteration {i+1:04d} | Continuous MSE: {mse:.4f}")
+            print(f"Iteration {i+1:04d} | Continuous MSE: {mse:.4f} | Elapsed Time: {time.time() - start_time:.1f}s")
             
+    print(f"\n--- Phase 1 Complete in {time.time() - start_time:.2f}s ---")
     return [W1, W2]
 
 def snap_vector_to_pythagorean(target_w, max_int=35):
@@ -158,32 +164,48 @@ def snap_vector_to_pythagorean(target_w, max_int=35):
 
     return best_m
 
+def _snap_single_column(args):
+    """Helper function for parallel processing."""
+    target_w, max_int = args
+    norm = np.linalg.norm(target_w)
+    if norm > 0:
+        target_w = target_w / norm
+    return snap_vector_to_pythagorean(target_w, max_int)
+
 def snap_matrix_to_integers(W_cont, max_int=35):
+    """Parallelized analytical projection mapping to all available CPU cores."""
     M_layer = np.zeros_like(W_cont, dtype=np.int64)
-    for k in range(W_cont.shape[1]):
-        target_w = W_cont[:, k]
-        norm = np.linalg.norm(target_w)
-        if norm > 0: target_w = target_w / norm
-        M_layer[:, k] = snap_vector_to_pythagorean(target_w, max_int=max_int)
+    args_list = [(W_cont[:, k], max_int) for k in range(W_cont.shape[1])]
+    
+    cores = mp.cpu_count()
+    with mp.Pool(processes=cores) as pool:
+        results = pool.map(_snap_single_column, args_list)
+        
+    for k, m_best in enumerate(results):
+        M_layer[:, k] = m_best
+        
     return M_layer
 
 def snap_weights_to_harmonic(continuous_W_matrices, layer_dims):
     print("\n--- Phase 2: Final Geometrical 'Snap' (Analytical Inverse Projection) ---")
+    total_snap_start = time.time()
     M_snapped = []
     for l, W_cont in enumerate(continuous_W_matrices):
-        print(f"Snapping Layer {l+1} (Shape: {W_cont.shape}) to integers...")
+        layer_start = time.time()
+        print(f"Snapping Layer {l+1} (Shape: {W_cont.shape}) to integers using {mp.cpu_count()} cores...")
         # Higher max_int for final polish
         M_layer = snap_matrix_to_integers(W_cont, max_int=50)
         M_snapped.append(M_layer)
-    print("Snap complete.")
+        print(f"  Layer {l+1} snapped in {time.time() - layer_start:.2f}s.")
+    print(f"--- Total Snap completed in {time.time() - total_snap_start:.2f}s ---")
     return DeepHarmonicNetwork(layer_dims, initial_M=M_snapped)
 
 # =====================================================================
-# 4. EXPERIMENT PIPELINE (COMPUTER VISION - MNIST SCALE UP)
+# 4. EXPERIMENT PIPELINE (COMPUTER VISION - FASHION-MNIST SCALE UP)
 # =====================================================================
 def main():
     print("=========================================================")
-    print(" HARMONIC NETWORK: MASSIVE SPATIAL SCALE-UP (MNIST-784)")
+    print(" HARMONIC NETWORK: TEXTURE & SEMANTICS (FASHION-MNIST)")
     print("=========================================================")
 
     try:
@@ -192,8 +214,10 @@ def main():
         import warnings
         warnings.filterwarnings('ignore') # Ignore OpenML parser warnings
         
-        print("Fetching MNIST-784 dataset from OpenML (this may take a minute)...")
-        X, y = fetch_openml('mnist_784', version=1, return_X_y=True, as_frame=False, parser='auto')
+        print("Fetching Fashion-MNIST dataset from OpenML (this may take a minute)...")
+        fetch_start = time.time()
+        X, y = fetch_openml('Fashion-MNIST', version=1, return_X_y=True, as_frame=False, parser='auto')
+        print(f"Dataset successfully downloaded/loaded in {time.time() - fetch_start:.2f}s.")
         
         # Subsample to keep continuous training phase at a reasonable speed
         subset_size = 10000 
@@ -201,10 +225,10 @@ def main():
         indices = np.random.permutation(X.shape[0])[:subset_size]
         X = X[indices]
         y = y[indices].astype(np.int64)
-        dataset_name = "MNIST-784 (Subsampled)"
+        dataset_name = "Fashion-MNIST (Subsampled)"
         
     except Exception as e:
-        print(f"Failed to fetch MNIST: {e}. Falling back to standard digits...")
+        print(f"Failed to fetch Fashion-MNIST: {e}. Falling back to standard digits...")
         from sklearn.datasets import load_digits
         from sklearn.model_selection import train_test_split
         data = load_digits()
@@ -212,8 +236,13 @@ def main():
         dataset_name = "Standard Digits (Fallback)"
     
     # Normalization 
+    norm_start = time.time()
     X = X / 255.0 # Basic image scaling
-    X = (X - X.mean(axis=0)) / (X.std(axis=0) + 1e-8)
+    
+    # GLOBAL standardization (prevents the Radial Gradient Lock on near-dead border pixels)
+    X = (X - X.mean()) / (X.std() + 1e-8)
+    
+    print(f"Data normalization completed in {time.time() - norm_start:.2f}s.")
     
     num_classes = len(np.unique(y))
     Y_onehot = np.zeros((y.size, num_classes))
@@ -224,12 +253,13 @@ def main():
     )
 
     IN_DIM = X.shape[1]
-    HIDDEN_DIM = 128
+    HIDDEN_DIM = 256  # Doubled capacity to handle complex clothing textures
     OUT_DIM = num_classes
     layer_dims = [IN_DIM, HIDDEN_DIM, OUT_DIM]
     total_params = IN_DIM*HIDDEN_DIM + HIDDEN_DIM*OUT_DIM
 
-    print(f"\nDataset Loaded: {X.shape[0]} images, {IN_DIM} spatial dimensions.")
+    print(f"\nDataset Ready: {X.shape[0]} images, {IN_DIM} spatial dimensions.")
+    print(f"Architecture: {layer_dims}")
     print(f"Total Integer Parameters to Discover: {total_params:,}")
 
     # 1. Phase 1: Train Continuous Model
@@ -241,19 +271,28 @@ def main():
     def continuous_forward(X_in):
         return np.maximum(0, X_in @ W_continuous[0]) @ W_continuous[1]
 
+    print("\n--- Running Final Continuous Evaluations ---")
+    cont_eval_start = time.time()
     cont_train_acc = calculate_accuracy(continuous_forward, X_train, y_train)
     cont_test_acc = calculate_accuracy(continuous_forward, X_test, y_test)
+    print(f"Continuous evaluations finished in {time.time() - cont_eval_start:.2f}s.")
     
     # 2. Phase 2: Snap to Harmonic Network
     harmonic_model = snap_weights_to_harmonic(W_continuous, layer_dims)
     
+    print("\n--- Running Final Discrete Evaluations ---")
+    harm_eval_start = time.time()
     harm_train_acc = calculate_accuracy(harmonic_model.forward, X_train, y_train)
     harm_test_acc = calculate_accuracy(harmonic_model.forward, X_test, y_test)
+    print(f"Discrete evaluations finished in {time.time() - harm_eval_start:.2f}s.")
     
     # 3. Evaluation
-    print(f"\n--- Final Model Evaluation ---")
+    print(f"\n=========================================================")
+    print(f" FINAL MODEL EVALUATION RESULTS")
+    print(f"=========================================================")
     print(f"[Continuous Base]  Training Acc: {cont_train_acc * 100:.2f}% | Testing Acc: {cont_test_acc * 100:.2f}%")
     print(f"[Discrete Snapped] Training Acc: {harm_train_acc * 100:.2f}% | Testing Acc: {harm_test_acc * 100:.2f}%")
+    print(f"=========================================================")
 
     # 4. Visualization
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -266,7 +305,7 @@ def main():
     axes[0].bar(x - width/2, [cont_train_acc*100, cont_test_acc*100], width, label='Continuous Float', color='darkred')
     axes[0].bar(x + width/2, [harm_train_acc*100, harm_test_acc*100], width, label='Discrete Integers', color='navy')
     axes[0].set_ylabel('Accuracy (%)')
-    axes[0].set_title('Image Recognition Performance')
+    axes[0].set_title('Texture & Shape Recognition Performance')
     axes[0].set_xticks(x)
     axes[0].set_xticklabels(labels)
     axes[0].legend()
