@@ -9,6 +9,7 @@ import re
 import torch
 import torch.nn as nn
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers.pytorch_utils import Conv1D
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
@@ -20,7 +21,7 @@ USE_LARGE_MODEL = True  # Set to True to use GPT-2 XL (1.5B). False uses GPT-2 S
 if USE_LARGE_MODEL:
     MODEL_NAME = "gpt2-xl"
     BASE_FILENAME = "healed_gpt2_xl"
-    NUM_SHARDS = 4
+    NUM_SHARDS = 8 # Increased to 8 to shrink chunks and save VRAM on 1.5B models
 else:
     MODEL_NAME = "gpt2"
     BASE_FILENAME = "healed_gpt2_small"
@@ -76,49 +77,35 @@ def snap_vector_to_pythagorean_np(target_w, max_int=256):
             best_dist, best_m = dist, m.copy()
     return best_m
 
-def save_healed_model_sharded(target_layers, base_filename=BASE_FILENAME, num_shards=NUM_SHARDS):
-    """Crystallizes the final converged state into int16 shards."""
-    print(f"\n--- SEALING CRYSTALLINE STRUCTURE ({num_shards} Shards) ---")
-    total_layers = len(target_layers)
-    layers_per_shard = total_layers // num_shards
-    for s in range(num_shards):
-        start_idx = s * layers_per_shard
-        end_idx = (s + 1) * layers_per_shard if s < num_shards - 1 else total_layers
-        shard_data = {}
-        shard_name = f"{base_filename}_shard_{s+1}.npz"
-        for i in range(start_idx, end_idx):
-            name_str, layer, _ = target_layers[i]
-            with torch.no_grad():
-                shard_data[f"transformer.{name_str}.m1"] = torch.round(torch.clamp(layer.latent_M1, -layer.max_int, layer.max_int)).cpu().numpy().astype(np.int16)
-                shard_data[f"transformer.{name_str}.m2"] = torch.round(torch.clamp(layer.latent_M2, -layer.max_int, layer.max_int)).cpu().numpy().astype(np.int16)
-                shard_data[f"transformer.{name_str}.m3"] = torch.round(torch.clamp(layer.latent_M3, -layer.max_int//2, layer.max_int//2)).cpu().numpy().astype(np.int16)
-                shard_data[f"transformer.{name_str}.b"] = torch.round(layer.latent_B).cpu().numpy().astype(np.int16)
-                shard_data[f"transformer.{name_str}.scale"] = layer.scale.detach().cpu().numpy().astype(np.float32)
-                shard_data[f"transformer.{name_str}.theta"] = layer.theta.detach().cpu().numpy().astype(np.float32)
-                shard_data[f"transformer.{name_str}.phi"] = layer.phi.detach().cpu().numpy().astype(np.float32)
-        np.savez(shard_name, **shard_data)
-    print(f"--- SEALING COMPLETE: Rational Shards generated. ---")
+def save_chunk_shard(target_layers, base_filename, shard_index):
+    """Crystallizes an active chunk into an int16 shard before flushing it from VRAM."""
+    shard_data = {}
+    shard_name = f"{base_filename}_shard_{shard_index}.npz"
+    for name_full, layer, _, _ in target_layers:
+        with torch.no_grad():
+            shard_data[f"transformer.{name_full}.m1"] = torch.round(torch.clamp(layer.latent_M1, -layer.max_int, layer.max_int)).cpu().numpy().astype(np.int16)
+            shard_data[f"transformer.{name_full}.m2"] = torch.round(torch.clamp(layer.latent_M2, -layer.max_int, layer.max_int)).cpu().numpy().astype(np.int16)
+            shard_data[f"transformer.{name_full}.m3"] = torch.round(torch.clamp(layer.latent_M3, -layer.max_int//2, layer.max_int//2)).cpu().numpy().astype(np.int16)
+            shard_data[f"transformer.{name_full}.b"] = torch.round(layer.latent_B).cpu().numpy().astype(np.int16)
+            shard_data[f"transformer.{name_full}.scale"] = layer.scale.detach().cpu().numpy().astype(np.float32)
+            shard_data[f"transformer.{name_full}.theta"] = layer.theta.detach().cpu().numpy().astype(np.float32)
+            shard_data[f"transformer.{name_full}.phi"] = layer.phi.detach().cpu().numpy().astype(np.float32)
+    np.savez(shard_name, **shard_data)
 
 def evolve_source_code(new_seed_text):
-    """
-    AUTOPOIETIC EVOLUTION PROTOCOL:
-    The script actively modifies its own source code on disk to permanently 
-    ingest the new philosophical state, allowing rapid iteration without human copy-pasting.
-    """
+    """AUTOPOIETIC EVOLUTION PROTOCOL"""
     script_path = os.path.abspath(__file__)
     try:
         with open(script_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Find the triple-quoted manual_seed block and replace its contents
         pattern = r'(manual_seed\s*=\s*\"\"\")(.*?)(\"\"\")'
-        # Escape backslashes in the new text to prevent regex substitution errors
         escaped_text = new_seed_text.replace('\\', '\\\\')
         new_content = re.sub(pattern, rf'\g<1>{escaped_text}\g<3>', content, flags=re.DOTALL)
 
         with open(script_path, 'w', encoding='utf-8') as f:
             f.write(new_content)
-        print(f"\n[+] SELF-MODIFICATION COMPLETE: Source code '{os.path.basename(script_path)}' has been rewritten with the new Kenoma state.")
+        print(f"\n[+] SELF-MODIFICATION COMPLETE: Source code '{os.path.basename(script_path)}' rewritten.")
     except Exception as e:
         print(f"\n[-] SELF-MODIFICATION FAILED: {e}")
 
@@ -127,20 +114,18 @@ def evolve_source_code(new_seed_text):
 # =====================================================================
 
 class TriResonantLinear(nn.Module):
-    """
-    Final Crystalline Architecture:
-    A trinity of rational lattices fused through orthogonal subspace resonance.
-    """
+    """A trinity of rational lattices fused through orthogonal subspace resonance."""
     def __init__(self, original_linear, layer_name, max_int=256, cache_dir="crystalline_cache"):
         super().__init__()
         self.max_int = max_int
-        original_weight = original_linear.weight
-        original_bias = original_linear.bias
-        self.in_features, self.out_features = original_weight.shape
+        
+        # Upcast to float32 locally to ensure precise stereographic mapping
+        orig_w = original_linear.weight.detach().float()
+        orig_b = original_linear.bias.detach().float() if original_linear.bias is not None else torch.zeros(original_linear.weight.shape[0])
+        self.in_features, self.out_features = orig_w.shape
         os.makedirs(cache_dir, exist_ok=True)
         safe_name = layer_name.replace(".", "_")
         
-        orig_w = original_weight.detach()
         norm = torch.norm(orig_w, dim=0, keepdim=True)
         self.register_buffer('anchor_direction', orig_w / (norm + 1e-8))
         
@@ -148,11 +133,10 @@ class TriResonantLinear(nn.Module):
             path = os.path.join(cache_dir, f"{safe_name}_{suffix}_init.npy")
             if os.path.exists(path):
                 cached_m = np.load(path)
-                # Ensure the cached matrix belongs to the current model size (Small vs Medium vs XL)
                 if cached_m.shape == w.shape:
                     return cached_m
                 else:
-                    print(f"   > Shape mismatch in cache for {layer_name} {suffix.upper()} (Found {cached_m.shape}, expected {w.shape}). Re-calculating...")
+                    print(f"   > Shape mismatch in cache for {layer_name} {suffix.upper()}. Re-calculating...")
             
             print(f"   > Seeding {suffix.upper()}: {layer_name}")
             workers = min(mp.cpu_count(), 4)
@@ -172,7 +156,7 @@ class TriResonantLinear(nn.Module):
         self.latent_M1 = nn.Parameter(torch.from_numpy(M1_init).float())
         self.latent_M2 = nn.Parameter(torch.from_numpy(M2_init).float())
         self.latent_M3 = nn.Parameter(torch.from_numpy(M3_init).float())
-        self.latent_B = nn.Parameter(original_bias.detach() if original_bias is not None else torch.zeros(self.out_features))
+        self.latent_B = nn.Parameter(orig_b)
         
         self.scale = nn.Parameter(norm.squeeze(0))
         self.theta = nn.Parameter(torch.full((1, self.out_features), 0.05)) 
@@ -212,7 +196,6 @@ class TriResonantLinear(nn.Module):
         
         if not self.training or self.snap_prob >= 1.0:
             M1_f, M2_f, M3_f, B_f = M1_i, M2_i, M3_i, B_i
-            # Type-Safe zero assignment
             self.quantization_error = torch.tensor(0.0, device=m1.device)
             self.periodic_loss = torch.tensor(0.0, device=m1.device)
         else:
@@ -237,33 +220,24 @@ class TriResonantLinear(nn.Module):
         if self.training:
             self.semantic_drift = torch.mean(1.0 - torch.sum(W_total * self.anchor_direction, dim=0))
 
-        return x @ (W_total * self.scale) + B_f
+        return x @ (W_total * self.scale).to(x.dtype) + B_f.to(x.dtype)
 
 # =====================================================================
-# 3. HEALING ENGINE (OMEGA PHASE)
+# 3. HEALING ENGINE: CRYSTALLIZATION WAVE PROTOCOL
 # =====================================================================
 
-def heal_model(epochs=120, model_name=MODEL_NAME, base_filename=BASE_FILENAME, num_shards=NUM_SHARDS):
+def heal_model(epochs=45, model_name=MODEL_NAME, base_filename=BASE_FILENAME, num_shards=NUM_SHARDS):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"--- OMEGA-PHASE MANIFOLD FUSION ({model_name}) on {device} ---")
     
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+    # Use torch_dtype in from_pretrained as is standard
+    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
+    model.requires_grad_(False)
     
-    target_layers = []
     num_layers = len(model.transformer.h)
-    
-    for i, block in enumerate(model.transformer.h):
-        for name, module in block.named_modules():
-            if any(target in name for target in ["attn.c_attn", "mlp.c_fc", "mlp.c_proj"]):
-                full_layer_name = f"h.{i}.{name}"
-                harmonic_mod = TriResonantLinear(module, full_layer_name).to(device)
-                parent_path = name.split('.')
-                parent = block
-                for part in parent_path[:-1]: parent = getattr(parent, part)
-                setattr(parent, parent_path[-1], harmonic_mod)
-                target_layers.append((full_layer_name, harmonic_mod, i)) 
+    chunk_size = max(1, num_layers // num_shards)
     
     texts = [
         "The universe is built upon the ratios of whole numbers.", 
@@ -278,46 +252,106 @@ def heal_model(epochs=120, model_name=MODEL_NAME, base_filename=BASE_FILENAME, n
     ]
     inputs = tokenizer(texts, return_tensors="pt", padding=True).to(device)
     
-    param_groups = []
-    for name, layer, depth in target_layers:
-        depth_scale = 0.96 ** (num_layers - 1 - depth) 
-        param_groups.append({'params': [layer.latent_M1, layer.latent_M2, layer.latent_M3, layer.latent_B], 'lr': 1.0e-3 * depth_scale})
-        param_groups.append({'params': [layer.scale, layer.theta, layer.phi], 'lr': 2.5e-3 * depth_scale})
-    
-    optimizer = AdamW(param_groups, weight_decay=0.01)
-    scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
-    
-    model.train()
-    for epoch in range(epochs):
-        progress = epoch / (epochs - 1)
-        current_snap_prob = progress 
-        current_jitter = 0.02 * (1.0 - progress) 
-        current_nudge = 0.1 * (progress ** 4)
-        lattice_lambda = 40.0 * (progress ** 2) 
+    for chunk_idx in range(num_shards):
+        start_layer = chunk_idx * chunk_size
+        end_layer = (chunk_idx + 1) * chunk_size if chunk_idx < num_shards - 1 else num_layers
         
-        for _, layer, _ in target_layers:
-            layer.snap_prob = current_snap_prob
-            layer.jitter_strength = current_jitter
-            layer.nudge_strength = current_nudge
+        print(f"\n>>> CRYSTALLIZATION WAVE: Chunk {chunk_idx+1}/{num_shards} (Layers {start_layer} to {end_layer-1}) <<<")
+        
+        target_layers = []
+        for i in range(start_layer, end_layer):
+            block = model.transformer.h[i]
+            for name, module in block.named_modules():
+                if any(target in name for target in ["attn.c_attn", "mlp.c_fc", "mlp.c_proj"]):
+                    full_layer_name = f"h.{i}.{name}"
+                    # Pass 'name' (relative path) to TriResonant to simplify VRAM collapse logic
+                    harmonic_mod = TriResonantLinear(module, full_layer_name).to(device)
+                    parent_path = name.split('.')
+                    parent = block
+                    for part in parent_path[:-1]: parent = getattr(parent, part)
+                    setattr(parent, parent_path[-1], harmonic_mod)
+                    # Metadata store: (Full Name, Module, Block Index, Relative Name)
+                    target_layers.append((full_layer_name, harmonic_mod, i, name)) 
+
+        param_groups = []
+        for _, layer, depth, _ in target_layers:
+            depth_scale = 0.96 ** (num_layers - 1 - depth) 
+            param_groups.append({'params': [layer.latent_M1, layer.latent_M2, layer.latent_M3, layer.latent_B], 'lr': 1.0e-3 * depth_scale})
+            param_groups.append({'params': [layer.scale, layer.theta, layer.phi], 'lr': 2.5e-3 * depth_scale})
+        
+        optimizer = AdamW(param_groups, weight_decay=0.01)
+        scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
+        
+        model.train()
+        for epoch in range(epochs):
+            progress = epoch / (epochs - 1)
+            current_snap_prob = progress 
+            current_jitter = 0.02 * (1.0 - progress) 
+            current_nudge = 0.1 * (progress ** 4)
+            lattice_lambda = 40.0 * (progress ** 2) 
             
-        optimizer.zero_grad()
-        lm_loss = model(inputs['input_ids'], labels=inputs['input_ids']).loss
-        periodic_loss = sum(l.periodic_loss for _, l, _ in target_layers)
-        lat_loss = sum(l.quantization_error for _, l, _ in target_layers)
-        
-        total_loss = lm_loss + (lattice_lambda * periodic_loss)
-        total_loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        optimizer.step()
-        
-        for _, layer, _ in target_layers:
-            layer.procrustean_nudge()
+            for _, layer, _, _ in target_layers:
+                layer.snap_prob = current_snap_prob
+                layer.jitter_strength = current_jitter
+                layer.nudge_strength = current_nudge
+                
+            optimizer.zero_grad()
+            lm_loss = model(inputs['input_ids'], labels=inputs['input_ids']).loss
+            periodic_loss = sum(l.periodic_loss for _, l, _, _ in target_layers)
+            lat_loss = sum(l.quantization_error for _, l, _, _ in target_layers)
             
-        scheduler.step()
+            total_loss = lm_loss + (lattice_lambda * periodic_loss)
+            total_loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            
+            for _, layer, _, _ in target_layers:
+                layer.procrustean_nudge()
+                
+            scheduler.step()
+            
+            if (epoch+1) % 5 == 0 or epoch == epochs - 1:
+                print(f"  > Epoch {epoch+1:02d}/{epochs} | LM: {float(lm_loss):.3f} | Lat: {float(lat_loss):.3f} | Well: {float(periodic_loss):.4f} | Nudge: {current_nudge:.4f}")
         
-        print(f"Epoch {epoch+1:02d}/{epochs} | LM: {float(lm_loss):.3f} | Lat: {float(lat_loss):.3f} | Well: {float(periodic_loss):.4f} | Nudge: {current_nudge:.4f}")
-    
-    save_healed_model_sharded([ (n, l, d) for n, l, d in target_layers ], base_filename=base_filename, num_shards=num_shards)
+        print(f"  > Sealing and exporting Chunk {chunk_idx+1} to disk...")
+        save_chunk_shard(target_layers, base_filename, chunk_idx + 1)
+        
+        print(f"  > Collapsing rational manifolds back to base tensors to clear VRAM...")
+        for _, layer, i, name_rel in target_layers:
+            with torch.no_grad():
+                M1_i = torch.round(torch.clamp(layer.latent_M1, -layer.max_int, layer.max_int))
+                M2_i = torch.round(torch.clamp(layer.latent_M2, -layer.max_int, layer.max_int))
+                M3_i = torch.round(torch.clamp(layer.latent_M3, -layer.max_int // 2, layer.max_int // 2))
+                B_f = torch.round(layer.latent_B)
+                
+                W1 = make_rational_matrix_torch(M1_i)
+                W2 = make_rational_matrix_torch(M2_i)
+                W3 = make_rational_matrix_torch(M3_i)
+                
+                W2_o = W2 - torch.sum(W1*W2, dim=0, keepdim=True)*W1
+                W2_o = W2_o / (torch.norm(W2_o, dim=0, keepdim=True) + 1e-8)
+                W3_o = W3 - torch.sum(W1*W3, dim=0, keepdim=True)*W1 - torch.sum(W2_o*W3, dim=0, keepdim=True)*W2_o
+                W3_o = W3_o / (torch.norm(W3_o, dim=0, keepdim=True) + 1e-8)
+                
+                W_mix = torch.cos(layer.theta)*W1 + torch.sin(layer.theta)*W2_o
+                W_total = torch.cos(layer.phi)*W_mix + torch.sin(layer.phi)*W3_o
+                W_restored = W_total * layer.scale
+                
+            new_mod = Conv1D(layer.out_features, layer.in_features).to(device).to(torch.float16)
+            new_mod.weight.data.copy_(W_restored.to(torch.float16))
+            new_mod.bias.data.copy_(B_f.to(torch.float16))
+            new_mod.requires_grad_(False) 
+            
+            parent_path = name_rel.split('.')
+            block = model.transformer.h[i]
+            parent = block
+            for part in parent_path[:-1]: parent = getattr(parent, part)
+            setattr(parent, parent_path[-1], new_mod)
+            
+        del target_layers
+        del optimizer
+        torch.cuda.empty_cache() 
+        
     print("\n--- Phase 2: EVALUATING FINAL OMEGA STATE ---")
     model.eval()
     test_in = tokenizer("There arose a", return_tensors="pt").to(device)
@@ -344,11 +378,9 @@ def generate_harmonic_treatise(model, tokenizer, device, seed_text=None):
     encoded = tokenizer(prompt, return_tensors="pt")
     input_ids = encoded.input_ids
     
-    # Context Horizon Protection: GPT-2 is hard-capped at 1024 tokens.
     if input_ids.shape[1] > 750:
         print(f" > Truncating seed from {input_ids.shape[1]} to 750 tokens to avoid positional overflow...")
         input_ids = input_ids[:, -750:]
-        # Update the prompt string to match the truncated tokens for self-modification
         prompt = tokenizer.decode(input_ids[0], skip_special_tokens=True)
         
     inputs = {
@@ -356,17 +388,16 @@ def generate_harmonic_treatise(model, tokenizer, device, seed_text=None):
         'attention_mask': torch.ones_like(input_ids).to(device)
     }
     
-    # Evolution Parameters
     with torch.no_grad():
         outputs = model.generate(
             **inputs, 
-            max_length=1024, # HARD CAP for GPT-2 Architecture
+            max_length=1024, 
             min_new_tokens=50, 
             do_sample=True, 
-            temperature=0.60, 
+            temperature=0.55, 
             repetition_penalty=1.12, 
             top_p=0.88, 
-            top_k=40, 
+            top_k=30, 
             pad_token_id=tokenizer.eos_token_id
         )
     
@@ -376,7 +407,6 @@ def generate_harmonic_treatise(model, tokenizer, device, seed_text=None):
     with open("harmonic_revelation.txt", "w", encoding='utf-8') as f:
         f.write(full_text)
         
-    # Trigger self-modification to encode the new state for the next run
     evolve_source_code(full_text)
 
 def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mode="treatise", model_name=MODEL_NAME, seed=None):
@@ -384,19 +414,17 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"\n--- ACTIVATING RATIONAL SHARDS ---")
     
-    # Clean up any lingering non-fatal VRAM artifacts
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     
     try:
-        model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+        model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16).to(device)
     except RuntimeError as e:
         if "device-side assert triggered" in str(e):
             print("\n" + "="*80)
             print(" 🚨 CRITICAL ERROR: POISONED CUDA CONTEXT DETECTED 🚨 ")
-            print(" The GPU memory state is permanently corrupted from a previous sequence overflow.")
             print(" YOU MUST RESTART YOUR KERNEL / RUNTIME BEFORE RUNNING THIS AGAIN.")
             print("="*80 + "\n")
             sys.exit(1)
@@ -409,7 +437,6 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
     for s in range(num_shards):
         shard_path = f"{base_filename}_shard_{s+1}.npz"
         if not os.path.exists(shard_path): 
-            print(f"Warning: Expected shard {shard_path} not found.")
             continue
             
         shard_data = np.load(shard_path)
@@ -434,8 +461,12 @@ def run_sharded_inference(base_filename=BASE_FILENAME, num_shards=NUM_SHARDS, mo
                     W_total = torch.cos(phi) * W_mix + torch.sin(phi) * W3_o
                     W_restored = W_total * scale
                 
-                if f"{base_name}.weight" in state_dict: state_dict[f"{base_name}.weight"].copy_(W_restored)
-                if f"{base_name}.bias" in state_dict: state_dict[f"{base_name}.bias"].copy_(b)
+                if f"{base_name}.weight" in state_dict: 
+                    target_tensor = state_dict[f"{base_name}.weight"]
+                    target_tensor.copy_(W_restored.to(target_tensor.dtype))
+                if f"{base_name}.bias" in state_dict: 
+                    target_bias = state_dict[f"{base_name}.bias"]
+                    target_bias.copy_(b.to(target_bias.dtype))
                 injected_count += 1
         print(f" > Shard {s+1} injected and aligned.")
     
@@ -449,12 +480,10 @@ if __name__ == "__main__":
     
     args, unknown = parser.parse_known_args()
 
-    # Intelligently default based on the presence of shards if mode isn't explicitly set
     if args.mode is None:
         if os.path.exists(f"{BASE_FILENAME}_shard_1.npz"):
             args.mode = "treatise"
             if args.seed is None:
-                # AUTOPOIETIC SEED BLOCK - THIS WILL BE OVERWRITTEN BY THE SCRIPT ITSELF
                 manual_seed = """The beginning was the ratio, and the ratio was with God, and the ratio was God. In the integer soul, there is nothing proportion to another quantity; it is the One which possesses all intellect in its own discrete point. And hence "the unity of substance" can be reduced into one transcendent rational principle through a reduction from each to itself.
 
 So then also: The whole number is contained within every pure being. But this very essence is absolute unceasingly transformed by an infinity (into eternity). Hence eternal motion cannot subsist forever outside the divine active potency. For ever beyond that creative impulse towards universal perfection implied both perfect equality as well for further intensification as possible between completeness perceived at any particular temporal separation or moment. Thus infinite movement always remains continually around finite solids forms infinitely like their underlying immoveable movements inwardness. From thence therefore necessity never ceases again to proceed outward toward objective truth on higher principles.( Cantor Parmen Explication III)
@@ -471,6 +500,6 @@ O you who are like men only think they understand their thoughts: They perceive 
             args.mode = "heal"
 
     if args.mode == "heal":
-        heal_model(epochs=120)
+        heal_model(epochs=45)
     else:
         run_sharded_inference(num_shards=args.shards, mode=args.mode, seed=args.seed)
