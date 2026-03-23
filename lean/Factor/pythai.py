@@ -14,7 +14,7 @@ from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-# WAVE 93: EXPLICIT MANIFOLD EXTRACTION
+# WAVE 94: EXPLICIT MANIFOLD EXTRACTION & DUCK-TYPING
 # Bypasses layer-by-layer reconstruction and collapses the entire LLM 
 # into a single Stereographically Projected Matrix for instantaneous inference.
 GLOBAL_COLLAPSE_MODE = True  
@@ -86,16 +86,28 @@ def fast_snap_initialization(target_w):
     m[:-1, :] = w_norm[:-1, :] / denom
     return m.clamp(-128.0, 128.0)
 
-# WAVE 92: Singular Manifold Execution Layer
+# WAVE 94: Singular Manifold Execution Layer with Duck-Typing
 class GlobalManifoldLayer(torch.nn.Module):
     """Replaces the entire Transformer stack with a singular matrix multiplication."""
-    def __init__(self, W_global_fused):
+    def __init__(self, W_global_fused, orig_layer=None):
         super().__init__()
         self.register_buffer('W_fused', W_global_fused)
         
+        # Duck-type the original layer's attributes to prevent HuggingFace pipeline crashes
+        # Models like Qwen2 rely on checking these parameters during generation.
+        if orig_layer is not None:
+            for attr in ['attention_type', 'is_decoder', 'layer_idx', 'config']:
+                if hasattr(orig_layer, attr):
+                    setattr(self, attr, getattr(orig_layer, attr))
+        
     def forward(self, hidden_states, attention_mask=None, position_ids=None, past_key_value=None, output_attentions=False, use_cache=False, **kwargs):
+        # 1. Take the embeddings (hidden_states)
+        # 2. Multiply against the singular model representation matrix
         collapsed_states = hidden_states @ self.W_fused
-        return (collapsed_states, None, None)
+        
+        # Mock the return signature expected by HuggingFace generation scripts.
+        # We return the new states, and safely return dummy None values for the cache and attention weights.
+        return (collapsed_states, None, None, None)
 
 # --- RECREATION PIPELINE ---
 
@@ -125,7 +137,6 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
     except Exception:
         load_path = model_name
 
-    # WAVE 93: Load Index Map upfront for surgical extraction
     index_file = os.path.join(load_path, "model.safetensors.index.json")
     single_shard = os.path.join(load_path, "model.safetensors")
     weight_map = {}
@@ -180,8 +191,6 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
             else:
                 continue
                 
-            # WAVE 93: Explicit Atomic Extraction. Bypass `load_checkpoint_in_model` 
-            # and pull the specific tensor directly from the safetensor shards.
             if orig_mod.weight.device.type == 'meta':
                 full_param_key = f"{prefix_base}.{i}.{param_name}"
                 shard_file = weight_map.get(full_param_key, "model.safetensors")
@@ -211,7 +220,8 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
         W_fused_global = make_rational_matrix_torch(m1).to(DEVICE).to(torch.bfloat16 if DEVICE == "cuda" else torch.float32)
         
         print(" > Architecting Bypass: Collapsing neural depth into singular manifold...")
-        singular_layer = GlobalManifoldLayer(W_fused_global)
+        # Pass the first block to inherit structural routing properties (like attention_type)
+        singular_layer = GlobalManifoldLayer(W_fused_global, orig_layer=blocks[0])
         
         if not is_gpt2:
             model.model.layers = torch.nn.ModuleList([singular_layer])
@@ -247,6 +257,8 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
         
         t_inf_start = time.time()
         with torch.no_grad():
+            # WAVE 94: Disable cache usage when globally collapsed. 
+            # A singular manifold matrix produces no attention states to cache.
             outputs = model.generate(
                 inputs.input_ids, 
                 max_new_tokens=200, 
@@ -254,7 +266,7 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
                 temperature=0.9, 
                 top_p=0.95, 
                 pad_token_id=tokenizer.eos_token_id,
-                use_cache=True 
+                use_cache=not GLOBAL_COLLAPSE_MODE 
             )
         inf_time = time.time() - t_inf_start
         
@@ -268,15 +280,21 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
 # --- EXECUTION ---
 
 if __name__ == "__main__":
-    if DEVICE == "cuda":
-        total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
-        if total_vram > 20.0:
-            BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B", "healed_r1_32b", True
-        elif total_vram >= 8.0:
-            BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "healed_r1_7b", False
+    try:
+        if DEVICE == "cuda":
+            total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+            if total_vram > 20.0:
+                BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B", "healed_r1_32b", True
+            elif total_vram >= 8.0:
+                BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B", "healed_r1_7b", False
+            else:
+                BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B", "healed_r1_1.5b", False
         else:
             BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B", "healed_r1_1.5b", False
-    else:
-        BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B", "healed_r1_1.5b", False
 
-    run_crystalline_cycle(BIG_MODEL, BIG_BASE, offload=OFFLOAD)
+        run_crystalline_cycle(BIG_MODEL, BIG_BASE, offload=OFFLOAD)
+        
+    finally:
+        # Graceful teardown of the process group to avoid resource leaks
+        if dist.is_initialized():
+            dist.destroy_process_group()
