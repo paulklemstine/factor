@@ -9,7 +9,7 @@ import psutil
 import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# --- HARDWARE AUTO-SENSING (WAVE 83: ATOMIC PROJECTION ISOLATION) ---
+# --- HARDWARE AUTO-SENSING (WAVE 84: TOTAL MATHEMATICAL DECOUPLING) ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 if DEVICE == "cuda":
@@ -17,8 +17,8 @@ if DEVICE == "cuda":
     print(f"[SYS] Hardware Sensed: {total_vram:.2f} GB VRAM detected.")
     
     if total_vram > 20.0:
-        # WAVE 83: Pushing 32B onto 22GB card with CPU-side math offloading
-        print("[+] MID-HIGH VRAM: Proceeding with 32B Reasoning Architecture (Atomic Isolation).")
+        # WAVE 84: 32B on 22GB card. Intermediates shifted to CPU RAM (52GB).
+        print("[+] MID-HIGH VRAM: Proceeding with 32B Reasoning Architecture (CPU-Side Geometry).")
         MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
         BASE_FILENAME = "healed_r1_32b"
         LAYERS_PER_BATCH = 1 
@@ -82,7 +82,7 @@ def purge_gpu():
         torch.cuda.synchronize()
 
 def make_rational_matrix_torch(M_mat):
-    # Mathematics remain strictly in FP32 for spatial integrity
+    """Numerically hardened math; device-agnostic (will run on CPU in WAVE 84)."""
     M_mat = M_mat.float() 
     N, K = M_mat.shape
     m_all_but_last = M_mat[:-1, :]
@@ -96,7 +96,7 @@ def make_rational_matrix_torch(M_mat):
     return torch.where(c < 1e-5, W_def, W_raw)
 
 def fast_snap_initialization(target_w):
-    # WAVE 83: CPU-Side analytical math
+    """WAVE 84: Pure CPU Analytical Seeding."""
     w = target_w.to('cpu').float()
     norms = torch.sqrt(torch.sum(w**2, dim=0, keepdim=True) + 1e-5)
     w_norm = w / norms
@@ -119,7 +119,11 @@ class TriResonantLinear(torch.nn.Module):
         self.phi = torch.nn.Parameter(phi.float())
 
     def crystallize(self, target_dtype):
-        purge_gpu()
+        """WAVE 84: Performing all math on CPU to avoid GPU OOM spikes."""
+        # Ensure parameters are on CPU for the heavy projection
+        original_device = self.latent_M1.device
+        self.to('cpu')
+        
         with torch.no_grad():
             m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
             W1 = make_rational_matrix_torch(m1)
@@ -137,10 +141,11 @@ class TriResonantLinear(torch.nn.Module):
             
             W_total = (torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o)
             
-            self.register_buffer('W_fused', (W_total * self.scale).to(target_dtype))
-            self.register_buffer('B_fused', self.latent_B.to(target_dtype))
+            # The final result is moved to the original device (GPU or CPU)
+            self.register_buffer('W_fused', (W_total * self.scale).to(device=original_device, dtype=target_dtype))
+            self.register_buffer('B_fused', self.latent_B.to(device=original_device, dtype=target_dtype))
+            
             del W1, W2_o, W3_o, W_total
-            purge_gpu()
 
     def purge_scaffolding(self):
         for attr in ['latent_M1', 'latent_M2', 'latent_M3', 'theta', 'phi', 'scale', 'latent_B']:
@@ -167,7 +172,7 @@ t0 = time.time()
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, cache_dir=CACHE_DIR)
 if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
 
-# Load Model with explicit offloading
+# Load Model with explicit offloading to Google Drive
 from accelerate.utils import set_module_tensor_to_device
 
 model = AutoModelForCausalLM.from_pretrained(
@@ -211,53 +216,52 @@ for i in range(num_layers):
             attr_name = parts[-1]
             orig_mod = getattr(parent, attr_name)
             
-            # WAVE 83: Atomic Materialization - move ONLY the linear layer weight to GPU
-            # and immediately perform math to minimize the resident footprint.
-            orig_mod.to(DEVICE)
+            # WAVE 84: Keep weight on its original device (likely CPU/Disk) for extraction
+            # w remains a reference to the existing bfloat16 weights.
+            w = orig_mod.weight.detach().T
             
-            full_key_prefix = f"layer.{i}.{name}"
-            is_linear = isinstance(orig_mod, torch.nn.Linear)
-            w = orig_mod.weight.detach().T if is_linear else orig_mod.weight.detach()
-            
+            # Atomic Materialization if currently on 'meta' device
             if w.device.type == 'meta':
-                # Emergency materialization if device_map left it on meta
-                set_module_tensor_to_device(orig_mod, "weight", DEVICE, dtype=torch.bfloat16)
-                w = orig_mod.weight.detach().T if is_linear else orig_mod.weight.detach()
+                # Force loading into CPU RAM for the math
+                set_module_tensor_to_device(orig_mod, "weight", "cpu", dtype=torch.bfloat16)
+                w = orig_mod.weight.detach().T
 
+            full_key_prefix = f"layer.{i}.{name}"
+            
             def get_val(suffix):
                 key = f"{full_key_prefix}.{suffix}"
-                if shard_data and key in shard_data: return torch.from_numpy(shard_data[key].astype(np.float32)).to(DEVICE)
+                if shard_data and key in shard_data: return torch.from_numpy(shard_data[key].astype(np.float32)).to('cpu')
                 return None
 
-            # WAVE 83: Critical Math Offload. Perform F32 heavy operations on CPU.
+            # WAVE 84: ALL INITIALIZATION HAPPENS ON CPU
             m1 = get_val("m1")
-            if m1 is None:
-                m1 = fast_snap_initialization(w).to(DEVICE)
+            if m1 is None: m1 = fast_snap_initialization(w)
             
-            m2 = get_val("m2") if get_val("m2") is not None else torch.randn(w.shape, device=DEVICE) * 0.01
-            m3 = get_val("m3") if get_val("m3") is not None else torch.randn(w.shape, device=DEVICE) * 0.01
-            b = get_val("b") if get_val("b") is not None else (orig_mod.bias.detach().float() if getattr(orig_mod, 'bias', None) is not None else torch.zeros(w.shape[1], device=DEVICE))
+            m2 = get_val("m2") if get_val("m2") is not None else torch.randn(w.shape, device='cpu') * 0.01
+            m3 = get_val("m3") if get_val("m3") is not None else torch.randn(w.shape, device='cpu') * 0.01
+            b = get_val("b") if get_val("b") is not None else (orig_mod.bias.detach().to('cpu').float() if getattr(orig_mod, 'bias', None) is not None else torch.zeros(w.shape[1], device='cpu'))
             
             scale = get_val("scale")
             if scale is None:
-                # Perform norm calculation on CPU to avoid the OOM spike
-                w_cpu = w.to('cpu').float()
-                scale = torch.sqrt(torch.sum(w_cpu**2, dim=0, keepdim=True) + 1e-5).to(DEVICE)
-                del w_cpu
+                # Perform norm calculation on CPU
+                scale = torch.sqrt(torch.sum(w.to('cpu').float()**2, dim=0, keepdim=True) + 1e-5)
 
-            theta = get_val("theta") if get_val("theta") is not None else torch.zeros((1, w.shape[1]), device=DEVICE)
-            phi = get_val("phi") if get_val("phi") is not None else torch.zeros((1, w.shape[1]), device=DEVICE)
+            theta = get_val("theta") if get_val("theta") is not None else torch.zeros((1, w.shape[1]), device='cpu')
+            phi = get_val("phi") if get_val("phi") is not None else torch.zeros((1, w.shape[1]), device='cpu')
 
-            harmonic_mod = TriResonantLinear(w, b, scale, theta, phi, m1, m2, m3).to(DEVICE)
+            # Initialize on CPU
+            harmonic_mod = TriResonantLinear(w.to('cpu'), b, scale, theta, phi, m1, m2, m3)
+            
+            # CRYSTALLIZE HAPPENS ON CPU (Internal .to('cpu') called)
             harmonic_mod.crystallize(w.dtype)
             harmonic_mod.purge_scaffolding()
             
+            # Final placement: Move to the original weight's required device
+            harmonic_mod.to(orig_mod.weight.device)
             setattr(parent, attr_name, harmonic_mod)
             
-            # Atomic Reclamation: Move crystallized module back to its offload location
-            harmonic_mod.to('cpu') 
-            del m1, m2, m3, b, scale, theta, phi, w, orig_mod
-            purge_gpu()
+            del m1, m2, m3, b, scale, theta, phi, w
+            purge_gpu() # Clear any transients that bled through
         except AttributeError: continue 
 
     if i % 8 == 0: print(f"  > Crystallized Layer {i}/{num_layers}...")
