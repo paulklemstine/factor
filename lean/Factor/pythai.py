@@ -75,6 +75,7 @@ def fast_snap_initialization(target_w):
 class TriResonantLinear(torch.nn.Module):
     def __init__(self, weight, bias, scale, theta, phi, m1, m2, m3):
         super().__init__()
+        # Standardizing weight to (in_features, out_features) for consistent x @ W
         self.in_features, self.out_features = weight.shape
         self.latent_M1 = torch.nn.Parameter(m1.float())
         self.latent_M2 = torch.nn.Parameter(m2.float())
@@ -90,16 +91,20 @@ class TriResonantLinear(torch.nn.Module):
         with torch.no_grad():
             m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
             W1 = make_rational_matrix_torch(m1)
+            
             W2 = make_rational_matrix_torch(m2)
             W2_o = W2.sub_(W1.mul(torch.sum(W1 * W2, dim=0, keepdim=True)))
             del W2
             W2_o.div_(torch.sqrt(torch.sum(W2_o**2, dim=0, keepdim=True).add_(1e-5)))
+            
             W3 = make_rational_matrix_torch(m3)
             W3.sub_(W1.mul(torch.sum(W1 * W3, dim=0, keepdim=True)))
             W3.sub_(W2_o.mul(torch.sum(W2_o * W3, dim=0, keepdim=True)))
             W3_o = W3
             W3_o.div_(torch.sqrt(torch.sum(W3_o**2, dim=0, keepdim=True).add_(1e-5)))
+            
             W_total = (torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o)
+            
             self.register_buffer('W_fused', (W_total * self.scale).to(device=original_device, dtype=target_dtype))
             self.register_buffer('B_fused', self.latent_B.to(device=original_device, dtype=target_dtype))
             del W1, W2_o, W3_o, W_total
@@ -159,9 +164,15 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
                 # Materialization Check
                 if orig_mod.weight.device.type == 'meta':
                     from accelerate import load_checkpoint_in_model
-                    load_checkpoint_in_model(orig_mod, CACHE_DIR)
+                    # Check offload dir first for 32B models
+                    load_path = OFFLOAD_DIR if offload else CACHE_DIR
+                    load_checkpoint_in_model(orig_mod, load_path)
                 
-                w = orig_mod.weight.detach().T
+                # WAVE 85 Fix: Dynamic Transpose
+                # Conv1D (GPT-2) is already (in, out). Standard Linear is (out, in).
+                is_conv1d = orig_mod.__class__.__name__ == "Conv1D"
+                w = orig_mod.weight.detach() if is_conv1d else orig_mod.weight.detach().T
+                
                 m1 = fast_snap_initialization(w)
                 m2 = torch.randn(w.shape, device='cpu') * 0.01
                 m3 = torch.randn(w.shape, device='cpu') * 0.01
@@ -208,7 +219,14 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         if user_query.lower() in ['exit', 'quit']: break
         
         conversation_history.append({"role": "user", "content": user_query})
-        prompt_text = tokenizer.apply_chat_template(conversation_history, add_generation_prompt=True, tokenize=False)
+        
+        # Robust prompt formatting
+        try:
+            prompt_text = tokenizer.apply_chat_template(conversation_history, add_generation_prompt=True, tokenize=False)
+        except Exception:
+            # Fallback for models without chat templates
+            prompt_text = "\n".join([f"{m['role']}: {m['content']}" for m in conversation_history]) + "\nassistant:"
+
         forced_thought = "<think>\n[SYSTEM: Optimizing for performance. Reasoning deeply.]\n"
         prompt_text += forced_thought
         
