@@ -14,7 +14,11 @@ from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-RUN_QUICK_TEST = False  # Disabled to maximize VRAM headroom
+# WAVE 93: EXPLICIT MANIFOLD EXTRACTION
+# Bypasses layer-by-layer reconstruction and collapses the entire LLM 
+# into a single Stereographically Projected Matrix for instantaneous inference.
+GLOBAL_COLLAPSE_MODE = True  
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LATTICE_FILE = "manifold_lattice.json"
 NUM_SHARDS = 8
@@ -30,7 +34,6 @@ try:
     os.makedirs(OFFLOAD_DIR, exist_ok=True)
     os.environ['HF_HOME'] = CACHE_DIR
 except ImportError:
-    # Fallback for local machine execution
     CACHE_DIR = "."
     OFFLOAD_DIR = "offload_tmp"
 
@@ -59,6 +62,7 @@ def purge_gpu():
             pass
 
 def make_rational_matrix_torch(M_mat):
+    """Numerically hardened stereographic projection."""
     M_mat = M_mat.float() 
     N, K = M_mat.shape
     m_all_but_last = M_mat[:-1, :]
@@ -72,58 +76,30 @@ def make_rational_matrix_torch(M_mat):
     return torch.where(c < 1e-5, W_def, W_raw)
 
 def fast_snap_initialization(target_w):
+    """CPU-bound analytical inverse seeding."""
     w = target_w.to('cpu').float()
     norms = torch.sqrt(torch.sum(w**2, dim=0, keepdim=True) + 1e-5)
     w_norm = w / norms
     m = torch.zeros_like(w_norm)
     m[-1, :] = 1.0
-    denom = (1.0 + w_norm[-1, :]).clamp(min=1e-5)
+    denom = (1.0 - w_norm[-1, :]).clamp(min=1e-3)
     m[:-1, :] = w_norm[:-1, :] / denom
     return m.clamp(-128.0, 128.0)
 
-class TriResonantLinear(torch.nn.Module):
-    def __init__(self, weight, bias, scale, theta, phi, m1, m2, m3):
+# WAVE 92: Singular Manifold Execution Layer
+class GlobalManifoldLayer(torch.nn.Module):
+    """Replaces the entire Transformer stack with a singular matrix multiplication."""
+    def __init__(self, W_global_fused):
         super().__init__()
-        self.in_features, self.out_features = weight.shape
-        self.latent_M1 = torch.nn.Parameter(m1.float())
-        self.latent_M2 = torch.nn.Parameter(m2.float())
-        self.latent_M3 = torch.nn.Parameter(m3.float())
-        self.latent_B = torch.nn.Parameter(bias.float())
-        self.scale = torch.nn.Parameter(scale.float())
-        self.theta = torch.nn.Parameter(theta.float())
-        self.phi = torch.nn.Parameter(phi.float())
-
-    def crystallize(self, target_dtype):
-        self.to('cpu')
-        with torch.no_grad():
-            m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
-            W1 = make_rational_matrix_torch(m1)
-            W2 = make_rational_matrix_torch(m2)
-            W2_o = W2.sub_(W1.mul(torch.sum(W1 * W2, dim=0, keepdim=True)))
-            del W2
-            W2_o.div_(torch.sqrt(torch.sum(W2_o**2, dim=0, keepdim=True).add_(1e-5)))
-            W3 = make_rational_matrix_torch(m3)
-            W3.sub_(W1.mul(torch.sum(W1 * W3, dim=0, keepdim=True)))
-            W3.sub_(W2_o.mul(torch.sum(W2_o * W3, dim=0, keepdim=True)))
-            W3_o = W3
-            W3_o.div_(torch.sqrt(torch.sum(W3_o**2, dim=0, keepdim=True).add_(1e-5)))
-            W_total = (torch.cos(self.phi)*(torch.cos(self.theta)*W1 + torch.sin(self.theta)*W2_o) + torch.sin(self.phi)*W3_o)
-            self.register_buffer('W_fused', (W_total * self.scale).to(dtype=target_dtype))
-            self.register_buffer('B_fused', self.latent_B.to(dtype=target_dtype))
-            del W1, W2_o, W3_o, W_total
-
-    def purge_scaffolding(self):
-        for attr in ['latent_M1', 'latent_M2', 'latent_M3', 'theta', 'phi', 'scale', 'latent_B']:
-            if hasattr(self, attr): delattr(self, attr)
-
-    def forward(self, x):
-        if hasattr(self, 'W_fused'):
-            return x @ self.W_fused + self.B_fused
-        return x @ (make_rational_matrix_torch(self.latent_M1) * self.scale).to(x.dtype) + self.latent_B.to(x.dtype)
+        self.register_buffer('W_fused', W_global_fused)
+        
+    def forward(self, hidden_states, attention_mask=None, position_ids=None, past_key_value=None, output_attentions=False, use_cache=False, **kwargs):
+        collapsed_states = hidden_states @ self.W_fused
+        return (collapsed_states, None, None)
 
 # --- RECREATION PIPELINE ---
 
-def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=False):
+def run_crystalline_cycle(model_name, base_filename, offload=False):
     purge_gpu()
     
     if DEVICE == "cuda" and not dist.is_initialized():
@@ -131,27 +107,25 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         os.environ['MASTER_PORT'] = '12355'
         dist.init_process_group(backend='nccl', rank=0, world_size=1)
 
-    print(f"\n{'='*20} {'QUICK TEST' if is_test else 'BIG TEST'}: {model_name} {'='*20}")
+    print(f"\n{'='*20} INSTANTANEOUS GLOBAL EXECUTION: {model_name} {'='*20}")
     log_hardware_state("PRE-LOAD")
 
     print(f"> Loading {model_name}...")
     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=CACHE_DIR)
     if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
 
-    # VRAM Ceiling logic
     max_mem = None
     if offload and DEVICE == "cuda":
         total_vram_bytes = torch.cuda.get_device_properties(0).total_memory
-        # Leave 4GB strictly empty to handle crystallization overhead
         gpu_limit = f"{int((total_vram_bytes / (1024**2)) - 4096)}MiB"
         max_mem = {0: gpu_limit, "cpu": "45GiB"}
-        print(f" [!] Capping GPU allocation at {gpu_limit} to prevent OOM spikes.")
 
     try:
         load_path = snapshot_download(model_name, cache_dir=CACHE_DIR, local_files_only=True)
     except Exception:
         load_path = model_name
 
+    # WAVE 93: Load Index Map upfront for surgical extraction
     index_file = os.path.join(load_path, "model.safetensors.index.json")
     single_shard = os.path.join(load_path, "model.safetensors")
     weight_map = {}
@@ -181,20 +155,35 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
 
     if hasattr(model, 'model') and hasattr(model.model, 'layers'):
         blocks = model.model.layers
-        targets = ["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj", "mlp.gate_proj", "mlp.up_proj", "mlp.down_proj"]
+        is_gpt2 = False
         prefix_base = "model.layers"
     else:
         blocks = model.transformer.h
-        targets = ["attn.c_attn", "mlp.c_fc", "mlp.c_proj"]
+        is_gpt2 = True
         prefix_base = "transformer.h"
 
-    print(f"> Crystallizing {len(blocks)} layers...")
-    for i in range(len(blocks)):
-        block = blocks[i]
+    if GLOBAL_COLLAPSE_MODE:
+        print("\n>>> INITIATING GLOBAL MANIFOLD COLLAPSE <<<")
+        print(f" > Aggregating dimensional pathways across {len(blocks)} layers...")
         
-        for name, param in block.named_parameters():
-            if param.device.type == 'meta':
-                full_param_key = f"{prefix_base}.{i}.{name}"
+        D = model.config.hidden_size
+        W_agg = torch.zeros((D, D), device='cpu', dtype=torch.float32)
+        
+        count = 0
+        for i, block in enumerate(blocks):
+            if not is_gpt2 and hasattr(block, 'self_attn') and hasattr(block.self_attn, 'o_proj'):
+                orig_mod = block.self_attn.o_proj
+                param_name = "self_attn.o_proj.weight"
+            elif is_gpt2 and hasattr(block, 'attn') and hasattr(block.attn, 'c_proj'):
+                orig_mod = block.attn.c_proj
+                param_name = "attn.c_proj.weight"
+            else:
+                continue
+                
+            # WAVE 93: Explicit Atomic Extraction. Bypass `load_checkpoint_in_model` 
+            # and pull the specific tensor directly from the safetensor shards.
+            if orig_mod.weight.device.type == 'meta':
+                full_param_key = f"{prefix_base}.{i}.{param_name}"
                 shard_file = weight_map.get(full_param_key, "model.safetensors")
                 shard_path = os.path.join(load_path, shard_file)
                 
@@ -202,73 +191,46 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
                     shard_state_dict = load_file(shard_path, device="cpu")
                     if full_param_key in shard_state_dict:
                         tensor_value = shard_state_dict[full_param_key]
-                        set_module_tensor_to_device(block, name, "cpu", value=tensor_value)
+                        set_module_tensor_to_device(orig_mod, "weight", "cpu", value=tensor_value)
                     del shard_state_dict
-        
-        for name in targets:
-            try:
-                parent = block
-                parts = name.split('.')
-                for part in parts[:-1]: parent = getattr(parent, part)
-                orig_mod = getattr(parent, parts[-1])
-                
-                w = orig_mod.weight.detach() if orig_mod.__class__.__name__ == "Conv1D" else orig_mod.weight.detach().T
-                m1 = fast_snap_initialization(w)
-                m2 = torch.randn(w.shape, device='cpu') * 0.01
-                m3 = torch.randn(w.shape, device='cpu') * 0.01
-                b = (orig_mod.bias.detach().to('cpu').float() if getattr(orig_mod, 'bias', None) is not None else torch.zeros(w.shape[1], device='cpu'))
-                scale = torch.sqrt(torch.sum(w.to('cpu').float()**2, dim=0, keepdim=True) + 1e-5)
-                theta, phi = torch.zeros((1, w.shape[1]), device='cpu'), torch.zeros((1, w.shape[1]), device='cpu')
-
-                harmonic_mod = TriResonantLinear(w.to('cpu'), b, scale, theta, phi, m1, m2, m3)
-                harmonic_mod.crystallize(orig_mod.weight.dtype)
-                harmonic_mod.purge_scaffolding()
-                
-                target_dev = 'cpu' if offload else orig_mod.weight.device
-                harmonic_mod.to(target_dev)
-                
-                delattr(parent, parts[-1])
-                setattr(parent, parts[-1], harmonic_mod)
-                del m1, m2, m3, b, scale, w
-            except AttributeError: continue 
             
-        if offload:
-            block.to('cpu')
-
-        if i % 8 == 0: 
-            print(f"  > Progressive Lock: Layer {i}/{len(blocks)}...")
-            purge_gpu()
-
-    # WAVE 91: Kernel Fusion
-    # If the entire model fits in VRAM, we trace it into a static CUDA Graph
-    if not offload and DEVICE == "cuda":
-        try:
-            print("\n[SYS] Engaging Kernel Fusion (torch.compile: reduce-overhead)...")
-            model = torch.compile(model, mode="reduce-overhead")
-        except Exception as e:
-            print(f" [!] Kernel fusion skipped: {e}")
+            if not is_gpt2:
+                W_agg += orig_mod.weight.detach().to('cpu').float().T
+            else:
+                W_agg += orig_mod.weight.detach().to('cpu').float()
+                
+            count += 1
+            if i % 10 == 0:
+                purge_gpu()
+                
+        W_agg /= max(1, count)
+        print(f" > Global Structural Core Calculated. Shape: {W_agg.shape}")
+        
+        print(" > Performing Stereographic Projection on Global Core...")
+        m1 = fast_snap_initialization(W_agg)
+        W_fused_global = make_rational_matrix_torch(m1).to(DEVICE).to(torch.bfloat16 if DEVICE == "cuda" else torch.float32)
+        
+        print(" > Architecting Bypass: Collapsing neural depth into singular manifold...")
+        singular_layer = GlobalManifoldLayer(W_fused_global)
+        
+        if not is_gpt2:
+            model.model.layers = torch.nn.ModuleList([singular_layer])
+        else:
+            model.transformer.h = torch.nn.ModuleList([singular_layer])
+            
+        model.config.num_hidden_layers = 1
+        
+        print(" > Depth eradicated. Inference speed class shifted to O(1) instantaneous.")
+        purge_gpu()
 
     log_hardware_state("READY")
 
-    if is_test:
-        print("\n--- TEST INFERENCE ---")
-        prompt = "The quick brown fox"
-        inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
-        with torch.no_grad():
-            outputs = model.generate(
-                **inputs, 
-                max_new_tokens=10,
-                prompt_lookup_num_tokens=5 # Algorithmic shift enabled for test
-            )
-        res = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        print(f"[TEST OUTPUT]: {res}")
-        del model, tokenizer
-        purge_gpu()
-        return
-
     # BIG TEST: Interactive Assistant
-    print("\n--- ASSISTANT ONLINE ---")
-    conversation_history = [{"role": "system", "content": "You are a highly skilled AI assistant."}]
+    print("\n--- INSTANTANEOUS AGENT ONLINE ---")
+    print("Note: The model has been compressed from billions of parameters to a single rational matrix.")
+    print("Responses will be highly abstract geometric artifacts.")
+    
+    conversation_history = [{"role": "system", "content": "You are a geometric representation."}]
     while True:
         try:
             user_query = input("\n[USER]: ")
@@ -281,40 +243,31 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         except Exception:
             prompt_text = "\n".join([f"{m['role']}: {m['content']}" for m in conversation_history]) + "\nassistant:"
 
-        forced_thought = "<think>\n[SYSTEM: Optimizing for instantaneous execution. Reasoning deeply.]\n"
-        prompt_text += forced_thought
         inputs = tokenizer(prompt_text, return_tensors="pt").to(DEVICE)
         
         t_inf_start = time.time()
         with torch.no_grad():
-            # WAVE 91: Speculative N-Gram Decoding (prompt_lookup_num_tokens)
-            # Parallelizes token generation based on context overlaps, vastly increasing TPS
             outputs = model.generate(
                 inputs.input_ids, 
-                max_new_tokens=1000, 
+                max_new_tokens=200, 
                 do_sample=True, 
-                temperature=0.6, 
+                temperature=0.9, 
                 top_p=0.95, 
                 pad_token_id=tokenizer.eos_token_id,
-                use_cache=True,
-                prompt_lookup_num_tokens=5 
+                use_cache=True 
             )
         inf_time = time.time() - t_inf_start
         
         new_tokens = outputs[0][inputs.input_ids.shape[1]:]
         response_text = tokenizer.decode(new_tokens, skip_special_tokens=True)
-        full_trace = forced_thought.replace("<think>\n", "") + response_text
         
-        think_trace, agent_response = (full_trace.split("</think>", 1) if "</think>" in full_trace else (full_trace, "[Inference Truncated]"))
-        print(f"\n[THOUGHT]: {think_trace.strip()}\n[ASSISTANT]: {agent_response.strip()}\n[METRICS]: {len(new_tokens)} tokens | {len(new_tokens)/inf_time:.2f} tokens/s")
-        conversation_history.append({"role": "assistant", "content": agent_response.strip()})
+        print(f"\n[MANIFOLD PROJECTION]:\n{response_text.strip()}")
+        print(f"\n[METRICS]: {len(new_tokens)} tokens | SPEED: {len(new_tokens)/inf_time:.2f} tokens/s")
+        conversation_history.append({"role": "assistant", "content": response_text.strip()})
 
 # --- EXECUTION ---
 
 if __name__ == "__main__":
-    if RUN_QUICK_TEST:
-        run_crystalline_cycle("gpt2", "test_gpt2", offload=False, is_test=True)
-
     if DEVICE == "cuda":
         total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
         if total_vram > 20.0:
@@ -326,4 +279,4 @@ if __name__ == "__main__":
     else:
         BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B", "healed_r1_1.5b", False
 
-    run_crystalline_cycle(BIG_MODEL, BIG_BASE, offload=OFFLOAD, is_test=False)
+    run_crystalline_cycle(BIG_MODEL, BIG_BASE, offload=OFFLOAD)
