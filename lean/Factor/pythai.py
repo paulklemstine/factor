@@ -14,9 +14,10 @@ from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-# WAVE 97: NON-LINEAR RECONSTITUTION WITH SPECULATIVE FUSION
+# WAVE 97.1: NON-LINEAR RECONSTITUTION (FIXED COMPILATION HANG)
 # Restores the layer-by-layer attention and MLP mechanisms for coherent logic,
-# while maintaining n-gram speculative decoding and kernel fusion for max speed.
+# utilizing n-gram speculative decoding and SDPA for maximum speed without 
+# the dynamic shape recompilation hang caused by torch.compile.
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LATTICE_FILE = "manifold_lattice.json"
@@ -247,13 +248,12 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
             print(f"  > Progressive Lock: Layer {i}/{len(blocks)}...")
             purge_gpu()
 
-    # WAVE 97: Kernel Fusion (Requires sufficient VRAM or non-offloaded states)
-    if not offload and DEVICE == "cuda":
-        try:
-            print("\n[SYS] Engaging Kernel Fusion (torch.compile: reduce-overhead)...")
-            model = torch.compile(model, mode="reduce-overhead")
-        except Exception as e:
-            print(f" [!] Kernel fusion skipped: {e}")
+    # WAVE 97.1: Kernel Fusion safely bypassed for standard layered architecture.
+    # torch.compile(mode="reduce-overhead") requires completely static memory graphs. 
+    # With a dynamic, expanding KV-cache across 28+ layers, it forces infinite kernel recompilations,
+    # causing the inference loop to "hang". We bypass it here to ensure immediate generation.
+    print("\n[SYS] Bypassing Kernel Fusion to prevent dynamic KV-cache recompilation hang...")
+    print("[SYS] Utilizing SDPA and Speculative N-Gram Decoding for primary speed optimizations.")
 
     log_hardware_state("READY")
 
