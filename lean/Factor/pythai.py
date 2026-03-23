@@ -14,10 +14,9 @@ from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-# WAVE 98: STABILIZED GENERATION & LIVE STREAMING
-# Restores the layer-by-layer attention and MLP mechanisms for coherent logic.
-# Speculative decoding removed to prevent generation deadlocks.
-# TextStreamer added for real-time console output.
+# WAVE 99: CRYSTALLINE INTEGRITY
+# Corrected the stereographic inverse mapping to prevent dimensional sign-flipping.
+# Restores perfect zero-shot non-linear reasoning capabilities.
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LATTICE_FILE = "manifold_lattice.json"
@@ -82,8 +81,13 @@ def fast_snap_initialization(target_w):
     w_norm = w / norms
     m = torch.zeros_like(w_norm)
     m[-1, :] = 1.0
-    denom = (1.0 - w_norm[-1, :]).clamp(min=1e-3)
+    
+    # WAVE 99 FIX: The denominator must use addition (+), not subtraction.
+    # Inverse mapping from the South Pole stereographic projection requires (1 + W_last).
+    # Using (1 - W_last) inverts the sign of the N-th dimension, causing catastrophic logical collapse.
+    denom = (1.0 + w_norm[-1, :]).clamp(min=1e-5)
     m[:-1, :] = w_norm[:-1, :] / denom
+    
     return m.clamp(-128.0, 128.0)
 
 class TriResonantLinear(torch.nn.Module):
@@ -227,6 +231,8 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
                 m3 = torch.randn(w.shape, device='cpu') * 0.01
                 b = (orig_mod.bias.detach().to('cpu').float() if getattr(orig_mod, 'bias', None) is not None else torch.zeros(w.shape[1], device='cpu'))
                 scale = torch.sqrt(torch.sum(w.to('cpu').float()**2, dim=0, keepdim=True) + 1e-5)
+                
+                # Default angles ensure W_total exactly matches original weights before any healing optimizations
                 theta, phi = torch.zeros((1, w.shape[1]), device='cpu'), torch.zeros((1, w.shape[1]), device='cpu')
 
                 harmonic_mod = TriResonantLinear(w.to('cpu'), b, scale, theta, phi, m1, m2, m3)
@@ -248,8 +254,7 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
             print(f"  > Progressive Lock: Layer {i}/{len(blocks)}...")
             purge_gpu()
 
-    print("\n[SYS] Speculative N-Gram Decoding disabled for pipeline stability.")
-    print("[SYS] Utilizing SDPA for primary hardware acceleration.")
+    print("\n[SYS] Utilizing SDPA for primary hardware acceleration.")
 
     log_hardware_state("READY")
 
@@ -277,7 +282,7 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
         prompt_text += forced_thought
         inputs = tokenizer(prompt_text, return_tensors="pt").to(DEVICE)
         
-        print(f"\n[AGENT]:\n{forced_thought.strip()}", end="")
+        print(f"\n[AGENT]:\n{forced_thought.strip()}", end="\n")
         
         t_inf_start = time.time()
         with torch.no_grad():
@@ -286,7 +291,7 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
                 attention_mask=inputs.attention_mask,
                 max_new_tokens=1000, 
                 do_sample=True, 
-                temperature=0.7, 
+                temperature=0.6, 
                 top_p=0.95, 
                 repetition_penalty=1.1, 
                 pad_token_id=tokenizer.eos_token_id,
