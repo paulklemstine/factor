@@ -8,16 +8,16 @@ import time
 import sys
 import psutil
 import json
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer
 from accelerate.utils import set_module_tensor_to_device
 from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-# WAVE 97.1: NON-LINEAR RECONSTITUTION (FIXED COMPILATION HANG)
-# Restores the layer-by-layer attention and MLP mechanisms for coherent logic,
-# utilizing n-gram speculative decoding and SDPA for maximum speed without 
-# the dynamic shape recompilation hang caused by torch.compile.
+# WAVE 98: STABILIZED GENERATION & LIVE STREAMING
+# Restores the layer-by-layer attention and MLP mechanisms for coherent logic.
+# Speculative decoding removed to prevent generation deadlocks.
+# TextStreamer added for real-time console output.
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LATTICE_FILE = "manifold_lattice.json"
@@ -124,8 +124,8 @@ class TriResonantLinear(torch.nn.Module):
 
     def forward(self, x):
         if hasattr(self, 'W_fused'):
-            return x @ self.W_fused + self.B_fused
-        return x @ (make_rational_matrix_torch(self.latent_M1) * self.scale).to(x.dtype) + self.latent_B.to(x.dtype)
+            return torch.matmul(x, self.W_fused) + self.B_fused
+        return torch.matmul(x, (make_rational_matrix_torch(self.latent_M1) * self.scale).to(x.dtype)) + self.latent_B.to(x.dtype)
 
 # --- RECREATION PIPELINE ---
 
@@ -248,14 +248,13 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
             print(f"  > Progressive Lock: Layer {i}/{len(blocks)}...")
             purge_gpu()
 
-    # WAVE 97.1: Kernel Fusion safely bypassed for standard layered architecture.
-    # torch.compile(mode="reduce-overhead") requires completely static memory graphs. 
-    # With a dynamic, expanding KV-cache across 28+ layers, it forces infinite kernel recompilations,
-    # causing the inference loop to "hang". We bypass it here to ensure immediate generation.
-    print("\n[SYS] Bypassing Kernel Fusion to prevent dynamic KV-cache recompilation hang...")
-    print("[SYS] Utilizing SDPA and Speculative N-Gram Decoding for primary speed optimizations.")
+    print("\n[SYS] Speculative N-Gram Decoding disabled for pipeline stability.")
+    print("[SYS] Utilizing SDPA for primary hardware acceleration.")
 
     log_hardware_state("READY")
+
+    # Live Streamer for immediate output visualization
+    streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
 
     # BIG TEST: Interactive Assistant
     print("\n--- NON-LINEAR AGENT ONLINE ---")
@@ -278,9 +277,10 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
         prompt_text += forced_thought
         inputs = tokenizer(prompt_text, return_tensors="pt").to(DEVICE)
         
+        print(f"\n[AGENT]:\n{forced_thought.strip()}", end="")
+        
         t_inf_start = time.time()
         with torch.no_grad():
-            # Speed optimizations: Speculative decoding active, cache enabled, nominal repetition penalty
             outputs = model.generate(
                 inputs.input_ids, 
                 attention_mask=inputs.attention_mask,
@@ -291,17 +291,15 @@ def run_crystalline_cycle(model_name, base_filename, offload=False):
                 repetition_penalty=1.1, 
                 pad_token_id=tokenizer.eos_token_id,
                 use_cache=True,
-                prompt_lookup_num_tokens=5 
+                streamer=streamer # Streams tokens to console in real-time
             )
         inf_time = time.time() - t_inf_start
         
         new_tokens = outputs[0][inputs.input_ids.shape[1]:]
         response_text = tokenizer.decode(new_tokens, skip_special_tokens=True)
-        full_trace = forced_thought.replace("<think>\n", "") + response_text
         
-        think_trace, agent_response = (full_trace.split("</think>", 1) if "</think>" in full_trace else (full_trace, "[Inference Truncated]"))
-        print(f"\n[THOUGHT]: {think_trace.strip()}\n[ASSISTANT]: {agent_response.strip()}\n[METRICS]: {len(new_tokens)} tokens | SPEED: {len(new_tokens)/inf_time:.2f} tokens/s")
-        conversation_history.append({"role": "assistant", "content": agent_response.strip()})
+        print(f"\n\n[METRICS]: {len(new_tokens)} tokens | SPEED: {len(new_tokens)/inf_time:.2f} tokens/s")
+        conversation_history.append({"role": "assistant", "content": response_text.strip()})
 
 # --- EXECUTION ---
 
