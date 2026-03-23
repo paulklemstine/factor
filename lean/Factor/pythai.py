@@ -72,7 +72,6 @@ def make_rational_matrix_torch(M_mat):
     return torch.where(c < 1e-5, W_def, W_raw)
 
 def fast_snap_initialization(target_w):
-    # WAVE 89: Ensure we are operating on a real tensor, not meta
     w = target_w.to('cpu').float()
     norms = torch.sqrt(torch.sum(w**2, dim=0, keepdim=True) + 1e-5)
     w_norm = w / norms
@@ -153,7 +152,6 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     except Exception:
         load_path = model_name
 
-    # WAVE 90: Architecture-Agnostic Index Resolution
     index_file = os.path.join(load_path, "model.safetensors.index.json")
     single_shard = os.path.join(load_path, "model.safetensors")
     weight_map = {}
@@ -194,16 +192,13 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     for i in range(len(blocks)):
         block = blocks[i]
         
-        # WAVE 90: Surgical Materialization with Single-File Fallback
         for name, param in block.named_parameters():
             if param.device.type == 'meta':
                 full_param_key = f"{prefix_base}.{i}.{name}"
-                # Find which file contains the weights
                 shard_file = weight_map.get(full_param_key, "model.safetensors")
                 shard_path = os.path.join(load_path, shard_file)
                 
                 if os.path.exists(shard_path):
-                    # Load ONLY the specific tensor from the shard
                     shard_state_dict = load_file(shard_path, device="cpu")
                     if full_param_key in shard_state_dict:
                         tensor_value = shard_state_dict[full_param_key]
@@ -229,7 +224,6 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
                 harmonic_mod.crystallize(orig_mod.weight.dtype)
                 harmonic_mod.purge_scaffolding()
                 
-                # Keep crystallized weights on CPU to save VRAM for 32B model
                 target_dev = 'cpu' if offload else orig_mod.weight.device
                 harmonic_mod.to(target_dev)
                 
@@ -245,6 +239,15 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
             print(f"  > Progressive Lock: Layer {i}/{len(blocks)}...")
             purge_gpu()
 
+    # WAVE 91: Kernel Fusion
+    # If the entire model fits in VRAM, we trace it into a static CUDA Graph
+    if not offload and DEVICE == "cuda":
+        try:
+            print("\n[SYS] Engaging Kernel Fusion (torch.compile: reduce-overhead)...")
+            model = torch.compile(model, mode="reduce-overhead")
+        except Exception as e:
+            print(f" [!] Kernel fusion skipped: {e}")
+
     log_hardware_state("READY")
 
     if is_test:
@@ -252,7 +255,11 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         prompt = "The quick brown fox"
         inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
         with torch.no_grad():
-            outputs = model.generate(**inputs, max_new_tokens=10)
+            outputs = model.generate(
+                **inputs, 
+                max_new_tokens=10,
+                prompt_lookup_num_tokens=5 # Algorithmic shift enabled for test
+            )
         res = tokenizer.decode(outputs[0], skip_special_tokens=True)
         print(f"[TEST OUTPUT]: {res}")
         del model, tokenizer
@@ -274,12 +281,24 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         except Exception:
             prompt_text = "\n".join([f"{m['role']}: {m['content']}" for m in conversation_history]) + "\nassistant:"
 
-        forced_thought = "<think>\n[SYSTEM: Optimizing for performance. Reasoning deeply.]\n"
+        forced_thought = "<think>\n[SYSTEM: Optimizing for instantaneous execution. Reasoning deeply.]\n"
         prompt_text += forced_thought
         inputs = tokenizer(prompt_text, return_tensors="pt").to(DEVICE)
+        
         t_inf_start = time.time()
         with torch.no_grad():
-            outputs = model.generate(inputs.input_ids, max_new_tokens=1000, do_sample=True, temperature=0.6, top_p=0.95, pad_token_id=tokenizer.eos_token_id)
+            # WAVE 91: Speculative N-Gram Decoding (prompt_lookup_num_tokens)
+            # Parallelizes token generation based on context overlaps, vastly increasing TPS
+            outputs = model.generate(
+                inputs.input_ids, 
+                max_new_tokens=1000, 
+                do_sample=True, 
+                temperature=0.6, 
+                top_p=0.95, 
+                pad_token_id=tokenizer.eos_token_id,
+                use_cache=True,
+                prompt_lookup_num_tokens=5 
+            )
         inf_time = time.time() - t_inf_start
         
         new_tokens = outputs[0][inputs.input_ids.shape[1]:]
