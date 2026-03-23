@@ -11,9 +11,10 @@ import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from accelerate.utils import set_module_tensor_to_device
 from huggingface_hub import snapshot_download
+from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-RUN_QUICK_TEST = False  # Disabled to prevent VRAM overlap
+RUN_QUICK_TEST = False  # Disabled to maximize VRAM headroom for 32B
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LATTICE_FILE = "manifold_lattice.json"
 NUM_SHARDS = 8
@@ -70,6 +71,7 @@ def make_rational_matrix_torch(M_mat):
     return torch.where(c < 1e-5, W_def, W_raw)
 
 def fast_snap_initialization(target_w):
+    # WAVE 89: Ensure we are operating on a real tensor, not meta
     w = target_w.to('cpu').float()
     norms = torch.sqrt(torch.sum(w**2, dim=0, keepdim=True) + 1e-5)
     w_norm = w / norms
@@ -92,7 +94,6 @@ class TriResonantLinear(torch.nn.Module):
         self.phi = torch.nn.Parameter(phi.float())
 
     def crystallize(self, target_dtype):
-        # Math strictly on CPU to avoid GPU spikes
         self.to('cpu')
         with torch.no_grad():
             m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
@@ -125,7 +126,6 @@ class TriResonantLinear(torch.nn.Module):
 def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=False):
     purge_gpu()
     
-    # WAVE 88: Initialize Process Group for materialization utilities
     if DEVICE == "cuda" and not dist.is_initialized():
         os.environ['MASTER_ADDR'] = 'localhost'
         os.environ['MASTER_PORT'] = '12355'
@@ -151,6 +151,11 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     except Exception:
         load_path = model_name
 
+    # WAVE 89: Load Safetensors Index for surgical materialization
+    index_file = os.path.join(load_path, "model.safetensors.index.json")
+    with open(index_file, "r") as f:
+        weight_map = json.load(f)["weight_map"]
+
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 
         torch_dtype=torch.bfloat16 if DEVICE == "cuda" else torch.float32, 
@@ -169,21 +174,31 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     if hasattr(model, 'model') and hasattr(model.model, 'layers'):
         blocks = model.model.layers
         targets = ["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj", "mlp.gate_proj", "mlp.up_proj", "mlp.down_proj"]
+        prefix_base = "model.layers"
     else:
         blocks = model.transformer.h
         targets = ["attn.c_attn", "mlp.c_fc", "mlp.c_proj"]
+        prefix_base = "transformer.h"
 
     print(f"> Crystallizing {len(blocks)} layers...")
     for i in range(len(blocks)):
         block = blocks[i]
         
-        # WAVE 88: Block-Level Materialization
-        # Materialize the whole layer once from disk to satisfy hierarchical keys
-        if any(p.device.type == 'meta' for p in block.parameters()):
-            from accelerate import load_checkpoint_in_model
-            # Reconstitute the full block into CPU memory
-            load_checkpoint_in_model(block, load_path)
-            
+        # WAVE 89: Surgical Materialization at Module level
+        # We manually load parameters from shards to resolve 'meta' tensor errors
+        for name, param in block.named_parameters():
+            if param.device.type == 'meta':
+                full_param_key = f"{prefix_base}.{i}.{name}"
+                shard_file = weight_map.get(full_param_key)
+                if shard_file:
+                    shard_path = os.path.join(load_path, shard_file)
+                    # Load ONLY the specific tensor from the shard
+                    shard_state_dict = load_file(shard_path, device="cpu")
+                    tensor_value = shard_state_dict[full_param_key]
+                    # Materialize onto CPU
+                    set_module_tensor_to_device(block, name, "cpu", value=tensor_value)
+                    del shard_state_dict, tensor_value
+        
         for name in targets:
             try:
                 parent = block
@@ -203,7 +218,7 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
                 harmonic_mod.crystallize(orig_mod.weight.dtype)
                 harmonic_mod.purge_scaffolding()
                 
-                # Keep crystallized weights on CPU during loop if offloading
+                # Keep crystallized weights on CPU to save VRAM for 32B model
                 target_dev = 'cpu' if offload else orig_mod.weight.device
                 harmonic_mod.to(target_dev)
                 
@@ -212,8 +227,6 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
                 del m1, m2, m3, b, scale, w
             except AttributeError: continue 
             
-        # WAVE 88: Block Cleanup
-        # If we materialized this block to CPU, move it back to its original device map preference
         if offload:
             block.to('cpu')
 
