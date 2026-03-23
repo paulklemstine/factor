@@ -9,6 +9,7 @@ import psutil
 import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from accelerate.utils import set_module_tensor_to_device
+from huggingface_hub import snapshot_download
 
 # --- CONFIGURATION ---
 RUN_QUICK_TEST = True  # Performs GPT-2 E2E test before the Big Test
@@ -46,8 +47,12 @@ def log_hardware_state(phase_name):
 def purge_gpu():
     gc.collect()
     if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-        torch.cuda.synchronize()
+        try:
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect()
+            torch.cuda.synchronize()
+        except Exception:
+            pass
 
 def make_rational_matrix_torch(M_mat):
     M_mat = M_mat.float() 
@@ -129,6 +134,12 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=CACHE_DIR)
     if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
 
+    # WAVE 86: Dynamically locate the snapshot folder to avoid index.json errors
+    try:
+        load_path = snapshot_download(model_name, cache_dir=CACHE_DIR, local_files_only=True)
+    except Exception:
+        load_path = model_name # Fallback to name if not yet cached
+
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 
         torch_dtype=torch.bfloat16 if DEVICE == "cuda" else torch.float32, 
@@ -161,15 +172,13 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
                 for part in parts[:-1]: parent = getattr(parent, part)
                 orig_mod = getattr(parent, parts[-1])
                 
-                # Materialization Check
+                # WAVE 86: Materialization fix - point specifically to resolved load_path
                 if orig_mod.weight.device.type == 'meta':
                     from accelerate import load_checkpoint_in_model
-                    # Check offload dir first for 32B models
-                    load_path = OFFLOAD_DIR if offload else CACHE_DIR
+                    # Always use the HF snapshot path for indexing, never the offload blob folder
                     load_checkpoint_in_model(orig_mod, load_path)
                 
-                # WAVE 85 Fix: Dynamic Transpose
-                # Conv1D (GPT-2) is already (in, out). Standard Linear is (out, in).
+                # Dynamic Transpose Standardization
                 is_conv1d = orig_mod.__class__.__name__ == "Conv1D"
                 w = orig_mod.weight.detach() if is_conv1d else orig_mod.weight.detach().T
                 
@@ -192,7 +201,6 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
 
     log_hardware_state("READY")
 
-    # TEST MODE: Single inference then exit
     if is_test:
         print("\n--- TEST INFERENCE ---")
         prompt = "The quick brown fox"
@@ -205,8 +213,10 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         print(f"[TEST OUTPUT]: {res}")
         print(f"[TEST SPEED]: {len(outputs[0])/(t_end-t_start):.2f} tokens/s")
         print("\nTest Complete. Purging Test Model...")
+        # WAVE 86: Aggressive model removal to free big-test overhead
         del model, tokenizer
         purge_gpu()
+        time.sleep(2)
         return
 
     # BIG TEST: Interactive Assistant
@@ -220,11 +230,9 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
         
         conversation_history.append({"role": "user", "content": user_query})
         
-        # Robust prompt formatting
         try:
             prompt_text = tokenizer.apply_chat_template(conversation_history, add_generation_prompt=True, tokenize=False)
         except Exception:
-            # Fallback for models without chat templates
             prompt_text = "\n".join([f"{m['role']}: {m['content']}" for m in conversation_history]) + "\nassistant:"
 
         forced_thought = "<think>\n[SYSTEM: Optimizing for performance. Reasoning deeply.]\n"
@@ -247,11 +255,9 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
 # --- EXECUTION ---
 
 if __name__ == "__main__":
-    # 1. Quick Test
     if RUN_QUICK_TEST:
         run_crystalline_cycle("gpt2", "test_gpt2", offload=False, is_test=True)
 
-    # 2. Big Test Hardware Sensing
     if DEVICE == "cuda":
         total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
         if total_vram > 20.0:
@@ -263,5 +269,4 @@ if __name__ == "__main__":
     else:
         BIG_MODEL, BIG_BASE, OFFLOAD = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B", "healed_r1_1.5b", False
 
-    # 3. Start Big Test
     run_crystalline_cycle(BIG_MODEL, BIG_BASE, offload=OFFLOAD, is_test=False)
