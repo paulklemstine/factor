@@ -14,7 +14,7 @@ from huggingface_hub import snapshot_download
 from safetensors.torch import load_file
 
 # --- CONFIGURATION ---
-RUN_QUICK_TEST = False  # Disabled to maximize VRAM headroom for 32B
+RUN_QUICK_TEST = False  # Disabled to maximize VRAM headroom
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 LATTICE_FILE = "manifold_lattice.json"
 NUM_SHARDS = 8
@@ -30,6 +30,7 @@ try:
     os.makedirs(OFFLOAD_DIR, exist_ok=True)
     os.environ['HF_HOME'] = CACHE_DIR
 except ImportError:
+    # Fallback for local machine execution
     CACHE_DIR = "."
     OFFLOAD_DIR = "offload_tmp"
 
@@ -142,6 +143,7 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     max_mem = None
     if offload and DEVICE == "cuda":
         total_vram_bytes = torch.cuda.get_device_properties(0).total_memory
+        # Leave 4GB strictly empty to handle crystallization overhead
         gpu_limit = f"{int((total_vram_bytes / (1024**2)) - 4096)}MiB"
         max_mem = {0: gpu_limit, "cpu": "45GiB"}
         print(f" [!] Capping GPU allocation at {gpu_limit} to prevent OOM spikes.")
@@ -151,10 +153,18 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     except Exception:
         load_path = model_name
 
-    # WAVE 89: Load Safetensors Index for surgical materialization
+    # WAVE 90: Architecture-Agnostic Index Resolution
     index_file = os.path.join(load_path, "model.safetensors.index.json")
-    with open(index_file, "r") as f:
-        weight_map = json.load(f)["weight_map"]
+    single_shard = os.path.join(load_path, "model.safetensors")
+    weight_map = {}
+    if os.path.exists(index_file):
+        with open(index_file, "r") as f:
+            weight_map = json.load(f).get("weight_map", {})
+        print(" [SYS] Sharded model architecture detected.")
+    elif os.path.exists(single_shard):
+        print(" [SYS] Single-file model architecture detected.")
+    else:
+        print(" [!] WARNING: No safetensors found in snapshot folder.")
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 
@@ -184,20 +194,21 @@ def run_crystalline_cycle(model_name, base_filename, offload=False, is_test=Fals
     for i in range(len(blocks)):
         block = blocks[i]
         
-        # WAVE 89: Surgical Materialization at Module level
-        # We manually load parameters from shards to resolve 'meta' tensor errors
+        # WAVE 90: Surgical Materialization with Single-File Fallback
         for name, param in block.named_parameters():
             if param.device.type == 'meta':
                 full_param_key = f"{prefix_base}.{i}.{name}"
-                shard_file = weight_map.get(full_param_key)
-                if shard_file:
-                    shard_path = os.path.join(load_path, shard_file)
+                # Find which file contains the weights
+                shard_file = weight_map.get(full_param_key, "model.safetensors")
+                shard_path = os.path.join(load_path, shard_file)
+                
+                if os.path.exists(shard_path):
                     # Load ONLY the specific tensor from the shard
                     shard_state_dict = load_file(shard_path, device="cpu")
-                    tensor_value = shard_state_dict[full_param_key]
-                    # Materialize onto CPU
-                    set_module_tensor_to_device(block, name, "cpu", value=tensor_value)
-                    del shard_state_dict, tensor_value
+                    if full_param_key in shard_state_dict:
+                        tensor_value = shard_state_dict[full_param_key]
+                        set_module_tensor_to_device(block, name, "cpu", value=tensor_value)
+                    del shard_state_dict
         
         for name in targets:
             try:
