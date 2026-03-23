@@ -9,19 +9,16 @@ import psutil
 import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-# --- HARDWARE AUTO-SENSING (WAVE 80: THE MATERIALIZATION PROTOCOL) ---
+# --- HARDWARE AUTO-SENSING (WAVE 83: ATOMIC PROJECTION ISOLATION) ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 if DEVICE == "cuda":
     total_vram = torch.cuda.get_device_properties(0).total_memory / (1024**3)
     print(f"[SYS] Hardware Sensed: {total_vram:.2f} GB VRAM detected.")
     
-    # Tiered scaling optimized for high-parameter offloading
     if total_vram > 20.0:
-        # WAVE 80: Pushing 32B onto 22GB cards. 
-        # Note: 32B in bf16 is ~64GB. Total SysRAM+VRAM is ~74GB.
-        # This is tight; disk offloading is required.
-        print("[+] MID-HIGH VRAM: Proceeding with 32B Reasoning Architecture (Materialization Enabled).")
+        # WAVE 83: Pushing 32B onto 22GB card with CPU-side math offloading
+        print("[+] MID-HIGH VRAM: Proceeding with 32B Reasoning Architecture (Atomic Isolation).")
         MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
         BASE_FILENAME = "healed_r1_32b"
         LAYERS_PER_BATCH = 1 
@@ -54,7 +51,7 @@ try:
     print("\n[SYS] Mounting Google Drive...")
     drive.mount('/content/drive')
     CACHE_DIR = "/content/drive/MyDrive/Model_Cache"
-    OFFLOAD_DIR = "/content/drive/MyDrive/Model_Offload" # For weights that won't fit in RAM
+    OFFLOAD_DIR = "/content/drive/MyDrive/Model_Offload"
     os.makedirs(CACHE_DIR, exist_ok=True)
     os.makedirs(OFFLOAD_DIR, exist_ok=True)
     os.environ['HF_HOME'] = CACHE_DIR
@@ -85,6 +82,7 @@ def purge_gpu():
         torch.cuda.synchronize()
 
 def make_rational_matrix_torch(M_mat):
+    # Mathematics remain strictly in FP32 for spatial integrity
     M_mat = M_mat.float() 
     N, K = M_mat.shape
     m_all_but_last = M_mat[:-1, :]
@@ -98,7 +96,8 @@ def make_rational_matrix_torch(M_mat):
     return torch.where(c < 1e-5, W_def, W_raw)
 
 def fast_snap_initialization(target_w):
-    w = target_w.float()
+    # WAVE 83: CPU-Side analytical math
+    w = target_w.to('cpu').float()
     norms = torch.sqrt(torch.sum(w**2, dim=0, keepdim=True) + 1e-5)
     w_norm = w / norms
     m = torch.zeros_like(w_norm)
@@ -120,7 +119,6 @@ class TriResonantLinear(torch.nn.Module):
         self.phi = torch.nn.Parameter(phi.float())
 
     def crystallize(self, target_dtype):
-        # Aggressive memory management for the projection math
         purge_gpu()
         with torch.no_grad():
             m1, m2, m3 = self.latent_M1, self.latent_M2, self.latent_M3
@@ -169,7 +167,9 @@ t0 = time.time()
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, cache_dir=CACHE_DIR)
 if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token
 
-# WAVE 80: Handling Meta Tensors and Disk Offloading
+# Load Model with explicit offloading
+from accelerate.utils import set_module_tensor_to_device
+
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME, 
     torch_dtype=torch.bfloat16, 
@@ -199,36 +199,7 @@ print(f"\n> Reconstructing Rational Matrices across {num_layers} layers...")
 for i in range(num_layers):
     block = blocks[i]
     
-    # WAVE 80: Materialization Step. 
-    # Check if parameters are on the meta device and materialize them to CPU/GPU.
-    for name, param in block.named_parameters():
-        if param.device.type == 'meta':
-            # This is a critical fix for 'Cannot copy out of meta tensor'
-            # We must load the actual data from the offload folder or state dict.
-            # However, for 32B models with device_map="auto", we can simply 
-            # use a context manager to move the block to the GPU if accelerate allows, 
-            # or force the block to CPU memory if it's currently on disk.
-            pass
-
-    # Record the original device (could be cpu or disk)
-    original_device = next(block.parameters()).device
-    
-    # Move block to DEVICE (CUDA) for mathematical projection
-    # If the block was on 'meta', .to(DEVICE) would fail. 
-    # But by now, accelerate should have mapped the disk/cpu data to the block.
-    try:
-        block.to(DEVICE)
-    except NotImplementedError:
-        # Fallback for hard-offloaded meta tensors: Materialize on CPU first
-        print(f" [!] Materializing Layer {i} from Disk/Meta...")
-        for name, param in block.named_parameters():
-            if param.device.type == 'meta':
-                # Re-initialize or load the specific param data here if needed
-                # In WAVE 80, we attempt to force the state_dict for the block.
-                pass
-        block.to(DEVICE)
-
-    shard_idx = (i // (num_layers // NUM_SHARDS)) + 1
+    shard_idx = (i // (max(1, num_layers // NUM_SHARDS))) + 1
     shard_path = os.path.join(CACHE_DIR, f"{BASE_FILENAME}_shard_{shard_idx}.npz")
     shard_data = np.load(shard_path) if os.path.exists(shard_path) else None 
 
@@ -240,33 +211,55 @@ for i in range(num_layers):
             attr_name = parts[-1]
             orig_mod = getattr(parent, attr_name)
             
+            # WAVE 83: Atomic Materialization - move ONLY the linear layer weight to GPU
+            # and immediately perform math to minimize the resident footprint.
+            orig_mod.to(DEVICE)
+            
             full_key_prefix = f"layer.{i}.{name}"
             is_linear = isinstance(orig_mod, torch.nn.Linear)
             w = orig_mod.weight.detach().T if is_linear else orig_mod.weight.detach()
             
+            if w.device.type == 'meta':
+                # Emergency materialization if device_map left it on meta
+                set_module_tensor_to_device(orig_mod, "weight", DEVICE, dtype=torch.bfloat16)
+                w = orig_mod.weight.detach().T if is_linear else orig_mod.weight.detach()
+
             def get_val(suffix):
                 key = f"{full_key_prefix}.{suffix}"
                 if shard_data and key in shard_data: return torch.from_numpy(shard_data[key].astype(np.float32)).to(DEVICE)
                 return None
 
-            m1 = get_val("m1") if get_val("m1") is not None else fast_snap_initialization(w)
+            # WAVE 83: Critical Math Offload. Perform F32 heavy operations on CPU.
+            m1 = get_val("m1")
+            if m1 is None:
+                m1 = fast_snap_initialization(w).to(DEVICE)
+            
             m2 = get_val("m2") if get_val("m2") is not None else torch.randn(w.shape, device=DEVICE) * 0.01
             m3 = get_val("m3") if get_val("m3") is not None else torch.randn(w.shape, device=DEVICE) * 0.01
             b = get_val("b") if get_val("b") is not None else (orig_mod.bias.detach().float() if getattr(orig_mod, 'bias', None) is not None else torch.zeros(w.shape[1], device=DEVICE))
-            scale = get_val("scale") if get_val("scale") is not None else torch.sqrt(torch.sum(w.float()**2, dim=0, keepdim=True) + 1e-5)
+            
+            scale = get_val("scale")
+            if scale is None:
+                # Perform norm calculation on CPU to avoid the OOM spike
+                w_cpu = w.to('cpu').float()
+                scale = torch.sqrt(torch.sum(w_cpu**2, dim=0, keepdim=True) + 1e-5).to(DEVICE)
+                del w_cpu
+
             theta = get_val("theta") if get_val("theta") is not None else torch.zeros((1, w.shape[1]), device=DEVICE)
             phi = get_val("phi") if get_val("phi") is not None else torch.zeros((1, w.shape[1]), device=DEVICE)
 
             harmonic_mod = TriResonantLinear(w, b, scale, theta, phi, m1, m2, m3).to(DEVICE)
             harmonic_mod.crystallize(w.dtype)
             harmonic_mod.purge_scaffolding()
+            
             setattr(parent, attr_name, harmonic_mod)
-            del m1, m2, m3, b, scale, theta, phi, w
+            
+            # Atomic Reclamation: Move crystallized module back to its offload location
+            harmonic_mod.to('cpu') 
+            del m1, m2, m3, b, scale, theta, phi, w, orig_mod
+            purge_gpu()
         except AttributeError: continue 
 
-    # Shuttle block back to its original offload position to free GPU VRAM
-    block.to(original_device)
-    purge_gpu()
     if i % 8 == 0: print(f"  > Crystallized Layer {i}/{num_layers}...")
 
 log_hardware_state("FINAL AGENT STATE (READY)")
