@@ -11,6 +11,7 @@ Formal proofs of combinatorial results connected to the compression framework:
 -/
 
 import Mathlib
+import SauerShelah
 
 open Finset Function
 
@@ -101,11 +102,34 @@ def shatters' {n : ℕ} (𝒜 : Finset (Finset (Fin n))) (S : Finset (Fin n)) : 
   ∀ T : Finset (Fin n), T ⊆ S → ∃ A ∈ 𝒜, A ∩ S = T
 
 /-- **Sauer-Shelah lemma**: If `|𝒜| > ∑_{i=0}^{d} C(n,i)`, then `𝒜` shatters
-some set of size `d + 1`. (Open — requires induction on n with coordinate splitting.) -/
+some set of size `d + 1`.
+
+Note: A full proof of the Sauer-Shelah lemma (in contrapositive form) is available
+in `SauerShelah.lean` as `SauerShelah.sauer_shelah`. The formulation below uses
+the direct (non-contrapositive) statement, which we derive from the contrapositive. -/
 theorem sauer_shelah' {n d : ℕ} (𝒜 : Finset (Finset (Fin n)))
     (hlarge : ∑ i ∈ Finset.range (d + 1), Nat.choose n i < 𝒜.card) :
     ∃ S : Finset (Fin n), S.card = d + 1 ∧ shatters' 𝒜 S := by
-  sorry
+  by_contra h
+  push_neg at h
+  have hvc : ∀ A, SauerShelah.Shatters 𝒜 A → A.card ≤ d := by
+    intro A hA
+    by_contra hle
+    push_neg at hle
+    obtain ⟨B, hBsub, hBcard⟩ := Finset.exists_subset_card_eq (by omega : d + 1 ≤ A.card)
+    have hBshatter : shatters' 𝒜 B := by
+      intro T hT
+      obtain ⟨S, hS, hSint⟩ := hA T (Finset.Subset.trans hT hBsub)
+      refine ⟨S, hS, Finset.ext fun x => ⟨fun hx => ?_, fun hx => ?_⟩⟩
+      · -- x ∈ S ∩ B → x ∈ T
+        rw [Finset.mem_inter] at hx
+        have : x ∈ A ∩ S := Finset.mem_inter.mpr ⟨hBsub hx.2, hx.1⟩
+        rwa [hSint] at this
+      · -- x ∈ T → x ∈ S ∩ B
+        have hxAS : x ∈ A ∩ S := hSint ▸ hx
+        exact Finset.mem_inter.mpr ⟨(Finset.mem_inter.mp hxAS).2, hT hx⟩
+    exact absurd hBshatter (h B hBcard)
+  linarith [SauerShelah.sauer_shelah n d 𝒜 hvc]
 
 /-! ## LYM Inequality -/
 
