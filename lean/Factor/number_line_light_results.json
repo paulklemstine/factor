@@ -1,0 +1,2369 @@
+{
+  "title": "Light from the Number Line: Complete Analysis",
+  "properties": {
+    "polarization": {
+      "property": "POLARIZATION",
+      "source": "Pythagorean triples \u2192 rational points on S\u00b9",
+      "num_states_found": 32,
+      "states": [
+        {
+          "triple": [
+            3,
+            4,
+            5
+          ],
+          "jones_vector": [
+            0.6,
+            0.8
+          ],
+          "polarization_angle_rad": 0.9272952180016122,
+          "polarization_angle_deg": 53.13010235415598,
+          "rational_form": [
+            "3/5",
+            "4/5"
+          ]
+        },
+        {
+          "triple": [
+            5,
+            12,
+            13
+          ],
+          "jones_vector": [
+            0.38461538461538464,
+            0.9230769230769231
+          ],
+          "polarization_angle_rad": 1.176005207095135,
+          "polarization_angle_deg": 67.38013505195957,
+          "rational_form": [
+            "5/13",
+            "12/13"
+          ]
+        },
+        {
+          "triple": [
+            8,
+            15,
+            17
+          ],
+          "jones_vector": [
+            0.47058823529411764,
+            0.8823529411764706
+          ],
+          "polarization_angle_rad": 1.0808390005411683,
+          "polarization_angle_deg": 61.92751306414704,
+          "rational_form": [
+            "8/17",
+            "15/17"
+          ]
+        },
+        {
+          "triple": [
+            7,
+            24,
+            25
+          ],
+          "jones_vector": [
+            0.28,
+            0.96
+          ],
+          "polarization_angle_rad": 1.2870022175865687,
+          "polarization_angle_deg": 73.73979529168804,
+          "rational_form": [
+            "7/25",
+            "24/25"
+          ]
+        },
+        {
+          "triple": [
+            20,
+            21,
+            29
+          ],
+          "jones_vector": [
+            0.6896551724137931,
+            0.7241379310344828
+          ],
+          "polarization_angle_rad": 0.8097835725701669,
+          "polarization_angle_deg": 46.39718102729638,
+          "rational_form": [
+            "20/29",
+            "21/29"
+          ]
+        },
+        {
+          "triple": [
+            12,
+            35,
+            37
+          ],
+          "jones_vector": [
+            0.32432432432432434,
+            0.9459459459459459
+          ],
+          "polarization_angle_rad": 1.240498971965643,
+          "polarization_angle_deg": 71.07535558394876,
+          "rational_form": [
+            "12/37",
+            "35/37"
+          ]
+        },
+        {
+          "triple": [
+            9,
+            40,
+            41
+          ],
+          "jones_vector": [
+            0.21951219512195122,
+            0.975609756097561
+          ],
+          "polarization_angle_rad": 1.3494818844471053,
+          "polarization_angle_deg": 77.31961650818018,
+          "rational_form": [
+            "9/41",
+            "40/41"
+          ]
+        },
+        {
+          "triple": [
+            28,
+            45,
+            53
+          ],
+          "jones_vector": [
+            0.5283018867924528,
+            0.8490566037735849
+          ],
+          "polarization_angle_rad": 1.014197008784674,
+          "polarization_angle_deg": 58.10920819815429,
+          "rational_form": [
+            "28/53",
+            "45/53"
+          ]
+        },
+        {
+          "triple": [
+            11,
+            60,
+            61
+          ],
+          "jones_vector": [
+            0.18032786885245902,
+            0.9836065573770492
+          ],
+          "polarization_angle_rad": 1.3894765523934063,
+          "polarization_angle_deg": 79.61114218453038,
+          "rational_form": [
+            "11/61",
+            "60/61"
+          ]
+        },
+        {
+          "triple": [
+            33,
+            56,
+            65
+          ],
+          "jones_vector": [
+            0.5076923076923077,
+            0.8615384615384616
+          ],
+          "polarization_angle_rad": 1.0382922284930458,
+          "polarization_angle_deg": 59.48976259388444,
+          "rational_form": [
+            "33/65",
+            "56/65"
+          ]
+        },
+        {
+          "triple": [
+            16,
+            63,
+            65
+          ],
+          "jones_vector": [
+            0.24615384615384617,
+            0.9692307692307692
+          ],
+          "polarization_angle_rad": 1.3220863377013738,
+          "polarization_angle_deg": 75.74996730219641,
+          "rational_form": [
+            "16/65",
+            "63/65"
+          ]
+        },
+        {
+          "triple": [
+            48,
+            55,
+            73
+          ],
+          "jones_vector": [
+            0.6575342465753424,
+            0.7534246575342466
+          ],
+          "polarization_angle_rad": 0.8532549862537522,
+          "polarization_angle_deg": 48.88790956083307,
+          "rational_form": [
+            "48/73",
+            "55/73"
+          ]
+        },
+        {
+          "triple": [
+            13,
+            84,
+            85
+          ],
+          "jones_vector": [
+            0.15294117647058825,
+            0.9882352941176471
+          ],
+          "polarization_angle_rad": 1.4172525442553405,
+          "polarization_angle_deg": 81.20258929000894,
+          "rational_form": [
+            "13/85",
+            "84/85"
+          ]
+        },
+        {
+          "triple": [
+            36,
+            77,
+            85
+          ],
+          "jones_vector": [
+            0.4235294117647059,
+            0.9058823529411765
+          ],
+          "polarization_angle_rad": 1.1334584350470127,
+          "polarization_angle_deg": 64.94238458169698,
+          "rational_form": [
+            "36/85",
+            "77/85"
+          ]
+        },
+        {
+          "triple": [
+            39,
+            80,
+            89
+          ],
+          "jones_vector": [
+            0.43820224719101125,
+            0.898876404494382
+          ],
+          "polarization_angle_rad": 1.1171986306871249,
+          "polarization_angle_deg": 64.01076641616699,
+          "rational_form": [
+            "39/89",
+            "80/89"
+          ]
+        },
+        {
+          "triple": [
+            65,
+            72,
+            97
+          ],
+          "jones_vector": [
+            0.6701030927835051,
+            0.7422680412371134
+          ],
+          "polarization_angle_rad": 0.8364486591584582,
+          "polarization_angle_deg": 47.92497794915637,
+          "rational_form": [
+            "65/97",
+            "72/97"
+          ]
+        },
+        {
+          "triple": [
+            20,
+            99,
+            101
+          ],
+          "jones_vector": [
+            0.19801980198019803,
+            0.9801980198019802
+          ],
+          "polarization_angle_rad": 1.3714590218125726,
+          "polarization_angle_deg": 78.57881372500071,
+          "rational_form": [
+            "20/101",
+            "99/101"
+          ]
+        },
+        {
+          "triple": [
+            60,
+            91,
+            109
+          ],
+          "jones_vector": [
+            0.5504587155963303,
+            0.8348623853211009
+          ],
+          "polarization_angle_rad": 0.9878827378391625,
+          "polarization_angle_deg": 56.60151153201276,
+          "rational_form": [
+            "60/109",
+            "91/109"
+          ]
+        },
+        {
+          "triple": [
+            15,
+            112,
+            113
+          ],
+          "jones_vector": [
+            0.13274336283185842,
+            0.9911504424778761
+          ],
+          "polarization_angle_rad": 1.437659999243249,
+          "polarization_angle_deg": 82.3718503314193,
+          "rational_form": [
+            "15/113",
+            "112/113"
+          ]
+        },
+        {
+          "triple": [
+            44,
+            117,
+            125
+          ],
+          "jones_vector": [
+            0.352,
+            0.936
+          ],
+          "polarization_angle_rad": 1.2110893272099401,
+          "polarization_angle_deg": 69.39030706246794,
+          "rational_form": [
+            "44/125",
+            "117/125"
+          ]
+        },
+        {
+          "triple": [
+            88,
+            105,
+            137
+          ],
+          "jones_vector": [
+            0.6423357664233577,
+            0.7664233576642335
+          ],
+          "polarization_angle_rad": 0.8732543196270827,
+          "polarization_angle_deg": 50.033786956200046,
+          "rational_form": [
+            "88/137",
+            "105/137"
+          ]
+        },
+        {
+          "triple": [
+            17,
+            144,
+            145
+          ],
+          "jones_vector": [
+            0.11724137931034483,
+            0.993103448275862
+          ],
+          "polarization_angle_rad": 1.4532846813634512,
+          "polarization_angle_deg": 83.2670786731404,
+          "rational_form": [
+            "17/145",
+            "144/145"
+          ]
+        },
+        {
+          "triple": [
+            24,
+            143,
+            145
+          ],
+          "jones_vector": [
+            0.16551724137931034,
+            0.9862068965517241
+          ],
+          "polarization_angle_rad": 1.404513863018014,
+          "polarization_angle_deg": 80.47271661854764,
+          "rational_form": [
+            "24/145",
+            "143/145"
+          ]
+        },
+        {
+          "triple": [
+            51,
+            140,
+            149
+          ],
+          "jones_vector": [
+            0.3422818791946309,
+            0.9395973154362416
+          ],
+          "polarization_angle_rad": 1.2214519287784171,
+          "polarization_angle_deg": 69.98404039711733,
+          "rational_form": [
+            "51/149",
+            "140/149"
+          ]
+        },
+        {
+          "triple": [
+            85,
+            132,
+            157
+          ],
+          "jones_vector": [
+            0.5414012738853503,
+            0.8407643312101911
+          ],
+          "polarization_angle_rad": 0.9986934433602602,
+          "polarization_angle_deg": 57.22091933193044,
+          "rational_form": [
+            "85/157",
+            "132/157"
+          ]
+        },
+        {
+          "triple": [
+            119,
+            120,
+            169
+          ],
+          "jones_vector": [
+            0.7041420118343196,
+            0.7100591715976331
+          ],
+          "polarization_angle_rad": 0.789582239399523,
+          "polarization_angle_deg": 45.23972989608085,
+          "rational_form": [
+            "119/169",
+            "120/169"
+          ]
+        },
+        {
+          "triple": [
+            52,
+            165,
+            173
+          ],
+          "jones_vector": [
+            0.30057803468208094,
+            0.953757225433526
+          ],
+          "polarization_angle_rad": 1.2654976700043663,
+          "polarization_angle_deg": 72.50767547488958,
+          "rational_form": [
+            "52/173",
+            "165/173"
+          ]
+        },
+        {
+          "triple": [
+            19,
+            180,
+            181
+          ],
+          "jones_vector": [
+            0.10497237569060773,
+            0.994475138121547
+          ],
+          "polarization_angle_rad": 1.465630203573013,
+          "polarization_angle_deg": 83.97442499163331,
+          "rational_form": [
+            "19/181",
+            "180/181"
+          ]
+        },
+        {
+          "triple": [
+            57,
+            176,
+            185
+          ],
+          "jones_vector": [
+            0.3081081081081081,
+            0.9513513513513514
+          ],
+          "polarization_angle_rad": 1.257592572830866,
+          "polarization_angle_deg": 72.05474677020722,
+          "rational_form": [
+            "57/185",
+            "176/185"
+          ]
+        },
+        {
+          "triple": [
+            104,
+            153,
+            185
+          ],
+          "jones_vector": [
+            0.5621621621621622,
+            0.827027027027027
+          ],
+          "polarization_angle_rad": 0.9737984636225381,
+          "polarization_angle_deg": 55.79454206189526,
+          "rational_form": [
+            "104/185",
+            "153/185"
+          ]
+        },
+        {
+          "triple": [
+            95,
+            168,
+            193
+          ],
+          "jones_vector": [
+            0.49222797927461137,
+            0.8704663212435233
+          ],
+          "polarization_angle_rad": 1.0561488968527193,
+          "polarization_angle_deg": 60.512874327058526,
+          "rational_form": [
+            "95/193",
+            "168/193"
+          ]
+        },
+        {
+          "triple": [
+            28,
+            195,
+            197
+          ],
+          "jones_vector": [
+            0.14213197969543148,
+            0.9898477157360406
+          ],
+          "polarization_angle_rad": 1.428181397224316,
+          "polarization_angle_deg": 81.82876644005026,
+          "rational_form": [
+            "28/197",
+            "195/197"
+          ]
+        }
+      ],
+      "completeness": "By equidistribution of Farey fractions, these angles become dense in [0, 2\u03c0), encoding ALL possible polarization states."
+    },
+    "diffraction": {
+      "property": "DIFFRACTION",
+      "source": "r\u2082(n) = sum-of-squares counting function",
+      "pattern": [
+        {
+          "n": 0,
+          "r2_n": 1,
+          "distance_from_center": 0.0,
+          "relative_intensity": 1,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "n": 1,
+          "r2_n": 4,
+          "distance_from_center": 1.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "n": 2,
+          "r2_n": 4,
+          "distance_from_center": 1.4142135623730951,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "n": 4,
+          "r2_n": 4,
+          "distance_from_center": 2.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              2
+            ]
+          ]
+        },
+        {
+          "n": 5,
+          "r2_n": 8,
+          "distance_from_center": 2.23606797749979,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              2
+            ]
+          ]
+        },
+        {
+          "n": 8,
+          "r2_n": 4,
+          "distance_from_center": 2.8284271247461903,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "n": 9,
+          "r2_n": 4,
+          "distance_from_center": 3.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              3
+            ]
+          ]
+        },
+        {
+          "n": 10,
+          "r2_n": 8,
+          "distance_from_center": 3.1622776601683795,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              3
+            ]
+          ]
+        },
+        {
+          "n": 13,
+          "r2_n": 8,
+          "distance_from_center": 3.605551275463989,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              3
+            ]
+          ]
+        },
+        {
+          "n": 16,
+          "r2_n": 4,
+          "distance_from_center": 4.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              4
+            ]
+          ]
+        },
+        {
+          "n": 17,
+          "r2_n": 8,
+          "distance_from_center": 4.123105625617661,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              4
+            ]
+          ]
+        },
+        {
+          "n": 18,
+          "r2_n": 4,
+          "distance_from_center": 4.242640687119285,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              3
+            ]
+          ]
+        },
+        {
+          "n": 20,
+          "r2_n": 8,
+          "distance_from_center": 4.47213595499958,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              4
+            ]
+          ]
+        },
+        {
+          "n": 25,
+          "r2_n": 12,
+          "distance_from_center": 5.0,
+          "relative_intensity": 12,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              5
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        },
+        {
+          "n": 26,
+          "r2_n": 8,
+          "distance_from_center": 5.0990195135927845,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              5
+            ]
+          ]
+        },
+        {
+          "n": 29,
+          "r2_n": 8,
+          "distance_from_center": 5.385164807134504,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              5
+            ]
+          ]
+        },
+        {
+          "n": 32,
+          "r2_n": 4,
+          "distance_from_center": 5.656854249492381,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              4,
+              4
+            ]
+          ]
+        },
+        {
+          "n": 34,
+          "r2_n": 8,
+          "distance_from_center": 5.830951894845301,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              5
+            ]
+          ]
+        },
+        {
+          "n": 36,
+          "r2_n": 4,
+          "distance_from_center": 6.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 37,
+          "r2_n": 8,
+          "distance_from_center": 6.082762530298219,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 40,
+          "r2_n": 8,
+          "distance_from_center": 6.324555320336759,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 41,
+          "r2_n": 8,
+          "distance_from_center": 6.4031242374328485,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              4,
+              5
+            ]
+          ]
+        },
+        {
+          "n": 45,
+          "r2_n": 8,
+          "distance_from_center": 6.708203932499369,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 49,
+          "r2_n": 4,
+          "distance_from_center": 7.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 50,
+          "r2_n": 12,
+          "distance_from_center": 7.0710678118654755,
+          "relative_intensity": 12,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              7
+            ],
+            [
+              5,
+              5
+            ]
+          ]
+        },
+        {
+          "n": 52,
+          "r2_n": 8,
+          "distance_from_center": 7.211102550927978,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              4,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 53,
+          "r2_n": 8,
+          "distance_from_center": 7.280109889280518,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 58,
+          "r2_n": 8,
+          "distance_from_center": 7.615773105863909,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 61,
+          "r2_n": 8,
+          "distance_from_center": 7.810249675906654,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 64,
+          "r2_n": 4,
+          "distance_from_center": 8.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 65,
+          "r2_n": 16,
+          "distance_from_center": 8.06225774829855,
+          "relative_intensity": 16,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              8
+            ],
+            [
+              4,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 68,
+          "r2_n": 8,
+          "distance_from_center": 8.246211251235321,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 72,
+          "r2_n": 4,
+          "distance_from_center": 8.48528137423857,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              6,
+              6
+            ]
+          ]
+        },
+        {
+          "n": 73,
+          "r2_n": 8,
+          "distance_from_center": 8.54400374531753,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 74,
+          "r2_n": 8,
+          "distance_from_center": 8.602325267042627,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              5,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 80,
+          "r2_n": 8,
+          "distance_from_center": 8.94427190999916,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              4,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 81,
+          "r2_n": 4,
+          "distance_from_center": 9.0,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              9
+            ]
+          ]
+        },
+        {
+          "n": 82,
+          "r2_n": 8,
+          "distance_from_center": 9.055385138137417,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              9
+            ]
+          ]
+        },
+        {
+          "n": 85,
+          "r2_n": 16,
+          "distance_from_center": 9.219544457292887,
+          "relative_intensity": 16,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              9
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 89,
+          "r2_n": 8,
+          "distance_from_center": 9.433981132056603,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              5,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 90,
+          "r2_n": 8,
+          "distance_from_center": 9.486832980505138,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              9
+            ]
+          ]
+        },
+        {
+          "n": 97,
+          "r2_n": 8,
+          "distance_from_center": 9.848857801796104,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              4,
+              9
+            ]
+          ]
+        },
+        {
+          "n": 98,
+          "r2_n": 4,
+          "distance_from_center": 9.899494936611665,
+          "relative_intensity": 4,
+          "sum_of_squares_decomposition": [
+            [
+              7,
+              7
+            ]
+          ]
+        },
+        {
+          "n": 100,
+          "r2_n": 12,
+          "distance_from_center": 10.0,
+          "relative_intensity": 12,
+          "sum_of_squares_decomposition": [
+            [
+              0,
+              10
+            ],
+            [
+              6,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 101,
+          "r2_n": 8,
+          "distance_from_center": 10.04987562112089,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              1,
+              10
+            ]
+          ]
+        },
+        {
+          "n": 104,
+          "r2_n": 8,
+          "distance_from_center": 10.198039027185569,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              2,
+              10
+            ]
+          ]
+        },
+        {
+          "n": 106,
+          "r2_n": 8,
+          "distance_from_center": 10.295630140987,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              5,
+              9
+            ]
+          ]
+        },
+        {
+          "n": 109,
+          "r2_n": 8,
+          "distance_from_center": 10.44030650891055,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              3,
+              10
+            ]
+          ]
+        },
+        {
+          "n": 113,
+          "r2_n": 8,
+          "distance_from_center": 10.63014581273465,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              7,
+              8
+            ]
+          ]
+        },
+        {
+          "n": 116,
+          "r2_n": 8,
+          "distance_from_center": 10.770329614269007,
+          "relative_intensity": 8,
+          "sum_of_squares_decomposition": [
+            [
+              4,
+              10
+            ]
+          ]
+        }
+      ],
+      "interpretation": "r\u2082(n) counts lattice points on the circle of radius \u221an. In a square-lattice diffraction experiment, this gives the intensity at each diffraction order.",
+      "notable_values": {
+        "r2_of_0": 1,
+        "r2_of_1": 4,
+        "r2_of_5": 8,
+        "r2_of_25": 12,
+        "r2_of_50": 12
+      }
+    },
+    "beam_splitting": {
+      "property": "BEAM SPLITTING / MODE DECOMPOSITION",
+      "source": "Gaussian integer factorization of primes",
+      "analysis": [
+        {
+          "prime": 2,
+          "mod_4_class": 2,
+          "optical_behavior": "RAMIFIED (achromatic \u2014 both polarizations coupled)",
+          "gaussian_factorization": "(1+1i)(1-1i)",
+          "splitting_angle": 45.0
+        },
+        {
+          "prime": 3,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "3 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 5,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(1+2i)(1-2i)",
+          "splitting_angle": 63.43494882292201
+        },
+        {
+          "prime": 7,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "7 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 11,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "11 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 13,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(2+3i)(2-3i)",
+          "splitting_angle": 56.309932474020215
+        },
+        {
+          "prime": 17,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(1+4i)(1-4i)",
+          "splitting_angle": 75.96375653207353
+        },
+        {
+          "prime": 19,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "19 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 23,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "23 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 29,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(2+5i)(2-5i)",
+          "splitting_angle": 68.19859051364818
+        },
+        {
+          "prime": 31,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "31 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 37,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(1+6i)(1-6i)",
+          "splitting_angle": 80.53767779197439
+        },
+        {
+          "prime": 41,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(4+5i)(4-5i)",
+          "splitting_angle": 51.34019174590991
+        },
+        {
+          "prime": 43,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "43 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 47,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "47 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 53,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(2+7i)(2-7i)",
+          "splitting_angle": 74.05460409907715
+        },
+        {
+          "prime": 59,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "59 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 61,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(5+6i)(5-6i)",
+          "splitting_angle": 50.19442890773481
+        },
+        {
+          "prime": 67,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "67 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 71,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "71 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 73,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(3+8i)(3-8i)",
+          "splitting_angle": 69.44395478041653
+        },
+        {
+          "prime": 79,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "79 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 83,
+          "mod_4_class": 3,
+          "optical_behavior": "INERT (opaque \u2014 single mode, no splitting)",
+          "gaussian_factorization": "83 (remains prime in \u2124[i])"
+        },
+        {
+          "prime": 89,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(5+8i)(5-8i)",
+          "splitting_angle": 57.9946167919165
+        },
+        {
+          "prime": 97,
+          "mod_4_class": 1,
+          "optical_behavior": "SPLITS (birefringent \u2014 two orthogonal modes)",
+          "gaussian_factorization": "(4+9i)(4-9i)",
+          "splitting_angle": 66.03751102542182
+        }
+      ],
+      "pattern": "Primes \u2261 1 (mod 4) split light into two modes. Primes \u2261 3 (mod 4) transmit without splitting. The prime 2 couples both polarizations."
+    },
+    "wave_equation": {
+      "property": "WAVE EQUATION / LIGHT CONE",
+      "source": "Pythagorean relation as discrete wave equation",
+      "key_insight": "a\u00b2 + b\u00b2 = c\u00b2 is the spatial wave equation on \u2124. The multiplicative closure under Brahmagupta-Fibonacci mirrors superposition of electromagnetic waves.",
+      "brahmagupta_fibonacci_examples": [
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            5,
+            12,
+            13
+          ],
+          "product_norm": 4225,
+          "new_decomposition": [
+            33,
+            56
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            8,
+            15,
+            17
+          ],
+          "product_norm": 7225,
+          "new_decomposition": [
+            36,
+            77
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            7,
+            24,
+            25
+          ],
+          "product_norm": 15625,
+          "new_decomposition": [
+            75,
+            100
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            20,
+            21,
+            29
+          ],
+          "product_norm": 21025,
+          "new_decomposition": [
+            24,
+            143
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            12,
+            35,
+            37
+          ],
+          "product_norm": 34225,
+          "new_decomposition": [
+            104,
+            153
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            9,
+            40,
+            41
+          ],
+          "product_norm": 42025,
+          "new_decomposition": [
+            133,
+            156
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            28,
+            45,
+            53
+          ],
+          "product_norm": 70225,
+          "new_decomposition": [
+            96,
+            247
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            11,
+            60,
+            61
+          ],
+          "product_norm": 93025,
+          "new_decomposition": [
+            207,
+            224
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            3,
+            4,
+            5
+          ],
+          "triple_2": [
+            33,
+            56,
+            65
+          ],
+          "product_norm": 105625,
+          "new_decomposition": [
+            125,
+            300
+          ],
+          "identity_verified": true
+        },
+        {
+          "triple_1": [
+            5,
+            12,
+            13
+          ],
+          "triple_2": [
+            8,
+            15,
+            17
+          ],
+          "product_norm": 48841,
+          "new_decomposition": [
+            140,
+            171
+          ],
+          "identity_verified": true
+        }
+      ]
+    },
+    "quantum": {
+      "property": "QUANTUM PHOTON STATISTICS",
+      "source": "Jacobi theta function \u03b8\u2083 (partition function)",
+      "connection": "\u03b8\u2083(q) = 1 + 2q + 2q\u2074 + 2q\u2079 + ... sums over perfect squares from the number line. Its square generates r\u2082(n), linking quantum statistics to diffraction.",
+      "theta_values": [
+        {
+          "q": 0.1,
+          "theta3": 1.2002,
+          "theta3_squared": 1.44048,
+          "physical_temperature": 0.43429448190325187
+        },
+        {
+          "q": 0.2,
+          "theta3": 1.403201,
+          "theta3_squared": 1.968973,
+          "physical_temperature": 0.6213349345596119
+        },
+        {
+          "q": 0.30000000000000004,
+          "theta3": 1.616239,
+          "theta3_squared": 2.61223,
+          "physical_temperature": 0.8305835450825374
+        },
+        {
+          "q": 0.4,
+          "theta3": 1.851725,
+          "theta3_squared": 3.428886,
+          "physical_temperature": 1.0913566679372915
+        },
+        {
+          "q": 0.5,
+          "theta3": 2.128937,
+          "theta3_squared": 4.532372,
+          "physical_temperature": 1.4426950408889634
+        },
+        {
+          "q": 0.6000000000000001,
+          "theta3": 2.479925,
+          "theta3_squared": 6.15003,
+          "physical_temperature": 1.9576151889712183
+        },
+        {
+          "q": 0.7000000000000001,
+          "theta3": 2.967827,
+          "theta3_squared": 8.807999,
+          "physical_temperature": 2.8036732520571297
+        },
+        {
+          "q": 0.8,
+          "theta3": 3.752172,
+          "theta3_squared": 14.078797,
+          "physical_temperature": 4.481420117724551
+        },
+        {
+          "q": 0.9,
+          "theta3": 5.460545,
+          "theta3_squared": 29.817552,
+          "physical_temperature": 9.491221581029905
+        }
+      ]
+    },
+    "interference": {
+      "property": "INTERFERENCE",
+      "source": "Multiple Pythagorean representations of same hypotenuse",
+      "interpretation": "Each distinct triple with the same c represents a coherent beam. Multiple triples \u2192 multi-beam interference. The NUMBER of representations determines fringe complexity.",
+      "examples": [
+        {
+          "hypotenuse": 25,
+          "num_beams": 2,
+          "triples": [
+            [
+              15,
+              20,
+              25
+            ],
+            [
+              7,
+              24,
+              25
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74
+          ],
+          "angular_separations_deg": [
+            20.61
+          ]
+        },
+        {
+          "hypotenuse": 50,
+          "num_beams": 2,
+          "triples": [
+            [
+              30,
+              40,
+              50
+            ],
+            [
+              14,
+              48,
+              50
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74
+          ],
+          "angular_separations_deg": [
+            20.61
+          ]
+        },
+        {
+          "hypotenuse": 65,
+          "num_beams": 4,
+          "triples": [
+            [
+              39,
+              52,
+              65
+            ],
+            [
+              25,
+              60,
+              65
+            ],
+            [
+              33,
+              56,
+              65
+            ],
+            [
+              16,
+              63,
+              65
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            67.38,
+            59.49,
+            75.75
+          ],
+          "angular_separations_deg": [
+            14.25,
+            6.36,
+            22.62,
+            7.89,
+            8.37,
+            16.26
+          ]
+        },
+        {
+          "hypotenuse": 75,
+          "num_beams": 2,
+          "triples": [
+            [
+              45,
+              60,
+              75
+            ],
+            [
+              21,
+              72,
+              75
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74
+          ],
+          "angular_separations_deg": [
+            20.61
+          ]
+        },
+        {
+          "hypotenuse": 85,
+          "num_beams": 4,
+          "triples": [
+            [
+              51,
+              68,
+              85
+            ],
+            [
+              40,
+              75,
+              85
+            ],
+            [
+              13,
+              84,
+              85
+            ],
+            [
+              36,
+              77,
+              85
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            61.93,
+            81.2,
+            64.94
+          ],
+          "angular_separations_deg": [
+            8.8,
+            28.07,
+            11.81,
+            19.28,
+            3.01,
+            16.26
+          ]
+        },
+        {
+          "hypotenuse": 100,
+          "num_beams": 2,
+          "triples": [
+            [
+              60,
+              80,
+              100
+            ],
+            [
+              28,
+              96,
+              100
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74
+          ],
+          "angular_separations_deg": [
+            20.61
+          ]
+        },
+        {
+          "hypotenuse": 125,
+          "num_beams": 3,
+          "triples": [
+            [
+              75,
+              100,
+              125
+            ],
+            [
+              35,
+              120,
+              125
+            ],
+            [
+              44,
+              117,
+              125
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74,
+            69.39
+          ],
+          "angular_separations_deg": [
+            20.61,
+            16.26,
+            4.35
+          ]
+        },
+        {
+          "hypotenuse": 130,
+          "num_beams": 4,
+          "triples": [
+            [
+              78,
+              104,
+              130
+            ],
+            [
+              50,
+              120,
+              130
+            ],
+            [
+              66,
+              112,
+              130
+            ],
+            [
+              32,
+              126,
+              130
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            67.38,
+            59.49,
+            75.75
+          ],
+          "angular_separations_deg": [
+            14.25,
+            6.36,
+            22.62,
+            7.89,
+            8.37,
+            16.26
+          ]
+        },
+        {
+          "hypotenuse": 145,
+          "num_beams": 4,
+          "triples": [
+            [
+              87,
+              116,
+              145
+            ],
+            [
+              100,
+              105,
+              145
+            ],
+            [
+              17,
+              144,
+              145
+            ],
+            [
+              24,
+              143,
+              145
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            46.4,
+            83.27,
+            80.47
+          ],
+          "angular_separations_deg": [
+            6.73,
+            30.14,
+            27.34,
+            36.87,
+            34.08,
+            2.79
+          ]
+        },
+        {
+          "hypotenuse": 150,
+          "num_beams": 2,
+          "triples": [
+            [
+              90,
+              120,
+              150
+            ],
+            [
+              42,
+              144,
+              150
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74
+          ],
+          "angular_separations_deg": [
+            20.61
+          ]
+        },
+        {
+          "hypotenuse": 169,
+          "num_beams": 2,
+          "triples": [
+            [
+              65,
+              156,
+              169
+            ],
+            [
+              119,
+              120,
+              169
+            ]
+          ],
+          "angles_deg": [
+            67.38,
+            45.24
+          ],
+          "angular_separations_deg": [
+            22.14
+          ]
+        },
+        {
+          "hypotenuse": 170,
+          "num_beams": 4,
+          "triples": [
+            [
+              102,
+              136,
+              170
+            ],
+            [
+              80,
+              150,
+              170
+            ],
+            [
+              26,
+              168,
+              170
+            ],
+            [
+              72,
+              154,
+              170
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            61.93,
+            81.2,
+            64.94
+          ],
+          "angular_separations_deg": [
+            8.8,
+            28.07,
+            11.81,
+            19.28,
+            3.01,
+            16.26
+          ]
+        },
+        {
+          "hypotenuse": 175,
+          "num_beams": 2,
+          "triples": [
+            [
+              105,
+              140,
+              175
+            ],
+            [
+              49,
+              168,
+              175
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            73.74
+          ],
+          "angular_separations_deg": [
+            20.61
+          ]
+        },
+        {
+          "hypotenuse": 185,
+          "num_beams": 4,
+          "triples": [
+            [
+              111,
+              148,
+              185
+            ],
+            [
+              60,
+              175,
+              185
+            ],
+            [
+              57,
+              176,
+              185
+            ],
+            [
+              104,
+              153,
+              185
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            71.08,
+            72.05,
+            55.79
+          ],
+          "angular_separations_deg": [
+            17.95,
+            18.92,
+            2.66,
+            0.98,
+            15.28,
+            16.26
+          ]
+        },
+        {
+          "hypotenuse": 195,
+          "num_beams": 4,
+          "triples": [
+            [
+              117,
+              156,
+              195
+            ],
+            [
+              75,
+              180,
+              195
+            ],
+            [
+              99,
+              168,
+              195
+            ],
+            [
+              48,
+              189,
+              195
+            ]
+          ],
+          "angles_deg": [
+            53.13,
+            67.38,
+            59.49,
+            75.75
+          ],
+          "angular_separations_deg": [
+            14.25,
+            6.36,
+            22.62,
+            7.89,
+            8.37,
+            16.26
+          ]
+        }
+      ],
+      "first_multi_beam_hypotenuse": 25
+    },
+    "spectrum": {
+      "property": "ELECTROMAGNETIC SPECTRUM",
+      "source": "Distribution of Pythagorean hypotenuses on number line",
+      "hypotenuses": [
+        5,
+        10,
+        13,
+        15,
+        17,
+        20,
+        25,
+        26,
+        29,
+        30,
+        34,
+        35,
+        37,
+        39,
+        40,
+        41,
+        45,
+        50,
+        51,
+        52,
+        53,
+        55,
+        58,
+        60,
+        61,
+        65,
+        68,
+        70,
+        73,
+        74,
+        75,
+        78,
+        80,
+        82,
+        85,
+        87,
+        89,
+        90,
+        91,
+        95,
+        97,
+        100,
+        101,
+        102,
+        104,
+        105,
+        106,
+        109,
+        110,
+        111
+      ],
+      "spectral_density": [
+        {
+          "up_to": 10,
+          "num_hypotenuses": 2,
+          "density": 0.2,
+          "landau_ramanujan_prediction": 0.659
+        },
+        {
+          "up_to": 25,
+          "num_hypotenuses": 7,
+          "density": 0.28,
+          "landau_ramanujan_prediction": 0.5574
+        },
+        {
+          "up_to": 50,
+          "num_hypotenuses": 18,
+          "density": 0.36,
+          "landau_ramanujan_prediction": 0.5056
+        },
+        {
+          "up_to": 100,
+          "num_hypotenuses": 42,
+          "density": 0.42,
+          "landau_ramanujan_prediction": 0.466
+        },
+        {
+          "up_to": 150,
+          "num_hypotenuses": 70,
+          "density": 0.4667,
+          "landau_ramanujan_prediction": 0.4467
+        },
+        {
+          "up_to": 200,
+          "num_hypotenuses": 96,
+          "density": 0.48,
+          "landau_ramanujan_prediction": 0.4344
+        }
+      ],
+      "asymptotic": "The density of spectral lines follows the Landau-Ramanujan theorem: ~K/\u221a(log N)"
+    }
+  },
+  "experiments": [
+    {
+      "experiment": "r\u2082(n) vs Sum-of-Squares Characterization",
+      "status": "PASSED",
+      "num_tested": 201,
+      "num_nonzero_r2": 80,
+      "sample_results": [
+        {
+          "n": 0,
+          "r2": 1,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 1,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 2,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 3,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 4,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 5,
+          "r2": 8,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 6,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 7,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 8,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 9,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 10,
+          "r2": 8,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 11,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 12,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 13,
+          "r2": 8,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 14,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 15,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        },
+        {
+          "n": 16,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 17,
+          "r2": 8,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 18,
+          "r2": 4,
+          "is_sum_of_squares": true,
+          "consistent": true
+        },
+        {
+          "n": 19,
+          "r2": 0,
+          "is_sum_of_squares": false,
+          "consistent": true
+        }
+      ]
+    },
+    {
+      "experiment": "\u03b8\u2083(q)\u00b2 = \u03a3 r\u2082(n) q\u207f Identity",
+      "q": 0.5,
+      "theta3_squared": 4.5323720143,
+      "direct_sum": 4.5323720143,
+      "absolute_error": 0.0,
+      "status": "PASSED"
+    },
+    {
+      "experiment": "Brahmagupta-Fibonacci Identity",
+      "num_tested": 130321,
+      "num_errors": 0,
+      "status": "PASSED"
+    },
+    {
+      "experiment": "Prime Splitting Statistics (Chebyshev Bias)",
+      "primes_up_to": 10000,
+      "p_equiv_1_mod_4": 609,
+      "p_equiv_3_mod_4": 619,
+      "ratio_splitting": 0.4959,
+      "expected_ratio": 0.5,
+      "chebyshev_bias_observed": true,
+      "status": "PASSED (bias observed as expected)"
+    }
+  ],
+  "connections": [
+    {
+      "connection": "Riemann Hypothesis",
+      "description": "The distribution of \"birefringent\" vs \"opaque\" primes (p\u22611 vs p\u22613 mod 4) is governed by the zeros of L(s, \u03c7\u2084). GRH controls the error term in the \"optical prime counting function.\"",
+      "millennium_prize": true,
+      "implication": "If GRH holds, the \"refractive index\" of the prime number sequence converges at optimal rate."
+    },
+    {
+      "connection": "Modular Forms & Langlands Program",
+      "description": "The generating function for r\u2082(n) is a modular form. Modular transformations \u03c4 \u2192 -1/\u03c4 correspond to Fourier duality, which IS the wave-particle duality of light. The Langlands correspondence thus has an optical interpretation."
+    },
+    {
+      "connection": "Quantum Computing",
+      "description": "Rational points on S\u00b2 (from Pythagorean triples) correspond to exactly-synthesizable quantum gates. The Ross-Selinger algorithm for gate synthesis is essentially finding \"good\" Pythagorean triples.",
+      "application": "More efficient quantum gate synthesis by exploiting the algebraic structure of Pythagorean triples."
+    },
+    {
+      "connection": "Information Theory & Compression",
+      "description": "The sparsity of r\u2082(n) implies that \"light signals\" on the integer lattice are naturally compressible. Gaussian integer factorization provides a number-theoretic compression scheme analogous to DCT/FFT-based compression (JPEG, MP3).",
+      "application": "Novel compression algorithms based on Gaussian integer factorization of signal energy."
+    },
+    {
+      "connection": "Artificial Intelligence",
+      "description": "Neural network geometry is fundamentally Pythagorean. The light-from-numbers framework suggests new quantization, initialization, and optimization strategies based on the arithmetic of sums of squares.",
+      "applications": [
+        "Weight quantization using Pythagorean rationals",
+        "Gaussian integer arithmetic for complex networks",
+        "r\u2082-based initialization for improved convergence",
+        "Number-theoretic learning rate schedules"
+      ]
+    }
+  ]
+}
