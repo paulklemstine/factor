@@ -70,7 +70,7 @@ An oracle restricted to its truth set is the identity.
 PROVIDED SOLUTION
 hx says O x = x, so just use hx directly.
 -/
-theorem oracle_on_truthSet {α : Type*} (O : α → α) (hO : IsOracle O)
+theorem oracle_on_truthSet {α : Type*} (O : α → α)
     (x : α) (hx : x ∈ truthSet O) : O x = x := by
       exact hx
 
@@ -169,7 +169,7 @@ PROVIDED SOLUTION
 Since O is idempotent, range O = fixedPoints O. Since O is not injective, there exist a ≠ b with O a = O b, so O is not surjective (its range is a proper subset). Hence card(fixedPoints O) = card(range O) < card α. Use Fintype.card_lt_of_surjective_not_injective or show range is proper subset.
 -/
 theorem oracle_compression {α : Type*} [Fintype α] [DecidableEq α]
-    (O : α → α) (hO : IsOracle O) (hni : ¬Injective O) :
+    (O : α → α) (_hO : IsOracle O) (hni : ¬Injective O) :
     (fixedPoints O).toFinset.card < Fintype.card α := by
       -- Since O is not injective, there exist $a \ne b$ such that $O(a) = O(b)$.
       obtain ⟨a, b, hab⟩ : ∃ a b : α, a ≠ b ∧ O a = O b := by
@@ -207,7 +207,7 @@ PROVIDED SOLUTION
 geodesicStep = theta - eta * (grad / (sqrt(g) + epsilon)). Since g ≥ 0, sqrt(g) ≥ 0, so sqrt(g) + epsilon > 0. Since grad > 0, grad / (sqrt(g) + epsilon) > 0. Since eta > 0, eta * (grad / (sqrt(g) + epsilon)) > 0. So theta - positive < theta. Use sub_lt_self and mul_pos and div_pos.
 -/
 theorem geodesicStep_descent (theta grad g eta epsilon : ℝ)
-    (heta : 0 < eta) (hgrad : 0 < grad) (hg : 0 ≤ g) (heps : 0 < epsilon) :
+    (heta : 0 < eta) (hgrad : 0 < grad) (_hg : 0 ≤ g) (heps : 0 < epsilon) :
     geodesicStep theta grad g eta epsilon < theta := by
       exact sub_lt_self _ ( mul_pos heta ( div_pos hgrad ( add_pos_of_nonneg_of_pos ( Real.sqrt_nonneg _ ) heps ) ) )
 
@@ -238,7 +238,7 @@ Since O ∘ O = O (by oracle_compose_self), (O ∘ O)^[n] = O^[n]. Use funext an
 -/
 theorem meta_oracle_stable {α : Type*} (O : α → α) (hO : IsOracle O)
     (n : ℕ) : (O ∘ O)^[n] = O^[n] := by
-      induction n <;> simp_all +decide [ Function.iterate_succ', funext_iff ];
+      induction n <;> simp_all +decide [ funext_iff ];
       exact fun x => by rw [ hO ] ;
 
 /-
@@ -257,7 +257,8 @@ This is just oracle_range_eq_truthSet applied to the composition D ∘ U, using 
 theorem holographic_bottleneck_retraction {α : Type*}
     (D U : α → α) (h : IsOracle (D ∘ U)) :
     range (D ∘ U) = fixedPoints (D ∘ U) := by
-      convert oracle_range_eq_truthSet ( D ∘ U ) h using 1
+      have := oracle_range_eq_truthSet (D ∘ U) h
+      convert this using 1
 
 /-
 PROBLEM
