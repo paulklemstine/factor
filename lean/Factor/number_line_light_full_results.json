@@ -1,0 +1,592 @@
+{
+  "light_properties": {
+    "polarization": {
+      "count": 32,
+      "states": [
+        {
+          "triple": [
+            3,
+            4,
+            5
+          ],
+          "jones_vector": [
+            0.6,
+            0.8
+          ],
+          "angle_degrees": 53.1301,
+          "cos_theta": "3/5",
+          "sin_theta": "4/5"
+        },
+        {
+          "triple": [
+            5,
+            12,
+            13
+          ],
+          "jones_vector": [
+            0.38461538461538464,
+            0.9230769230769231
+          ],
+          "angle_degrees": 67.3801,
+          "cos_theta": "5/13",
+          "sin_theta": "12/13"
+        },
+        {
+          "triple": [
+            8,
+            15,
+            17
+          ],
+          "jones_vector": [
+            0.47058823529411764,
+            0.8823529411764706
+          ],
+          "angle_degrees": 61.9275,
+          "cos_theta": "8/17",
+          "sin_theta": "15/17"
+        },
+        {
+          "triple": [
+            7,
+            24,
+            25
+          ],
+          "jones_vector": [
+            0.28,
+            0.96
+          ],
+          "angle_degrees": 73.7398,
+          "cos_theta": "7/25",
+          "sin_theta": "24/25"
+        },
+        {
+          "triple": [
+            20,
+            21,
+            29
+          ],
+          "jones_vector": [
+            0.6896551724137931,
+            0.7241379310344828
+          ],
+          "angle_degrees": 46.3972,
+          "cos_theta": "20/29",
+          "sin_theta": "21/29"
+        },
+        {
+          "triple": [
+            12,
+            35,
+            37
+          ],
+          "jones_vector": [
+            0.32432432432432434,
+            0.9459459459459459
+          ],
+          "angle_degrees": 71.0754,
+          "cos_theta": "12/37",
+          "sin_theta": "35/37"
+        },
+        {
+          "triple": [
+            9,
+            40,
+            41
+          ],
+          "jones_vector": [
+            0.21951219512195122,
+            0.975609756097561
+          ],
+          "angle_degrees": 77.3196,
+          "cos_theta": "9/41",
+          "sin_theta": "40/41"
+        },
+        {
+          "triple": [
+            28,
+            45,
+            53
+          ],
+          "jones_vector": [
+            0.5283018867924528,
+            0.8490566037735849
+          ],
+          "angle_degrees": 58.1092,
+          "cos_theta": "28/53",
+          "sin_theta": "45/53"
+        },
+        {
+          "triple": [
+            11,
+            60,
+            61
+          ],
+          "jones_vector": [
+            0.18032786885245902,
+            0.9836065573770492
+          ],
+          "angle_degrees": 79.6111,
+          "cos_theta": "11/61",
+          "sin_theta": "60/61"
+        },
+        {
+          "triple": [
+            33,
+            56,
+            65
+          ],
+          "jones_vector": [
+            0.5076923076923077,
+            0.8615384615384616
+          ],
+          "angle_degrees": 59.4898,
+          "cos_theta": "33/65",
+          "sin_theta": "56/65"
+        }
+      ],
+      "description": "Found 32 distinct polarization states from primitive triples with c \u2264 200"
+    },
+    "diffraction": {
+      "r2_values": {
+        "0": 1,
+        "1": 4,
+        "2": 4,
+        "3": 0,
+        "4": 4,
+        "5": 8,
+        "6": 0,
+        "7": 0,
+        "8": 4,
+        "9": 4,
+        "10": 8,
+        "11": 0,
+        "12": 0,
+        "13": 8,
+        "14": 0,
+        "15": 0,
+        "16": 4,
+        "17": 8,
+        "18": 4,
+        "19": 0,
+        "20": 8,
+        "21": 0,
+        "22": 0,
+        "23": 0,
+        "24": 0,
+        "25": 12,
+        "26": 8,
+        "27": 0,
+        "28": 0,
+        "29": 8,
+        "30": 0,
+        "31": 0,
+        "32": 4,
+        "33": 0,
+        "34": 8,
+        "35": 0,
+        "36": 4,
+        "37": 8,
+        "38": 0,
+        "39": 0,
+        "40": 8,
+        "41": 8,
+        "42": 0,
+        "43": 0,
+        "44": 0,
+        "45": 8,
+        "46": 0,
+        "47": 0,
+        "48": 0,
+        "49": 4
+      },
+      "bright_ring_count": 80,
+      "dark_ring_count": 121,
+      "first_dark_rings": [
+        3,
+        6,
+        7,
+        11,
+        12,
+        14,
+        15,
+        19,
+        21,
+        22
+      ],
+      "max_intensity": 16,
+      "max_intensity_at": [
+        65,
+        85,
+        125,
+        130,
+        145
+      ],
+      "average_r2": 3.1492537313432836,
+      "description": "\u03c0 \u2248 3.149254 (average r\u2082 \u2192 \u03c0)"
+    },
+    "beam_splitting": {
+      "total_primes": 46,
+      "ramified": 1,
+      "birefringent": 21,
+      "opaque": 24,
+      "gaussian_factorizations": [
+        {
+          "prime": 2,
+          "factorization": "(1+1i)(1-1i)",
+          "type": "RAMIFIES"
+        },
+        {
+          "prime": 5,
+          "factorization": "(1+2i)(1-2i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 13,
+          "factorization": "(2+3i)(2-3i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 17,
+          "factorization": "(1+4i)(1-4i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 29,
+          "factorization": "(2+5i)(2-5i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 37,
+          "factorization": "(1+6i)(1-6i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 41,
+          "factorization": "(4+5i)(4-5i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 53,
+          "factorization": "(2+7i)(2-7i)",
+          "type": "SPLITS"
+        },
+        {
+          "prime": 61,
+          "factorization": "(5+6i)(5-6i)",
+          "type": "SPLITS"
+        }
+      ],
+      "description": "Primes \u2261 1 mod 4 split (birefringent), primes \u2261 3 mod 4 stay inert (opaque)"
+    },
+    "wave_equation": {
+      "null_vectors_count": 32,
+      "examples": [
+        {
+          "direction": [
+            3,
+            4,
+            5
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            6,
+            8,
+            10
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            5,
+            12,
+            13
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            10,
+            24,
+            26
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            8,
+            15,
+            17
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            16,
+            30,
+            34
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            7,
+            24,
+            25
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            14,
+            48,
+            50
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            20,
+            21,
+            29
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            40,
+            42,
+            58
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            12,
+            35,
+            37
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            24,
+            70,
+            74
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            9,
+            40,
+            41
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            18,
+            80,
+            82
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            28,
+            45,
+            53
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            56,
+            90,
+            106
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            11,
+            60,
+            61
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            22,
+            120,
+            122
+          ],
+          "scaled_check": 0
+        },
+        {
+          "direction": [
+            33,
+            56,
+            65
+          ],
+          "null_check": 0,
+          "scaled_2x": [
+            66,
+            112,
+            130
+          ],
+          "scaled_check": 0
+        }
+      ],
+      "description": "Found 32 null (lightlike) directions on the light cone"
+    },
+    "quantum_statistics": {
+      "theta3_at_0.5": 2.1289368272,
+      "theta3_squared": 4.5323720143,
+      "sum_r2_qn": 4.5323720143,
+      "verification_error": 0.0,
+      "identity_verified": true,
+      "description": "\u03b8\u2083(0.5)\u00b2 = 4.5323720143, \u03a3r\u2082(n)\u00b70.5\u207f = 4.5323720143, error = 0.00e+00"
+    },
+    "interference": {
+      "multi_beam_hypotenuses": 4,
+      "examples": [
+        {
+          "hypotenuse": 65,
+          "num_beams": 2,
+          "triples": [
+            [
+              33,
+              56,
+              65
+            ],
+            [
+              16,
+              63,
+              65
+            ]
+          ],
+          "pattern": {
+            "beams": 2,
+            "angles_degrees": [
+              59.4898,
+              75.75
+            ],
+            "angular_separations": [
+              16.2602
+            ],
+            "complexity": 2
+          }
+        },
+        {
+          "hypotenuse": 85,
+          "num_beams": 2,
+          "triples": [
+            [
+              13,
+              84,
+              85
+            ],
+            [
+              36,
+              77,
+              85
+            ]
+          ],
+          "pattern": {
+            "beams": 2,
+            "angles_degrees": [
+              81.2026,
+              64.9424
+            ],
+            "angular_separations": [
+              16.2602
+            ],
+            "complexity": 2
+          }
+        },
+        {
+          "hypotenuse": 145,
+          "num_beams": 2,
+          "triples": [
+            [
+              17,
+              144,
+              145
+            ],
+            [
+              24,
+              143,
+              145
+            ]
+          ],
+          "pattern": {
+            "beams": 2,
+            "angles_degrees": [
+              83.2671,
+              80.4727
+            ],
+            "angular_separations": [
+              2.7944
+            ],
+            "complexity": 2
+          }
+        },
+        {
+          "hypotenuse": 185,
+          "num_beams": 2,
+          "triples": [
+            [
+              57,
+              176,
+              185
+            ],
+            [
+              104,
+              153,
+              185
+            ]
+          ],
+          "pattern": {
+            "beams": 2,
+            "angles_degrees": [
+              72.0547,
+              55.7945
+            ],
+            "angular_separations": [
+              16.2602
+            ],
+            "complexity": 2
+          }
+        }
+      ],
+      "description": "Found 4 hypotenuses with multi-beam interference"
+    },
+    "spectrum": {
+      "spectral_lines": 28,
+      "first_20_lines": [
+        5,
+        13,
+        17,
+        25,
+        29,
+        37,
+        41,
+        53,
+        61,
+        65,
+        73,
+        85,
+        89,
+        97,
+        101,
+        109,
+        113,
+        125,
+        137,
+        145
+      ],
+      "density": 0.14,
+      "average_gap": 7.111111111111111,
+      "description": "28 spectral lines up to 200, density = 0.1400"
+    }
+  },
+  "experiments": {
+    "brahmagupta_fibonacci": {
+      "tested": 130321,
+      "passed": 130321,
+      "all_passed": true
+    },
+    "chebyshev_bias": {
+      "birefringent_primes": 609,
+      "opaque_primes": 619,
+      "ratio": 0.9838449111470113,
+      "bias": 10,
+      "bias_description": "Chebyshev bias: slight excess of opaque primes"
+    }
+  }
+}
