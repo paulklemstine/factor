@@ -165,14 +165,29 @@ This is what simulators like Qiskit's `statevector_simulator`, Cirq, and QuEST d
 
 ## Part V: Key Theorems (Formalized in Lean)
 
-The accompanying Lean file `QuantumMathSimulation.lean` formalizes the following:
+The accompanying Lean file `QuantumMathSimulation.lean` formalizes the following (all proven, zero `sorry`):
 
-1. **Unitary operators preserve inner products** — proving quantum evolution is reversible and probability-preserving.
-2. **Composition of unitaries is unitary** — quantum circuits compose correctly.
-3. **The Born rule produces valid probability distributions** — measurement probabilities sum to 1.
-4. **Entangled states exist** — the Bell state is not a product state (when formalized appropriately).
-5. **Clifford group structure** — laying foundations for the Gottesman-Knill theorem.
-6. **State space dimensionality** — n qubits require exactly 2^n dimensions.
+1. **`identity_is_unitary`** — The identity matrix is a valid quantum gate.
+2. **`unitary_comp`** — Composition of unitary gates is unitary (circuits compose correctly).
+3. **`unitary_adjoint`** — The conjugate transpose of a unitary is unitary.
+4. **`born_rule_valid`** — The Born rule produces valid probability distributions (probabilities sum to 1).
+5. **`born_probability_nonneg`** — Each measurement probability is non-negative.
+6. **`born_probability_le_one`** — Each measurement probability is at most 1.
+7. **`bell_state_entangled`** — The Bell state is entangled (not a product state).
+8. **`circuit_composition`** — Gate-by-gate simulation equals total unitary application.
+9. **`state_space_exponential`** — n qubits require 2^n dimensions.
+10. **`qubit_doubles_space`** — Each additional qubit doubles the state space.
+11. **`simulation_dimension`** — The ℂ-vector space dimension is exactly 2^n.
+12. **`pauliX_unitary`** — Pauli X gate is unitary.
+13. **`pauliZ_unitary`** — Pauli Z gate is unitary.
+14. **`pauliX_involution`** — Pauli X is its own inverse.
+15. **`pauliZ_involution`** — Pauli Z is its own inverse.
+16. **`hadamard_unitary`** — The Hadamard gate is unitary.
+17. **`hadamard_conjugation`** — HZH = X (Hadamard conjugation swaps X and Z).
+18. **`no_cloning_inner_product`** — No-cloning theorem: cloning implies inner product is 0 or 1.
+19. **`quantum_is_linear_algebra`** — Quantum evolution is deterministic given the unitary and input.
+
+All proofs depend only on the standard axioms: `propext`, `Classical.choice`, `Quot.sound`.
 
 ---
 
