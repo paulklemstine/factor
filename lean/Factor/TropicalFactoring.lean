@@ -43,7 +43,7 @@ theorem padic_val_mul_eq_add {p : ℕ} (hp : Nat.Prime p) {a b : ℕ}
 v_p(1) = 0: the multiplicative identity maps to the tropical multiplicative identity
 -/
 theorem padic_val_one (p : ℕ) : padicValNat p 1 = 0 := by
-  exact?
+  simp
 
 /-
 v_p(p) = 1 for prime p

@@ -83,7 +83,7 @@ theorem tropical_contraction_principle {n : ℕ} (A : Fin (n+1) → Fin (n+1) �
     (x : Fin (n+1) → ℝ) (γ : ℝ) (hγ : γ < 0)
     (hA : ∀ i j, A i j ≤ γ) :
     ∀ i, tropDynamicsStep A x i ≤ γ + tropicalLyapunov x := by
-  exact?
+  exact tropical_spectral_bound A x γ hA
 
 /-! ================================================================
     PART III: TROPICAL EXTREME VALUE THEORY (Agent Xi)
