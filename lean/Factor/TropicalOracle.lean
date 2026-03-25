@@ -70,7 +70,7 @@ An oracle restricted to its truth set is the identity.
 PROVIDED SOLUTION
 hx says O x = x, so just use hx directly.
 -/
-theorem oracle_on_truthSet {α : Type*} (O : α → α) (_hO : IsOracle O)
+theorem oracle_on_truthSet {α : Type*} (O : α → α)
     (x : α) (hx : x ∈ truthSet O) : O x = x := by
       exact hx
 
@@ -238,7 +238,7 @@ Since O ∘ O = O (by oracle_compose_self), (O ∘ O)^[n] = O^[n]. Use funext an
 -/
 theorem meta_oracle_stable {α : Type*} (O : α → α) (hO : IsOracle O)
     (n : ℕ) : (O ∘ O)^[n] = O^[n] := by
-      induction n <;> simp_all +decide [funext_iff];
+      induction n <;> simp_all +decide [ funext_iff ];
       exact fun x => by rw [ hO ] ;
 
 /-
@@ -257,7 +257,8 @@ This is just oracle_range_eq_truthSet applied to the composition D ∘ U, using 
 theorem holographic_bottleneck_retraction {α : Type*}
     (D U : α → α) (h : IsOracle (D ∘ U)) :
     range (D ∘ U) = fixedPoints (D ∘ U) := by
-      rw [← truthSet_eq_fixedPoints]; exact oracle_range_eq_truthSet _ h
+      have := oracle_range_eq_truthSet (D ∘ U) h
+      convert this using 1
 
 /-
 PROBLEM
