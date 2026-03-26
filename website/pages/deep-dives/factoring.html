@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inside-Out Factoring — Deep Dive — Pythagorean Cosmos</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav"><div class="nav-inner"><a href="../../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a><ul class="nav-links"><li><a href="../../index.html">Home</a></li><li><a href="../cosmos-theorems.html">Theorems</a></li><li><a href="../cosmos-library.html">Library</a></li><li><a href="berggren-tree.html" class="active">Deep Dives</a></li><li><a href="../cosmos-codebase.html">Codebase</a></li><li><a href="../cosmos-team.html">Team</a></li><li><a href="../cosmos-about.html">About</a></li></ul><button class="nav-mobile-toggle">☰</button></div></nav>
+  <div style="background:var(--bg-secondary);border-bottom:1px solid var(--border-subtle);padding:0.5rem 1.5rem;margin-top:64px;overflow-x:auto;white-space:nowrap"><div style="max-width:1400px;margin:0 auto;display:flex;gap:4px"><a href="berggren-tree.html" class="filter-tab" style="text-decoration:none">🌲 Berggren Tree</a><a href="grand-unification.html" class="filter-tab" style="text-decoration:none">🔗 Grand Unification</a><a href="quantum-gates.html" class="filter-tab" style="text-decoration:none">⚛️ Quantum Gates</a><a href="light-cone.html" class="filter-tab" style="text-decoration:none">💡 Light Cone</a><a href="stereographic.html" class="filter-tab" style="text-decoration:none">🔮 Stereographic</a><a href="division-algebras.html" class="filter-tab" style="text-decoration:none">🔷 Division Algebras</a><a href="crystallizer.html" class="filter-tab" style="text-decoration:none">💎 Crystallizer</a><a href="factoring.html" class="filter-tab active" style="text-decoration:none">⚙️ Factoring</a><a href="compression.html" class="filter-tab" style="text-decoration:none">🗜️ Compression</a><a href="applications.html" class="filter-tab" style="text-decoration:none">🚀 Applications</a></div></div>
+
+  <div class="deep-dive-hero" style="padding-top:var(--space-3xl)"><div class="hero-badge"><span class="pulse"></span>Deep Dive #8</div><h1><span class="gradient-text">Inside-Out Factoring</span></h1><p class="subtitle">The Berggren tree as an integer-factoring algorithm — with a provable energy descent landscape.</p></div>
+
+  <div class="deep-dive-content">
+    <h2>The IOF Algorithm</h2>
+    <p>Inside-Out Factoring starts with a target semiprime N and constructs the starting Pythagorean triple:</p>
+    <div class="math-block">(N, &nbsp;(N² − 1)/2, &nbsp;(N² + 1)/2)</div>
+    <p>Then iterates: at each step k, the leg evolves. When k = (p−1)/2 for a factor p, gcd(leg, N) > 1 reveals the factor.</p>
+
+    <h2>Interactive Factoring Demo</h2>
+    <div class="viz-container">
+      <div style="display:flex;gap:var(--space-md);align-items:center;flex-wrap:wrap">
+        <label style="color:var(--text-secondary);font-size:0.85rem">N = </label>
+        <input type="number" id="factorN" value="15" min="9" max="999" style="width:100px;padding:0.5rem;background:var(--bg-tertiary);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-mono)">
+        <button class="btn btn-primary" onclick="runIOF()" style="font-size:0.85rem">Factor →</button>
+      </div>
+      <div id="iofResult" style="margin-top:var(--space-lg);font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary);line-height:1.8;max-height:400px;overflow-y:auto"></div>
+    </div>
+
+    <h2>Energy Descent</h2>
+    <p>The IOF energy function E(k) = (N − 2k)² decreases monotonically — the algorithm always makes progress toward the factor.</p>
+    <div class="discoveries-grid" style="grid-template-columns:1fr 1fr">
+      <div class="discovery-card"><h3><span class="theorem-id">E≥0</span> Energy Non-negative</h3><p class="description">E(k) = (N − 2k)² ≥ 0 always. The energy landscape is a parabola.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">DROP</span> Monotone Descent</h3><p class="description">E(k+1) < E(k) whenever N − 2k > 1. Energy decreases at every step.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">GRAD</span> Linear Gradient</h3><p class="description">Second difference = 8 (parabolic). The energy landscape is perfectly smooth.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">PER</span> Factor Periodicity</h3><p class="description">Factor steps form arithmetic progressions mod p — revealing algebraic structure.</p></div>
+    </div>
+
+    <h2>CFRAC-Tree Equivalence</h2>
+    <div class="card" style="border-left:3px solid var(--accent-cyan)">
+      <h3 style="color:var(--accent-cyan)">Two Algorithms, One Framework</h3>
+      <p>The continued fraction algorithm for factoring is equivalent to a walk on the Pythagorean tree with adaptive step sizes M(a_k). This unifies two apparently different mathematical structures: Gauss's continued fractions and the Berggren ternary tree.</p>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-bottom" style="margin-top:0;border-top:none"><p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p><p>© 2025 Paul Klemstine</p></div></footer>
+  <script src="../../js/app.js"></script>
+  <script>
+    function runIOF() {
+      const N = parseInt(document.getElementById('factorN').value);
+      const result = document.getElementById('iofResult');
+      if (N < 4 || N > 999) { result.innerHTML = '<span style="color:var(--accent-rose)">Please enter N between 9 and 999</span>'; return; }
+      let html = `<div style="color:var(--accent-indigo)">Factoring N = ${N}</div>`;
+      html += `<div>Starting triple: (${N}, ${(N*N-1)/2}, ${(N*N+1)/2})</div><hr style="border-color:var(--border-subtle);margin:0.5rem 0">`;
+      let found = false;
+      for (let k = 1; k < N; k++) {
+        const leg = N - 2*k;
+        const g = gcd(Math.abs(leg), N);
+        const energy = (N - 2*k) * (N - 2*k);
+        if (g > 1 && g < N) {
+          html += `<div style="color:var(--accent-emerald)">✓ Step k=${k}: gcd(${Math.abs(leg)}, ${N}) = ${g} → <strong>${N} = ${g} × ${N/g}</strong> [E=${energy}]</div>`;
+          found = true;
+          break;
+        }
+        if (k <= 20) html += `<div>Step k=${k}: leg=${leg}, gcd=${g}, E=${energy}</div>`;
+        else if (k === 21) html += `<div style="color:var(--text-tertiary)">... continuing ...</div>`;
+      }
+      if (!found) html += `<div style="color:var(--accent-amber)">${N} is prime (no non-trivial factor found)</div>`;
+      result.innerHTML = html;
+    }
+    function gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+    runIOF();
+  </script>
+</body>
+</html>

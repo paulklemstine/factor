@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compression Theory — Deep Dive — Pythagorean Cosmos</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav"><div class="nav-inner"><a href="../../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a><ul class="nav-links"><li><a href="../../index.html">Home</a></li><li><a href="../cosmos-theorems.html">Theorems</a></li><li><a href="../cosmos-library.html">Library</a></li><li><a href="berggren-tree.html" class="active">Deep Dives</a></li><li><a href="../cosmos-codebase.html">Codebase</a></li><li><a href="../cosmos-team.html">Team</a></li><li><a href="../cosmos-about.html">About</a></li></ul><button class="nav-mobile-toggle">☰</button></div></nav>
+  <div style="background:var(--bg-secondary);border-bottom:1px solid var(--border-subtle);padding:0.5rem 1.5rem;margin-top:64px;overflow-x:auto;white-space:nowrap"><div style="max-width:1400px;margin:0 auto;display:flex;gap:4px"><a href="berggren-tree.html" class="filter-tab" style="text-decoration:none">🌲 Berggren Tree</a><a href="grand-unification.html" class="filter-tab" style="text-decoration:none">🔗 Grand Unification</a><a href="quantum-gates.html" class="filter-tab" style="text-decoration:none">⚛️ Quantum Gates</a><a href="light-cone.html" class="filter-tab" style="text-decoration:none">💡 Light Cone</a><a href="stereographic.html" class="filter-tab" style="text-decoration:none">🔮 Stereographic</a><a href="division-algebras.html" class="filter-tab" style="text-decoration:none">🔷 Division Algebras</a><a href="crystallizer.html" class="filter-tab" style="text-decoration:none">💎 Crystallizer</a><a href="factoring.html" class="filter-tab" style="text-decoration:none">⚙️ Factoring</a><a href="compression.html" class="filter-tab active" style="text-decoration:none">🗜️ Compression</a><a href="applications.html" class="filter-tab" style="text-decoration:none">🚀 Applications</a></div></div>
+
+  <div class="deep-dive-hero" style="padding-top:var(--space-3xl)"><div class="hero-badge"><span class="pulse"></span>Deep Dive #9</div><h1><span class="gradient-text">Compression Theory</span> & Information Limits</h1><p class="subtitle">The mathematical impossibility of universal compression — and what the pigeonhole principle really means.</p></div>
+
+  <div class="deep-dive-content">
+    <h2>The Fundamental Impossibility</h2>
+    <div class="math-block">No injective map exists from {0,1}ⁿ → {0,1}ⁿ⁻¹</div>
+    <p>By the pigeonhole principle, any map from 2ⁿ strings to 2ⁿ⁻¹ strings must have collisions. This proves that no lossless compression algorithm can shrink every input.</p>
+
+    <h2>Interactive Pigeonhole Visualizer</h2>
+    <div class="viz-container">
+      <div style="display:flex;gap:var(--space-md);align-items:center;flex-wrap:wrap;margin-bottom:var(--space-lg)">
+        <label style="color:var(--text-secondary);font-size:0.85rem">n = </label>
+        <input type="range" id="pigeonN" min="2" max="8" value="3" style="width:200px">
+        <span id="pigeonNval" style="font-family:var(--font-mono);color:var(--accent-indigo)">3</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:var(--space-xl);align-items:center">
+        <div style="text-align:center">
+          <div style="color:var(--accent-indigo);font-size:0.8rem;margin-bottom:4px">Source: {0,1}ⁿ</div>
+          <div style="font-family:var(--font-mono);font-size:2rem;color:var(--accent-indigo)" id="sourceCount">8</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary)">strings</div>
+        </div>
+        <div style="font-size:2rem;color:var(--accent-rose)">↛</div>
+        <div style="text-align:center">
+          <div style="color:var(--accent-rose);font-size:0.8rem;margin-bottom:4px">Target: {0,1}ⁿ⁻¹</div>
+          <div style="font-family:var(--font-mono);font-size:2rem;color:var(--accent-rose)" id="targetCount">4</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary)">strings</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:var(--space-lg);color:var(--text-secondary);font-size:0.9rem" id="pigeonMsg">At least <span style="color:var(--accent-amber)">4</span> collisions guaranteed</div>
+    </div>
+
+    <h2>Key Results</h2>
+    <div class="discoveries-grid" style="grid-template-columns:1fr 1fr">
+      <div class="discovery-card"><h3><span class="theorem-id">KRAFT</span> Kraft Inequality</h3><p class="description">For prefix-free codes: Σ 2^(-ℓᵢ) ≤ 1. The fundamental constraint on code lengths.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">SHAN</span> Shannon Entropy</h3><p class="description">Shannon entropy ≥ 0. No source can have negative information content.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">SRC</span> Source Coding Theorem</h3><p class="description">Both achievability and converse: optimal compression rate equals entropy. Proven in both directions.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">DPI</span> Data Processing Inequality</h3><p class="description">Processing cannot increase information. A fundamental constraint on any computation.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">INC</span> Incompressible Majority</h3><p class="description">Fraction of k-bit-incompressible strings > 1 − 2⁻ᵏ. Most strings resist compression.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">FUTILE</span> Recompression Futile</h3><p class="description">Repeated compression cannot help. Compressing the output of a compressor gains nothing.</p></div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-bottom" style="margin-top:0;border-top:none"><p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p><p>© 2025 Paul Klemstine</p></div></footer>
+  <script src="../../js/app.js"></script>
+  <script>
+    const slider = document.getElementById('pigeonN');
+    slider.addEventListener('input', () => {
+      const n = parseInt(slider.value);
+      document.getElementById('pigeonNval').textContent = n;
+      document.getElementById('sourceCount').textContent = Math.pow(2,n);
+      document.getElementById('targetCount').textContent = Math.pow(2,n-1);
+      document.getElementById('pigeonMsg').innerHTML = `At least <span style="color:var(--accent-amber)">${Math.pow(2,n)-Math.pow(2,n-1)}</span> collisions guaranteed`;
+    });
+  </script>
+</body>
+</html>

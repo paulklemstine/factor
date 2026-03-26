@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Light Cone Theory — Deep Dive — Pythagorean Cosmos</title>
+  <meta name="description" content="Pythagorean triples ARE photon momenta — the deep connection between number theory and Minkowski spacetime.">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Home</a></li><li><a href="../cosmos-theorems.html">Theorems</a></li><li><a href="../cosmos-library.html">Library</a></li>
+        <li><a href="berggren-tree.html" class="active">Deep Dives</a></li><li><a href="../cosmos-codebase.html">Codebase</a></li><li><a href="../cosmos-team.html">Team</a></li><li><a href="../cosmos-about.html">About</a></li>
+      </ul><button class="nav-mobile-toggle">☰</button>
+    </div>
+  </nav>
+  <div style="background:var(--bg-secondary);border-bottom:1px solid var(--border-subtle);padding:0.5rem 1.5rem;margin-top:64px;overflow-x:auto;white-space:nowrap">
+    <div style="max-width:1400px;margin:0 auto;display:flex;gap:4px">
+      <a href="berggren-tree.html" class="filter-tab" style="text-decoration:none">🌲 Berggren Tree</a>
+      <a href="grand-unification.html" class="filter-tab" style="text-decoration:none">🔗 Grand Unification</a>
+      <a href="quantum-gates.html" class="filter-tab" style="text-decoration:none">⚛️ Quantum Gates</a>
+      <a href="light-cone.html" class="filter-tab active" style="text-decoration:none">💡 Light Cone</a>
+      <a href="stereographic.html" class="filter-tab" style="text-decoration:none">🔮 Stereographic</a>
+      <a href="division-algebras.html" class="filter-tab" style="text-decoration:none">🔷 Division Algebras</a>
+      <a href="crystallizer.html" class="filter-tab" style="text-decoration:none">💎 Crystallizer</a>
+      <a href="factoring.html" class="filter-tab" style="text-decoration:none">⚙️ Factoring</a>
+      <a href="compression.html" class="filter-tab" style="text-decoration:none">🗜️ Compression</a>
+      <a href="applications.html" class="filter-tab" style="text-decoration:none">🚀 Applications</a>
+    </div>
+  </div>
+
+  <div class="deep-dive-hero" style="padding-top:var(--space-3xl)">
+    <div class="hero-badge"><span class="pulse"></span>Deep Dive #4</div>
+    <h1>Lorentz Geometry & <span class="gradient-text">Light Cone Theory</span></h1>
+    <p class="subtitle">Pythagorean triples are photon momenta. The Berggren matrices are discrete Lorentz transformations.</p>
+  </div>
+
+  <div class="deep-dive-content">
+    <h2>The Key Insight</h2>
+    <div class="math-block">a² + b² = c² &nbsp;⟺&nbsp; Q(a,b,c) = a² + b² − c² = 0 &nbsp;⟺&nbsp; (a,b,c) is a null vector</div>
+    <p>The Pythagorean equation IS the light cone equation in 2+1 Minkowski spacetime. Every Pythagorean triple is literally a photon momentum vector.</p>
+
+    <h2>Causal Classification</h2>
+    <div class="viz-container">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-md);text-align:center">
+        <div style="padding:1.5rem;border-radius:var(--radius-md);background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2)">
+          <div style="font-size:2rem;margin-bottom:0.5rem">⏱️</div>
+          <div style="font-weight:600;color:var(--accent-cyan)">Timelike</div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Q(v) &lt; 0</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:4px">Massive particles</div>
+        </div>
+        <div style="padding:1.5rem;border-radius:var(--radius-md);background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2)">
+          <div style="font-size:2rem;margin-bottom:0.5rem">💡</div>
+          <div style="font-weight:600;color:var(--accent-amber)">Null (Light-like)</div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Q(v) = 0</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:4px">Photons = PPTs</div>
+        </div>
+        <div style="padding:1.5rem;border-radius:var(--radius-md);background:rgba(251,113,133,0.08);border:1px solid rgba(251,113,133,0.2)">
+          <div style="font-size:2rem;margin-bottom:0.5rem">📐</div>
+          <div style="font-weight:600;color:var(--accent-rose)">Spacelike</div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Q(v) &gt; 0</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:4px">Spatial separation</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Berggren Matrices as Lorentz Transforms</h2>
+    <p>Each Berggren matrix B satisfies B<sup>T</sup>QB = Q where Q = diag(1,1,−1). This is the defining property of the Lorentz group O(2,1).</p>
+    <div class="code-block">
+      <span class="lang-label">Lean 4</span>
+      <pre>theorem B1_lorentz : B₁ᵀ * Q * B₁ = Q
+theorem B2_lorentz : B₂ᵀ * Q * B₂ = Q
+theorem B3_lorentz : B₃ᵀ * Q * B₃ = Q
+
+-- Photon classification
+theorem prime_bright_or_dark :
+  ∀ p, Nat.Prime p → p ≠ 2 →
+    (p % 4 = 1 ∨ p % 4 = 3)  -- bright or dark
+
+-- Chebyshev prime race bias
+theorem chebyshev_bias_100 :
+  darkCount 100 > brightCount 100  -- 13 > 11</pre>
+    </div>
+
+    <h2>Relativistic Effects</h2>
+    <div class="discoveries-grid" style="grid-template-columns:1fr 1fr">
+      <div class="discovery-card">
+        <h3><span class="theorem-id">DOP+</span> Doppler Blueshift</h3>
+        <p class="description">E' = e<sup>φ</sup>E — approaching photon energy increases exponentially with rapidity.</p>
+      </div>
+      <div class="discovery-card">
+        <h3><span class="theorem-id">DOP−</span> Doppler Redshift</h3>
+        <p class="description">E' = e<sup>−φ</sup>E — receding photon energy decreases exponentially with rapidity.</p>
+      </div>
+      <div class="discovery-card">
+        <h3><span class="theorem-id">MASS</span> Reversed Triangle Inequality</h3>
+        <p class="description">Two photons can combine to create a massive particle: M² = 2(1 − cos(θ₁ − θ₂)).</p>
+      </div>
+      <div class="discovery-card">
+        <h3><span class="theorem-id">ABER</span> Relativistic Aberration</h3>
+        <p class="description">The Berggren matrices implement discrete relativistic aberration of light directions.</p>
+      </div>
+    </div>
+
+    <h2>Bright and Dark Primes</h2>
+    <p>Primes are classified as <span style="color:var(--accent-amber)">bright</span> (≡ 1 mod 4, representable as sum of two squares) or <span style="color:var(--accent-violet)">dark</span> (≡ 3 mod 4, not representable). The Chebyshev bias shows dark primes lead bright primes in the prime race below modest bounds.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin:var(--space-xl) 0">
+      <div class="math-block" style="border-color:var(--accent-amber)">
+        <div style="color:var(--accent-amber);font-size:0.8rem;margin-bottom:4px">Bright primes below 100</div>
+        5, 13, 17, 29, 37, 41, 53, 61, 73, 89, 97<br>
+        <span style="color:var(--accent-amber)">Count: 11</span>
+      </div>
+      <div class="math-block" style="border-color:var(--accent-violet)">
+        <div style="color:var(--accent-violet);font-size:0.8rem;margin-bottom:4px">Dark primes below 100</div>
+        3, 7, 11, 19, 23, 31, 43, 47, 59, 67, 71, 79, 83<br>
+        <span style="color:var(--accent-violet)">Count: 13</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="footer-bottom" style="margin-top:0;border-top:none"><p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p><p>© 2025 Paul Klemstine</p></div></footer>
+  <script src="../../js/app.js"></script>
+</body>
+</html>

@@ -7,6 +7,15 @@
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#0a0e1a,#141830);border-bottom:1px solid rgba(99,134,255,0.3);padding:8px 24px;display:flex;align-items:center;justify-content:center;gap:16px;font-family:-apple-system,sans-serif;font-size:13px">
+  <a href="../index.html" style="color:#818cf8;text-decoration:none;font-weight:600">? Pythagorean Cosmos</a>
+  <span style="color:#555">|</span>
+  <a href="../pages/cosmos-theorems.html" style="color:#94a3b8;text-decoration:none">Theorems</a>
+  <a href="../pages/cosmos-library.html" style="color:#94a3b8;text-decoration:none">Library</a>
+  <a href="../pages/deep-dives/berggren-tree.html" style="color:#94a3b8;text-decoration:none">Deep Dives</a>
+  <a href="../pages/cosmos-team.html" style="color:#94a3b8;text-decoration:none">Team</a>
+</div>
+<div style="height:36px"></div>
 <div class="page-wrapper">
 
 <aside class="sidebar">
@@ -49,10 +58,7 @@
   All source code for the factoring engines, ECDLP solvers, C extensions, and visualization scripts.
 </p>
 
-<a href="https://github.com/paulklemstine/factor" target="_blank"
-   style="display:inline-block;padding:10px 24px;background:#2563eb;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;margin-bottom:28px;">
-  View on GitHub
-</a>
+
 
 <!-- Key source files -->
 <h2 class="section-title" id="key-files">Key Source Files</h2>
@@ -63,70 +69,70 @@
     <h4>siqs_engine.py</h4>
     <p style="margin-bottom:8px;">Self-Initializing Quadratic Sieve -- primary factoring workhorse (48-72 digits). Multi-worker sieve, K-S multiplier, DLP combining, GF(2) Gauss elimination.</p>
     <span class="badge badge-high">Factoring</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/siqs_engine.py" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>gnfs_engine.py</h4>
     <p style="margin-bottom:8px;">General Number Field Sieve -- all 5 phases: polynomial selection, factor base, lattice sieve, SLP/DLP combining, SGE, Hensel sqrt. Targets 40+ digits.</p>
     <span class="badge badge-high">Factoring</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/gnfs_engine.py" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>resonance_v7.py</h4>
     <p style="margin-bottom:8px;">Unified dispatcher -- heterogeneous factoring driver. Routes to SIQS, GNFS, or ECM based on digit size and factor balance. Pythagorean tree Path 1 + Spectral Compass.</p>
     <span class="badge badge-high">Driver</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/resonance_v7.py" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>cfrac_engine.py</h4>
     <p style="margin-bottom:8px;">Continued Fraction factoring engine -- Pythagorean tree climb-up as CF expansion. L(1/2) complexity. 40d in 1s, 45d in 57s.</p>
     <span class="badge badge-high">Factoring</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/cfrac_engine.py" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>siqs_core_c.c</h4>
     <p style="margin-bottom:8px;">C extension for SIQS sieve core -- int16 sieve array, batch trial division, 35x faster than Python. The 95% hotpath.</p>
     <span class="badge badge-medium">C Extension</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/siqs_core_c.c" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>siqs_poly_c.c</h4>
     <p style="margin-bottom:8px;">C extension for SIQS polynomial generation -- Gray code switching, incremental offset updates, batch polynomial evaluation.</p>
     <span class="badge badge-medium">C Extension</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/siqs_poly_c.c" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>gnfs_sieve_c.c</h4>
     <p style="margin-bottom:8px;">C sieve + verify extension for GNFS -- __int128 arithmetic, Miller-Rabin primality, int64 fast path for rational norms.</p>
     <span class="badge badge-medium">C Extension</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/gnfs_sieve_c.c" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>gnfs_lattice_sieve_c.c</h4>
     <p style="margin-bottom:8px;">C lattice sieve for GNFS -- special-q lattice enumeration, 43-50x speedup over line sieve. Enables 50+ digit GNFS.</p>
     <span class="badge badge-medium">C Extension</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/gnfs_lattice_sieve_c.c" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>block_lanczos_v2.c</h4>
     <p style="margin-bottom:8px;">Block Lanczos algorithm for GF(2) linear algebra -- O(n^2*w/64) complexity. Essential for GNFS matrices above 15K rows.</p>
     <span class="badge badge-medium">C Extension</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/block_lanczos_v2.c" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
   <div class="card">
     <h4>ec_kangaroo_shared.c</h4>
     <p style="margin-bottom:8px;">Shared-memory multi-process kangaroo for ECDLP (secp256k1) -- van Oorschot-Wiener parallelism, lock-free DP table via mmap, Levy flight jumps, 128-bit positions. 2.2-3.1x with 6 workers.</p>
     <span class="badge badge-medium">C Extension</span>
-    <a href="https://github.com/paulklemstine/factor/blob/main/ec_kangaroo_shared.c" target="_blank" style="float:right;color:#2563eb;">View on GitHub</a>
+    
   </div>
 
 </div>

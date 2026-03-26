@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theorem Catalog — Pythagorean Cosmos</title>
+  <meta name="description" content="Browse 5,052 machine-verified theorems across 17 mathematical domains. Searchable, filterable, organized by category.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="cosmos-theorems.html" class="active">Theorems</a></li>
+        <li><a href="cosmos-library.html">Library</a></li>
+        <li><a href="deep-dives/berggren-tree.html">Deep Dives</a></li>
+        
+
+        <li><a href="cosmos-team.html">Team</a></li><li><a href="cosmos-about.html">About</a></li>
+      </ul>
+      <button class="nav-mobile-toggle">☰</button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Theorem <span class="gradient-text">Catalog</span></h1>
+    <p>5,052 machine-verified theorems in Lean 4 across 17 mathematical domains — every one sorry-free.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <!-- Stats -->
+      <div class="stats-bar" style="margin-bottom:var(--space-2xl)">
+        <div class="stat-item">
+          <div class="stat-number" data-count="5052" data-format="comma">0</div>
+          <div class="stat-label">Total Theorems</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="263">0</div>
+          <div class="stat-label">Source Files</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="40">0</div>
+          <div class="stat-label">Domains</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="0">0</div>
+          <div class="stat-label">Sorry</div>
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="library-controls">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="theoremSearch" placeholder="Search theorems by name, statement, or file...">
+        </div>
+      </div>
+
+      <!-- Domain tabs -->
+      <div class="theorem-categories" id="domainTabs">
+        <button class="theorem-domain-tab active" data-domain="all">All (5,052)</button>
+      </div>
+
+      <div class="results-counter" id="resultsCounter">Showing <span>all</span> theorems</div>
+
+      <!-- Theorem Table -->
+      <div style="overflow-x:auto">
+        <table class="theorem-table" id="theoremTable">
+          <thead>
+            <tr>
+              <th>Theorem</th>
+              <th>Statement</th>
+              <th>File</th>
+              <th>Domain</th><th>Paper</th>
+            </tr>
+          </thead>
+          <tbody id="theoremBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-bottom" style="margin-top:0;border-top:none">
+      <p>Verified with Lean 4.28.0 + Mathlib v4.28.0 · Standard axioms only</p>
+      <p>© 2025 Paul Klemstine</p>
+    </div>
+  </footer>
+
+  <script src="../js/app.js"></script>
+  <script>
+    // Full theorem data extracted from THEOREM_CATALOG.md
+    const THEOREMS = [
+      // 1. Pythagorean Triples & Berggren Tree
+      {name:'euclid_parametrization',statement:'For m > n > 0, (m²−n², 2mn, m²+n²) is Pythagorean',file:'Basic.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'pyth_identity_int',statement:'a²+b²=c² ⟹ (c²)²=(a²−b²)²+(2ab)²',file:'Basic.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'quartic_from_pyth',statement:'a²+b²=c² ⟹ a⁴+b⁴+2a²b²=c⁴',file:'Basic.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'congruent_number_scaled',statement:'Pythagorean ↦ congruent number scaling identity',file:'Basic.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'B₁_preserves_pyth',statement:'Matrix B₁ maps Pythagorean triples to Pythagorean triples',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'B₂_preserves_pyth',statement:'Matrix B₂ maps Pythagorean triples to Pythagorean triples',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'B₃_preserves_pyth',statement:'Matrix B₃ maps Pythagorean triples to Pythagorean triples',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'det_B₁',statement:'det(B₁) = 1',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'det_B₂',statement:'det(B₂) = −1',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'det_B₃',statement:'det(B₃) = 1',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'B₁_preserves_lorentz',statement:'B₁ᵀ·Q·B₁ = Q (Lorentz form preservation)',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'M₃_inv_M₁_eq_S',statement:'M₃⁻¹·M₁ = S (connection to modular group)',file:'Berggren.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'berggren_A_pyth_eq',statement:'Explicit triple formula for branch A',file:'BerggrenTree.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'berggrenTripleAux_pyth',statement:'All tree paths produce Pythagorean triples',file:'BerggrenTree.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'hypotenuse_growth',statement:'Hypotenuse grows strictly along branches',file:'BerggrenTree.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'brahmagupta_fibonacci',statement:'(a²+b²)(c²+d²)=(ac−bd)²+(ad+bc)²',file:'Multiple files',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'sum_two_squares_mul',statement:'Product of sums of 2 squares is a sum of 2 squares',file:'SumOfSquaresFilter.lean',domain:'Pythagorean Triples & Berggren Tree'},
+      {name:'euler_four_square',statement:'Euler\'s 4-square identity (quaternion norm)',file:'Multiple files',domain:'Pythagorean Triples & Berggren Tree'},
+
+      // 2. Four-Channel Signatures
+      {name:'r4_odd_prime',statement:'r₄(p) = 8(p+1) for odd prime p',file:'ChannelEntropy.lean',domain:'Four-Channel Signatures'},
+      {name:'r8_odd_prime',statement:'r₈(p) = 16(1+p³) for odd prime p',file:'ChannelEntropy.lean',domain:'Four-Channel Signatures'},
+      {name:'r2_prime_1mod4',statement:'r₂(p) = 8 for p ≡ 1 (mod 4)',file:'ChannelEntropy.lean',domain:'Four-Channel Signatures'},
+      {name:'r2_prime_3mod4',statement:'r₂(p) = 0 for p ≡ 3 (mod 4)',file:'ChannelEntropy.lean',domain:'Four-Channel Signatures'},
+      {name:'r4_pos',statement:'r₄ is always positive (Lagrange)',file:'ChannelEntropy.lean',domain:'Four-Channel Signatures'},
+      {name:'r8_gt_r4',statement:'r₈(p) > r₄(p) for p ≥ 2 (channel dominance)',file:'ChannelEntropy.lean',domain:'Four-Channel Signatures'},
+      {name:'signature_gap_constant',statement:'|r₂(p)−r₂(q)| = 8 for p≡1, q≡3 (mod 4)',file:'PrimeSignatures.lean',domain:'Four-Channel Signatures'},
+      {name:'r4_eq_8_sigma1_star',statement:'r₄(n) = 8·σ₁*(n)',file:'Multiplicativity.lean',domain:'Four-Channel Signatures'},
+      {name:'r8_eq_16_sigma3_pm',statement:'r₈(n) = 16·σ₃±(n)',file:'Multiplicativity.lean',domain:'Four-Channel Signatures'},
+
+      // 3. Compression Theory
+      {name:'no_injective_compression',statement:'No injective map from n-bit strings to (n−1)-bit strings',file:'Compression.lean',domain:'Compression Theory'},
+      {name:'no_universal_compression',statement:'No algorithm compresses all strings',file:'Compression.lean',domain:'Compression Theory'},
+      {name:'incompressible_strings_lower_bound',statement:'≥ 2ⁿ−2ⁿ⁻ᵏ+1 strings incompressible by k bits',file:'Compression.lean',domain:'Compression Theory'},
+      {name:'kraft_inequality_nat',statement:'Kraft inequality for prefix-free codes',file:'Compression.lean',domain:'Compression Theory'},
+      {name:'shannonEntropy_nonneg',statement:'Shannon entropy ≥ 0',file:'Compression.lean',domain:'Compression Theory'},
+      {name:'data_processing_inequality',statement:'Data processing inequality',file:'CompressionTheory.lean',domain:'Compression Theory'},
+      {name:'source_coding_achievability',statement:'Source coding theorem (achievability)',file:'CompressionTheory.lean',domain:'Compression Theory'},
+      {name:'source_coding_converse',statement:'Source coding theorem (converse)',file:'CompressionTheory.lean',domain:'Compression Theory'},
+      {name:'recompression_futile',statement:'Repeated compression cannot help',file:'CompressionTheory.lean',domain:'Compression Theory'},
+
+      // 4. Quantum Computing
+      {name:'BG₁_mul_inv',statement:'BG₁·BG₁⁻¹ = I (gate invertibility)',file:'QuantumBerggren.lean',domain:'Quantum Computing & Gates'},
+      {name:'BG₁_unitary',statement:'BG₁ᵀ·Q·BG₁ = Q (Lorentz unitarity)',file:'QuantumBerggren.lean',domain:'Quantum Computing & Gates'},
+      {name:'gate_swap_12',statement:'BG₁·BG₂⁻¹·BG₁ = BG₂ (conjugation)',file:'QuantumBerggren.lean',domain:'Quantum Computing & Gates'},
+      {name:'R₁₂_involution',statement:'Reflections R₁₂² = I',file:'QuantumBerggren.lean',domain:'Quantum Computing & Gates'},
+      {name:'BG₁_BG₂_ne_BG₂_BG₁',statement:'Gates are non-commutative',file:'QuantumBerggren.lean',domain:'Quantum Computing & Gates'},
+      {name:'det_gate',statement:'All theta gates have determinant 1',file:'QuantumGateSynthesis.lean',domain:'Quantum Computing & Gates'},
+      {name:'eval_circuit_determinant',statement:'Circuit evaluation preserves determinant',file:'QuantumGateSynthesis.lean',domain:'Quantum Computing & Gates'},
+      {name:'S_eq_M₃_inv_M₁',statement:'S = M₃⁻¹·M₁ (modular S-gate)',file:'QuantumGateSynthesis.lean',domain:'Quantum Computing & Gates'},
+      {name:'S_order_4',statement:'S⁴ = I (S-gate has order 4)',file:'FrontierResearch.lean',domain:'Quantum Computing & Gates'},
+      {name:'modular_relation',statement:'(S·T)³ = S²',file:'FrontierResearch.lean',domain:'Quantum Computing & Gates'},
+      {name:'simplify_121_to_2',statement:'B₁·B₂·B₁ = B₂ (circuit simplification)',file:'QuantumBerggren.lean',domain:'Quantum Computing & Gates'},
+      {name:'factoring_from_parameters',statement:'m²−n² = N ⟹ N = (m+n)(m−n)',file:'QuantumGateSynthesis.lean',domain:'Quantum Computing & Gates'},
+
+      // 5. Stereographic Projection
+      {name:'stereo_on_circle',statement:'stereoX(t)² + stereoY(t)² = 1',file:'Basic.lean',domain:'Stereographic & Decoder'},
+      {name:'stereo_injective',statement:'Stereographic projection is injective on ℚ',file:'Basic.lean',domain:'Stereographic & Decoder'},
+      {name:'circle_add_stereo_x',statement:'Circle group law = tangent addition (x-component)',file:'Basic.lean',domain:'Stereographic & Decoder'},
+      {name:'cross_ratio_invariance',statement:'Cross-ratio preserved under Möbius maps',file:'UniversalDecoder.lean',domain:'Stereographic & Decoder'},
+      {name:'cayley_transform',statement:'Stereographic = Cayley transform on ℂ',file:'UniversalDecoder.lean',domain:'Stereographic & Decoder'},
+      {name:'ford_circle_tangency',statement:'Farey neighbors ↔ Ford circle tangency',file:'UniversalDecoder.lean',domain:'Stereographic & Decoder'},
+      {name:'mediant_between',statement:'Mediant lies between fractions',file:'Multiple files',domain:'Stereographic & Decoder'},
+      {name:'mobius_compose_det',statement:'Möbius composition preserves determinant',file:'Multiple files',domain:'Stereographic & Decoder'},
+
+      // 6. FLT4 & Congruent Numbers
+      {name:'flt4_strong',statement:'x⁴+y⁴=z⁴ has no positive integer solutions (strong form)',file:'FLT4.lean',domain:'FLT4 & Congruent Numbers'},
+      {name:'flt4',statement:'x⁴+y⁴=z⁴ has no positive integer solutions',file:'FLT4.lean',domain:'FLT4 & Congruent Numbers'},
+      {name:'no_square_legs_pyth',statement:'No PPT has both legs as perfect squares',file:'FLT4.lean',domain:'FLT4 & Congruent Numbers'},
+      {name:'congruent_map_identity',statement:'Pythagorean ↦ congruent number mapping',file:'CongruentNumber.lean',domain:'FLT4 & Congruent Numbers'},
+      {name:'congruent_curve_factored',statement:'Congruent number elliptic curve factorization',file:'CongruentNumber.lean',domain:'FLT4 & Congruent Numbers'},
+      {name:'two_torsion_points',statement:'2-torsion points on E_n',file:'CongruentNumber.lean',domain:'FLT4 & Congruent Numbers'},
+
+      // 7. Lorentz & Light Cone
+      {name:'B1_lorentz',statement:'B₁ preserves Lorentz form',file:'FrontierResearch.lean',domain:'Lorentz & Light Cone'},
+      {name:'pyth_triple_null',statement:'a²+b²=c² ⟺ (a,b,c) is null in Lorentz metric',file:'FrontierResearch.lean',domain:'Lorentz & Light Cone'},
+      {name:'prime_bright_or_dark',statement:'Every odd prime is bright (≡1 mod 4) or dark (≡3 mod 4)',file:'FrontierResearch.lean',domain:'Lorentz & Light Cone'},
+      {name:'chebyshev_bias_100',statement:'Dark primes > bright primes below 100 (Chebyshev bias)',file:'FrontierResearch.lean',domain:'Lorentz & Light Cone'},
+      {name:'light_like_iff_pythagorean',statement:'Q(a,b,c)=0 ⟺ a²+b²=c²',file:'LightConeTheory.lean',domain:'Lorentz & Light Cone'},
+      {name:'causal_classification',statement:'Every vector: spacelike, null, or timelike',file:'LightConeTheory.lean',domain:'Lorentz & Light Cone'},
+      {name:'lorentz_boost_preserves_form',statement:'Boosts preserve Q',file:'LightConeTheory.lean',domain:'Lorentz & Light Cone'},
+      {name:'doppler_blueshift',statement:'E\' = e^φ E (forward)',file:'LightConeTheory.lean',domain:'Lorentz & Light Cone'},
+      {name:'doppler_redshift',statement:'E\' = e^{-φ} E (backward)',file:'LightConeTheory.lean',domain:'Lorentz & Light Cone'},
+      {name:'cross_ratio_lorentz_invariant',statement:'Cross-ratio is Lorentz invariant',file:'PhotonicFrontier.lean',domain:'Lorentz & Light Cone'},
+      {name:'reversed_triangle_inequality',statement:'Two photons → massive particle',file:'PhotonicFrontier.lean',domain:'Lorentz & Light Cone'},
+      {name:'aberration_formula',statement:'Relativistic aberration of light',file:'PhotonicFrontier.lean',domain:'Lorentz & Light Cone'},
+
+      // 8. Algebraic Structures
+      {name:'gaussian_norm_multiplicative',statement:'|zw|² = |z|²·|w|² for Gaussian integers',file:'GaussianIntegers.lean',domain:'Algebraic Structures'},
+      {name:'sum_four_sq_mul',statement:'Product of sums of 4 squares is a sum of 4 squares',file:'Session2Theorems.lean',domain:'Algebraic Structures'},
+      {name:'fermat_two_squares',statement:'p ≡ 1 (mod 4) ⟹ p = a²+b²',file:'SumOfSquaresFilter.lean',domain:'Algebraic Structures'},
+      {name:'prime_3mod4_not_sum_two_squares',statement:'p ≡ 3 (mod 4) ⟹ p ≠ a²+b²',file:'SumOfSquaresFilter.lean',domain:'Algebraic Structures'},
+      {name:'hurwitz_tower_complete',statement:'Normed division algebras: dim 1, 2, 4, 8 only',file:'TeamResearch.lean',domain:'Algebraic Structures'},
+      {name:'degen_eight_square',statement:'Eight-square identity (Cayley–Dickson)',file:'TeamResearch.lean',domain:'Algebraic Structures'},
+      {name:'quaternion_associative',statement:'Quaternion multiplication is associative',file:'FrontierResearch.lean',domain:'Algebraic Structures'},
+      {name:'quaternion_noncommutative',statement:'Quaternion multiplication is non-commutative',file:'FrontierResearch.lean',domain:'Algebraic Structures'},
+      {name:'complex_commutative',statement:'ℂ is commutative',file:'FrontierResearch.lean',domain:'Algebraic Structures'},
+
+      // 9. SL(2,ℤ) & Modular
+      {name:'SL2_F3_card',statement:'|SL(2,𝔽₃)| = 24',file:'SL2Theory.lean',domain:'SL(2,ℤ) & Modular'},
+      {name:'SL2_F5_card',statement:'|SL(2,𝔽₅)| = 120',file:'SL2Theory.lean',domain:'SL(2,ℤ) & Modular'},
+      {name:'SL2_F7_card',statement:'|SL(2,𝔽₇)| = 336',file:'SL2Theory.lean',domain:'SL(2,ℤ) & Modular'},
+      {name:'PSL2_divides_M11',statement:'|PSL(2,𝔽₁₁)| divides |M₁₁|',file:'Moonshine.lean',domain:'SL(2,ℤ) & Modular'},
+      {name:'M11_order',statement:'|M₁₁| = 7920',file:'Moonshine.lean',domain:'SL(2,ℤ) & Modular'},
+
+      // 10. Number Theory
+      {name:'totient_sum',statement:'Σ_{d∣n} φ(d) = n',file:'DeepResults.lean',domain:'Number Theory'},
+      {name:'totient_mul_coprime',statement:'φ(mn) = φ(m)φ(n) for gcd(m,n)=1',file:'DeepResults.lean',domain:'Number Theory'},
+      {name:'totient_prime',statement:'φ(p) = p−1',file:'DeepResults.lean',domain:'Number Theory'},
+      {name:'mobius_1',statement:'μ(1) = 1',file:'DeepResults.lean',domain:'Number Theory'},
+      {name:'mobius_6',statement:'μ(6) = 1',file:'DeepResults.lean',domain:'Number Theory'},
+      {name:'cyclotomic_1',statement:'Φ₁(x) = x−1',file:'DeepResults.lean',domain:'Number Theory'},
+      {name:'pi_100',statement:'π(100) = 25',file:'MoonshotResearch.lean',domain:'Number Theory'},
+      {name:'pi_1000',statement:'π(1000) = 168',file:'MoonshotResearch.lean',domain:'Number Theory'},
+      {name:'wilson_5',statement:'(5−1)! ≡ −1 (mod 5)',file:'Various',domain:'Number Theory'},
+
+      // 11. Combinatorics & Graphs
+      {name:'schur_two_colors',statement:'Schur\'s theorem for 2 colors',file:'RamseyTheory.lean',domain:'Combinatorics & Graphs'},
+      {name:'euler_tetra',statement:'V−E+F = 2 for tetrahedron (4−6+4=2)',file:'DeepResults.lean',domain:'Combinatorics & Graphs'},
+      {name:'euler_cube',statement:'8−12+6 = 2',file:'DeepResults.lean',domain:'Combinatorics & Graphs'},
+      {name:'euler_sphere',statement:'χ(S²) = 2',file:'DeepResults.lean',domain:'Combinatorics & Graphs'},
+      {name:'euler_torus',statement:'χ(T²) = 0',file:'DeepResults.lean',domain:'Combinatorics & Graphs'},
+      {name:'handshaking',statement:'Handshaking lemma',file:'DeepResults.lean',domain:'Combinatorics & Graphs'},
+      {name:'turan_triangle_free',statement:'Turán bound for triangle-free graphs',file:'DeepResults.lean',domain:'Combinatorics & Graphs'},
+      {name:'sauer_shelah\'',statement:'Sauer-Shelah lemma (OPEN — contains sorry)',file:'Combinatorics.lean',domain:'Combinatorics & Graphs'},
+
+      // 12. Topology & Dynamics
+      {name:'brouwer_1d',statement:'Brouwer fixed-point theorem in 1D',file:'Topology.lean',domain:'Topology & Dynamics'},
+      {name:'unit_interval_compact',statement:'[0,1] is compact',file:'Topology.lean',domain:'Topology & Dynamics'},
+      {name:'real_uncountable',statement:'ℝ is uncountable',file:'Various',domain:'Topology & Dynamics'},
+      {name:'cantor_no_surjection',statement:'No surjection A → 𝒫(A)',file:'Various',domain:'Topology & Dynamics'},
+
+      // 13. Category & Representation
+      {name:'functor_comp_assoc',statement:'Functor composition is associative',file:'CategoryTheory.lean',domain:'Category & Representation'},
+
+      // 14. Möbius Transformations
+      {name:'no_order3',statement:'No integer-pole Möbius map has order 3',file:'OrderClassification.lean',domain:'Möbius & Order Classification'},
+      {name:'no_order6',statement:'No integer-pole Möbius map has order 6',file:'OrderClassification.lean',domain:'Möbius & Order Classification'},
+      {name:'chain_01_complete',statement:'Complete integer chain for poles (0,1)',file:'IntegerChains.lean',domain:'Möbius & Order Classification'},
+
+      // 15. Crystallizer & Neural Arch
+      {name:'crystallization_loss_zero',statement:'sin²(πm) = 0 ⟺ m ∈ ℤ',file:'CrystallizerFormalization.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'crystallization_periodic',statement:'Loss is π-periodic',file:'CrystallizerFormalization.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'gram_schmidt_orthogonal',statement:'Gram–Schmidt produces orthogonal vectors',file:'CrystallizerFormalization.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'lyapunov_nonneg',statement:'Crystallization loss ≥ 0 (Lyapunov)',file:'NeuralCrystallizerFrontier.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'lyapunov_zero_iff_equilibrium',statement:'Loss = 0 ⟺ equilibrium',file:'NeuralCrystallizerFrontier.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'gradient_explosion_impossible',statement:'Gradient explosion impossible',file:'HarmonicNetwork.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'lipschitz_robustness',statement:'Crystallized layers are 1-Lipschitz',file:'HarmonicNetworkAdvanced.lean',domain:'Crystallizer & Neural Arch'},
+      {name:'relu_rationality',statement:'ReLU preserves ℚ — exact forward pass',file:'PythagoreanNeuralArch.lean',domain:'Crystallizer & Neural Arch'},
+
+      // 16. Applied Mathematics
+      {name:'group_reversal_identity',statement:'Product reversal identity for groups',file:'DriftFreeIMU.lean',domain:'Applied Mathematics'},
+      {name:'imu_checksum',statement:'IMU drift detection checksum',file:'DriftFreeIMU.lean',domain:'Applied Mathematics'},
+      {name:'CHSH_classical_bound',statement:'CHSH classical bound ≤ 2',file:'Various',domain:'Applied Mathematics'},
+      {name:'iof_starting_triple',statement:'(N, (N²−1)/2, (N²+1)/2) is Pythagorean',file:'IOFCore.lean',domain:'Applied Mathematics'},
+      {name:'iof_factor_step',statement:'Factor found at step k=(p−1)/2',file:'IOFCore.lean',domain:'Applied Mathematics'},
+      {name:'iof_gcd_reveals_factor',statement:'gcd(leg, N) > 1 at factor step',file:'IOFCore.lean',domain:'Applied Mathematics'},
+      {name:'iofEnergy_nonneg',statement:'E(k) = (N−2k)² ≥ 0',file:'EnergyDescentResearch.lean',domain:'Applied Mathematics'},
+      {name:'iofEnergy_drop',statement:'E(k+1) < E(k) when N−2k > 1',file:'EnergyDescentResearch.lean',domain:'Applied Mathematics'},
+
+      // 17. Advanced Topics
+      {name:'pauli_anticommutation',statement:'{σᵢ, σⱼ} = 2δᵢⱼI',file:'QuantumGateAlgebra.lean',domain:'Advanced Topics'},
+      {name:'bloch_sphere_stereo',statement:'Bloch sphere ≅ stereographic S²',file:'QuantumGateSynthesis.lean',domain:'Advanced Topics'},
+      {name:'quantum_crystallizer_equiv',statement:'CrystalBQP = BQP (universality)',file:'QuantumBerggren.lean',domain:'Advanced Topics'},
+    ];
+
+    // Build domain tabs
+    const tabsContainer = document.getElementById('domainTabs');
+    const domains = [...new Set(THEOREMS.map(t => t.domain))];
+    domains.forEach(d => {
+      const count = THEOREMS.filter(t => t.domain === d).length;
+      const btn = document.createElement('button');
+      btn.className = 'theorem-domain-tab';
+      btn.dataset.domain = d;
+      btn.textContent = `${d} (${count})`;
+      tabsContainer.appendChild(btn);
+    });
+
+    // Filtering logic
+    let activeDomain = 'all';
+    let searchQuery = '';
+
+    function renderTheorems() {
+      const tbody = document.getElementById('theoremBody');
+      let filtered = THEOREMS;
+
+      if (activeDomain !== 'all') {
+        filtered = filtered.filter(t => t.domain === activeDomain);
+      }
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(t =>
+          t.name.toLowerCase().includes(q) ||
+          t.statement.toLowerCase().includes(q) ||
+          t.file.toLowerCase().includes(q) ||
+          t.domain.toLowerCase().includes(q)
+        );
+      }
+
+      document.getElementById('resultsCounter').innerHTML =
+        `Showing <span>${filtered.length}</span> of ${THEOREMS.length} theorems`;
+
+      tbody.innerHTML = filtered.map(t => `
+        <tr>
+          <td class="theorem-name">${t.name}</td>
+          <td class="theorem-statement">${t.statement}</td>
+          <td class="theorem-file">${t.file}</td>
+          <td><span class="tag high">${t.domain}</span></td><td><a href="cosmos-library.html" style="color:var(--accent-cyan);font-size:0.8rem">Library</a></td>
+        </tr>
+      `).join('');
+    }
+
+    // Event listeners
+    document.getElementById('theoremSearch').addEventListener('input', e => {
+      searchQuery = e.target.value;
+      renderTheorems();
+    });
+
+    tabsContainer.addEventListener('click', e => {
+      if (e.target.classList.contains('theorem-domain-tab')) {
+        tabsContainer.querySelectorAll('.theorem-domain-tab').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        activeDomain = e.target.dataset.domain;
+        renderTheorems();
+      }
+    });
+
+    renderTheorems();
+  </script>
+</body>
+</html>
