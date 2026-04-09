@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="50%" stop-color="#1a1a4e"/>
+      <stop offset="100%" stop-color="#2a1a3e"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ff8c00"/>
+    </linearGradient>
+    <radialGradient id="oracleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd700" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffd700" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#skyGrad)"/>
+
+  <!-- Stars -->
+  <g fill="white" opacity="0.5">
+    <circle cx="100" cy="50" r="1.5"/><circle cx="200" cy="80" r="1"/>
+    <circle cx="350" cy="30" r="2"/><circle cx="500" cy="60" r="1"/>
+    <circle cx="650" cy="40" r="1.5"/><circle cx="800" cy="70" r="1"/>
+    <circle cx="950" cy="45" r="2"/><circle cx="1050" cy="90" r="1"/>
+    <circle cx="1100" cy="55" r="1.5"/><circle cx="150" cy="120" r="1"/>
+    <circle cx="450" cy="100" r="1.5"/><circle cx="750" cy="110" r="1"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="60" text-anchor="middle" fill="url(#goldGrad)" font-size="36" font-weight="bold" filter="url(#glow)">
+    THE PREDICTION LANDSCAPE
+  </text>
+  <text x="600" y="90" text-anchor="middle" fill="#aaa" font-size="16" font-style="italic">
+    A Map of Everything That Can Be Foretold
+  </text>
+
+  <!-- The Oracle Eye (central symbol) -->
+  <g transform="translate(600, 250)">
+    <circle cx="0" cy="0" r="80" fill="url(#oracleGlow)"/>
+    <ellipse cx="0" cy="0" rx="60" ry="35" fill="none" stroke="url(#goldGrad)" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="0" cy="0" r="18" fill="url(#goldGrad)" filter="url(#glow)"/>
+    <circle cx="0" cy="0" r="8" fill="#0a0a2e"/>
+    <circle cx="-3" cy="-3" r="3" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- The Five Oracle Domains -->
+
+  <!-- 1. Bayesian Oracle (top-left) -->
+  <g transform="translate(180, 200)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <circle cx="0" cy="0" r="40" fill="#4ecdc4" fill-opacity="0.15"/>
+    <text x="0" y="-65" text-anchor="middle" fill="#4ecdc4" font-size="14" font-weight="bold">THE BAYESIAN</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#4ecdc4" font-size="20">P(H|E)</text>
+    <text x="0" y="15" text-anchor="middle" fill="#4ecdc4" font-size="11">= P(E|H)·P(H)/P(E)</text>
+    <text x="0" y="70" text-anchor="middle" fill="#7ec8c0" font-size="10" font-style="italic">Updates beliefs with evidence</text>
+  </g>
+
+  <!-- 2. Information Oracle (top-right) -->
+  <g transform="translate(1020, 200)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.7"/>
+    <circle cx="0" cy="0" r="40" fill="#ff6b6b" fill-opacity="0.15"/>
+    <text x="0" y="-65" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="bold">THE INFORMATION</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#ff6b6b" font-size="18">H = -Σp log p</text>
+    <text x="0" y="15" text-anchor="middle" fill="#ff6b6b" font-size="11">I(X;Y) = H(X) - H(X|Y)</text>
+    <text x="0" y="70" text-anchor="middle" fill="#ff8888" font-size="10" font-style="italic">Measures prediction capacity</text>
+  </g>
+
+  <!-- 3. Chaos Oracle (bottom-left) -->
+  <g transform="translate(200, 520)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#feca57" stroke-width="2" opacity="0.7"/>
+    <circle cx="0" cy="0" r="40" fill="#feca57" fill-opacity="0.15"/>
+    <text x="0" y="-65" text-anchor="middle" fill="#feca57" font-size="14" font-weight="bold">THE PHYSICIST</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#feca57" font-size="18">H = ln(δ/ε₀)/λ</text>
+    <text x="0" y="15" text-anchor="middle" fill="#feca57" font-size="11">Lyapunov horizon</text>
+    <text x="0" y="70" text-anchor="middle" fill="#feca57" font-size="10" font-style="italic">Dynamical models &amp; chaos</text>
+  </g>
+
+  <!-- 4. Martingale Oracle (bottom-right) -->
+  <g transform="translate(1000, 520)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#a29bfe" stroke-width="2" opacity="0.7"/>
+    <circle cx="0" cy="0" r="40" fill="#a29bfe" fill-opacity="0.15"/>
+    <text x="0" y="-65" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="bold">THE FREQUENTIST</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#a29bfe" font-size="18">E[X_{n+1}|ℱₙ]</text>
+    <text x="0" y="15" text-anchor="middle" fill="#a29bfe" font-size="11">= Xₙ (martingale)</text>
+    <text x="0" y="70" text-anchor="middle" fill="#b8b2ff" font-size="10" font-style="italic">Long-run frequencies converge</text>
+  </g>
+
+  <!-- 5. Adversary Oracle (bottom-center) -->
+  <g transform="translate(600, 620)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#e74c3c" stroke-width="2" opacity="0.7"/>
+    <circle cx="0" cy="0" r="40" fill="#e74c3c" fill-opacity="0.15"/>
+    <text x="0" y="-65" text-anchor="middle" fill="#e74c3c" font-size="14" font-weight="bold">THE ADVERSARY</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#e74c3c" font-size="16">min max L(f,x)</text>
+    <text x="0" y="15" text-anchor="middle" fill="#e74c3c" font-size="11">No-regret: R(T)/T → 0</text>
+    <text x="0" y="70" text-anchor="middle" fill="#e74c3c" font-size="10" font-style="italic">Stress-tests all predictions</text>
+  </g>
+
+  <!-- Connecting lines (oracle council network) -->
+  <g stroke="rgba(255,215,0,0.2)" stroke-width="1" stroke-dasharray="5,5">
+    <line x1="230" y1="230" x2="540" y2="250"/>
+    <line x1="970" y1="230" x2="660" y2="250"/>
+    <line x1="250" y1="520" x2="540" y2="260"/>
+    <line x1="950" y1="520" x2="660" y2="260"/>
+    <line x1="600" y1="560" x2="600" y2="290"/>
+    <line x1="230" y1="250" x2="250" y2="490"/>
+    <line x1="970" y1="250" x2="950" y2="490"/>
+    <line x1="255" y1="530" x2="545" y2="610"/>
+    <line x1="945" y1="530" x2="655" y2="610"/>
+  </g>
+
+  <!-- The Fundamental Theorems (bottom panel) -->
+  <rect x="50" y="720" width="1100" height="160" rx="10" fill="rgba(0,0,0,0.4)" stroke="rgba(255,215,0,0.3)" stroke-width="1"/>
+
+  <text x="600" y="750" text-anchor="middle" fill="url(#goldGrad)" font-size="18" font-weight="bold">
+    FUNDAMENTAL THEOREMS OF PREDICTION
+  </text>
+
+  <g fill="#ddd" font-size="12">
+    <text x="100" y="780">1. Bayes Optimal: E[(p-o)²] minimized at p = P(event)</text>
+    <text x="100" y="800">2. Ambiguity: Ensemble_Error = Mean_Error − Diversity</text>
+    <text x="100" y="820">3. No Free Lunch: ∀ predictor, ∃ adversarial sequence</text>
+    <text x="100" y="840">4. Horizon Bound: H = ln(δ/ε₀)/λ (chaos limit)</text>
+
+    <text x="650" y="780">5. Martingale: E[X_{n+1}|ℱₙ] = Xₙ (fair game)</text>
+    <text x="650" y="800">6. No Clairvoyance: Can't beat a martingale</text>
+    <text x="650" y="820">7. Kalman Optimal: K = PH/(H²P+R) minimizes variance</text>
+    <text x="650" y="840">8. Prediction = Compression (duality theorem)</text>
+  </g>
+
+  <text x="600" y="870" text-anchor="middle" fill="#888" font-size="11" font-style="italic">
+    All theorems formally verified in Lean 4 with Mathlib
+  </text>
+</svg>

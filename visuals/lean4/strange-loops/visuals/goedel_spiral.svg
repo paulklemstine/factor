@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="spiralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#ef4444;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glowS">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="800" fill="#0c0a1a"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" text-anchor="middle" fill="#e2e8f0" font-family="Georgia, serif" font-size="28" font-weight="bold">
+    The Gödel Spiral
+  </text>
+  <text x="400" y="78" text-anchor="middle" fill="#94a3b8" font-family="Georgia, serif" font-size="14" font-style="italic">
+    Self-Reference Through Ascending Levels
+  </text>
+  
+  <!-- Center glow -->
+  <circle cx="400" cy="420" r="150" fill="url(#centerGlow)"/>
+  
+  <!-- Spiral of self-reference - each ring represents a level -->
+  <!-- Generated as concentric arcs with level labels -->
+  
+  <!-- Level 0: Arithmetic -->
+  <circle cx="400" cy="420" r="60" fill="none" stroke="#f9731666" stroke-width="3" stroke-dasharray="8 4"/>
+  <text x="400" y="425" text-anchor="middle" fill="#fb923c" font-family="monospace" font-size="11" font-weight="bold">ARITHMETIC</text>
+  <text x="400" y="440" text-anchor="middle" fill="#fdba7488" font-family="monospace" font-size="9">2 + 3 = 5</text>
+  
+  <!-- Level 1: Metamathematics -->
+  <circle cx="400" cy="420" r="120" fill="none" stroke="#ef444466" stroke-width="3" stroke-dasharray="8 4"/>
+  <text x="400" y="290" text-anchor="middle" fill="#f87171" font-family="monospace" font-size="11" font-weight="bold">METAMATHEMATICS</text>
+  <text x="400" y="306" text-anchor="middle" fill="#fca5a588" font-family="monospace" font-size="9">"Theorem T is provable"</text>
+  
+  <!-- Level 2: Self-Reference -->
+  <circle cx="400" cy="420" r="185" fill="none" stroke="#a855f766" stroke-width="3" stroke-dasharray="8 4"/>
+  <text x="400" y="225" text-anchor="middle" fill="#c084fc" font-family="monospace" font-size="11" font-weight="bold">SELF-REFERENCE</text>
+  <text x="400" y="241" text-anchor="middle" fill="#d8b4fe88" font-family="monospace" font-size="9">"This statement is not provable"</text>
+  
+  <!-- Level 3: Meta-self-reference -->
+  <circle cx="400" cy="420" r="250" fill="none" stroke="#6366f166" stroke-width="3" stroke-dasharray="8 4"/>
+  <text x="400" y="160" text-anchor="middle" fill="#818cf8" font-family="monospace" font-size="11" font-weight="bold">META-SELF-REFERENCE</text>
+  <text x="400" y="176" text-anchor="middle" fill="#a5b4fc88" font-family="monospace" font-size="9">"I know that I cannot prove this"</text>
+  
+  <!-- The spiral connecting them all -->
+  <!-- A logarithmic spiral that passes through all levels -->
+  <path d="M 400 420
+           C 420 400, 440 380, 460 380
+           C 500 380, 520 420, 520 420
+           C 520 460, 480 500, 440 500
+           C 380 500, 340 460, 340 400
+           C 340 320, 380 280, 440 280
+           C 530 280, 580 360, 580 420
+           C 580 520, 500 590, 400 590
+           C 280 590, 220 500, 220 400
+           C 220 270, 310 200, 420 200
+           C 570 200, 640 310, 640 420
+           C 640 570, 530 660, 400 660
+           C 230 660, 150 540, 150 400"
+        fill="none" stroke="url(#spiralGrad)" stroke-width="3" 
+        filter="url(#glowS)" opacity="0.8"/>
+  
+  <!-- Arrows on the spiral showing direction -->
+  <polygon points="150,400 158,408 158,392" fill="#8b5cf6" opacity="0.8"/>
+  
+  <!-- The key insight: the spiral returns to arithmetic -->
+  <!-- Arrow from outer level back to center -->
+  <path d="M 155 395 C 140 350, 200 300, 300 350 C 340 370, 370 400, 395 415"
+        fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="6 3" 
+        filter="url(#glowS)" opacity="0.7"/>
+  <polygon points="395,415 385,410 388,420" fill="#fbbf24" opacity="0.8"/>
+  
+  <!-- Label for the return arrow -->
+  <g transform="translate(175, 330)">
+    <rect x="-85" y="-20" width="170" height="40" rx="6" fill="#1a1520" stroke="#fbbf2466" stroke-width="1.5"/>
+    <text x="0" y="-3" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="10" font-weight="bold">THE STRANGE LOOP</text>
+    <text x="0" y="12" text-anchor="middle" fill="#fbbf2488" font-family="monospace" font-size="9">Returns to Level 0!</text>
+  </g>
+  
+  <!-- Gödel number representation -->
+  <g transform="translate(630, 600)">
+    <rect x="-80" y="-35" width="160" height="70" rx="8" fill="#1a1520" stroke="#64748b66" stroke-width="1"/>
+    <text x="0" y="-15" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">Gödel Number:</text>
+    <text x="0" y="5" text-anchor="middle" fill="#f97316" font-family="monospace" font-size="14" font-weight="bold">⌜φ⌝ = 2ⁿ·3ᵐ·5ᵏ...</text>
+    <text x="0" y="22" text-anchor="middle" fill="#94a3b888" font-family="monospace" font-size="9">Formula ↔ Number</text>
+  </g>
+  
+  <!-- Fixed point equation -->
+  <g transform="translate(400, 720)">
+    <text x="0" y="0" text-anchor="middle" fill="#e2e8f0" font-family="Georgia, serif" font-size="18">
+      φ ↔ ¬Prov(⌜φ⌝)
+    </text>
+    <text x="0" y="25" text-anchor="middle" fill="#94a3b8" font-family="Georgia, serif" font-size="12" font-style="italic">
+      "I am not provable" — The Gödel sentence
+    </text>
+  </g>
+  
+  <!-- Decorative: small Gödel numbers floating -->
+  <text x="620" y="300" fill="#f9731633" font-family="monospace" font-size="10">2³·3⁵·5²</text>
+  <text x="180" y="500" fill="#ef444433" font-family="monospace" font-size="10">2⁷·3·5⁴</text>
+  <text x="550" y="520" fill="#a855f733" font-family="monospace" font-size="10">2·3⁹·5³</text>
+  
+  <!-- Signature -->
+  <text x="400" y="780" text-anchor="middle" fill="#475569" font-family="monospace" font-size="10">
+    Strange Loop Research Project · 2025
+  </text>
+</svg>

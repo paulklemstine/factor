@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#0a0a2e"/>
+  
+  <defs>
+    <radialGradient id="photon-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffee44;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#ffcc00;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#ff8800;stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffdd44;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#ffdd44;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  
+  <text x="400" y="35" text-anchor="middle" fill="white" font-size="20" font-family="sans-serif" font-weight="bold">3D Pythagorean Lattice: Light on a Discrete Grid</text>
+  
+  <!-- Isometric lattice grid -->
+  <g transform="translate(400, 320)" opacity="0.6">
+    <!-- Layer 0 (bottom) -->
+    <!-- Horizontal lines -->
+    <line x1="-200" y1="80" x2="200" y2="80" stroke="#334" stroke-width="0.5"/>
+    <line x1="-180" y1="60" x2="220" y2="60" stroke="#334" stroke-width="0.5"/>
+    <line x1="-160" y1="40" x2="240" y2="40" stroke="#334" stroke-width="0.5"/>
+    <line x1="-140" y1="20" x2="260" y2="20" stroke="#334" stroke-width="0.5"/>
+    <line x1="-120" y1="0" x2="280" y2="0" stroke="#334" stroke-width="0.5"/>
+    
+    <!-- Diagonal lines (depth) -->
+    <line x1="-200" y1="80" x2="-120" y2="0" stroke="#334" stroke-width="0.5"/>
+    <line x1="-120" y1="80" x2="-40" y2="0" stroke="#334" stroke-width="0.5"/>
+    <line x1="-40" y1="80" x2="40" y2="0" stroke="#334" stroke-width="0.5"/>
+    <line x1="40" y1="80" x2="120" y2="0" stroke="#334" stroke-width="0.5"/>
+    <line x1="120" y1="80" x2="200" y2="0" stroke="#334" stroke-width="0.5"/>
+    <line x1="200" y1="80" x2="280" y2="0" stroke="#334" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Lattice points (dots) -->
+  <g transform="translate(400, 320)">
+    <!-- Grid of dots representing discrete spacetime points -->
+    <!-- Bottom layer -->
+    <circle cx="-200" cy="80" r="3" fill="#336"/>
+    <circle cx="-120" cy="80" r="3" fill="#336"/>
+    <circle cx="-40" cy="80" r="3" fill="#336"/>
+    <circle cx="40" cy="80" r="3" fill="#336"/>
+    <circle cx="120" cy="80" r="3" fill="#336"/>
+    <circle cx="200" cy="80" r="3" fill="#336"/>
+    
+    <circle cx="-180" cy="60" r="3" fill="#446"/>
+    <circle cx="-100" cy="60" r="3" fill="#446"/>
+    <circle cx="-20" cy="60" r="3" fill="#446"/>
+    <circle cx="60" cy="60" r="3" fill="#446"/>
+    <circle cx="140" cy="60" r="3" fill="#446"/>
+    <circle cx="220" cy="60" r="3" fill="#446"/>
+    
+    <circle cx="-160" cy="40" r="3" fill="#558"/>
+    <circle cx="-80" cy="40" r="3" fill="#558"/>
+    <circle cx="0" cy="40" r="3" fill="#558"/>
+    <circle cx="80" cy="40" r="3" fill="#558"/>
+    <circle cx="160" cy="40" r="3" fill="#558"/>
+    <circle cx="240" cy="40" r="3" fill="#558"/>
+    
+    <circle cx="-140" cy="20" r="3" fill="#668"/>
+    <circle cx="-60" cy="20" r="3" fill="#668"/>
+    <circle cx="20" cy="20" r="3" fill="#668"/>
+    <circle cx="100" cy="20" r="3" fill="#668"/>
+    <circle cx="180" cy="20" r="3" fill="#668"/>
+    <circle cx="260" cy="20" r="3" fill="#668"/>
+    
+    <circle cx="-120" cy="0" r="3" fill="#77a"/>
+    <circle cx="-40" cy="0" r="3" fill="#77a"/>
+    <circle cx="40" cy="0" r="3" fill="#77a"/>
+    <circle cx="120" cy="0" r="3" fill="#77a"/>
+    <circle cx="200" cy="0" r="3" fill="#77a"/>
+    <circle cx="280" cy="0" r="3" fill="#77a"/>
+    
+    <!-- Upper layers (vertical dimension = time or z) -->
+    <circle cx="-160" cy="-40" r="2.5" fill="#88b" opacity="0.7"/>
+    <circle cx="-80" cy="-40" r="2.5" fill="#88b" opacity="0.7"/>
+    <circle cx="0" cy="-40" r="2.5" fill="#88b" opacity="0.7"/>
+    <circle cx="80" cy="-40" r="2.5" fill="#88b" opacity="0.7"/>
+    <circle cx="160" cy="-40" r="2.5" fill="#88b" opacity="0.7"/>
+    
+    <circle cx="-140" cy="-60" r="2" fill="#99c" opacity="0.5"/>
+    <circle cx="-60" cy="-60" r="2" fill="#99c" opacity="0.5"/>
+    <circle cx="20" cy="-60" r="2" fill="#99c" opacity="0.5"/>
+    <circle cx="100" cy="-60" r="2" fill="#99c" opacity="0.5"/>
+    <circle cx="180" cy="-60" r="2" fill="#99c" opacity="0.5"/>
+    
+    <circle cx="-120" cy="-80" r="2" fill="#aad" opacity="0.4"/>
+    <circle cx="-40" cy="-80" r="2" fill="#aad" opacity="0.4"/>
+    <circle cx="40" cy="-80" r="2" fill="#aad" opacity="0.4"/>
+    <circle cx="120" cy="-80" r="2" fill="#aad" opacity="0.4"/>
+  </g>
+  
+  <!-- Pythagorean light path: 3-4-5 triangle -->
+  <g transform="translate(400, 320)">
+    <!-- The light ray following a 3-4-5 path -->
+    <line x1="-200" y1="80" x2="-120" y2="80" stroke="#ff4444" stroke-width="2" opacity="0.5"/>
+    <text x="-160" y="95" text-anchor="middle" fill="#ff6666" font-size="10" font-family="sans-serif">3</text>
+    
+    <line x1="-120" y1="80" x2="-40" y2="0" stroke="#4488ff" stroke-width="2" opacity="0.5"/>
+    <text x="-90" y="35" text-anchor="middle" fill="#6688ff" font-size="10" font-family="sans-serif">4</text>
+    
+    <!-- The hypotenuse = light path -->
+    <line x1="-200" y1="80" x2="-40" y2="0" stroke="#ffdd44" stroke-width="3"/>
+    <text x="-140" y="30" text-anchor="middle" fill="#ffee88" font-size="12" font-family="sans-serif" font-weight="bold">5 (light path)</text>
+    
+    <!-- Photon at current position -->
+    <circle cx="-40" cy="0" r="12" fill="url(#photon-glow)"/>
+    <circle cx="-40" cy="0" r="4" fill="#ffee44"/>
+    
+    <!-- Continuing path: 5-12-13 -->
+    <line x1="-40" y1="0" x2="120" y2="-80" stroke="#ffdd44" stroke-width="2.5" stroke-dasharray="6,4"/>
+    <text x="60" y="-50" text-anchor="middle" fill="#ffee88" font-size="11" font-family="sans-serif">13</text>
+  </g>
+  
+  <!-- Labels -->
+  <g transform="translate(400, 320)">
+    <!-- Axis labels -->
+    <text x="260" y="100" fill="#888" font-size="12" font-family="sans-serif">x (space)</text>
+    <text x="290" y="-5" fill="#888" font-size="12" font-family="sans-serif">y (space)</text>
+    <text x="-30" y="-95" fill="#888" font-size="12" font-family="sans-serif">z / t</text>
+    
+    <!-- Arrows for axes -->
+    <line x1="200" y1="85" x2="250" y2="85" stroke="#888" stroke-width="1.5"/>
+    <polygon points="250,82 258,85 250,88" fill="#888"/>
+    
+    <line x1="270" y1="5" x2="285" y2="-10" stroke="#888" stroke-width="1.5"/>
+    <polygon points="282,-13 290,-13 285,-7" fill="#888"/>
+    
+    <line x1="-45" y1="-80" x2="-45" y2="-95" stroke="#888" stroke-width="1.5"/>
+    <polygon points="-48,-95 -42,-95 -45,-102" fill="#888"/>
+  </g>
+  
+  <!-- Info panel -->
+  <rect x="520" y="420" width="250" height="150" rx="10" fill="#1a1a3e" stroke="#4488ff" stroke-width="1" opacity="0.9"/>
+  <text x="645" y="445" text-anchor="middle" fill="#88bbff" font-size="12" font-family="sans-serif" font-weight="bold">Key Properties</text>
+  <text x="535" y="468" fill="#ccc" font-size="11" font-family="sans-serif">• Points are discrete (integers)</text>
+  <text x="535" y="488" fill="#ccc" font-size="11" font-family="sans-serif">• Light hops point-to-point</text>
+  <text x="535" y="508" fill="#ccc" font-size="11" font-family="sans-serif">• Hop distance must be integer</text>
+  <text x="535" y="528" fill="#ccc" font-size="11" font-family="sans-serif">• Path: 3² + 4² = 5² ✓</text>
+  <text x="535" y="548" fill="#ccc" font-size="11" font-family="sans-serif">• Only Pythagorean angles</text>
+  
+  <!-- Left info panel -->
+  <rect x="30" y="420" width="250" height="150" rx="10" fill="#1a2a1a" stroke="#44ff44" stroke-width="1" opacity="0.9"/>
+  <text x="155" y="445" text-anchor="middle" fill="#88ff88" font-size="12" font-family="sans-serif" font-weight="bold">Implication</text>
+  <text x="45" y="468" fill="#ccc" font-size="11" font-family="sans-serif">If this picture is correct:</text>
+  <text x="45" y="492" fill="#aaffaa" font-size="11" font-family="sans-serif">→ Space has minimum length</text>
+  <text x="45" y="512" fill="#aaffaa" font-size="11" font-family="sans-serif">→ Coordinates are absolute</text>
+  <text x="45" y="532" fill="#aaffaa" font-size="11" font-family="sans-serif">→ Speed of light varies</text>
+  <text x="55" y="548" fill="#aaffaa" font-size="10" font-family="sans-serif">   slightly with direction</text>
+  
+  <!-- Footer -->
+  <text x="400" y="590" text-anchor="middle" fill="#444" font-size="10" font-family="sans-serif">Pythagorean Photonics — 3D Lattice Concept Visualization</text>
+</svg>

@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a1a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg5)"/>
+  
+  <text x="500" y="35" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">The Idempotent Universe — 39 Domains, One Structure</text>
+  <text x="500" y="55" text-anchor="middle" fill="#8899aa" font-size="11">493 files · ~9,780 theorems · 1 sorry · 0 contradictions</text>
+
+  <!-- Domain nodes arranged in concentric rings -->
+  
+  <!-- Center: Oracle (the hub) -->
+  <circle cx="500" cy="350" r="45" fill="#ff6b6b" opacity="0.2" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="500" y="345" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">ORACLE</text>
+  <text x="500" y="360" text-anchor="middle" fill="#ff9999" font-size="9">66 files</text>
+  <text x="500" y="373" text-anchor="middle" fill="#ff9999" font-size="8">O∘O = O</text>
+
+  <!-- Inner ring: 5 pillar domains -->
+  <!-- Tropical -->
+  <circle cx="350" cy="220" r="32" fill="#26de81" opacity="0.15" stroke="#26de81" stroke-width="1.5"/>
+  <text x="350" y="217" text-anchor="middle" fill="#26de81" font-size="10" font-weight="bold">Tropical</text>
+  <text x="350" y="230" text-anchor="middle" fill="#88ccaa" font-size="8">29 files</text>
+  <line x1="380" y1="240" x2="470" y2="320" stroke="#26de81" stroke-width="1" opacity="0.3"/>
+
+  <!-- Foundations -->
+  <circle cx="650" cy="220" r="32" fill="#4b7bec" opacity="0.15" stroke="#4b7bec" stroke-width="1.5"/>
+  <text x="650" y="215" text-anchor="middle" fill="#4b7bec" font-size="10" font-weight="bold">Foundations</text>
+  <text x="650" y="228" text-anchor="middle" fill="#8899cc" font-size="8">45 files</text>
+  <line x1="620" y1="240" x2="530" y2="320" stroke="#4b7bec" stroke-width="1" opacity="0.3"/>
+
+  <!-- Exploration -->
+  <circle cx="300" cy="400" r="32" fill="#a55eea" opacity="0.15" stroke="#a55eea" stroke-width="1.5"/>
+  <text x="300" y="397" text-anchor="middle" fill="#a55eea" font-size="10" font-weight="bold">Exploration</text>
+  <text x="300" y="410" text-anchor="middle" fill="#cc99ee" font-size="8">42 files</text>
+  <line x1="335" y1="390" x2="460" y2="360" stroke="#a55eea" stroke-width="1" opacity="0.3"/>
+
+  <!-- Quantum -->
+  <circle cx="700" cy="400" r="32" fill="#fed330" opacity="0.15" stroke="#fed330" stroke-width="1.5"/>
+  <text x="700" y="397" text-anchor="middle" fill="#fed330" font-size="10" font-weight="bold">Quantum</text>
+  <text x="700" y="410" text-anchor="middle" fill="#ddc850" font-size="8">25 files</text>
+  <line x1="665" y1="390" x2="540" y2="360" stroke="#fed330" stroke-width="1" opacity="0.3"/>
+
+  <!-- Pythagorean -->
+  <circle cx="500" cy="510" r="32" fill="#ff9ff3" opacity="0.15" stroke="#ff9ff3" stroke-width="1.5"/>
+  <text x="500" y="507" text-anchor="middle" fill="#ff9ff3" font-size="10" font-weight="bold">Pythagorean</text>
+  <text x="500" y="520" text-anchor="middle" fill="#ffbbee" font-size="8">25 files</text>
+  <line x1="500" y1="475" x2="500" y2="395" stroke="#ff9ff3" stroke-width="1" opacity="0.3"/>
+
+  <!-- Outer ring: smaller domains -->
+  <!-- Row 1 (top) -->
+  <g opacity="0.8">
+    <rect x="100" y="95" width="70" height="30" rx="5" fill="#334455"/>
+    <text x="135" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Algebra (23)</text>
+    
+    <rect x="190" y="95" width="90" height="30" rx="5" fill="#334455"/>
+    <text x="235" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">NumberTheory (19)</text>
+    
+    <rect x="300" y="95" width="75" height="30" rx="5" fill="#334455"/>
+    <text x="338" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Physics (19)</text>
+    
+    <rect x="395" y="95" width="90" height="30" rx="5" fill="#334455"/>
+    <text x="440" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Stereographic (22)</text>
+    
+    <rect x="505" y="95" width="80" height="30" rx="5" fill="#334455"/>
+    <text x="545" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Information (15)</text>
+    
+    <rect x="605" y="95" width="70" height="30" rx="5" fill="#334455"/>
+    <text x="640" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Photon (13)</text>
+    
+    <rect x="695" y="95" width="75" height="30" rx="5" fill="#334455"/>
+    <text x="733" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Analysis (12)</text>
+    
+    <rect x="790" y="95" width="80" height="30" rx="5" fill="#334455"/>
+    <text x="830" y="115" text-anchor="middle" fill="#aabbcc" font-size="8">Topology (11)</text>
+  </g>
+
+  <!-- Row 2 (sides) -->
+  <g opacity="0.7">
+    <rect x="60" y="200" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="100" y="217" text-anchor="middle" fill="#8899aa" font-size="8">Factoring (11)</text>
+    
+    <rect x="60" y="240" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="100" y="257" text-anchor="middle" fill="#8899aa" font-size="8">Forbidden (11)</text>
+    
+    <rect x="60" y="280" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="100" y="297" text-anchor="middle" fill="#8899aa" font-size="8">Combin. (8)</text>
+    
+    <rect x="60" y="320" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="100" y="337" text-anchor="middle" fill="#8899aa" font-size="8">Logic (8)</text>
+    
+    <rect x="60" y="360" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="100" y="377" text-anchor="middle" fill="#8899aa" font-size="8">Neural (6)</text>
+    
+    <rect x="60" y="400" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="100" y="417" text-anchor="middle" fill="#8899aa" font-size="8">Ethereum (6)</text>
+    
+    <!-- Right side -->
+    <rect x="860" y="200" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="900" y="217" text-anchor="middle" fill="#8899aa" font-size="8">CatTheory (5)</text>
+    
+    <rect x="860" y="240" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="900" y="257" text-anchor="middle" fill="#8899aa" font-size="8">Millennim (5)</text>
+    
+    <rect x="860" y="280" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="900" y="297" text-anchor="middle" fill="#8899aa" font-size="8">ArithUniv (4)</text>
+    
+    <rect x="860" y="320" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="900" y="337" text-anchor="middle" fill="#8899aa" font-size="8">Langlands (3)</text>
+    
+    <rect x="860" y="360" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="900" y="377" text-anchor="middle" fill="#8899aa" font-size="8">IntEnergy (2)</text>
+    
+    <rect x="860" y="400" width="80" height="25" rx="4" fill="#2a2a44"/>
+    <text x="900" y="417" text-anchor="middle" fill="#8899aa" font-size="8">Duality (1)</text>
+  </g>
+
+  <!-- Bottom row: single-file domains -->
+  <g opacity="0.6">
+    <rect x="100" y="560" width="100" height="22" rx="3" fill="#222233"/>
+    <text x="150" y="575" text-anchor="middle" fill="#667788" font-size="7">AlgMagnetism</text>
+    
+    <rect x="210" y="560" width="100" height="22" rx="3" fill="#222233"/>
+    <text x="260" y="575" text-anchor="middle" fill="#667788" font-size="7">AlgSpacetime</text>
+    
+    <rect x="320" y="560" width="80" height="22" rx="3" fill="#222233"/>
+    <text x="360" y="575" text-anchor="middle" fill="#667788" font-size="7">AlgReality</text>
+    
+    <rect x="410" y="560" width="80" height="22" rx="3" fill="#222233"/>
+    <text x="450" y="575" text-anchor="middle" fill="#667788" font-size="7">AlgPhysics</text>
+    
+    <rect x="500" y="560" width="80" height="22" rx="3" fill="#222233"/>
+    <text x="540" y="575" text-anchor="middle" fill="#667788" font-size="7">Electricity</text>
+    
+    <rect x="590" y="560" width="80" height="22" rx="3" fill="#222233"/>
+    <text x="630" y="575" text-anchor="middle" fill="#667788" font-size="7">ZeroKnowl.</text>
+    
+    <rect x="680" y="560" width="80" height="22" rx="3" fill="#222233"/>
+    <text x="720" y="575" text-anchor="middle" fill="#667788" font-size="7">RandomMtx</text>
+    
+    <rect x="770" y="560" width="100" height="22" rx="3" fill="#222233"/>
+    <text x="820" y="575" text-anchor="middle" fill="#667788" font-size="7">TheoryOfEvrthng</text>
+  </g>
+
+  <!-- Connection lines (subtle, from outer to inner) -->
+  <line x1="135" y1="125" x2="350" y2="195" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+  <line x1="338" y1="125" x2="470" y2="310" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+  <line x1="440" y1="125" x2="500" y2="310" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+  <line x1="545" y1="125" x2="500" y2="310" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+  <line x1="640" y1="125" x2="530" y2="310" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+  <line x1="100" y1="370" x2="270" y2="390" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+  <line x1="100" y1="330" x2="460" y2="350" stroke="#aabbcc" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Legend -->
+  <rect x="350" y="620" width="300" height="55" rx="8" fill="#111122" opacity="0.9"/>
+  <text x="500" y="640" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">All domains connected through idempotent structure</text>
+  <text x="500" y="658" text-anchor="middle" fill="#ff6b6b" font-size="10">●</text>
+  <text x="520" y="658" text-anchor="start" fill="#aabbcc" font-size="9"> = Oracle hub (Master Equation)</text>
+  <text x="500" y="668" text-anchor="middle" fill="#26de81" font-size="9">Every bridge is a Lean theorem</text>
+</svg>

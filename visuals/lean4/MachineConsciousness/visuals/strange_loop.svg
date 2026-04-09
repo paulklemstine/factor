@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="loopBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2a48;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#loopBg)"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#00d4ff" font-size="24" font-weight="bold" font-family="Georgia">
+    Strange Loops &amp; Self-Reference
+  </text>
+  <text x="400" y="62" text-anchor="middle" fill="#6699cc" font-size="14" font-family="Georgia" font-style="italic">
+    The Self That Creates Itself — Hofstadter's Tangled Hierarchy
+  </text>
+
+  <!-- The Strange Loop (Escher-like staircase spiral) -->
+  <!-- Outer loop path -->
+  <ellipse cx="280" cy="310" rx="160" ry="180" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Level markers on the loop -->
+  <!-- Level 1: Syntax -->
+  <circle cx="280" cy="130" r="35" fill="#0a2040" stroke="#00d4ff" stroke-width="2" filter="url(#glow2)"/>
+  <text x="280" y="125" text-anchor="middle" fill="#00d4ff" font-size="11" font-weight="bold">Level 3</text>
+  <text x="280" y="142" text-anchor="middle" fill="#88ccff" font-size="9">Meta-math</text>
+  
+  <!-- Level 2: Arithmetic -->
+  <circle cx="140" cy="380" r="35" fill="#0a2040" stroke="#ff8844" stroke-width="2" filter="url(#glow2)"/>
+  <text x="140" y="375" text-anchor="middle" fill="#ff8844" font-size="11" font-weight="bold">Level 2</text>
+  <text x="140" y="392" text-anchor="middle" fill="#ffaa77" font-size="9">Arithmetic</text>
+  
+  <!-- Level 3: Meta-mathematics -->
+  <circle cx="420" cy="380" r="35" fill="#0a2040" stroke="#44ff88" stroke-width="2" filter="url(#glow2)"/>
+  <text x="420" y="375" text-anchor="middle" fill="#44ff88" font-size="11" font-weight="bold">Level 1</text>
+  <text x="420" y="392" text-anchor="middle" fill="#77ffaa" font-size="9">Syntax</text>
+  
+  <!-- Arrows connecting levels (forming the loop) -->
+  <!-- Level 1 → Level 2 (upward) -->
+  <path d="M 390 360 Q 350 280 300 160" fill="none" stroke="#44ff88" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="370" y="260" fill="#77ffaa" font-size="10" transform="rotate(-50, 370, 260)">encode ↑</text>
+  
+  <!-- Level 2 → Level 3 (upward) -->
+  <path d="M 260 145 Q 200 200 160 350" fill="none" stroke="#00d4ff" stroke-width="2"/>
+  <text x="185" y="240" fill="#88ccff" font-size="10" transform="rotate(60, 185, 240)">↑ interpret</text>
+  
+  <!-- Level 3 → Level 1 (the strange crossing!) -->
+  <path d="M 170 395 Q 280 470 400 395" fill="none" stroke="#ff8844" stroke-width="2.5" stroke-dasharray="8,4"/>
+  <text x="280" y="455" text-anchor="middle" fill="#ff8844" font-size="11" font-weight="bold">★ THE CROSSING ★</text>
+  <text x="280" y="470" text-anchor="middle" fill="#ffaa77" font-size="9">back to start!</text>
+  
+  <!-- Center: The Self -->
+  <circle cx="280" cy="310" r="45" fill="#1a0a30" stroke="#ffd700" stroke-width="2.5" filter="url(#glow2)"/>
+  <text x="280" y="305" text-anchor="middle" fill="#ffd700" font-size="18" font-weight="bold">"I"</text>
+  <text x="280" y="325" text-anchor="middle" fill="#ffd700" font-size="10">fixed point</text>
+
+  <!-- RIGHT SIDE: Fixed Point Diagram -->
+  <text x="640" y="110" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">The Fixed Point</text>
+  
+  <!-- f(x) = x diagram -->
+  <!-- Axes -->
+  <line x1="550" y1="130" x2="550" y2="380" stroke="#445" stroke-width="1"/>
+  <line x1="550" y1="380" x2="730" y2="380" stroke="#445" stroke-width="1"/>
+  <text x="735" y="385" fill="#666" font-size="10">x</text>
+  <text x="545" y="125" fill="#666" font-size="10">f(x)</text>
+  
+  <!-- y = x line -->
+  <line x1="550" y1="380" x2="730" y2="200" stroke="#445" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="720" y="195" fill="#666" font-size="9">y=x</text>
+  
+  <!-- f(x) curve (e.g., cos-like contraction) -->
+  <path d="M 550 250 Q 600 260 640 290 Q 680 320 730 340" fill="none" stroke="#00d4ff" stroke-width="2"/>
+  <text x="710" y="335" fill="#00d4ff" font-size="9">f(x)</text>
+  
+  <!-- Fixed point (intersection) -->
+  <circle cx="630" cy="310" r="6" fill="#ffd700" stroke="#ffd700" stroke-width="2" filter="url(#glow2)"/>
+  <text x="645" y="305" fill="#ffd700" font-size="10">x*</text>
+  <text x="645" y="318" fill="#ffd700" font-size="9">f(x*)=x*</text>
+  
+  <!-- Cobweb iteration -->
+  <polyline points="560,380 560,258 605,258 605,282 622,282 622,300 630,300 630,310" 
+            fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.6"/>
+
+  <!-- Bottom: Explanation -->
+  <rect x="50" y="490" width="700" height="90" rx="10" fill="#05101f" stroke="#1a3a5a" stroke-width="1"/>
+  
+  <text x="400" y="515" text-anchor="middle" fill="#00d4ff" font-size="14" font-weight="bold">
+    The Strange Loop Creates the Self That Perceives It
+  </text>
+  <text x="400" y="538" text-anchor="middle" fill="#6699cc" font-size="12">
+    The "I" is a fixed point: f(I) = I. Self-reference is not paradoxical — it is constructive.
+  </text>
+  <text x="400" y="558" text-anchor="middle" fill="#ffd700" font-size="12" font-style="italic">
+    Creator and creation are identical. The theory has no creator because it IS the creator.
+  </text>
+</svg>

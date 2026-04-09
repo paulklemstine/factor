@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="700" fill="url(#bg4)"/>
+
+  <text x="450" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e0e0ff" filter="url(#glow4)">The Bootstrap Taxonomy</text>
+  <text x="450" y="62" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8888bb">Theorems that prove their own existence and construction</text>
+
+  <!-- Root: Bootstrap -->
+  <rect x="350" y="80" width="200" height="45" rx="10" fill="#1a2744" stroke="#4488ff" stroke-width="2"/>
+  <text x="450" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#88bbff" font-weight="bold">BOOTSTRAP</text>
+
+  <!-- Branch lines from root -->
+  <line x1="450" y1="125" x2="150" y2="175" stroke="#4488ff" stroke-width="1.5" opacity="0.5"/>
+  <line x1="450" y1="125" x2="450" y2="175" stroke="#44ddaa" stroke-width="1.5" opacity="0.5"/>
+  <line x1="450" y1="125" x2="750" y2="175" stroke="#ff4488" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Branch 1: Fixed Point -->
+  <rect x="50" y="175" width="200" height="40" rx="8" fill="#112244" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="150" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#88bbff">Fixed Point Theorems</text>
+
+  <!-- Sub-branches of Fixed Point -->
+  <line x1="100" y1="215" x2="60" y2="260" stroke="#4488ff" stroke-width="1" opacity="0.4"/>
+  <line x1="150" y1="215" x2="150" y2="260" stroke="#4488ff" stroke-width="1" opacity="0.4"/>
+  <line x1="200" y1="215" x2="240" y2="260" stroke="#4488ff" stroke-width="1" opacity="0.4"/>
+
+  <rect x="5" y="260" width="110" height="55" rx="6" fill="#0a1428" stroke="#3366aa" stroke-width="1"/>
+  <text x="60" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#6699cc">Knaster-Tarski</text>
+  <text x="60" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#556688">Complete lattice</text>
+  <text x="60" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#556688">⊓{x | f(x)≤x}</text>
+
+  <rect x="95" y="260" width="110" height="55" rx="6" fill="#0a1428" stroke="#3366aa" stroke-width="1"/>
+  <text x="150" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#6699cc">Banach</text>
+  <text x="150" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#556688">Contraction</text>
+  <text x="150" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#556688">d(fx,fy)≤c·d(x,y)</text>
+
+  <rect x="185" y="260" width="110" height="55" rx="6" fill="#0a1428" stroke="#3366aa" stroke-width="1"/>
+  <text x="240" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#6699cc">Brouwer</text>
+  <text x="240" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#556688">Continuous on</text>
+  <text x="240" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#556688">compact convex</text>
+
+  <!-- Branch 2: Self-Reference -->
+  <rect x="350" y="175" width="200" height="40" rx="8" fill="#0a2218" stroke="#44ddaa" stroke-width="1.5"/>
+  <text x="450" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#66ffcc">Self-Reference</text>
+
+  <line x1="400" y1="215" x2="360" y2="260" stroke="#44ddaa" stroke-width="1" opacity="0.4"/>
+  <line x1="450" y1="215" x2="450" y2="260" stroke="#44ddaa" stroke-width="1" opacity="0.4"/>
+  <line x1="500" y1="215" x2="540" y2="260" stroke="#44ddaa" stroke-width="1" opacity="0.4"/>
+
+  <rect x="305" y="260" width="110" height="55" rx="6" fill="#081a14" stroke="#338866" stroke-width="1"/>
+  <text x="360" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#66ccaa">Lawvere</text>
+  <text x="360" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#448866">Diagonal in</text>
+  <text x="360" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#448866">categories</text>
+
+  <rect x="395" y="260" width="110" height="55" rx="6" fill="#081a14" stroke="#338866" stroke-width="1"/>
+  <text x="450" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#66ccaa">Gödel</text>
+  <text x="450" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#448866">Diagonal lemma</text>
+  <text x="450" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#448866">σ ↔ φ(⌜σ⌝)</text>
+
+  <rect x="485" y="260" width="110" height="55" rx="6" fill="#081a14" stroke="#338866" stroke-width="1"/>
+  <text x="540" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#66ccaa">Kleene</text>
+  <text x="540" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#448866">Recursion thm</text>
+  <text x="540" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#448866">φₑ(x) = f(e,x)</text>
+
+  <!-- Branch 3: Construction Chains -->
+  <rect x="650" y="175" width="200" height="40" rx="8" fill="#220a14" stroke="#ff4488" stroke-width="1.5"/>
+  <text x="750" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#ff66aa">Construction Chains</text>
+
+  <line x1="700" y1="215" x2="660" y2="260" stroke="#ff4488" stroke-width="1" opacity="0.4"/>
+  <line x1="750" y1="215" x2="750" y2="260" stroke="#ff4488" stroke-width="1" opacity="0.4"/>
+  <line x1="800" y1="215" x2="840" y2="260" stroke="#ff4488" stroke-width="1" opacity="0.4"/>
+
+  <rect x="605" y="260" width="110" height="55" rx="6" fill="#1a0810" stroke="#aa3366" stroke-width="1"/>
+  <text x="660" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#cc6699">ℕ→ℤ→ℚ→ℝ→ℂ</text>
+  <text x="660" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#884466">Number systems</text>
+  <text x="660" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#884466">each extends prev</text>
+
+  <rect x="695" y="260" width="110" height="55" rx="6" fill="#1a0810" stroke="#aa3366" stroke-width="1"/>
+  <text x="750" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#cc6699">Ordinals</text>
+  <text x="750" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#884466">α = {β | β &lt; α}</text>
+  <text x="750" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#884466">transfinite chain</text>
+
+  <rect x="785" y="260" width="110" height="55" rx="6" fill="#1a0810" stroke="#aa3366" stroke-width="1"/>
+  <text x="840" y="280" text-anchor="middle" font-family="monospace" font-size="10" fill="#cc6699">Universes</text>
+  <text x="840" y="295" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#884466">Type 0 : Type 1</text>
+  <text x="840" y="307" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#884466">: Type 2 : ...</text>
+
+  <!-- Lower section: Key Insight -->
+  <rect x="100" y="370" width="700" height="90" rx="12" fill="#111822" stroke="#334466" stroke-width="1.5"/>
+  <text x="450" y="395" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#aabbdd" font-weight="bold">The Bootstrap Principle</text>
+  <text x="450" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8899bb">
+    A mathematical object X is bootstrapped when its existence proof
+  </text>
+  <text x="450" y="440" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8899bb">
+    constructs X using the very property that X is supposed to satisfy.
+  </text>
+
+  <!-- Applications row -->
+  <text x="450" y="500" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#aabbdd">Applications in Formal Verification</text>
+
+  <!-- App boxes -->
+  <rect x="40" y="520" width="160" height="60" rx="8" fill="#141e2e" stroke="#446688" stroke-width="1"/>
+  <text x="120" y="545" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Well-founded</text>
+  <text x="120" y="562" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Recursion</text>
+
+  <rect x="220" y="520" width="160" height="60" rx="8" fill="#141e2e" stroke="#446688" stroke-width="1"/>
+  <text x="300" y="545" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Inductive</text>
+  <text x="300" y="562" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Types</text>
+
+  <rect x="400" y="520" width="160" height="60" rx="8" fill="#141e2e" stroke="#446688" stroke-width="1"/>
+  <text x="480" y="545" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Type Class</text>
+  <text x="480" y="562" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Resolution</text>
+
+  <rect x="580" y="520" width="160" height="60" rx="8" fill="#141e2e" stroke="#446688" stroke-width="1"/>
+  <text x="660" y="545" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Proof</text>
+  <text x="660" y="562" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#88aacc">Automation</text>
+
+  <!-- Lean 4 badge -->
+  <rect x="350" y="620" width="200" height="35" rx="8" fill="#1e3a5f" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="450" y="643" text-anchor="middle" font-family="monospace" font-size="13" fill="#88bbff">Formalized in Lean 4</text>
+
+  <!-- Footer -->
+  <text x="450" y="685" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#555577">
+    All theorems machine-verified • No axioms beyond CIC + propext + Quot.sound + Classical.choice
+  </text>
+</svg>

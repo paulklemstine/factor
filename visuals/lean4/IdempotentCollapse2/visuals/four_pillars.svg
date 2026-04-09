@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa" />
+      <stop offset="100%" style="stop-color:#e9ecef" />
+    </linearGradient>
+    <filter id="card-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="500" y="45" text-anchor="middle" fill="#212529" font-size="28" font-weight="bold">
+    The Four Pillars of Idempotent Collapse
+  </text>
+  <text x="500" y="72" text-anchor="middle" fill="#6c757d" font-size="14">
+    One mechanism, four manifestations: f ∘ f = f across mathematics and physics
+  </text>
+
+  <!-- ═══ CARD 1: Tropical ═══ -->
+  <g transform="translate(30, 100)">
+    <rect width="220" height="280" rx="12" fill="#ffffff" stroke="#2e7d32" stroke-width="3" filter="url(#card-shadow)"/>
+    <rect width="220" height="50" rx="12" fill="#2e7d32"/>
+    <rect y="38" width="220" height="12" fill="#2e7d32"/>
+    <text x="110" y="33" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">🌴 Tropical</text>
+
+    <text x="110" y="80" text-anchor="middle" fill="#1b5e20" font-size="13" font-weight="bold">Valuation Map</text>
+
+    <!-- PL function -->
+    <g transform="translate(30, 95)">
+      <rect width="160" height="80" rx="5" fill="#e8f5e9" stroke="#c8e6c9" stroke-width="1"/>
+      <polyline points="10,60 40,20 80,40 120,15 150,55" fill="none" stroke="#2e7d32" stroke-width="2.5"/>
+      <text x="80" y="75" text-anchor="middle" fill="#4caf50" font-size="9">piecewise-linear shadow</text>
+    </g>
+
+    <text x="15" y="205" fill="#333" font-size="11">
+      <tspan x="15" dy="0">v : polynomial → PL function</tspan>
+      <tspan x="15" dy="16">v(v(P)) = v(P)</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">Complex → Simple, but</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">retains combinatorial data</tspan>
+    </text>
+  </g>
+
+  <!-- ═══ CARD 2: Oracle ═══ -->
+  <g transform="translate(270, 100)">
+    <rect width="220" height="280" rx="12" fill="#ffffff" stroke="#1565c0" stroke-width="3" filter="url(#card-shadow)"/>
+    <rect width="220" height="50" rx="12" fill="#1565c0"/>
+    <rect y="38" width="220" height="12" fill="#1565c0"/>
+    <text x="110" y="33" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">🔮 Oracle</text>
+
+    <text x="110" y="80" text-anchor="middle" fill="#0d47a1" font-size="13" font-weight="bold">Truth Function</text>
+
+    <!-- Convergence diagram -->
+    <g transform="translate(30, 95)">
+      <rect width="160" height="80" rx="5" fill="#e3f2fd" stroke="#bbdefb" stroke-width="1"/>
+      <!-- Many dots converging to few -->
+      <circle cx="20" cy="20" r="3" fill="#bbb"/>
+      <circle cx="50" cy="15" r="3" fill="#bbb"/>
+      <circle cx="80" cy="40" r="8" fill="#1565c0"/>
+      <circle cx="120" cy="25" r="3" fill="#bbb"/>
+      <circle cx="140" cy="60" r="3" fill="#bbb"/>
+      <line x1="23" y1="22" x2="72" y2="38" stroke="#90caf9" stroke-width="1"/>
+      <line x1="47" y1="17" x2="73" y2="37" stroke="#90caf9" stroke-width="1"/>
+      <line x1="117" y1="27" x2="87" y2="39" stroke="#90caf9" stroke-width="1"/>
+      <line x1="137" y1="58" x2="86" y2="43" stroke="#90caf9" stroke-width="1"/>
+      <text x="80" y="75" text-anchor="middle" fill="#42a5f5" font-size="9">one step to truth</text>
+    </g>
+
+    <text x="15" y="205" fill="#333" font-size="11">
+      <tspan x="15" dy="0">O : query → truth</tspan>
+      <tspan x="15" dy="16">O(O(x)) = O(x)</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">Meta-oracle = oracle</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">Hierarchy collapses at level 1</tspan>
+    </text>
+  </g>
+
+  <!-- ═══ CARD 3: Holographic ═══ -->
+  <g transform="translate(510, 100)">
+    <rect width="220" height="280" rx="12" fill="#ffffff" stroke="#7b1fa2" stroke-width="3" filter="url(#card-shadow)"/>
+    <rect width="220" height="50" rx="12" fill="#7b1fa2"/>
+    <rect y="38" width="220" height="12" fill="#7b1fa2"/>
+    <text x="110" y="33" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">🌀 Holographic</text>
+
+    <text x="110" y="80" text-anchor="middle" fill="#4a148c" font-size="13" font-weight="bold">RG Flow</text>
+
+    <!-- Spiral -->
+    <g transform="translate(30, 95)">
+      <rect width="160" height="80" rx="5" fill="#f3e5f5" stroke="#e1bee7" stroke-width="1"/>
+      <path d="M20,60 C30,20 60,10 80,40 C90,55 100,45 100,35 C100,25 90,20 85,30 C82,35 84,38 85,35"
+            fill="none" stroke="#7b1fa2" stroke-width="2"/>
+      <circle cx="85" cy="35" r="4" fill="#ab47bc"/>
+      <text x="80" y="75" text-anchor="middle" fill="#9c27b0" font-size="9">converge to fixed point</text>
+    </g>
+
+    <text x="15" y="205" fill="#333" font-size="11">
+      <tspan x="15" dy="0">RG : theory → effective theory</tspan>
+      <tspan x="15" dy="16">RG^∞ → conformal point</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">Bulk data encoded on</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">lower-dimensional boundary</tspan>
+    </text>
+  </g>
+
+  <!-- ═══ CARD 4: Cayley-Dickson ═══ -->
+  <g transform="translate(750, 100)">
+    <rect width="220" height="280" rx="12" fill="#ffffff" stroke="#e65100" stroke-width="3" filter="url(#card-shadow)"/>
+    <rect width="220" height="50" rx="12" fill="#e65100"/>
+    <rect y="38" width="220" height="12" fill="#e65100"/>
+    <text x="110" y="33" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">🔷 Cayley-Dickson</text>
+
+    <text x="110" y="80" text-anchor="middle" fill="#bf360c" font-size="13" font-weight="bold">Algebra Tower</text>
+
+    <!-- Tower diagram -->
+    <g transform="translate(30, 95)">
+      <rect width="160" height="80" rx="5" fill="#fff3e0" stroke="#ffe0b2" stroke-width="1"/>
+      <text x="20" y="20" fill="#e65100" font-size="11">ℝ</text>
+      <text x="35" y="20" fill="#999" font-size="10">→</text>
+      <text x="50" y="20" fill="#e65100" font-size="11">ℂ</text>
+      <text x="65" y="20" fill="#999" font-size="10">→</text>
+      <text x="80" y="20" fill="#e65100" font-size="11">ℍ</text>
+      <text x="95" y="20" fill="#999" font-size="10">→</text>
+      <text x="110" y="20" fill="#e65100" font-size="13" font-weight="bold">𝕆</text>
+      <text x="125" y="20" fill="#999" font-size="10">→</text>
+      <text x="140" y="20" fill="#ccc" font-size="11">...</text>
+      <!-- Norm arrow curving back -->
+      <path d="M110,28 C110,55 20,55 20,28" fill="none" stroke="#ff8f00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="65" y="50" text-anchor="middle" fill="#f57c00" font-size="9">‖·‖</text>
+      <text x="80" y="75" text-anchor="middle" fill="#ef6c00" font-size="9">norm → ℝ always</text>
+    </g>
+
+    <text x="15" y="205" fill="#333" font-size="11">
+      <tspan x="15" dy="0">Double: dim × 2 each step</tspan>
+      <tspan x="15" dy="16">‖·‖ : Aₙ → ℝ (idempotent)</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">Properties lost, but norm</tspan>
+      <tspan x="15" dy="16" fill="#666" font-style="italic">always collapses to ℝ</tspan>
+    </text>
+  </g>
+
+  <!-- ═══ UNIFYING PRINCIPLE ═══ -->
+  <g transform="translate(500, 430)">
+    <rect x="-470" y="0" width="940" height="120" rx="15" fill="#212529" filter="url(#card-shadow)"/>
+
+    <text x="0" y="30" text-anchor="middle" fill="#ffd54f" font-size="20" font-weight="bold">
+      ⟨ THE UNIFYING PRINCIPLE ⟩
+    </text>
+
+    <text x="0" y="58" text-anchor="middle" fill="#ffffff" font-size="15">
+      Every complex system, when iterated through a natural projection,
+    </text>
+    <text x="0" y="78" text-anchor="middle" fill="#ffffff" font-size="15">
+      converges to a simpler fixed-point structure that retains essential information.
+    </text>
+    <text x="0" y="105" text-anchor="middle" fill="#aaaaff" font-size="14" font-style="italic">
+      f ∘ f = f   ⟹   Image(f) = Fix(f)   ⟹   The simplified structure IS the truth.
+    </text>
+  </g>
+
+  <!-- ═══ ANSWER BOX ═══ -->
+  <g transform="translate(500, 580)">
+    <rect x="-470" y="0" width="940" height="100" rx="15" fill="#1b5e20" filter="url(#card-shadow)" opacity="0.95"/>
+
+    <text x="0" y="30" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+      Can we collapse everything?
+    </text>
+    <text x="0" y="58" text-anchor="middle" fill="#a5d6a7" font-size="16">
+      ∀ (α : Type) (S : Set α), S.Nonempty → ∃ f : α → α, Idempotent f ∧ range f = S
+    </text>
+    <text x="0" y="82" text-anchor="middle" fill="#ffcc00" font-size="18" font-weight="bold">
+      ✓ PROVED IN LEAN 4 — Yes, we can collapse everything.
+    </text>
+  </g>
+</svg>

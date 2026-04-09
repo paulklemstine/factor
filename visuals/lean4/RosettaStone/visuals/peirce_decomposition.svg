@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg_pd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a1a2e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow_pd">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg_pd)"/>
+
+  <text x="400" y="40" text-anchor="middle" fill="#e0b0ff" font-size="22" font-weight="bold" filter="url(#glow_pd)">
+    The Peirce Decomposition
+  </text>
+  <text x="400" y="65" text-anchor="middle" fill="#9988bb" font-size="14" font-style="italic">
+    Every element x decomposes into four orthogonal pieces via idempotent e
+  </text>
+
+  <!-- Main equation -->
+  <text x="400" y="100" text-anchor="middle" fill="#fff" font-size="16">
+    x = exe + ex(1−e) + (1−e)xe + (1−e)x(1−e)
+  </text>
+
+  <!-- 2x2 grid representing the four Peirce components -->
+  <!-- Grid outline -->
+  <rect x="200" y="130" width="400" height="340" rx="5" fill="none" stroke="#444" stroke-width="2"/>
+
+  <!-- Dividing lines -->
+  <line x1="400" y1="130" x2="400" y2="470" stroke="#444" stroke-width="2"/>
+  <line x1="200" y1="300" x2="600" y2="300" stroke="#444" stroke-width="2"/>
+
+  <!-- (1,1) component - top left -->
+  <rect x="201" y="131" width="198" height="168" fill="#4CAF50" opacity="0.15"/>
+  <text x="300" y="200" text-anchor="middle" fill="#4CAF50" font-size="18" font-weight="bold">exe</text>
+  <text x="300" y="225" text-anchor="middle" fill="#8BC34A" font-size="12">"eRe" subalgebra</text>
+  <text x="300" y="250" text-anchor="middle" fill="#8BC34A" font-size="11">with unit e</text>
+  <text x="300" y="275" text-anchor="middle" fill="#689F38" font-size="10">classical world</text>
+
+  <!-- (1,0) component - top right -->
+  <rect x="401" y="131" width="198" height="168" fill="#2196F3" opacity="0.15"/>
+  <text x="500" y="200" text-anchor="middle" fill="#2196F3" font-size="18" font-weight="bold">ex(1−e)</text>
+  <text x="500" y="225" text-anchor="middle" fill="#64B5F6" font-size="12">"eR(1−e)" bimodule</text>
+  <text x="500" y="250" text-anchor="middle" fill="#64B5F6" font-size="11">transition</text>
+  <text x="500" y="275" text-anchor="middle" fill="#42A5F5" font-size="10">classical → quantum</text>
+
+  <!-- (0,1) component - bottom left -->
+  <rect x="201" y="301" width="198" height="168" fill="#FF9800" opacity="0.15"/>
+  <text x="300" y="370" text-anchor="middle" fill="#FF9800" font-size="18" font-weight="bold">(1−e)xe</text>
+  <text x="300" y="395" text-anchor="middle" fill="#FFB74D" font-size="12">"(1−e)Re" bimodule</text>
+  <text x="300" y="420" text-anchor="middle" fill="#FFB74D" font-size="11">transition</text>
+  <text x="300" y="445" text-anchor="middle" fill="#FFA726" font-size="10">quantum → classical</text>
+
+  <!-- (0,0) component - bottom right -->
+  <rect x="401" y="301" width="198" height="168" fill="#E91E63" opacity="0.15"/>
+  <text x="500" y="370" text-anchor="middle" fill="#E91E63" font-size="18" font-weight="bold">(1−e)x(1−e)</text>
+  <text x="500" y="395" text-anchor="middle" fill="#F06292" font-size="12">"(1−e)R(1−e)" subalgebra</text>
+  <text x="500" y="420" text-anchor="middle" fill="#F06292" font-size="11">with unit (1−e)</text>
+  <text x="500" y="445" text-anchor="middle" fill="#EC407A" font-size="10">quantum world</text>
+
+  <!-- Labels on axes -->
+  <text x="300" y="125" text-anchor="middle" fill="#aaa" font-size="12">im(e)</text>
+  <text x="500" y="125" text-anchor="middle" fill="#aaa" font-size="12">ker(e)</text>
+  <text x="190" y="215" text-anchor="end" fill="#aaa" font-size="12" transform="rotate(-90, 190, 215)">im(e)</text>
+  <text x="190" y="385" text-anchor="end" fill="#aaa" font-size="12" transform="rotate(-90, 190, 385)">ker(e)</text>
+
+  <!-- Bottom text -->
+  <text x="400" y="510" text-anchor="middle" fill="#9988bb" font-size="13">
+    ★ Diagonal blocks = subalgebras  |  Off-diagonal blocks = bimodules ★
+  </text>
+  <text x="400" y="535" text-anchor="middle" fill="#7766aa" font-size="12">
+    Block-diagonal ⟺ x commutes with e ⟺ "x is classical w.r.t. measurement e"
+  </text>
+  <text x="400" y="560" text-anchor="middle" fill="#6655aa" font-size="12">
+    Off-diagonal terms = quantum coherence / entanglement
+  </text>
+  <text x="400" y="585" text-anchor="middle" fill="#4CAF50" font-size="11">
+    Formally verified in Lean 4 ✓
+  </text>
+</svg>

@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="700">
+  <defs>
+    <linearGradient id="bg3d" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0d35"/>
+      <stop offset="100%" stop-color="#1a1a50"/>
+    </linearGradient>
+    <filter id="photon-glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="700" fill="url(#bg3d)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#FFD700" font-size="20" font-family="Georgia">
+    Photon on a 3D Integer Lattice — The 3-4-5 Path
+  </text>
+  
+  <!-- Isometric grid -->
+  <!-- We use a simple isometric projection: x' = x - z/2, y' = -y + x/3 + z/3 -->
+  <!-- Grid parameters -->
+  
+  <!-- Lattice nodes (dots at integer coordinates) -->
+  <g opacity="0.3">
+    <!-- Layer z=0 -->
+    <circle cx="200" cy="500" r="3" fill="#4ECDC4"/>
+    <circle cx="260" cy="500" r="3" fill="#4ECDC4"/>
+    <circle cx="320" cy="500" r="3" fill="#4ECDC4"/>
+    <circle cx="380" cy="500" r="3" fill="#4ECDC4"/>
+    <circle cx="440" cy="500" r="3" fill="#4ECDC4"/>
+    <circle cx="500" cy="500" r="3" fill="#4ECDC4"/>
+    <circle cx="200" cy="440" r="3" fill="#4ECDC4"/>
+    <circle cx="260" cy="440" r="3" fill="#4ECDC4"/>
+    <circle cx="320" cy="440" r="3" fill="#4ECDC4"/>
+    <circle cx="380" cy="440" r="3" fill="#4ECDC4"/>
+    <circle cx="440" cy="440" r="3" fill="#4ECDC4"/>
+    <circle cx="500" cy="440" r="3" fill="#4ECDC4"/>
+    <circle cx="200" cy="380" r="3" fill="#4ECDC4"/>
+    <circle cx="260" cy="380" r="3" fill="#4ECDC4"/>
+    <circle cx="320" cy="380" r="3" fill="#4ECDC4"/>
+    <circle cx="380" cy="380" r="3" fill="#4ECDC4"/>
+    <circle cx="440" cy="380" r="3" fill="#4ECDC4"/>
+    <circle cx="500" cy="380" r="3" fill="#4ECDC4"/>
+    <circle cx="200" cy="320" r="3" fill="#4ECDC4"/>
+    <circle cx="260" cy="320" r="3" fill="#4ECDC4"/>
+    <circle cx="320" cy="320" r="3" fill="#4ECDC4"/>
+    <circle cx="380" cy="320" r="3" fill="#4ECDC4"/>
+    <circle cx="440" cy="320" r="3" fill="#4ECDC4"/>
+    <circle cx="500" cy="320" r="3" fill="#4ECDC4"/>
+    <circle cx="200" cy="260" r="3" fill="#4ECDC4"/>
+    <circle cx="260" cy="260" r="3" fill="#4ECDC4"/>
+    <circle cx="320" cy="260" r="3" fill="#4ECDC4"/>
+    <circle cx="380" cy="260" r="3" fill="#4ECDC4"/>
+    <circle cx="440" cy="260" r="3" fill="#4ECDC4"/>
+    <circle cx="500" cy="260" r="3" fill="#4ECDC4"/>
+  </g>
+  
+  <!-- Grid lines -->
+  <g stroke="#1a3a5a" stroke-width="0.5" opacity="0.4">
+    <!-- Horizontal lines -->
+    <line x1="200" y1="500" x2="500" y2="500"/>
+    <line x1="200" y1="440" x2="500" y2="440"/>
+    <line x1="200" y1="380" x2="500" y2="380"/>
+    <line x1="200" y1="320" x2="500" y2="320"/>
+    <line x1="200" y1="260" x2="500" y2="260"/>
+    <!-- Vertical lines -->
+    <line x1="200" y1="260" x2="200" y2="500"/>
+    <line x1="260" y1="260" x2="260" y2="500"/>
+    <line x1="320" y1="260" x2="320" y2="500"/>
+    <line x1="380" y1="260" x2="380" y2="500"/>
+    <line x1="440" y1="260" x2="440" y2="500"/>
+    <line x1="500" y1="260" x2="500" y2="500"/>
+  </g>
+  
+  <!-- The 3-4-5 Pythagorean path -->
+  <!-- Origin at (200, 500), step size 60px -->
+  <!-- Path: 3 units right, 4 units up = endpoint at (200+3*60, 500-4*60) = (380, 260) -->
+  <!-- Hypotenuse = 5 units -->
+  
+  <!-- Leg a=3 (horizontal, red) -->
+  <line x1="200" y1="500" x2="380" y2="500" stroke="#FF6B6B" stroke-width="3"/>
+  <text x="290" y="525" text-anchor="middle" fill="#FF6B6B" font-size="16" font-family="monospace" font-weight="bold">a = 3</text>
+  
+  <!-- Leg b=4 (vertical, blue) -->
+  <line x1="380" y1="500" x2="380" y2="260" stroke="#5B9BD5" stroke-width="3"/>
+  <text x="405" y="385" text-anchor="start" fill="#5B9BD5" font-size="16" font-family="monospace" font-weight="bold">b = 4</text>
+  
+  <!-- Hypotenuse c=5 (diagonal, gold — the LIGHT PATH) -->
+  <line x1="200" y1="500" x2="380" y2="260" stroke="#FFD700" stroke-width="4" filter="url(#photon-glow)"/>
+  <text x="270" y="365" text-anchor="middle" fill="#FFD700" font-size="18" font-family="monospace" font-weight="bold" transform="rotate(-53 270 365)">c = 5 (light)</text>
+  
+  <!-- Photon symbol at start -->
+  <circle cx="200" cy="500" r="8" fill="#FFD700" filter="url(#photon-glow)"/>
+  <text x="200" y="545" text-anchor="middle" fill="#FFD700" font-size="12" font-family="monospace">γ start</text>
+  
+  <!-- Photon symbol at end -->
+  <circle cx="380" cy="260" r="8" fill="#FFD700" filter="url(#photon-glow)"/>
+  <text x="380" y="248" text-anchor="middle" fill="#FFD700" font-size="12" font-family="monospace">γ end</text>
+  
+  <!-- Wavy photon line along hypotenuse -->
+  <path d="M 210 490 Q 220 485 230 488 Q 240 491 250 486 Q 260 481 270 484 Q 280 487 290 480 
+           Q 300 473 310 476 Q 320 479 330 472 Q 340 465 350 468 Q 360 471 370 264" 
+        fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.4"/>
+  
+  <!-- Right angle marker -->
+  <rect x="365" y="485" width="15" height="15" fill="none" stroke="#888" stroke-width="1"/>
+  
+  <!-- Equation -->
+  <text x="400" y="580" text-anchor="middle" fill="#FFD700" font-size="22" font-family="Georgia">
+    3² + 4² = 9 + 16 = 25 = 5²
+  </text>
+  
+  <!-- Key insight box -->
+  <rect x="520" y="120" width="260" height="140" rx="8" fill="rgba(255,215,0,0.05)" stroke="#FFD700" stroke-width="1"/>
+  <text x="650" y="145" text-anchor="middle" fill="#FFD700" font-size="14" font-family="monospace" font-weight="bold">Key Insight</text>
+  <text x="650" y="170" text-anchor="middle" fill="#CCC" font-size="11" font-family="monospace">On a discrete lattice,</text>
+  <text x="650" y="188" text-anchor="middle" fill="#CCC" font-size="11" font-family="monospace">light can only travel</text>
+  <text x="650" y="206" text-anchor="middle" fill="#CCC" font-size="11" font-family="monospace">along directions where</text>
+  <text x="650" y="224" text-anchor="middle" fill="#4ECDC4" font-size="12" font-family="monospace" font-weight="bold">a² + b² = c²</text>
+  <text x="650" y="248" text-anchor="middle" fill="#888" font-size="10" font-family="monospace">(integer distance = integer time)</text>
+  
+  <!-- Formally verified badge -->
+  <rect x="520" y="290" width="260" height="35" rx="5" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="650" y="312" text-anchor="middle" fill="#2ecc71" font-size="12" font-family="monospace">✓ Verified: PythagoreanTriples.lean</text>
+  
+  <!-- Axis labels -->
+  <text x="550" y="500" text-anchor="middle" fill="#666" font-size="11" font-family="monospace">x-axis (space)</text>
+  <text x="150" y="250" text-anchor="middle" fill="#666" font-size="11" font-family="monospace" transform="rotate(-90 150 250)">y-axis (space)</text>
+  
+  <!-- Info text -->
+  <text x="400" y="630" text-anchor="middle" fill="#666" font-size="11" font-family="monospace">
+    The photon follows a lattice path whose spatial legs form a Pythagorean triple.
+  </text>
+  <text x="400" y="650" text-anchor="middle" fill="#666" font-size="11" font-family="monospace">
+    The hypotenuse c corresponds to the time elapsed (in Planck units).
+  </text>
+  <text x="400" y="670" text-anchor="middle" fill="#888" font-size="10" font-family="monospace">
+    If all such paths are Pythagorean → spacetime must be quantized.
+  </text>
+</svg>

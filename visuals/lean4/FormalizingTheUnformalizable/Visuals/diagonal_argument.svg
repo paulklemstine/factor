@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a3e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="diag" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffd93d;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="700" fill="url(#bg)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" fill="#ffd93d" font-size="22" font-weight="bold" filter="url(#glow)">
+    CANTOR'S DIAGONAL ARGUMENT (1891)
+  </text>
+  <text x="400" y="70" text-anchor="middle" fill="#8888cc" font-size="14">
+    No surjection f : ℕ → ℝ exists — The reals are uncountable
+  </text>
+
+  <!-- Grid headers -->
+  <text x="120" y="110" fill="#6699cc" font-size="13">Proposed enumeration f : ℕ → {0,1}ℕ</text>
+
+  <!-- Row labels -->
+  <g fill="#88aadd" font-size="14">
+    <text x="50" y="145">f(0) =</text>
+    <text x="50" y="185">f(1) =</text>
+    <text x="50" y="225">f(2) =</text>
+    <text x="50" y="265">f(3) =</text>
+    <text x="50" y="305">f(4) =</text>
+    <text x="50" y="345">f(5) =</text>
+    <text x="50" y="385">f(6) =</text>
+  </g>
+
+  <!-- Column headers -->
+  <g fill="#6688aa" font-size="11">
+    <text x="130" y="118" text-anchor="middle">d₀</text>
+    <text x="175" y="118" text-anchor="middle">d₁</text>
+    <text x="220" y="118" text-anchor="middle">d₂</text>
+    <text x="265" y="118" text-anchor="middle">d₃</text>
+    <text x="310" y="118" text-anchor="middle">d₄</text>
+    <text x="355" y="118" text-anchor="middle">d₅</text>
+    <text x="400" y="118" text-anchor="middle">d₆</text>
+    <text x="445" y="118" text-anchor="middle">⋯</text>
+  </g>
+
+  <!-- Grid cells - row 0 -->
+  <g font-size="16" fill="#ccddee">
+    <!-- Row 0 -->
+    <rect x="110" y="128" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="130" y="148" text-anchor="middle" fill="#ff6b6b" font-weight="bold">0</text>
+    <text x="175" y="148" text-anchor="middle">1</text>
+    <text x="220" y="148" text-anchor="middle">0</text>
+    <text x="265" y="148" text-anchor="middle">1</text>
+    <text x="310" y="148" text-anchor="middle">1</text>
+    <text x="355" y="148" text-anchor="middle">0</text>
+    <text x="400" y="148" text-anchor="middle">1</text>
+    <text x="445" y="148" text-anchor="middle" fill="#666">⋯</text>
+
+    <!-- Row 1 -->
+    <text x="130" y="188" text-anchor="middle">1</text>
+    <rect x="155" y="168" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="175" y="188" text-anchor="middle" fill="#ff6b6b" font-weight="bold">1</text>
+    <text x="220" y="188" text-anchor="middle">1</text>
+    <text x="265" y="188" text-anchor="middle">0</text>
+    <text x="310" y="188" text-anchor="middle">0</text>
+    <text x="355" y="188" text-anchor="middle">1</text>
+    <text x="400" y="188" text-anchor="middle">0</text>
+    <text x="445" y="188" text-anchor="middle" fill="#666">⋯</text>
+
+    <!-- Row 2 -->
+    <text x="130" y="228" text-anchor="middle">0</text>
+    <text x="175" y="228" text-anchor="middle">0</text>
+    <rect x="200" y="208" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="220" y="228" text-anchor="middle" fill="#ff6b6b" font-weight="bold">1</text>
+    <text x="265" y="228" text-anchor="middle">1</text>
+    <text x="310" y="228" text-anchor="middle">0</text>
+    <text x="355" y="228" text-anchor="middle">0</text>
+    <text x="400" y="228" text-anchor="middle">1</text>
+    <text x="445" y="228" text-anchor="middle" fill="#666">⋯</text>
+
+    <!-- Row 3 -->
+    <text x="130" y="268" text-anchor="middle">1</text>
+    <text x="175" y="268" text-anchor="middle">0</text>
+    <text x="220" y="268" text-anchor="middle">0</text>
+    <rect x="245" y="248" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="265" y="268" text-anchor="middle" fill="#ff6b6b" font-weight="bold">0</text>
+    <text x="310" y="268" text-anchor="middle">1</text>
+    <text x="355" y="268" text-anchor="middle">1</text>
+    <text x="400" y="268" text-anchor="middle">0</text>
+    <text x="445" y="268" text-anchor="middle" fill="#666">⋯</text>
+
+    <!-- Row 4 -->
+    <text x="130" y="308" text-anchor="middle">0</text>
+    <text x="175" y="308" text-anchor="middle">1</text>
+    <text x="220" y="308" text-anchor="middle">1</text>
+    <text x="265" y="308" text-anchor="middle">0</text>
+    <rect x="290" y="288" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="310" y="308" text-anchor="middle" fill="#ff6b6b" font-weight="bold">1</text>
+    <text x="355" y="308" text-anchor="middle">0</text>
+    <text x="400" y="308" text-anchor="middle">1</text>
+    <text x="445" y="308" text-anchor="middle" fill="#666">⋯</text>
+
+    <!-- Row 5 -->
+    <text x="130" y="348" text-anchor="middle">1</text>
+    <text x="175" y="348" text-anchor="middle">1</text>
+    <text x="220" y="348" text-anchor="middle">0</text>
+    <text x="265" y="348" text-anchor="middle">1</text>
+    <text x="310" y="348" text-anchor="middle">0</text>
+    <rect x="335" y="328" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="355" y="348" text-anchor="middle" fill="#ff6b6b" font-weight="bold">0</text>
+    <text x="400" y="348" text-anchor="middle">1</text>
+    <text x="445" y="348" text-anchor="middle" fill="#666">⋯</text>
+
+    <!-- Row 6 -->
+    <text x="130" y="388" text-anchor="middle">0</text>
+    <text x="175" y="388" text-anchor="middle">0</text>
+    <text x="220" y="388" text-anchor="middle">1</text>
+    <text x="265" y="388" text-anchor="middle">0</text>
+    <text x="310" y="388" text-anchor="middle">1</text>
+    <text x="355" y="388" text-anchor="middle">1</text>
+    <rect x="380" y="368" width="40" height="28" rx="4" fill="#ff6b6b" opacity="0.3" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="400" y="388" text-anchor="middle" fill="#ff6b6b" font-weight="bold">1</text>
+    <text x="445" y="388" text-anchor="middle" fill="#666">⋯</text>
+  </g>
+
+  <!-- Diagonal line -->
+  <line x1="120" y1="130" x2="410" y2="385" stroke="url(#diag)" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
+
+  <!-- Anti-diagonal result -->
+  <g transform="translate(0, 420)">
+    <rect x="90" y="0" width="380" height="40" rx="8" fill="#1a4a2e" stroke="#4dff88" stroke-width="2"/>
+    <text x="50" y="26" fill="#4dff88" font-size="14" font-weight="bold">D =</text>
+    <text x="130" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">1</text>
+    <text x="175" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">0</text>
+    <text x="220" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">0</text>
+    <text x="265" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">1</text>
+    <text x="310" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">0</text>
+    <text x="355" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">1</text>
+    <text x="400" y="26" text-anchor="middle" fill="#4dff88" font-size="16" font-weight="bold">0</text>
+    <text x="445" y="26" text-anchor="middle" fill="#4dff88" font-size="16">⋯</text>
+  </g>
+
+  <!-- Explanation -->
+  <g transform="translate(490, 130)">
+    <text x="0" y="0" fill="#ffd93d" font-size="15" font-weight="bold">THE ARGUMENT:</text>
+    <text x="0" y="30" fill="#ccddee" font-size="12">1. Assume f : ℕ → {0,1}ℕ</text>
+    <text x="0" y="50" fill="#ccddee" font-size="12">   is a surjection.</text>
+    <text x="0" y="80" fill="#ccddee" font-size="12">2. Define D by:</text>
+    <text x="0" y="100" fill="#ff6b6b" font-size="12">   D(n) = 1 - f(n)(n)</text>
+    <text x="0" y="120" fill="#ccddee" font-size="12">   (flip the diagonal)</text>
+    <text x="0" y="155" fill="#ccddee" font-size="12">3. D ≠ f(n) for all n</text>
+    <text x="0" y="175" fill="#ccddee" font-size="12">   (they differ at</text>
+    <text x="0" y="195" fill="#ccddee" font-size="12">    position n)</text>
+    <text x="0" y="230" fill="#ccddee" font-size="12">4. So D ∉ range(f)</text>
+    <text x="0" y="260" fill="#4dff88" font-size="14" font-weight="bold">5. f is NOT surjective.</text>
+    <text x="0" y="290" fill="#ffd93d" font-size="14">   CONTRADICTION! □</text>
+  </g>
+
+  <!-- Bottom quote -->
+  <rect x="50" y="490" width="700" height="90" rx="8" fill="none" stroke="#4444aa" stroke-width="1"/>
+  <text x="400" y="515" text-anchor="middle" fill="#aabbdd" font-size="13" font-style="italic">
+    "The essence of mathematics lies in its freedom." — Georg Cantor
+  </text>
+  <text x="400" y="540" text-anchor="middle" fill="#8899bb" font-size="12">
+    This single argument — flip the diagonal — generates ALL impossibility theorems:
+  </text>
+  <text x="400" y="560" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">
+    Russell's Paradox · Gödel's Incompleteness · Turing's Halting Problem · Tarski's Undefinability
+  </text>
+
+  <!-- Formalized badge -->
+  <rect x="530" y="610" width="240" height="50" rx="25" fill="none" stroke="#4dff88" stroke-width="2"/>
+  <text x="650" y="632" text-anchor="middle" fill="#4dff88" font-size="11">✓ FORMALIZED IN LEAN 4</text>
+  <text x="650" y="648" text-anchor="middle" fill="#4dff88" font-size="10">Machine-verified proof</text>
+</svg>

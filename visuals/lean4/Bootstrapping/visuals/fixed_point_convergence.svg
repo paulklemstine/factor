@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f1923"/>
+      <stop offset="100%" style="stop-color:#0a1018"/>
+    </linearGradient>
+    <filter id="g3">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg3)"/>
+
+  <text x="400" y="35" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#e0e0ff">Contraction Bootstrap: f(x) = cos(x)</text>
+  <text x="400" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#8888bb">The fixed point x* ≈ 0.7391 bootstraps as the limit of iteration</text>
+
+  <!-- Axes -->
+  <g transform="translate(80, 70)">
+    <!-- Plot area: 620 x 370 -->
+    <rect x="0" y="0" width="620" height="370" fill="none" stroke="#334466" stroke-width="1"/>
+
+    <!-- Grid lines -->
+    <line x1="0" y1="185" x2="620" y2="185" stroke="#223344" stroke-width="0.5"/>
+    <line x1="310" y1="0" x2="310" y2="370" stroke="#223344" stroke-width="0.5"/>
+
+    <!-- y = x line -->
+    <line x1="0" y1="370" x2="620" y2="0" stroke="#4488ff" stroke-width="1.5" opacity="0.6"/>
+    <text x="590" y="30" font-family="monospace" font-size="11" fill="#4488ff">y = x</text>
+
+    <!-- y = cos(x) curve (approximated with path) -->
+    <!-- cos(x) from x=0 to x=π/2 ≈ 1.57, mapped to 620px wide, 370px tall -->
+    <!-- x range: 0 to 1.6, y range: 0 to 1.0 -->
+    <!-- Scale: x_px = x * 387.5, y_px = 370 - y * 370 -->
+    <path d="M 0,0 Q 97,5 194,37 Q 291,100 388,222 Q 450,300 620,370"
+          fill="none" stroke="#ff4488" stroke-width="2" opacity="0.8"/>
+    <text x="20" y="15" font-family="monospace" font-size="11" fill="#ff4488">y = cos(x)</text>
+
+    <!-- Fixed point star -->
+    <!-- x* ≈ 0.7391, cos(0.7391) ≈ 0.7391 -->
+    <!-- x_px = 0.7391 * 387.5 ≈ 286, y_px = 370 - 0.7391*370 ≈ 97 -->
+    <circle cx="286" cy="97" r="6" fill="#64ffda" opacity="0.3" filter="url(#g3)"/>
+    <circle cx="286" cy="97" r="3" fill="#64ffda"/>
+    <text x="296" y="90" font-family="monospace" font-size="10" fill="#64ffda">x* ≈ 0.7391</text>
+
+    <!-- Cobweb iteration starting from x₀ = 0 -->
+    <!-- x₀ = 0 → cos(0) = 1.0 → cos(1.0) ≈ 0.5403 → cos(0.5403) ≈ 0.8576 → ... -->
+    <!-- Points: (0, 0), (0, 1), (1, 1), (1, 0.5403), (0.5403, 0.5403), (0.5403, 0.8576), ... -->
+
+    <!-- Step 1: x=0, go up to cos curve -->
+    <line x1="0" y1="370" x2="0" y2="0" stroke="#ffaa44" stroke-width="1.5" opacity="0.8"/>
+    <!-- Step 2: go right to y=x -->
+    <line x1="0" y1="0" x2="388" y2="0" stroke="#ffaa44" stroke-width="1" opacity="0.6"/>
+    <!-- Step 3: x=1, go up to cos curve, cos(1)≈0.5403 -->
+    <!-- y_px for 0.5403 = 370 - 0.5403*370 = 170 -->
+    <line x1="388" y1="0" x2="388" y2="170" stroke="#ffaa44" stroke-width="1.5" opacity="0.7"/>
+    <!-- Step 4: go left to y=x -->
+    <!-- x_px for 0.5403 = 209 -->
+    <line x1="388" y1="170" x2="209" y2="170" stroke="#ffaa44" stroke-width="1" opacity="0.6"/>
+    <!-- Step 5: x=0.5403, cos(0.5403)≈0.8576 -->
+    <!-- y_px for 0.8576 = 370 - 317 = 53 -->
+    <line x1="209" y1="170" x2="209" y2="53" stroke="#ffaa44" stroke-width="1.5" opacity="0.7"/>
+    <!-- Step 6: go right to y=x -->
+    <!-- x_px for 0.8576 = 332 -->
+    <line x1="209" y1="53" x2="332" y2="53" stroke="#ffaa44" stroke-width="1" opacity="0.6"/>
+    <!-- Step 7: x=0.8576, cos(0.8576)≈0.6543 -->
+    <!-- y_px for 0.6543 = 128 -->
+    <line x1="332" y1="53" x2="332" y2="128" stroke="#ffaa44" stroke-width="1.2" opacity="0.6"/>
+    <!-- Step 8: go left to y=x -->
+    <!-- x_px for 0.6543 = 254 -->
+    <line x1="332" y1="128" x2="254" y2="128" stroke="#ffaa44" stroke-width="1" opacity="0.5"/>
+    <!-- Step 9: → converging toward x* -->
+    <line x1="254" y1="128" x2="254" y2="86" stroke="#ffaa44" stroke-width="1" opacity="0.5"/>
+    <line x1="254" y1="86" x2="298" y2="86" stroke="#ffaa44" stroke-width="0.8" opacity="0.4"/>
+    <line x1="298" y1="86" x2="298" y2="102" stroke="#ffaa44" stroke-width="0.8" opacity="0.4"/>
+    <line x1="298" y1="102" x2="280" y2="102" stroke="#ffaa44" stroke-width="0.6" opacity="0.3"/>
+
+    <!-- Labels -->
+    <text x="10" y="390" font-family="monospace" font-size="10" fill="#666688">0</text>
+    <text x="380" y="390" font-family="monospace" font-size="10" fill="#666688">1.0</text>
+    <text x="610" y="390" font-family="monospace" font-size="10" fill="#666688">1.6</text>
+    <text x="-25" y="375" font-family="monospace" font-size="10" fill="#666688">0</text>
+    <text x="-25" y="5" font-family="monospace" font-size="10" fill="#666688">1</text>
+  </g>
+
+  <!-- Explanation -->
+  <text x="400" y="480" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#888899">
+    The cobweb spirals inward: each iterate bootstraps closer to x*, proving its own existence by converging to it.
+  </text>
+</svg>

@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECSTASIS VISUAL — Psychedelic Audio-Reactive Transport System</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #000;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+  color: #0ff;
+  cursor: none;
+}
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+#controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 100;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  transition: opacity 0.5s;
+}
+#controls.hidden { opacity: 0; pointer-events: none; }
+button {
+  background: rgba(0,255,255,0.1);
+  border: 1px solid rgba(0,255,255,0.4);
+  color: #0ff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+button:hover { background: rgba(0,255,255,0.25); border-color: #0ff; }
+button.active { background: rgba(0,255,255,0.35); box-shadow: 0 0 12px rgba(0,255,255,0.3); }
+select {
+  background: rgba(0,0,0,0.8);
+  border: 1px solid rgba(0,255,255,0.4);
+  color: #0ff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 4px;
+  background: rgba(0,255,255,0.2);
+  border-radius: 2px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #0ff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,255,255,0.5);
+}
+label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+#info {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  font-size: 11px;
+  line-height: 1.6;
+  opacity: 0.6;
+  transition: opacity 0.5s;
+}
+#info.hidden { opacity: 0; }
+#warning {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px;
+  text-align: center;
+}
+#warning h1 { color: #ff0; font-size: 24px; }
+#warning p { color: #aaa; max-width: 600px; line-height: 1.8; font-size: 14px; }
+#warning button { font-size: 16px; padding: 12px 32px; }
+</style>
+</head>
+<body>
+
+<div id="warning">
+  <h1>⚠ PHOTOSENSITIVITY WARNING</h1>
+  <p>
+    ECSTASIS VISUAL contains flickering lights, rapid color changes, and 
+    strobing effects that may cause discomfort or trigger seizures in people 
+    with photosensitive epilepsy.
+  </p>
+  <p>
+    This experience is designed to alter your perceptual state through 
+    audio-visual entrainment. Press ESC at any time for instant blackout.
+  </p>
+  <button onclick="startExperience()">I UNDERSTAND — ENTER</button>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<div id="info" class="hidden">
+  <div>ECSTASIS VISUAL</div>
+  <div id="fps">60 fps</div>
+  <div id="mode-display">Mode: LSD</div>
+  <div id="stage-display">Stage: Entry</div>
+  <div>Press H to toggle UI · ESC to exit</div>
+</div>
+
+<div id="controls" class="hidden">
+  <div>
+    <label>Mode</label><br>
+    <select id="modeSelect">
+      <option value="0">LSD — Breathing Room</option>
+      <option value="1">DMT — Chrysanthemum Palace</option>
+      <option value="2">Psilocybin — Mycelial Network</option>
+      <option value="3">Mescaline — Crystal Desert</option>
+      <option value="4">Cosmic — Space Ocean</option>
+      <option value="5">Geometry — Pure Math</option>
+    </select>
+  </div>
+  <div>
+    <label>Intensity</label><br>
+    <input type="range" id="intensity" min="0" max="100" value="70">
+  </div>
+  <div>
+    <label>Feedback</label><br>
+    <input type="range" id="feedback" min="0" max="100" value="85">
+  </div>
+  <div>
+    <label>Speed</label><br>
+    <input type="range" id="speed" min="0" max="100" value="50">
+  </div>
+  <button id="audioBtn" onclick="toggleAudio()">♪ Audio</button>
+  <button id="micBtn" onclick="toggleMic()">🎤 Mic</button>
+  <button id="fullscreenBtn" onclick="goFullscreen()">⛶ Fullscreen</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// ECSTASIS VISUAL — Psychedelic Audio-Reactive Transport System
+// ═══════════════════════════════════════════════════════════════
+
+// ─── VERTEX SHADER ──────────────────────────────────────────
+const VERT_SRC = `#version 300 es
+in vec2 a_position;
+out vec2 v_uv;
+void main() {
+  v_uv = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+
+// ─── MAIN FRAGMENT SHADER ───────────────────────────────────
+const FRAG_SRC = `#version 300 es
+precision highp float;
+
+in vec2 v_uv;
+out vec4 fragColor;
+
+uniform float u_time;
+uniform float u_dt;
+uniform vec2 u_resolution;
+uniform float u_mode;        // 0=LSD, 1=DMT, 2=Psilocybin, 3=Mescaline, 4=Cosmic, 5=Geometry
+uniform float u_intensity;   // 0-1
+uniform float u_feedback;    // 0-1  
+uniform float u_speed;       // 0-1
+
+// Audio uniforms
+uniform float u_bass;
+uniform float u_mid;
+uniform float u_treble;
+uniform float u_energy;
+uniform float u_onset;
+uniform float u_spectralCentroid;
+
+// Feedback texture
+uniform sampler2D u_prevFrame;
+
+#define PI 3.14159265359
+#define TAU 6.28318530718
+
+// ─── UTILITIES ─────────────────────────────────
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
+vec2 cdiv(vec2 a, vec2 b) { float d = dot(b,b); return vec2(dot(a,b), a.y*b.x - a.x*b.y) / d; }
+vec2 cexp(vec2 z) { return exp(z.x) * vec2(cos(z.y), sin(z.y)); }
+vec2 clog(vec2 z) { return vec2(log(length(z)), atan(z.y, z.x)); }
+vec2 cpow(vec2 z, float n) { float r = length(z); float a = atan(z.y, z.x); return pow(r, n) * vec2(cos(n*a), sin(n*a)); }
+
+// IQ Cosine palette
+vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
+  return a + b * cos(TAU * (c * t + d));
+}
+
+// Hash
+float hash(vec2 p) {
+  vec3 p3 = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
+}
+
+// Smooth noise
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float a = hash(i);
+  float b = hash(i + vec2(1,0));
+  float c = hash(i + vec2(0,1));
+  float d = hash(i + vec2(1,1));
+  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+// Fractal Brownian Motion
+float fbm(vec2 p, int octaves) {
+  float val = 0.0, amp = 0.5;
+  for (int i = 0; i < 8; i++) {
+    if (i >= octaves) break;
+    val += amp * noise(p);
+    p *= 2.0;
+    amp *= 0.5;
+  }
+  return val;
+}
+
+// ─── CONFORMAL MAPS ────────────────────────────
+// Möbius transformation
+vec2 mobius(vec2 z, vec2 a, vec2 b, vec2 c, vec2 d) {
+  return cdiv(cmul(a, z) + b, cmul(c, z) + d);
+}
+
+// ─── SUBSTANCE PALETTES ────────────────────────
+vec3 lsdPalette(float t) {
+  return palette(t,
+    vec3(0.5, 0.5, 0.5),
+    vec3(0.5, 0.5, 0.5),
+    vec3(1.0, 1.0, 1.0),
+    vec3(0.00, 0.33, 0.67));
+}
+
+vec3 dmtPalette(float t) {
+  return palette(t,
+    vec3(0.5, 0.5, 0.5),
+    vec3(0.5, 0.5, 0.5),
+    vec3(1.0, 0.7, 0.4),
+    vec3(0.00, 0.15, 0.20));
+}
+
+vec3 psilocybinPalette(float t) {
+  return palette(t,
+    vec3(0.6, 0.4, 0.2),
+    vec3(0.3, 0.4, 0.3),
+    vec3(0.8, 0.5, 0.3),
+    vec3(0.1, 0.2, 0.0));
+}
+
+vec3 mescalinePalette(float t) {
+  return palette(t,
+    vec3(0.7, 0.4, 0.3),
+    vec3(0.3, 0.3, 0.5),
+    vec3(0.6, 0.8, 1.0),
+    vec3(0.0, 0.1, 0.5));
+}
+
+vec3 cosmicPalette(float t) {
+  return palette(t,
+    vec3(0.1, 0.0, 0.2),
+    vec3(0.5, 0.3, 0.6),
+    vec3(1.0, 0.7, 0.8),
+    vec3(0.7, 0.5, 0.8));
+}
+
+vec3 geometryPalette(float t) {
+  return palette(t,
+    vec3(0.5, 0.5, 0.5),
+    vec3(0.5, 0.5, 0.5),
+    vec3(1.0, 1.0, 0.5),
+    vec3(0.80, 0.90, 0.30));
+}
+
+vec3 getPalette(float t, float mode) {
+  if (mode < 0.5) return lsdPalette(t);
+  if (mode < 1.5) return dmtPalette(t);
+  if (mode < 2.5) return psilocybinPalette(t);
+  if (mode < 3.5) return mescalinePalette(t);
+  if (mode < 4.5) return cosmicPalette(t);
+  return geometryPalette(t);
+}
+
+// ─── LSD MODE: Breathing conformal flow ────────
+vec3 renderLSD(vec2 uv, float t) {
+  vec2 p = uv * 2.0 - 1.0;
+  p.x *= u_resolution.x / u_resolution.y;
+  
+  // Breathing distortion
+  float breath = sin(t * 0.7) * 0.1 + sin(t * 1.1) * 0.05;
+  p *= 1.0 + breath * u_bass;
+  
+  // Domain warping
+  vec2 warp = vec2(
+    sin(p.y * 3.0 + t * 0.5) * 0.2,
+    cos(p.x * 3.0 + t * 0.7) * 0.2
+  ) * u_intensity * (0.5 + u_mid);
+  p += warp;
+  
+  // Spiral conformal map
+  float angle = atan(p.y, p.x);
+  float radius = length(p);
+  float spiralAngle = angle + log(radius + 0.001) * (2.0 + u_bass * 3.0) + t * 0.3;
+  
+  // Layered noise patterns
+  float pattern = 0.0;
+  vec2 noiseCoord = vec2(spiralAngle * 2.0, log(radius + 0.01) * 5.0);
+  pattern += fbm(noiseCoord + t * 0.2, 5) * 0.6;
+  pattern += fbm(p * 3.0 + t * 0.1, 4) * 0.4;
+  
+  // Interference ripples on beats
+  pattern += sin(radius * 20.0 - t * 5.0) * 0.1 * u_onset;
+  
+  // Color
+  float colorT = pattern + t * 0.1 + u_spectralCentroid * 0.5;
+  vec3 col = lsdPalette(colorT);
+  
+  // Brightness modulation
+  col *= 0.7 + 0.3 * sin(pattern * PI * 2.0);
+  col *= 0.8 + 0.4 * u_energy;
+  
+  return col;
+}
+
+// ─── DMT MODE: Kaleidoscopic IFS ───────────────
+vec3 renderDMT(vec2 uv, float t) {
+  vec2 p = uv * 2.0 - 1.0;
+  p.x *= u_resolution.x / u_resolution.y;
+  
+  // Kaleidoscope fold count (6-12 based on energy)
+  float folds = floor(6.0 + u_energy * 6.0);
+  float foldAngle = TAU / folds;
+  
+  // Kaleidoscopic folding
+  float angle = atan(p.y, p.x);
+  angle = mod(angle, foldAngle);
+  if (angle > foldAngle * 0.5) angle = foldAngle - angle;
+  float r = length(p);
+  p = r * vec2(cos(angle), sin(angle));
+  
+  // IFS iterations
+  float totalDist = 0.0;
+  float scale = 1.0;
+  for (int i = 0; i < 12; i++) {
+    p = abs(p) - vec2(0.5 + u_bass * 0.3, 0.5 + u_mid * 0.3);
+    float a = t * 0.3 + float(i) * 0.5 + u_treble * 0.5;
+    float c = cos(a), s = sin(a);
+    p = mat2(c, -s, s, c) * p;
+    p *= 1.2 + u_energy * 0.3;
+    scale *= 1.2 + u_energy * 0.3;
+    totalDist += length(p);
+  }
+  
+  float d = length(p) / scale;
+  float colorVal = totalDist * 0.02 + t * 0.2;
+  
+  vec3 col = dmtPalette(colorVal);
+  col *= smoothstep(0.0, 0.02, d) * 1.5;
+  
+  // Electric glow
+  col += vec3(0.0, 0.8, 1.0) * exp(-d * 50.0) * u_onset;
+  
+  return col;
+}
+
+// ─── PSILOCYBIN MODE: Reaction-diffusion organic growth ────
+vec3 renderPsilocybin(vec2 uv, float t) {
+  vec2 p = uv * 2.0 - 1.0;
+  p.x *= u_resolution.x / u_resolution.y;
+  
+  // Organic domain warping
+  vec2 q = vec2(
+    fbm(p + vec2(1.7, 9.2) + t * 0.15, 6),
+    fbm(p + vec2(8.3, 2.8) + t * 0.12, 6)
+  );
+  vec2 r2 = vec2(
+    fbm(p + 4.0 * q + vec2(1.7, 9.2) + t * 0.05, 5),
+    fbm(p + 4.0 * q + vec2(8.3, 2.8) + t * 0.06, 5)
+  );
+  
+  float f = fbm(p + 4.0 * r2, 4);
+  
+  // Organic pulsing
+  f += sin(f * 8.0 + t) * 0.1 * u_bass;
+  
+  // Voronoi cellular overlay
+  vec2 cellP = p * (3.0 + u_mid * 2.0);
+  vec2 cellI = floor(cellP);
+  vec2 cellF = fract(cellP);
+  float minDist = 1.0;
+  for (int y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+      vec2 neighbor = vec2(float(x), float(y));
+      vec2 point = vec2(hash(cellI + neighbor), hash(cellI + neighbor + 100.0));
+      point = 0.5 + 0.5 * sin(t * 0.5 + TAU * point);
+      float d = length(neighbor + point - cellF);
+      minDist = min(minDist, d);
+    }
+  }
+  f += minDist * 0.3;
+  
+  // Warm organic colors
+  vec3 col = psilocybinPalette(f + t * 0.05);
+  col = mix(col, vec3(0.8, 0.6, 0.2), smoothstep(0.3, 0.7, f) * 0.3);
+  col *= 0.7 + 0.5 * u_energy;
+  
+  return col;
+}
+
+// ─── MESCALINE MODE: Crystalline angular geometry ──────
+vec3 renderMescaline(vec2 uv, float t) {
+  vec2 p = uv * 2.0 - 1.0;
+  p.x *= u_resolution.x / u_resolution.y;
+  
+  // Scale and rotate
+  float a = t * 0.2;
+  float ca = cos(a), sa = sin(a);
+  p = mat2(ca, -sa, sa, ca) * p;
+  p *= 2.0 + u_bass;
+  
+  // Hexagonal coordinate system
+  vec2 hex = vec2(p.x * 2.0/sqrt(3.0), p.y + p.x/sqrt(3.0));
+  vec2 hexI = floor(hex);
+  vec2 hexF = fract(hex);
+  
+  // Triangle grid with angular patterns
+  float pattern = 0.0;
+  for (int i = 0; i < 3; i++) {
+    vec2 rp = p * (float(i) + 2.0);
+    float ai = t * 0.3 * float(i + 1);
+    float ci = cos(ai), si = sin(ai);
+    rp = mat2(ci, -si, si, ci) * rp;
+    
+    // Angular distance function
+    float ang = atan(rp.y, rp.x);
+    float sides = 6.0 + float(i) * 2.0;
+    float d = length(rp) * cos(mod(ang, TAU/sides) - PI/sides);
+    d = fract(d * (1.0 + u_mid * 0.5));
+    pattern += smoothstep(0.05, 0.0, abs(d - 0.5) - 0.4) * 0.4;
+  }
+  
+  // Crystal facets
+  float crystal = abs(sin(p.x * 8.0 + p.y * 8.0 + t)) * 
+                  abs(sin(p.x * 8.0 - p.y * 8.0 + t * 0.7));
+  pattern += crystal * 0.3 * u_treble;
+  
+  vec3 col = mescalinePalette(pattern + t * 0.08);
+  col *= 1.0 + pattern * 0.5;
+  col = pow(col, vec3(0.85)); // Higher saturation
+  
+  return col;
+}
+
+// ─── COSMIC MODE: Space, nebulae, gravitational lensing ──
+vec3 renderCosmic(vec2 uv, float t) {
+  vec2 p = uv * 2.0 - 1.0;
+  p.x *= u_resolution.x / u_resolution.y;
+  
+  // Gravitational lensing (conformal map approximation)
+  float lensR = length(p);
+  float lensStrength = 0.3 * u_bass;
+  if (lensR > 0.01) {
+    p += normalize(p) * lensStrength / (lensR + 0.1);
+  }
+  
+  // Slow cosmic rotation
+  float ca = cos(t * 0.05), sa = sin(t * 0.05);
+  p = mat2(ca, -sa, sa, ca) * p;
+  
+  // Nebula layers
+  float nebula = 0.0;
+  for (int i = 0; i < 4; i++) {
+    vec2 np = p * (1.0 + float(i) * 0.8) + vec2(float(i) * 100.0);
+    nebula += fbm(np + t * 0.02 * float(i + 1), 6) * (0.5 / float(i + 1));
+  }
+  
+  // Star field
+  float stars = 0.0;
+  vec2 starP = p * 50.0;
+  vec2 starI = floor(starP);
+  vec2 starF = fract(starP);
+  float h = hash(starI);
+  if (h > 0.97) {
+    float starDist = length(starF - 0.5);
+    float twinkle = sin(t * (3.0 + h * 10.0) + h * 100.0) * 0.5 + 0.5;
+    stars += smoothstep(0.05 + twinkle * 0.03, 0.0, starDist) * (0.5 + h);
+  }
+  
+  // Warp speed tunnel on bass
+  float tunnel = 0.0;
+  if (u_bass > 0.3) {
+    float tunnelR = length(p);
+    float tunnelA = atan(p.y, p.x);
+    tunnel = sin(tunnelA * 8.0 + t * 3.0) * sin(1.0 / (tunnelR + 0.1) * 5.0 - t * 8.0);
+    tunnel = smoothstep(0.3, 1.0, abs(tunnel)) * (u_bass - 0.3) * 2.0;
+  }
+  
+  // Color composition
+  vec3 col = cosmicPalette(nebula * 2.0 + t * 0.03);
+  col *= nebula * 1.5 + 0.1;
+  col += vec3(1.0, 0.95, 0.8) * stars;
+  col += vec3(0.3, 0.5, 1.0) * tunnel * 0.3;
+  col *= 0.6 + 0.6 * u_energy;
+  
+  return col;
+}
+
+// ─── GEOMETRY MODE: Pure mathematical forms ────
+vec3 renderGeometry(vec2 uv, float t) {
+  vec2 p = uv * 2.0 - 1.0;
+  p.x *= u_resolution.x / u_resolution.y;
+  
+  // Conformal map: power map with audio-driven exponent
+  float n = 2.0 + u_bass * 4.0;
+  vec2 z = cpow(p, n);
+  
+  // Add Möbius flow
+  float mt = t * u_speed;
+  vec2 ma = cexp(vec2(0.0, mt * 0.5));
+  vec2 mb = vec2(sin(mt * 0.3) * u_mid, cos(mt * 0.4) * u_mid);
+  vec2 mc = vec2(0.0);
+  vec2 md = cexp(vec2(0.0, -mt * 0.5));
+  z = mobius(z, ma, mb, mc, md);
+  
+  // Mandelbrot-like iteration
+  vec2 c = z;
+  vec2 w = vec2(0.0);
+  float iter = 0.0;
+  float maxIter = 64.0 + u_treble * 64.0;
+  float trap = 1e10;
+  
+  for (float i = 0.0; i < 128.0; i++) {
+    if (i >= maxIter) break;
+    w = cmul(w, w) + c;
+    trap = min(trap, length(w - vec2(0.0, 1.0)));
+    trap = min(trap, length(w));
+    if (dot(w, w) > 256.0) { iter = i; break; }
+    iter = i;
+  }
+  
+  float colorVal = iter / maxIter;
+  colorVal = sqrt(colorVal); // Smooth coloring
+  
+  vec3 col = geometryPalette(colorVal * 3.0 + trap * 2.0 + t * 0.1);
+  col *= 1.0 + 0.5 * sin(trap * 10.0);
+  
+  // Glow on set boundary
+  if (iter >= maxIter - 1.0) {
+    col = vec3(0.0);
+  }
+  col += vec3(0.8, 0.9, 1.0) * exp(-trap * 5.0) * 0.5;
+  
+  return col;
+}
+
+// ─── MAIN ──────────────────────────────────────
+void main() {
+  vec2 uv = v_uv;
+  float t = u_time * (0.3 + u_speed * 0.7);
+  
+  // Render based on mode
+  vec3 col;
+  if (u_mode < 0.5) col = renderLSD(uv, t);
+  else if (u_mode < 1.5) col = renderDMT(uv, t);
+  else if (u_mode < 2.5) col = renderPsilocybin(uv, t);
+  else if (u_mode < 3.5) col = renderMescaline(uv, t);
+  else if (u_mode < 4.5) col = renderCosmic(uv, t);
+  else col = renderGeometry(uv, t);
+  
+  // ─── FEEDBACK ──────────────────────────────
+  vec2 fbUV = uv;
+  // Slight rotation and zoom on feedback
+  vec2 center = vec2(0.5);
+  fbUV -= center;
+  float fbAngle = 0.003 * (1.0 + u_bass);
+  float fbScale = 1.0 - 0.003 * (1.0 + u_energy * 0.5);
+  float fbCos = cos(fbAngle), fbSin = sin(fbAngle);
+  fbUV = mat2(fbCos, -fbSin, fbSin, fbCos) * fbUV;
+  fbUV *= fbScale;
+  fbUV += center;
+  
+  vec3 prev = texture(u_prevFrame, fbUV).rgb;
+  // Slight color shift on feedback
+  prev.rgb = prev.gbr * 0.1 + prev.rgb * 0.9; // Subtle hue rotation
+  
+  col = mix(col, max(col, prev), u_feedback);
+  
+  // ─── POST-PROCESSING ─────────────────────
+  // Bloom approximation
+  float bloom = u_energy * 0.15 * u_intensity;
+  col += col * col * bloom;
+  
+  // Vignette
+  float vig = 1.0 - length(uv - 0.5) * 0.8;
+  col *= vig;
+  
+  // Chromatic aberration on high energy
+  float chromaStrength = u_onset * 0.005 * u_intensity;
+  if (chromaStrength > 0.0005) {
+    vec2 dir = normalize(uv - 0.5) * chromaStrength;
+    col.r = mix(col.r, texture(u_prevFrame, uv + dir).r, 0.3);
+    col.b = mix(col.b, texture(u_prevFrame, uv - dir).b, 0.3);
+  }
+  
+  // Film grain
+  float grain = (hash(uv * u_resolution + fract(u_time * 100.0)) - 0.5) * 0.03;
+  col += grain;
+  
+  // Entrainment pulse (subtle brightness oscillation at ~10Hz)
+  float entrainPulse = sin(u_time * TAU * 10.0) * 0.02 * u_intensity;
+  col *= 1.0 + entrainPulse;
+  
+  // Clamp
+  col = clamp(col, 0.0, 1.0);
+  
+  // Gamma correction
+  col = pow(col, vec3(1.0/2.2));
+  
+  fragColor = vec4(col, 1.0);
+}`;
+
+// ─── GLOBAL STATE ───────────────────────────────────────────
+let gl, canvas;
+let program;
+let prevFrameTexture, currentFrameTexture;
+let fbo1, fbo2;
+let pingPong = 0;
+let audioCtx, analyser, audioSource;
+let startTime;
+let isRunning = false;
+let uiVisible = true;
+let currentMode = 0;
+
+// Audio features (smoothed)
+let audioFeatures = {
+  bass: 0, mid: 0, treble: 0, energy: 0,
+  onset: 0, spectralCentroid: 0.5,
+  prevEnergy: 0
+};
+
+// ─── INITIALIZATION ─────────────────────────────────────────
+function startExperience() {
+  document.getElementById('warning').style.display = 'none';
+  document.getElementById('info').classList.remove('hidden');
+  document.getElementById('controls').classList.remove('hidden');
+  
+  initWebGL();
+  initAudio();
+  startTime = performance.now() / 1000;
+  isRunning = true;
+  requestAnimationFrame(render);
+}
+
+function initWebGL() {
+  canvas = document.getElementById('canvas');
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+  
+  gl = canvas.getContext('webgl2', { 
+    antialias: false, 
+    alpha: false,
+    preserveDrawingBuffer: false,
+    powerPreference: 'high-performance'
+  });
+  
+  if (!gl) { alert('WebGL2 not supported'); return; }
+  
+  // Compile shaders
+  program = createProgram(VERT_SRC, FRAG_SRC);
+  gl.useProgram(program);
+  
+  // Fullscreen quad
+  const vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+  
+  // Create framebuffers for ping-pong feedback
+  function createFBOWithTexture() {
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, canvas.width, canvas.height, 0, gl.RGBA, gl.FLOAT, null);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    
+    const fbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    
+    return { fbo, tex };
+  }
+  
+  const fb1 = createFBOWithTexture();
+  const fb2 = createFBOWithTexture();
+  fbo1 = fb1.fbo; prevFrameTexture = fb1.tex;
+  fbo2 = fb2.fbo; currentFrameTexture = fb2.tex;
+  
+  // Handle resize
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    // Recreate textures at new size
+    [prevFrameTexture, currentFrameTexture].forEach(tex => {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, canvas.width, canvas.height, 0, gl.RGBA, gl.FLOAT, null);
+    });
+  });
+}
+
+function createShader(type, src) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, src);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error('Shader error:', gl.getShaderInfoLog(shader));
+    return null;
+  }
+  return shader;
+}
+
+function createProgram(vSrc, fSrc) {
+  const prog = gl.createProgram();
+  gl.attachShader(prog, createShader(gl.VERTEX_SHADER, vSrc));
+  gl.attachShader(prog, createShader(gl.FRAGMENT_SHADER, fSrc));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.error('Program error:', gl.getProgramInfoLog(prog));
+  }
+  return prog;
+}
+
+// ─── AUDIO ──────────────────────────────────────────────────
+function initAudio() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 2048;
+  analyser.smoothingTimeConstant = 0.8;
+  analyser.connect(audioCtx.destination);
+}
+
+function toggleAudio() {
+  const btn = document.getElementById('audioBtn');
+  if (audioSource && audioSource._type === 'osc') {
+    audioSource.osc1.stop();
+    audioSource.osc2.stop();
+    audioSource = null;
+    btn.classList.remove('active');
+    return;
+  }
+  
+  // Create a simple layered drone for demo
+  const osc1 = audioCtx.createOscillator();
+  const osc2 = audioCtx.createOscillator();
+  const gain1 = audioCtx.createGain();
+  const gain2 = audioCtx.createGain();
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  
+  osc1.type = 'sawtooth';
+  osc1.frequency.value = 55;
+  osc2.type = 'sine';
+  osc2.frequency.value = 110;
+  lfo.frequency.value = 0.3;
+  lfoGain.gain.value = 20;
+  gain1.gain.value = 0.15;
+  gain2.gain.value = 0.2;
+  
+  lfo.connect(lfoGain);
+  lfoGain.connect(osc1.frequency);
+  osc1.connect(gain1);
+  osc2.connect(gain2);
+  
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 800;
+  filter.Q.value = 5;
+  
+  // LFO on filter
+  const filterLfo = audioCtx.createOscillator();
+  const filterLfoGain = audioCtx.createGain();
+  filterLfo.frequency.value = 0.1;
+  filterLfoGain.gain.value = 400;
+  filterLfo.connect(filterLfoGain);
+  filterLfoGain.connect(filter.frequency);
+  
+  gain1.connect(filter);
+  gain2.connect(filter);
+  filter.connect(analyser);
+  
+  osc1.start();
+  osc2.start();
+  lfo.start();
+  filterLfo.start();
+  
+  audioSource = { osc1, osc2, lfo, filterLfo, _type: 'osc' };
+  btn.classList.add('active');
+}
+
+async function toggleMic() {
+  const btn = document.getElementById('micBtn');
+  if (audioSource && audioSource._type === 'mic') {
+    audioSource.stream.getTracks().forEach(t => t.stop());
+    audioSource = null;
+    btn.classList.remove('active');
+    return;
+  }
+  
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const source = audioCtx.createMediaStreamSource(stream);
+    source.connect(analyser);
+    audioSource = { stream, source, _type: 'mic' };
+    btn.classList.add('active');
+  } catch(e) {
+    console.error('Mic access denied:', e);
+  }
+}
+
+function analyzeAudio() {
+  if (!analyser) return;
+  
+  const bufLen = analyser.frequencyBinCount;
+  const freqData = new Uint8Array(bufLen);
+  analyser.getByteFrequencyData(freqData);
+  
+  // Band energies (normalized 0-1)
+  const sampleRate = audioCtx.sampleRate;
+  const binHz = sampleRate / analyser.fftSize;
+  
+  function bandEnergy(lowHz, highHz) {
+    const lowBin = Math.floor(lowHz / binHz);
+    const highBin = Math.min(Math.ceil(highHz / binHz), bufLen - 1);
+    let sum = 0;
+    for (let i = lowBin; i <= highBin; i++) sum += freqData[i];
+    return sum / ((highBin - lowBin + 1) * 255);
+  }
+  
+  const rawBass = bandEnergy(20, 250);
+  const rawMid = bandEnergy(250, 2000);
+  const rawTreble = bandEnergy(2000, 10000);
+  
+  // Overall energy
+  let totalEnergy = 0;
+  for (let i = 0; i < bufLen; i++) totalEnergy += freqData[i];
+  totalEnergy /= (bufLen * 255);
+  
+  // Spectral centroid
+  let weightedSum = 0, totalWeight = 0;
+  for (let i = 0; i < bufLen; i++) {
+    weightedSum += i * freqData[i];
+    totalWeight += freqData[i];
+  }
+  const centroid = totalWeight > 0 ? (weightedSum / totalWeight) / bufLen : 0.5;
+  
+  // Onset detection (energy derivative)
+  const onset = Math.max(0, totalEnergy - audioFeatures.prevEnergy) * 5;
+  audioFeatures.prevEnergy = totalEnergy;
+  
+  // Smooth with exponential moving average
+  const attack = 0.3;
+  const release = 0.05;
+  function smooth(current, target) {
+    const rate = target > current ? attack : release;
+    return current + (target - current) * rate;
+  }
+  
+  audioFeatures.bass = smooth(audioFeatures.bass, rawBass);
+  audioFeatures.mid = smooth(audioFeatures.mid, rawMid);
+  audioFeatures.treble = smooth(audioFeatures.treble, rawTreble);
+  audioFeatures.energy = smooth(audioFeatures.energy, totalEnergy);
+  audioFeatures.spectralCentroid = smooth(audioFeatures.spectralCentroid, centroid);
+  audioFeatures.onset = smooth(audioFeatures.onset, onset);
+}
+
+// ─── RENDER LOOP ────────────────────────────────────────────
+let lastTime = 0;
+let frameCount = 0;
+let fpsTime = 0;
+
+function render(timestamp) {
+  if (!isRunning) return;
+  requestAnimationFrame(render);
+  
+  const time = performance.now() / 1000 - startTime;
+  const dt = timestamp - lastTime;
+  lastTime = timestamp;
+  
+  // FPS counter
+  frameCount++;
+  if (timestamp - fpsTime > 1000) {
+    document.getElementById('fps').textContent = frameCount + ' fps';
+    frameCount = 0;
+    fpsTime = timestamp;
+  }
+  
+  // Analyze audio
+  analyzeAudio();
+  
+  // Get control values
+  const intensity = document.getElementById('intensity').value / 100;
+  const feedback = document.getElementById('feedback').value / 100;
+  const speed = document.getElementById('speed').value / 100;
+  currentMode = parseInt(document.getElementById('modeSelect').value);
+  
+  // Update displays
+  const modeNames = ['LSD', 'DMT', 'Psilocybin', 'Mescaline', 'Cosmic', 'Geometry'];
+  document.getElementById('mode-display').textContent = 'Mode: ' + modeNames[currentMode];
+  
+  // ─── RENDER PASS ─────────────────────────
+  // Determine which FBO to read from and write to
+  const readTex = pingPong === 0 ? prevFrameTexture : currentFrameTexture;
+  const writeFbo = pingPong === 0 ? fbo2 : fbo1;
+  const writeTex = pingPong === 0 ? currentFrameTexture : prevFrameTexture;
+  
+  // Bind write framebuffer
+  gl.bindFramebuffer(gl.FRAMEBUFFER, writeFbo);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  
+  // Bind previous frame texture
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, readTex);
+  
+  // Set uniforms
+  gl.useProgram(program);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_time'), time);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_dt'), dt / 1000);
+  gl.uniform2f(gl.getUniformLocation(program, 'u_resolution'), canvas.width, canvas.height);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_mode'), currentMode);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_intensity'), intensity);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_feedback'), feedback);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_speed'), speed);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_bass'), audioFeatures.bass);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_mid'), audioFeatures.mid);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_treble'), audioFeatures.treble);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_energy'), audioFeatures.energy);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_onset'), audioFeatures.onset);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_spectralCentroid'), audioFeatures.spectralCentroid);
+  gl.uniform1i(gl.getUniformLocation(program, 'u_prevFrame'), 0);
+  
+  // Draw
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  
+  // Copy to screen
+  gl.bindFramebuffer(gl.READ_FRAMEBUFFER, writeFbo);
+  gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, null);
+  gl.blitFramebuffer(
+    0, 0, canvas.width, canvas.height,
+    0, 0, canvas.width, canvas.height,
+    gl.COLOR_BUFFER_BIT, gl.LINEAR
+  );
+  
+  // Swap buffers
+  pingPong = 1 - pingPong;
+}
+
+// ─── KEYBOARD CONTROLS ─────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    // Emergency blackout
+    document.body.style.background = '#000';
+    canvas.style.display = 'none';
+    isRunning = false;
+  }
+  if (e.key === 'h' || e.key === 'H') {
+    uiVisible = !uiVisible;
+    document.getElementById('info').classList.toggle('hidden', !uiVisible);
+    document.getElementById('controls').classList.toggle('hidden', !uiVisible);
+    document.body.style.cursor = uiVisible ? 'default' : 'none';
+  }
+  if (e.key === 'f' || e.key === 'F') goFullscreen();
+  // Number keys for mode switching
+  if (e.key >= '1' && e.key <= '6') {
+    document.getElementById('modeSelect').value = parseInt(e.key) - 1;
+  }
+});
+
+// Hide cursor after inactivity
+let cursorTimeout;
+document.addEventListener('mousemove', () => {
+  document.body.style.cursor = 'default';
+  clearTimeout(cursorTimeout);
+  if (!uiVisible) {
+    cursorTimeout = setTimeout(() => { document.body.style.cursor = 'none'; }, 2000);
+  }
+});
+
+function goFullscreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.documentElement.requestFullscreen();
+  }
+}
+</script>
+</body>
+</html>

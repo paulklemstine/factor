@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e0a1e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="1000" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#FFD700" font-size="24" font-weight="bold" font-family="Georgia, serif">
+    THE ROSETTA STONE — Complete Translation Table
+  </text>
+
+  <!-- Column headers -->
+  <rect x="20" y="60" width="160" height="35" rx="5" fill="#333" stroke="#FFD700" stroke-width="1"/>
+  <text x="100" y="82" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">CONCEPT</text>
+
+  <rect x="190" y="60" width="140" height="35" rx="5" fill="#1a2e1a" stroke="#4CAF50" stroke-width="1"/>
+  <text x="260" y="82" text-anchor="middle" fill="#4CAF50" font-size="10" font-weight="bold">①Classical</text>
+
+  <rect x="340" y="60" width="115" height="35" rx="5" fill="#1a1a2e" stroke="#2196F3" stroke-width="1"/>
+  <text x="397" y="82" text-anchor="middle" fill="#2196F3" font-size="10" font-weight="bold">②Stone</text>
+
+  <rect x="465" y="60" width="115" height="35" rx="5" fill="#2e1a1a" stroke="#E91E63" stroke-width="1"/>
+  <text x="522" y="82" text-anchor="middle" fill="#E91E63" font-size="10" font-weight="bold">③Gelfand</text>
+
+  <rect x="590" y="60" width="115" height="35" rx="5" fill="#2e1a2e" stroke="#9C27B0" stroke-width="1"/>
+  <text x="647" y="82" text-anchor="middle" fill="#9C27B0" font-size="10" font-weight="bold">④Pointfree</text>
+
+  <rect x="715" y="60" width="115" height="35" rx="5" fill="#2e1a0a" stroke="#FF5722" stroke-width="1"/>
+  <text x="772" y="82" text-anchor="middle" fill="#FF5722" font-size="10" font-weight="bold">⑤NC Geom</text>
+
+  <rect x="840" y="60" width="115" height="35" rx="5" fill="#0a2e2e" stroke="#00BCD4" stroke-width="1"/>
+  <text x="897" y="82" text-anchor="middle" fill="#00BCD4" font-size="10" font-weight="bold">⑥Derived</text>
+
+  <rect x="965" y="60" width="115" height="35" rx="5" fill="#2e2e0a" stroke="#FFEB3B" stroke-width="1"/>
+  <text x="1022" y="82" text-anchor="middle" fill="#FFEB3B" font-size="10" font-weight="bold">⑦Tropical</text>
+
+  <rect x="1090" y="60" width="90" height="35" rx="5" fill="#2e1e0a" stroke="#FF9800" stroke-width="1"/>
+  <text x="1135" y="82" text-anchor="middle" fill="#FF9800" font-size="10" font-weight="bold">⑧Quantum</text>
+
+  <!-- Row helper function - we'll manually place rows -->
+  <!-- Row 1: "Space" -->
+  <rect x="20" y="105" width="160" height="30" rx="3" fill="#222" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="124" text-anchor="middle" fill="#fff" font-size="10">Space</text>
+  <text x="260" y="124" text-anchor="middle" fill="#aaffaa" font-size="9">Spec(R)</text>
+  <text x="397" y="124" text-anchor="middle" fill="#aaccff" font-size="9">Stone(B)</text>
+  <text x="522" y="124" text-anchor="middle" fill="#ffaacc" font-size="9">Max(A)</text>
+  <text x="647" y="124" text-anchor="middle" fill="#ddaaff" font-size="9">Locale</text>
+  <text x="772" y="124" text-anchor="middle" fill="#ffccaa" font-size="9">Spectral ∅</text>
+  <text x="897" y="124" text-anchor="middle" fill="#aaffff" font-size="9">Der. Stack</text>
+  <text x="1022" y="124" text-anchor="middle" fill="#ffffaa" font-size="9">Polyhedron</text>
+  <text x="1135" y="124" text-anchor="middle" fill="#ffddaa" font-size="9">Hilbert H</text>
+
+  <!-- Row 2: "Algebra" -->
+  <rect x="20" y="140" width="160" height="30" rx="3" fill="#1a1a1a" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="159" text-anchor="middle" fill="#fff" font-size="10">Algebra</text>
+  <text x="260" y="159" text-anchor="middle" fill="#aaffaa" font-size="9">CommRing</text>
+  <text x="397" y="159" text-anchor="middle" fill="#aaccff" font-size="9">BoolAlg</text>
+  <text x="522" y="159" text-anchor="middle" fill="#ffaacc" font-size="9">Comm C*</text>
+  <text x="647" y="159" text-anchor="middle" fill="#ddaaff" font-size="9">Frame</text>
+  <text x="772" y="159" text-anchor="middle" fill="#ffccaa" font-size="9">NC C*-Alg</text>
+  <text x="897" y="159" text-anchor="middle" fill="#aaffff" font-size="9">E∞-Ring</text>
+  <text x="1022" y="159" text-anchor="middle" fill="#ffffaa" font-size="9">Trop. Semi</text>
+  <text x="1135" y="159" text-anchor="middle" fill="#ffddaa" font-size="9">B(H)</text>
+
+  <!-- Row 3: "Point" -->
+  <rect x="20" y="175" width="160" height="30" rx="3" fill="#222" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="194" text-anchor="middle" fill="#fff" font-size="10">Point</text>
+  <text x="260" y="194" text-anchor="middle" fill="#aaffaa" font-size="9">Prime ideal</text>
+  <text x="397" y="194" text-anchor="middle" fill="#aaccff" font-size="9">Ultrafilter</text>
+  <text x="522" y="194" text-anchor="middle" fill="#ffaacc" font-size="9">Character</text>
+  <text x="647" y="194" text-anchor="middle" fill="#ddaaff" font-size="9">Frame hom</text>
+  <text x="772" y="194" text-anchor="middle" fill="#ffccaa" font-size="9">Pure state</text>
+  <text x="897" y="194" text-anchor="middle" fill="#aaffff" font-size="9">π₀(Spec)</text>
+  <text x="1022" y="194" text-anchor="middle" fill="#ffffaa" font-size="9">Vertex</text>
+  <text x="1135" y="194" text-anchor="middle" fill="#ffddaa" font-size="9">State |ψ⟩</text>
+
+  <!-- Row 4: "Idempotent" -->
+  <rect x="20" y="210" width="160" height="30" rx="3" fill="#1a1a1a" stroke="#FFD700" stroke-width="1"/>
+  <text x="100" y="229" text-anchor="middle" fill="#FFD700" font-size="10" font-weight="bold">Idempotent</text>
+  <text x="260" y="229" text-anchor="middle" fill="#aaffaa" font-size="9">e²=e</text>
+  <text x="397" y="229" text-anchor="middle" fill="#aaccff" font-size="9">a∧a=a</text>
+  <text x="522" y="229" text-anchor="middle" fill="#ffaacc" font-size="9">p²=p=p*</text>
+  <text x="647" y="229" text-anchor="middle" fill="#ddaaff" font-size="9">complement</text>
+  <text x="772" y="229" text-anchor="middle" fill="#ffccaa" font-size="9">P²=P=P*</text>
+  <text x="897" y="229" text-anchor="middle" fill="#aaffff" font-size="9">e∘e≃e</text>
+  <text x="1022" y="229" text-anchor="middle" fill="#ffffaa" font-size="9">a⊕a=a ∀a</text>
+  <text x="1135" y="229" text-anchor="middle" fill="#ffddaa" font-size="9">P²=P</text>
+
+  <!-- Row 5: "Closed subset" -->
+  <rect x="20" y="245" width="160" height="30" rx="3" fill="#222" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="264" text-anchor="middle" fill="#fff" font-size="10">Closed subset</text>
+  <text x="260" y="264" text-anchor="middle" fill="#aaffaa" font-size="9">V(I)</text>
+  <text x="397" y="264" text-anchor="middle" fill="#aaccff" font-size="9">Filter</text>
+  <text x="522" y="264" text-anchor="middle" fill="#ffaacc" font-size="9">Closed ideal</text>
+  <text x="647" y="264" text-anchor="middle" fill="#ddaaff" font-size="9">Sublocale</text>
+  <text x="772" y="264" text-anchor="middle" fill="#ffccaa" font-size="9">Closed ideal</text>
+  <text x="897" y="264" text-anchor="middle" fill="#aaffff" font-size="9">Fiber</text>
+  <text x="1022" y="264" text-anchor="middle" fill="#ffffaa" font-size="9">Subfan</text>
+  <text x="1135" y="264" text-anchor="middle" fill="#ffddaa" font-size="9">Subspace</text>
+
+  <!-- Row 6: "Open subset" -->
+  <rect x="20" y="280" width="160" height="30" rx="3" fill="#1a1a1a" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="299" text-anchor="middle" fill="#fff" font-size="10">Open subset</text>
+  <text x="260" y="299" text-anchor="middle" fill="#aaffaa" font-size="9">D(f)</text>
+  <text x="397" y="299" text-anchor="middle" fill="#aaccff" font-size="9">Ideal</text>
+  <text x="522" y="299" text-anchor="middle" fill="#ffaacc" font-size="9">Open ideal</text>
+  <text x="647" y="299" text-anchor="middle" fill="#ddaaff" font-size="9">Element</text>
+  <text x="772" y="299" text-anchor="middle" fill="#ffccaa" font-size="9">Open ideal</text>
+  <text x="897" y="299" text-anchor="middle" fill="#aaffff" font-size="9">Cofiber</text>
+  <text x="1022" y="299" text-anchor="middle" fill="#ffffaa" font-size="9">Complement</text>
+  <text x="1135" y="299" text-anchor="middle" fill="#ffddaa" font-size="9">Complement</text>
+
+  <!-- Row 7: "Morphism" -->
+  <rect x="20" y="315" width="160" height="30" rx="3" fill="#222" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="334" text-anchor="middle" fill="#fff" font-size="10">Morphism</text>
+  <text x="260" y="334" text-anchor="middle" fill="#aaffaa" font-size="9">Ring hom</text>
+  <text x="397" y="334" text-anchor="middle" fill="#aaccff" font-size="9">Bool hom</text>
+  <text x="522" y="334" text-anchor="middle" fill="#ffaacc" font-size="9">*-hom</text>
+  <text x="647" y="334" text-anchor="middle" fill="#ddaaff" font-size="9">Frame hom</text>
+  <text x="772" y="334" text-anchor="middle" fill="#ffccaa" font-size="9">*-hom</text>
+  <text x="897" y="334" text-anchor="middle" fill="#aaffff" font-size="9">E∞-map</text>
+  <text x="1022" y="334" text-anchor="middle" fill="#ffffaa" font-size="9">Trop. map</text>
+  <text x="1135" y="334" text-anchor="middle" fill="#ffddaa" font-size="9">Unitary</text>
+
+  <!-- Row 8: "Product" -->
+  <rect x="20" y="350" width="160" height="30" rx="3" fill="#1a1a1a" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="369" text-anchor="middle" fill="#fff" font-size="10">Product</text>
+  <text x="260" y="369" text-anchor="middle" fill="#aaffaa" font-size="9">R × S</text>
+  <text x="397" y="369" text-anchor="middle" fill="#aaccff" font-size="9">B₁ × B₂</text>
+  <text x="522" y="369" text-anchor="middle" fill="#ffaacc" font-size="9">A ⊕ B</text>
+  <text x="647" y="369" text-anchor="middle" fill="#ddaaff" font-size="9">L₁ × L₂</text>
+  <text x="772" y="369" text-anchor="middle" fill="#ffccaa" font-size="9">A ⊕ B</text>
+  <text x="897" y="369" text-anchor="middle" fill="#aaffff" font-size="9">R × S</text>
+  <text x="1022" y="369" text-anchor="middle" fill="#ffffaa" font-size="9">T₁ × T₂</text>
+  <text x="1135" y="369" text-anchor="middle" fill="#ffddaa" font-size="9">H₁ ⊗ H₂</text>
+
+  <!-- Row 9: "Nilpotent" -->
+  <rect x="20" y="385" width="160" height="30" rx="3" fill="#222" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="404" text-anchor="middle" fill="#fff" font-size="10">Nilpotent</text>
+  <text x="260" y="404" text-anchor="middle" fill="#aaffaa" font-size="9">eⁿ=0</text>
+  <text x="397" y="404" text-anchor="middle" fill="#aaccff" font-size="9">—</text>
+  <text x="522" y="404" text-anchor="middle" fill="#ffaacc" font-size="9">—</text>
+  <text x="647" y="404" text-anchor="middle" fill="#ddaaff" font-size="9">—</text>
+  <text x="772" y="404" text-anchor="middle" fill="#ffccaa" font-size="9">Quasinilp.</text>
+  <text x="897" y="404" text-anchor="middle" fill="#aaffff" font-size="9">π₁,π₂,...</text>
+  <text x="1022" y="404" text-anchor="middle" fill="#ffffaa" font-size="9">—</text>
+  <text x="1135" y="404" text-anchor="middle" fill="#ffddaa" font-size="9">Transient</text>
+
+  <!-- Row 10: "Cohomology" -->
+  <rect x="20" y="420" width="160" height="30" rx="3" fill="#1a1a1a" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="439" text-anchor="middle" fill="#fff" font-size="10">Cohomology</text>
+  <text x="260" y="439" text-anchor="middle" fill="#aaffaa" font-size="9">Sheaf coh.</text>
+  <text x="397" y="439" text-anchor="middle" fill="#aaccff" font-size="9">—</text>
+  <text x="522" y="439" text-anchor="middle" fill="#ffaacc" font-size="9">K-theory</text>
+  <text x="647" y="439" text-anchor="middle" fill="#ddaaff" font-size="9">Sheaf coh.</text>
+  <text x="772" y="439" text-anchor="middle" fill="#ffccaa" font-size="9">Cyclic coh.</text>
+  <text x="897" y="439" text-anchor="middle" fill="#aaffff" font-size="9">Derived coh.</text>
+  <text x="1022" y="439" text-anchor="middle" fill="#ffffaa" font-size="9">Trop. coh.</text>
+  <text x="1135" y="439" text-anchor="middle" fill="#ffddaa" font-size="9">BRST coh.</text>
+
+  <!-- Row 11: "Key theorem" -->
+  <rect x="20" y="455" width="160" height="30" rx="3" fill="#222" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="474" text-anchor="middle" fill="#fff" font-size="10">Key Theorem</text>
+  <text x="260" y="474" text-anchor="middle" fill="#aaffaa" font-size="8">Nullstellensatz</text>
+  <text x="397" y="474" text-anchor="middle" fill="#aaccff" font-size="8">Represent.</text>
+  <text x="522" y="474" text-anchor="middle" fill="#ffaacc" font-size="8">Gelfand-Naim.</text>
+  <text x="647" y="474" text-anchor="middle" fill="#ddaaff" font-size="8">Spatiality</text>
+  <text x="772" y="474" text-anchor="middle" fill="#ffccaa" font-size="8">Recon. thm</text>
+  <text x="897" y="474" text-anchor="middle" fill="#aaffff" font-size="8">DAG Spec</text>
+  <text x="1022" y="474" text-anchor="middle" fill="#ffffaa" font-size="8">Fund. Thm</text>
+  <text x="1135" y="474" text-anchor="middle" fill="#ffddaa" font-size="8">Gleason</text>
+
+  <!-- Row 12: "Era" -->
+  <rect x="20" y="490" width="160" height="30" rx="3" fill="#1a1a1a" stroke="#555" stroke-width="0.5"/>
+  <text x="100" y="509" text-anchor="middle" fill="#fff" font-size="10">Era</text>
+  <text x="260" y="509" text-anchor="middle" fill="#aaffaa" font-size="9">1960s</text>
+  <text x="397" y="509" text-anchor="middle" fill="#aaccff" font-size="9">1936</text>
+  <text x="522" y="509" text-anchor="middle" fill="#ffaacc" font-size="9">1943</text>
+  <text x="647" y="509" text-anchor="middle" fill="#ddaaff" font-size="9">1970s</text>
+  <text x="772" y="509" text-anchor="middle" fill="#ffccaa" font-size="9">1980s</text>
+  <text x="897" y="509" text-anchor="middle" fill="#aaffff" font-size="9">2000s</text>
+  <text x="1022" y="509" text-anchor="middle" fill="#ffffaa" font-size="9">2000s</text>
+  <text x="1135" y="509" text-anchor="middle" fill="#ffddaa" font-size="9">1930s</text>
+
+  <!-- Bottom: The bridge hierarchy diagram -->
+  <text x="600" y="560" text-anchor="middle" fill="#FFD700" font-size="18" font-weight="bold" font-family="Georgia, serif">
+    Bridge Hierarchy (Generalization Order)
+  </text>
+
+  <!-- Hierarchy arrows -->
+  <!-- Stone → Gelfand → NC Geom -->
+  <text x="200" y="610" text-anchor="middle" fill="#2196F3" font-size="13">②Stone</text>
+  <line x1="240" y1="605" x2="350" y2="605" stroke="#888" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="400" y="610" text-anchor="middle" fill="#E91E63" font-size="13">③Gelfand</text>
+  <line x1="450" y1="605" x2="560" y2="605" stroke="#888" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="630" y="610" text-anchor="middle" fill="#FF5722" font-size="13">⑤NC Geom</text>
+
+  <!-- Stone → Pointfree -->
+  <line x1="200" y1="620" x2="200" y2="660" stroke="#888" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="200" y="685" text-anchor="middle" fill="#9C27B0" font-size="13">④Pointfree</text>
+
+  <!-- Classical → Derived, Classical → Tropical -->
+  <text x="800" y="610" text-anchor="middle" fill="#4CAF50" font-size="13">①Classical</text>
+  <line x1="800" y1="620" x2="700" y2="660" stroke="#888" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="670" y="685" text-anchor="middle" fill="#00BCD4" font-size="13">⑥Derived</text>
+  <line x1="800" y1="620" x2="900" y2="660" stroke="#888" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="930" y="685" text-anchor="middle" fill="#FFEB3B" font-size="13">⑦Tropical</text>
+
+  <!-- Gelfand → Quantum -->
+  <line x1="400" y1="620" x2="400" y2="660" stroke="#888" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="400" y="685" text-anchor="middle" fill="#FF9800" font-size="13">⑧Quantum</text>
+
+  <text x="600" y="730" text-anchor="middle" fill="#999" font-size="11" font-style="italic" font-family="Georgia, serif">
+    Arrow A → B means "B generalizes A" or "A embeds into B"
+  </text>
+
+  <!-- Footer -->
+  <rect x="100" y="760" width="1000" height="40" rx="8" fill="#111133" stroke="#FFD700" stroke-width="1"/>
+  <text x="600" y="785" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold" font-family="Georgia, serif">
+    "The same equation, e² = e, echoes through every bridge — the heartbeat of the Rosetta Stone."
+  </text>
+</svg>

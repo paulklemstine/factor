@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="Georgia, serif">
+  <defs>
+    <radialGradient id="holograd" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0a0a1a;stop-opacity:1"/>
+    </radialGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#holograd)" rx="20"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#ecf0f1" font-size="28" font-weight="bold" filter="url(#glow2)">
+    Bridge 2: Oracle ↔ Holographic Correspondence
+  </text>
+  <text x="600" y="75" text-anchor="middle" fill="#bdc3c7" font-size="16" font-style="italic">
+    Oracle Truth Sets Obey an Information-Theoretic Area Law
+  </text>
+
+  <!-- Left Panel: Oracle Side -->
+  <rect x="30" y="100" width="350" height="280" rx="15" fill="#0d1a33" stroke="#3498db" stroke-width="2"/>
+  <text x="205" y="130" text-anchor="middle" fill="#3498db" font-size="18" font-weight="bold">Oracle Framework</text>
+
+  <text x="50" y="160" fill="#a8d8ea" font-size="13">• Oracle O : X → X, idempotent</text>
+  <text x="50" y="185" fill="#a8d8ea" font-size="13">• Truth Set T = {x : O(x) = x}</text>
+  <text x="50" y="210" fill="#a8d8ea" font-size="13">• Boundary ∂T = frontier of T</text>
+  <text x="50" y="240" fill="#f39c12" font-size="14" font-weight="bold">Key Observation:</text>
+  <text x="50" y="265" fill="#fad390" font-size="13">  Information content of T</text>
+  <text x="50" y="288" fill="#fad390" font-size="13">  concentrates on ∂T</text>
+  <text x="50" y="313" fill="#fad390" font-size="13">  H(T) ∝ |∂T|, not |T|</text>
+  <text x="50" y="340" fill="#e74c3c" font-size="15" font-weight="bold">  → AREA LAW!</text>
+  <text x="50" y="365" fill="#a8d8ea" font-size="12">  (boundary, not volume)</text>
+
+  <!-- Right Panel: Holographic Side -->
+  <rect x="820" y="100" width="350" height="280" rx="15" fill="#1a0d33" stroke="#9b59b6" stroke-width="2"/>
+  <text x="995" y="130" text-anchor="middle" fill="#9b59b6" font-size="18" font-weight="bold">Holographic Principle</text>
+
+  <text x="840" y="160" fill="#d7bde2" font-size="13">• AdS/CFT correspondence</text>
+  <text x="840" y="185" fill="#d7bde2" font-size="13">• Ryu-Takayanagi formula:</text>
+  <text x="860" y="210" fill="#f5b7b1" font-size="14" font-weight="bold">S(A) = Area(γ_A) / 4G_N</text>
+  <text x="840" y="240" fill="#d7bde2" font-size="13">• Entropy scales with AREA</text>
+  <text x="840" y="265" fill="#d7bde2" font-size="13">• Bulk information encoded</text>
+  <text x="840" y="288" fill="#d7bde2" font-size="13">  on boundary (holographic screen)</text>
+  <text x="840" y="318" fill="#f39c12" font-size="14" font-weight="bold">MERA Tensor Networks:</text>
+  <text x="840" y="343" fill="#fad390" font-size="13">  Hierarchical entanglement</text>
+  <text x="840" y="368" fill="#fad390" font-size="13">  = radial direction in AdS</text>
+
+  <!-- Center: Bridge Diagram -->
+  <rect x="410" y="100" width="380" height="280" rx="15" fill="#1a1a0d" stroke="#f39c12" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="600" y="130" text-anchor="middle" fill="#f39c12" font-size="20" font-weight="bold" filter="url(#glow2)">THE BRIDGE</text>
+
+  <!-- AdS/CFT circle diagram -->
+  <!-- Outer circle = boundary (CFT) -->
+  <circle cx="600" cy="260" r="120" fill="none" stroke="#3498db" stroke-width="3"/>
+  <text x="600" y="125" text-anchor="middle" fill="#3498db" font-size="10">BOUNDARY (Truth Set ∂T)</text>
+
+  <!-- Inner circle = bulk -->
+  <circle cx="600" cy="260" r="60" fill="none" stroke="#9b59b6" stroke-width="2" stroke-dasharray="4,4"/>
+
+  <!-- Minimal surface -->
+  <path d="M 510 190 Q 600 300 690 190" fill="none" stroke="#e74c3c" stroke-width="3"/>
+  <text x="600" y="175" text-anchor="middle" fill="#e74c3c" font-size="12" font-weight="bold">γ_A (min surface)</text>
+
+  <!-- Region A marker -->
+  <path d="M 510 190 A 120 120 0 0 0 690 190" fill="none" stroke="#2ecc71" stroke-width="4"/>
+  <text x="600" y="148" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">Region A</text>
+
+  <!-- Entropy label -->
+  <text x="600" y="340" text-anchor="middle" fill="#f39c12" font-size="14" font-weight="bold">S(A) = |γ_A| = min-cut</text>
+  <text x="600" y="365" text-anchor="middle" fill="#fad390" font-size="12">Oracle entropy = boundary area</text>
+
+  <!-- Bottom: Mathematical Statement -->
+  <rect x="30" y="400" width="1140" height="140" rx="15" fill="#0d1a33" stroke="#2ecc71" stroke-width="2"/>
+  <text x="600" y="430" text-anchor="middle" fill="#2ecc71" font-size="20" font-weight="bold">Mathematical Formulation</text>
+
+  <text x="60" y="465" fill="#a8e6cf" font-size="14" font-weight="bold">Theorem (Area Law for Oracle Truth Sets):</text>
+  <text x="60" y="490" fill="#ecf0f1" font-size="13">
+    Let O : ℝⁿ → ℝⁿ be an oracle with truth set T = Fix(O). Let A ⊆ T be a connected subregion.
+  </text>
+  <text x="60" y="515" fill="#ecf0f1" font-size="13">
+    Then the information content satisfies:  H(A) ≤ C · |∂A|^{(n-1)/n}  where ∂A = topological boundary of A in T.
+  </text>
+  <text x="60" y="535" fill="#f5b7b1" font-size="13" font-style="italic">
+    This is the discrete analogue of the Ryu-Takayanagi formula. The constant C depends on the tropical polynomial degree.
+  </text>
+
+  <!-- Bottom: Three consequences -->
+  <rect x="30" y="555" width="360" height="130" rx="10" fill="#0d3320" stroke="#2ecc71" stroke-width="1"/>
+  <text x="210" y="580" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">Consequence 1</text>
+  <text x="50" y="605" fill="#a8e6cf" font-size="12">Neural networks cannot store</text>
+  <text x="50" y="625" fill="#a8e6cf" font-size="12">more information than their</text>
+  <text x="50" y="645" fill="#a8e6cf" font-size="12">boundary complexity allows.</text>
+  <text x="50" y="670" fill="#f39c12" font-size="12" font-weight="bold">→ Generalization bounds</text>
+
+  <rect x="420" y="555" width="360" height="130" rx="10" fill="#1a0d33" stroke="#9b59b6" stroke-width="1"/>
+  <text x="600" y="580" text-anchor="middle" fill="#9b59b6" font-size="14" font-weight="bold">Consequence 2</text>
+  <text x="440" y="605" fill="#d7bde2" font-size="12">The truth set has a natural</text>
+  <text x="440" y="625" fill="#d7bde2" font-size="12">"holographic dual" — a lower-</text>
+  <text x="440" y="645" fill="#d7bde2" font-size="12">dimensional encoding on ∂T.</text>
+  <text x="440" y="670" fill="#f39c12" font-size="12" font-weight="bold">→ Compression algorithms</text>
+
+  <rect x="810" y="555" width="360" height="130" rx="10" fill="#33200d" stroke="#e67e22" stroke-width="1"/>
+  <text x="990" y="580" text-anchor="middle" fill="#e67e22" font-size="14" font-weight="bold">Consequence 3</text>
+  <text x="830" y="605" fill="#fad390" font-size="12">The MERA tensor network</text>
+  <text x="830" y="625" fill="#fad390" font-size="12">structure of the oracle gives</text>
+  <text x="830" y="645" fill="#fad390" font-size="12">multi-scale renormalization.</text>
+  <text x="830" y="670" fill="#f39c12" font-size="12" font-weight="bold">→ Hierarchical inference</text>
+</svg>

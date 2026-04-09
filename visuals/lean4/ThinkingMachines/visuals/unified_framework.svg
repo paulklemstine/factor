@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Georgia, serif">
+  <defs>
+    <filter id="glow5">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#f39c12;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="bridgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:0.8"/>
+      <stop offset="50%" style="stop-color:#f39c12;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:0.8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="900" fill="#050510" rx="20"/>
+
+  <!-- Grand Title -->
+  <text x="600" y="50" text-anchor="middle" fill="#f39c12" font-size="32" font-weight="bold" filter="url(#glow5)">
+    THE UNIFIED FRAMEWORK
+  </text>
+  <text x="600" y="82" text-anchor="middle" fill="#bdc3c7" font-size="16" font-style="italic">
+    Tropical · Oracle · Holographic · Octonionic → Millennium Problems
+  </text>
+
+  <!-- Central glow -->
+  <circle cx="600" cy="430" r="200" fill="url(#centerGlow)"/>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Four Framework Nodes (Diamond Layout)   -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- TOP: Tropical -->
+  <g transform="translate(600, 200)">
+    <polygon points="0,-80 90,-10 90,50 -90,50 -90,-10" fill="#0d3320" stroke="#2ecc71" stroke-width="3" rx="10"/>
+    <text x="0" y="-35" text-anchor="middle" fill="#2ecc71" font-size="22" font-weight="bold" filter="url(#glow5)">TROPICAL</text>
+    <text x="0" y="-10" text-anchor="middle" fill="#a8e6cf" font-size="12">Piecewise-linear geometry</text>
+    <text x="0" y="10" text-anchor="middle" fill="#a8e6cf" font-size="12">max-plus algebra · ReLU networks</text>
+    <text x="0" y="30" text-anchor="middle" fill="#a8e6cf" font-size="12">hypersurface arrangements</text>
+  </g>
+
+  <!-- LEFT: Oracle -->
+  <g transform="translate(250, 430)">
+    <polygon points="0,-80 90,-10 90,50 -90,50 -90,-10" fill="#0d1a33" stroke="#3498db" stroke-width="3"/>
+    <text x="0" y="-35" text-anchor="middle" fill="#3498db" font-size="22" font-weight="bold" filter="url(#glow5)">ORACLE</text>
+    <text x="0" y="-10" text-anchor="middle" fill="#a8d8ea" font-size="12">Idempotent maps · truth sets</text>
+    <text x="0" y="10" text-anchor="middle" fill="#a8d8ea" font-size="12">fixed point theory · projections</text>
+    <text x="0" y="30" text-anchor="middle" fill="#a8d8ea" font-size="12">strange loops · convergence</text>
+  </g>
+
+  <!-- RIGHT: Holographic -->
+  <g transform="translate(950, 430)">
+    <polygon points="0,-80 90,-10 90,50 -90,50 -90,-10" fill="#1a0d33" stroke="#9b59b6" stroke-width="3"/>
+    <text x="0" y="-35" text-anchor="middle" fill="#9b59b6" font-size="22" font-weight="bold" filter="url(#glow5)">HOLOGRAPHIC</text>
+    <text x="0" y="-10" text-anchor="middle" fill="#d7bde2" font-size="12">Area law · Ryu-Takayanagi</text>
+    <text x="0" y="10" text-anchor="middle" fill="#d7bde2" font-size="12">MERA tensor networks</text>
+    <text x="0" y="30" text-anchor="middle" fill="#d7bde2" font-size="12">min-cut / max-flow duality</text>
+  </g>
+
+  <!-- BOTTOM: Octonionic -->
+  <g transform="translate(600, 650)">
+    <polygon points="0,-80 90,-10 90,50 -90,50 -90,-10" fill="#33200d" stroke="#e67e22" stroke-width="3"/>
+    <text x="0" y="-35" text-anchor="middle" fill="#e67e22" font-size="22" font-weight="bold" filter="url(#glow5)">OCTONIONIC</text>
+    <text x="0" y="-10" text-anchor="middle" fill="#fad390" font-size="12">Non-associative algebra · 𝕆</text>
+    <text x="0" y="10" text-anchor="middle" fill="#fad390" font-size="12">exceptional groups · G₂, E₈</text>
+    <text x="0" y="30" text-anchor="middle" fill="#fad390" font-size="12">Fano plane · Cayley-Dickson</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Bridge Labels (6 edges of tetrahedron)  -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Bridge 1: Tropical ↔ Oracle (top-left) -->
+  <line x1="520" y1="250" x2="330" y2="370" stroke="#f39c12" stroke-width="2" opacity="0.6"/>
+  <rect x="360" y="285" width="120" height="40" rx="8" fill="#1a1a0d" stroke="#f39c12" stroke-width="1" opacity="0.9"/>
+  <text x="420" y="302" text-anchor="middle" fill="#f39c12" font-size="9" font-weight="bold">Bridge 1</text>
+  <text x="420" y="318" text-anchor="middle" fill="#fad390" font-size="8">ReLU = trop poly</text>
+
+  <!-- Bridge 2: Oracle ↔ Holographic (bottom) -->
+  <line x1="340" y1="470" x2="860" y2="470" stroke="#f39c12" stroke-width="2" opacity="0.6"/>
+  <rect x="540" y="450" width="120" height="40" rx="8" fill="#1a1a0d" stroke="#f39c12" stroke-width="1" opacity="0.9"/>
+  <text x="600" y="467" text-anchor="middle" fill="#f39c12" font-size="9" font-weight="bold">Bridge 2</text>
+  <text x="600" y="483" text-anchor="middle" fill="#fad390" font-size="8">area law</text>
+
+  <!-- Bridge 3: Holographic ↔ Tropical (top-right) -->
+  <line x1="680" y1="250" x2="870" y2="370" stroke="#f39c12" stroke-width="2" opacity="0.6"/>
+  <rect x="720" y="285" width="120" height="40" rx="8" fill="#1a1a0d" stroke="#f39c12" stroke-width="1" opacity="0.9"/>
+  <text x="780" y="302" text-anchor="middle" fill="#f39c12" font-size="9" font-weight="bold">Bridge 3</text>
+  <text x="780" y="318" text-anchor="middle" fill="#fad390" font-size="8">cut complexity</text>
+
+  <!-- Bridge 4: Octonionic ↔ Tropical (center-vertical) -->
+  <line x1="600" y1="270" x2="600" y2="580" stroke="#f39c12" stroke-width="2" opacity="0.4"/>
+  <rect x="540" y="510" width="120" height="40" rx="8" fill="#1a1a0d" stroke="#f39c12" stroke-width="1" opacity="0.9"/>
+  <text x="600" y="527" text-anchor="middle" fill="#f39c12" font-size="9" font-weight="bold">Bridge 4</text>
+  <text x="600" y="543" text-anchor="middle" fill="#fad390" font-size="8">except. gates</text>
+
+  <!-- Bridge 5: Oracle ↔ Octonionic (left diagonal) -->
+  <line x1="280" y1="480" x2="520" y2="600" stroke="#f39c12" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Bridge 6: Holographic ↔ Octonionic (right diagonal) -->
+  <line x1="920" y1="480" x2="680" y2="600" stroke="#f39c12" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- CENTER: Millennium Problems -->
+  <circle cx="600" cy="430" r="55" fill="#1a1a0d" stroke="#f39c12" stroke-width="3" filter="url(#glow5)"/>
+  <text x="600" y="420" text-anchor="middle" fill="#f39c12" font-size="14" font-weight="bold">MILLENNIUM</text>
+  <text x="600" y="440" text-anchor="middle" fill="#f39c12" font-size="14" font-weight="bold">PROBLEMS</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Bottom: Problem Targets                 -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <rect x="30" y="740" width="1140" height="145" rx="15" fill="#0a0a1a" stroke="#f39c12" stroke-width="2"/>
+
+  <!-- 6 problem boxes -->
+  <rect x="50" y="755" width="160" height="55" rx="8" fill="#330d0d" stroke="#e74c3c" stroke-width="1"/>
+  <text x="130" y="778" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="bold">P ≠ NP</text>
+  <text x="130" y="798" text-anchor="middle" fill="#f5b7b1" font-size="9">Tropical circuit bounds</text>
+
+  <rect x="230" y="755" width="160" height="55" rx="8" fill="#0d3320" stroke="#2ecc71" stroke-width="1"/>
+  <text x="310" y="778" text-anchor="middle" fill="#2ecc71" font-size="13" font-weight="bold">Riemann</text>
+  <text x="310" y="798" text-anchor="middle" fill="#a8e6cf" font-size="9">Tropical zeta zeros</text>
+
+  <rect x="410" y="755" width="160" height="55" rx="8" fill="#0d1a33" stroke="#3498db" stroke-width="1"/>
+  <text x="490" y="778" text-anchor="middle" fill="#3498db" font-size="13" font-weight="bold">Navier-Stokes</text>
+  <text x="490" y="798" text-anchor="middle" fill="#a8d8ea" font-size="9">Holographic regularity</text>
+
+  <rect x="590" y="755" width="160" height="55" rx="8" fill="#33200d" stroke="#e67e22" stroke-width="1"/>
+  <text x="670" y="778" text-anchor="middle" fill="#e67e22" font-size="13" font-weight="bold">Yang-Mills</text>
+  <text x="670" y="798" text-anchor="middle" fill="#fad390" font-size="9">Octonionic mass gap</text>
+
+  <rect x="770" y="755" width="160" height="55" rx="8" fill="#1a0d33" stroke="#9b59b6" stroke-width="1"/>
+  <text x="850" y="778" text-anchor="middle" fill="#9b59b6" font-size="13" font-weight="bold">BSD</text>
+  <text x="850" y="798" text-anchor="middle" fill="#d7bde2" font-size="9">Tropical elliptic curves</text>
+
+  <rect x="950" y="755" width="160" height="55" rx="8" fill="#1a1a0d" stroke="#f39c12" stroke-width="1"/>
+  <text x="1030" y="778" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">Hodge</text>
+  <text x="1030" y="798" text-anchor="middle" fill="#fad390" font-size="9">Tropical Hodge theory</text>
+
+  <!-- Bottom tagline -->
+  <text x="600" y="847" text-anchor="middle" fill="#bdc3c7" font-size="14" font-style="italic">
+    "Four bridges, one framework, six problems — the tropical oracle sees all."
+  </text>
+
+  <!-- Stats bar -->
+  <text x="600" y="878" text-anchor="middle" fill="#7f8c8d" font-size="11">
+    463 Lean files · 8,570+ theorems · 39+ domains · 4 frameworks · 6 bridges · ∞ possibilities
+  </text>
+</svg>

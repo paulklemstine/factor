@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="tropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a5276;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="oracleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8e44ad;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3498db;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3498db"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="700" fill="#0a0a1a" rx="20"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" fill="#ecf0f1" font-size="28" font-weight="bold" filter="url(#glow)">
+    Bridge 1: Tropical ↔ Oracle Correspondence
+  </text>
+  <text x="600" y="80" text-anchor="middle" fill="#bdc3c7" font-size="16" font-style="italic">
+    Every ReLU Network is a Tropical Polynomial Defining a Piecewise-Linear Oracle
+  </text>
+
+  <!-- Left: Tropical Side -->
+  <rect x="40" y="110" width="340" height="540" rx="15" fill="#1a2634" stroke="#2ecc71" stroke-width="2" opacity="0.9"/>
+  <text x="210" y="145" text-anchor="middle" fill="#2ecc71" font-size="20" font-weight="bold">TROPICAL</text>
+
+  <!-- Tropical semiring -->
+  <rect x="60" y="165" width="300" height="80" rx="10" fill="#0d3320" stroke="#2ecc71" stroke-width="1" opacity="0.8"/>
+  <text x="210" y="190" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">Tropical Semiring (ℝ∪{-∞}, ⊕, ⊙)</text>
+  <text x="210" y="215" text-anchor="middle" fill="#a8e6cf" font-size="13">a ⊕ b = max(a, b)</text>
+  <text x="210" y="235" text-anchor="middle" fill="#a8e6cf" font-size="13">a ⊙ b = a + b</text>
+
+  <!-- ReLU = tropical -->
+  <rect x="60" y="260" width="300" height="60" rx="10" fill="#0d3320" stroke="#27ae60" stroke-width="1" opacity="0.8"/>
+  <text x="210" y="283" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">ReLU(x) = max(x, 0)</text>
+  <text x="210" y="305" text-anchor="middle" fill="#a8e6cf" font-size="13">= x ⊕ 0  (tropical!)</text>
+
+  <!-- Tropical polynomial -->
+  <rect x="60" y="335" width="300" height="80" rx="10" fill="#0d3320" stroke="#27ae60" stroke-width="1" opacity="0.8"/>
+  <text x="210" y="360" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">Tropical Polynomial</text>
+  <text x="210" y="383" text-anchor="middle" fill="#a8e6cf" font-size="13">p(x) = ⊕ᵢ (cᵢ ⊙ x^⊙ⁱ)</text>
+  <text x="210" y="403" text-anchor="middle" fill="#a8e6cf" font-size="13">= maxᵢ(cᵢ + i·x)</text>
+
+  <!-- PL function -->
+  <!-- Draw a piecewise linear function -->
+  <rect x="60" y="430" width="300" height="120" rx="10" fill="#0d3320" stroke="#27ae60" stroke-width="1" opacity="0.8"/>
+  <text x="210" y="455" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">Piecewise-Linear Function</text>
+  <polyline points="80,535 130,520 180,490 210,490 250,510 300,475 340,530"
+            fill="none" stroke="#2ecc71" stroke-width="3"/>
+  <!-- Breakpoints -->
+  <circle cx="130" cy="520" r="4" fill="#e74c3c"/>
+  <circle cx="180" cy="490" r="4" fill="#e74c3c"/>
+  <circle cx="210" cy="490" r="4" fill="#e74c3c"/>
+  <circle cx="250" cy="510" r="4" fill="#e74c3c"/>
+  <circle cx="300" cy="475" r="4" fill="#e74c3c"/>
+
+  <!-- Regions -->
+  <rect x="60" y="560" width="300" height="80" rx="10" fill="#0d3320" stroke="#27ae60" stroke-width="1" opacity="0.8"/>
+  <text x="210" y="585" text-anchor="middle" fill="#2ecc71" font-size="14" font-weight="bold">#Linear Regions ≤ w^d</text>
+  <text x="210" y="608" text-anchor="middle" fill="#a8e6cf" font-size="12">w = width, d = depth</text>
+  <text x="210" y="628" text-anchor="middle" fill="#a8e6cf" font-size="12">Montúfar et al. (2014)</text>
+
+  <!-- Right: Oracle Side -->
+  <rect x="820" y="110" width="340" height="540" rx="15" fill="#1a1a34" stroke="#3498db" stroke-width="2" opacity="0.9"/>
+  <text x="990" y="145" text-anchor="middle" fill="#3498db" font-size="20" font-weight="bold">ORACLE</text>
+
+  <!-- Oracle definition -->
+  <rect x="840" y="165" width="300" height="80" rx="10" fill="#0d1a33" stroke="#3498db" stroke-width="1" opacity="0.8"/>
+  <text x="990" y="190" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">Oracle O : X → X</text>
+  <text x="990" y="215" text-anchor="middle" fill="#a8d8ea" font-size="13">Idempotent: O(O(x)) = O(x)</text>
+  <text x="990" y="235" text-anchor="middle" fill="#a8d8ea" font-size="13">∀x ∈ X</text>
+
+  <!-- Truth set -->
+  <rect x="840" y="260" width="300" height="60" rx="10" fill="#0d1a33" stroke="#2980b9" stroke-width="1" opacity="0.8"/>
+  <text x="990" y="283" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">Truth Set T = Fix(O)</text>
+  <text x="990" y="305" text-anchor="middle" fill="#a8d8ea" font-size="13">T = {x : O(x) = x}</text>
+
+  <!-- Image = Truth Set -->
+  <rect x="840" y="335" width="300" height="80" rx="10" fill="#0d1a33" stroke="#2980b9" stroke-width="1" opacity="0.8"/>
+  <text x="990" y="360" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">Fundamental Theorem</text>
+  <text x="990" y="383" text-anchor="middle" fill="#a8d8ea" font-size="13">Im(O) = Fix(O) = T</text>
+  <text x="990" y="403" text-anchor="middle" fill="#a8d8ea" font-size="13">(proved in Lean 4)</text>
+
+  <!-- Strange loop -->
+  <rect x="840" y="430" width="300" height="80" rx="10" fill="#0d1a33" stroke="#2980b9" stroke-width="1" opacity="0.8"/>
+  <text x="990" y="455" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">Strange Loop</text>
+  <text x="990" y="478" text-anchor="middle" fill="#a8d8ea" font-size="13">O iterates converge in 1 step</text>
+  <text x="990" y="498" text-anchor="middle" fill="#a8d8ea" font-size="13">O^n = O for all n ≥ 1</text>
+
+  <!-- Partition -->
+  <rect x="840" y="525" width="300" height="120" rx="10" fill="#0d1a33" stroke="#2980b9" stroke-width="1" opacity="0.8"/>
+  <text x="990" y="550" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">Input Partition</text>
+  <text x="990" y="573" text-anchor="middle" fill="#a8d8ea" font-size="13">X = ⊔ₜ O⁻¹(t), t ∈ T</text>
+  <text x="990" y="596" text-anchor="middle" fill="#a8d8ea" font-size="12">Each fiber = a linear region</text>
+  <text x="990" y="619" text-anchor="middle" fill="#a8d8ea" font-size="12">of the tropical polynomial</text>
+
+  <!-- CENTER: The Bridge -->
+  <rect x="420" y="160" width="360" height="440" rx="20" fill="#1a1a2e" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5" opacity="0.85"/>
+  <text x="600" y="195" text-anchor="middle" fill="#e74c3c" font-size="22" font-weight="bold" filter="url(#glow)">THE BRIDGE</text>
+
+  <!-- Arrow: Tropical → Oracle -->
+  <line x1="370" y1="250" x2="430" y2="250" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowR)"/>
+  <line x1="770" y1="250" x2="830" y2="250" stroke="#3498db" stroke-width="2" marker-end="url(#arrowB)"/>
+
+  <!-- Bridge content -->
+  <text x="600" y="235" text-anchor="middle" fill="#f39c12" font-size="15" font-weight="bold">Theorem (Zhang et al. 2018):</text>
+  <text x="600" y="260" text-anchor="middle" fill="#fad390" font-size="13">Every feedforward ReLU network</text>
+  <text x="600" y="283" text-anchor="middle" fill="#fad390" font-size="13">f : ℝⁿ → ℝᵐ computes a</text>
+  <text x="600" y="306" text-anchor="middle" fill="#fad390" font-size="13">tropical rational function.</text>
+
+  <line x1="460" y1="325" x2="740" y2="325" stroke="#e74c3c" stroke-width="1" opacity="0.5"/>
+
+  <text x="600" y="355" text-anchor="middle" fill="#f39c12" font-size="15" font-weight="bold">Our Extension:</text>
+  <text x="600" y="378" text-anchor="middle" fill="#fad390" font-size="13">The tropical hypersurface T(f)</text>
+  <text x="600" y="401" text-anchor="middle" fill="#fad390" font-size="13">defines an idempotent oracle O</text>
+  <text x="600" y="424" text-anchor="middle" fill="#fad390" font-size="13">whose truth set = breakpoints.</text>
+
+  <line x1="460" y1="443" x2="740" y2="443" stroke="#e74c3c" stroke-width="1" opacity="0.5"/>
+
+  <text x="600" y="473" text-anchor="middle" fill="#f39c12" font-size="15" font-weight="bold">Consequence:</text>
+  <text x="600" y="496" text-anchor="middle" fill="#fad390" font-size="13">Neural network = oracle machine</text>
+  <text x="600" y="519" text-anchor="middle" fill="#fad390" font-size="13">Training = finding the right</text>
+  <text x="600" y="542" text-anchor="middle" fill="#fad390" font-size="13">tropical polynomial / truth set</text>
+  <text x="600" y="565" text-anchor="middle" fill="#fad390" font-size="13">Expressivity = tropical complexity</text>
+
+  <!-- Arrows -->
+  <line x1="370" y1="400" x2="430" y2="400" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowR)"/>
+  <line x1="770" y1="400" x2="830" y2="400" stroke="#3498db" stroke-width="2" marker-end="url(#arrowB)"/>
+
+  <!-- Bottom equation -->
+  <rect x="200" y="660" width="800" height="35" rx="10" fill="#1a1a2e" stroke="#f39c12" stroke-width="1"/>
+  <text x="600" y="683" text-anchor="middle" fill="#f39c12" font-size="16" font-weight="bold">
+    ReLU Network  ≅  Tropical Polynomial  ≅  Idempotent Oracle  ≅  PL Partition of Input Space
+  </text>
+</svg>

@@ -1,0 +1,46 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║                 AutoHeal Data Flow                          ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                             ║
+║   ① App writes to log                                      ║
+║      │                                                      ║
+║      ▼                                                      ║
+║   ② TailWatcher detects new lines  (poll every 250ms)      ║
+║      │                                                      ║
+║      ▼                                                      ║
+║   ③ Diagnostician classifies severity                      ║
+║      │  DEBUG/INFO → discard                                ║
+║      │  WARNING+   → continue                               ║
+║      ▼                                                      ║
+║   ④ Cooldown check (same file within N seconds?)           ║
+║      │  yes → skip                                          ║
+║      │  no  → continue                                      ║
+║      ▼                                                      ║
+║   ⑤ CodeSurgeon generates patch                            ║
+║      │  heuristic rules → fast path                         ║
+║      │  Oracle / Team   → deep path                         ║
+║      ▼                                                      ║
+║   ⑥ AST validation gate                                    ║
+║      │  invalid → reject, log                               ║
+║      │  valid   → continue                                  ║
+║      ▼                                                      ║
+║   ⑦ Backup original → .autoheal.bak                       ║
+║      │                                                      ║
+║      ▼                                                      ║
+║   ⑧ Write patched source to disk                           ║
+║      │                                                      ║
+║      ▼                                                      ║
+║   ⑨ Compiler: py_compile + importlib.reload()              ║
+║      │  fail → rollback from backup                         ║
+║      │  ok   → continue                                     ║
+║      ▼                                                      ║
+║   ⑩ HotSwapper: in-place __code__ replacement              ║
+║      │                                                      ║
+║      ▼                                                      ║
+║   ⑪ Emit HealEvent to registered callbacks                 ║
+║      │                                                      ║
+║      ▼                                                      ║
+║   ⑫ App continues with patched code — no restart needed    ║
+║                                                             ║
+╚══════════════════════════════════════════════════════════════╝

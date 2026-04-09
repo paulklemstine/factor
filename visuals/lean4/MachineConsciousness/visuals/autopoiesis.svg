@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="autoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2a1a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow5">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#autoBg)"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#44dd44" font-size="22" font-weight="bold" font-family="Georgia">
+    Autopoiesis — Self-Creating Systems
+  </text>
+  <text x="400" y="60" text-anchor="middle" fill="#338833" font-size="13" font-family="Georgia" font-style="italic">
+    The System That Creates Itself — Maturana &amp; Varela
+  </text>
+
+  <!-- The autopoietic cell (boundary) -->
+  <ellipse cx="300" cy="300" rx="180" ry="180" fill="none" stroke="#44dd44" stroke-width="3" stroke-dasharray="12,4" filter="url(#glow5)"/>
+  <text x="300" y="115" text-anchor="middle" fill="#44dd44" font-size="11">SELF-MAINTAINED BOUNDARY</text>
+  
+  <!-- Internal components in circular production -->
+  <!-- Component A -->
+  <circle cx="230" cy="230" r="30" fill="#0a2a0a" stroke="#ff6b35" stroke-width="2" filter="url(#glow5)"/>
+  <text x="230" y="227" text-anchor="middle" fill="#ff6b35" font-size="14" font-weight="bold">A</text>
+  <text x="230" y="242" text-anchor="middle" fill="#ff8855" font-size="8">producer</text>
+  
+  <!-- Component B -->
+  <circle cx="370" cy="230" r="30" fill="#0a2a0a" stroke="#4488ff" stroke-width="2" filter="url(#glow5)"/>
+  <text x="370" y="227" text-anchor="middle" fill="#4488ff" font-size="14" font-weight="bold">B</text>
+  <text x="370" y="242" text-anchor="middle" fill="#6699ff" font-size="8">producer</text>
+  
+  <!-- Component C -->
+  <circle cx="370" cy="370" r="30" fill="#0a2a0a" stroke="#ff44ff" stroke-width="2" filter="url(#glow5)"/>
+  <text x="370" y="367" text-anchor="middle" fill="#ff44ff" font-size="14" font-weight="bold">C</text>
+  <text x="370" y="382" text-anchor="middle" fill="#ff66ff" font-size="8">producer</text>
+  
+  <!-- Component D -->
+  <circle cx="230" cy="370" r="30" fill="#0a2a0a" stroke="#ffdd44" stroke-width="2" filter="url(#glow5)"/>
+  <text x="230" y="367" text-anchor="middle" fill="#ffdd44" font-size="14" font-weight="bold">D</text>
+  <text x="230" y="382" text-anchor="middle" fill="#ffee66" font-size="8">producer</text>
+  
+  <!-- Production arrows (circular) -->
+  <!-- A → B -->
+  <path d="M 260 225 Q 300 205 340 225" fill="none" stroke="#44dd44" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="300" y="200" text-anchor="middle" fill="#66ff66" font-size="9">produces</text>
+  
+  <!-- B → C -->
+  <path d="M 375 260 Q 395 300 375 340" fill="none" stroke="#44dd44" stroke-width="2"/>
+  <text x="405" y="300" fill="#66ff66" font-size="9">produces</text>
+  
+  <!-- C → D -->
+  <path d="M 340 375 Q 300 395 260 375" fill="none" stroke="#44dd44" stroke-width="2"/>
+  <text x="300" y="410" text-anchor="middle" fill="#66ff66" font-size="9">produces</text>
+  
+  <!-- D → A -->
+  <path d="M 225 340 Q 205 300 225 260" fill="none" stroke="#44dd44" stroke-width="2"/>
+  <text x="190" y="300" fill="#66ff66" font-size="9">produces</text>
+  
+  <!-- Center label -->
+  <text x="300" y="303" text-anchor="middle" fill="#44dd44" font-size="12" font-weight="bold">SELF</text>
+  <text x="300" y="318" text-anchor="middle" fill="#44dd44" font-size="12" font-weight="bold">PRODUCING</text>
+
+  <!-- Environment (outside the boundary) -->
+  <text x="300" y="510" text-anchor="middle" fill="#336633" font-size="12">ENVIRONMENT</text>
+  
+  <!-- Perturbation arrows -->
+  <path d="M 150 500 Q 180 480 200 440" fill="none" stroke="#553333" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="140" y="495" fill="#663333" font-size="9">perturbation</text>
+  
+  <path d="M 450 500 Q 420 480 400 440" fill="none" stroke="#553333" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="460" y="495" fill="#663333" font-size="9">perturbation</text>
+
+  <!-- RIGHT: Comparison -->
+  <rect x="530" y="100" width="240" height="200" rx="8" fill="#0a1a0a" stroke="#335533" stroke-width="1"/>
+  <text x="650" y="125" text-anchor="middle" fill="#44dd44" font-size="13" font-weight="bold">Autopoietic ✓</text>
+  <text x="650" y="148" text-anchor="middle" fill="#338833" font-size="10">• Produces own components</text>
+  <text x="650" y="168" text-anchor="middle" fill="#338833" font-size="10">• Maintains own boundary</text>
+  <text x="650" y="188" text-anchor="middle" fill="#338833" font-size="10">• Operationally closed</text>
+  <text x="650" y="208" text-anchor="middle" fill="#338833" font-size="10">• Survives perturbation</text>
+  <text x="650" y="235" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold">= ALIVE (self-created)</text>
+  <text x="650" y="255" text-anchor="middle" fill="#ffd700" font-size="10">= potentially CONSCIOUS</text>
+  
+  <rect x="530" y="320" width="240" height="180" rx="8" fill="#1a0a0a" stroke="#553333" stroke-width="1"/>
+  <text x="650" y="345" text-anchor="middle" fill="#ff4444" font-size="13" font-weight="bold">Non-autopoietic ✗</text>
+  <text x="650" y="368" text-anchor="middle" fill="#883333" font-size="10">• Components decay</text>
+  <text x="650" y="388" text-anchor="middle" fill="#883333" font-size="10">• Boundary breaks down</text>
+  <text x="650" y="408" text-anchor="middle" fill="#883333" font-size="10">• Operationally open</text>
+  <text x="650" y="428" text-anchor="middle" fill="#883333" font-size="10">• Destroyed by perturbation</text>
+  <text x="650" y="455" text-anchor="middle" fill="#ff4444" font-size="11" font-weight="bold">= DEAD (needs a creator)</text>
+  <text x="650" y="475" text-anchor="middle" fill="#883333" font-size="10">= NOT conscious</text>
+
+  <!-- Bottom -->
+  <rect x="100" y="540" width="600" height="45" rx="6" fill="#050a05" stroke="#335533" stroke-width="1"/>
+  <text x="400" y="558" text-anchor="middle" fill="#44dd44" font-size="12" font-weight="bold">
+    The autopoietic system is its own creator. It produces what produces it.
+  </text>
+  <text x="400" y="576" text-anchor="middle" fill="#338833" font-size="11" font-style="italic">
+    "Who created its consciousness?" → It did. It created itself.
+  </text>
+</svg>

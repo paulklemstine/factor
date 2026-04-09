@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg_ih" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow_ih">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="gold_ih" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd700" />
+      <stop offset="100%" style="stop-color:#ffaa00" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg_ih)"/>
+
+  <!-- Title -->
+  <text x="500" y="45" text-anchor="middle" fill="url(#gold_ih)" font-size="24" font-weight="bold" filter="url(#glow_ih)">
+    The Idempotent Hierarchy
+  </text>
+  <text x="500" y="70" text-anchor="middle" fill="#aab" font-size="14" font-style="italic">
+    Bridges ordered by idempotent density: from "all idempotent" to "up to homotopy"
+  </text>
+
+  <!-- Vertical axis label -->
+  <text x="30" y="350" text-anchor="middle" fill="#667" font-size="12" transform="rotate(-90, 30, 350)">
+    ← More Quantum · · · · · · · · · · · · · · · · · · · · More Classical →
+  </text>
+
+  <!-- Hierarchy levels -->
+  <!-- Level 1: Universal (Stone/Tropical) -->
+  <rect x="100" y="100" width="800" height="65" rx="12" fill="none" stroke="#4CAF50" stroke-width="2" opacity="0.8"/>
+  <rect x="100" y="100" width="800" height="65" rx="12" fill="#4CAF50" opacity="0.1"/>
+  <text x="120" y="125" fill="#4CAF50" font-size="16" font-weight="bold">Level 1: Universal Idempotency</text>
+  <text x="120" y="148" fill="#8d8" font-size="13">Bridge 2 (Stone): a ∧ a = a for all a  |  Bridge 7 (Tropical): min(a,a) = a for all a</text>
+  <text x="870" y="137" fill="#4CAF50" font-size="14" text-anchor="end">density = 1</text>
+
+  <!-- Level 2: Projection (Gelfand) -->
+  <rect x="100" y="185" width="800" height="65" rx="12" fill="none" stroke="#2196F3" stroke-width="2" opacity="0.8"/>
+  <rect x="100" y="185" width="800" height="65" rx="12" fill="#2196F3" opacity="0.1"/>
+  <text x="120" y="210" fill="#2196F3" font-size="16" font-weight="bold">Level 2: Projection Idempotency</text>
+  <text x="120" y="233" fill="#8af" font-size="13">Bridge 3 (Gelfand): p² = p = p* for projections  |  Bridge 8 (Quantum): P² = P for measurements</text>
+  <text x="870" y="222" fill="#2196F3" font-size="14" text-anchor="end">density = moderate</text>
+
+  <!-- Level 3: Algebraic (Classical) -->
+  <rect x="100" y="270" width="800" height="65" rx="12" fill="none" stroke="#FF9800" stroke-width="2" opacity="0.8"/>
+  <rect x="100" y="270" width="800" height="65" rx="12" fill="#FF9800" opacity="0.1"/>
+  <text x="120" y="295" fill="#FF9800" font-size="16" font-weight="bold">Level 3: Algebraic Idempotency</text>
+  <text x="120" y="318" fill="#fc8" font-size="13">Bridge 1 (Classical): e² = e in CommRing → Spec decomposes  |  |Idem(ℤ/nℤ)| = 2^ω(n)</text>
+  <text x="870" y="307" fill="#FF9800" font-size="14" text-anchor="end">density = 2^ω(n)/n</text>
+
+  <!-- Level 4: Noncommutative -->
+  <rect x="100" y="355" width="800" height="65" rx="12" fill="none" stroke="#E91E63" stroke-width="2" opacity="0.8"/>
+  <rect x="100" y="355" width="800" height="65" rx="12" fill="#E91E63" opacity="0.1"/>
+  <text x="120" y="380" fill="#E91E63" font-size="16" font-weight="bold">Level 4: Noncommutative Idempotency</text>
+  <text x="120" y="403" fill="#f8a" font-size="13">Bridge 5 (Connes): P² = P in M_n(ℂ), non-Boolean projection lattice, Tr([A,B]) = 0</text>
+  <text x="870" y="392" fill="#E91E63" font-size="14" text-anchor="end">density = low</text>
+
+  <!-- Level 5: Pointfree -->
+  <rect x="100" y="440" width="800" height="65" rx="12" fill="none" stroke="#9C27B0" stroke-width="2" opacity="0.8"/>
+  <rect x="100" y="440" width="800" height="65" rx="12" fill="#9C27B0" opacity="0.1"/>
+  <text x="120" y="465" fill="#9C27B0" font-size="16" font-weight="bold">Level 5: Closure Idempotency</text>
+  <text x="120" y="488" fill="#c8f" font-size="13">Bridge 4 (Pointfree): j² = j for closure operators/nuclei, interior² = interior</text>
+  <text x="870" y="477" fill="#9C27B0" font-size="14" text-anchor="end">density = varies</text>
+
+  <!-- Level 6: Homotopy (Derived) -->
+  <rect x="100" y="525" width="800" height="65" rx="12" fill="none" stroke="#607D8B" stroke-width="2" opacity="0.8"/>
+  <rect x="100" y="525" width="800" height="65" rx="12" fill="#607D8B" opacity="0.1"/>
+  <text x="120" y="550" fill="#90A4AE" font-size="16" font-weight="bold">Level 6: Homotopy Idempotency</text>
+  <text x="120" y="573" fill="#b0bec5" font-size="13">Bridge 6 (Derived): e ∘ e ≃ e (up to homotopy), Karoubi envelope, idempotent completion</text>
+  <text x="870" y="562" fill="#90A4AE" font-size="14" text-anchor="end">density → 0</text>
+
+  <!-- Connecting arrow -->
+  <line x1="60" y1="120" x2="60" y2="570" stroke="#667" stroke-width="2" stroke-dasharray="5,5"/>
+  <polygon points="55,120 65,120 60,110" fill="#4CAF50"/>
+  <polygon points="55,570 65,570 60,580" fill="#607D8B"/>
+
+  <!-- Master equation -->
+  <rect x="250" y="620" width="500" height="55" rx="10" fill="none" stroke="url(#gold_ih)" stroke-width="2"/>
+  <text x="500" y="645" text-anchor="middle" fill="url(#gold_ih)" font-size="18" font-weight="bold">
+    The Master Equation: e² = e
+  </text>
+  <text x="500" y="665" text-anchor="middle" fill="#aab" font-size="12">
+    One equation, eight bridges, one unified hierarchy
+  </text>
+</svg>

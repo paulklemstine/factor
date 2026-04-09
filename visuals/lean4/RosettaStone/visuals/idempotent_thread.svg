@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0d1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0d2a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FFD700" opacity="0.7"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="500" y="45" text-anchor="middle" fill="#FFD700" font-size="28" font-weight="bold" filter="url(#glow2)">
+    The Idempotent Thread: e² = e Across All Eight Bridges
+  </text>
+
+  <!-- Vertical spine -->
+  <line x1="500" y1="80" x2="500" y2="650" stroke="#FFD700" stroke-width="2" opacity="0.3"/>
+
+  <!-- Level markers along the spine -->
+  <!-- Most idempotent at top, least at bottom -->
+
+  <!-- Level 1: Tropical (most idempotent) -->
+  <circle cx="500" cy="120" r="6" fill="#FFEB3B" filter="url(#glow2)"/>
+  <rect x="100" y="95" width="300" height="50" rx="10" fill="#2e2e0a" stroke="#FFEB3B" stroke-width="2"/>
+  <text x="250" y="118" text-anchor="middle" fill="#FFEB3B" font-size="14" font-weight="bold">Tropical Semiring</text>
+  <text x="250" y="136" text-anchor="middle" fill="#ffffaa" font-size="11">∀a: a ⊕ a = a — UNIVERSAL idempotency</text>
+  <rect x="600" y="100" width="280" height="40" rx="8" fill="#1a1a0a" stroke="#555" stroke-width="1"/>
+  <text x="740" y="120" text-anchor="middle" fill="#ccc" font-size="11">Every element is a fixed point.</text>
+  <text x="740" y="134" text-anchor="middle" fill="#999" font-size="10">The Stone reads itself.</text>
+
+  <!-- Level 2: Boolean (all idempotent under ∧) -->
+  <circle cx="500" cy="210" r="6" fill="#2196F3" filter="url(#glow2)"/>
+  <rect x="100" y="185" width="300" height="50" rx="10" fill="#1a1a2e" stroke="#2196F3" stroke-width="2"/>
+  <text x="250" y="208" text-anchor="middle" fill="#2196F3" font-size="14" font-weight="bold">Boolean Algebras</text>
+  <text x="250" y="226" text-anchor="middle" fill="#aaccff" font-size="11">∀a: a ∧ a = a — all elements idempotent</text>
+  <rect x="600" y="190" width="280" height="40" rx="8" fill="#0a0a1a" stroke="#555" stroke-width="1"/>
+  <text x="740" y="210" text-anchor="middle" fill="#ccc" font-size="11">Ultrafilters = Points.</text>
+  <text x="740" y="224" text-anchor="middle" fill="#999" font-size="10">Stone's 1936 theorem.</text>
+
+  <!-- Level 3: Comm C*-algebras (projections idempotent) -->
+  <circle cx="500" cy="300" r="6" fill="#E91E63" filter="url(#glow2)"/>
+  <rect x="100" y="275" width="300" height="50" rx="10" fill="#2e1a1a" stroke="#E91E63" stroke-width="2"/>
+  <text x="250" y="298" text-anchor="middle" fill="#E91E63" font-size="14" font-weight="bold">C*-Algebra Projections</text>
+  <text x="250" y="316" text-anchor="middle" fill="#ffaacc" font-size="11">p² = p = p* — projections are idempotent</text>
+  <rect x="600" y="280" width="280" height="40" rx="8" fill="#1a0a0a" stroke="#555" stroke-width="1"/>
+  <text x="740" y="300" text-anchor="middle" fill="#ccc" font-size="11">Projections ↔ Clopens (Gelfand).</text>
+  <text x="740" y="314" text-anchor="middle" fill="#999" font-size="10">NC: projections ↔ "subspaces".</text>
+
+  <!-- Level 4: Ring idempotents -->
+  <circle cx="500" cy="390" r="6" fill="#4CAF50" filter="url(#glow2)"/>
+  <rect x="100" y="365" width="300" height="50" rx="10" fill="#1a2e1a" stroke="#4CAF50" stroke-width="2"/>
+  <text x="250" y="388" text-anchor="middle" fill="#4CAF50" font-size="14" font-weight="bold">Ring Idempotents</text>
+  <text x="250" y="406" text-anchor="middle" fill="#aaffaa" font-size="11">∃e: e² = e — only some elements</text>
+  <rect x="600" y="370" width="280" height="40" rx="8" fill="#0a1a0a" stroke="#555" stroke-width="1"/>
+  <text x="740" y="390" text-anchor="middle" fill="#ccc" font-size="11">Connected components of Spec.</text>
+  <text x="740" y="404" text-anchor="middle" fill="#999" font-size="10">R ≅ R/(e) × R/(1-e).</text>
+
+  <!-- Level 5: Quantum projections -->
+  <circle cx="500" cy="480" r="6" fill="#FF9800" filter="url(#glow2)"/>
+  <rect x="100" y="455" width="300" height="50" rx="10" fill="#2e1e0a" stroke="#FF9800" stroke-width="2"/>
+  <text x="250" y="478" text-anchor="middle" fill="#FF9800" font-size="14" font-weight="bold">Quantum Projections</text>
+  <text x="250" y="496" text-anchor="middle" fill="#ffddaa" font-size="11">P² = P on Hilbert space — measurement</text>
+  <rect x="600" y="460" width="280" height="40" rx="8" fill="#1a0e0a" stroke="#555" stroke-width="1"/>
+  <text x="740" y="480" text-anchor="middle" fill="#ccc" font-size="11">Wave function collapse.</text>
+  <text x="740" y="494" text-anchor="middle" fill="#999" font-size="10">Born rule probabilities.</text>
+
+  <!-- Level 6: Derived idempotents (weakest) -->
+  <circle cx="500" cy="570" r="6" fill="#00BCD4" filter="url(#glow2)"/>
+  <rect x="100" y="545" width="300" height="50" rx="10" fill="#0a2e2e" stroke="#00BCD4" stroke-width="2"/>
+  <text x="250" y="568" text-anchor="middle" fill="#00BCD4" font-size="14" font-weight="bold">Derived Idempotents</text>
+  <text x="250" y="586" text-anchor="middle" fill="#aaffff" font-size="11">e∘e ≃ e — up to coherent homotopy</text>
+  <rect x="600" y="550" width="280" height="40" rx="8" fill="#0a1a1a" stroke="#555" stroke-width="1"/>
+  <text x="740" y="570" text-anchor="middle" fill="#ccc" font-size="11">Splitting in ∞-categories.</text>
+  <text x="740" y="584" text-anchor="middle" fill="#999" font-size="10">Lurie's higher algebra.</text>
+
+  <!-- Arrows showing "more idempotent" direction -->
+  <text x="500" y="82" text-anchor="middle" fill="#FFD700" font-size="11">▲ MORE IDEMPOTENT</text>
+  <text x="500" y="660" text-anchor="middle" fill="#FFD700" font-size="11">▼ LESS IDEMPOTENT (more homotopical)</text>
+
+  <!-- Side annotations -->
+  <text x="50" y="350" text-anchor="middle" fill="#666" font-size="12" transform="rotate(-90, 50, 350)">
+    ALGEBRA SIDE
+  </text>
+  <text x="950" y="350" text-anchor="middle" fill="#666" font-size="12" transform="rotate(90, 950, 350)">
+    GEOMETRY SIDE
+  </text>
+
+  <!-- Bottom insight -->
+  <rect x="150" y="630" width="700" height="50" rx="8" fill="#111133" stroke="#FFD700" stroke-width="1"/>
+  <text x="500" y="652" text-anchor="middle" fill="#FFD700" font-size="13" font-weight="bold">
+    Meta-Theorem: Idempotent density measures classicality.
+  </text>
+  <text x="500" y="670" text-anchor="middle" fill="#ccc" font-size="11">
+    More idempotent → more classical → more Boolean → more computable → more geometric.
+  </text>
+</svg>

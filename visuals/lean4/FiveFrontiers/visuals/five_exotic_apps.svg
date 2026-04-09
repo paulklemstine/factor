@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="1000" height="700" fill="url(#bg2)"/>
+  
+  <!-- Title -->
+  <text x="500" y="35" text-anchor="middle" fill="#58a6ff" font-size="22" font-weight="bold">
+    Five Exotic Applications: Octonionic Quantum ↔ Tropical Polynomials
+  </text>
+  
+  <!-- Central hub -->
+  <circle cx="500" cy="350" r="60" fill="none" stroke="#f39c12" stroke-width="2"/>
+  <text x="500" y="345" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">Octonionic</text>
+  <text x="500" y="365" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold">⊗ Tropical</text>
+  
+  <!-- App 1: Error Correction (top) -->
+  <line x1="500" y1="290" x2="500" y2="140" stroke="#e94560" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="370" y="60" width="260" height="80" rx="10" fill="#1a1a2e" stroke="#e94560" stroke-width="2"/>
+  <text x="500" y="90" text-anchor="middle" fill="#e94560" font-size="15" font-weight="bold">1. Error Correction</text>
+  <text x="500" y="110" text-anchor="middle" fill="#ccc" font-size="11">Non-associativity detects errors</text>
+  <text x="500" y="128" text-anchor="middle" fill="#888" font-size="10">[a,b,c] = (ab)c − a(bc) ≠ 0 → error signal</text>
+  
+  <!-- App 2: Hopf Fibration (top-left) -->
+  <line x1="445" y1="310" x2="230" y2="180" stroke="#3498db" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="60" y="100" width="260" height="80" rx="10" fill="#1a1a2e" stroke="#3498db" stroke-width="2"/>
+  <text x="190" y="130" text-anchor="middle" fill="#3498db" font-size="15" font-weight="bold">2. Hopf Fibration</text>
+  <text x="190" y="150" text-anchor="middle" fill="#ccc" font-size="11">S¹⁵ → S⁸ → S⁷ data manifolds</text>
+  <text x="190" y="168" text-anchor="middle" fill="#888" font-size="10">Dimension 16 → 9 → 8 (topology-preserving)</text>
+  
+  <!-- App 3: Fano Routing (top-right) -->
+  <line x1="555" y1="310" x2="770" y2="180" stroke="#2ecc71" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="680" y="100" width="260" height="80" rx="10" fill="#1a1a2e" stroke="#2ecc71" stroke-width="2"/>
+  <text x="810" y="130" text-anchor="middle" fill="#2ecc71" font-size="15" font-weight="bold">3. Fano Plane Routing</text>
+  <text x="810" y="150" text-anchor="middle" fill="#ccc" font-size="11">7-node network, diameter 2</text>
+  <text x="810" y="168" text-anchor="middle" fill="#888" font-size="10">Tropical shortest paths via (max, +)</text>
+  
+  <!-- App 4: Spectral Gap (bottom-left) -->
+  <line x1="445" y1="390" x2="230" y2="500" stroke="#9b59b6" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="60" y="480" width="260" height="80" rx="10" fill="#1a1a2e" stroke="#9b59b6" stroke-width="2"/>
+  <text x="190" y="510" text-anchor="middle" fill="#9b59b6" font-size="15" font-weight="bold">4. Spectral Gap ×3</text>
+  <text x="190" y="530" text-anchor="middle" fill="#ccc" font-size="11">Triality triples spectral gaps</text>
+  <text x="190" y="548" text-anchor="middle" fill="#888" font-size="10">τ³ = I: three projections, gap amplification</text>
+  
+  <!-- App 5: Moufang Crypto (bottom-right) -->
+  <line x1="555" y1="390" x2="770" y2="500" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="680" y="480" width="260" height="80" rx="10" fill="#1a1a2e" stroke="#e67e22" stroke-width="2"/>
+  <text x="810" y="510" text-anchor="middle" fill="#e67e22" font-size="15" font-weight="bold">5. Moufang Crypto</text>
+  <text x="810" y="530" text-anchor="middle" fill="#ccc" font-size="11">Non-associative one-way functions</text>
+  <text x="810" y="548" text-anchor="middle" fill="#888" font-size="10">Cₙ bracketings × 8! permutations</text>
+  
+  <!-- Properties box -->
+  <rect x="200" y="610" width="600" height="70" rx="10" fill="#0d1117" stroke="#58a6ff" stroke-width="1"/>
+  <text x="500" y="635" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold">
+    Shared Structure: Idempotent Operations on Fano-Structured Spaces
+  </text>
+  <text x="500" y="660" text-anchor="middle" fill="#aaa" font-size="12">
+    All five applications formally verified in Lean 4 | Python experiments validate each prediction
+  </text>
+  
+  <!-- Mini Fano plane in center -->
+  <g transform="translate(500, 350) scale(0.3)">
+    <polygon points="0,-90 78,45 -78,45" fill="none" stroke="#f39c12" stroke-width="3" opacity="0.3"/>
+    <circle cx="0" cy="0" r="45" fill="none" stroke="#f39c12" stroke-width="3" opacity="0.3"/>
+  </g>
+</svg>

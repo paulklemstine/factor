@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a3e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFD700" />
+      <stop offset="100%" style="stop-color:#FFA500" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="55" text-anchor="middle" fill="url(#gold)" font-size="32" font-weight="bold" filter="url(#glow)">
+    The Eight Bridges of the Space–Algebra Rosetta Stone
+  </text>
+  <text x="600" y="82" text-anchor="middle" fill="#aaa" font-size="14" font-style="italic">
+    Every bridge translates between algebraic structure and geometric space
+  </text>
+
+  <!-- Central node: The Idempotent Thread -->
+  <circle cx="600" cy="440" r="70" fill="none" stroke="#FFD700" stroke-width="3" filter="url(#glow)"/>
+  <circle cx="600" cy="440" r="65" fill="#1a1a4e" stroke="#FFD700" stroke-width="1"/>
+  <text x="600" y="430" text-anchor="middle" fill="#FFD700" font-size="16" font-weight="bold">e² = e</text>
+  <text x="600" y="450" text-anchor="middle" fill="#ddd" font-size="11">The Idempotent</text>
+  <text x="600" y="465" text-anchor="middle" fill="#ddd" font-size="11">Thread</text>
+
+  <!-- Bridge 1: Classical (top) -->
+  <line x1="600" y1="370" x2="600" y2="180" stroke="#4CAF50" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="480" y="110" width="240" height="70" rx="12" fill="#1a2e1a" stroke="#4CAF50" stroke-width="2"/>
+  <text x="600" y="135" text-anchor="middle" fill="#4CAF50" font-size="15" font-weight="bold">① Classical (Grothendieck)</text>
+  <text x="600" y="155" text-anchor="middle" fill="#aaffaa" font-size="12">CommRing ↔ Spec(R)</text>
+  <text x="600" y="172" text-anchor="middle" fill="#88cc88" font-size="10">Prime ideals = Points</text>
+
+  <!-- Bridge 2: Stone (top-right) -->
+  <line x1="660" y1="385" x2="870" y2="195" stroke="#2196F3" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="770" y="130" width="240" height="70" rx="12" fill="#1a1a2e" stroke="#2196F3" stroke-width="2"/>
+  <text x="890" y="155" text-anchor="middle" fill="#2196F3" font-size="15" font-weight="bold">② Stone Duality</text>
+  <text x="890" y="172" text-anchor="middle" fill="#aaccff" font-size="12">BoolAlg ↔ Stone Spaces</text>
+  <text x="890" y="189" text-anchor="middle" fill="#88aadd" font-size="10">a ∧ a = a (universal!)</text>
+
+  <!-- Bridge 3: Gelfand (right) -->
+  <line x1="670" y1="440" x2="900" y2="380" stroke="#E91E63" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="810" y="330" width="240" height="70" rx="12" fill="#2e1a1a" stroke="#E91E63" stroke-width="2"/>
+  <text x="930" y="355" text-anchor="middle" fill="#E91E63" font-size="15" font-weight="bold">③ Gelfand Duality</text>
+  <text x="930" y="372" text-anchor="middle" fill="#ffaacc" font-size="12">C*-Alg ↔ Compact Hausdorff</text>
+  <text x="930" y="389" text-anchor="middle" fill="#dd88aa" font-size="10">Projections = Clopens</text>
+
+  <!-- Bridge 4: Pointfree (bottom-right) -->
+  <line x1="650" y1="500" x2="870" y2="590" stroke="#9C27B0" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="770" y="560" width="240" height="70" rx="12" fill="#2e1a2e" stroke="#9C27B0" stroke-width="2"/>
+  <text x="890" y="585" text-anchor="middle" fill="#9C27B0" font-size="15" font-weight="bold">④ Pointfree Topology</text>
+  <text x="890" y="602" text-anchor="middle" fill="#ddaaff" font-size="12">Frames ↔ Locales</text>
+  <text x="890" y="619" text-anchor="middle" fill="#bb88dd" font-size="10">Spaces without points</text>
+
+  <!-- Bridge 5: Noncommutative (bottom) -->
+  <line x1="600" y1="510" x2="600" y2="680" stroke="#FF5722" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="480" y="680" width="240" height="70" rx="12" fill="#2e1a0a" stroke="#FF5722" stroke-width="2"/>
+  <text x="600" y="705" text-anchor="middle" fill="#FF5722" font-size="15" font-weight="bold">⑤ NC Geometry (Connes)</text>
+  <text x="600" y="722" text-anchor="middle" fill="#ffccaa" font-size="12">NC C*-Alg ↔ Spectral Triples</text>
+  <text x="600" y="739" text-anchor="middle" fill="#ddaa88" font-size="10">P² = P = P* (projections)</text>
+
+  <!-- Bridge 6: Derived (bottom-left) -->
+  <line x1="540" y1="495" x2="330" y2="595" stroke="#00BCD4" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="180" y="560" width="260" height="70" rx="12" fill="#0a2e2e" stroke="#00BCD4" stroke-width="2"/>
+  <text x="310" y="585" text-anchor="middle" fill="#00BCD4" font-size="15" font-weight="bold">⑥ Derived AG (Lurie)</text>
+  <text x="310" y="602" text-anchor="middle" fill="#aaffff" font-size="12">E∞-Rings ↔ Derived Stacks</text>
+  <text x="310" y="619" text-anchor="middle" fill="#88dddd" font-size="10">e∘e ≃ e (up to homotopy)</text>
+
+  <!-- Bridge 7: Tropical (left) -->
+  <line x1="530" y1="440" x2="300" y2="380" stroke="#FFEB3B" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="150" y="330" width="240" height="70" rx="12" fill="#2e2e0a" stroke="#FFEB3B" stroke-width="2"/>
+  <text x="270" y="355" text-anchor="middle" fill="#FFEB3B" font-size="15" font-weight="bold">⑦ Tropical Geometry</text>
+  <text x="270" y="372" text-anchor="middle" fill="#ffffaa" font-size="12">(ℝ∪{∞}, min, +) ↔ Polyhedra</text>
+  <text x="270" y="389" text-anchor="middle" fill="#dddd88" font-size="10">a⊕a = a (self-referential!)</text>
+
+  <!-- Bridge 8: Quantum (top-left) -->
+  <line x1="545" y1="385" x2="330" y2="195" stroke="#FF9800" stroke-width="2" stroke-dasharray="8,4"/>
+  <rect x="180" y="130" width="240" height="70" rx="12" fill="#2e1e0a" stroke="#FF9800" stroke-width="2"/>
+  <text x="300" y="155" text-anchor="middle" fill="#FF9800" font-size="15" font-weight="bold">⑧ Quantum Geometry</text>
+  <text x="300" y="172" text-anchor="middle" fill="#ffddaa" font-size="12">Operators ↔ Hilbert Spaces</text>
+  <text x="300" y="189" text-anchor="middle" fill="#ddbb88" font-size="10">P² = P (measurement)</text>
+
+  <!-- Cross-bridge connections (thin lines) -->
+  <!-- Stone → Gelfand -->
+  <line x1="890" y1="200" x2="930" y2="330" stroke="#666" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="935" y="265" fill="#888" font-size="9" transform="rotate(75, 935, 265)">embed</text>
+
+  <!-- Gelfand → NC -->
+  <line x1="870" y1="400" x2="720" y2="680" stroke="#666" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="820" y="550" fill="#888" font-size="9" transform="rotate(60, 820, 550)">drop comm.</text>
+
+  <!-- Classical → Derived -->
+  <line x1="520" y1="180" x2="350" y2="560" stroke="#666" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="400" y="370" fill="#888" font-size="9" transform="rotate(70, 400, 370)">derive</text>
+
+  <!-- Classical → Tropical -->
+  <line x1="520" y1="160" x2="300" y2="330" stroke="#666" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="385" y="240" fill="#888" font-size="9" transform="rotate(45, 385, 240)">tropicalize</text>
+
+  <!-- Quantum → NC -->
+  <line x1="300" y1="200" x2="520" y2="680" stroke="#666" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="380" y="440" fill="#888" font-size="9" transform="rotate(70, 380, 440)">formalize</text>
+
+  <!-- Stone → Pointfree -->
+  <line x1="950" y1="200" x2="920" y2="560" stroke="#666" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="960" y="380" fill="#888" font-size="9" transform="rotate(85, 960, 380)">generalize</text>
+
+  <!-- Legend -->
+  <rect x="30" y="800" width="1140" height="80" rx="8" fill="#111133" stroke="#444" stroke-width="1"/>
+  <text x="600" y="825" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">The Idempotent Hierarchy</text>
+  <text x="600" y="850" text-anchor="middle" fill="#ccc" font-size="12">
+    Tropical (all idempotent) → Boolean (all under ∧) → C*-algebra (projections) → Ring (some elements) → Derived (up to homotopy)
+  </text>
+  <text x="600" y="870" text-anchor="middle" fill="#999" font-size="11" font-style="italic">
+    More idempotent = more classical = more geometric = more computable
+  </text>
+</svg>

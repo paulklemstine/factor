@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 800" font-family="'Georgia', serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#667788"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="800" fill="url(#bg2)" rx="10"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold" filter="url(#glow2)">
+    THE HIERARCHY OF IMPOSSIBILITY
+  </text>
+  <text x="450" y="72" text-anchor="middle" fill="#8899aa" font-size="14" font-style="italic">
+    Every great negative result flows from one source
+  </text>
+
+  <!-- CANTOR - The Source -->
+  <ellipse cx="450" cy="140" rx="160" ry="40" fill="#2d1a00" stroke="#ffd700" stroke-width="3" filter="url(#glow2)"/>
+  <text x="450" y="135" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">CANTOR'S DIAGONAL</text>
+  <text x="450" y="155" text-anchor="middle" fill="#ffaa00" font-size="12">|S| &lt; |𝒫(S)| (1891)</text>
+
+  <!-- Connecting lines from Cantor -->
+  <line x1="350" y1="175" x2="200" y2="240" stroke="#667788" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="450" y1="180" x2="450" y2="240" stroke="#667788" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="550" y1="175" x2="700" y2="240" stroke="#667788" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Level 2: Three pillars -->
+  <!-- Russell -->
+  <rect x="100" y="245" width="200" height="65" rx="10" fill="#1a0a2e" stroke="#9966ff" stroke-width="2"/>
+  <text x="200" y="270" text-anchor="middle" fill="#bb88ff" font-size="14" font-weight="bold">RUSSELL'S PARADOX</text>
+  <text x="200" y="290" text-anchor="middle" fill="#8866cc" font-size="11">No set of all sets (1901)</text>
+  <text x="200" y="303" text-anchor="middle" fill="#6644aa" font-size="10">→ Foundation of type theory</text>
+
+  <!-- Gödel -->
+  <rect x="350" y="245" width="200" height="65" rx="10" fill="#0a1a2e" stroke="#4499ff" stroke-width="2"/>
+  <text x="450" y="270" text-anchor="middle" fill="#66bbff" font-size="14" font-weight="bold">GÖDEL'S THEOREMS</text>
+  <text x="450" y="290" text-anchor="middle" fill="#4488cc" font-size="11">Incompleteness (1931)</text>
+  <text x="450" y="303" text-anchor="middle" fill="#3366aa" font-size="10">Truth ≠ Provability</text>
+
+  <!-- Turing -->
+  <rect x="600" y="245" width="200" height="65" rx="10" fill="#0a2e1a" stroke="#44ff88" stroke-width="2"/>
+  <text x="700" y="270" text-anchor="middle" fill="#66ffaa" font-size="14" font-weight="bold">TURING'S HALTING</text>
+  <text x="700" y="290" text-anchor="middle" fill="#44cc88" font-size="11">Undecidability (1936)</text>
+  <text x="700" y="303" text-anchor="middle" fill="#33aa66" font-size="10">Limits of computation</text>
+
+  <!-- Level 3 connections -->
+  <line x1="200" y1="310" x2="200" y2="370" stroke="#667788" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="400" y1="310" x2="320" y2="370" stroke="#667788" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="500" y1="310" x2="560" y2="370" stroke="#667788" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="700" y1="310" x2="700" y2="370" stroke="#667788" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- Level 3: Consequences -->
+  <!-- Type Theory -->
+  <rect x="100" y="375" width="200" height="55" rx="8" fill="#1a0a1e" stroke="#cc66ff" stroke-width="1.5"/>
+  <text x="200" y="397" text-anchor="middle" fill="#cc88ff" font-size="13" font-weight="bold">TYPE THEORY</text>
+  <text x="200" y="415" text-anchor="middle" fill="#9966cc" font-size="10">Stratified universes (1908+)</text>
+
+  <!-- Tarski -->
+  <rect x="350" y="375" width="200" height="55" rx="8" fill="#0a1a1e" stroke="#44aaff" stroke-width="1.5"/>
+  <text x="450" y="397" text-anchor="middle" fill="#66ccff" font-size="13" font-weight="bold">TARSKI'S THEOREM</text>
+  <text x="450" y="415" text-anchor="middle" fill="#4488aa" font-size="10">Truth is undefinable (1936)</text>
+
+  <!-- Church + Rice -->
+  <rect x="600" y="375" width="200" height="55" rx="8" fill="#0a1e1a" stroke="#44ffaa" stroke-width="1.5"/>
+  <text x="700" y="397" text-anchor="middle" fill="#66ffcc" font-size="13" font-weight="bold">RICE'S THEOREM</text>
+  <text x="700" y="415" text-anchor="middle" fill="#44aa88" font-size="10">All properties undecidable (1953)</text>
+
+  <!-- Level 4 connections -->
+  <line x1="200" y1="430" x2="300" y2="490" stroke="#555566" stroke-width="1" marker-end="url(#arrowhead)"/>
+  <line x1="450" y1="430" x2="450" y2="490" stroke="#555566" stroke-width="1" marker-end="url(#arrowhead)"/>
+  <line x1="700" y1="430" x2="600" y2="490" stroke="#555566" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+  <!-- Level 4: Modern Consequences -->
+  <rect x="250" y="495" width="400" height="60" rx="10" fill="#1a1a0a" stroke="#ffaa44" stroke-width="2"/>
+  <text x="450" y="520" text-anchor="middle" fill="#ffcc66" font-size="15" font-weight="bold">MODERN CONSEQUENCES</text>
+  <text x="450" y="540" text-anchor="middle" fill="#aa8844" font-size="11">
+    Busy Beaver · P vs NP barrier results · Proof complexity · AI alignment limits
+  </text>
+
+  <!-- The Pattern -->
+  <rect x="150" y="590" width="600" height="80" rx="12" fill="#0a0a0a" stroke="#ff4444" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="450" y="615" text-anchor="middle" fill="#ff6666" font-size="16" font-weight="bold" filter="url(#softglow)">
+    THE UNIVERSAL PATTERN
+  </text>
+  <text x="450" y="640" text-anchor="middle" fill="#ff8888" font-size="14">
+    Self-Reference + Negation = Impossibility
+  </text>
+  <text x="450" y="658" text-anchor="middle" fill="#cc6666" font-size="11">
+    "Suppose X exists. Then X applied to itself yields ¬X. Contradiction."
+  </text>
+
+  <!-- Bottom inscription -->
+  <text x="450" y="710" text-anchor="middle" fill="#556677" font-size="12" font-style="italic">
+    "The limits of my language mean the limits of my world." — Wittgenstein
+  </text>
+  <text x="450" y="730" text-anchor="middle" fill="#445566" font-size="11">
+    But Gödel showed: every language has limits it cannot express about itself.
+  </text>
+
+  <!-- Formalized badge -->
+  <rect x="610" y="740" width="240" height="40" rx="20" fill="none" stroke="#4dff88" stroke-width="1.5"/>
+  <text x="730" y="757" text-anchor="middle" fill="#4dff88" font-size="10">✓ ALL NODES FORMALIZED IN LEAN 4</text>
+  <text x="730" y="770" text-anchor="middle" fill="#4dff88" font-size="9">Machine-verified impossibility proofs</text>
+</svg>

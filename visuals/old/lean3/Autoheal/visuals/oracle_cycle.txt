@@ -1,0 +1,55 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║              Oracle Team — Iterative Repair Cycle           ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                             ║
+║            ┌─────────────────────────────┐                  ║
+║            │         RESEARCHER          │                  ║
+║            │  • Read source code         │                  ║
+║            │  • Analyze error context    │                  ║
+║            │  • Produce research brief   │                  ║
+║            └────────────┬────────────────┘                  ║
+║                         │                                   ║
+║                         ▼                                   ║
+║            ┌─────────────────────────────┐                  ║
+║            │       HYPOTHESIZER          │                  ║
+║            │  • Rank root-cause hypoths  │                  ║
+║            │  • State evidence needed    │                  ║
+║            │  • Define falsification     │                  ║
+║            └────────────┬────────────────┘                  ║
+║                         │                                   ║
+║                         ▼                                   ║
+║            ┌─────────────────────────────┐                  ║
+║            │       EXPERIMENTER          │                  ║
+║            │  • Design minimal diffs     │                  ║
+║            │  • Test hypotheses          │                  ║
+║            │  • Produce candidate fix    │                  ║
+║            └────────────┬────────────────┘                  ║
+║                         │                                   ║
+║                         ▼                                   ║
+║            ┌─────────────────────────────┐                  ║
+║            │        VALIDATOR            │                  ║
+║            │  • Correctness check        │                  ║
+║            │  • Regression analysis      │                  ║
+║            │  • Minimality review        │                  ║
+║            └────────────┬────────────────┘                  ║
+║                         │                                   ║
+║                         ▼                                   ║
+║            ┌─────────────────────────────┐                  ║
+║            │         UPDATER             │                  ║
+║            │  • Merge fix into source    │                  ║
+║            │  • Update call sites        │                  ║
+║            │  • Format consistently      │                  ║
+║            └────────────┬────────────────┘                  ║
+║                         │                                   ║
+║                         ▼                                   ║
+║            ┌─────────────────────────────┐                  ║
+║            │        ITERATOR             │                  ║
+║            │  • Review full cycle        │                  ║
+║            │  • CONVERGED → done         │                  ║
+║            │  • RETRY → loop back ───────┼──┐              ║
+║            └─────────────────────────────┘  │              ║
+║                         ▲                    │              ║
+║                         └────────────────────┘              ║
+║                                                             ║
+╚══════════════════════════════════════════════════════════════╝

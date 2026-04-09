@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e0e0ff" filter="url(#glow2)">Lawvere's Diagonal: The Universal Bootstrap</text>
+  <text x="450" y="62" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8888bb">One theorem unifying Cantor, Gödel, Turing, Tarski, and Russell</text>
+
+  <!-- Matrix grid -->
+  <g transform="translate(80, 100)">
+    <!-- Column headers (elements of A) -->
+    <text x="110" y="0" text-anchor="middle" font-family="monospace" font-size="14" fill="#88aacc">a₀</text>
+    <text x="180" y="0" text-anchor="middle" font-family="monospace" font-size="14" fill="#88aacc">a₁</text>
+    <text x="250" y="0" text-anchor="middle" font-family="monospace" font-size="14" fill="#88aacc">a₂</text>
+    <text x="320" y="0" text-anchor="middle" font-family="monospace" font-size="14" fill="#88aacc">a₃</text>
+    <text x="390" y="0" text-anchor="middle" font-family="monospace" font-size="14" fill="#88aacc">a₄</text>
+    <text x="460" y="0" text-anchor="middle" font-family="monospace" font-size="14" fill="#88aacc">⋯</text>
+
+    <!-- Row headers -->
+    <text x="40" y="48" text-anchor="middle" font-family="monospace" font-size="14" fill="#88ccaa">φ(a₀)</text>
+    <text x="40" y="108" text-anchor="middle" font-family="monospace" font-size="14" fill="#88ccaa">φ(a₁)</text>
+    <text x="40" y="168" text-anchor="middle" font-family="monospace" font-size="14" fill="#88ccaa">φ(a₂)</text>
+    <text x="40" y="228" text-anchor="middle" font-family="monospace" font-size="14" fill="#88ccaa">φ(a₃)</text>
+    <text x="40" y="288" text-anchor="middle" font-family="monospace" font-size="14" fill="#88ccaa">φ(a₄)</text>
+    <text x="40" y="340" text-anchor="middle" font-family="monospace" font-size="18" fill="#88ccaa">⋮</text>
+
+    <!-- Grid cells -->
+    <!-- Row 0 -->
+    <rect x="82" y="22" width="56" height="40" rx="4" fill="#ff4444" fill-opacity="0.15" stroke="#ff4444" stroke-width="2"/>
+    <text x="110" y="48" text-anchor="middle" font-family="monospace" font-size="16" fill="#ff6666" font-weight="bold">b₀₀</text>
+    <rect x="152" y="22" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="180" y="48" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₀₁</text>
+    <rect x="222" y="22" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="250" y="48" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₀₂</text>
+    <rect x="292" y="22" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="320" y="48" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₀₃</text>
+    <rect x="362" y="22" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="390" y="48" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₀₄</text>
+
+    <!-- Row 1 -->
+    <rect x="82" y="82" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="110" y="108" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₁₀</text>
+    <rect x="152" y="82" width="56" height="40" rx="4" fill="#ff4444" fill-opacity="0.15" stroke="#ff4444" stroke-width="2"/>
+    <text x="180" y="108" text-anchor="middle" font-family="monospace" font-size="16" fill="#ff6666" font-weight="bold">b₁₁</text>
+    <rect x="222" y="82" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="250" y="108" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₁₂</text>
+    <rect x="292" y="82" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="320" y="108" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₁₃</text>
+    <rect x="362" y="82" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="390" y="108" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₁₄</text>
+
+    <!-- Row 2 -->
+    <rect x="82" y="142" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="110" y="168" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₂₀</text>
+    <rect x="152" y="142" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="180" y="168" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₂₁</text>
+    <rect x="222" y="142" width="56" height="40" rx="4" fill="#ff4444" fill-opacity="0.15" stroke="#ff4444" stroke-width="2"/>
+    <text x="250" y="168" text-anchor="middle" font-family="monospace" font-size="16" fill="#ff6666" font-weight="bold">b₂₂</text>
+    <rect x="292" y="142" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="320" y="168" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₂₃</text>
+    <rect x="362" y="142" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="390" y="168" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₂₄</text>
+
+    <!-- Row 3 -->
+    <rect x="82" y="202" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="110" y="228" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₃₀</text>
+    <rect x="152" y="202" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="180" y="228" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₃₁</text>
+    <rect x="222" y="202" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="250" y="228" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₃₂</text>
+    <rect x="292" y="202" width="56" height="40" rx="4" fill="#ff4444" fill-opacity="0.15" stroke="#ff4444" stroke-width="2"/>
+    <text x="320" y="228" text-anchor="middle" font-family="monospace" font-size="16" fill="#ff6666" font-weight="bold">b₃₃</text>
+    <rect x="362" y="202" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="390" y="228" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₃₄</text>
+
+    <!-- Row 4 -->
+    <rect x="82" y="262" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="110" y="288" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₄₀</text>
+    <rect x="152" y="262" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="180" y="288" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₄₁</text>
+    <rect x="222" y="262" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="250" y="288" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₄₂</text>
+    <rect x="292" y="262" width="56" height="40" rx="4" fill="#334455" stroke="#556677" stroke-width="1"/>
+    <text x="320" y="288" text-anchor="middle" font-family="monospace" font-size="14" fill="#99aabb">b₄₃</text>
+    <rect x="362" y="262" width="56" height="40" rx="4" fill="#ff4444" fill-opacity="0.15" stroke="#ff4444" stroke-width="2"/>
+    <text x="390" y="288" text-anchor="middle" font-family="monospace" font-size="16" fill="#ff6666" font-weight="bold">b₄₄</text>
+
+    <!-- Diagonal line -->
+    <line x1="82" y1="22" x2="418" y2="302" stroke="#ff4444" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
+
+    <!-- Arrow to diagonal result -->
+    <text x="500" y="48" font-family="monospace" font-size="13" fill="#44ff88">→ g(b₀₀)</text>
+    <text x="500" y="108" font-family="monospace" font-size="13" fill="#44ff88">→ g(b₁₁)</text>
+    <text x="500" y="168" font-family="monospace" font-size="13" fill="#44ff88">→ g(b₂₂)</text>
+    <text x="500" y="228" font-family="monospace" font-size="13" fill="#44ff88">→ g(b₃₃)</text>
+    <text x="500" y="288" font-family="monospace" font-size="13" fill="#44ff88">→ g(b₄₄)</text>
+
+    <!-- The new function h -->
+    <text x="610" y="170" font-family="Georgia, serif" font-size="16" fill="#44ff88" filter="url(#glow2)">h(aᵢ) = g(φ(aᵢ)(aᵢ))</text>
+    <text x="610" y="195" font-family="Georgia, serif" font-size="13" fill="#88ccaa">h differs from every φ(aᵢ)</text>
+    <text x="610" y="215" font-family="Georgia, serif" font-size="13" fill="#88ccaa">at position i</text>
+    <text x="610" y="245" font-family="Georgia, serif" font-size="13" fill="#ffaa44">∴ φ is not surjective</text>
+  </g>
+
+  <!-- Unification box -->
+  <g transform="translate(50, 480)">
+    <rect x="0" y="0" width="800" height="150" rx="10" fill="#111822" stroke="#334466" stroke-width="1.5"/>
+    <text x="400" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#aabbdd" font-weight="bold">Five Impossibilities, One Diagonal</text>
+
+    <text x="30" y="55" font-family="monospace" font-size="12" fill="#ff6666">Cantor:</text>
+    <text x="120" y="55" font-family="monospace" font-size="11" fill="#ccccdd">No surjection A → 2^A (g = ¬)</text>
+
+    <text x="30" y="78" font-family="monospace" font-size="12" fill="#ffaa44">Gödel:</text>
+    <text x="120" y="78" font-family="monospace" font-size="11" fill="#ccccdd">No complete consistent system (g = ¬Prov)</text>
+
+    <text x="30" y="101" font-family="monospace" font-size="12" fill="#44ff88">Turing:</text>
+    <text x="120" y="101" font-family="monospace" font-size="11" fill="#ccccdd">No halting oracle (g = ¬Halt)</text>
+
+    <text x="420" y="55" font-family="monospace" font-size="12" fill="#4488ff">Tarski:</text>
+    <text x="510" y="55" font-family="monospace" font-size="11" fill="#ccccdd">Truth not definable (g = ¬True)</text>
+
+    <text x="420" y="78" font-family="monospace" font-size="12" fill="#aa44ff">Russell:</text>
+    <text x="510" y="78" font-family="monospace" font-size="11" fill="#ccccdd">No set of all sets (g = ¬∈)</text>
+
+    <text x="400" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#64ffda" font-style="italic">
+      "The diagonal bootstraps impossibility itself."
+    </text>
+  </g>
+</svg>

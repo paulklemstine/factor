@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f8f9fa" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" fill="#333" font-size="20" font-weight="bold">
+    Quantum Measurement as Idempotent Collapse
+  </text>
+
+  <!-- State vector |ψ⟩ -->
+  <g transform="translate(120, 220)">
+    <circle cx="0" cy="0" r="100" fill="none" stroke="#ddd" stroke-width="1"/>
+    <line x1="0" y1="0" x2="60" y2="-80" stroke="#2196F3" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <text x="70" y="-85" fill="#2196F3" font-size="16" font-weight="bold">|ψ⟩</text>
+
+    <!-- Projection onto |0⟩ -->
+    <line x1="0" y1="0" x2="60" y2="0" stroke="#F44336" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="65" y="5" fill="#F44336" font-size="14">P₀|ψ⟩</text>
+
+    <!-- Projection onto |1⟩ -->
+    <line x1="0" y1="0" x2="0" y2="-80" stroke="#4CAF50" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="5" y="-85" fill="#4CAF50" font-size="14">P₁|ψ⟩</text>
+
+    <!-- Dashed lines -->
+    <line x1="60" y1="-80" x2="60" y2="0" stroke="#999" stroke-dasharray="4" stroke-width="1"/>
+    <line x1="60" y1="-80" x2="0" y2="-80" stroke="#999" stroke-dasharray="4" stroke-width="1"/>
+
+    <text x="0" y="125" text-anchor="middle" fill="#666" font-size="12">Hilbert Space</text>
+  </g>
+
+  <!-- Arrow: Measure -->
+  <text x="310" y="200" fill="#333" font-size="16" font-weight="bold">Measure</text>
+  <text x="310" y="220" fill="#333" font-size="14">P² = P</text>
+  <line x1="280" y1="230" x2="380" y2="230" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Born Rule Box -->
+  <g transform="translate(400, 140)">
+    <rect x="0" y="0" width="180" height="150" fill="#fff" stroke="#333" stroke-width="2" rx="10"/>
+    <text x="90" y="25" text-anchor="middle" fill="#333" font-size="14" font-weight="bold">Born Rule</text>
+    <line x1="10" y1="35" x2="170" y2="35" stroke="#ddd"/>
+
+    <rect x="20" y="50" width="50" height="60" fill="#F44336" opacity="0.3"/>
+    <text x="45" y="80" text-anchor="middle" fill="#F44336" font-size="12" font-weight="bold">|0⟩</text>
+    <text x="45" y="125" text-anchor="middle" fill="#333" font-size="11">p₀ = ‖P₀ψ‖²</text>
+
+    <rect x="110" y="50" width="50" height="80" fill="#4CAF50" opacity="0.3"/>
+    <text x="135" y="80" text-anchor="middle" fill="#4CAF50" font-size="12" font-weight="bold">|1⟩</text>
+    <text x="135" y="145" text-anchor="middle" fill="#333" font-size="11">p₁ = ‖P₁ψ‖²</text>
+  </g>
+
+  <!-- Key equation -->
+  <g transform="translate(620, 140)">
+    <rect x="0" y="0" width="160" height="150" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" rx="10"/>
+    <text x="80" y="25" text-anchor="middle" fill="#E65100" font-size="14" font-weight="bold">Key Theorems</text>
+    <line x1="10" y1="35" x2="150" y2="35" stroke="#FFE0B2"/>
+
+    <text x="15" y="55" fill="#333" font-size="11">• P² = P (idempotent)</text>
+    <text x="15" y="75" fill="#333" font-size="11">• ‖x‖² = ‖Px‖² + ‖x-Px‖²</text>
+    <text x="15" y="95" fill="#333" font-size="11">• Σ‖Pᵢψ‖² = ‖ψ‖²</text>
+    <text x="15" y="115" fill="#333" font-size="11">• P(Px) = Px (stable)</text>
+    <text x="15" y="135" fill="#333" font-size="11">• Pⁿ = P ∀n≥1</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="370" text-anchor="middle" fill="#999" font-size="12">
+    All theorems formally verified in Lean 4 — no axioms beyond Mathlib foundations
+  </text>
+</svg>

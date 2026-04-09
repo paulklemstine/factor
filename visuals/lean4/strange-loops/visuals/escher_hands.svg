@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="hand1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="hand2Grad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#f43f5e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="pencilGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="80%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#292524"/>
+    </linearGradient>
+    <filter id="handGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="paperTexture">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+      <feDiffuseLighting in="noise" lighting-color="#f5f5f0" surfaceScale="1.5" result="lit">
+        <feDistantLight azimuth="45" elevation="55"/>
+      </feDiffuseLighting>
+      <feComposite in="SourceGraphic" in2="lit" operator="multiply"/>
+    </filter>
+  </defs>
+  
+  <!-- Paper background -->
+  <rect width="800" height="600" fill="#f5f0e8"/>
+  <rect width="800" height="600" fill="#f5f0e8" opacity="0.9"/>
+  
+  <!-- Paper border -->
+  <rect x="30" y="30" width="740" height="540" fill="none" stroke="#d4c5a9" stroke-width="2" rx="5"/>
+  
+  <!-- Title -->
+  <text x="400" y="75" text-anchor="middle" fill="#44403c" font-family="Georgia, serif" font-size="26" font-weight="bold">
+    Mutual Creation: The Escher Paradox
+  </text>
+  <text x="400" y="100" text-anchor="middle" fill="#78716c" font-family="Georgia, serif" font-size="14" font-style="italic">
+    Each hand draws the other into existence
+  </text>
+  
+  <!-- === LEFT HAND (drawing rightward) === -->
+  <g transform="translate(180, 300)" filter="url(#handGlow)">
+    <!-- Simplified hand shape -->
+    <path d="M 0 0 
+             C -20 -30, -10 -80, 10 -80
+             C 15 -80, 20 -70, 22 -60
+             L 25 -75 C 28 -85, 35 -85, 38 -75
+             L 40 -60
+             L 42 -78 C 45 -88, 52 -88, 55 -78
+             L 55 -55
+             L 57 -72 C 60 -82, 67 -82, 70 -72
+             L 68 -40
+             C 75 -35, 78 -20, 75 0
+             C 72 20, 50 35, 30 35
+             C 10 35, -10 20, 0 0 Z"
+          fill="url(#hand1Grad)" stroke="#2563eb" stroke-width="1.5" opacity="0.85"/>
+    
+    <!-- Pencil in left hand -->
+    <rect x="65" y="-45" width="120" height="8" rx="2" fill="url(#pencilGrad)" 
+          transform="rotate(15, 65, -45)"/>
+    <polygon points="185,-37 195,-33 185,-29" fill="#292524" transform="rotate(15, 65, -45)"/>
+    
+    <!-- "Drawing" lines coming from pencil tip -->
+    <g opacity="0.4">
+      <line x1="180" y1="-20" x2="200" y2="-10" stroke="#6366f1" stroke-width="1" stroke-dasharray="3 2"/>
+      <line x1="185" y1="-15" x2="210" y2="0" stroke="#6366f1" stroke-width="1" stroke-dasharray="3 2"/>
+      <line x1="190" y1="-25" x2="215" y2="-15" stroke="#6366f1" stroke-width="1" stroke-dasharray="3 2"/>
+    </g>
+  </g>
+  
+  <!-- Label: Left hand -->
+  <text x="160" y="400" text-anchor="middle" fill="#3b82f6" font-family="monospace" font-size="12" font-weight="bold">
+    HAND A
+  </text>
+  <text x="160" y="418" text-anchor="middle" fill="#3b82f688" font-family="monospace" font-size="10">
+    draws Hand B
+  </text>
+  
+  <!-- === RIGHT HAND (drawing leftward) === -->
+  <g transform="translate(620, 300) scale(-1, 1)" filter="url(#handGlow)">
+    <!-- Same hand shape, mirrored -->
+    <path d="M 0 0 
+             C -20 -30, -10 -80, 10 -80
+             C 15 -80, 20 -70, 22 -60
+             L 25 -75 C 28 -85, 35 -85, 38 -75
+             L 40 -60
+             L 42 -78 C 45 -88, 52 -88, 55 -78
+             L 55 -55
+             L 57 -72 C 60 -82, 67 -82, 70 -72
+             L 68 -40
+             C 75 -35, 78 -20, 75 0
+             C 72 20, 50 35, 30 35
+             C 10 35, -10 20, 0 0 Z"
+          fill="url(#hand2Grad)" stroke="#db2777" stroke-width="1.5" opacity="0.85"/>
+    
+    <!-- Pencil in right hand -->
+    <rect x="65" y="-45" width="120" height="8" rx="2" fill="url(#pencilGrad)"
+          transform="rotate(15, 65, -45)"/>
+    <polygon points="185,-37 195,-33 185,-29" fill="#292524" transform="rotate(15, 65, -45)"/>
+    
+    <!-- "Drawing" lines -->
+    <g opacity="0.4">
+      <line x1="180" y1="-20" x2="200" y2="-10" stroke="#ec4899" stroke-width="1" stroke-dasharray="3 2"/>
+      <line x1="185" y1="-15" x2="210" y2="0" stroke="#ec4899" stroke-width="1" stroke-dasharray="3 2"/>
+      <line x1="190" y1="-25" x2="215" y2="-15" stroke="#ec4899" stroke-width="1" stroke-dasharray="3 2"/>
+    </g>
+  </g>
+  
+  <!-- Label: Right hand -->
+  <text x="640" y="400" text-anchor="middle" fill="#ec4899" font-family="monospace" font-size="12" font-weight="bold">
+    HAND B
+  </text>
+  <text x="640" y="418" text-anchor="middle" fill="#ec489988" font-family="monospace" font-size="10">
+    draws Hand A
+  </text>
+  
+  <!-- Central paradox symbol -->
+  <g transform="translate(400, 290)">
+    <!-- Infinity / loop symbol -->
+    <path d="M -30 0 C -30 -18, -12 -18, 0 0 C 12 18, 30 18, 30 0 C 30 -18, 12 -18, 0 0 C -12 18, -30 18, -30 0"
+          fill="none" stroke="#fbbf24" stroke-width="3" opacity="0.6"/>
+    <text x="0" y="35" text-anchor="middle" fill="#92400e" font-family="Georgia, serif" font-size="12" font-weight="bold">
+      ∞
+    </text>
+  </g>
+  
+  <!-- Arrows showing mutual creation -->
+  <g opacity="0.5">
+    <!-- A → B -->
+    <path d="M 280 260 C 330 230, 430 230, 480 260" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5 3"/>
+    <polygon points="480,260 472,254 474,264" fill="#8b5cf6"/>
+    <text x="380" y="240" text-anchor="middle" fill="#8b5cf6" font-family="monospace" font-size="10">creates</text>
+    
+    <!-- B → A -->
+    <path d="M 480 330 C 430 360, 330 360, 280 330" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5 3"/>
+    <polygon points="280,330 288,336 286,326" fill="#8b5cf6"/>
+    <text x="380" y="370" text-anchor="middle" fill="#8b5cf6" font-family="monospace" font-size="10">creates</text>
+  </g>
+  
+  <!-- The Question -->
+  <rect x="150" y="450" width="500" height="80" rx="10" fill="#fefce8" stroke="#d97706" stroke-width="1.5"/>
+  <text x="400" y="475" text-anchor="middle" fill="#92400e" font-family="Georgia, serif" font-size="15" font-weight="bold">
+    The Paradox of Mutual Creation
+  </text>
+  <text x="400" y="498" text-anchor="middle" fill="#78350f" font-family="Georgia, serif" font-size="12">
+    Which hand is "real" and which is "drawn"? Neither. Both. The distinction
+  </text>
+  <text x="400" y="516" text-anchor="middle" fill="#78350f" font-family="Georgia, serif" font-size="12">
+    collapses — and in that collapse, we find the strange loop of consciousness.
+  </text>
+  
+  <!-- Signature -->
+  <text x="400" y="575" text-anchor="middle" fill="#a8a29e" font-family="monospace" font-size="10">
+    After M.C. Escher's "Drawing Hands" (1948) · Strange Loop Research Project · 2025
+  </text>
+</svg>

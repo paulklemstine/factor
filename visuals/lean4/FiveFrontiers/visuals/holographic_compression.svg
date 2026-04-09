@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="monospace">
+  <rect width="800" height="500" fill="#f5f5f5" rx="10"/>
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">
+    Holographic Proof Compression: The Area Law
+  </text>
+  
+  <!-- AdS/CFT side -->
+  <rect x="30" y="55" width="340" height="410" fill="white" stroke="#795548" stroke-width="2" rx="8"/>
+  <text x="200" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#795548">
+    Holographic Principle (Physics)
+  </text>
+  
+  <!-- Bulk circle (AdS) -->
+  <circle cx="200" cy="250" r="130" fill="#EFEBE9" stroke="#795548" stroke-width="2"/>
+  <text x="200" y="200" text-anchor="middle" font-size="12" fill="#5D4037">Bulk (AdS)</text>
+  <text x="200" y="220" text-anchor="middle" font-size="11" fill="#795548">Geometry</text>
+  
+  <!-- Minimal surface -->
+  <path d="M 130 180 Q 200 280 270 180" fill="none" stroke="#FF5722" stroke-width="3" 
+        stroke-dasharray="5,3"/>
+  <text x="200" y="275" text-anchor="middle" font-size="11" fill="#FF5722" font-weight="bold">
+    Minimal Surface (RT)
+  </text>
+  
+  <!-- Boundary -->
+  <text x="200" y="130" text-anchor="middle" font-size="11" fill="#1B5E20" font-weight="bold">
+    Boundary (CFT)
+  </text>
+  
+  <!-- Area law formula -->
+  <rect x="60" y="400" width="280" height="50" fill="#FFF3E0" stroke="#FF9800" stroke-width="2" rx="5"/>
+  <text x="200" y="423" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">
+    S(A) = |∂A| / (4G_N)
+  </text>
+  <text x="200" y="443" text-anchor="middle" font-size="11" fill="#BF360C">
+    Ryu-Takayanagi Formula
+  </text>
+  
+  <!-- Arrow -->
+  <line x1="380" y1="260" x2="420" y2="260" stroke="#333" stroke-width="3" 
+        marker-end="url(#arrow)"/>
+  <text x="400" y="250" text-anchor="middle" font-size="10" fill="#333">analogy</text>
+  
+  <!-- Proof side -->
+  <rect x="430" y="55" width="340" height="410" fill="white" stroke="#1565C0" stroke-width="2" rx="8"/>
+  <text x="600" y="80" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">
+    Proof Compression (Math)
+  </text>
+  
+  <!-- Proof tree -->
+  <circle cx="600" cy="140" r="15" fill="#BBDEFB" stroke="#1565C0" stroke-width="2"/>
+  <text x="600" y="145" text-anchor="middle" font-size="9">⊢ φ</text>
+  
+  <line x1="590" y1="155" x2="550" y2="185" stroke="#1565C0" stroke-width="1.5"/>
+  <line x1="610" y1="155" x2="650" y2="185" stroke="#1565C0" stroke-width="1.5"/>
+  
+  <circle cx="550" cy="200" r="12" fill="#BBDEFB" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="550" y="204" text-anchor="middle" font-size="8">MP</text>
+  <circle cx="650" cy="200" r="12" fill="#BBDEFB" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="650" y="204" text-anchor="middle" font-size="8">∧I</text>
+  
+  <line x1="540" y1="212" x2="510" y2="242" stroke="#1565C0" stroke-width="1.5"/>
+  <line x1="560" y1="212" x2="580" y2="242" stroke="#1565C0" stroke-width="1.5"/>
+  <line x1="640" y1="212" x2="620" y2="242" stroke="#1565C0" stroke-width="1.5"/>
+  <line x1="660" y1="212" x2="690" y2="242" stroke="#1565C0" stroke-width="1.5"/>
+  
+  <!-- Leaves (boundary) -->
+  <rect x="495" y="245" width="35" height="20" fill="#C8E6C9" stroke="#4CAF50" stroke-width="1.5" rx="3"/>
+  <text x="512" y="259" text-anchor="middle" font-size="8" fill="#2E7D32">hyp</text>
+  <rect x="563" y="245" width="35" height="20" fill="#C8E6C9" stroke="#4CAF50" stroke-width="1.5" rx="3"/>
+  <text x="580" y="259" text-anchor="middle" font-size="8" fill="#2E7D32">hyp</text>
+  <rect x="605" y="245" width="35" height="20" fill="#C8E6C9" stroke="#4CAF50" stroke-width="1.5" rx="3"/>
+  <text x="622" y="259" text-anchor="middle" font-size="8" fill="#2E7D32">hyp</text>
+  <rect x="673" y="245" width="35" height="20" fill="#C8E6C9" stroke="#4CAF50" stroke-width="1.5" rx="3"/>
+  <text x="690" y="259" text-anchor="middle" font-size="8" fill="#2E7D32">hyp</text>
+  
+  <!-- Minimal cut -->
+  <line x1="470" y1="225" x2="740" y2="225" stroke="#FF5722" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="600" y="296" text-anchor="middle" font-size="11" fill="#FF5722" font-weight="bold">
+    Minimal Cut = RT Surface
+  </text>
+  
+  <!-- Labels -->
+  <text x="600" y="325" text-anchor="middle" font-size="11" fill="#333">
+    Bulk = internal proof steps
+  </text>
+  <text x="600" y="345" text-anchor="middle" font-size="11" fill="#333">
+    Boundary = hypotheses + conclusion
+  </text>
+  <text x="600" y="365" text-anchor="middle" font-size="11" fill="#333">
+    Area = cut complexity
+  </text>
+  
+  <!-- Compression formula -->
+  <rect x="460" y="400" width="280" height="50" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" rx="5"/>
+  <text x="600" y="423" text-anchor="middle" font-size="13" font-weight="bold" fill="#2E7D32">
+    |proof| ≤ c · |boundary| · log |bulk|
+  </text>
+  <text x="600" y="443" text-anchor="middle" font-size="11" fill="#1B5E20">
+    Holographic Compression Bound
+  </text>
+</svg>

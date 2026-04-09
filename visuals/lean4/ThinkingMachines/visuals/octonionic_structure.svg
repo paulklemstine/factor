@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="Georgia, serif">
+  <defs>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" fill="#0a0a1a" rx="20"/>
+
+  <text x="600" y="45" text-anchor="middle" fill="#ecf0f1" font-size="28" font-weight="bold" filter="url(#glow4)">
+    Bridge 4: Octonionic ↔ Tropical
+  </text>
+  <text x="600" y="75" text-anchor="middle" fill="#bdc3c7" font-size="16" font-style="italic">
+    Non-Associative Algebra Provides Structure for Higher-Dimensional Gate Sets
+  </text>
+
+  <!-- Fano Plane (center piece) -->
+  <g transform="translate(600, 310)">
+    <!-- Triangle -->
+    <polygon points="0,-160 -139,80 139,80" fill="none" stroke="#e74c3c" stroke-width="3" opacity="0.7"/>
+
+    <!-- Inscribed circle -->
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#f39c12" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+
+    <!-- Medians -->
+    <line x1="0" y1="-160" x2="0" y2="80" stroke="#3498db" stroke-width="2" opacity="0.5"/>
+    <line x1="-139" y1="80" x2="70" y2="-40" stroke="#2ecc71" stroke-width="2" opacity="0.5"/>
+    <line x1="139" y1="80" x2="-70" y2="-40" stroke="#9b59b6" stroke-width="2" opacity="0.5"/>
+
+    <!-- Nodes -->
+    <circle cx="0" cy="-160" r="25" fill="#e74c3c" filter="url(#glow4)"/>
+    <text x="0" y="-155" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₁</text>
+
+    <circle cx="-139" cy="80" r="25" fill="#3498db" filter="url(#glow4)"/>
+    <text x="-139" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₂</text>
+
+    <circle cx="139" cy="80" r="25" fill="#2ecc71" filter="url(#glow4)"/>
+    <text x="139" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₄</text>
+
+    <!-- Midpoints -->
+    <circle cx="-70" cy="-40" r="20" fill="#9b59b6" filter="url(#glow4)"/>
+    <text x="-70" y="-35" text-anchor="middle" fill="white" font-size="14" font-weight="bold">e₃</text>
+
+    <circle cx="70" cy="-40" r="20" fill="#f39c12" filter="url(#glow4)"/>
+    <text x="70" y="-35" text-anchor="middle" fill="white" font-size="14" font-weight="bold">e₅</text>
+
+    <circle cx="0" cy="80" r="20" fill="#e67e22" filter="url(#glow4)"/>
+    <text x="0" y="85" text-anchor="middle" fill="white" font-size="14" font-weight="bold">e₆</text>
+
+    <!-- Center -->
+    <circle cx="0" cy="0" r="20" fill="#1abc9c" filter="url(#glow4)"/>
+    <text x="0" y="5" text-anchor="middle" fill="white" font-size="14" font-weight="bold">e₇</text>
+
+    <!-- Title -->
+    <text x="0" y="140" text-anchor="middle" fill="#f39c12" font-size="16" font-weight="bold">
+      Fano Plane = Octonion Multiplication Table
+    </text>
+    <text x="0" y="165" text-anchor="middle" fill="#fad390" font-size="12">
+      eᵢ · eⱼ = ±eₖ along each line (7 lines, 7 points)
+    </text>
+  </g>
+
+  <!-- Left: Cayley-Dickson Tower -->
+  <rect x="30" y="100" width="250" height="320" rx="12" fill="#1a1a2e" stroke="#9b59b6" stroke-width="2"/>
+  <text x="155" y="125" text-anchor="middle" fill="#9b59b6" font-size="16" font-weight="bold">Cayley-Dickson Tower</text>
+
+  <!-- Tower blocks -->
+  <rect x="50" y="140" width="210" height="35" rx="5" fill="#2ecc71" opacity="0.7"/>
+  <text x="155" y="163" text-anchor="middle" fill="white" font-size="13" font-weight="bold">ℝ (dim 1) — ordered</text>
+
+  <rect x="50" y="185" width="210" height="35" rx="5" fill="#3498db" opacity="0.7"/>
+  <text x="155" y="208" text-anchor="middle" fill="white" font-size="13" font-weight="bold">ℂ (dim 2) — commutative</text>
+
+  <rect x="50" y="230" width="210" height="35" rx="5" fill="#9b59b6" opacity="0.7"/>
+  <text x="155" y="253" text-anchor="middle" fill="white" font-size="13" font-weight="bold">ℍ (dim 4) — associative</text>
+
+  <rect x="50" y="275" width="210" height="35" rx="5" fill="#e74c3c" opacity="0.7"/>
+  <text x="155" y="298" text-anchor="middle" fill="white" font-size="13" font-weight="bold">𝕆 (dim 8) — alternative</text>
+
+  <rect x="50" y="320" width="210" height="35" rx="5" fill="#7f8c8d" opacity="0.7"/>
+  <text x="155" y="343" text-anchor="middle" fill="white" font-size="13" font-weight="bold">𝕊 (dim 16) — flexible</text>
+
+  <!-- Arrows showing lost properties -->
+  <text x="45" y="177" fill="#f39c12" font-size="10">↓ lose ordering</text>
+  <text x="45" y="222" fill="#f39c12" font-size="10">↓ lose commutativity</text>
+  <text x="45" y="267" fill="#f39c12" font-size="10">↓ lose associativity</text>
+  <text x="45" y="312" fill="#f39c12" font-size="10">↓ lose alternativity</text>
+
+  <text x="155" y="385" text-anchor="middle" fill="#bdc3c7" font-size="11">Each doubling LOSES a property</text>
+  <text x="155" y="405" text-anchor="middle" fill="#bdc3c7" font-size="11">but GAINS dimension and structure</text>
+
+  <!-- Right: Tropical Octonionic Gates -->
+  <rect x="920" y="100" width="250" height="320" rx="12" fill="#1a2634" stroke="#2ecc71" stroke-width="2"/>
+  <text x="1045" y="125" text-anchor="middle" fill="#2ecc71" font-size="16" font-weight="bold">Tropical 𝕆 Gates</text>
+
+  <text x="940" y="155" fill="#a8e6cf" font-size="12" font-weight="bold">Replace:</text>
+  <text x="940" y="178" fill="#a8e6cf" font-size="12">  × → ⊙ (add)</text>
+  <text x="940" y="198" fill="#a8e6cf" font-size="12">  + → ⊕ (max)</text>
+
+  <text x="940" y="228" fill="#f39c12" font-size="12" font-weight="bold">Result:</text>
+  <text x="940" y="250" fill="#fad390" font-size="12">  Piecewise-linear</text>
+  <text x="940" y="270" fill="#fad390" font-size="12">  non-associative gates</text>
+
+  <text x="940" y="300" fill="#e74c3c" font-size="12" font-weight="bold">Symmetry Group:</text>
+  <text x="940" y="320" fill="#f5b7b1" font-size="12">  G₂ = Aut(𝕆)</text>
+  <text x="940" y="340" fill="#f5b7b1" font-size="12">  dim = 14, rank = 2</text>
+
+  <text x="940" y="370" fill="#3498db" font-size="12" font-weight="bold">Applications:</text>
+  <text x="940" y="390" fill="#a8d8ea" font-size="12">  • 7D rotations</text>
+  <text x="940" y="408" fill="#a8d8ea" font-size="12">  • Exceptional gates</text>
+
+  <!-- Bottom: Connection to Physics -->
+  <rect x="30" y="490" width="1140" height="190" rx="15" fill="#0d1a33" stroke="#e74c3c" stroke-width="2"/>
+  <text x="600" y="520" text-anchor="middle" fill="#e74c3c" font-size="20" font-weight="bold" filter="url(#glow4)">
+    Why Octonions Matter: The Exceptional Connection
+  </text>
+
+  <text x="60" y="555" fill="#ecf0f1" font-size="13">
+    • The octonions are the ONLY 8-dimensional normed division algebra (Hurwitz theorem, 1898)
+  </text>
+  <text x="60" y="580" fill="#ecf0f1" font-size="13">
+    • G₂ = Aut(𝕆) is the smallest exceptional Lie group — it contains the structure of 7-dimensional geometry
+  </text>
+  <text x="60" y="605" fill="#ecf0f1" font-size="13">
+    • The exceptional groups F₄, E₆, E₇, E₈ all arise from octonionic constructions (Jordan algebras, magic square)
+  </text>
+  <text x="60" y="630" fill="#f39c12" font-size="13" font-weight="bold">
+    • E₈ × E₈ is the gauge group of heterotic string theory — octonions encode fundamental physics!
+  </text>
+  <text x="60" y="655" fill="#ecf0f1" font-size="13">
+    • Tropical octonionic gates = piecewise-linear versions of these exceptional symmetries
+  </text>
+  <text x="60" y="675" fill="#2ecc71" font-size="13" font-weight="bold">
+    → Non-associativity is not a bug — it's the algebraic signature of exceptional geometry and physics
+  </text>
+</svg>

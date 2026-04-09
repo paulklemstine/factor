@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700" width="700" height="700">
+  <rect width="700" height="700" fill="#0a0a2e"/>
+
+  <!-- Grid lines -->
+  <line x1="50" y1="650.0" x2="650" y2="650.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50.0" y1="50" x2="50.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="620.0" x2="650" y2="620.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="80.0" y1="50" x2="80.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="590.0" x2="650" y2="590.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="110.0" y1="50" x2="110.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="560.0" x2="650" y2="560.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="140.0" y1="50" x2="140.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="530.0" x2="650" y2="530.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="170.0" y1="50" x2="170.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="500.0" x2="650" y2="500.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="200.0" y1="50" x2="200.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="470.0" x2="650" y2="470.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="230.0" y1="50" x2="230.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="440.0" x2="650" y2="440.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="260.0" y1="50" x2="260.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="410.0" x2="650" y2="410.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="290.0" y1="50" x2="290.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="380.0" x2="650" y2="380.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="320.0" y1="50" x2="320.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="350.0" x2="650" y2="350.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="350.0" y1="50" x2="350.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="320.0" x2="650" y2="320.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="380.0" y1="50" x2="380.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="290.0" x2="650" y2="290.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="410.0" y1="50" x2="410.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="260.0" x2="650" y2="260.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="440.0" y1="50" x2="440.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="230.0" x2="650" y2="230.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="470.0" y1="50" x2="470.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="200.0" x2="650" y2="200.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="500.0" y1="50" x2="500.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="170.0" x2="650" y2="170.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="530.0" y1="50" x2="530.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="140.0" x2="650" y2="140.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="560.0" y1="50" x2="560.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="110.0" x2="650" y2="110.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="590.0" y1="50" x2="590.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="80.0" x2="650" y2="80.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="620.0" y1="50" x2="620.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="50.0" x2="650" y2="50.0" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="650.0" y1="50" x2="650.0" y2="650" stroke="#1a1a4e" stroke-width="0.5"/>
+  <line x1="50" y1="650" x2="650" y2="650" stroke="#4488ff" stroke-width="1.5"/>
+  <line x1="50" y1="50" x2="50" y2="650" stroke="#4488ff" stroke-width="1.5"/>
+  <!-- Pythagorean rays -->
+  <line x1="50" y1="650" x2="68.0" y2="626.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="74.0" y2="632.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="98.0" y2="614.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="86.0" y2="602.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="122.0" y2="620.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="80.0" y2="578.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="104.0" y2="578.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="122.0" y2="596.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="140.0" y2="602.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="98.0" y2="560.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="146.0" y2="578.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="122.0" y2="554.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="194.0" y2="608.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="92.0" y2="506.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="170.0" y2="560.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="140.0" y2="530.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="110.0" y2="506.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="194.0" y2="590.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="176.0" y2="530.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="170.0" y2="524.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="158.0" y2="506.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="194.0" y2="542.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="230.0" y2="554.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="146.0" y2="470.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="218.0" y2="524.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="176.0" y2="482.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="260.0" y2="578.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="122.0" y2="440.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="266.0" y2="560.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="140.0" y2="434.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="242.0" y2="506.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="194.0" y2="458.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="290.0" y2="596.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="104.0" y2="410.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="266.0" y2="488.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="212.0" y2="434.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="230.0" y2="410.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="290.0" y2="470.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="134.0" y2="362.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="338.0" y2="566.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="194.0" y2="380.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="320.0" y2="506.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="338.0" y2="530.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="170.0" y2="362.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="320.0" y2="482.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="218.0" y2="380.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="314.0" y2="452.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="248.0" y2="386.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="290.0" y2="398.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="302.0" y2="410.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="266.0" y2="362.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="338.0" y2="434.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="116.0" y2="290.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="410.0" y2="584.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="428.0" y2="554.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="200.0" y2="290.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="386.0" y2="452.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="248.0" y2="314.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="362.0" y2="416.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="284.0" y2="338.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="410.0" y2="500.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="146.0" y2="272.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="242.0" y2="290.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="410.0" y2="458.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="386.0" y2="398.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="302.0" y2="314.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="338.0" y2="320.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="380.0" y2="362.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="194.0" y2="230.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="470.0" y2="506.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="176.0" y2="218.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="320.0" y2="290.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="482.0" y2="524.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="410.0" y2="380.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="230.0" y2="218.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="482.0" y2="470.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="338.0" y2="266.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="434.0" y2="362.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="530.0" y2="542.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="158.0" y2="170.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="512.0" y2="434.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="128.0" y2="146.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="458.0" y2="344.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="290.0" y2="200.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="500.0" y2="410.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="356.0" y2="242.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="554.0" y2="572.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="266.0" y2="188.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="410.0" y2="272.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="428.0" y2="290.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="530.0" y2="416.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="284.0" y2="170.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="482.0" y2="326.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="374.0" y2="218.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="554.0" y2="440.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="260.0" y2="146.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="392.0" y2="194.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="506.0" y2="308.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="482.0" y2="260.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="440.0" y2="218.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="410.0" y2="170.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="218.0" y2="74.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="626.0" y2="482.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <line x1="50" y1="650" x2="530.0" y2="290.0" stroke="rgba(255,200,50,0.15)" stroke-width="1"/>
+  <!-- Pythagorean lattice points -->
+  <circle cx="68.0" cy="626.0" r="4.85" fill="rgb(157,220,6)" opacity="0.9"><title>(3, 4, 5)</title></circle>
+  <circle cx="74.0" cy="632.0" r="4.85" fill="rgb(157,220,6)" opacity="0.9"><title>(4, 3, 5)</title></circle>
+  <circle cx="98.0" cy="614.0" r="4.7" fill="rgb(185,197,1)" opacity="0.9"><title>(8, 6, 10)</title></circle>
+  <circle cx="86.0" cy="602.0" r="4.7" fill="rgb(185,197,1)" opacity="0.9"><title>(6, 8, 10)</title></circle>
+  <circle cx="122.0" cy="620.0" r="4.61" fill="rgb(201,181,1)" opacity="0.9"><title>(12, 5, 13)</title></circle>
+  <circle cx="80.0" cy="578.0" r="4.61" fill="rgb(201,181,1)" opacity="0.9"><title>(5, 12, 13)</title></circle>
+  <circle cx="104.0" cy="578.0" r="4.55" fill="rgb(210,170,3)" opacity="0.9"><title>(9, 12, 15)</title></circle>
+  <circle cx="122.0" cy="596.0" r="4.55" fill="rgb(210,170,3)" opacity="0.9"><title>(12, 9, 15)</title></circle>
+  <circle cx="140.0" cy="602.0" r="4.49" fill="rgb(219,158,5)" opacity="0.9"><title>(15, 8, 17)</title></circle>
+  <circle cx="98.0" cy="560.0" r="4.49" fill="rgb(219,158,5)" opacity="0.9"><title>(8, 15, 17)</title></circle>
+  <circle cx="146.0" cy="578.0" r="4.4" fill="rgb(230,141,11)" opacity="0.9"><title>(16, 12, 20)</title></circle>
+  <circle cx="122.0" cy="554.0" r="4.4" fill="rgb(230,141,11)" opacity="0.9"><title>(12, 16, 20)</title></circle>
+  <circle cx="194.0" cy="608.0" r="4.25" fill="rgb(245,111,27)" opacity="0.9"><title>(24, 7, 25)</title></circle>
+  <circle cx="92.0" cy="506.0" r="4.25" fill="rgb(245,111,27)" opacity="0.9"><title>(7, 24, 25)</title></circle>
+  <circle cx="170.0" cy="560.0" r="4.25" fill="rgb(245,111,27)" opacity="0.9"><title>(20, 15, 25)</title></circle>
+  <circle cx="140.0" cy="530.0" r="4.25" fill="rgb(245,111,27)" opacity="0.9"><title>(15, 20, 25)</title></circle>
+  <circle cx="110.0" cy="506.0" r="4.22" fill="rgb(247,105,30)" opacity="0.9"><title>(10, 24, 26)</title></circle>
+  <circle cx="194.0" cy="590.0" r="4.22" fill="rgb(247,105,30)" opacity="0.9"><title>(24, 10, 26)</title></circle>
+  <circle cx="176.0" cy="530.0" r="4.13" fill="rgb(252,88,43)" opacity="0.9"><title>(21, 20, 29)</title></circle>
+  <circle cx="170.0" cy="524.0" r="4.13" fill="rgb(252,88,43)" opacity="0.9"><title>(20, 21, 29)</title></circle>
+  <circle cx="158.0" cy="506.0" r="4.1" fill="rgb(253,82,48)" opacity="0.9"><title>(18, 24, 30)</title></circle>
+  <circle cx="194.0" cy="542.0" r="4.1" fill="rgb(253,82,48)" opacity="0.9"><title>(24, 18, 30)</title></circle>
+  <circle cx="230.0" cy="554.0" r="3.98" fill="rgb(254,61,67)" opacity="0.9"><title>(30, 16, 34)</title></circle>
+  <circle cx="146.0" cy="470.0" r="3.98" fill="rgb(254,61,67)" opacity="0.9"><title>(16, 30, 34)</title></circle>
+  <circle cx="218.0" cy="524.0" r="3.95" fill="rgb(254,56,73)" opacity="0.9"><title>(28, 21, 35)</title></circle>
+  <circle cx="176.0" cy="482.0" r="3.95" fill="rgb(254,56,73)" opacity="0.9"><title>(21, 28, 35)</title></circle>
+  <circle cx="260.0" cy="578.0" r="3.89" fill="rgb(253,46,84)" opacity="0.9"><title>(35, 12, 37)</title></circle>
+  <circle cx="122.0" cy="440.0" r="3.89" fill="rgb(253,46,84)" opacity="0.9"><title>(12, 35, 37)</title></circle>
+  <circle cx="266.0" cy="560.0" r="3.83" fill="rgb(250,37,95)" opacity="0.9"><title>(36, 15, 39)</title></circle>
+  <circle cx="140.0" cy="434.0" r="3.83" fill="rgb(250,37,95)" opacity="0.9"><title>(15, 36, 39)</title></circle>
+  <circle cx="242.0" cy="506.0" r="3.8" fill="rgb(248,33,101)" opacity="0.9"><title>(32, 24, 40)</title></circle>
+  <circle cx="194.0" cy="458.0" r="3.8" fill="rgb(248,33,101)" opacity="0.9"><title>(24, 32, 40)</title></circle>
+  <circle cx="290.0" cy="596.0" r="3.77" fill="rgb(246,29,107)" opacity="0.9"><title>(40, 9, 41)</title></circle>
+  <circle cx="104.0" cy="410.0" r="3.77" fill="rgb(246,29,107)" opacity="0.9"><title>(9, 40, 41)</title></circle>
+  <circle cx="266.0" cy="488.0" r="3.65" fill="rgb(236,16,131)" opacity="0.9"><title>(36, 27, 45)</title></circle>
+  <circle cx="212.0" cy="434.0" r="3.65" fill="rgb(236,16,131)" opacity="0.9"><title>(27, 36, 45)</title></circle>
+  <circle cx="230.0" cy="410.0" r="3.5" fill="rgb(217,5,160)" opacity="0.9"><title>(30, 40, 50)</title></circle>
+  <circle cx="290.0" cy="470.0" r="3.5" fill="rgb(217,5,160)" opacity="0.9"><title>(40, 30, 50)</title></circle>
+  <circle cx="134.0" cy="362.0" r="3.5" fill="rgb(217,5,160)" opacity="0.9"><title>(14, 48, 50)</title></circle>
+  <circle cx="338.0" cy="566.0" r="3.5" fill="rgb(217,5,160)" opacity="0.9"><title>(48, 14, 50)</title></circle>
+  <circle cx="194.0" cy="380.0" r="3.4699999999999998" fill="rgb(213,3,166)" opacity="0.9"><title>(24, 45, 51)</title></circle>
+  <circle cx="320.0" cy="506.0" r="3.4699999999999998" fill="rgb(213,3,166)" opacity="0.9"><title>(45, 24, 51)</title></circle>
+  <circle cx="338.0" cy="530.0" r="3.44" fill="rgb(208,2,172)" opacity="0.9"><title>(48, 20, 52)</title></circle>
+  <circle cx="170.0" cy="362.0" r="3.44" fill="rgb(208,2,172)" opacity="0.9"><title>(20, 48, 52)</title></circle>
+  <circle cx="320.0" cy="482.0" r="3.41" fill="rgb(204,1,177)" opacity="0.9"><title>(45, 28, 53)</title></circle>
+  <circle cx="218.0" cy="380.0" r="3.41" fill="rgb(204,1,177)" opacity="0.9"><title>(28, 45, 53)</title></circle>
+  <circle cx="314.0" cy="452.0" r="3.3499999999999996" fill="rgb(194,1,188)" opacity="0.9"><title>(44, 33, 55)</title></circle>
+  <circle cx="248.0" cy="386.0" r="3.3499999999999996" fill="rgb(194,1,188)" opacity="0.9"><title>(33, 44, 55)</title></circle>
+  <circle cx="290.0" cy="398.0" r="3.2600000000000002" fill="rgb(178,1,203)" opacity="0.9"><title>(40, 42, 58)</title></circle>
+  <circle cx="302.0" cy="410.0" r="3.2600000000000002" fill="rgb(178,1,203)" opacity="0.9"><title>(42, 40, 58)</title></circle>
+  <circle cx="266.0" cy="362.0" r="3.2" fill="rgb(167,3,212)" opacity="0.9"><title>(36, 48, 60)</title></circle>
+  <circle cx="338.0" cy="434.0" r="3.2" fill="rgb(167,3,212)" opacity="0.9"><title>(48, 36, 60)</title></circle>
+  <circle cx="116.0" cy="290.0" r="3.17" fill="rgb(161,5,217)" opacity="0.9"><title>(11, 60, 61)</title></circle>
+  <circle cx="410.0" cy="584.0" r="3.17" fill="rgb(161,5,217)" opacity="0.9"><title>(60, 11, 61)</title></circle>
+  <circle cx="428.0" cy="554.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(63, 16, 65)</title></circle>
+  <circle cx="200.0" cy="290.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(25, 60, 65)</title></circle>
+  <circle cx="386.0" cy="452.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(56, 33, 65)</title></circle>
+  <circle cx="248.0" cy="314.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(33, 56, 65)</title></circle>
+  <circle cx="362.0" cy="416.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(52, 39, 65)</title></circle>
+  <circle cx="284.0" cy="338.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(39, 52, 65)</title></circle>
+  <circle cx="410.0" cy="500.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(60, 25, 65)</title></circle>
+  <circle cx="146.0" cy="272.0" r="3.05" fill="rgb(137,13,232)" opacity="0.9"><title>(16, 63, 65)</title></circle>
+  <circle cx="242.0" cy="290.0" r="2.96" fill="rgb(120,22,241)" opacity="0.9"><title>(32, 60, 68)</title></circle>
+  <circle cx="410.0" cy="458.0" r="2.96" fill="rgb(120,22,241)" opacity="0.9"><title>(60, 32, 68)</title></circle>
+  <circle cx="386.0" cy="398.0" r="2.9000000000000004" fill="rgb(108,29,246)" opacity="0.9"><title>(56, 42, 70)</title></circle>
+  <circle cx="302.0" cy="314.0" r="2.9000000000000004" fill="rgb(108,29,246)" opacity="0.9"><title>(42, 56, 70)</title></circle>
+  <circle cx="338.0" cy="320.0" r="2.81" fill="rgb(90,41,251)" opacity="0.9"><title>(48, 55, 73)</title></circle>
+  <circle cx="380.0" cy="362.0" r="2.81" fill="rgb(90,41,251)" opacity="0.9"><title>(55, 48, 73)</title></circle>
+  <circle cx="194.0" cy="230.0" r="2.7800000000000002" fill="rgb(84,46,252)" opacity="0.9"><title>(24, 70, 74)</title></circle>
+  <circle cx="470.0" cy="506.0" r="2.7800000000000002" fill="rgb(84,46,252)" opacity="0.9"><title>(70, 24, 74)</title></circle>
+  <circle cx="176.0" cy="218.0" r="2.75" fill="rgb(79,50,253)" opacity="0.9"><title>(21, 72, 75)</title></circle>
+  <circle cx="320.0" cy="290.0" r="2.75" fill="rgb(79,50,253)" opacity="0.9"><title>(45, 60, 75)</title></circle>
+  <circle cx="482.0" cy="524.0" r="2.75" fill="rgb(79,50,253)" opacity="0.9"><title>(72, 21, 75)</title></circle>
+  <circle cx="410.0" cy="380.0" r="2.75" fill="rgb(79,50,253)" opacity="0.9"><title>(60, 45, 75)</title></circle>
+  <circle cx="230.0" cy="218.0" r="2.66" fill="rgb(63,65,254)" opacity="0.9"><title>(30, 72, 78)</title></circle>
+  <circle cx="482.0" cy="470.0" r="2.66" fill="rgb(63,65,254)" opacity="0.9"><title>(72, 30, 78)</title></circle>
+  <circle cx="338.0" cy="266.0" r="2.5999999999999996" fill="rgb(53,76,254)" opacity="0.9"><title>(48, 64, 80)</title></circle>
+  <circle cx="434.0" cy="362.0" r="2.5999999999999996" fill="rgb(53,76,254)" opacity="0.9"><title>(64, 48, 80)</title></circle>
+  <circle cx="530.0" cy="542.0" r="2.54" fill="rgb(44,87,252)" opacity="0.9"><title>(80, 18, 82)</title></circle>
+  <circle cx="158.0" cy="170.0" r="2.54" fill="rgb(44,87,252)" opacity="0.9"><title>(18, 80, 82)</title></circle>
+  <circle cx="512.0" cy="434.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(77, 36, 85)</title></circle>
+  <circle cx="128.0" cy="146.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(13, 84, 85)</title></circle>
+  <circle cx="458.0" cy="344.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(68, 51, 85)</title></circle>
+  <circle cx="290.0" cy="200.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(40, 75, 85)</title></circle>
+  <circle cx="500.0" cy="410.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(75, 40, 85)</title></circle>
+  <circle cx="356.0" cy="242.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(51, 68, 85)</title></circle>
+  <circle cx="554.0" cy="572.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(84, 13, 85)</title></circle>
+  <circle cx="266.0" cy="188.0" r="2.45" fill="rgb(31,104,247)" opacity="0.9"><title>(36, 77, 85)</title></circle>
+  <circle cx="410.0" cy="272.0" r="2.39" fill="rgb(24,116,243)" opacity="0.9"><title>(60, 63, 87)</title></circle>
+  <circle cx="428.0" cy="290.0" r="2.39" fill="rgb(24,116,243)" opacity="0.9"><title>(63, 60, 87)</title></circle>
+  <circle cx="530.0" cy="416.0" r="2.33" fill="rgb(17,128,237)" opacity="0.9"><title>(80, 39, 89)</title></circle>
+  <circle cx="284.0" cy="170.0" r="2.33" fill="rgb(17,128,237)" opacity="0.9"><title>(39, 80, 89)</title></circle>
+  <circle cx="482.0" cy="326.0" r="2.3" fill="rgb(14,134,234)" opacity="0.9"><title>(72, 54, 90)</title></circle>
+  <circle cx="374.0" cy="218.0" r="2.3" fill="rgb(14,134,234)" opacity="0.9"><title>(54, 72, 90)</title></circle>
+  <circle cx="554.0" cy="440.0" r="2.27" fill="rgb(12,140,231)" opacity="0.9"><title>(84, 35, 91)</title></circle>
+  <circle cx="260.0" cy="146.0" r="2.27" fill="rgb(12,140,231)" opacity="0.9"><title>(35, 84, 91)</title></circle>
+  <circle cx="392.0" cy="194.0" r="2.1500000000000004" fill="rgb(4,164,215)" opacity="0.9"><title>(57, 76, 95)</title></circle>
+  <circle cx="506.0" cy="308.0" r="2.1500000000000004" fill="rgb(4,164,215)" opacity="0.9"><title>(76, 57, 95)</title></circle>
+  <circle cx="482.0" cy="260.0" r="2.09" fill="rgb(2,175,206)" opacity="0.9"><title>(72, 65, 97)</title></circle>
+  <circle cx="440.0" cy="218.0" r="2.09" fill="rgb(2,175,206)" opacity="0.9"><title>(65, 72, 97)</title></circle>
+  <circle cx="410.0" cy="170.0" r="2" fill="rgb(1,191,191)" opacity="0.9"><title>(60, 80, 100)</title></circle>
+  <circle cx="218.0" cy="74.0" r="2" fill="rgb(1,191,191)" opacity="0.9"><title>(28, 96, 100)</title></circle>
+  <circle cx="626.0" cy="482.0" r="2" fill="rgb(1,191,191)" opacity="0.9"><title>(96, 28, 100)</title></circle>
+  <circle cx="530.0" cy="290.0" r="2" fill="rgb(1,191,191)" opacity="0.9"><title>(80, 60, 100)</title></circle>
+  <circle cx="50" cy="650" r="4" fill="#ff4444"/>
+  <text x="350" y="30" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif">Pythagorean Lattice Points (c ≤ 100)</text>
+  <text x="350" y="690" text-anchor="middle" fill="#888" font-size="11" font-family="sans-serif">Each point (a,b) satisfies a² + b² = c² for integer c</text>
+</svg>

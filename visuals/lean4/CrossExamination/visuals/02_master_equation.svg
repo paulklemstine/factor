@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/>
+    </marker>
+    <marker id="arrowblue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4b7bec"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">The Master Equation</text>
+  <text x="400" y="65" text-anchor="middle" fill="#ff6b6b" font-size="28" font-weight="bold" font-style="italic">image(O) = Fix(O)</text>
+  <text x="400" y="90" text-anchor="middle" fill="#8899aa" font-size="12">For any idempotent function O : X → X</text>
+
+  <!-- Left side: Domain X -->
+  <text x="140" y="140" text-anchor="middle" fill="#aabbcc" font-size="14" font-weight="bold">Domain X</text>
+  
+  <!-- Domain circle with points -->
+  <circle cx="140" cy="280" r="120" fill="none" stroke="#334466" stroke-width="2"/>
+  
+  <!-- Points in domain -->
+  <circle cx="80" cy="220" r="6" fill="#666699"/>
+  <circle cx="120" cy="200" r="6" fill="#666699"/>
+  <circle cx="170" cy="210" r="6" fill="#666699"/>
+  <circle cx="200" cy="250" r="6" fill="#666699"/>
+  <circle cx="190" cy="310" r="6" fill="#666699"/>
+  <circle cx="140" cy="350" r="6" fill="#666699"/>
+  <circle cx="90" cy="320" r="6" fill="#666699"/>
+  <circle cx="70" cy="270" r="6" fill="#666699"/>
+  
+  <!-- Fixed points (highlighted) -->
+  <circle cx="130" cy="260" r="8" fill="#ff6b6b" opacity="0.8"/>
+  <circle cx="160" cy="290" r="8" fill="#ff6b6b" opacity="0.8"/>
+  <circle cx="110" cy="300" r="8" fill="#ff6b6b" opacity="0.8"/>
+  
+  <text x="140" y="430" text-anchor="middle" fill="#aabbcc" font-size="11">
+    <tspan fill="#666699">● Non-fixed points</tspan>
+  </text>
+  <text x="140" y="448" text-anchor="middle" fill="#ff6b6b" font-size="11">
+    <tspan>● Fixed points: O(x) = x</tspan>
+  </text>
+
+  <!-- Oracle arrow O -->
+  <path d="M 280 240 C 350 180, 450 180, 520 240" fill="none" stroke="#ff6b6b" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="400" y="195" text-anchor="middle" fill="#ff6b6b" font-size="18" font-weight="bold">O</text>
+  <text x="400" y="215" text-anchor="middle" fill="#ff9999" font-size="10">idempotent</text>
+
+  <!-- Right side: Image = Fix -->
+  <text x="600" y="140" text-anchor="middle" fill="#aabbcc" font-size="14" font-weight="bold">image(O) = Fix(O)</text>
+
+  <!-- Image/Fix set -->
+  <ellipse cx="600" cy="280" rx="90" ry="110" fill="none" stroke="#ff6b6b" stroke-width="2.5" stroke-dasharray="8,4"/>
+  
+  <!-- Image points (same as fixed points) -->
+  <circle cx="580" cy="240" r="8" fill="#ff6b6b" opacity="0.8"/>
+  <circle cx="620" cy="280" r="8" fill="#ff6b6b" opacity="0.8"/>
+  <circle cx="590" cy="320" r="8" fill="#ff6b6b" opacity="0.8"/>
+  
+  <!-- Re-apply O arrow (loops back) -->
+  <path d="M 700 260 C 740 220, 740 340, 700 300" fill="none" stroke="#4b7bec" stroke-width="2" marker-end="url(#arrowblue)" stroke-dasharray="5,3"/>
+  <text x="755" y="280" text-anchor="start" fill="#4b7bec" font-size="12">O again</text>
+  <text x="755" y="296" text-anchor="start" fill="#6688cc" font-size="10">= no change</text>
+
+  <!-- Mapping arrows from non-fixed to fixed -->
+  <line x1="86" y1="220" x2="572" y2="240" stroke="#444466" stroke-width="1" opacity="0.4" marker-end="url(#arrowhead)"/>
+  <line x1="126" y1="200" x2="575" y2="238" stroke="#444466" stroke-width="1" opacity="0.4" marker-end="url(#arrowhead)"/>
+  <line x1="200" y1="250" x2="612" y2="278" stroke="#444466" stroke-width="1" opacity="0.4" marker-end="url(#arrowhead)"/>
+  <line x1="190" y1="310" x2="583" y2="318" stroke="#444466" stroke-width="1" opacity="0.4" marker-end="url(#arrowhead)"/>
+
+  <!-- Examples table -->
+  <rect x="50" y="475" width="700" height="110" rx="10" fill="#111133" opacity="0.8"/>
+  <text x="400" y="500" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Instances Across Domains</text>
+  
+  <text x="80" y="525" fill="#ff6b6b" font-size="11" font-weight="bold">Oracle O</text>
+  <text x="280" y="525" fill="#26de81" font-size="11" font-weight="bold">image(O)</text>
+  <text x="500" y="525" fill="#4b7bec" font-size="11" font-weight="bold">Fix(O)</text>
+  <text x="680" y="525" fill="#fed330" font-size="11" font-weight="bold">Domain</text>
+  
+  <text x="80" y="545" fill="#cccccc" font-size="10">ReLU = max(0,x)</text>
+  <text x="280" y="545" fill="#cccccc" font-size="10">[0, ∞)</text>
+  <text x="500" y="545" fill="#cccccc" font-size="10">{x : x ≥ 0}</text>
+  <text x="680" y="545" fill="#cccccc" font-size="10">ML</text>
+  
+  <text x="80" y="562" fill="#cccccc" font-size="10">sgn(x)</text>
+  <text x="280" y="562" fill="#cccccc" font-size="10">{−1, 0, +1}</text>
+  <text x="500" y="562" fill="#cccccc" font-size="10">{−1, 0, +1}</text>
+  <text x="680" y="562" fill="#cccccc" font-size="10">Physics</text>
+  
+  <text x="80" y="579" fill="#cccccc" font-size="10">Proj onto cone</text>
+  <text x="280" y="579" fill="#cccccc" font-size="10">Null vectors</text>
+  <text x="500" y="579" fill="#cccccc" font-size="10">{v : Q(v)=0}</text>
+  <text x="680" y="579" fill="#cccccc" font-size="10">Relativity</text>
+</svg>

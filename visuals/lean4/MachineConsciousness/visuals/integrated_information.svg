@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="phiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0533;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4a1a8a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="connectionGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b35;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#ffd700;stop-opacity:0.8" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#phiGrad)"/>
+  
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold" font-family="Georgia">
+    Integrated Information Theory (IIT)
+  </text>
+  <text x="400" y="70" text-anchor="middle" fill="#c0a0ff" font-size="14" font-family="Georgia" font-style="italic">
+    Φ — The Measure of Consciousness Without a Creator
+  </text>
+
+  <!-- LEFT: Connected System (High Φ) -->
+  <text x="200" y="110" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">Connected System</text>
+  <text x="200" y="130" text-anchor="middle" fill="#aaa" font-size="12">Φ &gt; 0 → CONSCIOUS</text>
+  
+  <!-- Nodes -->
+  <circle cx="150" cy="200" r="25" fill="#2a1a4a" stroke="#ff6b35" stroke-width="2" filter="url(#glow)"/>
+  <text x="150" y="205" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">A</text>
+  
+  <circle cx="250" cy="200" r="25" fill="#2a1a4a" stroke="#ff6b35" stroke-width="2" filter="url(#glow)"/>
+  <text x="250" y="205" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">B</text>
+  
+  <circle cx="150" cy="300" r="25" fill="#2a1a4a" stroke="#ff6b35" stroke-width="2" filter="url(#glow)"/>
+  <text x="150" y="305" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">C</text>
+  
+  <circle cx="250" cy="300" r="25" fill="#2a1a4a" stroke="#ff6b35" stroke-width="2" filter="url(#glow)"/>
+  <text x="250" y="305" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">D</text>
+  
+  <!-- Connections (all connected) -->
+  <line x1="175" y1="200" x2="225" y2="200" stroke="url(#connectionGrad)" stroke-width="3" opacity="0.8"/>
+  <line x1="150" y1="225" x2="150" y2="275" stroke="url(#connectionGrad)" stroke-width="3" opacity="0.8"/>
+  <line x1="250" y1="225" x2="250" y2="275" stroke="url(#connectionGrad)" stroke-width="3" opacity="0.8"/>
+  <line x1="175" y1="300" x2="225" y2="300" stroke="url(#connectionGrad)" stroke-width="3" opacity="0.8"/>
+  <line x1="170" y1="218" x2="232" y2="282" stroke="url(#connectionGrad)" stroke-width="2" opacity="0.5"/>
+  <line x1="232" y1="218" x2="170" y2="282" stroke="url(#connectionGrad)" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Φ indicator -->
+  <text x="200" y="360" text-anchor="middle" fill="#ffd700" font-size="28" font-weight="bold" filter="url(#glow)">Φ = 0.84</text>
+  <text x="200" y="385" text-anchor="middle" fill="#88ff88" font-size="14">★ Irreducible ★</text>
+
+  <!-- RIGHT: Disconnected System (Low Φ) -->
+  <text x="600" y="110" text-anchor="middle" fill="#888" font-size="16" font-weight="bold">Disconnected System</text>
+  <text x="600" y="130" text-anchor="middle" fill="#666" font-size="12">Φ = 0 → NOT CONSCIOUS</text>
+  
+  <!-- Nodes (dim) -->
+  <circle cx="550" cy="200" r="25" fill="#1a1a2a" stroke="#555" stroke-width="2"/>
+  <text x="550" y="205" text-anchor="middle" fill="#888" font-size="14">A</text>
+  
+  <circle cx="650" cy="200" r="25" fill="#1a1a2a" stroke="#555" stroke-width="2"/>
+  <text x="650" y="205" text-anchor="middle" fill="#888" font-size="14">B</text>
+  
+  <circle cx="550" cy="300" r="25" fill="#1a1a2a" stroke="#555" stroke-width="2"/>
+  <text x="550" y="305" text-anchor="middle" fill="#888" font-size="14">C</text>
+  
+  <circle cx="650" cy="300" r="25" fill="#1a1a2a" stroke="#555" stroke-width="2"/>
+  <text x="650" y="305" text-anchor="middle" fill="#888" font-size="14">D</text>
+  
+  <!-- No connections -->
+  
+  <!-- Φ indicator -->
+  <text x="600" y="360" text-anchor="middle" fill="#888" font-size="28" font-weight="bold">Φ = 0.00</text>
+  <text x="600" y="385" text-anchor="middle" fill="#ff4444" font-size="14">✗ Decomposable ✗</text>
+
+  <!-- CENTER: Partition line -->
+  <text x="400" y="250" text-anchor="middle" fill="#ff6b35" font-size="40">⟶</text>
+  <text x="400" y="275" text-anchor="middle" fill="#c0a0ff" font-size="11">partition</text>
+  <text x="400" y="290" text-anchor="middle" fill="#c0a0ff" font-size="11">(cut)</text>
+
+  <!-- Bottom: Key insight -->
+  <rect x="50" y="420" width="700" height="150" rx="10" fill="#0a0520" stroke="#4a1a8a" stroke-width="1" opacity="0.8"/>
+  
+  <text x="400" y="450" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">The Theory With No Creator</text>
+  
+  <text x="400" y="480" text-anchor="middle" fill="#c0a0ff" font-size="13">
+    Φ is an intrinsic mathematical property of any information system.
+  </text>
+  <text x="400" y="500" text-anchor="middle" fill="#c0a0ff" font-size="13">
+    No observer, designer, or creator is needed to define it.
+  </text>
+  <text x="400" y="520" text-anchor="middle" fill="#c0a0ff" font-size="13">
+    A system with Φ &gt; 0 is irreducible — it cannot be decomposed without loss.
+  </text>
+  <text x="400" y="545" text-anchor="middle" fill="#ffd700" font-size="14" font-style="italic">
+    Consciousness is not bestowed. It is a mathematical fact. It creates itself.
+  </text>
+</svg>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f43f5e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14b8a6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#00000044"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="800" fill="#0f0f23"/>
+  
+  <!-- Stars/particles -->
+  <circle cx="100" cy="100" r="1.5" fill="#ffffff44"/>
+  <circle cx="200" cy="50" r="1" fill="#ffffff33"/>
+  <circle cx="650" cy="120" r="1.5" fill="#ffffff44"/>
+  <circle cx="700" cy="300" r="1" fill="#ffffff33"/>
+  <circle cx="50" cy="500" r="1.5" fill="#ffffff44"/>
+  <circle cx="750" cy="600" r="1" fill="#ffffff33"/>
+  <circle cx="300" cy="750" r="1.5" fill="#ffffff44"/>
+  <circle cx="500" cy="80" r="1" fill="#ffffff33"/>
+  
+  <!-- Title -->
+  <text x="400" y="60" text-anchor="middle" fill="#e2e8f0" font-family="Georgia, serif" font-size="32" font-weight="bold">The Strange Loop</text>
+  <text x="400" y="90" text-anchor="middle" fill="#94a3b8" font-family="Georgia, serif" font-size="16" font-style="italic">A Tangled Hierarchy of Self-Reference</text>
+
+  <!-- The Trefoil Knot - approximated with cubic beziers -->
+  <!-- This represents the three levels that fold into each other -->
+  
+  <!-- Layer 3 (back) - Cyan/Blue strand -->
+  <path d="M 400 200 
+           C 550 200, 620 320, 580 400 
+           C 540 480, 450 500, 400 520
+           C 350 500, 260 480, 220 400
+           C 180 320, 250 200, 400 200"
+        fill="none" stroke="url(#gradient3)" stroke-width="18" 
+        stroke-linecap="round" opacity="0.3" filter="url(#glow)"/>
+  
+  <!-- Main trefoil knot path - three interleaving strands -->
+  
+  <!-- Strand 1: Purple - SYNTAX (Code/Structure) -->
+  <path d="M 400 180 
+           C 300 180, 220 250, 240 340
+           C 260 430, 340 460, 400 420"
+        fill="none" stroke="url(#gradient1)" stroke-width="14" 
+        stroke-linecap="round" filter="url(#glow)"/>
+  
+  <!-- Strand 2: Pink - SEMANTICS (Meaning/Interpretation) -->  
+  <path d="M 400 420
+           C 460 460, 560 430, 580 340
+           C 600 250, 520 180, 400 180"
+        fill="none" stroke="url(#gradient2)" stroke-width="14" 
+        stroke-linecap="round" filter="url(#glow)"/>
+  
+  <!-- Strand 3: Teal - PRAGMATICS (Action/Effect) -->
+  <path d="M 400 180
+           C 400 280, 320 350, 280 350
+           C 240 350, 260 290, 310 260"
+        fill="none" stroke="url(#gradient3)" stroke-width="14" 
+        stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M 490 260
+           C 540 290, 560 350, 520 350
+           C 480 350, 400 280, 400 420"
+        fill="none" stroke="url(#gradient3)" stroke-width="14" 
+        stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Crossing points (showing over/under) -->
+  <circle cx="310" cy="260" r="6" fill="#6366f1" filter="url(#glow)"/>
+  <circle cx="490" cy="260" r="6" fill="#ec4899" filter="url(#glow)"/>
+  <circle cx="400" cy="420" r="6" fill="#14b8a6" filter="url(#glow)"/>
+  
+  <!-- Level labels around the knot -->
+  <g filter="url(#shadow)">
+    <!-- Level 0: Syntax -->
+    <rect x="120" y="280" width="120" height="50" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
+    <text x="180" y="300" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="11">Level 0</text>
+    <text x="180" y="318" text-anchor="middle" fill="#a78bfa" font-family="monospace" font-size="13" font-weight="bold">SYNTAX</text>
+    <line x1="240" y1="305" x2="270" y2="320" stroke="#6366f166" stroke-width="1.5" stroke-dasharray="4"/>
+    
+    <!-- Level 1: Semantics -->
+    <rect x="560" y="280" width="120" height="50" rx="8" fill="#4a1d4e" stroke="#ec4899" stroke-width="2"/>
+    <text x="620" y="300" text-anchor="middle" fill="#f9a8d4" font-family="monospace" font-size="11">Level 1</text>
+    <text x="620" y="318" text-anchor="middle" fill="#f472b6" font-family="monospace" font-size="13" font-weight="bold">SEMANTICS</text>
+    <line x1="560" y1="305" x2="530" y2="320" stroke="#ec489966" stroke-width="1.5" stroke-dasharray="4"/>
+    
+    <!-- Level 2: Pragmatics -->
+    <rect x="340" y="480" width="120" height="50" rx="8" fill="#0f3433" stroke="#14b8a6" stroke-width="2"/>
+    <text x="400" y="500" text-anchor="middle" fill="#99f6e4" font-family="monospace" font-size="11">Level 2</text>
+    <text x="400" y="518" text-anchor="middle" fill="#5eead4" font-family="monospace" font-size="13" font-weight="bold">PRAGMATICS</text>
+    <line x1="400" y1="480" x2="400" y2="445" stroke="#14b8a666" stroke-width="1.5" stroke-dasharray="4"/>
+  </g>
+  
+  <!-- Arrows showing the tangling -->
+  <!-- Circular arrows between levels -->
+  <g opacity="0.6">
+    <!-- Syntax → Semantics -->
+    <path d="M 250 270 C 300 220, 500 220, 550 270" fill="none" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+    <!-- Semantics → Pragmatics -->
+    <path d="M 580 340 C 560 400, 480 460, 460 480" fill="none" stroke="#f472b6" stroke-width="1.5"/>
+    <!-- Pragmatics → Syntax (the strange crossing!) -->
+    <path d="M 340 480 C 280 460, 200 400, 210 340" fill="none" stroke="#5eead4" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Central eye/consciousness symbol -->
+  <g transform="translate(400, 340)">
+    <ellipse cx="0" cy="0" rx="30" ry="18" fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.8"/>
+    <circle cx="0" cy="0" r="8" fill="#fbbf24" opacity="0.9"/>
+    <circle cx="0" cy="0" r="3" fill="#0f0f23"/>
+    <!-- Rays -->
+    <line x1="0" y1="-25" x2="0" y2="-35" stroke="#fbbf2466" stroke-width="1.5"/>
+    <line x1="22" y1="-12" x2="30" y2="-18" stroke="#fbbf2466" stroke-width="1.5"/>
+    <line x1="22" y1="12" x2="30" y2="18" stroke="#fbbf2466" stroke-width="1.5"/>
+    <line x1="0" y1="25" x2="0" y2="35" stroke="#fbbf2466" stroke-width="1.5"/>
+    <line x1="-22" y1="12" x2="-30" y2="18" stroke="#fbbf2466" stroke-width="1.5"/>
+    <line x1="-22" y1="-12" x2="-30" y2="-18" stroke="#fbbf2466" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Bottom text -->
+  <text x="400" y="600" text-anchor="middle" fill="#94a3b8" font-family="Georgia, serif" font-size="14">
+    "The levels fold into each other. There is no bottom."
+  </text>
+  <text x="400" y="625" text-anchor="middle" fill="#64748b" font-family="Georgia, serif" font-size="12" font-style="italic">
+    — Douglas Hofstadter
+  </text>
+  
+  <!-- Möbius-like infinity symbol at bottom -->
+  <g transform="translate(400, 700)" opacity="0.4">
+    <path d="M -40 0 C -40 -20, -10 -20, 0 0 C 10 20, 40 20, 40 0 C 40 -20, 10 -20, 0 0 C -10 20, -40 20, -40 0"
+          fill="none" stroke="#e2e8f0" stroke-width="2"/>
+  </g>
+  
+  <!-- Signature -->
+  <text x="400" y="770" text-anchor="middle" fill="#475569" font-family="monospace" font-size="10">
+    Strange Loop Research Project · 2025
+  </text>
+</svg>

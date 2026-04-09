@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg_nc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow_nc">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#bg_nc)"/>
+
+  <text x="450" y="35" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold">
+    Newton's Method for Lifting Idempotents
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#8b949e" font-size="13">
+    e' = 3e² − 2e³ with quadratic convergence: defect(e') = defect(e)² · (2e−3)(2e+1)
+  </text>
+
+  <!-- Coordinate axes -->
+  <line x1="100" y1="420" x2="850" y2="420" stroke="#30363d" stroke-width="1"/>
+  <line x1="100" y1="80" x2="100" y2="420" stroke="#30363d" stroke-width="1"/>
+  <text x="475" y="460" text-anchor="middle" fill="#8b949e" font-size="12">Iteration step</text>
+  <text x="55" y="250" text-anchor="middle" fill="#8b949e" font-size="12" transform="rotate(-90, 55, 250)">|e² − e| (defect)</text>
+
+  <!-- Grid lines -->
+  <line x1="100" y1="150" x2="850" y2="150" stroke="#21262d" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="100" y1="250" x2="850" y2="250" stroke="#21262d" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="100" y1="350" x2="850" y2="350" stroke="#21262d" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <!-- Y-axis labels -->
+  <text x="90" y="424" text-anchor="end" fill="#8b949e" font-size="10">0</text>
+  <text x="90" y="354" text-anchor="end" fill="#8b949e" font-size="10">0.25</text>
+  <text x="90" y="254" text-anchor="end" fill="#8b949e" font-size="10">0.50</text>
+  <text x="90" y="154" text-anchor="end" fill="#8b949e" font-size="10">0.75</text>
+  <text x="90" y="84" text-anchor="end" fill="#8b949e" font-size="10">1.00</text>
+
+  <!-- X-axis labels -->
+  <text x="200" y="440" text-anchor="middle" fill="#8b949e" font-size="10">0</text>
+  <text x="350" y="440" text-anchor="middle" fill="#8b949e" font-size="10">1</text>
+  <text x="500" y="440" text-anchor="middle" fill="#8b949e" font-size="10">2</text>
+  <text x="650" y="440" text-anchor="middle" fill="#8b949e" font-size="10">3</text>
+  <text x="800" y="440" text-anchor="middle" fill="#8b949e" font-size="10">4</text>
+
+  <!-- Convergence curve for e₀ = 0.7 (converges to 1) -->
+  <!-- defect: 0.7²-0.7 = -0.21, then Newton: 3(.49)-2(.343)=1.47-.686=.784 -->
+  <!-- Plotting |defect| decreasing quadratically -->
+  <polyline points="200,277 350,384 500,414 650,419 800,420"
+    fill="none" stroke="#f78166" stroke-width="2.5" filter="url(#glow_nc)"/>
+  <circle cx="200" cy="277" r="5" fill="#f78166"/>
+  <circle cx="350" cy="384" r="5" fill="#f78166"/>
+  <circle cx="500" cy="414" r="5" fill="#f78166"/>
+  <circle cx="650" cy="419" r="5" fill="#f78166"/>
+  <circle cx="800" cy="420" r="4" fill="#f78166"/>
+  <text x="215" y="270" fill="#f78166" font-size="11">e₀ = 0.7</text>
+
+  <!-- Convergence curve for e₀ = 0.3 (converges to 0) -->
+  <polyline points="200,390 350,416 500,420 650,420 800,420"
+    fill="none" stroke="#7ee787" stroke-width="2.5" filter="url(#glow_nc)"/>
+  <circle cx="200" cy="390" r="5" fill="#7ee787"/>
+  <circle cx="350" cy="416" r="5" fill="#7ee787"/>
+  <circle cx="500" cy="420" r="5" fill="#7ee787"/>
+  <text x="215" y="385" fill="#7ee787" font-size="11">e₀ = 0.3</text>
+
+  <!-- Convergence curve for e₀ = 0.9 -->
+  <polyline points="200,386 350,418 500,420 650,420 800,420"
+    fill="none" stroke="#d2a8ff" stroke-width="2.5" filter="url(#glow_nc)"/>
+  <circle cx="200" cy="386" r="5" fill="#d2a8ff"/>
+  <circle cx="350" cy="418" r="5" fill="#d2a8ff"/>
+  <text x="215" y="378" fill="#d2a8ff" font-size="11">e₀ = 0.9</text>
+
+  <!-- Formula box -->
+  <rect x="550" y="90" width="290" height="100" rx="8" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="695" y="115" text-anchor="middle" fill="#58a6ff" font-size="13" font-weight="bold">Key Identity</text>
+  <text x="695" y="140" text-anchor="middle" fill="#c9d1d9" font-size="12">defect(e') = defect(e)²</text>
+  <text x="695" y="160" text-anchor="middle" fill="#c9d1d9" font-size="12">× (2e−3)(2e+1)</text>
+  <text x="695" y="180" text-anchor="middle" fill="#7ee787" font-size="11">Formally verified in Lean 4 ✓</text>
+
+  <!-- Basin of attraction note -->
+  <rect x="120" y="90" width="280" height="70" rx="8" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="260" y="115" text-anchor="middle" fill="#f0883e" font-size="13" font-weight="bold">Basins of Attraction</text>
+  <text x="260" y="135" text-anchor="middle" fill="#c9d1d9" font-size="11">e₀ &lt; 0.5 → converges to 0</text>
+  <text x="260" y="150" text-anchor="middle" fill="#c9d1d9" font-size="11">e₀ &gt; 0.5 → converges to 1</text>
+</svg>

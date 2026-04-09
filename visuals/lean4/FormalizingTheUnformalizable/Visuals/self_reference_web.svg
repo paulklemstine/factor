@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0f2a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg4)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ffd700" font-size="20" font-weight="bold" filter="url(#glow4)">
+    THE WEB OF SELF-REFERENCE
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">
+    Fixed Points, Paradoxes, and the Architecture of Impossibility
+  </text>
+
+  <!-- Central concept -->
+  <circle cx="400" cy="280" r="45" fill="#1a0a2a" stroke="#ffd700" stroke-width="2.5" filter="url(#glow4)"/>
+  <text x="400" y="275" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold">SELF-</text>
+  <text x="400" y="292" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold">REFERENCE</text>
+
+  <!-- Surrounding concepts -->
+  <!-- Cantor -->
+  <circle cx="200" cy="150" r="55" fill="#1a1a0a" stroke="#ffaa44" stroke-width="2"/>
+  <text x="200" y="142" text-anchor="middle" fill="#ffcc66" font-size="10" font-weight="bold">CANTOR</text>
+  <text x="200" y="157" text-anchor="middle" fill="#aa8844" font-size="9">f(x)(x) → ¬f(x)(x)</text>
+  <line x1="248" y1="185" x2="360" y2="250" stroke="#aa8844" stroke-width="1.5"/>
+
+  <!-- Gödel -->
+  <circle cx="600" cy="150" r="55" fill="#0a1a2a" stroke="#4499ff" stroke-width="2"/>
+  <text x="600" y="142" text-anchor="middle" fill="#66bbff" font-size="10" font-weight="bold">GÖDEL</text>
+  <text x="600" y="157" text-anchor="middle" fill="#4488aa" font-size="9">G ↔ ¬Prov(G)</text>
+  <line x1="552" y1="185" x2="440" y2="250" stroke="#4488aa" stroke-width="1.5"/>
+
+  <!-- Turing -->
+  <circle cx="600" cy="410" r="55" fill="#0a2a1a" stroke="#44ff88" stroke-width="2"/>
+  <text x="600" y="402" text-anchor="middle" fill="#66ffaa" font-size="10" font-weight="bold">TURING</text>
+  <text x="600" y="417" text-anchor="middle" fill="#44aa88" font-size="9">D(D) halts ↔ loops</text>
+  <line x1="552" y1="380" x2="440" y2="310" stroke="#44aa88" stroke-width="1.5"/>
+
+  <!-- Russell -->
+  <circle cx="200" cy="410" r="55" fill="#2a0a1a" stroke="#ff4488" stroke-width="2"/>
+  <text x="200" y="402" text-anchor="middle" fill="#ff66aa" font-size="10" font-weight="bold">RUSSELL</text>
+  <text x="200" y="417" text-anchor="middle" fill="#cc4488" font-size="9">R ∈ R ↔ R ∉ R</text>
+  <line x1="248" y1="380" x2="360" y2="310" stroke="#cc4488" stroke-width="1.5"/>
+
+  <!-- Tarski (top) -->
+  <circle cx="400" cy="110" r="45" fill="#1a0a1a" stroke="#cc66ff" stroke-width="2"/>
+  <text x="400" y="105" text-anchor="middle" fill="#dd88ff" font-size="10" font-weight="bold">TARSKI</text>
+  <text x="400" y="120" text-anchor="middle" fill="#aa66cc" font-size="9">L ↔ ¬True(L)</text>
+  <line x1="400" y1="155" x2="400" y2="235" stroke="#aa66cc" stroke-width="1.5"/>
+
+  <!-- Curry (bottom) -->
+  <circle cx="400" cy="460" r="45" fill="#1a1a0a" stroke="#ffcc44" stroke-width="2"/>
+  <text x="400" y="455" text-anchor="middle" fill="#ffdd66" font-size="10" font-weight="bold">CURRY</text>
+  <text x="400" y="470" text-anchor="middle" fill="#ccaa44" font-size="9">C ↔ (C → P)</text>
+  <line x1="400" y1="415" x2="400" y2="325" stroke="#ccaa44" stroke-width="1.5"/>
+
+  <!-- Cross-connections (lighter) -->
+  <line x1="245" y1="165" x2="555" y2="395" stroke="#333344" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="555" y1="165" x2="245" y2="395" stroke="#333344" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="200" y1="200" x2="200" y2="360" stroke="#333344" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="600" y1="200" x2="600" y2="360" stroke="#333344" stroke-width="0.8" stroke-dasharray="3,3"/>
+
+  <!-- The Pattern box -->
+  <rect x="100" y="530" width="600" height="50" rx="8" fill="#0a0a0a" stroke="#ff6666" stroke-width="1.5"/>
+  <text x="400" y="552" text-anchor="middle" fill="#ff8888" font-size="12" font-weight="bold">
+    UNIVERSAL PATTERN: ∃x, φ(x) ↔ ¬ψ(x,x)  →  CONTRADICTION
+  </text>
+  <text x="400" y="570" text-anchor="middle" fill="#aa6666" font-size="10">
+    Every node is an instance of this single diagonal template
+  </text>
+</svg>

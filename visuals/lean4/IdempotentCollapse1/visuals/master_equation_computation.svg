@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cardShadow">
+      <feDropShadow dx="3" dy="3" stdDeviation="5" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1000" fill="url(#bg)" rx="15"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" font-size="30" font-weight="bold" fill="#58A6FF" filter="url(#glow2)">
+    The Master Equation in Computation
+  </text>
+  <text x="600" y="78" text-anchor="middle" font-size="16" fill="#8B949E">
+    f ∘ f = f — One step suffices to reach the fixed point
+  </text>
+
+  <!-- Central Master Equation -->
+  <rect x="350" y="95" width="500" height="60" rx="30" fill="#1a1a3e" stroke="#FFD700" stroke-width="3" filter="url(#cardShadow)"/>
+  <text x="600" y="132" text-anchor="middle" font-size="24" font-weight="bold" fill="#FFD700" filter="url(#glow2)">
+    f ∘ f = f
+  </text>
+
+  <!-- Application Cards: 3x3 grid -->
+  <!-- Row 1 -->
+  <!-- Card 1: Deduplication -->
+  <rect x="30" y="180" width="360" height="130" rx="12" fill="#1c2333" stroke="#4FC3F7" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="50" y="210" font-size="15" font-weight="bold" fill="#4FC3F7">1. Deduplication</text>
+  <text x="50" y="235" font-size="12" fill="#C9D1D9">dedup(dedup(list)) = dedup(list)</text>
+  <text x="50" y="258" font-size="11" fill="#8B949E">[3,1,4,1,5] → [3,1,4,5] → [3,1,4,5]</text>
+  <text x="50" y="280" font-size="11" fill="#8B949E">Removing duplicates twice = removing once</text>
+  <text x="50" y="298" font-size="10" fill="#66BB6A">✓ Lean: list_dedup_idempotent</text>
+
+  <!-- Card 2: Closure Operators -->
+  <rect x="420" y="180" width="360" height="130" rx="12" fill="#1c2333" stroke="#AB47BC" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="440" y="210" font-size="15" font-weight="bold" fill="#AB47BC">2. Closure Operators</text>
+  <text x="440" y="235" font-size="12" fill="#C9D1D9">cl(cl(S)) = cl(S)</text>
+  <text x="440" y="258" font-size="11" fill="#8B949E">Topological closure, transitive closure,</text>
+  <text x="440" y="275" font-size="11" fill="#8B949E">subgroup generation, type inference</text>
+  <text x="440" y="298" font-size="10" fill="#66BB6A">✓ Lean: closure_operator_idempotent</text>
+
+  <!-- Card 3: Orthogonal Projection -->
+  <rect x="810" y="180" width="360" height="130" rx="12" fill="#1c2333" stroke="#FF7043" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="830" y="210" font-size="15" font-weight="bold" fill="#FF7043">3. Projection (PCA)</text>
+  <text x="830" y="235" font-size="12" fill="#C9D1D9">π(π(x)) = π(x)</text>
+  <text x="830" y="258" font-size="11" fill="#8B949E">Dimensionality reduction, lossy compression</text>
+  <text x="830" y="275" font-size="11" fill="#8B949E">Feature selection in machine learning</text>
+  <text x="830" y="298" font-size="10" fill="#66BB6A">✓ Lean: orthogonal_projection_idempotent</text>
+
+  <!-- Row 2 -->
+  <!-- Card 4: Normalization -->
+  <rect x="30" y="335" width="360" height="130" rx="12" fill="#1c2333" stroke="#66BB6A" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="50" y="365" font-size="15" font-weight="bold" fill="#66BB6A">4. Normalization</text>
+  <text x="50" y="390" font-size="12" fill="#C9D1D9">normalize(normalize(t)) = normalize(t)</text>
+  <text x="50" y="413" font-size="11" fill="#8B949E">Term rewriting: normal forms are fixed points</text>
+  <text x="50" y="430" font-size="11" fill="#8B949E">Database normalization, canonical forms</text>
+  <text x="50" y="453" font-size="10" fill="#66BB6A">✓ Lean: normalization_idempotent_iff</text>
+
+  <!-- Card 5: Idempotent Semirings -->
+  <rect x="420" y="335" width="360" height="130" rx="12" fill="#1c2333" stroke="#FDD835" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="440" y="365" font-size="15" font-weight="bold" fill="#FDD835">5. Tropical / Shortest Paths</text>
+  <text x="440" y="390" font-size="12" fill="#C9D1D9">min(a, a) = a (idempotent semiring)</text>
+  <text x="440" y="413" font-size="11" fill="#8B949E">Floyd-Warshall, Bellman-Ford algorithms</text>
+  <text x="440" y="430" font-size="11" fill="#8B949E">Regular expression matching (Boolean ∨)</text>
+  <text x="440" y="453" font-size="10" fill="#66BB6A">✓ Lean: lattice_meet_idempotent</text>
+
+  <!-- Card 6: Galois Connections -->
+  <rect x="810" y="335" width="360" height="130" rx="12" fill="#1c2333" stroke="#E040FB" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="830" y="365" font-size="15" font-weight="bold" fill="#E040FB">6. Abstract Interpretation</text>
+  <text x="830" y="390" font-size="12" fill="#C9D1D9">u∘l∘u∘l = u∘l (Galois closure)</text>
+  <text x="830" y="413" font-size="11" fill="#8B949E">Static analysis of programs, type inference</text>
+  <text x="830" y="430" font-size="11" fill="#8B949E">Sound approximation via idempotent collapse</text>
+  <text x="830" y="453" font-size="10" fill="#66BB6A">✓ Lean: galois_connection_closure</text>
+
+  <!-- Row 3 -->
+  <!-- Card 7: Error Correction -->
+  <rect x="30" y="490" width="360" height="130" rx="12" fill="#1c2333" stroke="#EF5350" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="50" y="520" font-size="15" font-weight="bold" fill="#EF5350">7. Error Correction</text>
+  <text x="50" y="545" font-size="12" fill="#C9D1D9">correct(correct(x)) = correct(x)</text>
+  <text x="50" y="568" font-size="11" fill="#8B949E">Syndrome decoding as projection onto codewords</text>
+  <text x="50" y="585" font-size="11" fill="#8B949E">ECC, checksums, data integrity</text>
+  <text x="50" y="608" font-size="10" fill="#66BB6A">✓ Lean: error_correction_idempotent</text>
+
+  <!-- Card 8: Karoubi Splitting -->
+  <rect x="420" y="490" width="360" height="130" rx="12" fill="#1c2333" stroke="#42A5F5" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="440" y="520" font-size="15" font-weight="bold" fill="#42A5F5">8. Idempotent Splitting</text>
+  <text x="440" y="545" font-size="12" fill="#C9D1D9">A →π Im(f) →ι A, π∘ι = id, ι∘π = f</text>
+  <text x="440" y="568" font-size="11" fill="#8B949E">Karoubi envelope: categorical Master Equation</text>
+  <text x="440" y="585" font-size="11" fill="#8B949E">Every idempotent splits through its image</text>
+  <text x="440" y="608" font-size="10" fill="#66BB6A">✓ Lean: idempotent_splits_through_image</text>
+
+  <!-- Card 9: Commuting Computations -->
+  <rect x="810" y="490" width="360" height="130" rx="12" fill="#1c2333" stroke="#26C6DA" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="830" y="520" font-size="15" font-weight="bold" fill="#26C6DA">9. Parallel Pipelines</text>
+  <text x="830" y="545" font-size="12" fill="#C9D1D9">(f∘g)∘(f∘g) = f∘g if f,g commute</text>
+  <text x="830" y="568" font-size="11" fill="#8B949E">Composable idempotent optimizations</text>
+  <text x="830" y="585" font-size="11" fill="#8B949E">Pipeline stages: each pass is final</text>
+  <text x="830" y="608" font-size="10" fill="#66BB6A">✓ Lean: commuting_idempotent_computations</text>
+
+  <!-- Key Insight Box -->
+  <rect x="100" y="650" width="1000" height="110" rx="15" fill="#0d1f0d" stroke="#66BB6A" stroke-width="2" filter="url(#cardShadow)"/>
+  <text x="600" y="685" text-anchor="middle" font-size="18" font-weight="bold" fill="#66BB6A">
+    The Computational Master Equation
+  </text>
+  <text x="600" y="712" text-anchor="middle" font-size="14" fill="#C9D1D9">
+    "One step suffices": f^n = f for all n ≥ 1. The image of f equals its set of fixed points.
+  </text>
+  <text x="600" y="735" text-anchor="middle" font-size="14" fill="#C9D1D9">
+    Every idempotent computation has converged after a single application — no iteration needed.
+  </text>
+
+  <!-- Rosetta Stone Connection -->
+  <rect x="200" y="785" width="800" height="60" rx="12" fill="#1a1a0a" stroke="#FFD700" stroke-width="2"/>
+  <text x="600" y="815" text-anchor="middle" font-size="14" fill="#FFD700">
+    Rosetta Stone Bridge: These computational idempotents ↔ Clopen decompositions of Spec(R)
+  </text>
+  <text x="600" y="835" text-anchor="middle" font-size="12" fill="#8B949E">
+    Connected components of a space = Fixed points of the idempotent-splitting process
+  </text>
+
+  <!-- Verification Badge -->
+  <rect x="350" y="870" width="500" height="40" rx="20" fill="#1a3a1a" stroke="#66BB6A" stroke-width="2"/>
+  <text x="600" y="896" text-anchor="middle" font-size="13" fill="#66BB6A" font-weight="bold">
+    ✓ All theorems formally verified in Lean 4 with Mathlib — zero sorries
+  </text>
+</svg>

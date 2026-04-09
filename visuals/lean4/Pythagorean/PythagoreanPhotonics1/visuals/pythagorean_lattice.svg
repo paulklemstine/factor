@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
+<rect width="800" height="800" fill="#0a0a2e"/>
+<text x="400" y="30" text-anchor="middle" fill="#FFD700" font-size="18" font-family="monospace">Primitive Pythagorean Triples (c ≤ 50)</text>
+<line x1="60" y1="740" x2="740" y2="740" stroke="#444" stroke-width="1"/>
+<line x1="60" y1="740" x2="60" y2="60" stroke="#444" stroke-width="1"/>
+<text x="400" y="790" text-anchor="middle" fill="#888" font-size="12" font-family="monospace">a (shorter leg)</text>
+<text x="15" y="400" text-anchor="middle" fill="#888" font-size="12" font-family="monospace" transform="rotate(-90 15 400)">b (longer leg)</text>
+<line x1="60" y1="740" x2="100.8" y2="685.6" stroke="rgba(74,175,239,0.3)" stroke-width="1"/>
+<circle cx="100.8" cy="685.6" r="4.634146341463414" fill="rgb(74,175,239)" opacity="0.9"/>
+<line x1="60" y1="740" x2="128.0" y2="576.8" stroke="rgba(113,136,214,0.3)" stroke-width="1"/>
+<circle cx="128.0" cy="576.8" r="4.048780487804878" fill="rgb(113,136,214)" opacity="0.9"/>
+<line x1="60" y1="740" x2="168.8" y2="536.0" stroke="rgba(132,117,202,0.3)" stroke-width="1"/>
+<circle cx="168.8" cy="536.0" r="3.7560975609756095" fill="rgb(132,117,202)" opacity="0.9"/>
+<line x1="60" y1="740" x2="155.2" y2="413.6" stroke="rgba(171,78,177,0.3)" stroke-width="1"/>
+<circle cx="155.2" cy="413.6" r="3.1707317073170733" fill="rgb(171,78,177)" opacity="0.9"/>
+<line x1="60" y1="740" x2="332.0" y2="454.40000000000003" stroke="rgba(191,58,164,0.3)" stroke-width="1"/>
+<circle cx="332.0" cy="454.40000000000003" r="2.8780487804878048" fill="rgb(191,58,164)" opacity="0.9"/>
+<line x1="60" y1="740" x2="223.2" y2="264.0" stroke="rgba(230,19,139,0.3)" stroke-width="1"/>
+<circle cx="223.2" cy="264.0" r="2.292682926829268" fill="rgb(230,19,139)" opacity="0.9"/>
+<line x1="60" y1="740" x2="182.39999999999998" y2="196.0" stroke="rgba(250,0,127,0.3)" stroke-width="1"/>
+<circle cx="182.39999999999998" cy="196.0" r="2" fill="rgb(250,0,127)" opacity="0.9"/>
+<text x="740" y="80" text-anchor="end" fill="#FFD700" font-size="14" font-family="monospace">7 primitive triples</text>
+<text x="740" y="100" text-anchor="end" fill="#AAA" font-size="12" font-family="monospace">Expected: 8.0</text>
+</svg>

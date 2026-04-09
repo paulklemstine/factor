@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#0a0a14"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-strong">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64ffda" opacity="0.8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#e0e0ff" filter="url(#glow)">The Bootstrap Spiral</text>
+  <text x="400" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#8888bb">Each level creates the next from within itself</text>
+
+  <!-- Spiral rings — each level of the bootstrap chain -->
+  <!-- Level 0: ∅ (center) -->
+  <circle cx="400" cy="420" r="30" fill="none" stroke="#444466" stroke-width="1.5" opacity="0.6"/>
+  <text x="400" y="425" text-anchor="middle" font-family="monospace" font-size="18" fill="#666688">∅</text>
+
+  <!-- Level 1: ℕ -->
+  <circle cx="400" cy="420" r="90" fill="none" stroke="#4488ff" stroke-width="2" opacity="0.7" stroke-dasharray="8,4"/>
+  <circle cx="400" cy="330" r="22" fill="#112244" stroke="#4488ff" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="336" text-anchor="middle" font-family="serif" font-size="18" fill="#88bbff" font-weight="bold">ℕ</text>
+  <text x="400" y="310" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#6688aa">successor</text>
+
+  <!-- Level 2: ℤ -->
+  <circle cx="400" cy="420" r="155" fill="none" stroke="#44ddaa" stroke-width="2" opacity="0.6" stroke-dasharray="12,6"/>
+  <circle cx="555" cy="420" r="22" fill="#0a2218" stroke="#44ddaa" stroke-width="2" filter="url(#glow)"/>
+  <text x="555" y="426" text-anchor="middle" font-family="serif" font-size="18" fill="#66ffcc" font-weight="bold">ℤ</text>
+  <text x="555" y="447" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#44aa88">negation</text>
+
+  <!-- Level 3: ℚ -->
+  <circle cx="400" cy="420" r="220" fill="none" stroke="#ffaa44" stroke-width="2" opacity="0.5" stroke-dasharray="16,8"/>
+  <circle cx="400" cy="640" r="22" fill="#221a0a" stroke="#ffaa44" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="646" text-anchor="middle" font-family="serif" font-size="18" fill="#ffcc66" font-weight="bold">ℚ</text>
+  <text x="400" y="667" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#cc8833">division</text>
+
+  <!-- Level 4: ℝ -->
+  <circle cx="400" cy="420" r="285" fill="none" stroke="#ff4488" stroke-width="2" opacity="0.4" stroke-dasharray="20,10"/>
+  <circle cx="115" cy="420" r="22" fill="#220a14" stroke="#ff4488" stroke-width="2" filter="url(#glow)"/>
+  <text x="115" y="426" text-anchor="middle" font-family="serif" font-size="18" fill="#ff66aa" font-weight="bold">ℝ</text>
+  <text x="115" y="447" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#cc3366">completeness</text>
+
+  <!-- Level 5: ℂ -->
+  <circle cx="400" cy="420" r="350" fill="none" stroke="#aa44ff" stroke-width="2" opacity="0.3" stroke-dasharray="24,12"/>
+  <circle cx="400" cy="70" r="24" fill="#14082a" stroke="#aa44ff" stroke-width="2.5" filter="url(#glow-strong)"/>
+  <text x="400" y="77" text-anchor="middle" font-family="serif" font-size="20" fill="#cc88ff" font-weight="bold">ℂ</text>
+  <text x="400" y="100" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8844cc">algebraic closure</text>
+
+  <!-- Spiral connecting arrows -->
+  <path d="M 400 395 Q 440 350 400 330" fill="none" stroke="#4488ff" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+  <path d="M 420 332 Q 520 340 553 400" fill="none" stroke="#44ddaa" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+  <path d="M 553 442 Q 520 580 420 638" fill="none" stroke="#ffaa44" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+  <path d="M 380 638 Q 200 580 118 442" fill="none" stroke="#ff4488" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+  <path d="M 118 398 Q 200 150 380 75" fill="none" stroke="#aa44ff" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.7"/>
+
+  <!-- Central glow -->
+  <circle cx="400" cy="420" r="15" fill="#64ffda" opacity="0.08"/>
+  <circle cx="400" cy="420" r="8" fill="#64ffda" opacity="0.15"/>
+  <circle cx="400" cy="420" r="3" fill="#ffffff" opacity="0.5"/>
+
+  <!-- Annotations -->
+  <text x="660" y="180" font-family="Georgia, serif" font-size="12" fill="#8888aa">
+    <tspan x="620" dy="0">Each ring contains</tspan>
+    <tspan x="620" dy="16">all inner rings.</tspan>
+    <tspan x="620" dy="24">Each level bootstraps</tspan>
+    <tspan x="620" dy="16">a new capability:</tspan>
+    <tspan x="620" dy="24" fill="#4488ff">ℕ: counting</tspan>
+    <tspan x="620" dy="16" fill="#44ddaa">ℤ: subtraction</tspan>
+    <tspan x="620" dy="16" fill="#ffaa44">ℚ: division</tspan>
+    <tspan x="620" dy="16" fill="#ff4488">ℝ: limits</tspan>
+    <tspan x="620" dy="16" fill="#aa44ff">ℂ: all roots</tspan>
+  </text>
+
+  <!-- Footer -->
+  <text x="400" y="780" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#555577">
+    Mathematics bootstraps itself: each level is constructed from, yet transcends, the level below.
+  </text>
+</svg>

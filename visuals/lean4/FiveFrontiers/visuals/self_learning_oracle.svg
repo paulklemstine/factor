@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="monospace">
+  <rect width="800" height="500" fill="#f5f5f5" rx="10"/>
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">
+    Self-Learning Oracles: Fixed Points as Truth
+  </text>
+  
+  <!-- Oracle O box -->
+  <rect x="50" y="60" width="300" height="200" fill="white" stroke="#673AB7" stroke-width="2" rx="8"/>
+  <text x="200" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#673AB7">
+    Oracle O : X → X
+  </text>
+  
+  <!-- Idempotency -->
+  <text x="200" y="120" text-anchor="middle" font-size="13" fill="#333">O² = O (idempotent)</text>
+  <text x="200" y="145" text-anchor="middle" font-size="13" fill="#333">Fix(O) = Im(O)</text>
+  <text x="200" y="170" text-anchor="middle" font-size="13" fill="#333">O(O(x)) = O(x) ∀x</text>
+  
+  <!-- Self-learning arrow -->
+  <path d="M 300 200 Q 350 240 300 250" fill="none" stroke="#673AB7" stroke-width="2"/>
+  <text x="340" y="240" font-size="10" fill="#673AB7">self-apply</text>
+  
+  <!-- ML Connection -->
+  <rect x="450" y="60" width="300" height="200" fill="white" stroke="#FF5722" stroke-width="2" rx="8"/>
+  <text x="600" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#FF5722">
+    ML Connection
+  </text>
+  
+  <text x="600" y="115" text-anchor="middle" font-size="12" fill="#333">Autoencoder: E∘D ≈ idempotent</text>
+  <text x="600" y="140" text-anchor="middle" font-size="12" fill="#333">PCA: projection = oracle</text>
+  <text x="600" y="165" text-anchor="middle" font-size="12" fill="#333">Training → Fix(O) = manifold</text>
+  <text x="600" y="190" text-anchor="middle" font-size="12" fill="#333">ReLU oracle = tropical poly</text>
+  
+  <!-- Arrow between -->
+  <line x1="355" y1="160" x2="445" y2="160" stroke="#333" stroke-width="2" 
+        marker-end="url(#arrow)"/>
+  <line x1="445" y1="160" x2="355" y2="160" stroke="#333" stroke-width="2"/>
+  <text x="400" y="150" text-anchor="middle" font-size="10" fill="#333">≅</text>
+  
+  <!-- Team of Oracles -->
+  <rect x="50" y="290" width="700" height="180" fill="white" stroke="#009688" stroke-width="2" rx="8"/>
+  <text x="400" y="315" text-anchor="middle" font-size="14" font-weight="bold" fill="#009688">
+    Oracle Team: Collaborative Self-Learning
+  </text>
+  
+  <!-- Individual oracles -->
+  <circle cx="150" cy="390" r="35" fill="#E0F2F1" stroke="#009688" stroke-width="2"/>
+  <text x="150" y="385" text-anchor="middle" font-size="11" font-weight="bold">O_α</text>
+  <text x="150" y="400" text-anchor="middle" font-size="9">Research</text>
+  
+  <circle cx="300" cy="390" r="35" fill="#E0F2F1" stroke="#009688" stroke-width="2"/>
+  <text x="300" y="385" text-anchor="middle" font-size="11" font-weight="bold">O_β</text>
+  <text x="300" y="400" text-anchor="middle" font-size="9">Hypothesize</text>
+  
+  <circle cx="450" cy="390" r="35" fill="#E0F2F1" stroke="#009688" stroke-width="2"/>
+  <text x="450" y="385" text-anchor="middle" font-size="11" font-weight="bold">O_γ</text>
+  <text x="450" y="400" text-anchor="middle" font-size="9">Experiment</text>
+  
+  <circle cx="600" cy="390" r="35" fill="#E0F2F1" stroke="#009688" stroke-width="2"/>
+  <text x="600" y="385" text-anchor="middle" font-size="11" font-weight="bold">O_δ</text>
+  <text x="600" y="400" text-anchor="middle" font-size="9">Validate</text>
+  
+  <!-- Arrows between oracles -->
+  <line x1="185" y1="390" x2="265" y2="390" stroke="#009688" stroke-width="1.5"/>
+  <line x1="335" y1="390" x2="415" y2="390" stroke="#009688" stroke-width="1.5"/>
+  <line x1="485" y1="390" x2="565" y2="390" stroke="#009688" stroke-width="1.5"/>
+  
+  <!-- Feedback loop -->
+  <path d="M 600 425 Q 600 460 150 460 Q 100 460 120 425" fill="none" 
+        stroke="#009688" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="400" y="455" text-anchor="middle" font-size="10" fill="#009688">
+    iterate until T² = T (team convergence)
+  </text>
+</svg>

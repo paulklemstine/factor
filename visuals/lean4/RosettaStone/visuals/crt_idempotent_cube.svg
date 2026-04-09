@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg_crt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a2f;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow_crt">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bg_crt)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#ffd700" font-size="20" font-weight="bold" filter="url(#glow_crt)">
+    The Idempotent Cube: ℤ/30ℤ via CRT
+  </text>
+  <text x="400" y="58" text-anchor="middle" fill="#998" font-size="13">
+    ℤ/30ℤ ≅ ℤ/2ℤ × ℤ/3ℤ × ℤ/5ℤ  →  Idempotents = vertices of a cube
+  </text>
+
+  <!-- 3D cube projection -->
+  <!-- Back face (z=0, i.e., mod 5 = 0) -->
+  <polygon points="250,180 450,180 500,130 300,130" fill="none" stroke="#444" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Front face (z=1, i.e., mod 5 = 1) -->
+  <polygon points="250,380 450,380 500,330 300,330" fill="none" stroke="#888" stroke-width="1.5"/>
+
+  <!-- Connecting edges (z direction) -->
+  <line x1="250" y1="180" x2="250" y2="380" stroke="#444" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="450" y1="180" x2="450" y2="380" stroke="#888" stroke-width="1.5"/>
+  <line x1="500" y1="130" x2="500" y2="330" stroke="#888" stroke-width="1.5"/>
+  <line x1="300" y1="130" x2="300" y2="330" stroke="#444" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Vertices = idempotents in ℤ/30ℤ -->
+  <!-- Format: (mod2, mod3, mod5) → element in ℤ/30ℤ -->
+
+  <!-- (0,0,0) → 0 -->
+  <circle cx="250" cy="180" r="18" fill="#1a1a2f" stroke="#4CAF50" stroke-width="2"/>
+  <text x="250" y="185" text-anchor="middle" fill="#4CAF50" font-size="14" font-weight="bold">0</text>
+  <text x="210" y="175" text-anchor="end" fill="#666" font-size="10">(0,0,0)</text>
+
+  <!-- (1,0,0) → 15 -->
+  <circle cx="450" cy="180" r="18" fill="#1a1a2f" stroke="#2196F3" stroke-width="2"/>
+  <text x="450" y="185" text-anchor="middle" fill="#2196F3" font-size="14" font-weight="bold">15</text>
+  <text x="490" y="175" fill="#666" font-size="10">(1,0,0)</text>
+
+  <!-- (0,1,0) → 10 -->
+  <circle cx="300" cy="130" r="18" fill="#1a1a2f" stroke="#FF9800" stroke-width="2"/>
+  <text x="300" y="135" text-anchor="middle" fill="#FF9800" font-size="14" font-weight="bold">10</text>
+  <text x="260" y="122" text-anchor="end" fill="#666" font-size="10">(0,1,0)</text>
+
+  <!-- (1,1,0) → 25 -->
+  <circle cx="500" cy="130" r="18" fill="#1a1a2f" stroke="#E91E63" stroke-width="2"/>
+  <text x="500" y="135" text-anchor="middle" fill="#E91E63" font-size="14" font-weight="bold">25</text>
+  <text x="540" y="125" fill="#666" font-size="10">(1,1,0)</text>
+
+  <!-- (0,0,1) → 6 -->
+  <circle cx="250" cy="380" r="18" fill="#1a1a2f" stroke="#9C27B0" stroke-width="2"/>
+  <text x="250" y="385" text-anchor="middle" fill="#9C27B0" font-size="14" font-weight="bold">6</text>
+  <text x="210" y="385" text-anchor="end" fill="#666" font-size="10">(0,0,1)</text>
+
+  <!-- (1,0,1) → 21 -->
+  <circle cx="450" cy="380" r="18" fill="#1a1a2f" stroke="#00BCD4" stroke-width="2"/>
+  <text x="450" y="385" text-anchor="middle" fill="#00BCD4" font-size="14" font-weight="bold">21</text>
+  <text x="490" y="385" fill="#666" font-size="10">(1,0,1)</text>
+
+  <!-- (0,1,1) → 16 -->
+  <circle cx="300" cy="330" r="18" fill="#1a1a2f" stroke="#CDDC39" stroke-width="2"/>
+  <text x="300" y="335" text-anchor="middle" fill="#CDDC39" font-size="14" font-weight="bold">16</text>
+  <text x="260" y="335" text-anchor="end" fill="#666" font-size="10">(0,1,1)</text>
+
+  <!-- (1,1,1) → 1 -->
+  <circle cx="500" cy="330" r="18" fill="#1a1a2f" stroke="#ffd700" stroke-width="2"/>
+  <text x="500" y="335" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">1</text>
+  <text x="540" y="330" fill="#666" font-size="10">(1,1,1)</text>
+
+  <!-- Axis labels -->
+  <text x="350" y="410" text-anchor="middle" fill="#2196F3" font-size="12">mod 2 →</text>
+  <text x="540" y="240" fill="#FF9800" font-size="12" transform="rotate(-45, 540, 240)">mod 3 →</text>
+  <text x="220" y="280" text-anchor="end" fill="#9C27B0" font-size="12">mod 5 ↓</text>
+
+  <!-- Legend -->
+  <rect x="580" y="100" width="200" height="200" rx="8" fill="#0f0f1a" stroke="#333" stroke-width="1"/>
+  <text x="680" y="125" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="bold">Idempotent Cube</text>
+  <text x="600" y="150" fill="#aaa" font-size="11">8 vertices = 2³</text>
+  <text x="600" y="170" fill="#aaa" font-size="11">ω(30) = 3 primes</text>
+  <text x="600" y="190" fill="#aaa" font-size="11">Each vertex: a binary</text>
+  <text x="600" y="207" fill="#aaa" font-size="11">choice (0 or 1) at</text>
+  <text x="600" y="224" fill="#aaa" font-size="11">each prime factor</text>
+  <text x="600" y="250" fill="#4CAF50" font-size="11">0 = bottom (⊥)</text>
+  <text x="600" y="270" fill="#ffd700" font-size="11">1 = top (⊤)</text>
+  <text x="600" y="290" fill="#888" font-size="10">Boolean algebra ≅ 2³</text>
+
+  <!-- Bottom text -->
+  <text x="400" y="470" text-anchor="middle" fill="#998" font-size="13">
+    The Chinese Remainder Theorem turns number theory into geometry:
+  </text>
+  <text x="400" y="490" text-anchor="middle" fill="#aab" font-size="12">
+    idempotents in ℤ/nℤ = vertices of an ω(n)-dimensional hypercube
+  </text>
+  <text x="400" y="515" text-anchor="middle" fill="#4CAF50" font-size="11">
+    |Idem(ℤ/nℤ)| = 2^ω(n) — Formally verified in Lean 4 for n ≤ 210 ✓
+  </text>
+</svg>

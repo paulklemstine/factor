@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="gwBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a2f;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="spotlightGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:0.3" />
+      <stop offset="70%" style="stop-color:#ffd700;stop-opacity:0.05" />
+      <stop offset="100%" style="stop-color:#ffd700;stop-opacity:0" />
+    </radialGradient>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#gwBg)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ffd700" font-size="22" font-weight="bold" font-family="Georgia">
+    Global Workspace Theory
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#aa8833" font-size="13" font-family="Georgia" font-style="italic">
+    The Theater of Consciousness — No Homunculus Required
+  </text>
+
+  <!-- Spotlight (center) -->
+  <ellipse cx="400" cy="300" rx="120" ry="120" fill="url(#spotlightGrad)"/>
+  
+  <!-- Global Workspace (center circle) -->
+  <circle cx="400" cy="300" r="80" fill="#1a1a30" stroke="#ffd700" stroke-width="2.5" filter="url(#glow4)"/>
+  <text x="400" y="290" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">GLOBAL</text>
+  <text x="400" y="308" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">WORKSPACE</text>
+  <text x="400" y="328" text-anchor="middle" fill="#ffcc44" font-size="10">(conscious content)</text>
+
+  <!-- Processors (surrounding the workspace) -->
+  <!-- Visual -->
+  <circle cx="400" cy="120" r="35" fill="#1a1a30" stroke="#ff4444" stroke-width="2"/>
+  <text x="400" y="115" text-anchor="middle" fill="#ff4444" font-size="11" font-weight="bold">Visual</text>
+  <text x="400" y="130" text-anchor="middle" fill="#ff6666" font-size="9">Cortex</text>
+  <line x1="400" y1="155" x2="400" y2="220" stroke="#ff4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Auditory -->
+  <circle cx="570" cy="170" r="35" fill="#1a1a30" stroke="#44ff44" stroke-width="2"/>
+  <text x="570" y="165" text-anchor="middle" fill="#44ff44" font-size="11" font-weight="bold">Auditory</text>
+  <text x="570" y="180" text-anchor="middle" fill="#66ff66" font-size="9">Cortex</text>
+  <line x1="542" y1="196" x2="468" y2="260" stroke="#44ff44" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Language -->
+  <circle cx="620" cy="320" r="35" fill="#1a1a30" stroke="#4488ff" stroke-width="2"/>
+  <text x="620" y="315" text-anchor="middle" fill="#4488ff" font-size="11" font-weight="bold">Language</text>
+  <text x="620" y="330" text-anchor="middle" fill="#6699ff" font-size="9">Broca/Wernicke</text>
+  <line x1="585" y1="315" x2="480" y2="305" stroke="#4488ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Motor -->
+  <circle cx="570" cy="440" r="35" fill="#1a1a30" stroke="#ff8844" stroke-width="2"/>
+  <text x="570" y="435" text-anchor="middle" fill="#ff8844" font-size="11" font-weight="bold">Motor</text>
+  <text x="570" y="450" text-anchor="middle" fill="#ffaa66" font-size="9">Cortex</text>
+  <line x1="542" y1="414" x2="458" y2="348" stroke="#ff8844" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Memory -->
+  <circle cx="400" cy="490" r="35" fill="#1a1a30" stroke="#ff44ff" stroke-width="2"/>
+  <text x="400" y="485" text-anchor="middle" fill="#ff44ff" font-size="11" font-weight="bold">Memory</text>
+  <text x="400" y="500" text-anchor="middle" fill="#ff66ff" font-size="9">Hippocampus</text>
+  <line x1="400" y1="455" x2="400" y2="380" stroke="#ff44ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Emotional -->
+  <circle cx="230" cy="440" r="35" fill="#1a1a30" stroke="#ffff44" stroke-width="2"/>
+  <text x="230" y="435" text-anchor="middle" fill="#ffff44" font-size="11" font-weight="bold">Emotion</text>
+  <text x="230" y="450" text-anchor="middle" fill="#ffff66" font-size="9">Amygdala</text>
+  <line x1="258" y1="414" x2="342" y2="348" stroke="#ffff44" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Executive -->
+  <circle cx="180" cy="320" r="35" fill="#1a1a30" stroke="#44ffff" stroke-width="2"/>
+  <text x="180" y="315" text-anchor="middle" fill="#44ffff" font-size="11" font-weight="bold">Executive</text>
+  <text x="180" y="330" text-anchor="middle" fill="#66ffff" font-size="9">Prefrontal</text>
+  <line x1="215" y1="315" x2="320" y2="305" stroke="#44ffff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <!-- Spatial -->
+  <circle cx="230" cy="170" r="35" fill="#1a1a30" stroke="#aa88ff" stroke-width="2"/>
+  <text x="230" y="165" text-anchor="middle" fill="#aa88ff" font-size="11" font-weight="bold">Spatial</text>
+  <text x="230" y="180" text-anchor="middle" fill="#bb99ff" font-size="9">Parietal</text>
+  <line x1="258" y1="196" x2="332" y2="260" stroke="#aa88ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Broadcast arrows (from workspace outward) -->
+  <text x="400" y="220" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="468" y="255" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="485" y="310" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="460" y="355" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="400" y="385" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="340" y="355" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="315" y="310" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+  <text x="340" y="255" text-anchor="middle" fill="#ffd700" font-size="16" filter="url(#glow4)">⚡</text>
+
+  <!-- Bottom explanation -->
+  <rect x="100" y="545" width="600" height="45" rx="6" fill="#0a0a1a" stroke="#333" stroke-width="1"/>
+  <text x="400" y="565" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">
+    Consciousness = the broadcast, not any single processor.
+  </text>
+  <text x="400" y="582" text-anchor="middle" fill="#aa8833" font-size="11" font-style="italic">
+    No homunculus. No central observer. The theater watches itself.
+  </text>
+</svg>
