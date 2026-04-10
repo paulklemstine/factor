@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3498db"/>
+      <stop offset="100%" stop-color="#2ecc71"/>
+    </linearGradient>
+    <marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50"/>
+    </marker>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="#1a1a2e" rx="12"/>
+
+  <text x="400" y="40" text-anchor="middle" font-size="20" font-weight="bold" fill="#ecf0f1">
+    The Collision-Based Factoring Mechanism
+  </text>
+
+  <!-- Step 1: Input -->
+  <rect x="30" y="80" width="140" height="70" rx="10" fill="#2c3e50" stroke="#3498db" stroke-width="2"/>
+  <text x="100" y="110" text-anchor="middle" font-size="14" font-weight="bold" fill="#3498db">INPUT</text>
+  <text x="100" y="132" text-anchor="middle" font-size="16" fill="#ecf0f1">N = p · q</text>
+
+  <!-- Arrow 1 -->
+  <line x1="170" y1="115" x2="210" y2="115" stroke="#3498db" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Step 2: Represent -->
+  <rect x="215" y="70" width="170" height="90" rx="10" fill="#2c3e50" stroke="#e67e22" stroke-width="2"/>
+  <text x="300" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#e67e22">REPRESENT</text>
+  <text x="300" y="118" text-anchor="middle" font-size="12" fill="#ecf0f1">N = a² + b²</text>
+  <text x="300" y="138" text-anchor="middle" font-size="12" fill="#ecf0f1">N = c² + d²</text>
+  <text x="300" y="155" text-anchor="middle" font-size="10" fill="#999">(two different ways)</text>
+
+  <!-- Arrow 2 -->
+  <line x1="385" y1="115" x2="425" y2="115" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Step 3: Cross-terms -->
+  <rect x="430" y="70" width="170" height="90" rx="10" fill="#2c3e50" stroke="#e74c3c" stroke-width="2"/>
+  <text x="515" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#e74c3c">CROSS-TERMS</text>
+  <text x="515" y="118" text-anchor="middle" font-size="12" fill="#ecf0f1">ad − bc</text>
+  <text x="515" y="138" text-anchor="middle" font-size="12" fill="#ecf0f1">ac + bd</text>
+
+  <!-- Arrow 3 -->
+  <line x1="600" y1="115" x2="640" y2="115" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Step 4: GCD -->
+  <rect x="645" y="80" width="130" height="70" rx="10" fill="#27ae60" stroke="#2ecc71" stroke-width="2" filter="url(#glow)"/>
+  <text x="710" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2ecc71">GCD CASCADE</text>
+  <text x="710" y="130" text-anchor="middle" font-size="14" fill="white">gcd(ad−bc, N)</text>
+
+  <!-- Result arrow -->
+  <line x1="710" y1="150" x2="710" y2="190" stroke="#2ecc71" stroke-width="2" marker-end="url(#arrow2)"/>
+
+  <!-- Result -->
+  <rect x="640" y="195" width="140" height="50" rx="10" fill="#2ecc71" filter="url(#glow)"/>
+  <text x="710" y="225" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Factor!</text>
+
+  <!-- Mathematical Details -->
+  <rect x="30" y="270" width="350" height="200" rx="10" fill="#16213e" stroke="#3498db" stroke-width="1.5"/>
+  <text x="205" y="300" text-anchor="middle" font-size="15" font-weight="bold" fill="#3498db">Collision-Norm Identity</text>
+  <text x="205" y="325" text-anchor="middle" font-size="13" fill="#ecf0f1">(ad − bc)² + (ac + bd)² = N²</text>
+  <text x="50" y="355" font-size="12" fill="#bbb">Proof:</text>
+  <text x="50" y="375" font-size="11" fill="#999">= a²d² − 2abcd + b²c²</text>
+  <text x="50" y="395" font-size="11" fill="#999">+ a²c² + 2abcd + b²d²</text>
+  <text x="50" y="415" font-size="11" fill="#999">= a²(c²+d²) + b²(c²+d²)</text>
+  <text x="50" y="435" font-size="11" fill="#999">= (a²+b²)(c²+d²) = N·N = N²  ∎</text>
+  <text x="50" y="460" font-size="11" fill="#2ecc71" font-style="italic">✓ Formally verified in Lean 4</text>
+
+  <!-- Why it works -->
+  <rect x="410" y="270" width="365" height="200" rx="10" fill="#16213e" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="593" y="300" text-anchor="middle" font-size="15" font-weight="bold" fill="#e67e22">Why It Works</text>
+  <text x="430" y="330" font-size="12" fill="#ecf0f1">• Two representations = two points on S¹(√N)</text>
+  <text x="430" y="355" font-size="12" fill="#ecf0f1">• Cross-terms measure "angular difference"</text>
+  <text x="430" y="380" font-size="12" fill="#ecf0f1">• If reps come from different factor pairs,</text>
+  <text x="430" y="400" font-size="12" fill="#ecf0f1">  the cross-term shares a factor with N</text>
+  <text x="430" y="430" font-size="12" fill="#f1c40f">  gcd(ad−bc, N) ∈ {1, p, q, N}</text>
+  <text x="430" y="455" font-size="12" fill="#2ecc71">  → Probability ≥ 1/2 of nontrivial factor</text>
+  <text x="430" y="475" font-size="10" fill="#999">  when representations are "algebraically independent"</text>
+</svg>

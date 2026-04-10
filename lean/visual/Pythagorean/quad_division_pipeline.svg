@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FFA500"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00CED1"/>
+      <stop offset="100%" stop-color="#0099FF"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9B59B6"/>
+      <stop offset="100%" stop-color="#6C3483"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2ECC71"/>
+      <stop offset="100%" stop-color="#27AE60"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowGold" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FFD700"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00CED1"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2ECC71"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#FFD700" font-size="28" font-weight="bold" filter="url(#glow)">
+    Quadruple Division Factoring Pipeline
+  </text>
+  <text x="600" y="72" text-anchor="middle" fill="#aaa" font-size="14">
+    N → Triple → Quadruple → 4D Division → Factor Extraction
+  </text>
+
+  <!-- Step 1: Target N -->
+  <rect x="50" y="120" width="200" height="100" rx="15" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <text x="150" y="150" text-anchor="middle" fill="#FFD700" font-size="16" font-weight="bold">① Target N</text>
+  <text x="150" y="175" text-anchor="middle" fill="#ddd" font-size="13">N = p × q</text>
+  <text x="150" y="195" text-anchor="middle" fill="#999" font-size="11">e.g. N = 143 = 11 × 13</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="250" y1="170" x2="320" y2="170" stroke="#FFD700" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <text x="285" y="160" text-anchor="middle" fill="#FFD700" font-size="10">Odd: (N, (N²-1)/2, (N²+1)/2)</text>
+
+  <!-- Step 2: Pythagorean Triple -->
+  <rect x="330" y="120" width="230" height="100" rx="15" fill="none" stroke="url(#cyan)" stroke-width="2"/>
+  <text x="445" y="150" text-anchor="middle" fill="#00CED1" font-size="16" font-weight="bold">② Pyth. Triple</text>
+  <text x="445" y="175" text-anchor="middle" fill="#ddd" font-size="13">a² + b² = c²</text>
+  <text x="445" y="195" text-anchor="middle" fill="#999" font-size="11">(143, 10224, 10225)</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="560" y1="170" x2="630" y2="170" stroke="#00CED1" stroke-width="2" marker-end="url(#arrowCyan)"/>
+  <text x="595" y="160" text-anchor="middle" fill="#00CED1" font-size="10">Lift: c²+k²=d²</text>
+
+  <!-- Step 3: Pythagorean Quadruple -->
+  <rect x="640" y="110" width="250" height="120" rx="15" fill="none" stroke="url(#purple)" stroke-width="2"/>
+  <text x="765" y="140" text-anchor="middle" fill="#9B59B6" font-size="16" font-weight="bold">③ Pyth. Quadruple</text>
+  <text x="765" y="165" text-anchor="middle" fill="#ddd" font-size="13">a² + b² + k² = d²</text>
+  <text x="765" y="185" text-anchor="middle" fill="#999" font-size="11">(d-c)(d+c) = a² + b²</text>
+  <text x="765" y="210" text-anchor="middle" fill="#ccc" font-size="10">7 quadruples for N=143</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="890" y1="170" x2="950" y2="170" stroke="#9B59B6" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Step 4: 4D Division -->
+  <rect x="960" y="110" width="200" height="120" rx="15" fill="none" stroke="url(#green)" stroke-width="2"/>
+  <text x="1060" y="140" text-anchor="middle" fill="#2ECC71" font-size="16" font-weight="bold">④ 4D Division</text>
+  <text x="1060" y="165" text-anchor="middle" fill="#ddd" font-size="12">gcd(d-c, N)</text>
+  <text x="1060" y="185" text-anchor="middle" fill="#ddd" font-size="12">gcd(d+c, N)</text>
+  <text x="1060" y="210" text-anchor="middle" fill="#2ECC71" font-size="12" font-weight="bold">→ factors!</text>
+
+  <!-- Result Box -->
+  <rect x="350" y="300" width="500" height="90" rx="15" fill="rgba(46,204,113,0.15)" stroke="#2ECC71" stroke-width="2"/>
+  <text x="600" y="325" text-anchor="middle" fill="#2ECC71" font-size="18" font-weight="bold" filter="url(#glow)">
+    86.8% Factor Recovery Rate
+  </text>
+  <text x="600" y="350" text-anchor="middle" fill="#ddd" font-size="14">
+    Tested on all composites N ∈ [6, 200]
+  </text>
+  <text x="600" y="375" text-anchor="middle" fill="#aaa" font-size="12">
+    132 of 152 composites factored via quadruple division pipeline
+  </text>
+
+  <!-- Arrow from Step 4 down to result -->
+  <path d="M 1060 230 Q 1060 340 850 340" stroke="#2ECC71" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+
+  <!-- Berggren Tree Section -->
+  <text x="200" y="440" fill="#FFD700" font-size="20" font-weight="bold">Berggren Tree Bridges via 4D</text>
+
+  <!-- Root node -->
+  <circle cx="200" cy="500" r="25" fill="none" stroke="#FFD700" stroke-width="2"/>
+  <text x="200" y="505" text-anchor="middle" fill="#FFD700" font-size="11">(3,4,5)</text>
+
+  <!-- Level 1 nodes -->
+  <circle cx="100" cy="580" r="22" fill="none" stroke="#00CED1" stroke-width="1.5"/>
+  <text x="100" y="584" text-anchor="middle" fill="#00CED1" font-size="9">(5,12,13)</text>
+  <circle cx="200" cy="580" r="22" fill="none" stroke="#00CED1" stroke-width="1.5"/>
+  <text x="200" y="584" text-anchor="middle" fill="#00CED1" font-size="9">(21,20,29)</text>
+  <circle cx="300" cy="580" r="22" fill="none" stroke="#00CED1" stroke-width="1.5"/>
+  <text x="300" y="584" text-anchor="middle" fill="#00CED1" font-size="9">(15,8,17)</text>
+
+  <!-- Tree edges -->
+  <line x1="180" y1="520" x2="110" y2="560" stroke="#666" stroke-width="1"/>
+  <line x1="200" y1="525" x2="200" y2="558" stroke="#666" stroke-width="1"/>
+  <line x1="220" y1="520" x2="290" y2="560" stroke="#666" stroke-width="1"/>
+
+  <!-- Level 2 nodes (partial) -->
+  <circle cx="50" cy="660" r="18" fill="none" stroke="#9B59B6" stroke-width="1"/>
+  <text x="50" y="663" text-anchor="middle" fill="#9B59B6" font-size="8">(7,24,25)</text>
+  <circle cx="130" cy="660" r="18" fill="none" stroke="#9B59B6" stroke-width="1"/>
+  <text x="130" y="663" text-anchor="middle" fill="#9B59B6" font-size="8">(55,48,73)</text>
+  <circle cx="260" cy="660" r="18" fill="none" stroke="#9B59B6" stroke-width="1"/>
+  <text x="260" y="663" text-anchor="middle" fill="#9B59B6" font-size="8">(39,80,89)</text>
+
+  <line x1="88" y1="598" x2="58" y2="645" stroke="#666" stroke-width="1"/>
+  <line x1="110" y1="600" x2="125" y2="645" stroke="#666" stroke-width="1"/>
+  <line x1="290" y1="600" x2="265" y2="645" stroke="#666" stroke-width="1"/>
+
+  <!-- 4D Bridge (curved arrow) -->
+  <path d="M 55 642 Q 400 430 295 560" stroke="#FF4444" stroke-width="2.5" fill="none" stroke-dasharray="8,4" marker-end="url(#arrowGold)"/>
+  <text x="250" y="490" text-anchor="middle" fill="#FF4444" font-size="12" font-weight="bold">
+    4D Quadruple Bridge
+  </text>
+  <text x="250" y="508" text-anchor="middle" fill="#FF9999" font-size="10">
+    (7,24,25) → quad → project → (15,8,17)
+  </text>
+
+  <!-- Right panel: Quadruple Space -->
+  <rect x="500" y="430" width="660" height="340" rx="10" fill="rgba(255,255,255,0.03)" stroke="#444" stroke-width="1"/>
+  <text x="830" y="460" text-anchor="middle" fill="#00CED1" font-size="18" font-weight="bold">4D Quadruple Navigation Space</text>
+
+  <!-- 4D grid representation -->
+  <!-- Axes -->
+  <line x1="560" y1="720" x2="560" y2="500" stroke="#555" stroke-width="1"/>
+  <line x1="560" y1="720" x2="780" y2="720" stroke="#555" stroke-width="1"/>
+  <line x1="560" y1="720" x2="500" y2="680" stroke="#555" stroke-width="1"/>
+  <text x="785" y="735" fill="#666" font-size="10">a</text>
+  <text x="545" y="495" fill="#666" font-size="10">d</text>
+  <text x="490" y="675" fill="#666" font-size="10">b,c</text>
+
+  <!-- Quadruple points -->
+  <circle cx="620" cy="650" r="6" fill="#FFD700" opacity="0.9"/>
+  <text x="635" y="645" fill="#FFD700" font-size="9">(1,2,2,3)</text>
+
+  <circle cx="680" cy="600" r="6" fill="#00CED1" opacity="0.9"/>
+  <text x="695" y="595" fill="#00CED1" font-size="9">(2,3,6,7)</text>
+
+  <circle cx="640" cy="560" r="6" fill="#9B59B6" opacity="0.9"/>
+  <text x="655" y="555" fill="#9B59B6" font-size="9">(1,4,8,9)</text>
+
+  <circle cx="720" cy="530" r="6" fill="#2ECC71" opacity="0.9"/>
+  <text x="735" y="525" fill="#2ECC71" font-size="9">(4,4,7,9)</text>
+
+  <!-- Navigation arrows -->
+  <line x1="626" y1="648" x2="674" y2="604" stroke="#FFD700" stroke-width="1" opacity="0.5" stroke-dasharray="3,3"/>
+  <line x1="684" y1="598" x2="638" y2="564" stroke="#00CED1" stroke-width="1" opacity="0.5" stroke-dasharray="3,3"/>
+  <line x1="644" y1="558" x2="716" y2="534" stroke="#9B59B6" stroke-width="1" opacity="0.5" stroke-dasharray="3,3"/>
+
+  <!-- GCD cascade box -->
+  <rect x="850" y="490" width="280" height="240" rx="10" fill="rgba(255,215,0,0.08)" stroke="#FFD700" stroke-width="1"/>
+  <text x="990" y="515" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">GCD Cascade</text>
+
+  <text x="870" y="545" fill="#ddd" font-size="11">For N = 15:</text>
+  <text x="870" y="570" fill="#2ECC71" font-size="11">gcd(d-c, N) = gcd(1, 15) = 1</text>
+  <text x="870" y="590" fill="#2ECC71" font-size="11">gcd(d+c, N) = gcd(5, 15) = 5 ✓</text>
+  <text x="870" y="620" fill="#ddd" font-size="11">For N = 143:</text>
+  <text x="870" y="645" fill="#2ECC71" font-size="11">Cross-quad GCD → 11 ✓</text>
+  <text x="870" y="665" fill="#2ECC71" font-size="11">Cross-quad GCD → 13 ✓</text>
+  <text x="870" y="695" fill="#FFD700" font-size="12" font-weight="bold">Both prime factors found!</text>
+
+  <!-- Footer -->
+  <text x="600" y="790" text-anchor="middle" fill="#666" font-size="11">
+    Quadruple Division Factoring • Geometric Structure in Integer Factorization
+  </text>
+</svg>

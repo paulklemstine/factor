@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f39c12"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ecf0f1" font-size="20" font-weight="bold">
+    The All-Ones Reflection: k = 4 vs k = 5
+  </text>
+
+  <!-- Left panel: k=4 works -->
+  <rect x="30" y="60" width="355" height="420" rx="12" fill="rgba(46,204,113,0.08)" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="207" y="90" text-anchor="middle" fill="#2ecc71" font-size="18" font-weight="bold">k = 4: Descent Works ✓</text>
+
+  <!-- Input vector -->
+  <rect x="60" y="110" width="295" height="50" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <text x="207" y="130" text-anchor="middle" fill="#ecf0f1" font-size="13">Input: v = (1, 2, 2, 3)</text>
+  <text x="207" y="150" text-anchor="middle" fill="#bdc3c7" font-size="12">1² + 2² + 2² = 9 = 3² ✓</text>
+
+  <!-- Computation -->
+  <line x1="207" y1="165" x2="207" y2="185" stroke="#f39c12" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <rect x="60" y="190" width="295" height="80" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <text x="207" y="210" text-anchor="middle" fill="#f1c40f" font-size="12" font-family="monospace">η(s,s) = 4−2 = 2</text>
+  <text x="207" y="230" text-anchor="middle" fill="#f1c40f" font-size="12" font-family="monospace">η(s,v) = 1+2+2−3 = 2</text>
+  <text x="207" y="250" text-anchor="middle" fill="#f1c40f" font-size="12" font-family="monospace">coeff = 2·2/2 = 2 ∈ ℤ ✓</text>
+  <text x="207" y="265" text-anchor="middle" fill="#2ecc71" font-size="11">Integer!</text>
+
+  <!-- Result -->
+  <line x1="207" y1="275" x2="207" y2="295" stroke="#f39c12" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <rect x="60" y="300" width="295" height="50" rx="8" fill="rgba(46,204,113,0.15)"/>
+  <text x="207" y="320" text-anchor="middle" fill="#2ecc71" font-size="13" font-weight="bold">R(v) = (−1, 0, 0, 1) ∈ ℤ⁴</text>
+  <text x="207" y="340" text-anchor="middle" fill="#bdc3c7" font-size="12">= (0, 0, 1, 1) after abs+sort → ROOT!</text>
+
+  <!-- Tree fragment -->
+  <circle cx="207" cy="395" r="20" fill="rgba(46,204,113,0.3)" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="207" y="400" text-anchor="middle" fill="#ecf0f1" font-size="9">(0,0,1,1)</text>
+  <line x1="207" y1="375" x2="207" y2="355" stroke="#2ecc71" stroke-width="1"/>
+  <circle cx="207" cy="445" r="18" fill="rgba(46,204,113,0.2)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="207" y="449" text-anchor="middle" fill="#ecf0f1" font-size="8">(1,2,2,3)</text>
+  <line x1="207" y1="415" x2="207" y2="427" stroke="#2ecc71" stroke-width="1"/>
+
+  <!-- Right panel: k=5 fails -->
+  <rect x="415" y="60" width="355" height="420" rx="12" fill="rgba(231,76,60,0.08)" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="592" y="90" text-anchor="middle" fill="#e74c3c" font-size="18" font-weight="bold">k = 5: Descent Fails ✗</text>
+
+  <!-- Input vector -->
+  <rect x="445" y="110" width="295" height="50" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <text x="592" y="130" text-anchor="middle" fill="#ecf0f1" font-size="13">Input: v = (1, 1, 1, 1, 2)</text>
+  <text x="592" y="150" text-anchor="middle" fill="#bdc3c7" font-size="12">1² + 1² + 1² + 1² = 4 = 2² ✓</text>
+
+  <!-- Computation -->
+  <line x1="592" y1="165" x2="592" y2="185" stroke="#f39c12" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <rect x="445" y="190" width="295" height="80" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <text x="592" y="210" text-anchor="middle" fill="#f1c40f" font-size="12" font-family="monospace">η(s,s) = 5−2 = 3</text>
+  <text x="592" y="230" text-anchor="middle" fill="#f1c40f" font-size="12" font-family="monospace">η(s,v) = 1+1+1+1−2 = 2</text>
+  <text x="592" y="250" text-anchor="middle" fill="#f1c40f" font-size="12" font-family="monospace">coeff = 2·2/3 = 4/3 ∉ ℤ</text>
+  <text x="592" y="265" text-anchor="middle" fill="#e74c3c" font-size="11">NOT an integer!</text>
+
+  <!-- Result -->
+  <line x1="592" y1="275" x2="592" y2="295" stroke="#f39c12" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <rect x="445" y="300" width="295" height="50" rx="8" fill="rgba(231,76,60,0.15)"/>
+  <text x="592" y="320" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="bold">R(v) = (−⅓, −⅓, −⅓, −⅓, ⅔)</text>
+  <text x="592" y="340" text-anchor="middle" fill="#e74c3c" font-size="12">∉ ℤ⁵ — FRACTIONAL ENTRIES</text>
+
+  <!-- Broken tree -->
+  <circle cx="592" cy="395" r="20" fill="rgba(231,76,60,0.2)" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="592" y="400" text-anchor="middle" fill="#ecf0f1" font-size="8">No root</text>
+  <line x1="570" y1="380" x2="615" y2="415" stroke="#e74c3c" stroke-width="2"/>
+  <line x1="615" y1="380" x2="570" y2="415" stroke="#e74c3c" stroke-width="2"/>
+
+  <text x="592" y="455" text-anchor="middle" fill="#e74c3c" font-size="12">Cannot build descent tree</text>
+  <text x="592" y="472" text-anchor="middle" fill="#bdc3c7" font-size="11">over the integers</text>
+</svg>

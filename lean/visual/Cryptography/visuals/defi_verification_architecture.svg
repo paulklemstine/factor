@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e40af"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="#f1f5f9" rx="12"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="900" height="65" fill="url(#headerGrad)" rx="12"/>
+  <rect x="0" y="30" width="900" height="35" fill="url(#headerGrad)"/>
+  <text x="450" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="white">
+    Formally Verified DeFi &amp; Cryptography Architecture
+  </text>
+
+  <!-- Layer 1: Cryptographic Foundations -->
+  <rect x="30" y="85" width="840" height="120" fill="white" stroke="#1e40af" stroke-width="2" rx="8" filter="url(#shadow)"/>
+  <text x="50" y="110" font-size="15" font-weight="bold" fill="#1e40af">Layer 1: Cryptographic Foundations</text>
+
+  <rect x="50" y="120" width="180" height="70" fill="#dbeafe" stroke="#3b82f6" rx="6"/>
+  <text x="140" y="145" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">Sigma Protocols</text>
+  <text x="140" y="160" text-anchor="middle" font-size="9" fill="#3b82f6">Completeness ✓</text>
+  <text x="140" y="172" text-anchor="middle" font-size="9" fill="#3b82f6">Special Soundness ✓</text>
+  <text x="140" y="184" text-anchor="middle" font-size="9" fill="#3b82f6">Fiat-Shamir ✓</text>
+
+  <rect x="250" y="120" width="200" height="70" fill="#dbeafe" stroke="#3b82f6" rx="6"/>
+  <text x="350" y="145" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">Game-Based Security</text>
+  <text x="350" y="160" text-anchor="middle" font-size="9" fill="#3b82f6">Negligible Functions ✓</text>
+  <text x="350" y="172" text-anchor="middle" font-size="9" fill="#3b82f6">Advantage Composition ✓</text>
+  <text x="350" y="184" text-anchor="middle" font-size="9" fill="#3b82f6">Rewinding Lemma ✓</text>
+
+  <rect x="470" y="120" width="190" height="70" fill="#dbeafe" stroke="#3b82f6" rx="6"/>
+  <text x="565" y="145" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">ZK Proofs</text>
+  <text x="565" y="160" text-anchor="middle" font-size="9" fill="#3b82f6">Schnorr Protocol ✓</text>
+  <text x="565" y="172" text-anchor="middle" font-size="9" fill="#3b82f6">OR-Composition ✓</text>
+  <text x="565" y="184" text-anchor="middle" font-size="9" fill="#3b82f6">Sequential ZK ✓</text>
+
+  <rect x="680" y="120" width="170" height="70" fill="#fef3c7" stroke="#f59e0b" rx="6"/>
+  <text x="765" y="145" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">Post-Quantum</text>
+  <text x="765" y="160" text-anchor="middle" font-size="9" fill="#b45309">Lattice Crypto</text>
+  <text x="765" y="172" text-anchor="middle" font-size="9" fill="#b45309">Hybrid Schemes</text>
+  <text x="765" y="184" text-anchor="middle" font-size="9" fill="#b45309">Migration Plan</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="205" x2="450" y2="225" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Layer 2: DeFi Mechanisms -->
+  <rect x="30" y="230" width="840" height="130" fill="white" stroke="#059669" stroke-width="2" rx="8" filter="url(#shadow)"/>
+  <text x="50" y="255" font-size="15" font-weight="bold" fill="#059669">Layer 2: DeFi Protocol Verification</text>
+
+  <rect x="50" y="265" width="155" height="80" fill="#d1fae5" stroke="#10b981" rx="6"/>
+  <text x="127" y="285" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">AMM Pools</text>
+  <text x="127" y="300" text-anchor="middle" font-size="9" fill="#059669">Invariant Pres. ✓</text>
+  <text x="127" y="312" text-anchor="middle" font-size="9" fill="#059669">Concavity ✓</text>
+  <text x="127" y="324" text-anchor="middle" font-size="9" fill="#059669">Fee Effects ✓</text>
+  <text x="127" y="336" text-anchor="middle" font-size="9" fill="#059669">Monotonicity ✓</text>
+
+  <rect x="220" y="265" width="155" height="80" fill="#d1fae5" stroke="#10b981" rx="6"/>
+  <text x="297" y="285" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">Optimal Routing</text>
+  <text x="297" y="300" text-anchor="middle" font-size="9" fill="#059669">Price Impact ✓</text>
+  <text x="297" y="312" text-anchor="middle" font-size="9" fill="#059669">Dim. Returns ✓</text>
+  <text x="297" y="324" text-anchor="middle" font-size="9" fill="#059669">Split vs Single ✓</text>
+  <text x="297" y="336" text-anchor="middle" font-size="9" fill="#059669">Multi-Pool ✓</text>
+
+  <rect x="390" y="265" width="155" height="80" fill="#fce7f3" stroke="#ec4899" rx="6"/>
+  <text x="467" y="285" text-anchor="middle" font-size="11" font-weight="bold" fill="#831843">MEV / Sandwich</text>
+  <text x="467" y="300" text-anchor="middle" font-size="9" fill="#be185d">Non-Monotone ✓</text>
+  <text x="467" y="312" text-anchor="middle" font-size="9" fill="#be185d">Optimal f* ✓</text>
+  <text x="467" y="324" text-anchor="middle" font-size="9" fill="#be185d">Flash Loan ✓</text>
+  <text x="467" y="336" text-anchor="middle" font-size="9" fill="#be185d">Eventually Neg ✓</text>
+
+  <rect x="560" y="265" width="155" height="80" fill="#e0e7ff" stroke="#6366f1" rx="6"/>
+  <text x="637" y="285" text-anchor="middle" font-size="11" font-weight="bold" fill="#312e81">Intent Trading</text>
+  <text x="637" y="300" text-anchor="middle" font-size="9" fill="#4f46e5">Dutch Auction ✓</text>
+  <text x="637" y="312" text-anchor="middle" font-size="9" fill="#4f46e5">CoW Matching ✓</text>
+  <text x="637" y="324" text-anchor="middle" font-size="9" fill="#4f46e5">Solver Comp. ✓</text>
+  <text x="637" y="336" text-anchor="middle" font-size="9" fill="#4f46e5">Bounded ✓</text>
+
+  <rect x="730" y="265" width="120" height="80" fill="#fef9c3" stroke="#eab308" rx="6"/>
+  <text x="790" y="285" text-anchor="middle" font-size="11" font-weight="bold" fill="#713f12">Cross-Chain</text>
+  <text x="790" y="300" text-anchor="middle" font-size="9" fill="#a16207">No-Arb Band ✓</text>
+  <text x="790" y="312" text-anchor="middle" font-size="9" fill="#a16207">Triangular ✓</text>
+  <text x="790" y="324" text-anchor="middle" font-size="9" fill="#a16207">Convergence ✓</text>
+  <text x="790" y="336" text-anchor="middle" font-size="9" fill="#a16207">Latency Risk ✓</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="360" x2="450" y2="380" stroke="#64748b" stroke-width="2"/>
+
+  <!-- Layer 3: Applications -->
+  <rect x="30" y="385" width="840" height="100" fill="white" stroke="#7c3aed" stroke-width="2" rx="8" filter="url(#shadow)"/>
+  <text x="50" y="410" font-size="15" font-weight="bold" fill="#7c3aed">Layer 3: Applications</text>
+
+  <rect x="50" y="420" width="130" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="115" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b21b6">MEV</text>
+  <text x="115" y="455" text-anchor="middle" font-size="9" fill="#7c3aed">Protection</text>
+
+  <rect x="195" y="420" width="130" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="260" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b21b6">DEX</text>
+  <text x="260" y="455" text-anchor="middle" font-size="9" fill="#7c3aed">Aggregators</text>
+
+  <rect x="340" y="420" width="130" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="405" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b21b6">ZK</text>
+  <text x="405" y="455" text-anchor="middle" font-size="9" fill="#7c3aed">Commerce</text>
+
+  <rect x="485" y="420" width="130" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="550" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b21b6">Bridge</text>
+  <text x="550" y="455" text-anchor="middle" font-size="9" fill="#7c3aed">Security</text>
+
+  <rect x="630" y="420" width="110" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="685" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b21b6">Protocol</text>
+  <text x="685" y="455" text-anchor="middle" font-size="9" fill="#7c3aed">Auditing</text>
+
+  <rect x="755" y="420" width="100" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="805" y="440" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b21b6">Regulatory</text>
+  <text x="805" y="455" text-anchor="middle" font-size="9" fill="#7c3aed">Compliance</text>
+
+  <!-- Foundation bar -->
+  <rect x="30" y="510" width="840" height="55" fill="#1e293b" rx="8"/>
+  <text x="450" y="535" text-anchor="middle" font-size="14" font-weight="bold" fill="white">
+    Foundation: Lean 4 + Mathlib — 6,000 LOC Trusted Kernel
+  </text>
+  <text x="450" y="555" text-anchor="middle" font-size="11" fill="#94a3b8">
+    30+ machine-verified theorems • 0 sorry • 6 new Lean files • Full axiom audit
+  </text>
+
+  <!-- Stats -->
+  <rect x="30" y="580" width="200" height="55" fill="white" stroke="#e2e8f0" rx="6"/>
+  <text x="130" y="600" text-anchor="middle" font-size="24" font-weight="bold" fill="#1e40af">30+</text>
+  <text x="130" y="620" text-anchor="middle" font-size="11" fill="#64748b">Verified Theorems</text>
+
+  <rect x="250" y="580" width="200" height="55" fill="white" stroke="#e2e8f0" rx="6"/>
+  <text x="350" y="600" text-anchor="middle" font-size="24" font-weight="bold" fill="#059669">6</text>
+  <text x="350" y="620" text-anchor="middle" font-size="11" fill="#64748b">New Lean Files</text>
+
+  <rect x="470" y="580" width="200" height="55" fill="white" stroke="#e2e8f0" rx="6"/>
+  <text x="570" y="600" text-anchor="middle" font-size="24" font-weight="bold" fill="#dc2626">0</text>
+  <text x="570" y="620" text-anchor="middle" font-size="11" fill="#64748b">Remaining Sorries</text>
+
+  <rect x="690" y="580" width="180" height="55" fill="white" stroke="#e2e8f0" rx="6"/>
+  <text x="780" y="600" text-anchor="middle" font-size="24" font-weight="bold" fill="#7c3aed">3</text>
+  <text x="780" y="620" text-anchor="middle" font-size="11" fill="#64748b">Domains Covered</text>
+</svg>

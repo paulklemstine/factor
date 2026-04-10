@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6699cc"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" font-weight="bold">
+    Quantum Phase Lattice: L(H)
+  </text>
+  <text x="400" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#8899bb">
+    Complete Lattice of Closed Subspaces of Hilbert Space
+  </text>
+
+  <!-- Lattice diagram -->
+  <!-- Top: H (whole space) -->
+  <circle cx="400" cy="110" r="20" fill="#4488ff" stroke="#6699ff" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">H</text>
+  <text x="400" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#aabbdd">⊤ (top)</text>
+
+  <!-- Level 2: 2-dimensional subspaces -->
+  <circle cx="200" cy="220" r="16" fill="#3377dd" stroke="#5599ee" stroke-width="2" filter="url(#glow)"/>
+  <text x="200" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">K₁⊔K₂</text>
+
+  <circle cx="400" cy="220" r="16" fill="#3377dd" stroke="#5599ee" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">K₁⊔K₃</text>
+
+  <circle cx="600" cy="220" r="16" fill="#3377dd" stroke="#5599ee" stroke-width="2" filter="url(#glow)"/>
+  <text x="600" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">K₂⊔K₃</text>
+
+  <!-- Level 1: 1-dimensional subspaces -->
+  <circle cx="150" cy="340" r="16" fill="#2266bb" stroke="#4488dd" stroke-width="2" filter="url(#glow)"/>
+  <text x="150" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">K₁</text>
+
+  <circle cx="400" cy="340" r="16" fill="#2266bb" stroke="#4488dd" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">K₂</text>
+
+  <circle cx="650" cy="340" r="16" fill="#2266bb" stroke="#4488dd" stroke-width="2" filter="url(#glow)"/>
+  <text x="650" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">K₃</text>
+
+  <!-- Bottom: {0} -->
+  <circle cx="400" cy="450" r="20" fill="#1155aa" stroke="#3377cc" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">{0}</text>
+  <text x="400" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#aabbdd">⊥ (bottom)</text>
+
+  <!-- Edges -->
+  <line x1="400" y1="130" x2="200" y2="204" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="400" y1="130" x2="400" y2="204" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="400" y1="130" x2="600" y2="204" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+
+  <line x1="200" y1="236" x2="150" y2="324" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="200" y1="236" x2="400" y2="324" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+
+  <line x1="400" y1="236" x2="150" y2="324" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="400" y1="236" x2="650" y2="324" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+
+  <line x1="600" y1="236" x2="400" y2="324" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="600" y1="236" x2="650" y2="324" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+
+  <line x1="150" y1="356" x2="400" y2="430" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="400" y1="356" x2="400" y2="430" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+  <line x1="650" y1="356" x2="400" y2="430" stroke="#6699cc" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Annotations -->
+  <!-- Orthocomplement arrow -->
+  <path d="M 170 340 Q 80 280 170 220" fill="none" stroke="#ff6644" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="60" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ff6644">K₁ᗮ = K₂⊔K₃</text>
+
+  <!-- Properties box -->
+  <rect x="20" y="500" width="360" height="90" rx="8" fill="rgba(255,255,255,0.05)" stroke="#4488cc" stroke-width="1"/>
+  <text x="200" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#88bbee" font-weight="bold">Key Properties</text>
+  <text x="30" y="540" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Complete: ∀S, ∃ ⋁S and ⋀S</text>
+  <text x="30" y="556" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Orthomodular: K≤L ⟹ L = K ⊔ (L ⊓ Kᗮ)</text>
+  <text x="30" y="572" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Non-distributive: A⊓(B⊔C) ≠ (A⊓B)⊔(A⊓C)</text>
+
+  <!-- Verified badge -->
+  <rect x="420" y="500" width="360" height="90" rx="8" fill="rgba(0,255,0,0.03)" stroke="#44cc88" stroke-width="1"/>
+  <text x="600" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#66ddaa" font-weight="bold">✓ Formally Verified in Lean 4</text>
+  <text x="430" y="540" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• 40 theorems, 0 sorries</text>
+  <text x="430" y="556" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Axioms: propext, Classical.choice, Quot.sound</text>
+  <text x="430" y="572" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Built on Mathlib (InnerProductSpace, Submodule)</text>
+</svg>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8" fill="#aaaacc"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8" fill="#66dd88"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="400" fill="url(#bg6)" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">
+    Unified Factoring Pipeline: Modular Forms → E₈ → Quantum Search → GCD
+  </text>
+
+  <!-- Stage 1: Input -->
+  <g transform="translate(30, 80)">
+    <rect x="0" y="0" width="140" height="80" fill="#1a2244" stroke="#4ecdc4" stroke-width="2" rx="10" filter="url(#shadow)"/>
+    <text x="70" y="30" text-anchor="middle" fill="#4ecdc4" font-size="14" font-weight="bold">INPUT</text>
+    <text x="70" y="52" text-anchor="middle" fill="#ddddee" font-size="12">N = p · q</text>
+    <text x="70" y="68" text-anchor="middle" fill="#888899" font-size="10">RSA modulus</text>
+  </g>
+
+  <!-- Arrow 1→2 -->
+  <line x1="175" y1="120" x2="205" y2="120" stroke="#aaaacc" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Modular Form Prediction -->
+  <g transform="translate(210, 65)">
+    <rect x="0" y="0" width="160" height="110" fill="#1a2244" stroke="#ffcc00" stroke-width="2" rx="10" filter="url(#shadow)"/>
+    <text x="80" y="22" text-anchor="middle" fill="#ffcc00" font-size="13" font-weight="bold">§5 PREDICT</text>
+    <text x="80" y="42" text-anchor="middle" fill="#ddddee" font-size="11">Modular Forms</text>
+    <line x1="10" y1="50" x2="150" y2="50" stroke="#334466"/>
+    <text x="80" y="68" text-anchor="middle" fill="#aabbdd" font-size="10">Compute r_k(N)</text>
+    <text x="80" y="83" text-anchor="middle" fill="#aabbdd" font-size="10">Select optimal dim k</text>
+    <text x="80" y="98" text-anchor="middle" fill="#aabbdd" font-size="10">Hecke eigenvalues</text>
+  </g>
+
+  <!-- Arrow 2→3 -->
+  <line x1="375" y1="120" x2="405" y2="120" stroke="#aaaacc" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: E₈ Symmetry Reduction -->
+  <g transform="translate(410, 65)">
+    <rect x="0" y="0" width="160" height="110" fill="#1a2244" stroke="#ff6b6b" stroke-width="2" rx="10" filter="url(#shadow)"/>
+    <text x="80" y="22" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">§4 REDUCE</text>
+    <text x="80" y="42" text-anchor="middle" fill="#ddddee" font-size="11">E₈ Symmetry</text>
+    <line x1="10" y1="50" x2="150" y2="50" stroke="#334466"/>
+    <text x="80" y="68" text-anchor="middle" fill="#aabbdd" font-size="10">Weyl group orbits</text>
+    <text x="80" y="83" text-anchor="middle" fill="#aabbdd" font-size="10">28 cross-channels</text>
+    <text x="80" y="98" text-anchor="middle" fill="#aabbdd" font-size="10">~7×10⁸ reduction</text>
+  </g>
+
+  <!-- Arrow 3→4 -->
+  <line x1="575" y1="120" x2="605" y2="120" stroke="#aaaacc" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Quantum/Classical Search -->
+  <g transform="translate(610, 65)">
+    <rect x="0" y="0" width="160" height="110" fill="#1a2244" stroke="#a29bfe" stroke-width="2" rx="10" filter="url(#shadow)"/>
+    <text x="80" y="22" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="bold">§3 SEARCH</text>
+    <text x="80" y="42" text-anchor="middle" fill="#ddddee" font-size="11">Collision Finding</text>
+    <line x1="10" y1="50" x2="150" y2="50" stroke="#334466"/>
+    <text x="80" y="68" text-anchor="middle" fill="#aabbdd" font-size="10">Classical: O(S^½)</text>
+    <text x="80" y="83" text-anchor="middle" fill="#aabbdd" font-size="10">BHT: O(S^⅓)</text>
+    <text x="80" y="98" text-anchor="middle" fill="#aabbdd" font-size="10">Grover: O(S^¼)</text>
+  </g>
+
+  <!-- Arrow 4→5 (going down) -->
+  <path d="M 770 175 L 770 220 L 720 220" fill="none" stroke="#aaaacc" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: GCD Cascade -->
+  <g transform="translate(530, 210)">
+    <rect x="0" y="0" width="180" height="90" fill="#1a2244" stroke="#66dd88" stroke-width="2" rx="10" filter="url(#shadow)"/>
+    <text x="90" y="22" text-anchor="middle" fill="#66dd88" font-size="13" font-weight="bold">GCD CASCADE</text>
+    <text x="90" y="42" text-anchor="middle" fill="#ddddee" font-size="11">Factor Extraction</text>
+    <line x1="10" y1="50" x2="170" y2="50" stroke="#334466"/>
+    <text x="90" y="68" text-anchor="middle" fill="#aabbdd" font-size="10">gcd(ad−bc, N) → factor</text>
+    <text x="90" y="83" text-anchor="middle" fill="#aabbdd" font-size="10">Up to 36 channels</text>
+  </g>
+
+  <!-- Arrow 5→6 -->
+  <line x1="525" y1="255" x2="470" y2="255" stroke="#66dd88" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Stage 6: Output -->
+  <g transform="translate(310, 225)">
+    <rect x="0" y="0" width="150" height="60" fill="#1a3322" stroke="#66dd88" stroke-width="3" rx="10" filter="url(#shadow)"/>
+    <text x="75" y="25" text-anchor="middle" fill="#66dd88" font-size="15" font-weight="bold">OUTPUT</text>
+    <text x="75" y="45" text-anchor="middle" fill="#ddddee" font-size="13">N = p × q ✓</text>
+  </g>
+
+  <!-- Complexity summary -->
+  <g transform="translate(50, 310)">
+    <rect x="0" y="0" width="800" height="75" fill="#111133" stroke="#334466" rx="8"/>
+    <text x="400" y="22" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">
+      Complexity Summary (Dimension 8)
+    </text>
+    <line x1="20" y1="30" x2="780" y2="30" stroke="#334466"/>
+
+    <text x="130" y="50" text-anchor="middle" fill="#ffcc00" font-size="12">Prediction</text>
+    <text x="130" y="65" text-anchor="middle" fill="#aabbdd" font-size="11">O(poly log N)</text>
+
+    <text x="310" y="50" text-anchor="middle" fill="#ff6b6b" font-size="12">Reduction</text>
+    <text x="310" y="65" text-anchor="middle" fill="#aabbdd" font-size="11">O(poly log N)</text>
+
+    <text x="490" y="50" text-anchor="middle" fill="#a29bfe" font-size="12">Search (classical)</text>
+    <text x="490" y="65" text-anchor="middle" fill="#aabbdd" font-size="11">O(N^{3/2})</text>
+
+    <text x="670" y="50" text-anchor="middle" fill="#66dd88" font-size="12">GCD Cascade</text>
+    <text x="670" y="65" text-anchor="middle" fill="#aabbdd" font-size="11">O(log² N) × 36</text>
+  </g>
+</svg>

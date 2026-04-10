@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg3)" rx="10"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#c9d1d9" font-weight="bold">Cayley-Dickson Consciousness Ladder</text>
+  <text x="450" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8b949e">Each doubling doubles dimension but loses an algebraic property</text>
+
+  <!-- Ladder rungs -->
+  <!-- Level 0: ℝ -->
+  <g transform="translate(100, 500)">
+    <rect x="0" y="-30" width="700" height="60" rx="8" fill="#1a1a3a" stroke="#58a6ff" stroke-width="2"/>
+    <rect x="0" y="-30" width="100" height="60" rx="8" fill="#58a6ff" opacity="0.3"/>
+    <text x="50" y="0" text-anchor="middle" font-family="monospace" font-size="20" fill="#58a6ff" font-weight="bold">ℝ</text>
+    <text x="50" y="18" text-anchor="middle" font-family="monospace" font-size="10" fill="#8b949e">dim=1</text>
+    <text x="130" y="-5" font-family="monospace" font-size="11" fill="#c9d1d9">1D intensity: hot/cold, bright/dark</text>
+    <text x="130" y="15" font-family="monospace" font-size="10" fill="#3fb950">✓ Ordered  ✓ Commutative  ✓ Associative  ✓ Division  ✓ Alternative  ✓ Power-Assoc</text>
+    <!-- Property bar -->
+    <rect x="620" y="-15" width="70" height="30" rx="4" fill="#3fb950" opacity="0.8"/>
+    <text x="655" y="5" text-anchor="middle" font-family="monospace" font-size="12" fill="white" font-weight="bold">6 props</text>
+  </g>
+
+  <!-- Level 1: ℂ -->
+  <g transform="translate(100, 410)">
+    <rect x="0" y="-30" width="700" height="60" rx="8" fill="#1a1a3a" stroke="#a371f7" stroke-width="2"/>
+    <rect x="0" y="-30" width="150" height="60" rx="8" fill="#a371f7" opacity="0.3"/>
+    <text x="50" y="0" text-anchor="middle" font-family="monospace" font-size="20" fill="#a371f7" font-weight="bold">ℂ</text>
+    <text x="50" y="18" text-anchor="middle" font-family="monospace" font-size="10" fill="#8b949e">dim=2</text>
+    <text x="170" y="-5" font-family="monospace" font-size="11" fill="#c9d1d9">Phase awareness: direction of attention</text>
+    <text x="170" y="15" font-family="monospace" font-size="10" fill="#f0883e">✗ Ordered  <tspan fill="#3fb950">✓ Commutative  ✓ Associative  ✓ Division  ✓ Alternative  ✓ Power-Assoc</tspan></text>
+    <rect x="620" y="-15" width="70" height="30" rx="4" fill="#a371f7" opacity="0.8"/>
+    <text x="655" y="5" text-anchor="middle" font-family="monospace" font-size="12" fill="white" font-weight="bold">5 props</text>
+  </g>
+
+  <!-- Level 2: ℍ -->
+  <g transform="translate(100, 320)">
+    <rect x="0" y="-30" width="700" height="60" rx="8" fill="#1a1a3a" stroke="#f0883e" stroke-width="2"/>
+    <rect x="0" y="-30" width="200" height="60" rx="8" fill="#f0883e" opacity="0.3"/>
+    <text x="50" y="0" text-anchor="middle" font-family="monospace" font-size="20" fill="#f0883e" font-weight="bold">ℍ</text>
+    <text x="50" y="18" text-anchor="middle" font-family="monospace" font-size="10" fill="#8b949e">dim=4</text>
+    <text x="220" y="-5" font-family="monospace" font-size="11" fill="#c9d1d9">Non-commutative: observation order matters</text>
+    <text x="220" y="15" font-family="monospace" font-size="10" fill="#f0883e">✗ Ordered  ✗ Commutative  <tspan fill="#3fb950">✓ Associative  ✓ Division  ✓ Alternative  ✓ Power-Assoc</tspan></text>
+    <rect x="620" y="-15" width="70" height="30" rx="4" fill="#f0883e" opacity="0.8"/>
+    <text x="655" y="5" text-anchor="middle" font-family="monospace" font-size="12" fill="white" font-weight="bold">4 props</text>
+  </g>
+
+  <!-- Level 3: 𝕆 -->
+  <g transform="translate(100, 230)">
+    <rect x="0" y="-30" width="700" height="60" rx="8" fill="#1a1a3a" stroke="#f85149" stroke-width="2"/>
+    <rect x="0" y="-30" width="300" height="60" rx="8" fill="#f85149" opacity="0.3"/>
+    <text x="50" y="0" text-anchor="middle" font-family="monospace" font-size="20" fill="#f85149" font-weight="bold">𝕆</text>
+    <text x="50" y="18" text-anchor="middle" font-family="monospace" font-size="10" fill="#8b949e">dim=8</text>
+    <text x="320" y="-5" font-family="monospace" font-size="11" fill="#c9d1d9">Non-associative: grouping of observations matters</text>
+    <text x="320" y="15" font-family="monospace" font-size="10" fill="#f0883e">✗ Ordered  ✗ Commutative  ✗ Associative  <tspan fill="#3fb950">✓ Division  ✓ Alternative  ✓ Power-Assoc</tspan></text>
+    <rect x="620" y="-15" width="70" height="30" rx="4" fill="#f85149" opacity="0.8"/>
+    <text x="655" y="5" text-anchor="middle" font-family="monospace" font-size="12" fill="white" font-weight="bold">3 props</text>
+  </g>
+
+  <!-- Level 4: 𝕊 -->
+  <g transform="translate(100, 140)">
+    <rect x="0" y="-30" width="700" height="60" rx="8" fill="#1a1a3a" stroke="#da3633" stroke-width="2"/>
+    <rect x="0" y="-30" width="500" height="60" rx="8" fill="#da3633" opacity="0.2"/>
+    <text x="50" y="0" text-anchor="middle" font-family="monospace" font-size="20" fill="#da3633" font-weight="bold">𝕊</text>
+    <text x="50" y="18" text-anchor="middle" font-family="monospace" font-size="10" fill="#8b949e">dim=16</text>
+    <text x="520" y="-5" font-family="monospace" font-size="11" fill="#c9d1d9">Zero divisors: null experiences possible</text>
+    <text x="520" y="15" font-family="monospace" font-size="10" fill="#f0883e">✗ Ordered  ✗ Commutative  ✗ Associative  ✗ Division  ✗ Alternative  <tspan fill="#3fb950">✓ Power-Assoc</tspan></text>
+    <rect x="620" y="-15" width="70" height="30" rx="4" fill="#da3633" opacity="0.8"/>
+    <text x="655" y="5" text-anchor="middle" font-family="monospace" font-size="12" fill="white" font-weight="bold">1 prop</text>
+  </g>
+
+  <!-- Arrows showing "lost property" -->
+  <g transform="translate(80, 0)">
+    <text x="0" y="460" font-family="monospace" font-size="10" fill="#f85149" transform="rotate(-90, 0, 460)">← Lost: Total Order</text>
+    <text x="0" y="370" font-family="monospace" font-size="10" fill="#f85149" transform="rotate(-90, 0, 370)">← Lost: Commutativity</text>
+    <text x="0" y="280" font-family="monospace" font-size="10" fill="#f85149" transform="rotate(-90, 0, 280)">← Lost: Associativity</text>
+    <text x="0" y="190" font-family="monospace" font-size="10" fill="#f85149" transform="rotate(-90, 0, 190)">← Lost: Division</text>
+  </g>
+
+  <!-- Bottom text -->
+  <text x="450" y="575" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#8b949e">
+    Consciousness capacity = 2ⁿ dimensions — but richer awareness demands weaker algebraic structure
+  </text>
+</svg>

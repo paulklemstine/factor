@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <linearGradient id="sphereGrad" cx="40%" cy="35%" r="60%" fx="35%" fy="30%">
+      <stop offset="0%" style="stop-color:#6CB4EE;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#1E3A5F;stop-opacity:0.9"/>
+    </linearGradient>
+    <radialGradient id="pointGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8f9fa" rx="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#1a1a2e" font-weight="bold">Stereographic Projection: From Sphere to Plane</text>
+  
+  <!-- Left: Sphere diagram -->
+  <g transform="translate(200, 260)">
+    <!-- Coordinate plane (equator projection) -->
+    <ellipse cx="0" cy="0" rx="140" ry="35" fill="none" stroke="#aaa" stroke-width="1" stroke-dasharray="5,5"/>
+    
+    <!-- Sphere -->
+    <circle cx="0" cy="0" r="140" fill="url(#sphereGrad)" stroke="#1E3A5F" stroke-width="2" opacity="0.85"/>
+    
+    <!-- Equator -->
+    <ellipse cx="0" cy="0" rx="140" ry="35" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.7"/>
+    
+    <!-- North pole (projection point) -->
+    <circle cx="0" cy="-140" r="8" fill="#FF4444" stroke="#fff" stroke-width="2"/>
+    <text x="15" y="-145" font-family="Georgia, serif" font-size="14" fill="#FF4444" font-weight="bold">N</text>
+    
+    <!-- South pole -->
+    <circle cx="0" cy="140" r="6" fill="#44AA44" stroke="#fff" stroke-width="2"/>
+    <text x="15" y="145" font-family="Georgia, serif" font-size="14" fill="#44AA44" font-weight="bold">S</text>
+    
+    <!-- Point P on sphere -->
+    <circle cx="70" cy="-50" r="7" fill="#FFD700" stroke="#333" stroke-width="1.5"/>
+    <text x="85" y="-45" font-family="Georgia, serif" font-size="14" fill="#333" font-weight="bold">P</text>
+    
+    <!-- Projection ray from N through P -->
+    <line x1="0" y1="-140" x2="180" y2="60" stroke="#FF8C00" stroke-width="2" stroke-dasharray="8,4" opacity="0.7"/>
+    
+    <!-- Circle on sphere (shown as ellipse) -->
+    <ellipse cx="0" cy="-35" rx="100" ry="25" fill="none" stroke="#E91E63" stroke-width="2.5" transform="rotate(-5)"/>
+    
+    <text x="0" y="195" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#333">Sphere S²</text>
+  </g>
+  
+  <!-- Arrow connecting diagrams -->
+  <g transform="translate(400, 260)">
+    <line x1="-45" y1="0" x2="45" y2="0" stroke="#333" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+    <text x="0" y="-15" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#555">σ</text>
+    <text x="0" y="20" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#777">stereographic</text>
+  </g>
+  
+  <!-- Right: Plane diagram -->
+  <g transform="translate(600, 260)">
+    <!-- Grid lines -->
+    <line x1="-150" y1="0" x2="150" y2="0" stroke="#ccc" stroke-width="1"/>
+    <line x1="0" y1="-150" x2="0" y2="150" stroke="#ccc" stroke-width="1"/>
+    
+    <!-- More grid lines -->
+    <line x1="-150" y1="50" x2="150" y2="50" stroke="#eee" stroke-width="0.5"/>
+    <line x1="-150" y1="-50" x2="150" y2="-50" stroke="#eee" stroke-width="0.5"/>
+    <line x1="-150" y1="100" x2="150" y2="100" stroke="#eee" stroke-width="0.5"/>
+    <line x1="-150" y1="-100" x2="150" y2="-100" stroke="#eee" stroke-width="0.5"/>
+    <line x1="50" y1="-150" x2="50" y2="150" stroke="#eee" stroke-width="0.5"/>
+    <line x1="-50" y1="-150" x2="-50" y2="150" stroke="#eee" stroke-width="0.5"/>
+    <line x1="100" y1="-150" x2="100" y2="150" stroke="#eee" stroke-width="0.5"/>
+    <line x1="-100" y1="-150" x2="-100" y2="150" stroke="#eee" stroke-width="0.5"/>
+    
+    <!-- Circle (image of the circle on sphere) -->
+    <circle cx="20" cy="-30" r="85" fill="none" stroke="#E91E63" stroke-width="2.5"/>
+    
+    <!-- Point P' (image of P) -->
+    <circle cx="90" cy="30" r="7" fill="#FFD700" stroke="#333" stroke-width="1.5"/>
+    <text x="105" y="35" font-family="Georgia, serif" font-size="14" fill="#333" font-weight="bold">P'</text>
+    
+    <!-- Origin -->
+    <circle cx="0" cy="0" r="4" fill="#44AA44" stroke="#333" stroke-width="1"/>
+    <text x="10" y="-8" font-family="Georgia, serif" font-size="12" fill="#44AA44">S'</text>
+    
+    <text x="0" y="195" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#333">Plane ℝ²</text>
+  </g>
+  
+  <!-- Key properties box -->
+  <g transform="translate(400, 460)">
+    <text x="0" y="0" text-anchor="middle" font-family="'Courier New', monospace" font-size="13" fill="#555">
+      Conformal (angle-preserving) • Circles → Circles/Lines • σ⁻¹(y) ∈ Sⁿ ✓
+    </text>
+  </g>
+</svg>

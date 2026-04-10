@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 650" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="nodeGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="600" height="650" fill="url(#bg3)"/>
+
+  <text x="300" y="35" text-anchor="middle" fill="#f0f6fc" font-size="20" font-weight="bold">
+    The Fano Plane: Octonion Multiplication
+  </text>
+  <text x="300" y="58" text-anchor="middle" fill="#8b949e" font-size="12">
+    7 points, 7 lines — each line defines a quaternionic subalgebra of 𝕆
+  </text>
+
+  <!-- Fano plane geometry -->
+  <!-- Points arranged: e1 top, e2-e7 around -->
+  <!-- Standard Fano plane layout:
+       e1 at top
+       e2, e4 on sides
+       e3, e7 mid-sides
+       e5, e6 bottom
+       center: inscribed circle
+  -->
+
+  <!-- Define positions (centered at 300, 340) -->
+  <!-- Outer triangle -->
+  <!-- e1: top (300, 110) -->
+  <!-- e2: bottom-left (140, 430) -->
+  <!-- e4: bottom-right (460, 430) -->
+  <!-- Midpoints of triangle sides -->
+  <!-- e3: mid left (220, 270) — between e1 and e2 -->
+  <!-- e6: mid right (380, 270) — between e1 and e4 -->
+  <!-- e5: mid bottom (300, 430) — between e2 and e4 -->
+  <!-- e7: center (300, 310) -->
+
+  <!-- Lines of the Fano plane (each connecting 3 collinear points) -->
+  <!-- Colors: one per line -->
+
+  <!-- Line 1: e1-e2-e4 → (1,2,4) — outer triangle edges -->
+  <!-- Actually lines are: -->
+  <!-- L1: e1, e2, e3 — left side -->
+  <!-- Wait, let me use the standard Fano plane lines: -->
+  <!-- With vertices labeled 1-7, the 7 lines are: -->
+  <!-- {1,2,4}, {2,3,5}, {3,4,6}, {4,5,7}, {5,6,1}, {6,7,2}, {7,1,3} -->
+
+  <!-- Position mapping: -->
+  <!-- e1: (300, 120) top -->
+  <!-- e2: (155, 400) bottom-left -->
+  <!-- e3: (205, 220) left-mid (between e1 & e2 but offset) -->
+  <!-- e4: (445, 400) bottom-right -->
+  <!-- e5: (300, 440) bottom-center -->
+  <!-- e6: (395, 220) right-mid -->
+  <!-- e7: (300, 300) center -->
+
+  <!-- Line {1,2,4}: e1—e2—e4 is the outer triangle -->
+  <line x1="300" y1="120" x2="155" y2="400" stroke="#f85149" stroke-width="2" opacity="0.7"/>
+  <line x1="155" y1="400" x2="445" y2="400" stroke="#f85149" stroke-width="2" opacity="0.7"/>
+  <line x1="445" y1="400" x2="300" y2="120" stroke="#f85149" stroke-width="2" opacity="0.7"/>
+
+  <!-- Line {2,3,5}: e2—e3—e5 -->
+  <line x1="155" y1="400" x2="205" y2="220" stroke="#7ee787" stroke-width="2" opacity="0.7"/>
+  <line x1="205" y1="220" x2="300" y2="440" stroke="#7ee787" stroke-width="2" opacity="0.7"/>
+
+  <!-- Line {3,4,6}: e3—e4—e6 -->
+  <line x1="205" y1="220" x2="445" y2="400" stroke="#58a6ff" stroke-width="2" opacity="0.7"/>
+  <line x1="445" y1="400" x2="395" y2="220" stroke="#58a6ff" stroke-width="2" opacity="0.7"/>
+
+  <!-- Line {4,5,7}: e4—e5—e7 — but e4 is already at (445,400), not great -->
+  <!-- Actually {4,5,7} connects e4, e5, e7 -->
+  <line x1="445" y1="400" x2="300" y2="440" stroke="#d2a8ff" stroke-width="2" opacity="0.7"/>
+  <line x1="300" y1="440" x2="300" y2="300" stroke="#d2a8ff" stroke-width="2" opacity="0.7"/>
+
+  <!-- Line {5,6,1}: e5—e6—e1 -->
+  <line x1="300" y1="440" x2="395" y2="220" stroke="#ffa657" stroke-width="2" opacity="0.7"/>
+  <line x1="395" y1="220" x2="300" y2="120" stroke="#ffa657" stroke-width="2" opacity="0.7"/>
+
+  <!-- Line {6,7,2}: e6—e7—e2 -->
+  <line x1="395" y1="220" x2="300" y2="300" stroke="#f778ba" stroke-width="2" opacity="0.7"/>
+  <line x1="300" y1="300" x2="155" y2="400" stroke="#f778ba" stroke-width="2" opacity="0.7"/>
+
+  <!-- Line {7,1,3}: e7—e1—e3 -->
+  <line x1="300" y1="300" x2="300" y2="120" stroke="#79c0ff" stroke-width="2" opacity="0.7"/>
+  <line x1="300" y1="120" x2="205" y2="220" stroke="#79c0ff" stroke-width="2" opacity="0.7"/>
+
+  <!-- Inscribed circle (the curved "line" through e3, e5, e6) — this is actually line {3,5,6} but that's not one of our lines -->
+  <!-- Actually standard Fano: let me draw the circle for visual appeal -->
+  <circle cx="300" cy="320" r="105" fill="none" stroke="#d2a8ff" stroke-width="1.5" opacity="0.4" stroke-dasharray="5,3"/>
+
+  <!-- Nodes -->
+  <g filter="url(#nodeGlow)">
+    <circle cx="300" cy="120" r="22" fill="#1f6feb" stroke="#58a6ff" stroke-width="2"/>
+    <text x="300" y="126" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₁</text>
+
+    <circle cx="155" cy="400" r="22" fill="#238636" stroke="#7ee787" stroke-width="2"/>
+    <text x="155" y="406" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₂</text>
+
+    <circle cx="205" cy="220" r="22" fill="#8957e5" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="205" y="226" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₃</text>
+
+    <circle cx="445" cy="400" r="22" fill="#da3633" stroke="#f85149" stroke-width="2"/>
+    <text x="445" y="406" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₄</text>
+
+    <circle cx="300" cy="440" r="22" fill="#e3b341" stroke="#f0c758" stroke-width="2"/>
+    <text x="300" y="446" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₅</text>
+
+    <circle cx="395" cy="220" r="22" fill="#f0883e" stroke="#ffa657" stroke-width="2"/>
+    <text x="395" y="226" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₆</text>
+
+    <circle cx="300" cy="300" r="22" fill="#bf4b8a" stroke="#f778ba" stroke-width="2"/>
+    <text x="300" y="306" text-anchor="middle" fill="white" font-size="16" font-weight="bold">e₇</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="50" y="500" width="500" height="120" rx="8" fill="#21262d" stroke="#30363d"/>
+  <text x="300" y="525" text-anchor="middle" fill="#f0f6fc" font-size="13" font-weight="bold">
+    7 Quaternionic Subalgebras of 𝕆
+  </text>
+  <text x="80" y="548" fill="#f85149" font-size="11">● {1,2,4}</text>
+  <text x="175" y="548" fill="#7ee787" font-size="11">● {2,3,5}</text>
+  <text x="270" y="548" fill="#58a6ff" font-size="11">● {3,4,6}</text>
+  <text x="365" y="548" fill="#d2a8ff" font-size="11">● {4,5,7}</text>
+  <text x="80" y="570" fill="#ffa657" font-size="11">● {5,6,1}</text>
+  <text x="175" y="570" fill="#f778ba" font-size="11">● {6,7,2}</text>
+  <text x="270" y="570" fill="#79c0ff" font-size="11">● {7,1,3}</text>
+
+  <text x="300" y="600" text-anchor="middle" fill="#8b949e" font-size="10">
+    Each line eᵢ·eⱼ = eₖ defines a copy of ℍ inside 𝕆 — these are the optimal partial-norm masks
+  </text>
+
+  <text x="300" y="635" text-anchor="middle" fill="#484f58" font-size="10">
+    Figure 3: The Fano plane structure underlying octonion multiplication and partial-norm mask selection
+  </text>
+</svg>

@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="620" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" fill="#e0e0ff" font-size="20" font-weight="bold" text-anchor="middle">
+    Berggren Tree: Spectral Structure &amp; Ramanujan Property
+  </text>
+
+  <!-- Edges (drawn first, behind nodes) -->
+  <!-- Root to depth 1 -->
+  <line x1="450" y1="85" x2="180" y2="190" stroke="#4488ff" stroke-width="2" opacity="0.6"/>
+  <line x1="450" y1="85" x2="450" y2="190" stroke="#44ff88" stroke-width="2" opacity="0.6"/>
+  <line x1="450" y1="85" x2="720" y2="190" stroke="#ff8844" stroke-width="2" opacity="0.6"/>
+
+  <!-- Depth 1 to depth 2 -->
+  <line x1="180" y1="210" x2="80" y2="310" stroke="#4488ff" stroke-width="1.5" opacity="0.4"/>
+  <line x1="180" y1="210" x2="180" y2="310" stroke="#44ff88" stroke-width="1.5" opacity="0.4"/>
+  <line x1="180" y1="210" x2="280" y2="310" stroke="#ff8844" stroke-width="1.5" opacity="0.4"/>
+
+  <line x1="450" y1="210" x2="370" y2="310" stroke="#4488ff" stroke-width="1.5" opacity="0.4"/>
+  <line x1="450" y1="210" x2="450" y2="310" stroke="#44ff88" stroke-width="1.5" opacity="0.4"/>
+  <line x1="450" y1="210" x2="530" y2="310" stroke="#ff8844" stroke-width="1.5" opacity="0.4"/>
+
+  <line x1="720" y1="210" x2="620" y2="310" stroke="#4488ff" stroke-width="1.5" opacity="0.4"/>
+  <line x1="720" y1="210" x2="720" y2="310" stroke="#44ff88" stroke-width="1.5" opacity="0.4"/>
+  <line x1="720" y1="210" x2="820" y2="310" stroke="#ff8844" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- "..." indicators at depth 3 -->
+  <text x="80" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="180" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="280" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="370" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="450" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="530" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="620" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="720" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+  <text x="820" y="345" fill="#666" font-size="14" text-anchor="middle">⋮</text>
+
+  <!-- Root node -->
+  <circle cx="450" cy="85" r="28" fill="#2244aa" stroke="#88aaff" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="82" fill="white" font-size="11" font-weight="bold" text-anchor="middle">(3,4,5)</text>
+  <text x="450" y="98" fill="#aaccff" font-size="9" text-anchor="middle">deg = 3</text>
+
+  <!-- Depth 1 nodes -->
+  <circle cx="180" cy="200" r="28" fill="#224488" stroke="#6699ff" stroke-width="2" filter="url(#glow)"/>
+  <text x="180" y="196" fill="white" font-size="10" text-anchor="middle">(5,12,13)</text>
+  <text x="180" y="211" fill="#88bbff" font-size="8" text-anchor="middle">B₁</text>
+
+  <circle cx="450" cy="200" r="28" fill="#226644" stroke="#66cc88" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="196" fill="white" font-size="10" text-anchor="middle">(21,20,29)</text>
+  <text x="450" y="211" fill="#88ddaa" font-size="8" text-anchor="middle">B₂</text>
+
+  <circle cx="720" cy="200" r="28" fill="#884422" stroke="#cc8844" stroke-width="2" filter="url(#glow)"/>
+  <text x="720" y="196" fill="white" font-size="10" text-anchor="middle">(15,8,17)</text>
+  <text x="720" y="211" fill="#ddaa66" font-size="8" text-anchor="middle">B₃</text>
+
+  <!-- Depth 2 nodes (smaller) -->
+  <circle cx="80" cy="310" r="18" fill="#1a3366" stroke="#5577cc" stroke-width="1.5"/>
+  <text x="80" y="313" fill="#aaccee" font-size="7" text-anchor="middle">(7,24,25)</text>
+
+  <circle cx="180" cy="310" r="18" fill="#1a3366" stroke="#5577cc" stroke-width="1.5"/>
+  <text x="180" y="313" fill="#aaccee" font-size="7" text-anchor="middle">(55,48,73)</text>
+
+  <circle cx="280" cy="310" r="18" fill="#1a3366" stroke="#5577cc" stroke-width="1.5"/>
+  <text x="280" y="313" fill="#aaccee" font-size="7" text-anchor="middle">(45,28,53)</text>
+
+  <circle cx="370" cy="310" r="18" fill="#1a5533" stroke="#55aa77" stroke-width="1.5"/>
+  <text x="370" y="313" fill="#aaddcc" font-size="7" text-anchor="middle">(39,80,89)</text>
+
+  <circle cx="450" cy="310" r="18" fill="#1a5533" stroke="#55aa77" stroke-width="1.5"/>
+  <text x="450" y="313" fill="#aaddcc" font-size="7" text-anchor="middle">(119,120,169)</text>
+
+  <circle cx="530" cy="310" r="18" fill="#1a5533" stroke="#55aa77" stroke-width="1.5"/>
+  <text x="530" y="313" fill="#aaddcc" font-size="7" text-anchor="middle">(77,36,85)</text>
+
+  <circle cx="620" cy="310" r="18" fill="#664422" stroke="#aa7733" stroke-width="1.5"/>
+  <text x="620" y="313" fill="#ddcc99" font-size="7" text-anchor="middle">(33,56,65)</text>
+
+  <circle cx="720" cy="310" r="18" fill="#664422" stroke="#aa7733" stroke-width="1.5"/>
+  <text x="720" y="313" fill="#ddcc99" font-size="7" text-anchor="middle">(65,72,97)</text>
+
+  <circle cx="820" cy="310" r="18" fill="#664422" stroke="#aa7733" stroke-width="1.5"/>
+  <text x="820" y="313" fill="#ddcc99" font-size="7" text-anchor="middle">(35,12,37)</text>
+
+  <!-- Info panel: Spectral Properties -->
+  <rect x="30" y="380" width="260" height="220" rx="10" fill="#111133" stroke="#334466" stroke-width="1.5" opacity="0.9"/>
+  <text x="160" y="405" fill="#88aaff" font-size="14" font-weight="bold" text-anchor="middle">Spectral Properties</text>
+
+  <text x="50" y="430" fill="#aabbdd" font-size="11">Ramanujan bound (d=3):</text>
+  <text x="230" y="430" fill="#ffdd44" font-size="11" font-weight="bold">2√2 ≈ 2.828</text>
+
+  <text x="50" y="455" fill="#aabbdd" font-size="11">Ramanujan bound (d=4):</text>
+  <text x="230" y="455" fill="#ffdd44" font-size="11" font-weight="bold">2√3 ≈ 3.464</text>
+
+  <text x="50" y="480" fill="#aabbdd" font-size="11">Spectral gap (d=3):</text>
+  <text x="230" y="480" fill="#44ff88" font-size="11" font-weight="bold">3−2√2 ≈ 0.172</text>
+
+  <text x="50" y="505" fill="#aabbdd" font-size="11">Spectral gap (d=4):</text>
+  <text x="230" y="505" fill="#44ff88" font-size="11" font-weight="bold">4−2√3 ≈ 0.536</text>
+
+  <text x="50" y="530" fill="#aabbdd" font-size="11">Cheeger bound (d=3):</text>
+  <text x="230" y="530" fill="#ff8844" font-size="11" font-weight="bold">≥ 0.086</text>
+
+  <text x="50" y="555" fill="#aabbdd" font-size="11">Mixing time:</text>
+  <text x="230" y="555" fill="#ff8844" font-size="11" font-weight="bold">O(log n)</text>
+
+  <text x="50" y="580" fill="#aabbdd" font-size="11">(2√2)² =</text>
+  <text x="230" y="580" fill="#ffdd44" font-size="11" font-weight="bold">8</text>
+
+  <!-- Info panel: Algebraic Properties -->
+  <rect x="320" y="380" width="260" height="220" rx="10" fill="#113311" stroke="#336644" stroke-width="1.5" opacity="0.9"/>
+  <text x="450" y="405" fill="#88ffaa" font-size="14" font-weight="bold" text-anchor="middle">Algebraic Structure</text>
+
+  <text x="340" y="430" fill="#aaddbb" font-size="11">det(B₁) = 1 ∈ SL(3,ℤ)</text>
+  <text x="340" y="455" fill="#aaddbb" font-size="11">det(B₂) = −1</text>
+  <text x="340" y="480" fill="#aaddbb" font-size="11">det(B₃) = 1 ∈ SL(3,ℤ)</text>
+  <text x="340" y="510" fill="#88ffaa" font-size="11" font-weight="bold">Lorentz Invariant:</text>
+  <text x="340" y="530" fill="#aaddbb" font-size="11">Bᵢᵀ · Q · Bᵢ = Q</text>
+  <text x="340" y="550" fill="#aaddbb" font-size="11">Q = diag(1, 1, −1)</text>
+  <text x="340" y="575" fill="#ffaa44" font-size="11">NOT involutions: Bᵢ² ≠ I</text>
+
+  <!-- Info panel: Key Insight -->
+  <rect x="610" y="380" width="260" height="220" rx="10" fill="#331111" stroke="#664433" stroke-width="1.5" opacity="0.9"/>
+  <text x="740" y="405" fill="#ffaa88" font-size="14" font-weight="bold" text-anchor="middle">Key Discovery</text>
+
+  <text x="630" y="435" fill="#ddbbaa" font-size="10">The Berggren group</text>
+  <text x="630" y="455" fill="#ddbbaa" font-size="10">⟨B₁, B₂, B₃⟩ ⊂ O(2,1;ℤ)</text>
+  <text x="630" y="475" fill="#ddbbaa" font-size="10">is an arithmetic lattice</text>
+  <text x="630" y="495" fill="#ddbbaa" font-size="10">in the Lorentz group.</text>
+
+  <text x="630" y="525" fill="#ffdd44" font-size="10" font-weight="bold">This parallels the LPS</text>
+  <text x="630" y="545" fill="#ffdd44" font-size="10" font-weight="bold">construction of Ramanujan</text>
+  <text x="630" y="565" fill="#ffdd44" font-size="10" font-weight="bold">graphs from PGL(2,ℚₚ).</text>
+
+  <text x="630" y="590" fill="#88ff88" font-size="9">All results verified in Lean 4</text>
+</svg>

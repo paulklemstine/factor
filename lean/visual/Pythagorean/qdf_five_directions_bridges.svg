@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f0f2d"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffd700"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg2)"/>
+
+  <text x="450" y="40" text-anchor="middle" fill="#ffd700" font-size="22" font-weight="bold">
+    Cross-Domain Bridge Theorems
+  </text>
+  <text x="450" y="62" text-anchor="middle" fill="#aaaacc" font-size="13">
+    One mathematical object, multiple interpretations
+  </text>
+
+  <!-- Bridge 1: Cauchy-Schwarz = Lattice ↔ QEC -->
+  <rect x="50" y="90" width="380" height="150" rx="12" fill="#0d1b3e" stroke="#4a9eff" stroke-width="2"/>
+  <text x="240" y="118" text-anchor="middle" fill="#4a9eff" font-size="16" font-weight="bold">
+    Bridge 1: Cauchy–Schwarz
+  </text>
+  <text x="240" y="142" text-anchor="middle" fill="#ffffff" font-size="13">
+    (a₁a₂+b₁b₂+c₁c₂)² ≤ d₁²d₂²
+  </text>
+  <line x1="80" y1="165" x2="400" y2="165" stroke="#4a9eff" stroke-width="1" opacity="0.5"/>
+  <text x="130" y="185" fill="#88aaff" font-size="12" font-weight="bold">Lattice:</text>
+  <text x="130" y="200" fill="#ccccee" font-size="11">Inner product bound</text>
+  <text x="130" y="215" fill="#ccccee" font-size="11">for reduction</text>
+  <text x="300" y="185" fill="#50fa7b" font-size="12" font-weight="bold">Quantum:</text>
+  <text x="300" y="200" fill="#cceecc" font-size="11">State fidelity ≤ 1</text>
+  <text x="300" y="215" fill="#cceecc" font-size="11">bound</text>
+
+  <!-- Bridge 2: Cross-term = HE ↔ TDA -->
+  <rect x="470" y="90" width="380" height="150" rx="12" fill="#3e0d1b" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="660" y="118" text-anchor="middle" fill="#ff6b6b" font-size="16" font-weight="bold">
+    Bridge 2: Cross-Term Identity
+  </text>
+  <text x="660" y="142" text-anchor="middle" fill="#ffffff" font-size="13">
+    dist² + 2⟨v₁,v₂⟩ = 2d²
+  </text>
+  <line x1="500" y1="165" x2="820" y2="165" stroke="#ff6b6b" stroke-width="1" opacity="0.5"/>
+  <text x="540" y="185" fill="#ffaaaa" font-size="12" font-weight="bold">Encryption:</text>
+  <text x="540" y="200" fill="#eecccc" font-size="11">Noise = 2(⟨v₁,v₂⟩−d₁d₂)</text>
+  <text x="540" y="215" fill="#eecccc" font-size="11">measures quality</text>
+  <text x="730" y="185" fill="#bd93f9" font-size="12" font-weight="bold">Topology:</text>
+  <text x="730" y="200" fill="#ddccee" font-size="11">Metric on quadruple</text>
+  <text x="730" y="215" fill="#ddccee" font-size="11">space for homology</text>
+
+  <!-- Bridge 3: Error Syndrome = QEC ↔ Modular Cascade -->
+  <rect x="50" y="270" width="380" height="150" rx="12" fill="#0d3e1b" stroke="#50fa7b" stroke-width="2"/>
+  <text x="240" y="298" text-anchor="middle" fill="#50fa7b" font-size="16" font-weight="bold">
+    Bridge 3: Error Syndrome
+  </text>
+  <text x="240" y="322" text-anchor="middle" fill="#ffffff" font-size="13">
+    Residual = e(2a + e)
+  </text>
+  <line x1="80" y1="345" x2="400" y2="345" stroke="#50fa7b" stroke-width="1" opacity="0.5"/>
+  <text x="130" y="365" fill="#aaffaa" font-size="12" font-weight="bold">QEC:</text>
+  <text x="130" y="380" fill="#cceecc" font-size="11">Error detection &amp;</text>
+  <text x="130" y="395" fill="#cceecc" font-size="11">magnitude recovery</text>
+  <text x="300" y="365" fill="#ffb86c" font-size="12" font-weight="bold">Modular:</text>
+  <text x="300" y="380" fill="#eeddcc" font-size="11">Cascade: p|d,p|c</text>
+  <text x="300" y="395" fill="#eeddcc" font-size="11">⇒ p²|(a²+b²)</text>
+
+  <!-- Bridge 4: Exact Homomorphism = HE ↔ Composition -->
+  <rect x="470" y="270" width="380" height="150" rx="12" fill="#3e2a0d" stroke="#ffb86c" stroke-width="2"/>
+  <text x="660" y="298" text-anchor="middle" fill="#ffb86c" font-size="16" font-weight="bold">
+    Bridge 4: Exact Homomorphism
+  </text>
+  <text x="660" y="322" text-anchor="middle" fill="#ffffff" font-size="13">
+    ⟨v₁,v₂⟩ = d₁d₂ ⟹ sum is quadruple
+  </text>
+  <line x1="500" y1="345" x2="820" y2="345" stroke="#ffb86c" stroke-width="1" opacity="0.5"/>
+  <text x="540" y="365" fill="#ffcc88" font-size="12" font-weight="bold">Encryption:</text>
+  <text x="540" y="380" fill="#eeddcc" font-size="11">Noise-free addition</text>
+  <text x="540" y="395" fill="#eeddcc" font-size="11">of ciphertexts</text>
+  <text x="730" y="365" fill="#4a9eff" font-size="12" font-weight="bold">Composition:</text>
+  <text x="730" y="380" fill="#ccccee" font-size="11">Closed algebraic</text>
+  <text x="730" y="395" fill="#ccccee" font-size="11">structure</text>
+
+  <!-- Unifying formula -->
+  <rect x="200" y="460" width="500" height="100" rx="15" fill="#1a1a3e" stroke="#ffd700" stroke-width="2"/>
+  <text x="450" y="490" text-anchor="middle" fill="#ffd700" font-size="18" font-weight="bold">
+    Unifying Principle
+  </text>
+  <text x="450" y="515" text-anchor="middle" fill="#ffffff" font-size="14">
+    The QDF identity a²+b²+c²=d² encodes geometry, algebra,
+  </text>
+  <text x="450" y="535" text-anchor="middle" fill="#ffffff" font-size="14">
+    and information theory in a single equation.
+  </text>
+
+  <!-- Connecting arrows to unifier -->
+  <line x1="240" y1="420" x2="350" y2="460" stroke="#ffd700" stroke-width="1" opacity="0.5" stroke-dasharray="4,4"/>
+  <line x1="660" y1="420" x2="550" y2="460" stroke="#ffd700" stroke-width="1" opacity="0.5" stroke-dasharray="4,4"/>
+</svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#0a0a23" rx="10"/>
+
+  <text x="400" y="40" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="22" font-weight="bold" fill="#ffeaa7">
+    Four Open Problems — Progress Report
+  </text>
+
+  <!-- Problem 1 -->
+  <g transform="translate(20, 70)">
+    <rect width="370" height="220" rx="12" fill="rgba(231,76,60,0.15)" stroke="#e74c3c" stroke-width="2"/>
+    <rect x="15" y="15" width="30" height="30" rx="6" fill="#e74c3c"/>
+    <text x="30" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">1</text>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#e74c3c">Tropical Langlands</text>
+
+    <text x="20" y="65" font-family="Arial, sans-serif" font-size="11" fill="#ccc">Can the Berggren tree yield tropical</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="11" fill="#ccc">automorphic form theory?</text>
+
+    <text x="20" y="110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#e74c3c">Progress:</text>
+    <text x="20" y="130" font-family="monospace" font-size="9" fill="#aaa">✓ Free monoid of tree paths formalized</text>
+    <text x="20" y="145" font-family="monospace" font-size="9" fill="#aaa">✓ Path composition = action composition</text>
+    <text x="20" y="160" font-family="monospace" font-size="9" fill="#aaa">✓ Quadratic form preserved along paths</text>
+    <text x="20" y="175" font-family="monospace" font-size="9" fill="#aaa">✓ Perimeter parity constraints</text>
+    <text x="20" y="190" font-family="monospace" font-size="9" fill="#aaa">✓ Grandchildren computed and verified</text>
+
+    <rect x="280" y="195" width="75" height="20" rx="4" fill="#e74c3c" opacity="0.3"/>
+    <text x="317" y="209" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">12 theorems</text>
+  </g>
+
+  <!-- Problem 2 -->
+  <g transform="translate(410, 70)">
+    <rect width="370" height="220" rx="12" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="2"/>
+    <rect x="15" y="15" width="30" height="30" rx="6" fill="#3498db"/>
+    <text x="30" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">2</text>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#3498db">Idempotent Networks</text>
+
+    <text x="20" y="65" font-family="Arial, sans-serif" font-size="11" fill="#ccc">Can idempotent layers achieve</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="11" fill="#ccc">faster convergence?</text>
+
+    <text x="20" y="110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3498db">Progress:</text>
+    <text x="20" y="130" font-family="monospace" font-size="9" fill="#aaa">✓ 1-step convergence proved</text>
+    <text x="20" y="145" font-family="monospace" font-size="9" fill="#aaa">✓ Complementary projection (id-f)²=id-f</text>
+    <text x="20" y="160" font-family="monospace" font-size="9" fill="#aaa">✓ ker(f)=range(id-f) duality</text>
+    <text x="20" y="175" font-family="monospace" font-size="9" fill="#aaa">✓ Commuting composition theorem</text>
+    <text x="20" y="190" font-family="monospace" font-size="9" fill="#aaa">✓ Full range ⟹ identity</text>
+
+    <rect x="280" y="195" width="75" height="20" rx="4" fill="#3498db" opacity="0.3"/>
+    <text x="317" y="209" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#3498db">13 theorems</text>
+  </g>
+
+  <!-- Problem 3 -->
+  <g transform="translate(20, 320)">
+    <rect width="370" height="240" rx="12" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="2"/>
+    <rect x="15" y="15" width="30" height="30" rx="6" fill="#2ecc71"/>
+    <text x="30" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">3</text>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#2ecc71">Quantum Berggren Gates</text>
+
+    <text x="20" y="65" font-family="Arial, sans-serif" font-size="11" fill="#ccc">Can Berggren matrices generate</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="11" fill="#ccc">a universal gate set for SU(2)?</text>
+
+    <text x="20" y="110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2ecc71">Progress:</text>
+    <text x="20" y="130" font-family="monospace" font-size="9" fill="#aaa">✓ Mᵢᵀ·Σ·Mᵢ = Σ (all three verified)</text>
+    <text x="20" y="145" font-family="monospace" font-size="9" fill="#aaa">✓ det(M₁)=1, det(M₂)=-1, det(M₃)=1</text>
+    <text x="20" y="160" font-family="monospace" font-size="9" fill="#aaa">✓ Products preserve quadratic form</text>
+    <text x="20" y="175" font-family="monospace" font-size="9" fill="#aaa">✓ All distinctness verified</text>
+    <text x="20" y="190" font-family="monospace" font-size="9" fill="#aaa">✓ Root vector children computed</text>
+    <text x="20" y="210" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">⚠ Integrality obstructs SU(2)</text>
+    <text x="20" y="225" font-family="Arial, sans-serif" font-size="10" fill="#e74c3c">  universality — arithmetic subgroup</text>
+
+    <rect x="280" y="215" width="75" height="20" rx="4" fill="#2ecc71" opacity="0.3"/>
+    <text x="317" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2ecc71">24 theorems</text>
+  </g>
+
+  <!-- Problem 4 -->
+  <g transform="translate(410, 320)">
+    <rect width="370" height="240" rx="12" fill="rgba(155,89,182,0.15)" stroke="#9b59b6" stroke-width="2"/>
+    <rect x="15" y="15" width="30" height="30" rx="6" fill="#9b59b6"/>
+    <text x="30" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">4</text>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#9b59b6">Formal Sauer–Shelah</text>
+
+    <text x="20" y="65" font-family="Arial, sans-serif" font-size="11" fill="#ccc">Can the idempotent collapse ↔</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="11" fill="#ccc">VC dimension connection be formalized?</text>
+
+    <text x="20" y="110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#9b59b6">Progress:</text>
+    <text x="20" y="130" font-family="monospace" font-size="9" fill="#aaa">✓ Restriction operator is idempotent</text>
+    <text x="20" y="145" font-family="monospace" font-size="9" fill="#aaa">✓ |restrict(F,S)| ≤ 2^|S|</text>
+    <text x="20" y="160" font-family="monospace" font-size="9" fill="#aaa">✓ Shattering = full restriction</text>
+    <text x="20" y="175" font-family="monospace" font-size="9" fill="#aaa">✓ Shattering monotonicity</text>
+    <text x="20" y="190" font-family="monospace" font-size="9" fill="#aaa">✓ Binomial sum bounds verified</text>
+    <text x="20" y="210" font-family="Arial, sans-serif" font-size="10" fill="#f39c12">Key insight: restriction idempotence</text>
+    <text x="20" y="225" font-family="Arial, sans-serif" font-size="10" fill="#f39c12">  = idempotent collapse of VC theory</text>
+
+    <rect x="280" y="215" width="75" height="20" rx="4" fill="#9b59b6" opacity="0.3"/>
+    <text x="317" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#9b59b6">10 theorems</text>
+  </g>
+</svg>

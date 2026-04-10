@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a20"/>
+      <stop offset="100%" stop-color="#1a1040"/>
+    </linearGradient>
+    <radialGradient id="e8glow" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#9944ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#4400aa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg4)"/>
+
+  <text x="450" y="35" text-anchor="middle" fill="#cc88ff" font-size="20" font-weight="bold">
+    E₈ Lattice &amp; Modular Forms: The Deep Connection
+  </text>
+
+  <!-- E₈ Lattice Section (Left) -->
+  <g transform="translate(230, 230)">
+    <circle cx="0" cy="0" r="140" fill="url(#e8glow)"/>
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#6633aa" stroke-width="1" opacity="0.5"/>
+
+    <!-- E₈ root system projection (stylized) -->
+    <!-- 8 main directions -->
+    <g stroke="#9944ff" stroke-width="0.5" opacity="0.4">
+      <line x1="-130" y1="0" x2="130" y2="0"/>
+      <line x1="0" y1="-130" x2="0" y2="130"/>
+      <line x1="-92" y1="-92" x2="92" y2="92"/>
+      <line x1="-92" y1="92" x2="92" y2="-92"/>
+      <line x1="-120" y1="-50" x2="120" y2="50"/>
+      <line x1="-120" y1="50" x2="120" y2="-50"/>
+      <line x1="-50" y1="-120" x2="50" y2="120"/>
+      <line x1="-50" y1="120" x2="50" y2="-120"/>
+    </g>
+
+    <!-- 240 root vectors (showing ~48 representative ones) -->
+    <g fill="#cc88ff" opacity="0.7">
+      <!-- Vertices of regular polygon approximations -->
+      <circle cx="130" cy="0" r="3"/><circle cx="-130" cy="0" r="3"/>
+      <circle cx="0" cy="130" r="3"/><circle cx="0" cy="-130" r="3"/>
+      <circle cx="92" cy="92" r="3"/><circle cx="-92" cy="92" r="3"/>
+      <circle cx="92" cy="-92" r="3"/><circle cx="-92" cy="-92" r="3"/>
+      <circle cx="120" cy="50" r="2.5"/><circle cx="-120" cy="50" r="2.5"/>
+      <circle cx="120" cy="-50" r="2.5"/><circle cx="-120" cy="-50" r="2.5"/>
+      <circle cx="50" cy="120" r="2.5"/><circle cx="-50" cy="120" r="2.5"/>
+      <circle cx="50" cy="-120" r="2.5"/><circle cx="-50" cy="-120" r="2.5"/>
+      <circle cx="110" cy="70" r="2"/><circle cx="-110" cy="70" r="2"/>
+      <circle cx="110" cy="-70" r="2"/><circle cx="-110" cy="-70" r="2"/>
+      <circle cx="70" cy="110" r="2"/><circle cx="-70" cy="110" r="2"/>
+      <circle cx="70" cy="-110" r="2"/><circle cx="-70" cy="-110" r="2"/>
+      <circle cx="100" cy="30" r="2"/><circle cx="-100" cy="30" r="2"/>
+      <circle cx="100" cy="-30" r="2"/><circle cx="-100" cy="-30" r="2"/>
+      <circle cx="30" cy="100" r="2"/><circle cx="-30" cy="100" r="2"/>
+      <circle cx="30" cy="-100" r="2"/><circle cx="-30" cy="-100" r="2"/>
+    </g>
+
+    <!-- Central point (the embedding) -->
+    <circle cx="0" cy="0" r="6" fill="#ffd700" stroke="#fff" stroke-width="1"/>
+
+    <text x="0" y="-155" text-anchor="middle" fill="#cc88ff" font-size="15" font-weight="bold">
+      E₈ Lattice
+    </text>
+    <text x="0" y="170" text-anchor="middle" fill="#9966cc" font-size="11">
+      240 nearest neighbors
+    </text>
+    <text x="0" y="185" text-anchor="middle" fill="#9966cc" font-size="11">
+      C(8,2) = 28 cross-channels each
+    </text>
+  </g>
+
+  <!-- Modular Forms Section (Right) -->
+  <g transform="translate(650, 100)">
+    <rect x="-170" y="0" width="340" height="400" rx="10" fill="#0d0d25" stroke="#cc8844" stroke-width="1"/>
+
+    <text x="0" y="30" text-anchor="middle" fill="#ffd700" font-size="15" font-weight="bold">
+      Modular Forms
+    </text>
+
+    <!-- Theta function -->
+    <text x="0" y="60" text-anchor="middle" fill="#cc8844" font-size="12" font-weight="bold">
+      Θ₃(q)³ = Σ r₃(n) qⁿ
+    </text>
+    <text x="0" y="80" text-anchor="middle" fill="#998866" font-size="10">
+      Predicts representation counts
+    </text>
+
+    <!-- r₃ values -->
+    <text x="-140" y="110" fill="#888" font-size="10">n</text>
+    <text x="-60" y="110" fill="#888" font-size="10">r₃(n)</text>
+    <text x="40" y="110" fill="#888" font-size="10">Factor</text>
+    <text x="120" y="110" fill="#888" font-size="10">Yield</text>
+
+    <line x1="-160" y1="115" x2="160" y2="115" stroke="#444" stroke-width="0.5"/>
+
+    <g font-size="10">
+      <text x="-140" y="132" fill="#aaa">1</text>
+      <text x="-60" y="132" fill="#aaa">1</text>
+      <text x="40" y="132" fill="#aaa">—</text>
+      <text x="120" y="132" fill="#666">low</text>
+
+      <text x="-140" y="150" fill="#aaa">5</text>
+      <text x="-60" y="150" fill="#aaa">1</text>
+      <text x="40" y="150" fill="#aaa">prime</text>
+      <text x="120" y="150" fill="#666">low</text>
+
+      <text x="-140" y="168" fill="#ffd700">9</text>
+      <text x="-60" y="168" fill="#ffd700">2</text>
+      <text x="40" y="168" fill="#ffd700">3²</text>
+      <text x="120" y="168" fill="#ffd700">HIGH</text>
+
+      <text x="-140" y="186" fill="#aaa">14</text>
+      <text x="-60" y="186" fill="#aaa">2</text>
+      <text x="40" y="186" fill="#aaa">2×7</text>
+      <text x="120" y="186" fill="#ffd700">HIGH</text>
+
+      <text x="-140" y="204" fill="#ffd700">21</text>
+      <text x="-60" y="204" fill="#ffd700">3</text>
+      <text x="40" y="204" fill="#ffd700">3×7</text>
+      <text x="120" y="204" fill="#ffd700">BEST</text>
+
+      <text x="-140" y="222" fill="#aaa">25</text>
+      <text x="-60" y="222" fill="#aaa">2</text>
+      <text x="40" y="222" fill="#aaa">5²</text>
+      <text x="120" y="222" fill="#ffd700">HIGH</text>
+
+      <text x="-140" y="240" fill="#ffd700">45</text>
+      <text x="-60" y="240" fill="#ffd700">4</text>
+      <text x="40" y="240" fill="#ffd700">3²×5</text>
+      <text x="120" y="240" fill="#ff6644">BEST</text>
+    </g>
+
+    <!-- Formula boxes -->
+    <rect x="-150" y="260" width="300" height="40" rx="5" fill="#1a1a3e" stroke="#cc8844" stroke-width="1"/>
+    <text x="0" y="278" text-anchor="middle" fill="#ffd700" font-size="11">
+      r₃(N) ~ C · √N · Π (1 − χ(p)/p)⁻¹
+    </text>
+    <text x="0" y="293" text-anchor="middle" fill="#998866" font-size="9">
+      Growth: O(N^{1/2+ε})
+    </text>
+
+    <rect x="-150" y="310" width="300" height="40" rx="5" fill="#1a1a3e" stroke="#aa44cc" stroke-width="1"/>
+    <text x="0" y="328" text-anchor="middle" fill="#cc88ff" font-size="11">
+      r₈(N) = 480 · σ₃(N)
+    </text>
+    <text x="0" y="343" text-anchor="middle" fill="#9966cc" font-size="9">
+      Growth: O(N³) — massively more channels
+    </text>
+
+    <!-- Prediction arrow -->
+    <text x="0" y="375" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">
+      → Predicts optimal factoring reps
+    </text>
+    <text x="0" y="393" text-anchor="middle" fill="#998866" font-size="10">
+      Hecke eigenvalues rank representations
+    </text>
+  </g>
+
+  <!-- Connection arrow -->
+  <g stroke="#ffd700" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M 370 230 Q 420 150 480 120" stroke-dasharray="5,3"/>
+    <path d="M 370 280 Q 420 350 480 380" stroke-dasharray="5,3"/>
+  </g>
+  <text x="420" y="270" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold"
+        transform="rotate(-15, 420, 270)">
+    r₈ = 480·σ₃
+  </text>
+
+  <!-- Bottom key insight -->
+  <rect x="100" y="530" width="700" height="45" rx="6" fill="#0d0d25" stroke="#ffd700" stroke-width="1"/>
+  <text x="450" y="550" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">
+    Key Insight: Modular forms predict WHICH representations yield factors;
+  </text>
+  <text x="450" y="566" text-anchor="middle" fill="#cc88ff" font-size="11">
+    E₈ provides 240 × 28 = 6,720 collision channels per lattice point
+  </text>
+</svg>

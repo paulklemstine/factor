@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1e0a3e"/>
+    </linearGradient>
+    <radialGradient id="qubitGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#cc66ff;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#cc66ff;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg4)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#cc66ff" font-size="20" font-weight="bold">
+    Quantum Gate Synthesis via Quaternion Descent
+  </text>
+
+  <!-- S³ representation (schematic circle) -->
+  <circle cx="200" cy="260" r="130" fill="none" stroke="#cc66ff" stroke-width="1" stroke-dasharray="3,3"/>
+  <circle cx="200" cy="260" r="130" fill="url(#qubitGlow)"/>
+  <text x="200" y="140" text-anchor="middle" fill="#cc66ff" font-size="14" font-weight="bold">
+    S³ ⊂ SU(2)
+  </text>
+  <text x="200" y="410" text-anchor="middle" fill="#888" font-size="11">
+    Integer quaternions on S³
+  </text>
+
+  <!-- Integer points on circle -->
+  <g fill="#ffd700">
+    <!-- Norm 1: 8 points (units) -->
+    <circle cx="330" cy="260" r="4"/>
+    <circle cx="70" cy="260" r="4"/>
+    <circle cx="200" cy="130" r="4"/>
+    <circle cx="200" cy="390" r="4"/>
+    <text x="340" y="258" fill="#ffd700" font-size="9">d=1</text>
+  </g>
+
+  <g fill="#4a9eff">
+    <!-- Norm 2: more points -->
+    <circle cx="292" cy="168" r="3.5"/>
+    <circle cx="108" cy="168" r="3.5"/>
+    <circle cx="292" cy="352" r="3.5"/>
+    <circle cx="108" cy="352" r="3.5"/>
+    <text x="300" y="165" fill="#4a9eff" font-size="9">d=2</text>
+  </g>
+
+  <g fill="#33cc99">
+    <!-- Norm 3: even more -->
+    <circle cx="312" cy="202" r="3"/>
+    <circle cx="88" cy="202" r="3"/>
+    <circle cx="312" cy="318" r="3"/>
+    <circle cx="88" cy="318" r="3"/>
+    <circle cx="262" cy="148" r="3"/>
+    <circle cx="138" cy="148" r="3"/>
+    <circle cx="262" cy="372" r="3"/>
+    <circle cx="138" cy="372" r="3"/>
+    <text x="320" y="200" fill="#33cc99" font-size="9">d=3</text>
+  </g>
+
+  <!-- Arrow: descent = gate decomposition -->
+  <line x1="370" y1="260" x2="440" y2="260" stroke="#ffd700" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <text x="405" y="250" text-anchor="middle" fill="#ffd700" font-size="10">DESCENT</text>
+  <text x="405" y="275" text-anchor="middle" fill="#ffd700" font-size="10">= FACTOR</text>
+
+  <!-- Gate decomposition -->
+  <rect x="460" y="100" width="310" height="320" rx="12" fill="#1a1a3a" stroke="#cc66ff" stroke-width="1"/>
+  <text x="615" y="125" text-anchor="middle" fill="#cc66ff" font-size="14" font-weight="bold">
+    Gate Decomposition
+  </text>
+
+  <!-- Circuit diagram -->
+  <line x1="490" y1="170" x2="740" y2="170" stroke="#666" stroke-width="1.5"/>
+  <text x="475" y="174" fill="#aaa" font-size="11">|ψ⟩</text>
+
+  <!-- Gates -->
+  <rect x="510" y="155" width="35" height="30" rx="4" fill="#2a2a5e" stroke="#cc66ff" stroke-width="1"/>
+  <text x="527" y="175" text-anchor="middle" fill="#cc66ff" font-size="11">G₁</text>
+
+  <rect x="560" y="155" width="35" height="30" rx="4" fill="#2a2a5e" stroke="#cc66ff" stroke-width="1"/>
+  <text x="577" y="175" text-anchor="middle" fill="#cc66ff" font-size="11">G₂</text>
+
+  <rect x="610" y="155" width="35" height="30" rx="4" fill="#2a2a5e" stroke="#4a9eff" stroke-width="1"/>
+  <text x="627" y="175" text-anchor="middle" fill="#4a9eff" font-size="11">G₃</text>
+
+  <text x="660" y="175" fill="#888" font-size="14">···</text>
+
+  <rect x="685" y="155" width="35" height="30" rx="4" fill="#2a2a5e" stroke="#33cc99" stroke-width="1"/>
+  <text x="702" y="175" text-anchor="middle" fill="#33cc99" font-size="11">Gₖ</text>
+
+  <!-- Explanation -->
+  <text x="480" y="220" fill="#ddd" font-size="12">Target rotation U ∈ SU(2)</text>
+  <text x="480" y="240" fill="#ddd" font-size="12">↓ Find nearest α with |α|²= d</text>
+  <text x="480" y="260" fill="#ddd" font-size="12">↓ Descent: α → α₁ → ··· → 1</text>
+  <text x="480" y="280" fill="#ddd" font-size="12">↓ Each step = one elementary gate</text>
+  <text x="480" y="310" fill="#ffd700" font-size="13" font-weight="bold">
+    Gate count k = O(log d)
+  </text>
+  <text x="480" y="335" fill="#ddd" font-size="12">Precision ε ~ 1/√d</text>
+  <text x="480" y="355" fill="#ddd" font-size="12">→ k = O(log(1/ε²)) = O(log(1/ε))</text>
+  <text x="480" y="380" fill="#88ff88" font-size="11">
+    Matches Solovay-Kitaev optimal bound
+  </text>
+  <text x="480" y="400" fill="#888" font-size="10">
+    Formalized: descent_depth_bound
+  </text>
+
+  <!-- Density formula -->
+  <rect x="100" y="440" width="600" height="40" rx="8" fill="#1a1a3a" stroke="#ffd700" stroke-width="1"/>
+  <text x="400" y="465" text-anchor="middle" fill="#ffd700" font-size="13">
+    r₄(d) = # integer quaternions at norm d → density of available gates on S³
+  </text>
+</svg>

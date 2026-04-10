@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      .title { font: bold 18px 'Georgia', serif; fill: #1a1a2e; }
+      .step-title { font: bold 14px 'Arial', sans-serif; fill: #0f3460; }
+      .step-text { font: 13px 'Arial', sans-serif; fill: #333; }
+      .math { font: italic 14px 'Georgia', serif; fill: #e94560; }
+      .result { font: bold 16px 'Georgia', serif; fill: #16c79a; }
+      .box { fill: white; stroke: #0f3460; stroke-width: 1.5; rx: 8; }
+      .arrow { stroke: #e94560; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e94560"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#fafafa" rx="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" class="title" text-anchor="middle">Factoring via Pythagorean Triples: The Difference-of-Squares Pipeline</text>
+  <text x="400" y="55" font-size="12" font-style="italic" fill="#666" text-anchor="middle">Example: Factoring n = 21</text>
+  
+  <!-- Step 1: Find triple -->
+  <rect x="30" y="80" width="200" height="120" class="box"/>
+  <text x="130" y="105" class="step-title" text-anchor="middle">Step 1: Find Triple</text>
+  <text x="130" y="130" class="step-text" text-anchor="middle">Navigate Berggren tree</text>
+  <text x="130" y="150" class="step-text" text-anchor="middle">to find (a, b, c) with</text>
+  <text x="130" y="170" class="math" text-anchor="middle">a = 21, b = 20, c = 29</text>
+  <text x="130" y="190" class="step-text" text-anchor="middle" font-size="11" fill="#888">Path: [M] from root</text>
+  
+  <!-- Arrow 1→2 -->
+  <line x1="230" y1="140" x2="280" y2="140" class="arrow" marker-end="url(#arr)"/>
+  
+  <!-- Step 2: Compute difference of squares -->
+  <rect x="290" y="80" width="210" height="120" class="box"/>
+  <text x="395" y="105" class="step-title" text-anchor="middle">Step 2: Factor a²</text>
+  <text x="395" y="130" class="math" text-anchor="middle">(c−b)(c+b) = a²</text>
+  <text x="395" y="155" class="math" text-anchor="middle">(29−20)(29+20) = 21²</text>
+  <text x="395" y="180" class="math" text-anchor="middle">9 × 49 = 441</text>
+  
+  <!-- Arrow 2→3 -->
+  <line x1="500" y1="140" x2="550" y2="140" class="arrow" marker-end="url(#arr)"/>
+  
+  <!-- Step 3: Compute GCD -->
+  <rect x="560" y="80" width="210" height="120" class="box"/>
+  <text x="665" y="105" class="step-title" text-anchor="middle">Step 3: Extract Factors</text>
+  <text x="665" y="130" class="math" text-anchor="middle">gcd(c−b, a) = gcd(9, 21)</text>
+  <text x="665" y="155" class="result" text-anchor="middle">= 3  ✓</text>
+  <text x="665" y="180" class="step-text" text-anchor="middle">→ 21 = 3 × 7</text>
+  
+  <!-- Lower section: General formula -->
+  <rect x="30" y="240" width="740" height="100" rx="10" fill="#f0f0f5" stroke="#ccc"/>
+  <text x="400" y="270" class="step-title" text-anchor="middle">General Principle</text>
+  <text x="400" y="295" class="math" text-anchor="middle">Given a² + b² = c², we get (c − b)(c + b) = a², so gcd(c − b, a) divides a.</text>
+  <text x="400" y="320" class="step-text" text-anchor="middle">If 1 &lt; gcd(c − b, a) &lt; a, this is a nontrivial factor — factoring achieved!</text>
+  
+  <!-- Visual: the triangle -->
+  <rect x="30" y="370" width="340" height="110" rx="10" fill="white" stroke="#ddd"/>
+  <text x="200" y="395" class="step-title" text-anchor="middle">The Pythagorean Triple (21, 20, 29)</text>
+  
+  <!-- Draw the triangle -->
+  <polygon points="60,460 260,460 260,400" fill="none" stroke="#0f3460" stroke-width="2"/>
+  <text x="160" y="478" class="math" text-anchor="middle">21</text>
+  <text x="275" y="435" class="math" text-anchor="middle">20</text>
+  <text x="145" y="422" class="math" text-anchor="middle">29</text>
+  
+  <!-- Right angle marker -->
+  <rect x="245" y="445" width="15" height="15" fill="none" stroke="#0f3460" stroke-width="1"/>
+  
+  <!-- Factoring summary -->
+  <rect x="400" y="370" width="370" height="110" rx="10" fill="white" stroke="#ddd"/>
+  <text x="585" y="395" class="step-title" text-anchor="middle">Why This Works</text>
+  <text x="585" y="420" class="step-text" text-anchor="middle">c² − b² = a² is the Pythagorean identity</text>
+  <text x="585" y="442" class="step-text" text-anchor="middle">(c−b)(c+b) = a² is difference of squares</text>
+  <text x="585" y="464" class="step-text" text-anchor="middle">If gcd(c−b, a) is nontrivial, we factor a.</text>
+</svg>

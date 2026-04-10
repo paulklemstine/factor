@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Georgia, serif">
+  <rect width="800" height="450" fill="#fefefe" rx="10"/>
+
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">
+    Tropical L-Functions: From Euler Products to Piecewise-Linear Sums
+  </text>
+
+  <!-- Classical side -->
+  <rect x="30" y="50" width="360" height="170" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="210" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565c0">Classical L-Function</text>
+
+  <text x="210" y="105" text-anchor="middle" font-size="13" fill="#333">
+    L(s, π) = ∏ₚ (1 − αₚ p⁻ˢ)⁻¹
+  </text>
+  <text x="210" y="130" text-anchor="middle" font-size="11" fill="#555">Euler product over primes</text>
+  <text x="210" y="155" text-anchor="middle" font-size="11" fill="#555">Analytic continuation to ℂ</text>
+  <text x="210" y="175" text-anchor="middle" font-size="11" fill="#555">Functional equation: L(s) ↔ L(1−s)</text>
+  <text x="210" y="200" text-anchor="middle" font-size="10" fill="#1565c0">Smooth, analytic, complex-valued</text>
+
+  <!-- Arrow -->
+  <text x="400" y="140" text-anchor="middle" font-size="24" fill="#1e8e3e">→</text>
+  <text x="400" y="160" text-anchor="middle" font-size="10" fill="#1e8e3e" font-weight="bold">tropicalize</text>
+
+  <!-- Tropical side -->
+  <rect x="410" y="50" width="360" height="170" rx="8" fill="#e8f5e9" stroke="#1e8e3e"/>
+  <text x="590" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e8e3e">Tropical L-Function</text>
+
+  <text x="590" y="105" text-anchor="middle" font-size="13" fill="#333">
+    L(s) = Σₚ (s − αₚ)
+  </text>
+  <text x="590" y="130" text-anchor="middle" font-size="11" fill="#555">Sum over primes (= tropical product)</text>
+  <text x="590" y="155" text-anchor="middle" font-size="11" fill="#555">Convex piecewise-linear function</text>
+  <text x="590" y="175" text-anchor="middle" font-size="11" fill="#555">Newton polygon encodes slopes</text>
+  <text x="590" y="200" text-anchor="middle" font-size="10" fill="#1e8e3e">Combinatorial, PL, real-valued</text>
+
+  <!-- Newton polygon illustration -->
+  <rect x="50" y="240" width="700" height="190" rx="8" fill="white" stroke="#ddd"/>
+  <text x="400" y="265" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Newton Polygon = Tropical L-Function Graph</text>
+
+  <!-- Axes -->
+  <line x1="120" y1="400" x2="700" y2="400" stroke="#333" stroke-width="1.5"/>
+  <line x1="120" y1="400" x2="120" y2="280" stroke="#333" stroke-width="1.5"/>
+  <text x="710" y="405" font-size="10" fill="#333">s</text>
+  <text x="110" y="278" font-size="10" fill="#333">L(s)</text>
+
+  <!-- Piecewise-linear function (Newton polygon) -->
+  <polyline points="150,380 250,350 400,310 550,340 650,380"
+            fill="none" stroke="#ea4335" stroke-width="3"/>
+
+  <!-- Slope labels -->
+  <circle cx="150" cy="380" r="4" fill="#ea4335"/>
+  <circle cx="250" cy="350" r="4" fill="#ea4335"/>
+  <circle cx="400" cy="310" r="4" fill="#ea4335"/>
+  <circle cx="550" cy="340" r="4" fill="#ea4335"/>
+  <circle cx="650" cy="380" r="4" fill="#ea4335"/>
+
+  <text x="195" y="372" text-anchor="middle" font-size="9" fill="#333">slope α₁</text>
+  <text x="325" y="335" text-anchor="middle" font-size="9" fill="#333">slope α₂</text>
+  <text x="475" y="320" text-anchor="middle" font-size="9" fill="#333">slope α₃</text>
+  <text x="600" y="355" text-anchor="middle" font-size="9" fill="#333">slope α₄</text>
+
+  <!-- Annotation -->
+  <text x="400" y="420" text-anchor="middle" font-size="10" fill="#666">
+    Slopes = Satake parameters = tropical Hecke eigenvalues = Galois breaks
+  </text>
+</svg>

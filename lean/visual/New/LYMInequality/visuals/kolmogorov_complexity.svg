@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="500" fill="url(#bg4)" rx="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#e0e0e0">Kolmogorov Complexity</text>
+  <text x="400" y="55" text-anchor="middle" font-size="12" fill="#a0a0a0">The length of the shortest program that produces a string</text>
+  
+  <!-- Low complexity example -->
+  <rect x="30" y="80" width="230" height="160" rx="8" fill="#0f3460" stroke="#3498db" stroke-width="1.5"/>
+  <text x="145" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#3498db">Low Complexity</text>
+  
+  <text x="50" y="130" font-size="10" fill="#74b9ff" font-family="monospace">String:</text>
+  <text x="50" y="148" font-size="9" fill="#dfe6e9" font-family="monospace">000000000000000...</text>
+  <text x="50" y="163" font-size="9" fill="#636e72">(1,000,000 zeros)</text>
+  
+  <text x="50" y="188" font-size="10" fill="#74b9ff" font-family="monospace">Program:</text>
+  <text x="50" y="206" font-size="9" fill="#dfe6e9" font-family="monospace">print("0" * 1000000)</text>
+  
+  <text x="50" y="228" font-size="11" fill="#2ecc71" font-weight="bold">K(x) ≈ 30 bits ≪ |x|</text>
+  
+  <!-- Medium complexity example -->
+  <rect x="285" y="80" width="230" height="160" rx="8" fill="#0f3460" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="400" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#f39c12">Medium Complexity</text>
+  
+  <text x="305" y="130" font-size="10" fill="#ffeaa7" font-family="monospace">String:</text>
+  <text x="305" y="148" font-size="9" fill="#dfe6e9" font-family="monospace">3.14159265358979...</text>
+  <text x="305" y="163" font-size="9" fill="#636e72">(digits of π)</text>
+  
+  <text x="305" y="188" font-size="10" fill="#ffeaa7" font-family="monospace">Program:</text>
+  <text x="305" y="206" font-size="9" fill="#dfe6e9" font-family="monospace">compute_pi(1000000)</text>
+  
+  <text x="305" y="228" font-size="11" fill="#f39c12" font-weight="bold">K(x) ≈ 50 bits &lt; |x|</text>
+  
+  <!-- High complexity example -->
+  <rect x="540" y="80" width="230" height="160" rx="8" fill="#0f3460" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="655" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#e74c3c">High Complexity</text>
+  
+  <text x="560" y="130" font-size="10" fill="#fab1a0" font-family="monospace">String:</text>
+  <text x="560" y="148" font-size="9" fill="#dfe6e9" font-family="monospace">x7kQ9mP2nR5wL8...</text>
+  <text x="560" y="163" font-size="9" fill="#636e72">(random string)</text>
+  
+  <text x="560" y="188" font-size="10" fill="#fab1a0" font-family="monospace">Program:</text>
+  <text x="560" y="206" font-size="9" fill="#dfe6e9" font-family="monospace">print("x7kQ9mP2nR5wL8"</text>
+  <text x="560" y="218" font-size="9" fill="#dfe6e9" font-family="monospace">+ ...entire string...)</text>
+  
+  <text x="560" y="228" font-size="11" fill="#e74c3c" font-weight="bold">K(x) ≈ |x| (incompressible)</text>
+  
+  <!-- Invariance Theorem box -->
+  <rect x="30" y="260" width="355" height="100" rx="8" fill="#1a1a2e" stroke="#9b59b6" stroke-width="2"/>
+  <text x="207" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="#9b59b6">Invariance Theorem</text>
+  <text x="207" y="305" text-anchor="middle" font-size="11" fill="#d0d0d0">(universal_is_optimal)</text>
+  <text x="50" y="330" font-size="11" fill="#e0e0e0">For any two universal machines U₁, U₂:</text>
+  <text x="50" y="348" font-size="13" fill="#bb8fce" font-weight="bold" font-style="italic">|K_U₁(x) − K_U₂(x)| ≤ c</text>
+  
+  <!-- Incompressibility box -->
+  <rect x="415" y="260" width="355" height="100" rx="8" fill="#1a1a2e" stroke="#1abc9c" stroke-width="2"/>
+  <text x="592" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="#1abc9c">Incompressibility</text>
+  <text x="592" y="305" text-anchor="middle" font-size="11" fill="#d0d0d0">(incompressible_exist)</text>
+  <text x="435" y="330" font-size="11" fill="#e0e0e0">Among 2ⁿ strings of length n:</text>
+  <text x="435" y="348" font-size="13" fill="#76d7c4" font-weight="bold" font-style="italic">At least one has K(x) ≥ n</text>
+  
+  <!-- Counting diagram -->
+  <rect x="30" y="380" width="740" height="100" rx="8" fill="#0f3460" fill-opacity="0.5" stroke="#34495e"/>
+  <text x="400" y="405" text-anchor="middle" font-size="13" font-weight="bold" fill="#ecf0f1">Counting Argument for Incompressibility</text>
+  
+  <!-- Strings bar -->
+  <rect x="60" y="420" width="680" height="20" rx="4" fill="#e74c3c" fill-opacity="0.3" stroke="#e74c3c"/>
+  <text x="400" y="435" text-anchor="middle" font-size="10" fill="#e74c3c" font-weight="bold">2ⁿ strings of length n</text>
+  
+  <!-- Programs bar (shorter) -->
+  <rect x="60" y="450" width="679" height="20" rx="4" fill="#3498db" fill-opacity="0.3" stroke="#3498db"/>
+  <text x="399" y="465" text-anchor="middle" font-size="10" fill="#3498db" font-weight="bold">2ⁿ − 1 programs of length &lt; n</text>
+  
+  <!-- Gap indicator -->
+  <line x1="740" y1="420" x2="740" y2="470" stroke="#2ecc71" stroke-width="2"/>
+  <text x="755" y="448" font-size="9" fill="#2ecc71" font-weight="bold">≥1</text>
+</svg>

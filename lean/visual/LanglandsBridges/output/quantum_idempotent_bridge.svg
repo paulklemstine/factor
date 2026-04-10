@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#1a1a2e" rx="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-family="Georgia" font-size="20" font-weight="bold" fill="#e8e8e8">
+    Quantum-Idempotent Bridge
+  </text>
+  <text x="400" y="62" text-anchor="middle" font-family="Arial" font-size="12" fill="#888">
+    Connecting abstract algebra to quantum mechanics via projectors
+  </text>
+  
+  <!-- Algebra Side -->
+  <rect x="30" y="85" width="330" height="180" rx="12" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <text x="195" y="110" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#3498db">Abstract Algebra</text>
+  
+  <text x="50" y="140" font-family="monospace" font-size="13" fill="#74b9ff">e² = e (idempotent)</text>
+  <text x="50" y="165" font-family="monospace" font-size="13" fill="#74b9ff">(1-e)² = 1-e (complement)</text>
+  <text x="50" y="190" font-family="monospace" font-size="13" fill="#74b9ff">e·(1-e) = 0 (orthogonal)</text>
+  <text x="50" y="215" font-family="monospace" font-size="13" fill="#74b9ff">Σ eᵢ = 1 (complete system)</text>
+  <text x="50" y="245" font-family="monospace" font-size="11" fill="#636e72">Karoubi envelope: C → Split(C)</text>
+  
+  <!-- Quantum Side -->
+  <rect x="440" y="85" width="330" height="180" rx="12" fill="#16213e" stroke="#e74c3c" stroke-width="2"/>
+  <text x="605" y="110" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#e74c3c">Quantum Mechanics</text>
+  
+  <text x="460" y="140" font-family="monospace" font-size="13" fill="#ff7675">P² = P (projector)</text>
+  <text x="460" y="165" font-family="monospace" font-size="13" fill="#ff7675">ρ = Σ pᵢ|ψᵢ⟩⟨ψᵢ| (density)</text>
+  <text x="460" y="190" font-family="monospace" font-size="13" fill="#ff7675">tr(ρ) = 1, ρ ≥ 0 (state)</text>
+  <text x="460" y="215" font-family="monospace" font-size="13" fill="#ff7675">tr(ρ²) ≥ 1/n (purity bound)</text>
+  <text x="460" y="245" font-family="monospace" font-size="11" fill="#636e72">Spectral decomposition</text>
+  
+  <!-- Bridge Arrow -->
+  <path d="M 360 175 L 440 175" fill="none" stroke="#f39c12" stroke-width="3" marker-end="url(#arrow2)"/>
+  <path d="M 440 195 L 360 195" fill="none" stroke="#f39c12" stroke-width="3" marker-end="url(#arrow2)"/>
+  <defs>
+    <marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f39c12"/>
+    </marker>
+  </defs>
+  <text x="400" y="165" text-anchor="middle" font-family="Arial" font-size="11" fill="#f39c12" font-weight="bold">BRIDGE</text>
+  
+  <!-- Verified Results Box -->
+  <rect x="50" y="290" width="700" height="90" rx="12" fill="#0a3d62" stroke="#27ae60" stroke-width="2"/>
+  <text x="400" y="315" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#27ae60">Formally Verified (Lean 4, 0 sorry)</text>
+  
+  <text x="70" y="340" font-family="monospace" font-size="11" fill="#55efc4">pure_state_trace_sq: ρ² = ρ ⟹ tr(ρ²) = 1</text>
+  <text x="70" y="360" font-family="monospace" font-size="11" fill="#55efc4">purity_lower_bound: Σpᵢ=1, pᵢ≥0 ⟹ Σpᵢ² ≥ 1/k</text>
+  <text x="470" y="340" font-family="monospace" font-size="11" fill="#55efc4">spectral_trace_one: tr(Σpᵢ·Pᵢ) = 1</text>
+  <text x="470" y="360" font-family="monospace" font-size="11" fill="#55efc4">mp_support_width: width = 4√γ</text>
+  
+  <!-- Prediction Box -->
+  <rect x="50" y="400" width="700" height="80" rx="12" fill="#1e272e" stroke="#f39c12" stroke-width="2"/>
+  <text x="400" y="425" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#f39c12">Testable Prediction</text>
+  <text x="70" y="450" font-family="Arial" font-size="13" fill="#dfe6e9">
+    For an n-dimensional quantum system with density matrix ρ:
+  </text>
+  <text x="400" y="470" text-anchor="middle" font-family="monospace" font-size="15" fill="#ffeaa7" filter="url(#glow)">
+    1/n ≤ tr(ρ²) ≤ 1   with equality iff pure state
+  </text>
+</svg>

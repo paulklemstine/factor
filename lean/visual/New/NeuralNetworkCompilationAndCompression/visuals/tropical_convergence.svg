@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="500" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="350" y="35" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">
+    Temperature Annealing: Softmax → Tropical Limit
+  </text>
+  <text x="350" y="55" text-anchor="middle" fill="#888" font-size="12">
+    T·log(exp(a/T) + exp(b/T)) converges to max(a,b) as T → 0
+  </text>
+
+  <!-- Chart area -->
+  <rect x="80" y="75" width="540" height="320" fill="#0d1117" stroke="#333" stroke-width="1"/>
+
+  <!-- Grid lines -->
+  <line x1="80" y1="155" x2="620" y2="155" stroke="#222" stroke-width="0.5"/>
+  <line x1="80" y1="235" x2="620" y2="235" stroke="#222" stroke-width="0.5"/>
+  <line x1="80" y1="315" x2="620" y2="315" stroke="#222" stroke-width="0.5"/>
+
+  <!-- X axis labels (Temperature) -->
+  <text x="100" y="410" fill="#888" font-size="10">T=10</text>
+  <text x="185" y="410" fill="#888" font-size="10">T=5</text>
+  <text x="265" y="410" fill="#888" font-size="10">T=2</text>
+  <text x="335" y="410" fill="#888" font-size="10">T=1</text>
+  <text x="405" y="410" fill="#888" font-size="10">T=0.5</text>
+  <text x="475" y="410" fill="#888" font-size="10">T=0.1</text>
+  <text x="545" y="410" fill="#888" font-size="10">T=0.01</text>
+
+  <!-- X axis label -->
+  <text x="350" y="440" text-anchor="middle" fill="#aaa" font-size="13">Temperature T →</text>
+
+  <!-- Y axis labels -->
+  <text x="70" y="395" text-anchor="end" fill="#888" font-size="10">7.0</text>
+  <text x="70" y="315" text-anchor="end" fill="#888" font-size="10">7.5</text>
+  <text x="70" y="235" text-anchor="end" fill="#888" font-size="10">8.0</text>
+  <text x="70" y="155" text-anchor="end" fill="#888" font-size="10">8.5</text>
+  <text x="70" y="95" text-anchor="end" fill="#888" font-size="10">9.0</text>
+
+  <!-- Hard max line (tropical limit) -->
+  <line x1="80" y1="315" x2="620" y2="315" stroke="#10b981" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="625" y="320" fill="#10b981" font-size="11">max(3,7) = 7</text>
+
+  <!-- Upper bound line: max + log(2) -->
+  <line x1="80" y1="260" x2="620" y2="260" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="625" y="265" fill="#f59e0b" font-size="9" opacity="0.7">7 + log(2)</text>
+
+  <!-- Smooth max curve (converging to hard max) -->
+  <!-- T=10: ~8.7, T=5: ~8.0, T=2: ~7.4, T=1: ~7.1, T=0.5: ~7.02, T=0.1: ~7.0, T=0.01: ~7.0 -->
+  <polyline points="110,115 195,155 275,267 345,307 415,310 485,314 555,315"
+            fill="none" stroke="#e94560" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Data points -->
+  <circle cx="110" cy="115" r="5" fill="#e94560"/>
+  <circle cx="195" cy="155" r="5" fill="#e94560"/>
+  <circle cx="275" cy="267" r="5" fill="#e94560"/>
+  <circle cx="345" cy="307" r="5" fill="#e94560"/>
+  <circle cx="415" cy="310" r="4" fill="#e94560"/>
+  <circle cx="485" cy="314" r="4" fill="#e94560"/>
+  <circle cx="555" cy="315" r="4" fill="#e94560"/>
+
+  <!-- Error band (shaded region between max and max+T*log(2)) -->
+  <rect x="80" y="260" width="540" height="55" fill="#10b981" opacity="0.05"/>
+
+  <!-- Legend -->
+  <rect x="100" y="445" width="500" height="40" rx="5" fill="#161b22" stroke="#333"/>
+  <line x1="120" y1="465" x2="150" y2="465" stroke="#e94560" stroke-width="3"/>
+  <text x="155" y="469" fill="#ccc" font-size="11">T·log(exp(a/T)+exp(b/T))</text>
+  <line x1="330" y1="465" x2="360" y2="465" stroke="#10b981" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="365" y="469" fill="#ccc" font-size="11">max(a,b) = 7</text>
+  <rect x="470" y="459" width="12" height="12" fill="#10b981" opacity="0.15" stroke="#10b981"/>
+  <text x="487" y="469" fill="#ccc" font-size="11">Error band</text>
+
+  <!-- Theorem statement -->
+  <text x="350" y="498" text-anchor="middle" fill="#53d8fb" font-size="11">
+    Theorem: 0 ≤ log(eᵃ + eᵇ) - max(a,b) ≤ log(2) — Formally verified ✓
+  </text>
+</svg>

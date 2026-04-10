@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740">
+  <defs>
+    <style>
+      .node { fill: #1a1a2e; stroke: #16213e; stroke-width: 2; }
+      .node-root { fill: #e94560; stroke: #0f3460; stroke-width: 3; }
+      .node-L { fill: #0f3460; stroke: #16213e; stroke-width: 2; }
+      .node-M { fill: #533483; stroke: #16213e; stroke-width: 2; }
+      .node-R { fill: #e94560; stroke: #16213e; stroke-width: 2; }
+      .label { fill: white; font-family: 'Courier New', monospace; font-size: 10px; text-anchor: middle; dominant-baseline: central; }
+      .edge { stroke: #16213e; stroke-width: 2; fill: none; }
+      .title { fill: #1a1a2e; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; text-anchor: middle; }
+      .subtitle { fill: #533483; font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+      .path-label { fill: #533483; font-family: 'Courier New', monospace; font-size: 9px; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1200" height="740" fill="#f0f0f5"/>
+  <text x="600" y="30" class="title">The Berggren Tree of Pythagorean Triples</text>
+  <text x="600" y="55" class="subtitle">Every primitive Pythagorean triple appears exactly once</text>
+
+  <line x1="600" y1="118" x2="233.33333333333334" y2="222" class="edge"/>
+  <text x="428.6666666666667" y="170.0" class="path-label">L</text>
+  <line x1="233.33333333333334" y1="278" x2="111.11111111111111" y2="382" class="edge"/>
+  <text x="184.22222222222223" y="330.0" class="path-label">L</text>
+  <line x1="111.11111111111111" y1="438" x2="70.37037037037037" y2="542" class="edge"/>
+  <text x="102.74074074074073" y="490.0" class="path-label">L</text>
+  <line x1="111.11111111111111" y1="438" x2="111.11111111111111" y2="542" class="edge"/>
+  <text x="123.11111111111111" y="490.0" class="path-label">M</text>
+  <line x1="111.11111111111111" y1="438" x2="151.85185185185185" y2="542" class="edge"/>
+  <text x="143.48148148148147" y="490.0" class="path-label">R</text>
+  <line x1="233.33333333333334" y1="278" x2="233.33333333333334" y2="382" class="edge"/>
+  <text x="245.33333333333334" y="330.0" class="path-label">M</text>
+  <line x1="233.33333333333334" y1="438" x2="192.5925925925926" y2="542" class="edge"/>
+  <text x="224.962962962963" y="490.0" class="path-label">L</text>
+  <line x1="233.33333333333334" y1="438" x2="233.33333333333334" y2="542" class="edge"/>
+  <text x="245.33333333333334" y="490.0" class="path-label">M</text>
+  <line x1="233.33333333333334" y1="438" x2="274.0740740740741" y2="542" class="edge"/>
+  <text x="265.7037037037037" y="490.0" class="path-label">R</text>
+  <line x1="233.33333333333334" y1="278" x2="355.55555555555554" y2="382" class="edge"/>
+  <text x="306.44444444444446" y="330.0" class="path-label">R</text>
+  <line x1="355.55555555555554" y1="438" x2="314.81481481481484" y2="542" class="edge"/>
+  <text x="347.1851851851852" y="490.0" class="path-label">L</text>
+  <line x1="355.55555555555554" y1="438" x2="355.5555555555556" y2="542" class="edge"/>
+  <text x="367.55555555555554" y="490.0" class="path-label">M</text>
+  <line x1="355.55555555555554" y1="438" x2="396.2962962962963" y2="542" class="edge"/>
+  <text x="387.9259259259259" y="490.0" class="path-label">R</text>
+  <line x1="600" y1="118" x2="600.0" y2="222" class="edge"/>
+  <text x="612.0" y="170.0" class="path-label">M</text>
+  <line x1="600.0" y1="278" x2="477.7777777777777" y2="382" class="edge"/>
+  <text x="550.8888888888889" y="330.0" class="path-label">L</text>
+  <line x1="477.7777777777777" y1="438" x2="437.037037037037" y2="542" class="edge"/>
+  <text x="469.4074074074074" y="490.0" class="path-label">L</text>
+  <line x1="477.7777777777777" y1="438" x2="477.77777777777777" y2="542" class="edge"/>
+  <text x="489.7777777777777" y="490.0" class="path-label">M</text>
+  <line x1="477.7777777777777" y1="438" x2="518.5185185185185" y2="542" class="edge"/>
+  <text x="510.1481481481481" y="490.0" class="path-label">R</text>
+  <line x1="600.0" y1="278" x2="600.0" y2="382" class="edge"/>
+  <text x="612.0" y="330.0" class="path-label">M</text>
+  <line x1="600.0" y1="438" x2="559.2592592592592" y2="542" class="edge"/>
+  <text x="591.6296296296296" y="490.0" class="path-label">L</text>
+  <line x1="600.0" y1="438" x2="600.0" y2="542" class="edge"/>
+  <text x="612.0" y="490.0" class="path-label">M</text>
+  <line x1="600.0" y1="438" x2="640.7407407407408" y2="542" class="edge"/>
+  <text x="632.3703703703704" y="490.0" class="path-label">R</text>
+  <line x1="600.0" y1="278" x2="722.2222222222222" y2="382" class="edge"/>
+  <text x="673.1111111111111" y="330.0" class="path-label">R</text>
+  <line x1="722.2222222222222" y1="438" x2="681.4814814814814" y2="542" class="edge"/>
+  <text x="713.8518518518517" y="490.0" class="path-label">L</text>
+  <line x1="722.2222222222222" y1="438" x2="722.2222222222222" y2="542" class="edge"/>
+  <text x="734.2222222222222" y="490.0" class="path-label">M</text>
+  <line x1="722.2222222222222" y1="438" x2="762.9629629629629" y2="542" class="edge"/>
+  <text x="754.5925925925926" y="490.0" class="path-label">R</text>
+  <line x1="600" y1="118" x2="966.6666666666667" y2="222" class="edge"/>
+  <text x="795.3333333333334" y="170.0" class="path-label">R</text>
+  <line x1="966.6666666666667" y1="278" x2="844.4444444444445" y2="382" class="edge"/>
+  <text x="917.5555555555557" y="330.0" class="path-label">L</text>
+  <line x1="844.4444444444445" y1="438" x2="803.7037037037037" y2="542" class="edge"/>
+  <text x="836.0740740740741" y="490.0" class="path-label">L</text>
+  <line x1="844.4444444444445" y1="438" x2="844.4444444444445" y2="542" class="edge"/>
+  <text x="856.4444444444445" y="490.0" class="path-label">M</text>
+  <line x1="844.4444444444445" y1="438" x2="885.1851851851852" y2="542" class="edge"/>
+  <text x="876.8148148148148" y="490.0" class="path-label">R</text>
+  <line x1="966.6666666666667" y1="278" x2="966.6666666666667" y2="382" class="edge"/>
+  <text x="978.6666666666667" y="330.0" class="path-label">M</text>
+  <line x1="966.6666666666667" y1="438" x2="925.925925925926" y2="542" class="edge"/>
+  <text x="958.2962962962963" y="490.0" class="path-label">L</text>
+  <line x1="966.6666666666667" y1="438" x2="966.6666666666667" y2="542" class="edge"/>
+  <text x="978.6666666666667" y="490.0" class="path-label">M</text>
+  <line x1="966.6666666666667" y1="438" x2="1007.4074074074075" y2="542" class="edge"/>
+  <text x="999.0370370370372" y="490.0" class="path-label">R</text>
+  <line x1="966.6666666666667" y1="278" x2="1088.888888888889" y2="382" class="edge"/>
+  <text x="1039.7777777777778" y="330.0" class="path-label">R</text>
+  <line x1="1088.888888888889" y1="438" x2="1048.1481481481483" y2="542" class="edge"/>
+  <text x="1080.5185185185187" y="490.0" class="path-label">L</text>
+  <line x1="1088.888888888889" y1="438" x2="1088.888888888889" y2="542" class="edge"/>
+  <text x="1100.888888888889" y="490.0" class="path-label">M</text>
+  <line x1="1088.888888888889" y1="438" x2="1129.6296296296298" y2="542" class="edge"/>
+  <text x="1121.2592592592594" y="490.0" class="path-label">R</text>
+  <circle cx="600" cy="90" r="28" class="node-root"/>
+  <text x="600" y="90" class="label">(3,4,5)</text>
+  <circle cx="233.33333333333334" cy="250" r="28" class="node-L"/>
+  <text x="233.33333333333334" y="250" class="label">(5,12,13)</text>
+  <circle cx="111.11111111111111" cy="410" r="28" class="node-L"/>
+  <text x="111.11111111111111" y="410" class="label">(7,24,25)</text>
+  <circle cx="70.37037037037037" cy="570" r="28" class="node-L"/>
+  <text x="70.37037037037037" y="570" class="label">(9,40,41)</text>
+  <circle cx="111.11111111111111" cy="570" r="28" class="node-M"/>
+  <text x="111.11111111111111" y="570" class="label">(105,88,137)</text>
+  <circle cx="151.85185185185185" cy="570" r="28" class="node-R"/>
+  <text x="151.85185185185185" y="570" class="label">(91,60,109)</text>
+  <circle cx="233.33333333333334" cy="410" r="28" class="node-M"/>
+  <text x="233.33333333333334" y="410" class="label">(55,48,73)</text>
+  <circle cx="192.5925925925926" cy="570" r="28" class="node-L"/>
+  <text x="192.5925925925926" y="570" class="label">(105,208,233)</text>
+  <circle cx="233.33333333333334" cy="570" r="28" class="node-M"/>
+  <text x="233.33333333333334" y="570" class="label">(297,304,425)</text>
+  <circle cx="274.0740740740741" cy="570" r="28" class="node-R"/>
+  <text x="274.0740740740741" y="570" class="label">(187,84,205)</text>
+  <circle cx="355.55555555555554" cy="410" r="28" class="node-R"/>
+  <text x="355.55555555555554" y="410" class="label">(45,28,53)</text>
+  <circle cx="314.81481481481484" cy="570" r="28" class="node-L"/>
+  <text x="314.81481481481484" y="570" class="label">(95,168,193)</text>
+  <circle cx="355.5555555555556" cy="570" r="28" class="node-M"/>
+  <text x="355.5555555555556" y="570" class="label">(207,224,305)</text>
+  <circle cx="396.2962962962963" cy="570" r="28" class="node-R"/>
+  <text x="396.2962962962963" y="570" class="label">(117,44,125)</text>
+  <circle cx="600.0" cy="250" r="28" class="node-M"/>
+  <text x="600.0" y="250" class="label">(21,20,29)</text>
+  <circle cx="477.7777777777777" cy="410" r="28" class="node-L"/>
+  <text x="477.7777777777777" y="410" class="label">(39,80,89)</text>
+  <circle cx="437.037037037037" cy="570" r="28" class="node-L"/>
+  <text x="437.037037037037" y="570" class="label">(57,176,185)</text>
+  <circle cx="477.77777777777777" cy="570" r="28" class="node-M"/>
+  <text x="477.77777777777777" y="570" class="label">(377,336,505)</text>
+  <circle cx="518.5185185185185" cy="570" r="28" class="node-R"/>
+  <text x="518.5185185185185" y="570" class="label">(299,180,349)</text>
+  <circle cx="600.0" cy="410" r="28" class="node-M"/>
+  <text x="600.0" y="410" class="label">(119,120,169)</text>
+  <circle cx="559.2592592592592" cy="570" r="28" class="node-L"/>
+  <text x="559.2592592592592" y="570" class="label">(217,456,505)</text>
+  <circle cx="600.0" cy="570" r="28" class="node-M"/>
+  <text x="600.0" y="570" class="label">(697,696,985)</text>
+  <circle cx="640.7407407407408" cy="570" r="28" class="node-R"/>
+  <text x="640.7407407407408" y="570" class="label">(459,220,509)</text>
+  <circle cx="722.2222222222222" cy="410" r="28" class="node-R"/>
+  <text x="722.2222222222222" y="410" class="label">(77,36,85)</text>
+  <circle cx="681.4814814814814" cy="570" r="28" class="node-L"/>
+  <text x="681.4814814814814" y="570" class="label">(175,288,337)</text>
+  <circle cx="722.2222222222222" cy="570" r="28" class="node-M"/>
+  <text x="722.2222222222222" y="570" class="label">(319,360,481)</text>
+  <circle cx="762.9629629629629" cy="570" r="28" class="node-R"/>
+  <text x="762.9629629629629" y="570" class="label">(165,52,173)</text>
+  <circle cx="966.6666666666667" cy="250" r="28" class="node-R"/>
+  <text x="966.6666666666667" y="250" class="label">(15,8,17)</text>
+  <circle cx="844.4444444444445" cy="410" r="28" class="node-L"/>
+  <text x="844.4444444444445" y="410" class="label">(33,56,65)</text>
+  <circle cx="803.7037037037037" cy="570" r="28" class="node-L"/>
+  <text x="803.7037037037037" y="570" class="label">(51,140,149)</text>
+  <circle cx="844.4444444444445" cy="570" r="28" class="node-M"/>
+  <text x="844.4444444444445" y="570" class="label">(275,252,373)</text>
+  <circle cx="885.1851851851852" cy="570" r="28" class="node-R"/>
+  <text x="885.1851851851852" y="570" class="label">(209,120,241)</text>
+  <circle cx="966.6666666666667" cy="410" r="28" class="node-M"/>
+  <text x="966.6666666666667" y="410" class="label">(65,72,97)</text>
+  <circle cx="925.925925925926" cy="570" r="28" class="node-L"/>
+  <text x="925.925925925926" y="570" class="label">(115,252,277)</text>
+  <circle cx="966.6666666666667" cy="570" r="28" class="node-M"/>
+  <text x="966.6666666666667" y="570" class="label">(403,396,565)</text>
+  <circle cx="1007.4074074074075" cy="570" r="28" class="node-R"/>
+  <text x="1007.4074074074075" y="570" class="label">(273,136,305)</text>
+  <circle cx="1088.888888888889" cy="410" r="28" class="node-R"/>
+  <text x="1088.888888888889" y="410" class="label">(35,12,37)</text>
+  <circle cx="1048.1481481481483" cy="570" r="28" class="node-L"/>
+  <text x="1048.1481481481483" y="570" class="label">(85,132,157)</text>
+  <circle cx="1088.888888888889" cy="570" r="28" class="node-M"/>
+  <text x="1088.888888888889" y="570" class="label">(133,156,205)</text>
+  <circle cx="1129.6296296296298" cy="570" r="28" class="node-R"/>
+  <text x="1129.6296296296298" y="570" class="label">(63,16,65)</text>
+  <rect x="20" y="685" width="20" height="20" rx="10" class="node-root"/>
+  <text x="50" y="700" class="subtitle">Root</text>
+  <rect x="120" y="685" width="20" height="20" rx="10" class="node-L"/>
+  <text x="150" y="700" class="subtitle">B₁ (L, det=+1)</text>
+  <rect x="290" y="685" width="20" height="20" rx="10" class="node-M"/>
+  <text x="320" y="700" class="subtitle">B₂ (M, det=−1)</text>
+  <rect x="470" y="685" width="20" height="20" rx="10" class="node-R"/>
+  <text x="500" y="700" class="subtitle">B₃ (R, det=+1)</text>
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f2f"/>
+      <stop offset="100%" style="stop-color:#2f0f1f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bg3)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#ff9933" font-size="20" font-weight="bold">
+    Why Octonions Cannot Build a Descent Tree
+  </text>
+
+  <!-- Dimension comparison -->
+  <!-- 4D: Quaternions (success) -->
+  <rect x="50" y="70" width="330" height="200" rx="12" fill="#0a2a0a" stroke="#33cc33" stroke-width="2"/>
+  <text x="215" y="95" text-anchor="middle" fill="#33cc33" font-size="16" font-weight="bold">
+    ℍ (Quaternions) — ✓ Works
+  </text>
+
+  <text x="70" y="125" fill="#ddd" font-size="12">• Dimension: 4</text>
+  <text x="70" y="148" fill="#ddd" font-size="12">• η(1,1,1,1) = 1+1+1−1 = 2</text>
+  <text x="70" y="171" fill="#ddd" font-size="12">• Reflection divides by 1 → integral ✓</text>
+  <text x="70" y="194" fill="#ddd" font-size="12">• Associative: (αβ)γ = α(βγ) ✓</text>
+  <text x="70" y="217" fill="#ddd" font-size="12">• Units: 8 (Lipschitz) / 24 (Hurwitz)</text>
+  <text x="70" y="245" fill="#33cc33" font-size="13" font-weight="bold">→ Single descent tree ✓</text>
+
+  <!-- 8D: Octonions (failure) -->
+  <rect x="420" y="70" width="330" height="200" rx="12" fill="#2a0a0a" stroke="#ff4444" stroke-width="2"/>
+  <text x="585" y="95" text-anchor="middle" fill="#ff4444" font-size="16" font-weight="bold">
+    𝕆 (Octonions) — ✗ Fails
+  </text>
+
+  <text x="440" y="125" fill="#ddd" font-size="12">• Dimension: 8</text>
+  <text x="440" y="148" fill="#ddd" font-size="12">• η(1,...,1) = 7−1 = 6</text>
+  <text x="440" y="171" fill="#ff6666" font-size="12">• Reflection divides by 3 → NOT integral ✗</text>
+  <text x="440" y="194" fill="#ff6666" font-size="12">• Non-associative: (αβ)γ ≠ α(βγ) ✗</text>
+  <text x="440" y="217" fill="#ddd" font-size="12">• Units: 240 (Cayley integers)</text>
+  <text x="440" y="245" fill="#ff4444" font-size="13" font-weight="bold">→ No tree structure ✗</text>
+
+  <!-- Counterexample -->
+  <rect x="100" y="300" width="600" height="130" rx="12" fill="#1a1a3a" stroke="#ff9933" stroke-width="1.5"/>
+  <text x="400" y="325" text-anchor="middle" fill="#ff9933" font-size="15" font-weight="bold">
+    Formalized Counterexample
+  </text>
+
+  <text x="120" y="355" fill="#ddd" font-size="13">
+    x = (2, 3, 6, 0, 0, 0, 0, 7) is a Pythagorean 8-tuple:
+  </text>
+  <text x="120" y="378" fill="#ffd700" font-size="14" font-style="italic">
+    2² + 3² + 6² + 0² + 0² + 0² + 0² = 4 + 9 + 36 = 49 = 7²  ✓
+  </text>
+  <text x="120" y="403" fill="#ddd" font-size="13">
+    But η(x, s) = 2+3+6+0+0+0+0−7 = 4, and 3 ∤ 4  →  R(x) ∉ ℤ⁸
+  </text>
+  <text x="120" y="420" fill="#88ff88" font-size="11">
+    Proved in Lean 4: theorem octonion_obstruction
+  </text>
+
+  <!-- Arrow showing the two obstructions -->
+  <rect x="150" y="455" width="230" height="70" rx="8" fill="#2a0a0a" stroke="#ff4444" stroke-width="1"/>
+  <text x="265" y="478" text-anchor="middle" fill="#ff6666" font-size="13" font-weight="bold">
+    Obstruction 1: Integrality
+  </text>
+  <text x="265" y="498" text-anchor="middle" fill="#ddd" font-size="11">
+    3 does not divide η(x, s)
+  </text>
+  <text x="265" y="515" text-anchor="middle" fill="#ddd" font-size="11">
+    for generic null vectors
+  </text>
+
+  <rect x="420" y="455" width="230" height="70" rx="8" fill="#2a0a0a" stroke="#ff4444" stroke-width="1"/>
+  <text x="535" y="478" text-anchor="middle" fill="#ff6666" font-size="13" font-weight="bold">
+    Obstruction 2: Associativity
+  </text>
+  <text x="535" y="498" text-anchor="middle" fill="#ddd" font-size="11">
+    Iterated descent is
+  </text>
+  <text x="535" y="515" text-anchor="middle" fill="#ddd" font-size="11">
+    path-dependent → DAG, not tree
+  </text>
+</svg>

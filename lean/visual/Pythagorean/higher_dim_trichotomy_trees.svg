@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="550" fill="url(#bg3)"/>
+
+  <text x="450" y="35" text-anchor="middle" fill="#ecf0f1" font-size="20" font-weight="bold">
+    The Three Pythagorean Trees: k ∈ {3, 4, 6}
+  </text>
+
+  <!-- k=3 Tree -->
+  <text x="150" y="70" text-anchor="middle" fill="#2ecc71" font-size="16" font-weight="bold">k = 3: Triples</text>
+  <text x="150" y="90" text-anchor="middle" fill="#bdc3c7" font-size="11">a² + b² = c²</text>
+
+  <!-- Root -->
+  <circle cx="150" cy="130" r="22" fill="rgba(46,204,113,0.3)" stroke="#2ecc71" stroke-width="2"/>
+  <text x="150" y="134" text-anchor="middle" fill="#ecf0f1" font-size="9">(3,4,5)</text>
+
+  <!-- Level 1 - 3 children -->
+  <line x1="135" y1="152" x2="70" y2="185" stroke="#2ecc71" stroke-width="1"/>
+  <line x1="150" y1="152" x2="150" y2="185" stroke="#2ecc71" stroke-width="1"/>
+  <line x1="165" y1="152" x2="230" y2="185" stroke="#2ecc71" stroke-width="1"/>
+
+  <circle cx="70" cy="200" r="18" fill="rgba(46,204,113,0.2)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="70" y="204" text-anchor="middle" fill="#ecf0f1" font-size="7">(5,12,13)</text>
+
+  <circle cx="150" cy="200" r="18" fill="rgba(46,204,113,0.2)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="150" y="204" text-anchor="middle" fill="#ecf0f1" font-size="7">(21,20,29)</text>
+
+  <circle cx="230" cy="200" r="18" fill="rgba(46,204,113,0.2)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="230" y="204" text-anchor="middle" fill="#ecf0f1" font-size="7">(15,8,17)</text>
+
+  <!-- Level 2 dots -->
+  <line x1="55" y1="218" x2="35" y2="240" stroke="#2ecc71" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <line x1="70" y1="218" x2="70" y2="240" stroke="#2ecc71" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <line x1="85" y1="218" x2="105" y2="240" stroke="#2ecc71" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="70" y="255" text-anchor="middle" fill="#bdc3c7" font-size="9">3 children each</text>
+
+  <text x="150" y="290" text-anchor="middle" fill="#2ecc71" font-size="12">Ternary tree</text>
+  <text x="150" y="305" text-anchor="middle" fill="#bdc3c7" font-size="10">η(s,s) = 1</text>
+
+  <!-- k=4 Tree -->
+  <text x="450" y="70" text-anchor="middle" fill="#2ecc71" font-size="16" font-weight="bold">k = 4: Quadruples</text>
+  <text x="450" y="90" text-anchor="middle" fill="#bdc3c7" font-size="11">a² + b² + c² = d²</text>
+
+  <!-- Root -->
+  <circle cx="450" cy="130" r="22" fill="rgba(46,204,113,0.3)" stroke="#2ecc71" stroke-width="2"/>
+  <text x="450" y="134" text-anchor="middle" fill="#ecf0f1" font-size="8">(0,0,1,1)</text>
+
+  <!-- Level 1 - 1 child -->
+  <line x1="450" y1="152" x2="450" y2="185" stroke="#2ecc71" stroke-width="1"/>
+  <circle cx="450" cy="200" r="18" fill="rgba(46,204,113,0.2)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="450" y="204" text-anchor="middle" fill="#ecf0f1" font-size="7">(1,2,2,3)</text>
+
+  <!-- Level 2 - 4 children -->
+  <line x1="435" y1="218" x2="370" y2="250" stroke="#2ecc71" stroke-width="1"/>
+  <line x1="445" y1="218" x2="420" y2="250" stroke="#2ecc71" stroke-width="1"/>
+  <line x1="455" y1="218" x2="480" y2="250" stroke="#2ecc71" stroke-width="1"/>
+  <line x1="465" y1="218" x2="530" y2="250" stroke="#2ecc71" stroke-width="1"/>
+
+  <circle cx="370" cy="265" r="16" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="370" y="269" text-anchor="middle" fill="#ecf0f1" font-size="6">(0,3,4,5)</text>
+
+  <circle cx="420" cy="265" r="16" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="420" y="269" text-anchor="middle" fill="#ecf0f1" font-size="6">(2,3,6,7)</text>
+
+  <circle cx="480" cy="265" r="16" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="480" y="269" text-anchor="middle" fill="#ecf0f1" font-size="6">(4,4,7,9)</text>
+
+  <circle cx="530" cy="265" r="16" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="530" y="269" text-anchor="middle" fill="#ecf0f1" font-size="6">(6,6,7,11)</text>
+
+  <text x="450" y="305" text-anchor="middle" fill="#2ecc71" font-size="12">Variable branching</text>
+  <text x="450" y="320" text-anchor="middle" fill="#bdc3c7" font-size="10">η(s,s) = 2</text>
+
+  <!-- k=6 Tree (NEW!) -->
+  <rect x="650" y="55" width="230" height="280" rx="8" fill="rgba(52,152,219,0.05)" stroke="#3498db" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="765" y="70" text-anchor="middle" fill="#3498db" font-size="16" font-weight="bold">k = 6: Sextuples</text>
+  <text x="765" y="86" text-anchor="middle" fill="#f39c12" font-size="10" font-weight="bold">★ NEW DISCOVERY ★</text>
+  <text x="765" y="102" text-anchor="middle" fill="#bdc3c7" font-size="10">a₁²+a₂²+a₃²+a₄²+a₅² = a₆²</text>
+
+  <!-- Root -->
+  <circle cx="765" cy="138" r="22" fill="rgba(52,152,219,0.3)" stroke="#3498db" stroke-width="2"/>
+  <text x="765" y="141" text-anchor="middle" fill="#ecf0f1" font-size="7">(0,0,0,0,1,1)</text>
+
+  <!-- Level 1 -->
+  <line x1="765" y1="160" x2="765" y2="190" stroke="#3498db" stroke-width="1"/>
+  <circle cx="765" cy="205" r="18" fill="rgba(52,152,219,0.2)" stroke="#3498db" stroke-width="1"/>
+  <text x="765" y="208" text-anchor="middle" fill="#ecf0f1" font-size="6">(0,1,1,1,1,2)</text>
+
+  <!-- Level 2 -->
+  <line x1="750" y1="223" x2="720" y2="250" stroke="#3498db" stroke-width="0.8"/>
+  <line x1="765" y1="223" x2="765" y2="250" stroke="#3498db" stroke-width="0.8"/>
+  <line x1="780" y1="223" x2="810" y2="250" stroke="#3498db" stroke-width="0.8"/>
+
+  <circle cx="720" cy="265" r="14" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="0.8"/>
+  <text x="720" y="268" text-anchor="middle" fill="#ecf0f1" font-size="5">...</text>
+  <circle cx="765" cy="265" r="14" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="0.8"/>
+  <text x="765" y="268" text-anchor="middle" fill="#ecf0f1" font-size="5">...</text>
+  <circle cx="810" cy="265" r="14" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="0.8"/>
+  <text x="810" y="268" text-anchor="middle" fill="#ecf0f1" font-size="5">...</text>
+
+  <text x="765" y="305" text-anchor="middle" fill="#3498db" font-size="12">Sextuple tree</text>
+  <text x="765" y="320" text-anchor="middle" fill="#bdc3c7" font-size="10">η(s,s) = 4, η even ⟹ ✓</text>
+
+  <!-- Bottom: the pattern -->
+  <rect x="50" y="360" width="800" height="70" rx="10" fill="rgba(241,196,15,0.08)" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="450" y="385" text-anchor="middle" fill="#f1c40f" font-size="15" font-weight="bold">
+    Common Structure: Reflection through (1, 1, ..., 1)
+  </text>
+  <text x="450" y="408" text-anchor="middle" fill="#ecf0f1" font-size="13">
+    k = 3: R divides by 1     k = 4: R divides by 2     k = 6: R divides by 4 (saved by parity!)
+  </text>
+  <text x="450" y="422" text-anchor="middle" fill="#bdc3c7" font-size="11">
+    All three are instances of a single mechanism: Lorentz reflection descent
+  </text>
+
+  <!-- k=5 failure note -->
+  <rect x="200" y="450" width="500" height="55" rx="8" fill="rgba(231,76,60,0.08)" stroke="#e74c3c" stroke-width="1"/>
+  <text x="450" y="472" text-anchor="middle" fill="#e74c3c" font-size="13">
+    k = 5 (and k ≥ 7): Reflection divides by k−2 ≥ 3, and (k−2) ∤ 4
+  </text>
+  <text x="450" y="492" text-anchor="middle" fill="#bdc3c7" font-size="11">
+    The all-ones descent produces fractions — no tree structure via this method
+  </text>
+
+  <!-- Verified badge -->
+  <rect x="660" y="515" width="220" height="28" rx="6" fill="rgba(46,204,113,0.15)" stroke="#2ecc71" stroke-width="1"/>
+  <text x="770" y="534" text-anchor="middle" fill="#2ecc71" font-size="11">🔒 All results verified in Lean 4</text>
+</svg>

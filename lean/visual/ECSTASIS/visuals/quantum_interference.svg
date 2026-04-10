@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0d0d30"/>
+      <stop offset="100%" style="stop-color:#1a1a50"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg2)"/>
+
+  <text x="400" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="white" font-weight="bold">
+    Quantum Interference Formula
+  </text>
+  <text x="400" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#aabbdd">
+    ‖ψ + φ‖² = ‖ψ‖² + ‖φ‖² + 2·Re⟨ψ|φ⟩
+  </text>
+
+  <!-- Wave visualization -->
+  <!-- ψ wave -->
+  <text x="60" y="110" font-family="Arial, sans-serif" font-size="14" fill="#ff6644">ψ</text>
+  <path d="M 80 140 Q 110 100 140 140 Q 170 180 200 140 Q 230 100 260 140 Q 290 180 320 140 Q 350 100 380 140 Q 410 180 440 140 Q 470 100 500 140 Q 530 180 560 140 Q 590 100 620 140 Q 650 180 680 140 Q 710 100 740 140"
+        fill="none" stroke="#ff6644" stroke-width="2" opacity="0.8" filter="url(#glow2)"/>
+
+  <!-- φ wave -->
+  <text x="60" y="195" font-family="Arial, sans-serif" font-size="14" fill="#44aaff">φ</text>
+  <path d="M 80 230 Q 120 190 160 230 Q 200 270 240 230 Q 280 190 320 230 Q 360 270 400 230 Q 440 190 480 230 Q 520 270 560 230 Q 600 190 640 230 Q 680 270 720 230"
+        fill="none" stroke="#44aaff" stroke-width="2" opacity="0.8" filter="url(#glow2)"/>
+
+  <!-- + sign -->
+  <text x="50" y="280" font-family="Arial, sans-serif" font-size="20" fill="white">+</text>
+
+  <!-- Constructive interference -->
+  <text x="60" y="305" font-family="Arial, sans-serif" font-size="14" fill="#44ff88">ψ + φ (constructive)</text>
+  <path d="M 80 350 Q 110 280 140 350 Q 170 420 200 350 Q 230 280 260 350 Q 290 420 320 350 Q 350 280 380 350 Q 410 420 440 350 Q 470 280 500 350 Q 530 420 560 350 Q 590 280 620 350 Q 650 420 680 350"
+        fill="none" stroke="#44ff88" stroke-width="3" opacity="0.9" filter="url(#glow2)"/>
+
+  <!-- Annotations -->
+  <rect x="40" y="400" width="340" height="85" rx="6" fill="rgba(255,255,255,0.05)" stroke="#44ff88" stroke-width="1"/>
+  <text x="210" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#44ff88" font-weight="bold">Constructive: Re⟨ψ|φ⟩ &gt; 0</text>
+  <text x="50" y="440" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">Amplitudes add coherently</text>
+  <text x="50" y="456" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">‖ψ+φ‖² &gt; ‖ψ‖² + ‖φ‖²</text>
+  <text x="50" y="472" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">Quantum advantage in sensing</text>
+
+  <rect x="420" y="400" width="340" height="85" rx="6" fill="rgba(255,255,255,0.05)" stroke="#ff6644" stroke-width="1"/>
+  <text x="590" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ff6644" font-weight="bold">Destructive: Re⟨ψ|φ⟩ &lt; 0</text>
+  <text x="430" y="440" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">Amplitudes cancel</text>
+  <text x="430" y="456" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">‖ψ+φ‖² &lt; ‖ψ‖² + ‖φ‖²</text>
+  <text x="430" y="472" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">Noise cancellation, error detection</text>
+
+  <!-- Bound annotation -->
+  <text x="400" y="495" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#aabbdd">
+    Bound (Theorem 9): |Re⟨ψ|φ⟩| ≤ ‖ψ‖·‖φ‖ (Cauchy-Schwarz)
+  </text>
+</svg>

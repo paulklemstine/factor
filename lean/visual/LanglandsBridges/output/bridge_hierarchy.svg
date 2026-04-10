@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b263b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="800" fill="url(#bg2)"/>
+
+  <text x="300" y="35" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">
+    Mathematical Bridge Hierarchy
+  </text>
+  <text x="300" y="55" text-anchor="middle" fill="#aaa" font-size="11">
+    Each level subsumes all below (hott_subsumes_all ✓)
+  </text>
+
+  <!-- Levels -->
+  <g>
+    <!-- Level 10: HoTT -->
+    <rect x="50" y="75" width="500" height="55" rx="8" fill="#9c27b0" stroke="#ce93d8" stroke-width="2" opacity="0.85"/>
+    <text x="75" y="100" fill="#fff" font-size="13" font-weight="bold">Level 10</text>
+    <text x="300" y="100" text-anchor="middle" fill="#fff" font-size="13">HoTT — Univalent Foundations</text>
+    <text x="300" y="118" text-anchor="middle" fill="#e1bee7" font-size="10">Types ↔ Spaces (∞-groupoids)</text>
+
+    <!-- Level 9: Motivic -->
+    <rect x="65" y="140" width="470" height="55" rx="8" fill="#880e4f" stroke="#f48fb1" stroke-width="2" opacity="0.85"/>
+    <text x="90" y="165" fill="#fff" font-size="13" font-weight="bold">Level 9</text>
+    <text x="300" y="165" text-anchor="middle" fill="#fff" font-size="13">Motivic — Universal Cohomology</text>
+    <text x="300" y="183" text-anchor="middle" fill="#f8bbd0" font-size="10">Motives ↔ Realizations</text>
+
+    <!-- Level 8: Derived Langlands -->
+    <rect x="80" y="205" width="440" height="55" rx="8" fill="#b71c1c" stroke="#ef9a9a" stroke-width="2" opacity="0.85"/>
+    <text x="105" y="230" fill="#fff" font-size="13" font-weight="bold">Level 8</text>
+    <text x="300" y="230" text-anchor="middle" fill="#fff" font-size="13">Derived Langlands</text>
+    <text x="300" y="248" text-anchor="middle" fill="#ffcdd2" font-size="10">Derived categories ↔ ∞-categories</text>
+
+    <!-- Level 7: Geometric Langlands -->
+    <rect x="95" y="270" width="410" height="55" rx="8" fill="#e65100" stroke="#ffcc80" stroke-width="2" opacity="0.85"/>
+    <text x="120" y="295" fill="#fff" font-size="13" font-weight="bold">Level 7</text>
+    <text x="300" y="295" text-anchor="middle" fill="#fff" font-size="13">Geometric Langlands</text>
+    <text x="300" y="313" text-anchor="middle" fill="#ffe0b2" font-size="10">D-modules ↔ Local systems</text>
+
+    <!-- Level 6: Langlands -->
+    <rect x="110" y="335" width="380" height="55" rx="8" fill="#ff6f00" stroke="#ffd54f" stroke-width="3" opacity="0.9"/>
+    <text x="135" y="360" fill="#fff" font-size="13" font-weight="bold">Level 6</text>
+    <text x="300" y="360" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">★ LANGLANDS ★</text>
+    <text x="300" y="378" text-anchor="middle" fill="#fff8e1" font-size="10">Automorphic reps ↔ Galois reps</text>
+
+    <!-- Level 5: Tannaka -->
+    <rect x="125" y="400" width="350" height="55" rx="8" fill="#2e7d32" stroke="#81c784" stroke-width="2" opacity="0.85"/>
+    <text x="150" y="425" fill="#fff" font-size="13" font-weight="bold">Level 5</text>
+    <text x="300" y="425" text-anchor="middle" fill="#fff" font-size="13">Tannaka Duality</text>
+    <text x="300" y="443" text-anchor="middle" fill="#c8e6c9" font-size="10">Groups ↔ Rep categories</text>
+
+    <!-- Level 4: Galois -->
+    <rect x="140" y="465" width="320" height="55" rx="8" fill="#1b5e20" stroke="#a5d6a7" stroke-width="2" opacity="0.85"/>
+    <text x="165" y="490" fill="#fff" font-size="13" font-weight="bold">Level 4</text>
+    <text x="300" y="490" text-anchor="middle" fill="#fff" font-size="13">Galois Theory</text>
+    <text x="300" y="508" text-anchor="middle" fill="#c8e6c9" font-size="10">Field extensions ↔ Subgroups</text>
+
+    <!-- Level 3: Pontryagin -->
+    <rect x="155" y="530" width="290" height="55" rx="8" fill="#004d40" stroke="#80cbc4" stroke-width="2" opacity="0.85"/>
+    <text x="180" y="555" fill="#fff" font-size="13" font-weight="bold">Level 3</text>
+    <text x="300" y="555" text-anchor="middle" fill="#fff" font-size="13">Pontryagin Duality</text>
+    <text x="300" y="573" text-anchor="middle" fill="#b2dfdb" font-size="10">LCA groups ↔ Dual groups</text>
+
+    <!-- Level 2: Gelfand -->
+    <rect x="170" y="595" width="260" height="55" rx="8" fill="#01579b" stroke="#81d4fa" stroke-width="2" opacity="0.85"/>
+    <text x="195" y="620" fill="#fff" font-size="13" font-weight="bold">Level 2</text>
+    <text x="300" y="620" text-anchor="middle" fill="#fff" font-size="13">Gelfand Duality</text>
+    <text x="300" y="638" text-anchor="middle" fill="#b3e5fc" font-size="10">C*-Alg ↔ CompHaus</text>
+
+    <!-- Level 1: Stone -->
+    <rect x="185" y="660" width="230" height="55" rx="8" fill="#0d47a1" stroke="#90caf9" stroke-width="2" opacity="0.85"/>
+    <text x="210" y="685" fill="#fff" font-size="13" font-weight="bold">Level 1</text>
+    <text x="300" y="685" text-anchor="middle" fill="#fff" font-size="13">Stone Duality</text>
+    <text x="300" y="703" text-anchor="middle" fill="#bbdefb" font-size="10">BoolAlg ↔ Stone spaces</text>
+
+    <!-- Level 0: Set-theoretic -->
+    <rect x="200" y="725" width="200" height="50" rx="8" fill="#1a237e" stroke="#9fa8da" stroke-width="2" opacity="0.85"/>
+    <text x="225" y="748" fill="#fff" font-size="13" font-weight="bold">Level 0</text>
+    <text x="300" y="748" text-anchor="middle" fill="#fff" font-size="12">Set Bijections</text>
+    <text x="300" y="763" text-anchor="middle" fill="#c5cae9" font-size="10">A ≅ B</text>
+  </g>
+
+  <!-- Arrows -->
+  <g stroke="#ffffff" stroke-width="1" fill="none" opacity="0.3">
+    <line x1="300" y1="130" x2="300" y2="140"/>
+    <line x1="300" y1="195" x2="300" y2="205"/>
+    <line x1="300" y1="260" x2="300" y2="270"/>
+    <line x1="300" y1="325" x2="300" y2="335"/>
+    <line x1="300" y1="390" x2="300" y2="400"/>
+    <line x1="300" y1="455" x2="300" y2="465"/>
+    <line x1="300" y1="520" x2="300" y2="530"/>
+    <line x1="300" y1="585" x2="300" y2="595"/>
+    <line x1="300" y1="650" x2="300" y2="660"/>
+    <line x1="300" y1="715" x2="300" y2="725"/>
+  </g>
+</svg>

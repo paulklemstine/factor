@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0d1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a30;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg4)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    Search Theory Framework: Architecture Overview
+  </text>
+  <text x="450" y="60" text-anchor="middle" fill="#88aacc" font-size="12">
+    5 Lean 4 modules • 13+ definitions • 15+ verified theorems • 0 sorries
+  </text>
+
+  <!-- Module 1: Core -->
+  <g transform="translate(350, 90)" filter="url(#shadow)">
+    <rect x="0" y="0" width="200" height="100" rx="12" fill="#1a2d4a" stroke="#4488cc" stroke-width="2"/>
+    <text x="100" y="25" text-anchor="middle" fill="#4488cc" font-size="13" font-weight="bold">Core</text>
+    <line x1="20" y1="32" x2="180" y2="32" stroke="#4488cc" stroke-width="0.5"/>
+    <text x="100" y="50" text-anchor="middle" fill="#88aacc" font-size="10">SearchStrategy</text>
+    <text x="100" y="65" text-anchor="middle" fill="#88aacc" font-size="10">Cumulative regions</text>
+    <text x="100" y="80" text-anchor="middle" fill="#88aacc" font-size="10">Monotonicity ✓</text>
+    <text x="100" y="95" text-anchor="middle" fill="#88aacc" font-size="10">Covering ✓</text>
+  </g>
+
+  <!-- Module 2: Repulsors -->
+  <g transform="translate(80, 230)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="130" rx="12" fill="#2d1a1a" stroke="#cc4444" stroke-width="2"/>
+    <text x="110" y="25" text-anchor="middle" fill="#cc4444" font-size="13" font-weight="bold">Repulsors</text>
+    <line x1="20" y1="32" x2="200" y2="32" stroke="#cc4444" stroke-width="0.5"/>
+    <text x="110" y="50" text-anchor="middle" fill="#ff8888" font-size="10">DiscreteDynSystem</text>
+    <text x="110" y="65" text-anchor="middle" fill="#ff8888" font-size="10">IsDiscreteAttractor</text>
+    <text x="110" y="80" text-anchor="middle" fill="#ff8888" font-size="10">IsDiscreteRepulsor</text>
+    <text x="110" y="95" text-anchor="middle" fill="#ff8888" font-size="10">BijectiveDynSystem</text>
+    <text x="110" y="110" text-anchor="middle" fill="#ff8888" font-size="10">Time-reversal duality ✓</text>
+    <text x="110" y="125" text-anchor="middle" fill="#ff8888" font-size="10">Repulsor spectrum ✓</text>
+  </g>
+
+  <!-- Module 3: Evasion -->
+  <g transform="translate(600, 230)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="130" rx="12" fill="#1a2d1a" stroke="#44cc44" stroke-width="2"/>
+    <text x="110" y="25" text-anchor="middle" fill="#44cc44" font-size="13" font-weight="bold">Evasion</text>
+    <line x1="20" y1="32" x2="200" y2="32" stroke="#44cc44" stroke-width="0.5"/>
+    <text x="110" y="50" text-anchor="middle" fill="#88ff88" font-size="10">EvasionStrategy</text>
+    <text x="110" y="65" text-anchor="middle" fill="#88ff88" font-size="10">Causality constraint</text>
+    <text x="110" y="80" text-anchor="middle" fill="#88ff88" font-size="10">Pigeonhole bound ✓</text>
+    <text x="110" y="95" text-anchor="middle" fill="#88ff88" font-size="10">Transfinite evasion ✓</text>
+    <text x="110" y="110" text-anchor="middle" fill="#88ff88" font-size="10">BoundedEvasion</text>
+    <text x="110" y="125" text-anchor="middle" fill="#88ff88" font-size="10">Exhaustive search ✓</text>
+  </g>
+
+  <!-- Module 4: Duality -->
+  <g transform="translate(80, 420)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="120" rx="12" fill="#2d2d1a" stroke="#cccc44" stroke-width="2"/>
+    <text x="110" y="25" text-anchor="middle" fill="#cccc44" font-size="13" font-weight="bold">Duality</text>
+    <line x1="20" y1="32" x2="200" y2="32" stroke="#cccc44" stroke-width="0.5"/>
+    <text x="110" y="50" text-anchor="middle" fill="#ffff88" font-size="10">SearchObj category</text>
+    <text x="110" y="65" text-anchor="middle" fill="#ffff88" font-size="10">O-R complementarity ✓</text>
+    <text x="110" y="80" text-anchor="middle" fill="#ffff88" font-size="10">OneWayFunction</text>
+    <text x="110" y="95" text-anchor="middle" fill="#ffff88" font-size="10">OWF unique preimage ✓</text>
+    <text x="110" y="110" text-anchor="middle" fill="#ffff88" font-size="10">ZKSearchProof</text>
+  </g>
+
+  <!-- Module 5: Information Bounds -->
+  <g transform="translate(600, 420)" filter="url(#shadow)">
+    <rect x="0" y="0" width="220" height="120" rx="12" fill="#1a1a2d" stroke="#8844cc" stroke-width="2"/>
+    <text x="110" y="25" text-anchor="middle" fill="#8844cc" font-size="13" font-weight="bold">Info Bounds</text>
+    <line x1="20" y1="32" x2="200" y2="32" stroke="#8844cc" stroke-width="0.5"/>
+    <text x="110" y="50" text-anchor="middle" fill="#cc88ff" font-size="10">Binary entropy ✓</text>
+    <text x="110" y="65" text-anchor="middle" fill="#cc88ff" font-size="10">Max entropy ✓</text>
+    <text x="110" y="80" text-anchor="middle" fill="#cc88ff" font-size="10">KL divergence ✓</text>
+    <text x="110" y="95" text-anchor="middle" fill="#cc88ff" font-size="10">Gibbs' inequality ✓</text>
+    <text x="110" y="110" text-anchor="middle" fill="#cc88ff" font-size="10">Infinite-horizon ✓</text>
+  </g>
+
+  <!-- Connections -->
+  <!-- Core → Repulsors -->
+  <line x1="370" y1="190" x2="250" y2="230" stroke="#666688" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <!-- Core → Evasion -->
+  <line x1="530" y1="190" x2="660" y2="230" stroke="#666688" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <!-- Repulsors → Duality -->
+  <line x1="190" y1="360" x2="190" y2="420" stroke="#666688" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <!-- Evasion → Info Bounds -->
+  <line x1="710" y1="360" x2="710" y2="420" stroke="#666688" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <!-- Cross connections -->
+  <line x1="300" y1="295" x2="600" y2="295" stroke="#444466" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="450" y="290" text-anchor="middle" fill="#666688" font-size="10">duality</text>
+  <line x1="300" y1="480" x2="600" y2="480" stroke="#444466" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="450" y="475" text-anchor="middle" fill="#666688" font-size="10">conservation law</text>
+
+  <!-- Central connecting element -->
+  <g transform="translate(370, 370)">
+    <rect x="0" y="0" width="160" height="50" rx="25" fill="#1a1a2d" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="80" y="22" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">Search ⟷ Evasion</text>
+    <text x="80" y="38" text-anchor="middle" fill="#aaaaaa" font-size="10">I_s + I_e = log(n)</text>
+  </g>
+
+  <!-- Footer -->
+  <rect x="150" y="570" width="600" height="55" rx="10" fill="#0d1d2d" stroke="#4488cc" stroke-width="1"/>
+  <text x="450" y="590" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">
+    All 15+ theorems machine-verified in Lean 4 with Mathlib
+  </text>
+  <text x="450" y="608" text-anchor="middle" fill="#88aacc" font-size="10">
+    SearchTheory__Core • SearchTheory__Repulsors • SearchTheory__Evasion • SearchTheory__Duality • SearchTheory__InformationBounds
+  </text>
+</svg>

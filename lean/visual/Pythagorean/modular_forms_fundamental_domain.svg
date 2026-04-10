@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a237e" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#3949ab" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#e8eaf6" stop-opacity="0.1"/>
+    </linearGradient>
+    <radialGradient id="cuspGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffeb3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffeb3b" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#fff"/>
+    </marker>
+  </defs>
+
+  <!-- Background: hyperbolic plane feel -->
+  <rect width="800" height="600" fill="#0d1b2a"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#e8eaf6">
+    Fundamental Domain of Γ_θ on the Upper Half-Plane
+  </text>
+  <text x="400" y="55" text-anchor="middle" font-size="12" fill="#90a4ae">
+    Three cusps ↔ Three Berggren branches
+  </text>
+
+  <!-- Real axis -->
+  <line x1="50" y1="500" x2="750" y2="500" stroke="#546e7a" stroke-width="2"/>
+  <text x="770" y="505" font-size="12" fill="#90a4ae">ℝ</text>
+
+  <!-- Tick marks -->
+  <line x1="200" y1="495" x2="200" y2="505" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="200" y="520" text-anchor="middle" font-size="12" fill="#e0e0e0">0</text>
+
+  <line x1="400" y1="495" x2="400" y2="505" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="400" y="520" text-anchor="middle" font-size="12" fill="#e0e0e0">1</text>
+
+  <line x1="600" y1="495" x2="600" y2="505" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="600" y="520" text-anchor="middle" font-size="12" fill="#e0e0e0">2</text>
+
+  <!-- Standard SL(2,Z) domain (thin outline) -->
+  <path d="M 300 500 L 300 180 A 200 200 0 0 1 500 180 L 500 500"
+        fill="none" stroke="#37474f" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="400" y="420" text-anchor="middle" font-size="10" fill="#546e7a">SL(2,ℤ) domain</text>
+
+  <!-- Γ_θ fundamental domain: three copies -->
+  <!-- Domain 1: left piece -->
+  <path d="M 100 500 L 100 200 A 100 100 0 0 1 200 200 L 200 500 Z"
+        fill="rgba(198,40,40,0.2)" stroke="#ef5350" stroke-width="2"/>
+
+  <!-- Domain 2: center piece (the "main" SL2Z domain) -->
+  <path d="M 200 500 L 200 200 A 200 200 0 0 1 400 170 A 200 200 0 0 1 600 200 L 600 500 Z"
+        fill="rgba(66,165,245,0.15)" stroke="#42a5f5" stroke-width="2"/>
+
+  <!-- Domain 3: right piece -->
+  <path d="M 600 500 L 600 200 A 100 100 0 0 1 700 200 L 700 500 Z"
+        fill="rgba(76,175,80,0.2)" stroke="#66bb6a" stroke-width="2"/>
+
+  <!-- Cusp at ∞ (shown as upward arrow) -->
+  <line x1="400" y1="150" x2="400" y2="80" stroke="#ffeb3b" stroke-width="2" marker-end="url(#arr)"/>
+  <circle cx="400" cy="75" r="15" fill="url(#cuspGlow)"/>
+  <text x="400" y="80" text-anchor="middle" font-size="14" fill="#ffeb3b" font-weight="bold">∞</text>
+  <text x="430" y="100" font-size="10" fill="#ffd54f">Cusp ∞</text>
+  <text x="430" y="115" font-size="9" fill="#ffab40">Stab = ⟨T²⟩ = ⟨M₃⟩</text>
+
+  <!-- Cusp at 0 -->
+  <circle cx="200" cy="500" r="15" fill="url(#cuspGlow)"/>
+  <circle cx="200" cy="500" r="4" fill="#ef5350"/>
+  <text x="200" y="545" text-anchor="middle" font-size="14" fill="#ef5350" font-weight="bold">0</text>
+  <text x="140" y="470" font-size="10" fill="#ef9a9a">Cusp 0</text>
+  <text x="100" y="485" font-size="9" fill="#ef9a9a">Stab = ⟨S·T²·S⁻¹⟩</text>
+
+  <!-- Cusp at 1 (actually could be at different positions) -->
+  <circle cx="600" cy="500" r="15" fill="url(#cuspGlow)"/>
+  <circle cx="600" cy="500" r="4" fill="#66bb6a"/>
+  <text x="620" y="545" text-anchor="middle" font-size="14" fill="#66bb6a" font-weight="bold">1</text>
+  <text x="660" y="470" font-size="10" fill="#a5d6a7">Cusp 1</text>
+  <text x="640" y="485" font-size="9" fill="#a5d6a7">Mixed branch</text>
+
+  <!-- Geodesic arcs (schematic) -->
+  <path d="M 200 500 A 100 100 0 0 1 400 500" fill="none" stroke="#ffab40" stroke-width="1.5" stroke-dasharray="5,5"/>
+  <path d="M 400 500 A 100 100 0 0 1 600 500" fill="none" stroke="#ffab40" stroke-width="1.5" stroke-dasharray="5,5"/>
+
+  <!-- Fixed point of S at i -->
+  <circle cx="400" cy="300" r="5" fill="#ce93d8"/>
+  <text x="415" y="305" font-size="11" fill="#ce93d8" font-style="italic">i</text>
+  <text x="415" y="320" font-size="9" fill="#b39ddb">Fixed point of S</text>
+
+  <!-- Transformation labels -->
+  <!-- T² arrow -->
+  <path d="M 450 130 A 60 20 0 0 1 560 130" fill="none" stroke="#42a5f5" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="505" y="120" text-anchor="middle" font-size="10" fill="#90caf9">T²: z ↦ z+2</text>
+
+  <!-- S arrow -->
+  <path d="M 380 260 C 330 240 320 350 360 340" fill="none" stroke="#ce93d8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="310" y="290" font-size="10" fill="#ce93d8">S: z ↦ -1/z</text>
+
+  <!-- Legend -->
+  <rect x="50" y="555" width="700" height="35" rx="5" fill="rgba(255,255,255,0.05)"/>
+  <rect x="65" y="565" width="15" height="12" fill="rgba(198,40,40,0.3)" stroke="#ef5350"/>
+  <text x="85" y="575" font-size="10" fill="#e0e0e0">M₁ branch region</text>
+  <rect x="235" y="565" width="15" height="12" fill="rgba(66,165,245,0.2)" stroke="#42a5f5"/>
+  <text x="255" y="575" font-size="10" fill="#e0e0e0">Main domain (3× SL₂ domain)</text>
+  <rect x="465" y="565" width="15" height="12" fill="rgba(76,175,80,0.3)" stroke="#66bb6a"/>
+  <text x="485" y="575" font-size="10" fill="#e0e0e0">M₃ branch region</text>
+</svg>

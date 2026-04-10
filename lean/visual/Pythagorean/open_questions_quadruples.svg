@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="dbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b2d4a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#dbg)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">
+    Question 3: Multi-Dimensional Extension — Triples vs Quadruples
+  </text>
+
+  <!-- Left: Triple tree -->
+  <g transform="translate(50, 70)">
+    <text x="175" y="15" text-anchor="middle" fill="#ff6b6b" font-size="15" font-weight="bold">
+      Pythagorean Triples (3 branches)
+    </text>
+    <text x="175" y="35" text-anchor="middle" fill="#ff8888" font-size="12">
+      a² + b² = c²  |  O(2,1;ℤ)
+    </text>
+
+    <!-- Root -->
+    <circle cx="175" cy="65" r="15" fill="#ff6b6b" stroke="#ff8888" stroke-width="2"/>
+    <text x="175" y="70" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">3,4,5</text>
+
+    <!-- Level 1: 3 children -->
+    <line x1="175" y1="80" x2="75" y2="120" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+    <line x1="175" y1="80" x2="175" y2="120" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+    <line x1="175" y1="80" x2="275" y2="120" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+
+    <circle cx="75" cy="130" r="11" fill="#ff6b6b" opacity="0.8" stroke="#ff8888" stroke-width="1"/>
+    <text x="75" y="134" text-anchor="middle" fill="#fff" font-size="7">5,12,13</text>
+    <circle cx="175" cy="130" r="11" fill="#ff6b6b" opacity="0.8" stroke="#ff8888" stroke-width="1"/>
+    <text x="175" y="134" text-anchor="middle" fill="#fff" font-size="7">21,20,29</text>
+    <circle cx="275" cy="130" r="11" fill="#ff6b6b" opacity="0.8" stroke="#ff8888" stroke-width="1"/>
+    <text x="275" y="134" text-anchor="middle" fill="#fff" font-size="7">15,8,17</text>
+
+    <!-- Level 2: 9 nodes -->
+    <line x1="75" y1="141" x2="30" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="75" y1="141" x2="75" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="75" y1="141" x2="120" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="175" y1="141" x2="150" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="175" y1="141" x2="175" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="175" y1="141" x2="200" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="275" y1="141" x2="230" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="275" y1="141" x2="275" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="275" y1="141" x2="320" y2="175" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+
+    <g opacity="0.6">
+      <circle cx="30" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="75" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="120" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="150" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="175" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="200" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="230" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="275" cy="185" r="6" fill="#ff6b6b"/>
+      <circle cx="320" cy="185" r="6" fill="#ff6b6b"/>
+    </g>
+
+    <!-- Stats -->
+    <text x="175" y="225" text-anchor="middle" fill="#ff8888" font-size="12">
+      Level 0: 1 node
+    </text>
+    <text x="175" y="245" text-anchor="middle" fill="#ff8888" font-size="12">
+      Level 1: 3 nodes
+    </text>
+    <text x="175" y="265" text-anchor="middle" fill="#ff8888" font-size="12">
+      Level 2: 9 nodes
+    </text>
+    <text x="175" y="285" text-anchor="middle" fill="#ff8888" font-size="12">
+      Level k: 3^k nodes
+    </text>
+    <text x="175" y="310" text-anchor="middle" fill="#ffaaaa" font-size="11">
+      GCD checks per node: 2
+    </text>
+  </g>
+
+  <!-- Right: Quadruple tree -->
+  <g transform="translate(480, 70)">
+    <text x="200" y="15" text-anchor="middle" fill="#4ecdc4" font-size="15" font-weight="bold">
+      Pythagorean Quadruples (4 branches)
+    </text>
+    <text x="200" y="35" text-anchor="middle" fill="#7eddd6" font-size="12">
+      a² + b² + c² = d²  |  O(3,1;ℤ)
+    </text>
+
+    <!-- Root -->
+    <circle cx="200" cy="65" r="15" fill="#4ecdc4" stroke="#7eddd6" stroke-width="2"/>
+    <text x="200" y="70" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">1,2,2,3</text>
+
+    <!-- Level 1: 4 children -->
+    <line x1="200" y1="80" x2="80" y2="120" stroke="#4ecdc4" stroke-width="1.5" opacity="0.6"/>
+    <line x1="200" y1="80" x2="160" y2="120" stroke="#4ecdc4" stroke-width="1.5" opacity="0.6"/>
+    <line x1="200" y1="80" x2="240" y2="120" stroke="#4ecdc4" stroke-width="1.5" opacity="0.6"/>
+    <line x1="200" y1="80" x2="320" y2="120" stroke="#4ecdc4" stroke-width="1.5" opacity="0.6"/>
+
+    <circle cx="80" cy="130" r="10" fill="#4ecdc4" opacity="0.8" stroke="#7eddd6" stroke-width="1"/>
+    <circle cx="160" cy="130" r="10" fill="#4ecdc4" opacity="0.8" stroke="#7eddd6" stroke-width="1"/>
+    <circle cx="240" cy="130" r="10" fill="#4ecdc4" opacity="0.8" stroke="#7eddd6" stroke-width="1"/>
+    <circle cx="320" cy="130" r="10" fill="#4ecdc4" opacity="0.8" stroke="#7eddd6" stroke-width="1"/>
+
+    <!-- Level 2: 16 nodes -->
+    <g opacity="0.5">
+      <circle cx="40" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="65" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="90" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="115" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="140" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="160" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="180" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="200" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="220" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="240" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="260" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="280" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="300" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="320" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="340" cy="185" r="5" fill="#4ecdc4"/>
+      <circle cx="360" cy="185" r="5" fill="#4ecdc4"/>
+    </g>
+
+    <!-- Stats -->
+    <text x="200" y="225" text-anchor="middle" fill="#7eddd6" font-size="12">
+      Level 0: 1 node
+    </text>
+    <text x="200" y="245" text-anchor="middle" fill="#7eddd6" font-size="12">
+      Level 1: 4 nodes
+    </text>
+    <text x="200" y="265" text-anchor="middle" fill="#7eddd6" font-size="12">
+      Level 2: 16 nodes
+    </text>
+    <text x="200" y="285" text-anchor="middle" fill="#7eddd6" font-size="12">
+      Level k: 4^k nodes
+    </text>
+    <text x="200" y="310" text-anchor="middle" fill="#88eedd" font-size="11">
+      GCD checks per node: 3
+    </text>
+  </g>
+
+  <!-- Comparison table at bottom -->
+  <g transform="translate(50, 360)">
+    <rect x="0" y="0" width="800" height="120" fill="#0d1b2a" rx="10" stroke="#334466" stroke-width="1"/>
+
+    <text x="400" y="25" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold">
+      Dimension Advantage Summary
+    </text>
+
+    <!-- Headers -->
+    <text x="80" y="55" text-anchor="middle" fill="#aabbcc" font-size="12" font-weight="bold">Depth k</text>
+    <text x="200" y="55" text-anchor="middle" fill="#ff8888" font-size="12" font-weight="bold">Triples (3^k)</text>
+    <text x="340" y="55" text-anchor="middle" fill="#7eddd6" font-size="12" font-weight="bold">Quadruples (4^k)</text>
+    <text x="480" y="55" text-anchor="middle" fill="#ffe66d" font-size="12" font-weight="bold">Ratio (4/3)^k</text>
+    <text x="640" y="55" text-anchor="middle" fill="#88ff88" font-size="12" font-weight="bold">GCD Advantage</text>
+
+    <!-- Data rows -->
+    <text x="80" y="80" text-anchor="middle" fill="#ccccdd" font-size="11">5</text>
+    <text x="200" y="80" text-anchor="middle" fill="#ff8888" font-size="11">243</text>
+    <text x="340" y="80" text-anchor="middle" fill="#7eddd6" font-size="11">1,024</text>
+    <text x="480" y="80" text-anchor="middle" fill="#ffe66d" font-size="11">4.2×</text>
+    <text x="640" y="80" text-anchor="middle" fill="#88ff88" font-size="11">6.3×</text>
+
+    <text x="80" y="100" text-anchor="middle" fill="#ccccdd" font-size="11">10</text>
+    <text x="200" y="100" text-anchor="middle" fill="#ff8888" font-size="11">59,049</text>
+    <text x="340" y="100" text-anchor="middle" fill="#7eddd6" font-size="11">1,048,576</text>
+    <text x="480" y="100" text-anchor="middle" fill="#ffe66d" font-size="11">17.8×</text>
+    <text x="640" y="100" text-anchor="middle" fill="#88ff88" font-size="11">26.6×</text>
+
+    <!-- Formula -->
+    <text x="400" y="115" text-anchor="middle" fill="#888899" font-size="10" font-style="italic">
+      Combined advantage per level: (4/3) × (3/2) = 2.0× — Proven: 4^k ≥ 3^k (Lean 4 ✓)
+    </text>
+  </g>
+</svg>

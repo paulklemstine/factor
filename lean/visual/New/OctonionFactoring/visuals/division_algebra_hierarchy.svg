@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" 
+     width="700" height="500">
+  <defs>
+    <style>
+      text { font-family: 'Georgia', 'Times New Roman', serif; }
+      .title { font-size: 18px; font-weight: bold; fill: #1a1a2e; }
+      .subtitle { font-size: 13px; fill: #444; }
+      .label { font-size: 12px; fill: #333; }
+      .small { font-size: 10px; fill: #666; }
+      .math { font-family: 'Times New Roman', serif; font-style: italic; }
+      .axis { stroke: #333; stroke-width: 1.5; fill: none; }
+      .grid { stroke: #ddd; stroke-width: 0.5; fill: none; }
+      .highlight { fill: #e94560; }
+      .accent1 { fill: #0f3460; }
+      .accent2 { fill: #16213e; }
+      .accent3 { fill: #533483; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
+  <!-- Division Algebra Hierarchy -->
+  <rect width="700" height="500" fill="#fafbfc" rx="10"/>
+  <text x="350" y="35" text-anchor="middle" class="title">Division Algebra Hierarchy</text>
+  <text x="350" y="55" text-anchor="middle" class="subtitle">Normed Division Algebras over ℝ (Hurwitz Theorem)</text>
+  <rect x="70" y="90" width="560" height="80" rx="8" fill="#4CAF50" fill-opacity="0.12" stroke="#4CAF50" stroke-width="2"/>
+  <text x="100" y="125" font-size="24" font-weight="bold" fill="#4CAF50">ℝ</text>
+  <text x="250" y="118" font-size="14" font-weight="bold" fill="#333">Real Numbers</text>
+  <text x="250" y="138" font-size="11" fill="#666">dim 1 · Associative: Yes · Commutative: Yes</text>
+  <text x="490" y="118" font-size="12" fill="#4CAF50" font-weight="bold">Trial Division</text>
+  <text x="490" y="138" font-size="11" fill="#666">Bound: N^1</text>
+  <line x1="350" y1="170" x2="350" y2="190" stroke="#999" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+  <text x="365" y="183" font-size="9" fill="#999">extends</text>
+  <rect x="70" y="190" width="560" height="80" rx="8" fill="#2196F3" fill-opacity="0.12" stroke="#2196F3" stroke-width="2"/>
+  <text x="100" y="225" font-size="24" font-weight="bold" fill="#2196F3">ℂ ≅ ℤ[i]</text>
+  <text x="250" y="218" font-size="14" font-weight="bold" fill="#333">Gaussian Integers</text>
+  <text x="250" y="238" font-size="11" fill="#666">dim 2 · Associative: Yes · Commutative: Yes</text>
+  <text x="490" y="218" font-size="12" fill="#2196F3" font-weight="bold">Fermat's Method</text>
+  <text x="490" y="238" font-size="11" fill="#666">Bound: N^{1/2}</text>
+  <line x1="350" y1="270" x2="350" y2="290" stroke="#999" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+  <text x="365" y="283" font-size="9" fill="#999">extends</text>
+  <rect x="70" y="290" width="560" height="80" rx="8" fill="#FF9800" fill-opacity="0.12" stroke="#FF9800" stroke-width="2"/>
+  <text x="100" y="325" font-size="24" font-weight="bold" fill="#FF9800">ℍ ≅ ℤ[i,j,k]</text>
+  <text x="250" y="318" font-size="14" font-weight="bold" fill="#333">Quaternions</text>
+  <text x="250" y="338" font-size="11" fill="#666">dim 4 · Associative: Yes · Commutative: No</text>
+  <text x="490" y="318" font-size="12" fill="#FF9800" font-weight="bold">This Paper</text>
+  <text x="490" y="338" font-size="11" fill="#666">Bound: N^{1/4}</text>
+  <line x1="350" y1="370" x2="350" y2="390" stroke="#999" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead)"/>
+  <text x="365" y="383" font-size="9" fill="#999">extends</text>
+  <rect x="70" y="390" width="560" height="80" rx="8" fill="#E91E63" fill-opacity="0.12" stroke="#E91E63" stroke-width="2"/>
+  <text x="100" y="425" font-size="24" font-weight="bold" fill="#E91E63">𝕆</text>
+  <text x="250" y="418" font-size="14" font-weight="bold" fill="#333">Octonions</text>
+  <text x="250" y="438" font-size="11" fill="#666">dim 8 · Associative: No · Commutative: No</text>
+  <text x="490" y="418" font-size="12" fill="#E91E63" font-weight="bold">Open Question</text>
+  <text x="490" y="438" font-size="11" fill="#666">Bound: N^{1/8}</text>
+</svg>

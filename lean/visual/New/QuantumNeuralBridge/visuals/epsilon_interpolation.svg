@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="spectrumGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#27AE60;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F39C12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3498DB;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <text x="450" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#2C3E50">
+    ε-Interpolation Framework
+  </text>
+  <text x="450" y="55" text-anchor="middle" font-size="12" fill="#7F8C8D">
+    Continuous deformation from classical to quantum computation
+  </text>
+  
+  <!-- Spectrum bar -->
+  <rect x="50" y="80" width="800" height="40" rx="20" fill="url(#spectrumGrad)" opacity="0.3" stroke="#333" stroke-width="1"/>
+  
+  <!-- Tick marks and labels -->
+  <line x1="100" y1="80" x2="100" y2="130" stroke="#27AE60" stroke-width="3"/>
+  <text x="100" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#27AE60">ε = 0</text>
+  <text x="100" y="168" text-anchor="middle" font-size="11" fill="#555">Tropical</text>
+  <text x="100" y="183" text-anchor="middle" font-size="11" fill="#555">Classical</text>
+  
+  <line x1="450" y1="80" x2="450" y2="130" stroke="#F39C12" stroke-width="3"/>
+  <text x="450" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#F39C12">ε = 1</text>
+  <text x="450" y="168" text-anchor="middle" font-size="11" fill="#555">Standard</text>
+  <text x="450" y="183" text-anchor="middle" font-size="11" fill="#555">LogSumExp</text>
+  
+  <line x1="800" y1="80" x2="800" y2="130" stroke="#3498DB" stroke-width="3"/>
+  <text x="800" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#3498DB">ε = i</text>
+  <text x="800" y="168" text-anchor="middle" font-size="11" fill="#555">Quantum</text>
+  <text x="800" y="183" text-anchor="middle" font-size="11" fill="#555">Feynman</text>
+  
+  <!-- Operation boxes -->
+  <!-- Tropical -->
+  <rect x="30" y="200" width="220" height="170" rx="10" fill="#27AE60" opacity="0.1" stroke="#27AE60" stroke-width="1.5"/>
+  <text x="140" y="225" text-anchor="middle" font-size="14" font-weight="bold" fill="#27AE60">Tropical Regime</text>
+  <text x="50" y="250" font-size="12" fill="#555">a ⊕ b = max(a, b)</text>
+  <text x="50" y="268" font-size="12" fill="#555">a ⊙ b = a + b</text>
+  <text x="50" y="290" font-size="11" fill="#555" font-style="italic">• Idempotent: a ⊕ a = a</text>
+  <text x="50" y="308" font-size="11" fill="#555" font-style="italic">• Winner-take-all attention</text>
+  <text x="50" y="326" font-size="11" fill="#555" font-style="italic">• Classical shortest paths</text>
+  <text x="50" y="348" font-size="11" fill="#27AE60" font-weight="bold">✓ Verified: distributive law</text>
+  
+  <!-- Standard -->
+  <rect x="280" y="200" width="340" height="170" rx="10" fill="#F39C12" opacity="0.1" stroke="#F39C12" stroke-width="1.5"/>
+  <text x="450" y="225" text-anchor="middle" font-size="14" font-weight="bold" fill="#F39C12">Standard Regime (ε = 1)</text>
+  <text x="300" y="250" font-size="12" fill="#555">a ⊕₁ b = log(eᵃ + eᵇ)</text>
+  <text x="300" y="268" font-size="12" fill="#555">= LogSumExp(a, b)</text>
+  <text x="300" y="290" font-size="11" fill="#555" font-style="italic">• Softmax attention</text>
+  <text x="300" y="308" font-size="11" fill="#555" font-style="italic">• max(a,b) ≤ LSE ≤ max(a,b) + log 2</text>
+  <text x="300" y="326" font-size="11" fill="#555" font-style="italic">• Smooth approximation of max</text>
+  <text x="300" y="348" font-size="11" fill="#F39C12" font-weight="bold">✓ Verified: tight LSE bounds</text>
+  
+  <!-- Quantum -->
+  <rect x="650" y="200" width="220" height="170" rx="10" fill="#3498DB" opacity="0.1" stroke="#3498DB" stroke-width="1.5"/>
+  <text x="760" y="225" text-anchor="middle" font-size="14" font-weight="bold" fill="#3498DB">Quantum Regime</text>
+  <text x="670" y="250" font-size="12" fill="#555">Amplitudes interfere</text>
+  <text x="670" y="268" font-size="12" fill="#555">|ψ⟩ = Σ αᵢ|i⟩</text>
+  <text x="670" y="290" font-size="11" fill="#555" font-style="italic">• Superposition</text>
+  <text x="670" y="308" font-size="11" fill="#555" font-style="italic">• 2ⁿ-dim Hilbert space</text>
+  <text x="670" y="326" font-size="11" fill="#555" font-style="italic">• Feynman path integral</text>
+  <text x="670" y="348" font-size="11" fill="#3498DB" font-weight="bold">✓ Verified: 2ⁿ > nᵈ ∀d</text>
+  
+  <!-- Bottom formula -->
+  <text x="450" y="395" text-anchor="middle" font-size="13" fill="#2C3E50">
+    Maslov Dequantization: a ⊕_ε b = ε · log(e^(a/ε) + e^(b/ε)) → max(a,b) as ε → 0⁺
+  </text>
+</svg>

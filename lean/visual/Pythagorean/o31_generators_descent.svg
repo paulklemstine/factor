@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <filter id="g2">
+      <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="750" fill="url(#bg2)"/>
+
+  <text x="500" y="40" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold">
+    Pythagorean Quadruple Descent Tree under O(3,1;ℤ)
+  </text>
+  <text x="500" y="65" text-anchor="middle" fill="#88aacc" font-size="14">
+    All primitive quadruples descend to root (0,0,1,1) via R₁
+  </text>
+
+  <!-- Level 0: Root -->
+  <circle cx="500" cy="120" r="35" fill="none" stroke="#ffd700" stroke-width="3" filter="url(#g2)"/>
+  <text x="500" y="117" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">(0,0,1,1)</text>
+  <text x="500" y="134" text-anchor="middle" fill="#ffdd88" font-size="10">root</text>
+
+  <!-- Level 1 -->
+  <line x1="440" y1="155" x2="250" y2="210" stroke="#4488ff" stroke-width="2" opacity="0.6"/>
+  <line x1="500" y1="155" x2="500" y2="210" stroke="#4488ff" stroke-width="2" opacity="0.6"/>
+  <line x1="560" y1="155" x2="750" y2="210" stroke="#4488ff" stroke-width="2" opacity="0.6"/>
+
+  <circle cx="250" cy="230" r="30" fill="none" stroke="#4488ff" stroke-width="2"/>
+  <text x="250" y="227" text-anchor="middle" fill="#4488ff" font-size="12">(1,2,2,3)</text>
+  <text x="250" y="243" text-anchor="middle" fill="#88aaff" font-size="9">R₁</text>
+
+  <circle cx="500" cy="230" r="30" fill="none" stroke="#44ff88" stroke-width="2"/>
+  <text x="500" y="227" text-anchor="middle" fill="#44ff88" font-size="12">(0,0,1,1)</text>
+  <text x="500" y="243" text-anchor="middle" fill="#88ffaa" font-size="9">P₀₂R₁P₀₂</text>
+
+  <circle cx="750" cy="230" r="30" fill="none" stroke="#ff4488" stroke-width="2"/>
+  <text x="750" y="227" text-anchor="middle" fill="#ff4488" font-size="12">(0,3,4,5)</text>
+  <text x="750" y="243" text-anchor="middle" fill="#ff88aa" font-size="9">P₀₁R₁P₀₁</text>
+
+  <!-- Level 2 from (1,2,2,3) -->
+  <line x1="210" y1="260" x2="130" y2="320" stroke="#4488ff" stroke-width="1.5" opacity="0.5"/>
+  <line x1="250" y1="260" x2="250" y2="320" stroke="#4488ff" stroke-width="1.5" opacity="0.5"/>
+  <line x1="290" y1="260" x2="370" y2="320" stroke="#4488ff" stroke-width="1.5" opacity="0.5"/>
+
+  <circle cx="130" cy="340" r="25" fill="none" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="130" y="343" text-anchor="middle" fill="#6699ff" font-size="10">(2,3,6,7)</text>
+
+  <circle cx="250" cy="340" r="25" fill="none" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="250" y="343" text-anchor="middle" fill="#6699ff" font-size="10">(4,4,7,9)</text>
+
+  <circle cx="370" cy="340" r="25" fill="none" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="370" y="343" text-anchor="middle" fill="#6699ff" font-size="10">(1,4,8,9)</text>
+
+  <!-- Level 2 from (0,3,4,5) -->
+  <line x1="710" y1="260" x2="630" y2="320" stroke="#ff4488" stroke-width="1.5" opacity="0.5"/>
+  <line x1="750" y1="260" x2="750" y2="320" stroke="#ff4488" stroke-width="1.5" opacity="0.5"/>
+  <line x1="790" y1="260" x2="870" y2="320" stroke="#ff4488" stroke-width="1.5" opacity="0.5"/>
+
+  <circle cx="630" cy="340" r="25" fill="none" stroke="#ff4488" stroke-width="1.5"/>
+  <text x="630" y="343" text-anchor="middle" fill="#ff6699" font-size="10">(6,6,7,11)</text>
+
+  <circle cx="750" cy="340" r="25" fill="none" stroke="#ff4488" stroke-width="1.5"/>
+  <text x="750" y="343" text-anchor="middle" fill="#ff6699" font-size="10">(2,6,9,11)</text>
+
+  <circle cx="870" cy="340" r="25" fill="none" stroke="#ff4488" stroke-width="1.5"/>
+  <text x="870" y="343" text-anchor="middle" fill="#ff6699" font-size="10">(3,4,12,13)</text>
+
+  <!-- Legend: Generators -->
+  <rect x="50" y="420" width="900" height="300" rx="10" fill="none" stroke="#444466" stroke-width="1"/>
+  <text x="500" y="450" text-anchor="middle" fill="#ffd700" font-size="18" font-weight="bold">
+    Generator Set for O(3,1;ℤ) on the Null Cone
+  </text>
+
+  <!-- R1 -->
+  <rect x="70" y="470" width="250" height="110" rx="8" fill="#1a1a3a" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="195" y="495" text-anchor="middle" fill="#4488ff" font-size="15" font-weight="bold">R₁ = Descent Reflection</text>
+  <text x="195" y="518" text-anchor="middle" fill="#88aaff" font-size="11">R₁(a,b,c,d) =</text>
+  <text x="195" y="536" text-anchor="middle" fill="#88aaff" font-size="11">(d−b−c, d−a−c, d−a−b, 2d−a−b−c)</text>
+  <text x="195" y="558" text-anchor="middle" fill="#6688cc" font-size="10">det = −1, R₁² = I, R₁ᵀηR₁ = η</text>
+
+  <!-- Permutations -->
+  <rect x="340" y="470" width="250" height="110" rx="8" fill="#1a3a1a" stroke="#44ff88" stroke-width="1.5"/>
+  <text x="465" y="495" text-anchor="middle" fill="#44ff88" font-size="15" font-weight="bold">Spatial Permutations</text>
+  <text x="465" y="518" text-anchor="middle" fill="#88ffaa" font-size="11">P₀₁: (a,b,c,d) → (b,a,c,d)</text>
+  <text x="465" y="536" text-anchor="middle" fill="#88ffaa" font-size="11">P₀₂: (a,b,c,d) → (c,b,a,d)</text>
+  <text x="465" y="554" text-anchor="middle" fill="#88ffaa" font-size="11">P₁₂: (a,b,c,d) → (a,c,b,d)</text>
+  <text x="465" y="570" text-anchor="middle" fill="#66cc88" font-size="10">Generate S₃ on spatial coords</text>
+
+  <!-- Sign changes -->
+  <rect x="610" y="470" width="250" height="110" rx="8" fill="#3a1a1a" stroke="#ff8844" stroke-width="1.5"/>
+  <text x="735" y="495" text-anchor="middle" fill="#ff8844" font-size="15" font-weight="bold">Sign Changes</text>
+  <text x="735" y="518" text-anchor="middle" fill="#ffaa66" font-size="11">S₀: (a,b,c,d) → (−a,b,c,d)</text>
+  <text x="735" y="536" text-anchor="middle" fill="#ffaa66" font-size="11">S₁ = P₀₁S₀P₀₁</text>
+  <text x="735" y="554" text-anchor="middle" fill="#ffaa66" font-size="11">S₂ = P₀₂S₀P₀₂</text>
+  <text x="735" y="570" text-anchor="middle" fill="#cc8844" font-size="10">Handle negative coords</text>
+
+  <!-- Key theorem -->
+  <rect x="70" y="600" width="860" height="100" rx="8" fill="#1a1a2a" stroke="#ffd700" stroke-width="2"/>
+  <text x="500" y="630" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">
+    Main Theorem (Machine-Verified)
+  </text>
+  <text x="500" y="655" text-anchor="middle" fill="#ffeeaa" font-size="13">
+    {R₁, P₀₁, P₀₂, P₁₂, S₀} generates all of O(3,1;ℤ) restricted to the null cone.
+  </text>
+  <text x="500" y="678" text-anchor="middle" fill="#ffeeaa" font-size="13">
+    Every primitive Pythagorean quadruple descends to root (0,0,1,1) via compositions of these generators.
+  </text>
+  <text x="500" y="698" text-anchor="middle" fill="#aaaacc" font-size="11">
+    Proven: R₁² = I · R₁ᵀηR₁ = η · det(R₁) = −1 · descent_preserves_pythagorean · descent_decreases_hyp
+  </text>
+</svg>

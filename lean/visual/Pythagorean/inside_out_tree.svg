@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#44a08d;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="rootGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ee5a24;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="targetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd93d;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ff9f1c;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowGold" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffd93d"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ecdc4"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#fff" font-size="28" font-weight="bold" filter="url(#glow)">
+    Inside-Out Root Search Factoring
+  </text>
+  <text x="600" y="72" text-anchor="middle" fill="#aaa" font-size="14">
+    Navigating the Pythagorean Triple Tree from Leaf to Root
+  </text>
+
+  <!-- The Tree Structure (classical top-down, shown faded) -->
+  <!-- Root (3,4,5) -->
+  <ellipse cx="600" cy="150" rx="55" ry="22" fill="url(#rootGrad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="600" y="155" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(3, 4, 5)</text>
+  <text x="600" y="125" text-anchor="middle" fill="#ff6b6b" font-size="11">ROOT</text>
+
+  <!-- Level 1 children -->
+  <line x1="565" y1="170" x2="300" y2="240" stroke="#4ecdc4" stroke-width="1.5" opacity="0.3"/>
+  <line x1="600" y1="172" x2="600" y2="240" stroke="#4ecdc4" stroke-width="1.5" opacity="0.3"/>
+  <line x1="635" y1="170" x2="900" y2="240" stroke="#4ecdc4" stroke-width="1.5" opacity="0.3"/>
+
+  <ellipse cx="300" cy="260" rx="55" ry="22" fill="url(#nodeGrad)" filter="url(#shadow)" opacity="0.4"/>
+  <text x="300" y="265" text-anchor="middle" fill="#fff" font-size="12" opacity="0.5">(5, 12, 13)</text>
+
+  <ellipse cx="600" cy="260" rx="60" ry="22" fill="url(#nodeGrad)" filter="url(#shadow)" opacity="0.4"/>
+  <text x="600" y="265" text-anchor="middle" fill="#fff" font-size="12" opacity="0.5">(21, 20, 29)</text>
+
+  <ellipse cx="900" cy="260" rx="55" ry="22" fill="url(#nodeGrad)" filter="url(#shadow)" opacity="0.4"/>
+  <text x="900" y="265" text-anchor="middle" fill="#fff" font-size="12" opacity="0.5">(15, 8, 17)</text>
+
+  <!-- Level 2 children (faded) -->
+  <line x1="270" y1="280" x2="150" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+  <line x1="300" y1="282" x2="300" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+  <line x1="330" y1="280" x2="450" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+
+  <line x1="870" y1="280" x2="780" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+  <line x1="900" y1="282" x2="900" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+  <line x1="930" y1="280" x2="1020" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+
+  <line x1="570" y1="280" x2="500" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+  <line x1="600" y1="282" x2="600" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+  <line x1="630" y1="280" x2="700" y2="340" stroke="#4ecdc4" stroke-width="1" opacity="0.15"/>
+
+  <!-- Small nodes at level 2 (faded) -->
+  <circle cx="150" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="300" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="450" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="500" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="600" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="700" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="780" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="900" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+  <circle cx="1020" cy="355" r="8" fill="#4ecdc4" opacity="0.2"/>
+
+  <!-- Dots indicating more levels -->
+  <text x="600" y="400" text-anchor="middle" fill="#4ecdc4" font-size="20" opacity="0.3">⋮ ⋮ ⋮</text>
+
+  <!-- ============================================================ -->
+  <!-- THE INSIDE-OUT PATH (bright, highlighted) -->
+  <!-- ============================================================ -->
+
+  <!-- Target node: N = 143 -->
+  <ellipse cx="600" cy="750" rx="80" ry="28" fill="url(#targetGrad)" filter="url(#shadow)"/>
+  <text x="600" y="745" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="bold">N = 143</text>
+  <text x="600" y="762" text-anchor="middle" fill="#1a1a2e" font-size="11">(143, 10224, 10225)</text>
+
+  <!-- Upward arrows (the inside-out path) -->
+  <!-- Step 1 -->
+  <line x1="600" y1="722" x2="600" y2="680" stroke="#ffd93d" stroke-width="2.5" marker-end="url(#arrowGold)"/>
+  <ellipse cx="600" cy="660" rx="65" ry="22" fill="url(#nodeGrad)" filter="url(#shadow)" opacity="0.8"/>
+  <text x="600" y="665" text-anchor="middle" fill="#fff" font-size="11">(141, 9940, 9941)</text>
+  <text x="690" y="700" fill="#ffd93d" font-size="10">B₁⁻¹</text>
+
+  <!-- Step 2 -->
+  <line x1="600" y1="638" x2="600" y2="600" stroke="#ffd93d" stroke-width="2.5" marker-end="url(#arrowGold)"/>
+  <ellipse cx="600" cy="580" rx="65" ry="22" fill="url(#nodeGrad)" filter="url(#shadow)" opacity="0.8"/>
+  <text x="600" y="585" text-anchor="middle" fill="#fff" font-size="11">(139, 9660, 9661)</text>
+  <text x="690" y="620" fill="#ffd93d" font-size="10">B₁⁻¹</text>
+
+  <!-- Step 3-5 (dots) -->
+  <text x="600" y="540" text-anchor="middle" fill="#ffd93d" font-size="18">⋮</text>
+  <text x="640" y="545" fill="#ffd93d" font-size="10">3 more steps</text>
+
+  <!-- Step 5: Factor found! -->
+  <ellipse cx="600" cy="490" rx="65" ry="22" fill="#ff6b6b" filter="url(#glow)" opacity="0.9"/>
+  <text x="600" y="495" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">(133, 8844, 8845)</text>
+  <line x1="600" y1="510" x2="600" y2="540" stroke="#ffd93d" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- Factor annotation -->
+  <rect x="720" y="475" width="200" height="40" rx="8" fill="#ff6b6b" opacity="0.2" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="820" y="493" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">gcd(133, 143) = 11</text>
+  <text x="820" y="508" text-anchor="middle" fill="#ff6b6b" font-size="11">143 = 11 × 13 ✓</text>
+  <line x1="665" y1="490" x2="720" y2="490" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ============================================================ -->
+  <!-- The Root Equation Panel -->
+  <!-- ============================================================ -->
+  <rect x="30" y="430" width="280" height="200" rx="12" fill="#1a1a3e" stroke="#4ecdc4" stroke-width="1.5" opacity="0.9"/>
+  <text x="170" y="458" text-anchor="middle" fill="#4ecdc4" font-size="14" font-weight="bold">Root Equations</text>
+
+  <text x="50" y="485" fill="#ddd" font-size="11">Given (N, u, h) with h² = N² + u²</text>
+  <text x="50" y="505" fill="#ddd" font-size="11">Apply B₂⁻¹ → root (3,4,5):</text>
+  <text x="50" y="530" fill="#ffd93d" font-size="12" font-style="italic">3h = 2N + 2u + 5</text>
+  <text x="50" y="555" fill="#ffd93d" font-size="12" font-style="italic">⟹ 5N² − 8Nu − 20N</text>
+  <text x="65" y="575" fill="#ffd93d" font-size="12" font-style="italic">+ 5u² − 20u − 25 = 0</text>
+  <text x="50" y="600" fill="#aaa" font-size="10">With u = N−1: reduces to 2N(N−21) = 0</text>
+  <text x="50" y="618" fill="#aaa" font-size="10">⟹ N = 21 is the unique depth-1 solution</text>
+
+  <!-- ============================================================ -->
+  <!-- The Grandparent Panel -->
+  <!-- ============================================================ -->
+  <rect x="890" y="430" width="280" height="200" rx="12" fill="#1a1a3e" stroke="#ff9f1c" stroke-width="1.5" opacity="0.9"/>
+  <text x="1030" y="458" text-anchor="middle" fill="#ff9f1c" font-size="14" font-weight="bold">Grandparent Formula</text>
+
+  <text x="910" y="485" fill="#ddd" font-size="11">B₂⁻¹ ∘ B₂⁻¹ composition:</text>
+  <text x="910" y="510" fill="#ffd93d" font-size="11">a' = 9a + 8b − 12c</text>
+  <text x="910" y="530" fill="#ffd93d" font-size="11">b' = 8a + 9b − 12c</text>
+  <text x="910" y="550" fill="#ffd93d" font-size="11">c' = −12a − 12b + 17c</text>
+  <text x="910" y="580" fill="#aaa" font-size="10">Preserves a² + b² = c²</text>
+  <text x="910" y="600" fill="#aaa" font-size="10">Nested substitution reaches</text>
+  <text x="910" y="618" fill="#aaa" font-size="10">deeper ancestors directly</text>
+
+  <!-- ============================================================ -->
+  <!-- Legend -->
+  <!-- ============================================================ -->
+  <rect x="30" y="770" width="350" height="110" rx="10" fill="#1a1a3e" stroke="#444" stroke-width="1" opacity="0.8"/>
+  <text x="50" y="795" fill="#fff" font-size="13" font-weight="bold">Inside-Out Method</text>
+
+  <circle cx="55" cy="815" r="6" fill="#ffd93d"/>
+  <text x="70" y="820" fill="#ddd" font-size="11">Target triple (N, u, √(N²+u²))</text>
+
+  <circle cx="55" cy="838" r="6" fill="#4ecdc4"/>
+  <text x="70" y="843" fill="#ddd" font-size="11">Intermediate ancestor nodes</text>
+
+  <circle cx="55" cy="861" r="6" fill="#ff6b6b"/>
+  <text x="70" y="866" fill="#ddd" font-size="11">Factor extraction point / Root</text>
+
+  <line x1="240" y1="815" x2="280" y2="815" stroke="#ffd93d" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <text x="290" y="820" fill="#ddd" font-size="11">Parent transform</text>
+
+  <!-- Key insight callout -->
+  <rect x="830" y="770" width="340" height="110" rx="10" fill="#1a1a3e" stroke="#4ecdc4" stroke-width="1.5" opacity="0.9"/>
+  <text x="1000" y="795" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="bold">Key Insight</text>
+  <text x="850" y="818" fill="#ddd" font-size="11">Classical: search tree top-down → O(3ᵈ)</text>
+  <text x="850" y="838" fill="#ffd93d" font-size="11" font-weight="bold">Inside-out: trace root backward → O(d)</text>
+  <text x="850" y="858" fill="#ddd" font-size="11">d = tree depth = O(log N)</text>
+  <text x="850" y="875" fill="#ddd" font-size="11">Each step: gcd check → factor extraction</text>
+</svg>

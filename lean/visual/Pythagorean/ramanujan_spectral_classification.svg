@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="paraGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2196F3"/>
+      <stop offset="100%" style="stop-color:#42A5F5"/>
+    </linearGradient>
+    <linearGradient id="hyperGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF5722"/>
+      <stop offset="100%" style="stop-color:#FF7043"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#E0E0E0" font-size="22" font-weight="bold">
+    Parabolic vs Hyperbolic Classification of Berggren Generators
+  </text>
+  <text x="450" y="62" text-anchor="middle" fill="#90CAF9" font-size="13">
+    Lorentz group O(2,1;ℤ) spectral classification via trace sequences
+  </text>
+
+  <!-- Left panel: B₁ (Parabolic) -->
+  <rect x="30" y="85" width="260" height="250" rx="12" fill="#1a237e" stroke="#42A5F5" stroke-width="2" opacity="0.9"/>
+  <text x="160" y="112" text-anchor="middle" fill="#42A5F5" font-size="18" font-weight="bold">B₁ — PARABOLIC</text>
+  <text x="160" y="135" text-anchor="middle" fill="#90CAF9" font-size="13">tr(B₁) = 3 = dim</text>
+
+  <!-- Trace bars for B₁ -->
+  <text x="50" y="165" fill="#B0BEC5" font-size="11">tr(B₁ⁿ):</text>
+  <g transform="translate(50, 175)">
+    <rect x="0" y="0" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="12" fill="#E0E0E0" font-size="11">n=1: 3</text>
+    <rect x="0" y="22" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="34" fill="#E0E0E0" font-size="11">n=2: 3</text>
+    <rect x="0" y="44" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="56" fill="#E0E0E0" font-size="11">n=3: 3</text>
+    <rect x="0" y="66" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="78" fill="#E0E0E0" font-size="11">n=4: 3</text>
+  </g>
+  <text x="160" y="310" text-anchor="middle" fill="#64B5F6" font-size="11" font-style="italic">
+    All eigenvalues = 1 (unipotent)
+  </text>
+
+  <!-- Middle panel: B₂ (Hyperbolic) -->
+  <rect x="320" y="85" width="260" height="250" rx="12" fill="#3e2723" stroke="#FF7043" stroke-width="2" opacity="0.9"/>
+  <text x="450" y="112" text-anchor="middle" fill="#FF7043" font-size="18" font-weight="bold">B₂ — HYPERBOLIC</text>
+  <text x="450" y="135" text-anchor="middle" fill="#FFAB91" font-size="13">tr(B₂) = 5 > 3</text>
+
+  <!-- Trace bars for B₂ (exponential growth) -->
+  <text x="340" y="165" fill="#B0BEC5" font-size="11">tr(B₂ⁿ):</text>
+  <g transform="translate(340, 175)">
+    <rect x="0" y="0" width="20" height="16" rx="3" fill="url(#hyperGrad)" opacity="0.8"/>
+    <text x="25" y="12" fill="#E0E0E0" font-size="11">n=1: 5</text>
+    <rect x="0" y="22" width="60" height="16" rx="3" fill="url(#hyperGrad)" opacity="0.8"/>
+    <text x="65" y="34" fill="#E0E0E0" font-size="11">n=2: 35</text>
+    <rect x="0" y="44" width="120" height="16" rx="3" fill="url(#hyperGrad)" opacity="0.8"/>
+    <text x="125" y="56" fill="#E0E0E0" font-size="11">n=3: 197</text>
+    <rect x="0" y="66" width="200" height="16" rx="3" fill="url(#hyperGrad)" opacity="0.8"/>
+    <text x="205" y="78" fill="#E0E0E0" font-size="11">n=4: 1155</text>
+  </g>
+  <text x="450" y="310" text-anchor="middle" fill="#FFAB91" font-size="11" font-style="italic">
+    Dominant eigenvalue ≈ 3 + 2√2
+  </text>
+
+  <!-- Right panel: B₃ (Parabolic) -->
+  <rect x="610" y="85" width="260" height="250" rx="12" fill="#1a237e" stroke="#42A5F5" stroke-width="2" opacity="0.9"/>
+  <text x="740" y="112" text-anchor="middle" fill="#42A5F5" font-size="18" font-weight="bold">B₃ — PARABOLIC</text>
+  <text x="740" y="135" text-anchor="middle" fill="#90CAF9" font-size="13">tr(B₃) = 3 = dim</text>
+
+  <g transform="translate(630, 175)">
+    <rect x="0" y="0" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="12" fill="#E0E0E0" font-size="11">n=1: 3</text>
+    <rect x="0" y="22" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="34" fill="#E0E0E0" font-size="11">n=2: 3</text>
+    <rect x="0" y="44" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="56" fill="#E0E0E0" font-size="11">n=3: 3</text>
+    <rect x="0" y="66" width="80" height="16" rx="3" fill="url(#paraGrad)" opacity="0.8"/>
+    <text x="85" y="78" fill="#E0E0E0" font-size="11">n=4: 3</text>
+  </g>
+  <text x="740" y="310" text-anchor="middle" fill="#64B5F6" font-size="11" font-style="italic">
+    All eigenvalues = 1 (unipotent)
+  </text>
+
+  <!-- Bottom: Spectral Gap Monotonicity -->
+  <rect x="30" y="355" width="840" height="130" rx="12" fill="#1b2838" stroke="#4DB6AC" stroke-width="1.5" opacity="0.9"/>
+  <text x="450" y="382" text-anchor="middle" fill="#4DB6AC" font-size="16" font-weight="bold">
+    Spectral Gap Monotonicity (Machine-Verified)
+  </text>
+
+  <!-- Gap bars -->
+  <g transform="translate(60, 395)">
+    <!-- 3D -->
+    <rect x="0" y="0" width="40" height="25" rx="5" fill="#66BB6A"/>
+    <text x="50" y="17" fill="#E0E0E0" font-size="12">3D: 6 - 2√5 ≈ 1.53</text>
+
+    <!-- 4D -->
+    <rect x="250" y="0" width="68" height="25" rx="5" fill="#42A5F5"/>
+    <text x="325" y="17" fill="#E0E0E0" font-size="12">4D: 8 - 2√7 ≈ 2.71</text>
+
+    <!-- 5D -->
+    <rect x="530" y="0" width="130" height="25" rx="5" fill="#FF7043"/>
+    <text x="665" y="17" fill="#E0E0E0" font-size="12">5D: 12 - 2√11 ≈ 5.37</text>
+  </g>
+
+  <!-- Arrows showing monotonicity -->
+  <text x="230" y="420" fill="#4DB6AC" font-size="20">&lt;</text>
+  <text x="500" y="420" fill="#4DB6AC" font-size="20">&lt;</text>
+
+  <text x="450" y="470" text-anchor="middle" fill="#80CBC4" font-size="12" font-style="italic">
+    Higher dimensions → larger spectral gaps → better expansion
+  </text>
+
+  <!-- Bottom: Key Insight Box -->
+  <rect x="30" y="500" width="840" height="130" rx="12" fill="#1a1a3e" stroke="#CE93D8" stroke-width="1.5" opacity="0.9"/>
+  <text x="450" y="527" text-anchor="middle" fill="#CE93D8" font-size="16" font-weight="bold">
+    Key Insight: Mixing Parabolic + Hyperbolic = Optimal Expansion
+  </text>
+  <text x="450" y="555" text-anchor="middle" fill="#E1BEE7" font-size="12">
+    Parabolic generators (B₁, B₃) shear along the light cone — preserving structure
+  </text>
+  <text x="450" y="575" text-anchor="middle" fill="#E1BEE7" font-size="12">
+    Hyperbolic generator (B₂) stretches hyperbolically — creating expansion
+  </text>
+  <text x="450" y="600" text-anchor="middle" fill="#E1BEE7" font-size="12">
+    Together they generate a free non-abelian subgroup of O(2,1;ℤ) with Ramanujan-quality expansion
+  </text>
+  <text x="450" y="622" text-anchor="middle" fill="#B39DDB" font-size="11" font-style="italic">
+    All results formally verified in Lean 4 with Mathlib — zero sorry
+  </text>
+</svg>

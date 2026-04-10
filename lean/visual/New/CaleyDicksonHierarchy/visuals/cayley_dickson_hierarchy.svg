@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd700" />
+      <stop offset="100%" style="stop-color:#ffaa00" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold" filter="url(#glow)">
+    The Cayley-Dickson Hierarchy
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#aaaacc" font-size="14">
+    From Real Numbers to Trigintaduonions — Properties Lost at Each Step
+  </text>
+
+  <!-- Level 0: ℝ -->
+  <rect x="50" y="100" width="800" height="75" rx="10" fill="#1a3a1a" stroke="#00ff00" stroke-width="2" opacity="0.9"/>
+  <text x="80" y="130" fill="#00ff00" font-size="20" font-weight="bold">ℝ</text>
+  <text x="120" y="130" fill="#cccccc" font-size="16">Real Numbers</text>
+  <text x="350" y="130" fill="#88ff88" font-size="14">Dim: 1</text>
+  <text x="450" y="130" fill="#aaffaa" font-size="14">✓ Ordered  ✓ Commutative  ✓ Associative  ✓ Division</text>
+  <text x="80" y="158" fill="#88aa88" font-size="12">Channel 1: Energy / Frequency</text>
+  <text x="450" y="158" fill="#88aa88" font-size="12">All properties intact. The "trivial" algebra.</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="175" x2="450" y2="190" stroke="#ff6666" stroke-width="2"/>
+  <text x="460" y="187" fill="#ff6666" font-size="11">lose ordering</text>
+
+  <!-- Level 1: ℂ -->
+  <rect x="50" y="190" width="800" height="75" rx="10" fill="#1a1a3a" stroke="#4488ff" stroke-width="2" opacity="0.9"/>
+  <text x="80" y="220" fill="#4488ff" font-size="20" font-weight="bold">ℂ</text>
+  <text x="120" y="220" fill="#cccccc" font-size="16">Complex Numbers</text>
+  <text x="350" y="220" fill="#88aaff" font-size="14">Dim: 2</text>
+  <text x="450" y="220" fill="#aaaaff" font-size="14">✗ Ordered  ✓ Commutative  ✓ Associative  ✓ Division</text>
+  <text x="80" y="248" fill="#8888aa" font-size="12">Channel 2: Polarization (Jones vector)</text>
+  <text x="450" y="248" fill="#8888aa" font-size="12">Gained: algebraic closure, 2-square identity</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="265" x2="450" y2="280" stroke="#ff6666" stroke-width="2"/>
+  <text x="460" y="277" fill="#ff6666" font-size="11">lose commutativity</text>
+
+  <!-- Level 2: ℍ -->
+  <rect x="50" y="280" width="800" height="75" rx="10" fill="#3a1a3a" stroke="#ff44ff" stroke-width="2" opacity="0.9"/>
+  <text x="80" y="310" fill="#ff44ff" font-size="20" font-weight="bold">ℍ</text>
+  <text x="120" y="310" fill="#cccccc" font-size="16">Quaternions</text>
+  <text x="350" y="310" fill="#ffaaff" font-size="14">Dim: 4</text>
+  <text x="450" y="310" fill="#ffaaff" font-size="14">✗ Ordered  ✗ Commutative  ✓ Associative  ✓ Division</text>
+  <text x="80" y="338" fill="#aa88aa" font-size="12">Channel 3: Stokes parameters / 3D rotations</text>
+  <text x="450" y="338" fill="#aa88aa" font-size="12">Gained: rotation group SU(2), 4-square identity</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="355" x2="450" y2="370" stroke="#ff6666" stroke-width="2"/>
+  <text x="460" y="367" fill="#ff6666" font-size="11">lose associativity</text>
+
+  <!-- Level 3: 𝕆 -->
+  <rect x="50" y="370" width="800" height="75" rx="10" fill="#3a3a1a" stroke="#ffaa00" stroke-width="2" opacity="0.9"/>
+  <text x="80" y="400" fill="#ffaa00" font-size="20" font-weight="bold">𝕆</text>
+  <text x="120" y="400" fill="#cccccc" font-size="16">Octonions</text>
+  <text x="350" y="400" fill="#ffdd88" font-size="14">Dim: 8</text>
+  <text x="450" y="400" fill="#ffdd88" font-size="14">✗ Ordered  ✗ Commutative  ✗ Associative  ✓ Division</text>
+  <text x="80" y="428" fill="#aaaa88" font-size="12">Channel 4: EM field tensor / Exceptional groups</text>
+  <text x="450" y="428" fill="#aaaa88" font-size="12">Gained: E₈ lattice, 8-square identity (LAST)</text>
+
+  <!-- BARRIER -->
+  <line x1="50" y1="460" x2="850" y2="460" stroke="#ff0000" stroke-width="3" stroke-dasharray="10,5"/>
+  <text x="450" y="475" text-anchor="middle" fill="#ff0000" font-size="14" font-weight="bold" filter="url(#glow)">
+    ═══ THE HURWITZ BARRIER ═══  Zero Divisors Appear  ═══
+  </text>
+
+  <!-- Level 4: 𝕊 -->
+  <rect x="50" y="490" width="800" height="75" rx="10" fill="#3a1a1a" stroke="#ff4444" stroke-width="2" opacity="0.9"/>
+  <text x="80" y="520" fill="#ff4444" font-size="20" font-weight="bold">𝕊</text>
+  <text x="120" y="520" fill="#cccccc" font-size="16">Sedenions</text>
+  <text x="350" y="520" fill="#ff8888" font-size="14">Dim: 16</text>
+  <text x="450" y="520" fill="#ff8888" font-size="14">✗ Ordered  ✗ Commutative  ✗ Associative  ✗ Division</text>
+  <text x="80" y="548" fill="#aa8888" font-size="12">Channel 5: Orbital angular momentum (∞ modes)</text>
+  <text x="450" y="548" fill="#aa8888" font-size="12">1 cusp form. First zero divisors. NO composition identity.</text>
+
+  <!-- Arrow -->
+  <line x1="450" y1="565" x2="450" y2="580" stroke="#ff6666" stroke-width="2"/>
+  <text x="460" y="577" fill="#ff6666" font-size="11">lose further structure</text>
+
+  <!-- Level 5: 𝕋 -->
+  <rect x="50" y="580" width="800" height="75" rx="10" fill="#2a0a0a" stroke="#aa2222" stroke-width="2" opacity="0.9"/>
+  <text x="80" y="610" fill="#aa2222" font-size="20" font-weight="bold">𝕋</text>
+  <text x="120" y="610" fill="#cccccc" font-size="16">Trigintaduonions</text>
+  <text x="350" y="610" fill="#cc6666" font-size="14">Dim: 32</text>
+  <text x="450" y="610" fill="#cc6666" font-size="14">✗ Ordered  ✗ Commutative  ✗ Associative  ✗ Division</text>
+  <text x="80" y="638" fill="#886666" font-size="12">Channel 6: Quantum entanglement</text>
+  <text x="450" y="638" fill="#886666" font-size="12">5 cusp forms. Cusp explosion. Non-locality.</text>
+
+  <!-- Legend -->
+  <text x="450" y="685" text-anchor="middle" fill="#888888" font-size="11">
+    The only normed division algebras are ℝ, ℂ, ℍ, 𝕆 (Hurwitz 1898). Dimensions: 1, 2, 4, 8.
+  </text>
+</svg>

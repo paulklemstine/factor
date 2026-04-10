@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a0a"/>
+      <stop offset="100%" stop-color="#2e1a1a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" fill="url(#bg5)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#ff6b6b" font-size="20" font-weight="bold">
+    Homomorphic Encryption: Noise Analysis
+  </text>
+
+  <!-- The key formula -->
+  <rect x="100" y="55" width="600" height="55" rx="10" fill="#3e0d1b" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="400" y="80" text-anchor="middle" fill="#ffffff" font-size="15">
+    (a₁+a₂)²+(b₁+b₂)²+(c₁+c₂)² − (d₁+d₂)² = 2(⟨v₁,v₂⟩ − d₁d₂)
+  </text>
+  <text x="400" y="100" text-anchor="middle" fill="#ffaaaa" font-size="12">
+    Noise = 0 when inner product = hypotenuse product
+  </text>
+
+  <!-- Noise diagram -->
+  <!-- Axis -->
+  <line x1="100" y1="350" x2="700" y2="350" stroke="#666" stroke-width="1"/>
+  <line x1="400" y1="150" x2="400" y2="380" stroke="#666" stroke-width="1"/>
+  <text x="400" y="400" text-anchor="middle" fill="#aaa" font-size="11">⟨v₁,v₂⟩ / d₁d₂</text>
+  <text x="80" y="250" fill="#aaa" font-size="11" transform="rotate(-90 80 250)">Noise</text>
+
+  <!-- Scale marks -->
+  <text x="150" y="370" text-anchor="middle" fill="#888" font-size="10">-1</text>
+  <line x1="150" y1="345" x2="150" y2="355" stroke="#888" stroke-width="1"/>
+  <text x="275" y="370" text-anchor="middle" fill="#888" font-size="10">-0.5</text>
+  <line x1="275" y1="345" x2="275" y2="355" stroke="#888" stroke-width="1"/>
+  <text x="400" y="370" text-anchor="middle" fill="#888" font-size="10">0</text>
+  <text x="525" y="370" text-anchor="middle" fill="#888" font-size="10">0.5</text>
+  <line x1="525" y1="345" x2="525" y2="355" stroke="#888" stroke-width="1"/>
+  <text x="650" y="370" text-anchor="middle" fill="#888" font-size="10">1</text>
+  <line x1="650" y1="345" x2="650" y2="355" stroke="#888" stroke-width="1"/>
+
+  <!-- Noise line (linear: noise = 2(ip - d1d2), normalized to ip/d1d2) -->
+  <line x1="150" y1="200" x2="650" y2="350" stroke="#ff6b6b" stroke-width="3"/>
+
+  <!-- Zero crossing = exact homomorphism -->
+  <circle cx="650" cy="350" r="8" fill="#50fa7b" stroke="#ffffff" stroke-width="2"/>
+  <text x="665" y="340" fill="#50fa7b" font-size="12" font-weight="bold">Exact!</text>
+  <text x="665" y="355" fill="#aaffaa" font-size="10">⟨v₁,v₂⟩=d₁d₂</text>
+
+  <!-- Maximum noise (antipodal) -->
+  <circle cx="150" cy="200" r="6" fill="#ff6b6b"/>
+  <text x="100" y="190" fill="#ff6b6b" font-size="11">Max noise</text>
+  <text x="100" y="205" fill="#ffaaaa" font-size="10">(antipodal)</text>
+
+  <!-- Zero inner product -->
+  <circle cx="400" cy="275" r="5" fill="#ffb86c"/>
+  <text x="415" y="268" fill="#ffb86c" font-size="10">Orthogonal</text>
+
+  <!-- Noise regions -->
+  <rect x="150" y="150" width="250" height="30" rx="5" fill="#ff6b6b" opacity="0.15"/>
+  <text x="275" y="170" text-anchor="middle" fill="#ff6b6b" font-size="11">High noise (negative ip)</text>
+
+  <rect x="500" y="310" width="150" height="30" rx="5" fill="#50fa7b" opacity="0.15"/>
+  <text x="575" y="330" text-anchor="middle" fill="#50fa7b" font-size="11">Low noise</text>
+
+  <!-- Key insight box -->
+  <rect x="120" y="415" width="560" height="50" rx="10" fill="#1a1a3e" stroke="#ffd700" stroke-width="1"/>
+  <text x="400" y="438" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="bold">
+    Key Insight: Choose geometrically aligned quadruples for noise-free HE
+  </text>
+  <text x="400" y="455" text-anchor="middle" fill="#ccccee" font-size="11">
+    The inner product condition provides a geometric criterion for encryption quality
+  </text>
+</svg>

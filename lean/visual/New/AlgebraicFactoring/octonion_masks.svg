@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      .title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .subtitle { font: 14px sans-serif; fill: #7f8c8d; }
+      .label { font: 12px sans-serif; fill: #2c3e50; }
+      .small { font: 10px sans-serif; fill: #95a5a6; }
+      .axis { stroke: #bdc3c7; stroke-width: 1; }
+      .grid { stroke: #ecf0f1; stroke-width: 0.5; }
+    </style>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8e44ad;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e67e22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="white" rx="10"/>
+  <text x="400" y="30" text-anchor="middle" class="title">Octonion Partial-Norm Masks for Factor Extraction</text>
+  <text x="400" y="50" text-anchor="middle" class="subtitle">8 coordinates → 254 non-trivial masks → 70 quaternionic slices</text>
+  <line x1="250.0" y1="120.0" x2="341.9238815542512" y2="158.07611844574882" stroke="#3498db" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="120.0" x2="380.0" y2="250.0" stroke="#3498db" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="120.0" x2="341.9238815542512" y2="341.9238815542512" stroke="#3498db" stroke-width="2" opacity="0.3"/>
+  <line x1="341.9238815542512" y1="158.07611844574882" x2="380.0" y2="250.0" stroke="#3498db" stroke-width="2" opacity="0.3"/>
+  <line x1="341.9238815542512" y1="158.07611844574882" x2="341.9238815542512" y2="341.9238815542512" stroke="#3498db" stroke-width="2" opacity="0.3"/>
+  <line x1="380.0" y1="250.0" x2="341.9238815542512" y2="341.9238815542512" stroke="#3498db" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="120.0" x2="250.0" y2="380.0" stroke="#e67e22" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="120.0" x2="158.07611844574882" y2="341.9238815542512" stroke="#e67e22" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="120.0" x2="120.0" y2="250.00000000000003" stroke="#e67e22" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="380.0" x2="158.07611844574882" y2="341.9238815542512" stroke="#e67e22" stroke-width="2" opacity="0.3"/>
+  <line x1="250.0" y1="380.0" x2="120.0" y2="250.00000000000003" stroke="#e67e22" stroke-width="2" opacity="0.3"/>
+  <line x1="158.07611844574882" y1="341.9238815542512" x2="120.0" y2="250.00000000000003" stroke="#e67e22" stroke-width="2" opacity="0.3"/>
+  <circle cx="250.0" cy="120.0" r="22" fill="#9b59b6" opacity="0.2" stroke="#9b59b6" stroke-width="2"/>
+  <text x="250.0" y="125.0" text-anchor="middle" fill="#9b59b6" font-size="14" font-weight="bold">e₀</text>
+  <circle cx="341.9238815542512" cy="158.07611844574882" r="22" fill="#3498db" opacity="0.2" stroke="#3498db" stroke-width="2"/>
+  <text x="341.9238815542512" y="163.07611844574882" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">e₁</text>
+  <circle cx="380.0" cy="250.0" r="22" fill="#3498db" opacity="0.2" stroke="#3498db" stroke-width="2"/>
+  <text x="380.0" y="255.0" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">e₂</text>
+  <circle cx="341.9238815542512" cy="341.9238815542512" r="22" fill="#3498db" opacity="0.2" stroke="#3498db" stroke-width="2"/>
+  <text x="341.9238815542512" y="346.9238815542512" text-anchor="middle" fill="#3498db" font-size="14" font-weight="bold">e₃</text>
+  <circle cx="250.0" cy="380.0" r="22" fill="#e67e22" opacity="0.2" stroke="#e67e22" stroke-width="2"/>
+  <text x="250.0" y="385.0" text-anchor="middle" fill="#e67e22" font-size="14" font-weight="bold">e₄</text>
+  <circle cx="158.07611844574882" cy="341.9238815542512" r="22" fill="#e67e22" opacity="0.2" stroke="#e67e22" stroke-width="2"/>
+  <text x="158.07611844574882" y="346.9238815542512" text-anchor="middle" fill="#e67e22" font-size="14" font-weight="bold">e₅</text>
+  <circle cx="120.0" cy="250.00000000000003" r="22" fill="#e67e22" opacity="0.2" stroke="#e67e22" stroke-width="2"/>
+  <text x="120.0" y="255.00000000000003" text-anchor="middle" fill="#e67e22" font-size="14" font-weight="bold">e₆</text>
+  <circle cx="158.07611844574882" cy="158.07611844574882" r="22" fill="#bdc3c7" opacity="0.2" stroke="#bdc3c7" stroke-width="2"/>
+  <text x="158.07611844574882" y="163.07611844574882" text-anchor="middle" fill="#bdc3c7" font-size="14" font-weight="bold">e₇</text>
+  <text x="430" y="100" class="label" font-weight="bold">Mask Types:</text>
+  <rect x="430" y="115" width="15" height="15" fill="#3498db" opacity="0.3" stroke="#3498db"/>
+  <text x="455" y="127" class="label">Mask A: {e₀,e₁,e₂,e₃}</text>
+  <rect x="430" y="140" width="15" height="15" fill="#e67e22" opacity="0.3" stroke="#e67e22"/>
+  <text x="455" y="152" class="label">Mask B: {e₀,e₄,e₅,e₆}</text>
+  <rect x="430" y="190" width="330" height="200" rx="8" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="595" y="215" text-anchor="middle" style="font: bold 13px sans-serif; fill: #2c3e50;">Mask Statistics</text>
+  <text x="445" y="240" class="small">Total non-trivial masks:</text>
+  <text x="730" y="240" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">254</text>
+  <text x="445" y="258" class="small">Size-1 masks:</text>
+  <text x="730" y="258" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">8</text>
+  <text x="445" y="276" class="small">Size-2 masks:</text>
+  <text x="730" y="276" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">28</text>
+  <text x="445" y="294" class="small">Size-3 masks:</text>
+  <text x="730" y="294" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">56</text>
+  <text x="445" y="312" class="small">Size-4 masks (quaternionic):</text>
+  <text x="730" y="312" text-anchor="end" style="font: bold 11px sans-serif; fill: #27ae60;">70 ★</text>
+  <text x="445" y="330" class="small">Size-5 masks:</text>
+  <text x="730" y="330" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">56</text>
+  <text x="445" y="348" class="small">Size-6 masks:</text>
+  <text x="730" y="348" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">28</text>
+  <text x="445" y="366" class="small">Size-7 masks:</text>
+  <text x="730" y="366" text-anchor="end" style="font: bold 11px sans-serif; fill: #2c3e50;">8</text>
+  <text x="400" y="470" text-anchor="middle" class="subtitle">★ Size-4 masks correspond to quaternionic sub-algebras where norm is multiplicative</text>
+</svg>

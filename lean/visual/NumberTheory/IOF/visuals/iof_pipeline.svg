@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#f1f5f9;stop-opacity:1"/>
+    </linearGradient>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+    </marker>
+    <filter id="card-shadow" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="1" dy="3" stdDeviation="4" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  
+  <rect width="900" height="600" fill="url(#bg3)" rx="12"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-weight="bold" fill="#0f172a">
+    IOF Factoring Pipeline
+  </text>
+  <text x="450" y="60" text-anchor="middle" font-family="Arial" font-size="13" fill="#64748b">
+    From orbit enumeration to factor extraction
+  </text>
+  
+  <!-- Step 1: Choose Parameters -->
+  <rect x="30" y="85" width="250" height="110" rx="10" fill="white" stroke="#3b82f6" stroke-width="2" filter="url(#card-shadow)"/>
+  <rect x="30" y="85" width="250" height="30" rx="10" fill="#3b82f6"/>
+  <rect x="30" y="100" width="250" height="15" fill="#3b82f6"/>
+  <text x="155" y="105" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="white">① Choose Parameters</text>
+  <text x="45" y="140" font-family="monospace" font-size="11" fill="#334155">B = L_n[1/2, 1/(2√2)]</text>
+  <text x="45" y="160" font-family="monospace" font-size="11" fill="#334155">Factor base F(B) = {p ≤ B : prime}</text>
+  <text x="45" y="180" font-family="monospace" font-size="11" fill="#64748b">Target: |F(B)| + 1 relations</text>
+  
+  <!-- Arrow 1→2 -->
+  <line x1="280" y1="140" x2="320" y2="140" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 2: Orbit Enumeration -->
+  <rect x="330" y="85" width="250" height="110" rx="10" fill="white" stroke="#059669" stroke-width="2" filter="url(#card-shadow)"/>
+  <rect x="330" y="85" width="250" height="30" rx="10" fill="#059669"/>
+  <rect x="330" y="100" width="250" height="15" fill="#059669"/>
+  <text x="455" y="105" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="white">② Orbit Enumeration</text>
+  <text x="345" y="140" font-family="monospace" font-size="11" fill="#334155">x₀ → x₀² → x₀⁴ → x₀⁸ → ...</text>
+  <text x="345" y="160" font-family="monospace" font-size="11" fill="#334155">σ^(k)(x) = x^(2^k) mod n</text>
+  <text x="345" y="180" font-family="monospace" font-size="11" fill="#64748b">Multiple starting values</text>
+  
+  <!-- Arrow 2→3 -->
+  <line x1="580" y1="140" x2="620" y2="140" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 3: Smooth Detection -->
+  <rect x="630" y="85" width="250" height="110" rx="10" fill="white" stroke="#d97706" stroke-width="2" filter="url(#card-shadow)"/>
+  <rect x="630" y="85" width="250" height="30" rx="10" fill="#d97706"/>
+  <rect x="630" y="100" width="250" height="15" fill="#d97706"/>
+  <text x="755" y="105" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="white">③ Smooth Detection</text>
+  <text x="645" y="140" font-family="monospace" font-size="11" fill="#334155">Test: is x^(2^k) mod n</text>
+  <text x="645" y="160" font-family="monospace" font-size="11" fill="#334155">   B-smooth?</text>
+  <text x="645" y="180" font-family="monospace" font-size="11" fill="#64748b">Orbit-aware sieving</text>
+  
+  <!-- Arrow 3→4 (down) -->
+  <line x1="755" y1="195" x2="755" y2="240" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 4: Exponent Vectors -->
+  <rect x="630" y="250" width="250" height="110" rx="10" fill="white" stroke="#7c3aed" stroke-width="2" filter="url(#card-shadow)"/>
+  <rect x="630" y="250" width="250" height="30" rx="10" fill="#7c3aed"/>
+  <rect x="630" y="265" width="250" height="15" fill="#7c3aed"/>
+  <text x="755" y="270" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="white">④ Exponent Vectors</text>
+  <text x="645" y="305" font-family="monospace" font-size="11" fill="#334155">v_i = (e₂, e₃, e₅, e₇, ...)</text>
+  <text x="645" y="325" font-family="monospace" font-size="11" fill="#334155">where r_i = 2^e₂ · 3^e₃ · ...</text>
+  <text x="645" y="345" font-family="monospace" font-size="11" fill="#64748b">Store mod 2 for GF(2)</text>
+  
+  <!-- Arrow 4→5 (left) -->
+  <line x1="630" y1="305" x2="580" y2="305" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 5: Linear Algebra -->
+  <rect x="330" y="250" width="250" height="110" rx="10" fill="white" stroke="#dc2626" stroke-width="2" filter="url(#card-shadow)"/>
+  <rect x="330" y="250" width="250" height="30" rx="10" fill="#dc2626"/>
+  <rect x="330" y="265" width="250" height="15" fill="#dc2626"/>
+  <text x="455" y="270" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="white">⑤ GF(2) Linear Algebra</text>
+  <text x="345" y="305" font-family="monospace" font-size="11" fill="#334155">Find S ⊆ relations with</text>
+  <text x="345" y="325" font-family="monospace" font-size="11" fill="#334155">Σ_{i∈S} v_i ≡ 0 (mod 2)</text>
+  <text x="345" y="345" font-family="monospace" font-size="11" fill="#64748b">Gaussian elimination</text>
+  
+  <!-- Arrow 5→6 (left) -->
+  <line x1="330" y1="305" x2="280" y2="305" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Step 6: GCD Extraction -->
+  <rect x="30" y="250" width="250" height="110" rx="10" fill="white" stroke="#0891b2" stroke-width="2" filter="url(#card-shadow)"/>
+  <rect x="30" y="250" width="250" height="30" rx="10" fill="#0891b2"/>
+  <rect x="30" y="265" width="250" height="15" fill="#0891b2"/>
+  <text x="155" y="270" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="white">⑥ GCD Extraction</text>
+  <text x="45" y="305" font-family="monospace" font-size="11" fill="#334155">x = Π_{i∈S} a_i mod n</text>
+  <text x="45" y="325" font-family="monospace" font-size="11" fill="#334155">y² = Π_{i∈S} r_i</text>
+  <text x="45" y="345" font-family="monospace" font-size="11" fill="#64748b">gcd(x-y, n) → factor!</text>
+  
+  <!-- Result Box -->
+  <rect x="70" y="395" width="210" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="175" y="425" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#166534">
+    n = p × q ✓
+  </text>
+  <line x1="155" y1="360" x2="155" y2="393" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  
+  <!-- Formally Verified Box -->
+  <rect x="60" y="470" width="780" height="110" rx="10" fill="white" stroke="#1e3a5f" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="450" y="498" text-anchor="middle" font-family="Georgia" font-size="16" font-weight="bold" fill="#1e3a5f">
+    Formally Verified Properties (Lean 4 + Mathlib)
+  </text>
+  
+  <text x="85" y="525" font-family="Arial" font-size="12" fill="#334155">
+    ✅ Orbit periodicity (pigeonhole)
+  </text>
+  <text x="85" y="545" font-family="Arial" font-size="12" fill="#334155">
+    ✅ CRT orbit decomposition
+  </text>
+  <text x="85" y="565" font-family="Arial" font-size="12" fill="#334155">
+    ✅ Smooth product closure
+  </text>
+  
+  <text x="350" y="525" font-family="Arial" font-size="12" fill="#334155">
+    ✅ GCD extraction correctness
+  </text>
+  <text x="350" y="545" font-family="Arial" font-size="12" fill="#334155">
+    ✅ Sub-exponential bound L[1/2, c]
+  </text>
+  <text x="350" y="565" font-family="Arial" font-size="12" fill="#334155">
+    ✅ Polynomial barrier theorem
+  </text>
+  
+  <text x="630" y="525" font-family="Arial" font-size="12" fill="#334155">
+    ✅ Orbit correlation
+  </text>
+  <text x="630" y="545" font-family="Arial" font-size="12" fill="#334155">
+    ✅ Sieve enhancement
+  </text>
+  <text x="630" y="565" font-family="Arial" font-size="12" fill="#334155">
+    ✅ 15/15 theorems — 0 sorry
+  </text>
+</svg>

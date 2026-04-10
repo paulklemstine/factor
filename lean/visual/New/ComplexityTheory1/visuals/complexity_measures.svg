@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 650" width="800" height="650">
+  <defs>
+    <style>
+      .title { font: bold 20px sans-serif; fill: #2c3e50; }
+      .subtitle { font: 13px sans-serif; fill: #7f8c8d; }
+      .box-title { font: bold 14px sans-serif; fill: white; }
+      .box-content { font: 12px sans-serif; fill: #2c3e50; }
+      .arrow { stroke: #95a5a6; stroke-width: 2; fill: none; }
+      .arrow-label { font: italic 11px sans-serif; fill: #e74c3c; }
+      .verified { font: bold 11px sans-serif; fill: #27ae60; }
+      .theorem-ref { font: 10px monospace; fill: #8e44ad; }
+    </style>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#95a5a6"/>
+    </marker>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="650" fill="#f5f6fa"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" class="title">
+    Boolean Complexity Measures: Relationships
+  </text>
+  <text x="400" y="55" text-anchor="middle" class="subtitle">
+    Formally verified relationships between complexity measures
+  </text>
+
+  <!-- Sensitivity Box -->
+  <rect x="50" y="100" width="200" height="100" rx="12" fill="#3498db" filter="url(#shadow)"/>
+  <text x="150" y="125" text-anchor="middle" class="box-title">Sensitivity s(f)</text>
+  <rect x="60" y="135" width="180" height="55" rx="6" fill="white" opacity="0.9"/>
+  <text x="150" y="155" text-anchor="middle" class="box-content">
+    # bits whose flip
+  </text>
+  <text x="150" y="172" text-anchor="middle" class="box-content">
+    changes f(x)
+  </text>
+  <text x="150" y="185" text-anchor="middle" class="verified">✓ s(f) ≤ n</text>
+
+  <!-- Block Sensitivity Box -->
+  <rect x="300" y="100" width="200" height="100" rx="12" fill="#2ecc71" filter="url(#shadow)"/>
+  <text x="400" y="125" text-anchor="middle" class="box-title">Block Sensitivity bs(f)</text>
+  <rect x="310" y="135" width="180" height="55" rx="6" fill="white" opacity="0.9"/>
+  <text x="400" y="155" text-anchor="middle" class="box-content">
+    # disjoint blocks
+  </text>
+  <text x="400" y="172" text-anchor="middle" class="box-content">
+    whose flip changes f
+  </text>
+
+  <!-- Certificate Complexity Box -->
+  <rect x="550" y="100" width="200" height="100" rx="12" fill="#e74c3c" filter="url(#shadow)"/>
+  <text x="650" y="125" text-anchor="middle" class="box-title">Certificate C(f)</text>
+  <rect x="560" y="135" width="180" height="55" rx="6" fill="white" opacity="0.9"/>
+  <text x="650" y="155" text-anchor="middle" class="box-content">
+    Min bits determining
+  </text>
+  <text x="650" y="172" text-anchor="middle" class="box-content">
+    f(x) from x
+  </text>
+  <text x="650" y="185" text-anchor="middle" class="verified">✓ s(f) ≤ C(f)</text>
+
+  <!-- Influence Box -->
+  <rect x="50" y="280" width="200" height="100" rx="12" fill="#9b59b6" filter="url(#shadow)"/>
+  <text x="150" y="305" text-anchor="middle" class="box-title">Influence Inf_i(f)</text>
+  <rect x="60" y="315" width="180" height="55" rx="6" fill="white" opacity="0.9"/>
+  <text x="150" y="335" text-anchor="middle" class="box-content">
+    Pr[flip i changes f]
+  </text>
+  <text x="150" y="352" text-anchor="middle" class="box-content">
+    = |{x : f(x⊕eᵢ)≠f(x)}| / 2ⁿ
+  </text>
+  <text x="150" y="365" text-anchor="middle" class="verified">✓ 0 ≤ Inf ≤ 1</text>
+
+  <!-- Decision Tree Box -->
+  <rect x="300" y="280" width="200" height="100" rx="12" fill="#f39c12" filter="url(#shadow)"/>
+  <text x="400" y="305" text-anchor="middle" class="box-title">Decision Tree D(f)</text>
+  <rect x="310" y="315" width="180" height="55" rx="6" fill="white" opacity="0.9"/>
+  <text x="400" y="335" text-anchor="middle" class="box-content">
+    Min query depth to
+  </text>
+  <text x="400" y="352" text-anchor="middle" class="box-content">
+    compute f
+  </text>
+
+  <!-- VC Dimension Box -->
+  <rect x="550" y="280" width="200" height="100" rx="12" fill="#1abc9c" filter="url(#shadow)"/>
+  <text x="650" y="305" text-anchor="middle" class="box-title">VC Dimension d</text>
+  <rect x="560" y="315" width="180" height="55" rx="6" fill="white" opacity="0.9"/>
+  <text x="650" y="335" text-anchor="middle" class="box-content">
+    Max shattered set size
+  </text>
+  <text x="650" y="352" text-anchor="middle" class="box-content">
+    |F| ≤ ∑C(n,i)
+  </text>
+  <text x="650" y="365" text-anchor="middle" class="verified">✓ Sauer-Shelah</text>
+
+  <!-- Arrows with relationships -->
+  <!-- s ≤ bs -->
+  <line x1="250" y1="150" x2="300" y2="150" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="275" y="140" text-anchor="middle" class="arrow-label">≤</text>
+
+  <!-- bs ≤ C -->
+  <line x1="500" y1="150" x2="550" y2="150" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="525" y="140" text-anchor="middle" class="arrow-label">≤</text>
+
+  <!-- s ≤ C (direct, verified) -->
+  <path d="M 250 180 C 350 230 500 230 550 180" class="arrow" marker-end="url(#arrowhead)"
+        stroke="#27ae60" stroke-width="2.5"/>
+  <text x="400" y="225" text-anchor="middle" class="verified" style="font-size:12px">
+    ✓ sensitivityAt_le_certificate
+  </text>
+
+  <!-- Sensitivity → Influence connection -->
+  <line x1="150" y1="200" x2="150" y2="280" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="170" y="240" class="arrow-label">related</text>
+
+  <!-- Certificate → Decision Tree -->
+  <path d="M 600 200 C 530 240 470 240 450 280" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="540" y="240" class="arrow-label">C ≤ D</text>
+
+  <!-- VC → Sauer-Shelah bound -->
+  <line x1="650" y1="200" x2="650" y2="280" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="680" y="240" class="arrow-label">bounds</text>
+
+  <!-- Bottom section: Key verified theorems -->
+  <rect x="50" y="430" width="700" height="180" rx="12" fill="white" stroke="#ddd" filter="url(#shadow)"/>
+  <text x="400" y="458" text-anchor="middle" class="title" style="font-size:16px">
+    Key Verified Theorems
+  </text>
+
+  <text x="80" y="485" class="theorem-ref">sensitivityAt_le</text>
+  <text x="280" y="485" class="box-content">s(f,x) ≤ n for all f and x</text>
+  <text x="680" y="485" class="verified">✓ VERIFIED</text>
+
+  <text x="80" y="510" class="theorem-ref">sensitivityAt_le_certificate</text>
+  <text x="280" y="510" class="box-content">s(f,x) ≤ |certificate| for any certificate</text>
+  <text x="680" y="510" class="verified">✓ VERIFIED</text>
+
+  <text x="80" y="535" class="theorem-ref">parity_flipBit</text>
+  <text x="280" y="535" class="box-content">Parity has maximum sensitivity: s(PARITY) = n</text>
+  <text x="680" y="535" class="verified">✓ VERIFIED</text>
+
+  <text x="80" y="560" class="theorem-ref">sauer_shelah_weak_bound</text>
+  <text x="280" y="560" class="box-content">∑ᵢ₌₀ᵈ C(m,i) ≤ (m+1)ᵈ for m ≥ d ≥ 1</text>
+  <text x="680" y="560" class="verified">✓ VERIFIED</text>
+
+  <text x="80" y="585" class="theorem-ref">exists_ge_average</text>
+  <text x="280" y="585" class="box-content">Probabilistic method: ∃ element ≥ average</text>
+  <text x="680" y="585" class="verified">✓ VERIFIED</text>
+
+  <text x="80" y="600" class="theorem-ref">poly_roots_bound</text>
+  <text x="280" y="600" class="box-content">Polynomial of degree d has ≤ d roots</text>
+  <text x="680" y="600" class="verified">✓ VERIFIED</text>
+</svg>

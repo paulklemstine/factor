@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a0a"/>
+      <stop offset="100%" style="stop-color:#2a1a1a"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="500" fill="url(#bg2)"/>
+  
+  <text x="400" y="35" text-anchor="middle" fill="#EF5350" font-size="20" font-weight="bold">
+    The r₂ Formula: r₂(n) = 4 Σ_{d|n} χ₋₄(d)
+  </text>
+  
+  <!-- Chi table -->
+  <text x="400" y="70" text-anchor="middle" fill="#FFD700" font-size="14">Character χ₋₄</text>
+  
+  <g transform="translate(120, 80)">
+    <!-- Header -->
+    <text x="0" y="15" fill="#aaa" font-size="12">n mod 4:</text>
+    <text x="120" y="15" fill="#4FC3F7" font-size="14" text-anchor="middle">0</text>
+    <text x="200" y="15" fill="#4FC3F7" font-size="14" text-anchor="middle">1</text>
+    <text x="280" y="15" fill="#4FC3F7" font-size="14" text-anchor="middle">2</text>
+    <text x="360" y="15" fill="#4FC3F7" font-size="14" text-anchor="middle">3</text>
+    
+    <text x="0" y="40" fill="#aaa" font-size="12">χ₋₄(n):</text>
+    <text x="120" y="40" fill="#888" font-size="16" text-anchor="middle" font-weight="bold">0</text>
+    <text x="200" y="40" fill="#66BB6A" font-size="16" text-anchor="middle" font-weight="bold">+1</text>
+    <text x="280" y="40" fill="#888" font-size="16" text-anchor="middle" font-weight="bold">0</text>
+    <text x="360" y="40" fill="#EF5350" font-size="16" text-anchor="middle" font-weight="bold">−1</text>
+  </g>
+  
+  <!-- Verification table -->
+  <text x="400" y="155" text-anchor="middle" fill="#FFD700" font-size="14">Verified Values (formula vs brute force)</text>
+  
+  <g transform="translate(100, 165)">
+    <!-- Headers -->
+    <rect x="0" y="0" width="600" height="25" fill="rgba(255,255,255,0.08)"/>
+    <text x="30" y="18" fill="#FFD700" font-size="11" font-weight="bold">n</text>
+    <text x="100" y="18" fill="#FFD700" font-size="11" font-weight="bold">Divisors</text>
+    <text x="270" y="18" fill="#FFD700" font-size="11" font-weight="bold">Σ χ₋₄(d)</text>
+    <text x="380" y="18" fill="#FFD700" font-size="11" font-weight="bold">r₂(n)</text>
+    <text x="470" y="18" fill="#FFD700" font-size="11" font-weight="bold">Representations</text>
+    
+    <!-- Data rows -->
+    <g fill="#ddd" font-size="11">
+      <text x="30" y="42">1</text>
+      <text x="100" y="42">{1}</text>
+      <text x="270" y="42">1</text>
+      <text x="380" y="42" fill="#66BB6A" font-weight="bold">4</text>
+      <text x="470" y="42" font-size="10">(±1,0), (0,±1)</text>
+      
+      <text x="30" y="62">3</text>
+      <text x="100" y="62">{1, 3}</text>
+      <text x="270" y="62">1+(−1) = 0</text>
+      <text x="380" y="62" fill="#EF5350" font-weight="bold">0</text>
+      <text x="470" y="62" font-size="10">— (not sum of 2 sq)</text>
+      
+      <text x="30" y="82">5</text>
+      <text x="100" y="82">{1, 5}</text>
+      <text x="270" y="82">1+1 = 2</text>
+      <text x="380" y="82" fill="#66BB6A" font-weight="bold">8</text>
+      <text x="470" y="82" font-size="10">(±1,±2), (±2,±1)</text>
+      
+      <text x="30" y="102">7</text>
+      <text x="100" y="102">{1, 7}</text>
+      <text x="270" y="102">1+(−1) = 0</text>
+      <text x="380" y="102" fill="#EF5350" font-weight="bold">0</text>
+      <text x="470" y="102" font-size="10">— (not sum of 2 sq)</text>
+      
+      <text x="30" y="122">13</text>
+      <text x="100" y="122">{1, 13}</text>
+      <text x="270" y="122">1+1 = 2</text>
+      <text x="380" y="122" fill="#66BB6A" font-weight="bold">8</text>
+      <text x="470" y="122" font-size="10">(±2,±3), (±3,±2)</text>
+      
+      <text x="30" y="142">25</text>
+      <text x="100" y="142">{1, 5, 25}</text>
+      <text x="270" y="142">1+1+1 = 3</text>
+      <text x="380" y="142" fill="#66BB6A" font-weight="bold">12</text>
+      <text x="470" y="142" font-size="10">3 orbits</text>
+      
+      <text x="30" y="162">50</text>
+      <text x="100" y="162">{1,2,5,10,25,50}</text>
+      <text x="270" y="162">1+0+1+0+1+0 = 3</text>
+      <text x="380" y="162" fill="#66BB6A" font-weight="bold">12</text>
+      <text x="470" y="162" font-size="10">same as 25</text>
+    </g>
+  </g>
+  
+  <!-- Connection box -->
+  <rect x="100" y="380" width="600" height="100" rx="10" fill="rgba(255,215,0,0.08)" stroke="#FFD700" stroke-width="1"/>
+  <text x="400" y="405" text-anchor="middle" fill="#FFD700" font-size="13" font-weight="bold">
+    The Berggren Connection
+  </text>
+  <text x="400" y="430" text-anchor="middle" fill="#ddd" font-size="12">
+    Pythagorean prime p ⟺ p ≡ 1 (mod 4) ⟺ χ₋₄(p) = +1 ⟺ r₂(p) = 8
+  </text>
+  <text x="400" y="450" text-anchor="middle" fill="#ddd" font-size="12">
+    Non-hypotenuse prime p ⟺ p ≡ 3 (mod 4) ⟺ χ₋₄(p) = −1 ⟺ r₂(p) = 0
+  </text>
+  <text x="400" y="470" text-anchor="middle" fill="#aaa" font-size="11" font-style="italic">
+    L(1, χ₋₄) = π/4 controls the density of Pythagorean primes
+  </text>
+</svg>

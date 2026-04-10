@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2a1a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">
+    Information-Theoretic Bounds on Search &amp; Evasion
+  </text>
+
+  <!-- Binary Entropy Curve -->
+  <g transform="translate(50, 60)">
+    <text x="170" y="15" text-anchor="middle" fill="#44ff44" font-size="14" font-weight="bold">
+      Binary Entropy H(p)
+    </text>
+
+    <!-- Axes -->
+    <line x1="40" y1="180" x2="320" y2="180" stroke="#555555" stroke-width="1"/>
+    <line x1="40" y1="180" x2="40" y2="30" stroke="#555555" stroke-width="1"/>
+
+    <!-- Axis labels -->
+    <text x="180" y="200" text-anchor="middle" fill="#888888" font-size="10">p</text>
+    <text x="25" y="105" text-anchor="middle" fill="#888888" font-size="10" transform="rotate(-90, 25, 105)">H(p)</text>
+
+    <!-- Tick marks -->
+    <text x="40" y="195" text-anchor="middle" fill="#666666" font-size="9">0</text>
+    <text x="180" y="195" text-anchor="middle" fill="#666666" font-size="9">0.5</text>
+    <text x="320" y="195" text-anchor="middle" fill="#666666" font-size="9">1</text>
+    <text x="30" y="185" text-anchor="end" fill="#666666" font-size="9">0</text>
+    <text x="30" y="40" text-anchor="end" fill="#666666" font-size="9">ln2</text>
+
+    <!-- Entropy curve (approximated) -->
+    <path d="M 40,180 Q 80,140 110,85 Q 140,50 180,35 Q 220,50 250,85 Q 280,140 320,180"
+          fill="none" stroke="#44ff44" stroke-width="2.5"/>
+
+    <!-- Maximum point -->
+    <circle cx="180" cy="35" r="5" fill="#ffcc44" stroke="#ffffff" stroke-width="1"/>
+    <text x="185" y="25" fill="#ffcc44" font-size="10">max at p=½</text>
+
+    <!-- Dashed line at maximum -->
+    <line x1="180" y1="35" x2="180" y2="180" stroke="#ffcc44" stroke-width="1" stroke-dasharray="4,4"/>
+
+    <!-- Theorem box -->
+    <rect x="10" y="210" width="310" height="40" rx="5" fill="#0d2d0d" stroke="#44ff44" stroke-width="1"/>
+    <text x="165" y="228" text-anchor="middle" fill="#44ff44" font-size="11">
+      Theorem: H(p) ≤ H(½) = ln 2   ∀p ∈ [0,1]
+    </text>
+    <text x="165" y="243" text-anchor="middle" fill="#888888" font-size="9">
+      Lean: binaryEntropy_max ✓
+    </text>
+  </g>
+
+  <!-- KL Divergence -->
+  <g transform="translate(420, 60)">
+    <text x="170" y="15" text-anchor="middle" fill="#ff8844" font-size="14" font-weight="bold">
+      KL Divergence D(p‖q)
+    </text>
+
+    <!-- Venn diagram style -->
+    <ellipse cx="130" cy="120" rx="80" ry="60" fill="none" stroke="#ff8844" stroke-width="2" opacity="0.7"/>
+    <ellipse cx="210" cy="120" rx="80" ry="60" fill="none" stroke="#4488ff" stroke-width="2" opacity="0.7"/>
+
+    <text x="100" y="110" text-anchor="middle" fill="#ff8844" font-size="14">p</text>
+    <text x="240" y="110" text-anchor="middle" fill="#4488ff" font-size="14">q</text>
+    <text x="170" y="125" text-anchor="middle" fill="#ffffff" font-size="11">D(p‖q)</text>
+
+    <!-- Arrow showing divergence direction -->
+    <text x="170" y="90" text-anchor="middle" fill="#ffcc44" font-size="20">≥ 0</text>
+
+    <!-- Gibbs' inequality -->
+    <rect x="10" y="210" width="310" height="40" rx="5" fill="#2d1d0d" stroke="#ff8844" stroke-width="1"/>
+    <text x="165" y="228" text-anchor="middle" fill="#ff8844" font-size="11">
+      Gibbs' Inequality: D_KL(p‖q) ≥ 0
+    </text>
+    <text x="165" y="243" text-anchor="middle" fill="#888888" font-size="9">
+      Lean: kl_divergence_nonneg ✓
+    </text>
+  </g>
+
+  <!-- Maximum Entropy Principle -->
+  <g transform="translate(50, 340)">
+    <text x="350" y="15" text-anchor="middle" fill="#44aaff" font-size="14" font-weight="bold">
+      Maximum Entropy Principle: Uniform Search is Optimal
+    </text>
+
+    <!-- Bar charts comparing distributions -->
+    <g transform="translate(30, 30)">
+      <!-- Uniform distribution -->
+      <text x="80" y="15" text-anchor="middle" fill="#44aaff" font-size="11">Uniform (max entropy)</text>
+      <rect x="10" y="20" width="25" height="80" rx="3" fill="#44aaff" opacity="0.8"/>
+      <rect x="40" y="20" width="25" height="80" rx="3" fill="#44aaff" opacity="0.8"/>
+      <rect x="70" y="20" width="25" height="80" rx="3" fill="#44aaff" opacity="0.8"/>
+      <rect x="100" y="20" width="25" height="80" rx="3" fill="#44aaff" opacity="0.8"/>
+      <rect x="130" y="20" width="25" height="80" rx="3" fill="#44aaff" opacity="0.8"/>
+      <text x="80" y="115" text-anchor="middle" fill="#88ccff" font-size="10">H = 1.609 (= log 5)</text>
+    </g>
+
+    <g transform="translate(220, 30)">
+      <!-- Peaked distribution -->
+      <text x="80" y="15" text-anchor="middle" fill="#aa44ff" font-size="11">Peaked (lower entropy)</text>
+      <rect x="10" y="70" width="25" height="30" rx="3" fill="#aa44ff" opacity="0.8"/>
+      <rect x="40" y="60" width="25" height="40" rx="3" fill="#aa44ff" opacity="0.8"/>
+      <rect x="70" y="20" width="25" height="80" rx="3" fill="#aa44ff" opacity="0.8"/>
+      <rect x="100" y="60" width="25" height="40" rx="3" fill="#aa44ff" opacity="0.8"/>
+      <rect x="130" y="70" width="25" height="30" rx="3" fill="#aa44ff" opacity="0.8"/>
+      <text x="80" y="115" text-anchor="middle" fill="#cc88ff" font-size="10">H = 1.494 &lt; log 5</text>
+    </g>
+
+    <g transform="translate(410, 30)">
+      <!-- Very peaked -->
+      <text x="80" y="15" text-anchor="middle" fill="#ff4488" font-size="11">Concentrated (low entropy)</text>
+      <rect x="10" y="90" width="25" height="10" rx="3" fill="#ff4488" opacity="0.8"/>
+      <rect x="40" y="90" width="25" height="10" rx="3" fill="#ff4488" opacity="0.8"/>
+      <rect x="70" y="20" width="25" height="80" rx="3" fill="#ff4488" opacity="0.8"/>
+      <rect x="100" y="90" width="25" height="10" rx="3" fill="#ff4488" opacity="0.8"/>
+      <rect x="130" y="90" width="25" height="10" rx="3" fill="#ff4488" opacity="0.8"/>
+      <text x="80" y="115" text-anchor="middle" fill="#ff88aa" font-size="10">H = 0.922 ≪ log 5</text>
+    </g>
+
+    <!-- Theorem -->
+    <rect x="80" y="150" width="540" height="45" rx="8" fill="#0d1d3d" stroke="#44aaff" stroke-width="1.5"/>
+    <text x="350" y="170" text-anchor="middle" fill="#44aaff" font-size="12" font-weight="bold">
+      ∀ d : Distribution(n),  H(d) ≤ H(Uniform) = log(n)
+    </text>
+    <text x="350" y="188" text-anchor="middle" fill="#888888" font-size="10">
+      Lean: uniform_max_entropy ✓  |  Implies optimal ignorant search is uniform
+    </text>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="585" text-anchor="middle" fill="#666666" font-size="10">
+    All theorems machine-verified in Lean 4 with Mathlib • Zero remaining sorries
+  </text>
+</svg>

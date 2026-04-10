@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e0e24;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1e1040;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="22" font-weight="bold">
+    E₈ Lattice: The Most Symmetric Factoring Space
+  </text>
+  <text x="450" y="60" text-anchor="middle" fill="#cc88ff" font-family="Georgia" font-size="13">
+    240 Kissing Number · 28 Cross-Collision Channels · 696M Symmetries
+  </text>
+
+  <!-- E₈ visualization (2D projection of root system) -->
+  <g transform="translate(230, 320)" filter="url(#glow2)">
+    <!-- Concentric structure suggesting high symmetry -->
+    <circle cx="0" cy="0" r="200" fill="none" stroke="#4422aa" stroke-width="0.5" opacity="0.3"/>
+    <circle cx="0" cy="0" r="150" fill="none" stroke="#6633cc" stroke-width="0.5" opacity="0.3"/>
+    <circle cx="0" cy="0" r="100" fill="none" stroke="#8844dd" stroke-width="0.5" opacity="0.3"/>
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#aa55ee" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- 240 nearest neighbors (showing ~48 in 2D projection) -->
+    <!-- Inner ring (8 points) -->
+    <circle cx="50" cy="0" r="3" fill="#ff44aa"/>
+    <circle cx="-50" cy="0" r="3" fill="#ff44aa"/>
+    <circle cx="0" cy="50" r="3" fill="#ff44aa"/>
+    <circle cx="0" cy="-50" r="3" fill="#ff44aa"/>
+    <circle cx="35" cy="35" r="3" fill="#ff44aa"/>
+    <circle cx="-35" cy="35" r="3" fill="#ff44aa"/>
+    <circle cx="35" cy="-35" r="3" fill="#ff44aa"/>
+    <circle cx="-35" cy="-35" r="3" fill="#ff44aa"/>
+
+    <!-- Second ring (16 points) -->
+    <circle cx="100" cy="0" r="2.5" fill="#aa44ff"/>
+    <circle cx="-100" cy="0" r="2.5" fill="#aa44ff"/>
+    <circle cx="0" cy="100" r="2.5" fill="#aa44ff"/>
+    <circle cx="0" cy="-100" r="2.5" fill="#aa44ff"/>
+    <circle cx="71" cy="71" r="2.5" fill="#aa44ff"/>
+    <circle cx="-71" cy="71" r="2.5" fill="#aa44ff"/>
+    <circle cx="71" cy="-71" r="2.5" fill="#aa44ff"/>
+    <circle cx="-71" cy="-71" r="2.5" fill="#aa44ff"/>
+    <circle cx="92" cy="38" r="2.5" fill="#aa44ff"/>
+    <circle cx="-92" cy="38" r="2.5" fill="#aa44ff"/>
+    <circle cx="92" cy="-38" r="2.5" fill="#aa44ff"/>
+    <circle cx="-92" cy="-38" r="2.5" fill="#aa44ff"/>
+    <circle cx="38" cy="92" r="2.5" fill="#aa44ff"/>
+    <circle cx="-38" cy="92" r="2.5" fill="#aa44ff"/>
+    <circle cx="38" cy="-92" r="2.5" fill="#aa44ff"/>
+    <circle cx="-38" cy="-92" r="2.5" fill="#aa44ff"/>
+
+    <!-- Third ring (24 points) -->
+    <circle cx="150" cy="0" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-150" cy="0" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="0" cy="150" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="0" cy="-150" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="106" cy="106" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-106" cy="106" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="106" cy="-106" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-106" cy="-106" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="138" cy="57" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-138" cy="57" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="138" cy="-57" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-138" cy="-57" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="57" cy="138" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-57" cy="138" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="57" cy="-138" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="-57" cy="-138" r="2" fill="#4488ff" opacity="0.7"/>
+    <circle cx="130" cy="75" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="-130" cy="75" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="130" cy="-75" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="-130" cy="-75" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="75" cy="130" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="-75" cy="130" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="75" cy="-130" r="2" fill="#4488ff" opacity="0.5"/>
+    <circle cx="-75" cy="-130" r="2" fill="#4488ff" opacity="0.5"/>
+
+    <!-- Connection lines (showing lattice structure) -->
+    <line x1="50" y1="0" x2="35" y2="35" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="35" y1="35" x2="0" y2="50" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="0" y1="50" x2="-35" y2="35" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="-35" y1="35" x2="-50" y2="0" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="-50" y1="0" x2="-35" y2="-35" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="-35" y1="-35" x2="0" y2="-50" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="0" y1="-50" x2="35" y2="-35" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+    <line x1="35" y1="-35" x2="50" y2="0" stroke="#ff44aa" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- Center point -->
+    <circle cx="0" cy="0" r="5" fill="#ffffff"/>
+    <text x="0" y="-12" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="10">N</text>
+  </g>
+
+  <!-- Right panel: Statistics -->
+  <g transform="translate(520, 90)">
+    <!-- Channel comparison table -->
+    <rect x="0" y="0" width="350" height="200" rx="10" fill="#111130" stroke="#334" stroke-width="1"/>
+    <text x="175" y="28" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="15" font-weight="bold">
+      Collision Channel Comparison
+    </text>
+
+    <!-- Table headers -->
+    <text x="20" y="55" fill="#aaaacc" font-family="monospace" font-size="11">Dim</text>
+    <text x="70" y="55" fill="#aaaacc" font-family="monospace" font-size="11">Algebra</text>
+    <text x="140" y="55" fill="#aaaacc" font-family="monospace" font-size="11">Peel</text>
+    <text x="200" y="55" fill="#aaaacc" font-family="monospace" font-size="11">Cross</text>
+    <text x="270" y="55" fill="#aaaacc" font-family="monospace" font-size="11">Total</text>
+    <line x1="10" y1="62" x2="340" y2="62" stroke="#444466" stroke-width="1"/>
+
+    <!-- Dim 1 -->
+    <text x="20" y="82" fill="#666688" font-family="monospace" font-size="11">1</text>
+    <text x="70" y="82" fill="#666688" font-family="monospace" font-size="11">ℝ</text>
+    <text x="140" y="82" fill="#666688" font-family="monospace" font-size="11">1</text>
+    <text x="200" y="82" fill="#666688" font-family="monospace" font-size="11">0</text>
+    <text x="270" y="82" fill="#666688" font-family="monospace" font-size="11">1</text>
+    <rect x="305" y="70" width="10" height="12" fill="#666688" rx="2"/>
+
+    <!-- Dim 2 -->
+    <text x="20" y="105" fill="#4488ff" font-family="monospace" font-size="11">2</text>
+    <text x="70" y="105" fill="#4488ff" font-family="monospace" font-size="11">ℂ</text>
+    <text x="140" y="105" fill="#4488ff" font-family="monospace" font-size="11">2</text>
+    <text x="200" y="105" fill="#4488ff" font-family="monospace" font-size="11">1</text>
+    <text x="270" y="105" fill="#4488ff" font-family="monospace" font-size="11">3</text>
+    <rect x="305" y="93" width="30" height="12" fill="#4488ff" rx="2"/>
+
+    <!-- Dim 4 -->
+    <text x="20" y="128" fill="#44ff88" font-family="monospace" font-size="11">4</text>
+    <text x="70" y="128" fill="#44ff88" font-family="monospace" font-size="11">ℍ</text>
+    <text x="140" y="128" fill="#44ff88" font-family="monospace" font-size="11">4</text>
+    <text x="200" y="128" fill="#44ff88" font-family="monospace" font-size="11">6</text>
+    <text x="270" y="128" fill="#44ff88" font-family="monospace" font-size="11">10</text>
+    <rect x="305" y="116" width="100" height="12" fill="#44ff88" rx="2"/>
+
+    <!-- Dim 8 -->
+    <text x="20" y="151" fill="#ff44aa" font-family="monospace" font-size="11" font-weight="bold">8</text>
+    <text x="70" y="151" fill="#ff44aa" font-family="monospace" font-size="11" font-weight="bold">𝕆</text>
+    <text x="140" y="151" fill="#ff44aa" font-family="monospace" font-size="11" font-weight="bold">8</text>
+    <text x="200" y="151" fill="#ff44aa" font-family="monospace" font-size="11" font-weight="bold">28</text>
+    <text x="270" y="151" fill="#ff44aa" font-family="monospace" font-size="11" font-weight="bold">36</text>
+    <rect x="305" y="139" width="36" height="12" fill="#ff44aa" rx="2"/>
+
+    <text x="175" y="185" text-anchor="middle" fill="#cc88ff" font-family="Georgia" font-size="11" font-style="italic">
+      E₈ gives 28× more channels than ℂ
+    </text>
+  </g>
+
+  <!-- E₈ properties box -->
+  <g transform="translate(520, 320)">
+    <rect x="0" y="0" width="350" height="170" rx="10" fill="#111130" stroke="#334" stroke-width="1"/>
+    <text x="175" y="28" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="15" font-weight="bold">
+      E₈ Properties
+    </text>
+    <text x="20" y="55" fill="#ff88cc" font-family="monospace" font-size="12">Kissing number:  240</text>
+    <text x="20" y="78" fill="#aa88ff" font-family="monospace" font-size="12">Weyl group:      |W(E₈)| = 696,729,600</text>
+    <text x="20" y="101" fill="#88aaff" font-family="monospace" font-size="12">Packing density: OPTIMAL (Viazovska 2016)</text>
+    <text x="20" y="124" fill="#88ddff" font-family="monospace" font-size="12">Unimodular:      unique even in dim 8</text>
+    <text x="20" y="147" fill="#88ffdd" font-family="monospace" font-size="12">Root system:     240 vectors, rank 8</text>
+    <text x="20" y="163" fill="#888888" font-family="monospace" font-size="9">Non-associativity barrier: (xy)z ≠ x(yz)</text>
+  </g>
+
+  <!-- r₈ representation counts -->
+  <g transform="translate(520, 510)">
+    <rect x="0" y="0" width="350" height="120" rx="10" fill="#111130" stroke="#334" stroke-width="1"/>
+    <text x="175" y="25" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="14" font-weight="bold">
+      r₈(n) = 16·σ₃(n) for odd n
+    </text>
+    <text x="20" y="50" fill="#ccccee" font-family="monospace" font-size="11">r₈(1) =    16    r₈(3) =    448</text>
+    <text x="20" y="70" fill="#ccccee" font-family="monospace" font-size="11">r₈(2) =   112    r₈(4) =  1,136</text>
+    <text x="20" y="90" fill="#ccccee" font-family="monospace" font-size="11">r₈(5) = 2,016    r₈(7) =  5,504</text>
+    <text x="175" y="112" text-anchor="middle" fill="#cc88ff" font-family="Georgia" font-size="10" font-style="italic">
+      Representations grow polynomially → abundant collisions
+    </text>
+  </g>
+
+  <!-- Legend -->
+  <text x="20" y="630" fill="#666688" font-family="Georgia" font-size="10">
+    Formally verified in Lean 4: C(8,2) = 28, C(4,2) = 6, C(2,2) = 1 — all by decide
+  </text>
+</svg>

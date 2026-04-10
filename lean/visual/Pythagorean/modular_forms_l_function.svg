@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="lbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1028"/>
+      <stop offset="100%" stop-color="#0d0818"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="900" height="550" fill="url(#lbg)"/>
+  
+  <text x="450" y="35" text-anchor="middle" fill="#c4b5fd" font-size="20" font-weight="bold">
+    L-Function Connection: L(s, χ₋₄) and the Berggren Tree
+  </text>
+  
+  <!-- Character table -->
+  <rect x="30" y="60" width="280" height="180" rx="10" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="170" y="85" text-anchor="middle" fill="#c4b5fd" font-size="14" font-weight="bold">Character χ₋₄</text>
+  
+  <!-- Table -->
+  <text x="60" y="115" fill="#8b949e" font-size="12">n mod 4</text>
+  <text x="160" y="115" fill="#8b949e" font-size="12">χ₋₄(n)</text>
+  <text x="235" y="115" fill="#8b949e" font-size="12">Role</text>
+  <line x1="45" y1="122" x2="295" y2="122" stroke="rgba(167,139,250,0.3)"/>
+  
+  <text x="75" y="140" fill="#e6edf3" font-size="12" text-anchor="middle">0</text>
+  <text x="170" y="140" fill="#ffa657" font-size="14" text-anchor="middle" font-weight="bold">0</text>
+  <text x="250" y="140" fill="#8b949e" font-size="10" text-anchor="middle">even</text>
+  
+  <text x="75" y="162" fill="#e6edf3" font-size="12" text-anchor="middle">1</text>
+  <text x="170" y="162" fill="#7ee787" font-size="14" text-anchor="middle" font-weight="bold">+1</text>
+  <text x="250" y="162" fill="#7ee787" font-size="10" text-anchor="middle">hypotenuse ✓</text>
+  
+  <text x="75" y="184" fill="#e6edf3" font-size="12" text-anchor="middle">2</text>
+  <text x="170" y="184" fill="#ffa657" font-size="14" text-anchor="middle" font-weight="bold">0</text>
+  <text x="250" y="184" fill="#8b949e" font-size="10" text-anchor="middle">even</text>
+  
+  <text x="75" y="206" fill="#e6edf3" font-size="12" text-anchor="middle">3</text>
+  <text x="170" y="206" fill="#ff7b72" font-size="14" text-anchor="middle" font-weight="bold">−1</text>
+  <text x="250" y="206" fill="#ff7b72" font-size="10" text-anchor="middle">not hypot. ✗</text>
+  
+  <text x="170" y="232" text-anchor="middle" fill="#c4b5fd" font-size="11">Period 4 · Multiplicative</text>
+  
+  <!-- r₂ formula -->
+  <rect x="340" y="60" width="520" height="100" rx="10" fill="rgba(126,231,135,0.08)" stroke="#7ee787" stroke-width="1.5"/>
+  <text x="600" y="85" text-anchor="middle" fill="#7ee787" font-size="14" font-weight="bold">
+    Sum-of-Two-Squares Formula (Verified)
+  </text>
+  <text x="600" y="110" text-anchor="middle" fill="#e6edf3" font-size="16" font-family="serif">
+    r₂(n) = 4 · Σ χ₋₄(d)     (sum over d | n)
+  </text>
+  <text x="600" y="135" text-anchor="middle" fill="#8b949e" font-size="12">
+    Connects Berggren tree node count to divisor arithmetic
+  </text>
+  
+  <!-- Examples -->
+  <rect x="340" y="170" width="520" height="70" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="360" y="195" fill="#7ee787" font-size="11">n=5 (prime ≡ 1): 4(χ₋₄(1)+χ₋₄(5)) = 4(1+1) = 8 reps ✓</text>
+  <text x="360" y="215" fill="#ff7b72" font-size="11">n=3 (prime ≡ 3): 4(χ₋₄(1)+χ₋₄(3)) = 4(1-1) = 0 reps ✓</text>
+  <text x="360" y="235" fill="#ffa657" font-size="11">n=2 (p=2):       4(χ₋₄(1)+χ₋₄(2)) = 4(1+0) = 4 reps ✓ (1²+1²=2)</text>
+  
+  <!-- Euler product -->
+  <rect x="30" y="260" width="410" height="120" rx="10" fill="rgba(136,198,255,0.08)" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="235" y="285" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold">Euler Product Factorization</text>
+  <text x="235" y="315" text-anchor="middle" fill="#e6edf3" font-size="13" font-family="serif">
+    L(s, χ₋₄) = ∏ (1 − χ₋₄(p)p⁻ˢ)⁻¹
+  </text>
+  <text x="235" y="340" text-anchor="middle" fill="#7ee787" font-size="11">
+    p ≡ 1 (mod 4): factor (1−p⁻ˢ)⁻¹  [hypotenuse primes]
+  </text>
+  <text x="235" y="358" text-anchor="middle" fill="#ff7b72" font-size="11">
+    p ≡ 3 (mod 4): factor (1+p⁻ˢ)⁻¹  [non-hypotenuse primes]
+  </text>
+  
+  <!-- Leibniz series -->
+  <rect x="470" y="260" width="400" height="120" rx="10" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="670" y="285" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">Leibniz Formula (s = 1)</text>
+  <text x="670" y="315" text-anchor="middle" fill="#e6edf3" font-size="15" font-family="serif">
+    L(1, χ₋₄) = 1 − ⅓ + ⅕ − ⅐ + ⋯ = π/4
+  </text>
+  <text x="670" y="345" text-anchor="middle" fill="#fbbf24" font-size="11">
+    Controls density of hypotenuse primes
+  </text>
+  <text x="670" y="363" text-anchor="middle" fill="#fbbf24" font-size="11">
+    π/4 ≈ 0.7854 &gt; 0  (formally verified)
+  </text>
+  
+  <!-- Prime classification -->
+  <rect x="30" y="400" width="840" height="130" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)"/>
+  <text x="450" y="425" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="bold">
+    Prime Classification: Hypotenuse vs Non-Hypotenuse (Formally Verified)
+  </text>
+  
+  <!-- Primes with color coding -->
+  <text x="50" y="455" fill="#ffa657" font-size="12" font-weight="bold">p=2:</text>
+  <circle cx="95" cy="451" r="8" fill="rgba(255,166,87,0.3)" stroke="#ffa657"/>
+  <text x="95" y="455" text-anchor="middle" fill="#ffa657" font-size="9">2</text>
+  <text x="120" y="455" fill="#8b949e" font-size="10">special (1²+1²)</text>
+  
+  <text x="50" y="480" fill="#7ee787" font-size="12" font-weight="bold">p≡1:</text>
+  <g transform="translate(95, 476)">
+    <circle cx="0" cy="0" r="8" fill="rgba(126,231,135,0.3)" stroke="#7ee787"/>
+    <text x="0" y="4" text-anchor="middle" fill="#7ee787" font-size="9">5</text>
+    <circle cx="30" cy="0" r="8" fill="rgba(126,231,135,0.3)" stroke="#7ee787"/>
+    <text x="30" y="4" text-anchor="middle" fill="#7ee787" font-size="9">13</text>
+    <circle cx="60" cy="0" r="8" fill="rgba(126,231,135,0.3)" stroke="#7ee787"/>
+    <text x="60" y="4" text-anchor="middle" fill="#7ee787" font-size="9">17</text>
+    <circle cx="90" cy="0" r="8" fill="rgba(126,231,135,0.3)" stroke="#7ee787"/>
+    <text x="90" y="4" text-anchor="middle" fill="#7ee787" font-size="9">29</text>
+    <circle cx="120" cy="0" r="8" fill="rgba(126,231,135,0.3)" stroke="#7ee787"/>
+    <text x="120" y="4" text-anchor="middle" fill="#7ee787" font-size="9">37</text>
+    <circle cx="150" cy="0" r="8" fill="rgba(126,231,135,0.3)" stroke="#7ee787"/>
+    <text x="150" y="4" text-anchor="middle" fill="#7ee787" font-size="9">41</text>
+    <text x="180" y="4" fill="#7ee787" font-size="10">⋯  a²+b² = p  ✓</text>
+  </g>
+  
+  <text x="50" y="510" fill="#ff7b72" font-size="12" font-weight="bold">p≡3:</text>
+  <g transform="translate(95, 506)">
+    <circle cx="0" cy="0" r="8" fill="rgba(255,123,114,0.3)" stroke="#ff7b72"/>
+    <text x="0" y="4" text-anchor="middle" fill="#ff7b72" font-size="9">3</text>
+    <circle cx="30" cy="0" r="8" fill="rgba(255,123,114,0.3)" stroke="#ff7b72"/>
+    <text x="30" y="4" text-anchor="middle" fill="#ff7b72" font-size="9">7</text>
+    <circle cx="60" cy="0" r="8" fill="rgba(255,123,114,0.3)" stroke="#ff7b72"/>
+    <text x="60" y="4" text-anchor="middle" fill="#ff7b72" font-size="9">11</text>
+    <circle cx="90" cy="0" r="8" fill="rgba(255,123,114,0.3)" stroke="#ff7b72"/>
+    <text x="90" y="4" text-anchor="middle" fill="#ff7b72" font-size="9">19</text>
+    <circle cx="120" cy="0" r="8" fill="rgba(255,123,114,0.3)" stroke="#ff7b72"/>
+    <text x="120" y="4" text-anchor="middle" fill="#ff7b72" font-size="9">23</text>
+    <circle cx="150" cy="0" r="8" fill="rgba(255,123,114,0.3)" stroke="#ff7b72"/>
+    <text x="150" y="4" text-anchor="middle" fill="#ff7b72" font-size="9">31</text>
+    <text x="180" y="4" fill="#ff7b72" font-size="10">⋯  a²+b² ≠ p  ✗</text>
+  </g>
+</svg>

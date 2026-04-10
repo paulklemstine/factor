@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#FAFAFA" rx="10"/>
+
+  <text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold" fill="#333">
+    Tropical Probability Theory
+  </text>
+  <text x="400" y="55" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+    Replace Σ with max, × with + — recover beam search &amp; Viterbi decoding
+  </text>
+
+  <!-- Classical vs Tropical -->
+  <rect x="30" y="75" width="350" height="130" rx="10" fill="#E3F2FD" stroke="#1976D2" stroke-width="2"/>
+  <text x="205" y="100" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#1565C0">Classical Probability</text>
+  <text x="50" y="128" font-family="monospace" font-size="13" fill="#333">E[X] = Σᵢ P(i) · X(i)</text>
+  <text x="50" y="153" font-family="monospace" font-size="13" fill="#333">Var[X] = E[(X−μ)²]</text>
+  <text x="50" y="178" font-family="monospace" font-size="13" fill="#333">Markov: P(X≥t) ≤ E[X]/t</text>
+
+  <rect x="420" y="75" width="350" height="130" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+  <text x="595" y="100" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#2E7D32">Tropical Probability</text>
+  <text x="440" y="128" font-family="monospace" font-size="13" fill="#333">E_trop[X] = maxᵢ(logP(i)+X(i))</text>
+  <text x="440" y="153" font-family="monospace" font-size="13" fill="#333">Var_trop = maxᵢ(logP+|X−μ|)</text>
+  <text x="440" y="178" font-family="monospace" font-size="13" fill="#333">logP(i) ≤ E_trop − t + X(i)</text>
+
+  <!-- Properties -->
+  <text x="400" y="235" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#333">
+    Verified Properties
+  </text>
+
+  <g transform="translate(30, 250)">
+    <rect width="230" height="65" rx="8" fill="white" stroke="#4CAF50" stroke-width="2"/>
+    <text x="115" y="22" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#2E7D32">Monotonicity ✓</text>
+    <text x="115" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">X ≤ Y ⟹</text>
+    <text x="115" y="57" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">E_trop[X] ≤ E_trop[Y]</text>
+  </g>
+
+  <g transform="translate(285, 250)">
+    <rect width="230" height="65" rx="8" fill="white" stroke="#FF9800" stroke-width="2"/>
+    <text x="115" y="22" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#E65100">Translation ✓</text>
+    <text x="115" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">E_trop[X + c] =</text>
+    <text x="115" y="57" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">E_trop[X] + c</text>
+  </g>
+
+  <g transform="translate(540, 250)">
+    <rect width="230" height="65" rx="8" fill="white" stroke="#9C27B0" stroke-width="2"/>
+    <text x="115" y="22" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#7B1FA2">Term Bound ✓</text>
+    <text x="115" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">logP(i) + X(i) ≤</text>
+    <text x="115" y="57" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">E_trop[X]</text>
+  </g>
+
+  <!-- Applications -->
+  <text x="400" y="350" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#333">
+    Real-World Applications of Tropical Probability
+  </text>
+  <text x="160" y="378" text-anchor="middle" font-family="Arial" font-size="12" fill="#1565C0">🔍 Beam Search (LLMs)</text>
+  <text x="400" y="378" text-anchor="middle" font-family="Arial" font-size="12" fill="#2E7D32">📡 Viterbi Decoding</text>
+  <text x="640" y="378" text-anchor="middle" font-family="Arial" font-size="12" fill="#E65100">🧠 Hard Attention</text>
+
+  <text x="400" y="395" text-anchor="middle" font-family="Arial" font-size="10" fill="#999">
+    All ✓ theorems verified in Lean 4 with zero sorry placeholders
+  </text>
+</svg>

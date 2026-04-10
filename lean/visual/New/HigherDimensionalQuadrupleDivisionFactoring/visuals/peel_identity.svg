@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="'Georgia', serif">
+  <defs>
+    <linearGradient id="peelbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3436;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#636e72;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="400" fill="url(#peelbg)" rx="8"/>
+
+  <text x="400" y="40" text-anchor="middle" fill="#dfe6e9" font-size="20" font-weight="bold">
+    The Four-Channel Peel Identity for 5-Tuples
+  </text>
+  <text x="400" y="65" text-anchor="middle" fill="#b2bec3" font-size="14">
+    Given a₁² + a₂² + a₃² + a₄² = d² (Pythagorean 5-tuple)
+  </text>
+
+  <!-- Channel boxes -->
+  <!-- Channel 1 -->
+  <rect x="30" y="95" width="360" height="55" rx="8" fill="#e17055" opacity="0.2" stroke="#e17055" stroke-width="1.5"/>
+  <text x="40" y="117" fill="#fab1a0" font-size="13" font-weight="bold">Channel 1:</text>
+  <text x="140" y="117" fill="#dfe6e9" font-size="15" font-style="italic">(d − a₁)(d + a₁) = a₂² + a₃² + a₄²</text>
+  <text x="40" y="138" fill="#b2bec3" font-size="11">→ gcd(d ± a₁, N) may reveal factors of N</text>
+
+  <!-- Channel 2 -->
+  <rect x="30" y="165" width="360" height="55" rx="8" fill="#0984e3" opacity="0.2" stroke="#0984e3" stroke-width="1.5"/>
+  <text x="40" y="187" fill="#74b9ff" font-size="13" font-weight="bold">Channel 2:</text>
+  <text x="140" y="187" fill="#dfe6e9" font-size="15" font-style="italic">(d − a₂)(d + a₂) = a₁² + a₃² + a₄²</text>
+  <text x="40" y="208" fill="#b2bec3" font-size="11">→ gcd(d ± a₂, N) may reveal factors of N</text>
+
+  <!-- Channel 3 -->
+  <rect x="30" y="235" width="360" height="55" rx="8" fill="#00b894" opacity="0.2" stroke="#00b894" stroke-width="1.5"/>
+  <text x="40" y="257" fill="#55efc4" font-size="13" font-weight="bold">Channel 3:</text>
+  <text x="140" y="257" fill="#dfe6e9" font-size="15" font-style="italic">(d − a₃)(d + a₃) = a₁² + a₂² + a₄²</text>
+  <text x="40" y="278" fill="#b2bec3" font-size="11">→ gcd(d ± a₃, N) may reveal factors of N</text>
+
+  <!-- Channel 4 -->
+  <rect x="30" y="305" width="360" height="55" rx="8" fill="#a29bfe" opacity="0.2" stroke="#a29bfe" stroke-width="1.5"/>
+  <text x="40" y="327" fill="#a29bfe" font-size="13" font-weight="bold">Channel 4:</text>
+  <text x="140" y="327" fill="#dfe6e9" font-size="15" font-style="italic">(d − a₄)(d + a₄) = a₁² + a₂² + a₃²</text>
+  <text x="40" y="348" fill="#b2bec3" font-size="11">→ gcd(d ± a₄, N) may reveal factors of N</text>
+
+  <!-- Right side: comparison -->
+  <rect x="420" y="95" width="355" height="265" rx="8" fill="#ffffff08" stroke="#ffffff22"/>
+  <text x="598" y="125" text-anchor="middle" fill="#feca57" font-size="16" font-weight="bold">
+    Dimension Comparison
+  </text>
+
+  <text x="445" y="160" fill="#e17055" font-size="13">Triple (k=3):</text>
+  <text x="580" y="160" fill="#dfe6e9" font-size="13">2 channels, 1 cross pair</text>
+
+  <text x="445" y="195" fill="#0984e3" font-size="13">Quadruple (k=4):</text>
+  <text x="580" y="195" fill="#dfe6e9" font-size="13">3 channels, 3 cross pairs</text>
+
+  <text x="445" y="230" fill="#00b894" font-size="13">5-Tuple (k=5):</text>
+  <text x="580" y="230" fill="#feca57" font-size="13" font-weight="bold">4 channels, 6 cross pairs</text>
+
+  <text x="445" y="265" fill="#a29bfe" font-size="13">Octonion (k=8):</text>
+  <text x="580" y="265" fill="#dfe6e9" font-size="13">7 channels, 21 cross pairs</text>
+
+  <text x="598" y="310" text-anchor="middle" fill="#b2bec3" font-size="12" font-style="italic">
+    Channels grow linearly: k−1
+  </text>
+  <text x="598" y="330" text-anchor="middle" fill="#b2bec3" font-size="12" font-style="italic">
+    Cross pairs grow quadratically: C(k−1,2)
+  </text>
+
+  <!-- Footer -->
+  <text x="400" y="385" text-anchor="middle" fill="#636e72" font-size="10">
+    Each channel independently attempts factor extraction via gcd(d ± aᵢ, N) — Formally verified in Lean 4
+  </text>
+</svg>

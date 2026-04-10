@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bgK" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c1445"/>
+      <stop offset="100%" style="stop-color:#1a237e"/>
+    </linearGradient>
+    <marker id="arrowW" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffffff"/>
+    </marker>
+    <marker id="arrowC" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#48dbfb"/>
+    </marker>
+    <marker id="arrowG" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00b894"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bgK)"/>
+
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold"
+        fill="#ffffff" text-anchor="middle">Koopman Lifting for Neural Networks</text>
+  <text x="400" y="62" font-family="Arial, sans-serif" font-size="13" fill="#88aacc"
+        text-anchor="middle">Linearizing Nonlinear Dynamics via Monomial Lifting</text>
+
+  <!-- Original space (bottom) -->
+  <ellipse cx="200" cy="350" rx="130" ry="55" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="200" y="335" font-family="Arial, sans-serif" font-size="14" fill="#ff6b6b"
+        text-anchor="middle" font-weight="bold">Original Space ℝⁿ</text>
+  <text x="200" y="355" font-family="Arial, sans-serif" font-size="11" fill="#ffaaaa"
+        text-anchor="middle">n dimensions</text>
+  <text x="200" y="375" font-family="Arial, sans-serif" font-size="11" fill="#ffaaaa"
+        text-anchor="middle">Nonlinear dynamics f(x)</text>
+
+  <!-- f arrow -->
+  <line x1="130" y1="310" x2="270" y2="310" stroke="#ff6b6b" stroke-width="2"
+        marker-end="url(#arrowW)" stroke-dasharray="5,3"/>
+  <text x="200" y="303" font-family="Arial, sans-serif" font-size="12" fill="#ff6b6b"
+        text-anchor="middle">f (nonlinear)</text>
+
+  <!-- Lifted space (top) -->
+  <ellipse cx="600" cy="180" rx="150" ry="65" fill="none" stroke="#48dbfb" stroke-width="2"/>
+  <text x="600" y="155" font-family="Arial, sans-serif" font-size="14" fill="#48dbfb"
+        text-anchor="middle" font-weight="bold">Lifted Space ℝ^C(n+d,d)</text>
+  <text x="600" y="175" font-family="Arial, sans-serif" font-size="11" fill="#88ddff"
+        text-anchor="middle">C(n+d, d) dimensions</text>
+  <text x="600" y="195" font-family="Arial, sans-serif" font-size="11" fill="#88ddff"
+        text-anchor="middle">Linear operator K_f</text>
+  <text x="600" y="215" font-family="Arial, sans-serif" font-size="11" fill="#88ddff"
+        text-anchor="middle">(single matrix multiplication!)</text>
+
+  <!-- K_f arrow -->
+  <line x1="510" y1="140" x2="690" y2="140" stroke="#48dbfb" stroke-width="3"
+        marker-end="url(#arrowC)"/>
+  <text x="600" y="133" font-family="Arial, sans-serif" font-size="13" fill="#48dbfb"
+        text-anchor="middle" font-weight="bold">K_f (LINEAR)</text>
+
+  <!-- Lifting arrow -->
+  <line x1="280" y1="320" x2="490" y2="220" stroke="#00b894" stroke-width="2"
+        marker-end="url(#arrowG)"/>
+  <text x="360" y="250" font-family="Arial, sans-serif" font-size="12" fill="#00b894"
+        text-anchor="middle" transform="rotate(-25, 360, 250)">Φ: x ↦ monomials</text>
+
+  <!-- Projection arrow -->
+  <line x1="490" y1="240" x2="280" y2="340" stroke="#feca57" stroke-width="2"
+        marker-end="url(#arrowW)" stroke-dasharray="5,3"/>
+  <text x="420" y="310" font-family="Arial, sans-serif" font-size="12" fill="#feca57"
+        text-anchor="middle" transform="rotate(-25, 420, 310)">π: project back</text>
+
+  <!-- Dimension comparison -->
+  <rect x="30" y="90" width="180" height="120" rx="8" fill="rgba(255,255,255,0.08)"
+        stroke="#636e72" stroke-width="1"/>
+  <text x="120" y="115" font-family="Arial, sans-serif" font-size="13" fill="#fff"
+        text-anchor="middle" font-weight="bold">Dimension Table</text>
+  <text x="120" y="138" font-family="monospace" font-size="10" fill="#88ddff"
+        text-anchor="middle">d=1: n+1</text>
+  <text x="120" y="155" font-family="monospace" font-size="10" fill="#88ddff"
+        text-anchor="middle">d=2: (n+2)(n+1)/2</text>
+  <text x="120" y="172" font-family="monospace" font-size="10" fill="#88ddff"
+        text-anchor="middle">d=3: C(n+3, 3)</text>
+  <text x="120" y="195" font-family="monospace" font-size="10" fill="#feca57"
+        text-anchor="middle">n=10,d=2: 66 dims</text>
+
+  <!-- Savings box -->
+  <rect x="590" y="310" width="180" height="100" rx="8" fill="rgba(255,255,255,0.08)"
+        stroke="#00b894" stroke-width="1"/>
+  <text x="680" y="335" font-family="Arial, sans-serif" font-size="13" fill="#00b894"
+        text-anchor="middle" font-weight="bold">Layerwise Savings</text>
+  <text x="680" y="358" font-family="monospace" font-size="10" fill="#88ffcc"
+        text-anchor="middle">Layerwise: 66 dims</text>
+  <text x="680" y="375" font-family="monospace" font-size="10" fill="#88ffcc"
+        text-anchor="middle">Naive: 43,758 dims</text>
+  <text x="680" y="395" font-family="Arial, sans-serif" font-size="12" fill="#00b894"
+        text-anchor="middle" font-weight="bold">663× reduction!</text>
+
+  <text x="400" y="435" font-family="Arial, sans-serif" font-size="11" fill="#636e72"
+        text-anchor="middle">K_f is linear regardless of f's nonlinearity (KoopmanLift.additive, KoopmanLift.smul)</text>
+</svg>

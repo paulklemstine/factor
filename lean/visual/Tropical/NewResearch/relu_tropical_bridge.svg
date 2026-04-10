@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#FAFAFA" rx="10"/>
+
+  <text x="400" y="35" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold" fill="#333">
+    ReLU = Tropical Addition: The Bridge Identity
+  </text>
+
+  <!-- ReLU Graph -->
+  <g transform="translate(50, 60)">
+    <rect width="300" height="250" fill="white" stroke="#ccc" rx="8"/>
+    <text x="150" y="25" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#E65100">
+      ReLU(x) = max(x, 0)
+    </text>
+
+    <!-- Axes -->
+    <line x1="30" y1="200" x2="280" y2="200" stroke="#333" stroke-width="1.5"/>
+    <line x1="150" y1="30" x2="150" y2="230" stroke="#333" stroke-width="1.5"/>
+
+    <!-- ReLU curve -->
+    <polyline points="30,200 150,200 270,80" fill="none" stroke="#E65100" stroke-width="3"/>
+
+    <!-- Labels -->
+    <text x="275" y="215" font-family="Arial" font-size="11" fill="#333">x</text>
+    <text x="155" y="45" font-family="Arial" font-size="11" fill="#333">y</text>
+    <text x="80" y="195" font-family="Arial" font-size="10" fill="#999">negative → 0</text>
+    <text x="200" y="120" font-family="Arial" font-size="10" fill="#E65100">positive → x</text>
+
+    <!-- Key point -->
+    <circle cx="150" cy="200" r="5" fill="#E65100"/>
+    <text x="160" y="225" font-family="Arial" font-size="10" fill="#333">breakpoint</text>
+  </g>
+
+  <!-- Bridge identity -->
+  <g transform="translate(250, 160)">
+    <rect x="0" y="0" width="300" height="60" rx="10" fill="#9C27B0" opacity="0.9"/>
+    <text x="150" y="25" text-anchor="middle" font-family="monospace" font-size="16" fill="white" font-weight="bold">
+      max(a,b) = a + ReLU(b−a)
+    </text>
+    <text x="150" y="48" text-anchor="middle" font-family="Arial" font-size="11" fill="#E1BEE7">
+      Theorem max_eq_relu_form ✓
+    </text>
+  </g>
+
+  <!-- Max Graph -->
+  <g transform="translate(450, 60)">
+    <rect width="300" height="250" fill="white" stroke="#ccc" rx="8"/>
+    <text x="150" y="25" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#1565C0">
+      max(a, b) = Tropical Addition
+    </text>
+
+    <!-- 3D-ish visualization of max(x, y) -->
+    <!-- Two lines meeting at a ridge -->
+    <line x1="40" y1="220" x2="150" y2="120" stroke="#1565C0" stroke-width="2.5"/>
+    <line x1="150" y1="120" x2="260" y2="180" stroke="#1565C0" stroke-width="2.5"/>
+    <line x1="40" y1="220" x2="150" y2="180" stroke="#90CAF9" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <line x1="150" y1="120" x2="260" y2="80" stroke="#1565C0" stroke-width="2.5"/>
+
+    <text x="80" y="195" font-family="Arial" font-size="10" fill="#999">b wins</text>
+    <text x="200" y="100" font-family="Arial" font-size="10" fill="#1565C0">a wins</text>
+    <text x="150" y="115" font-family="Arial" font-size="10" fill="#333">a = b</text>
+
+    <circle cx="150" cy="120" r="5" fill="#1565C0"/>
+    <text x="160" y="145" font-family="Arial" font-size="10" fill="#333">tropical vertex</text>
+  </g>
+
+  <!-- Properties boxes -->
+  <g transform="translate(50, 340)">
+    <rect width="200" height="80" rx="8" fill="#FFF3E0" stroke="#FF9800" stroke-width="1.5"/>
+    <text x="100" y="22" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#E65100">1-Lipschitz</text>
+    <text x="100" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">|ReLU(x)−ReLU(y)|</text>
+    <text x="100" y="58" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">≤ |x − y|</text>
+    <text x="100" y="74" text-anchor="middle" font-family="Arial" font-size="9" fill="#999">relu_lipschitz ✓</text>
+  </g>
+
+  <g transform="translate(290, 340)">
+    <rect width="200" height="80" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5"/>
+    <text x="100" y="22" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#2E7D32">Monotone</text>
+    <text x="100" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">x ≤ y →</text>
+    <text x="100" y="58" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">ReLU(x) ≤ ReLU(y)</text>
+    <text x="100" y="74" text-anchor="middle" font-family="Arial" font-size="9" fill="#999">relu_mono ✓</text>
+  </g>
+
+  <g transform="translate(530, 340)">
+    <rect width="220" height="80" rx="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="1.5"/>
+    <text x="110" y="22" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#1565C0">Decision Boundary</text>
+    <text x="110" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">max(wx+b, 0) = 0</text>
+    <text x="110" y="58" text-anchor="middle" font-family="monospace" font-size="11" fill="#333">⟺ wx + b ≤ 0</text>
+    <text x="110" y="74" text-anchor="middle" font-family="Arial" font-size="9" fill="#999">relu_boundary ✓</text>
+  </g>
+</svg>

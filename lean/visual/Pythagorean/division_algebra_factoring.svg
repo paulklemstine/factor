@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550">
+  <defs>
+    <linearGradient id="bgda" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a1a3e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bgda)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">
+    Division Algebra → Factoring Correspondence
+  </text>
+  <text x="400" y="55" fill="#bbaadd" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">
+    ℝ → ℂ → ℍ → 𝕆 : Each level adds compositional structure for factor extraction
+  </text>
+
+  <!-- ℝ (dim 1) -->
+  <rect x="50" y="90" width="160" height="100" fill="rgba(100,200,100,0.1)" stroke="#66cc66" stroke-width="2" rx="10"/>
+  <text x="130" y="115" fill="#66cc66" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">ℝ (dim 1)</text>
+  <text x="130" y="138" fill="#99dd99" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Trivial: a² = a²</text>
+  <text x="130" y="155" fill="#aaddaa" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">1 channel, 0 cross pairs</text>
+  <text x="130" y="175" fill="#cceecc" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">No composition</text>
+
+  <!-- Arrow -->
+  <line x1="210" y1="140" x2="240" y2="140" stroke="#888888" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ℂ (dim 2) -->
+  <rect x="245" y="90" width="160" height="100" fill="rgba(100,150,255,0.1)" stroke="#6699ff" stroke-width="2" rx="10"/>
+  <text x="325" y="115" fill="#6699ff" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">ℂ (dim 2)</text>
+  <text x="325" y="138" fill="#88bbff" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Brahmagupta-Fibonacci</text>
+  <text x="325" y="155" fill="#aaccff" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">2 channels, 1 cross pair</text>
+  <text x="325" y="175" fill="#ccddff" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">(a²+b²)(c²+d²) = e²+f²</text>
+
+  <!-- Arrow -->
+  <line x1="405" y1="140" x2="435" y2="140" stroke="#888888" stroke-width="2"/>
+
+  <!-- ℍ (dim 4) -->
+  <rect x="440" y="90" width="160" height="100" fill="rgba(255,150,100,0.1)" stroke="#ff9966" stroke-width="2" rx="10"/>
+  <text x="520" y="115" fill="#ff9966" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">ℍ (dim 4)</text>
+  <text x="520" y="138" fill="#ffbb88" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Euler Four-Square</text>
+  <text x="520" y="155" fill="#ffccaa" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">4 channels, 6 cross pairs</text>
+  <text x="520" y="175" fill="#ffddcc" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">Quadruple composition</text>
+
+  <!-- Arrow -->
+  <line x1="600" y1="140" x2="630" y2="140" stroke="#888888" stroke-width="2"/>
+
+  <!-- 𝕆 (dim 8) -->
+  <rect x="635" y="90" width="140" height="100" fill="rgba(255,100,100,0.1)" stroke="#ff6666" stroke-width="2" rx="10"/>
+  <text x="705" y="115" fill="#ff6666" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">𝕆 (dim 8)</text>
+  <text x="705" y="138" fill="#ff8888" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Degen Eight-Square</text>
+  <text x="705" y="155" fill="#ffaaaa" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">8 channels, 28 cross pairs</text>
+  <text x="705" y="175" fill="#ffcccc" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">Non-associative!</text>
+
+  <!-- Factor Extraction Pipeline -->
+  <text x="400" y="230" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    Factor Extraction Pipeline
+  </text>
+
+  <!-- Pipeline boxes -->
+  <rect x="50" y="250" width="170" height="80" fill="rgba(255,255,255,0.05)" stroke="#4fc3f7" stroke-width="1" rx="8"/>
+  <text x="135" y="275" fill="#4fc3f7" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">1. Embed N</text>
+  <text x="135" y="295" fill="#88ddff" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">as k-tuple component</text>
+  <text x="135" y="315" fill="#aaeeff" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">N = a₁ in (a₁,...,aₖ,d)</text>
+
+  <line x1="225" y1="290" x2="255" y2="290" stroke="#555588" stroke-width="1.5"/>
+
+  <rect x="260" y="250" width="170" height="80" fill="rgba(255,255,255,0.05)" stroke="#66bb6a" stroke-width="1" rx="8"/>
+  <text x="345" y="275" fill="#66bb6a" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2. Multi-Channel GCD</text>
+  <text x="345" y="295" fill="#88dd88" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">k-1 peel identities</text>
+  <text x="345" y="315" fill="#aaddaa" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">gcd(d±aᵢ, N) for each i</text>
+
+  <line x1="435" y1="290" x2="465" y2="290" stroke="#555588" stroke-width="1.5"/>
+
+  <rect x="470" y="250" width="170" height="80" fill="rgba(255,255,255,0.05)" stroke="#ffa726" stroke-width="1" rx="8"/>
+  <text x="555" y="275" fill="#ffa726" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">3. Cross-Collision</text>
+  <text x="555" y="295" fill="#ffcc88" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">C(k-1,2) pairs</text>
+  <text x="555" y="315" fill="#ffddaa" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">shared-hypotenuse diffs</text>
+
+  <!-- Results table -->
+  <rect x="100" y="360" width="600" height="170" fill="rgba(255,255,255,0.03)" stroke="#333366" stroke-width="1" rx="8"/>
+  <text x="400" y="385" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">
+    Formalized Results (Lean 4, all sorry-free)
+  </text>
+
+  <!-- Table rows -->
+  <text x="150" y="410" fill="#ffcc00" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Algebra</text>
+  <text x="300" y="410" fill="#ffcc00" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Identity Theorem</text>
+  <text x="500" y="410" fill="#ffcc00" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Lean Name</text>
+  <text x="650" y="410" fill="#ffcc00" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Status</text>
+
+  <line x1="110" y1="418" x2="690" y2="418" stroke="#333366" stroke-width="0.5"/>
+
+  <text x="150" y="435" fill="#66cc66" font-family="monospace" font-size="10" text-anchor="middle">ℂ</text>
+  <text x="300" y="435" fill="#cccccc" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Brahmagupta-Fibonacci</text>
+  <text x="500" y="435" fill="#88bbff" font-family="monospace" font-size="9" text-anchor="middle">brahmagupta_fibonacci</text>
+  <text x="650" y="435" fill="#66ff66" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">✓ Proved</text>
+
+  <text x="150" y="455" fill="#ff9966" font-family="monospace" font-size="10" text-anchor="middle">ℍ</text>
+  <text x="300" y="455" fill="#cccccc" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Euler Four-Square</text>
+  <text x="500" y="455" fill="#88bbff" font-family="monospace" font-size="9" text-anchor="middle">euler_four_square</text>
+  <text x="650" y="455" fill="#66ff66" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">✓ Proved</text>
+
+  <text x="150" y="475" fill="#ff9966" font-family="monospace" font-size="10" text-anchor="middle">ℍ</text>
+  <text x="300" y="475" fill="#cccccc" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Quadruple Composition</text>
+  <text x="500" y="475" fill="#88bbff" font-family="monospace" font-size="9" text-anchor="middle">quadruple_composition</text>
+  <text x="650" y="475" fill="#66ff66" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">✓ Proved</text>
+
+  <text x="150" y="495" fill="#ff9966" font-family="monospace" font-size="10" text-anchor="middle">ℍ</text>
+  <text x="300" y="495" fill="#cccccc" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Parametric Quadruple</text>
+  <text x="500" y="495" fill="#88bbff" font-family="monospace" font-size="9" text-anchor="middle">parametric_quadruple</text>
+  <text x="650" y="495" fill="#66ff66" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">✓ Proved</text>
+
+  <text x="150" y="515" fill="#4fc3f7" font-family="monospace" font-size="10" text-anchor="middle">k-dim</text>
+  <text x="300" y="515" fill="#cccccc" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Sphere Reduction</text>
+  <text x="500" y="515" fill="#88bbff" font-family="monospace" font-size="9" text-anchor="middle">sphere_reduction</text>
+  <text x="650" y="515" fill="#66ff66" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">✓ Proved</text>
+</svg>

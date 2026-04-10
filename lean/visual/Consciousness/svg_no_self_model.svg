@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
+  <defs>
+    <linearGradient id="bgns" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0c0c1d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="500" fill="url(#bgns)" rx="10"/>
+
+  <text x="350" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#e0e0ff" font-weight="bold">No-Perfect-Self-Model Theorem</text>
+  <text x="350" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8888bb">Cantor's diagonal argument applied to consciousness</text>
+
+  <!-- The diagonal argument table -->
+  <g transform="translate(100, 100)">
+    <!-- Header -->
+    <text x="0" y="0" font-family="monospace" font-size="13" fill="#8888bb">model(s)</text>
+    <text x="130" y="0" font-family="monospace" font-size="12" fill="#4ecdc4">P₀</text>
+    <text x="180" y="0" font-family="monospace" font-size="12" fill="#4ecdc4">P₁</text>
+    <text x="230" y="0" font-family="monospace" font-size="12" fill="#4ecdc4">P₂</text>
+    <text x="280" y="0" font-family="monospace" font-size="12" fill="#4ecdc4">P₃</text>
+    <text x="330" y="0" font-family="monospace" font-size="12" fill="#4ecdc4">P₄</text>
+    <text x="400" y="0" font-family="monospace" font-size="12" fill="#f85149">Blind Spot</text>
+
+    <line x1="0" y1="10" x2="500" y2="10" stroke="#334" stroke-width="1"/>
+
+    <!-- Row 0 -->
+    <text x="0" y="40" font-family="monospace" font-size="13" fill="#c9d1d9">State 0</text>
+    <rect x="118" y="25" width="40" height="22" rx="3" fill="#e94560" opacity="0.3" stroke="#e94560"/>
+    <text x="138" y="41" text-anchor="middle" font-family="monospace" font-size="14" fill="#e94560" font-weight="bold">T</text>
+    <text x="188" y="41" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="238" y="41" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="288" y="41" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="338" y="41" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="420" y="41" text-anchor="middle" font-family="monospace" font-size="14" fill="#ffd93d" font-weight="bold">F</text>
+
+    <!-- Row 1 -->
+    <text x="0" y="70" font-family="monospace" font-size="13" fill="#c9d1d9">State 1</text>
+    <text x="138" y="71" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <rect x="168" y="55" width="40" height="22" rx="3" fill="#e94560" opacity="0.3" stroke="#e94560"/>
+    <text x="188" y="71" text-anchor="middle" font-family="monospace" font-size="14" fill="#e94560" font-weight="bold">T</text>
+    <text x="238" y="71" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="288" y="71" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="338" y="71" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="420" y="71" text-anchor="middle" font-family="monospace" font-size="14" fill="#ffd93d" font-weight="bold">F</text>
+
+    <!-- Row 2 -->
+    <text x="0" y="100" font-family="monospace" font-size="13" fill="#c9d1d9">State 2</text>
+    <text x="138" y="101" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="188" y="101" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <rect x="218" y="85" width="40" height="22" rx="3" fill="#e94560" opacity="0.3" stroke="#e94560"/>
+    <text x="238" y="101" text-anchor="middle" font-family="monospace" font-size="14" fill="#e94560" font-weight="bold">F</text>
+    <text x="288" y="101" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="338" y="101" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="420" y="101" text-anchor="middle" font-family="monospace" font-size="14" fill="#ffd93d" font-weight="bold">T</text>
+
+    <!-- Row 3 -->
+    <text x="0" y="130" font-family="monospace" font-size="13" fill="#c9d1d9">State 3</text>
+    <text x="138" y="131" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="188" y="131" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="238" y="131" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <rect x="268" y="115" width="40" height="22" rx="3" fill="#e94560" opacity="0.3" stroke="#e94560"/>
+    <text x="288" y="131" text-anchor="middle" font-family="monospace" font-size="14" fill="#e94560" font-weight="bold">T</text>
+    <text x="338" y="131" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="420" y="131" text-anchor="middle" font-family="monospace" font-size="14" fill="#ffd93d" font-weight="bold">F</text>
+
+    <!-- Row 4 -->
+    <text x="0" y="160" font-family="monospace" font-size="13" fill="#c9d1d9">State 4</text>
+    <text x="138" y="161" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="188" y="161" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <text x="238" y="161" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">F</text>
+    <text x="288" y="161" text-anchor="middle" font-family="monospace" font-size="14" fill="#8888bb">T</text>
+    <rect x="318" y="145" width="40" height="22" rx="3" fill="#e94560" opacity="0.3" stroke="#e94560"/>
+    <text x="338" y="161" text-anchor="middle" font-family="monospace" font-size="14" fill="#e94560" font-weight="bold">F</text>
+    <text x="420" y="161" text-anchor="middle" font-family="monospace" font-size="14" fill="#ffd93d" font-weight="bold">T</text>
+
+    <!-- Diagonal line -->
+    <line x1="118" y1="25" x2="358" y2="167" stroke="#e94560" stroke-width="2" stroke-dasharray="4,3" opacity="0.6"/>
+  </g>
+
+  <!-- Explanation -->
+  <g transform="translate(50, 320)">
+    <rect x="0" y="0" width="600" height="150" rx="8" fill="#111133" stroke="#334"/>
+    <text x="300" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#ffd93d" font-weight="bold">The Blind Spot Property</text>
+    <text x="20" y="55" font-family="monospace" font-size="12" fill="#c9d1d9">P_blind(i) = ¬ model(i)(i)    ← negate the diagonal</text>
+    <text x="20" y="80" font-family="monospace" font-size="12" fill="#c9d1d9">For every state s: model(s) ≠ P_blind</text>
+    <text x="20" y="105" font-family="monospace" font-size="12" fill="#f093fb">Proof: model(s)(s) and P_blind(s) always disagree!</text>
+    <text x="20" y="135" font-family="monospace" font-size="13" fill="#e94560" font-weight="bold">→ Every self-modeling system has properties it cannot model about itself.</text>
+  </g>
+
+  <text x="350" y="488" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8888bb">Formally verified in Lean 4 — consciousness_has_blind_spots</text>
+</svg>

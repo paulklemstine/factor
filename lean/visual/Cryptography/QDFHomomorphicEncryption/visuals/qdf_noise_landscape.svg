@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="barGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88"/>
+      <stop offset="100%" style="stop-color:#00aa55"/>
+    </linearGradient>
+    <linearGradient id="barRed" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6666"/>
+      <stop offset="100%" style="stop-color:#cc3333"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg2)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#00d2ff" font-size="18" font-weight="bold">
+    Noise Landscape: QDF Addition Cross-Terms
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#888" font-size="12">
+    Noise = 2(⟨v₁,v₂⟩ − d₁d₂) for quadratic family pairs (n₁, n₂)
+  </text>
+
+  <!-- Chart area -->
+  <g transform="translate(80, 80)">
+    <!-- Axes -->
+    <line x1="0" y1="300" x2="650" y2="300" stroke="#444" stroke-width="1"/>
+    <line x1="0" y1="0" x2="0" y2="300" stroke="#444" stroke-width="1"/>
+
+    <!-- Zero line -->
+    <line x1="0" y1="150" x2="650" y2="150" stroke="#ffd700" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+    <text x="-10" y="155" text-anchor="end" fill="#ffd700" font-size="10">0</text>
+
+    <!-- Y axis labels -->
+    <text x="-10" y="5" text-anchor="end" fill="#888" font-size="10">+</text>
+    <text x="-10" y="305" text-anchor="end" fill="#888" font-size="10">−</text>
+    <text x="-45" y="155" text-anchor="middle" fill="#aaa" font-size="11" transform="rotate(-90, -45, 155)">Noise</text>
+
+    <!-- Data bars for pairs (n₁,n₂) from quadratic family -->
+    <!-- Pair (1,1): noise = 2(1·1+2·2+2·2 - 3·3) = 2(1+4+4-9) = 0 -->
+    <rect x="10" y="148" width="25" height="4" fill="url(#barGreen)" rx="2"/>
+    <text x="22" y="165" text-anchor="middle" fill="#00ff88" font-size="9">0</text>
+    <text x="22" y="320" text-anchor="middle" fill="#888" font-size="8">(1,1)</text>
+
+    <!-- Pair (1,2): noise = 2(1·2+2·3+2·6 - 3·7) = 2(2+6+12-21) = 2(-1) = -2 -->
+    <rect x="50" y="150" width="25" height="8" fill="url(#barRed)" rx="2"/>
+    <text x="62" y="165" text-anchor="middle" fill="#ff6666" font-size="9">-2</text>
+    <text x="62" y="320" text-anchor="middle" fill="#888" font-size="8">(1,2)</text>
+
+    <!-- Pair (1,3): noise = 2(1·3+2·4+2·12 - 3·13) = 2(3+8+24-39) = 2(-4) = -8 -->
+    <rect x="90" y="150" width="25" height="24" fill="url(#barRed)" rx="2"/>
+    <text x="102" y="180" text-anchor="middle" fill="#ff6666" font-size="9">-8</text>
+    <text x="102" y="320" text-anchor="middle" fill="#888" font-size="8">(1,3)</text>
+
+    <!-- Pair (2,2): noise = 2(2·2+3·3+6·6 - 7·7) = 2(4+9+36-49) = 0 -->
+    <rect x="130" y="148" width="25" height="4" fill="url(#barGreen)" rx="2"/>
+    <text x="142" y="165" text-anchor="middle" fill="#00ff88" font-size="9">0</text>
+    <text x="142" y="320" text-anchor="middle" fill="#888" font-size="8">(2,2)</text>
+
+    <!-- Pair (2,3): noise = 2(2·3+3·4+6·12 - 7·13) = 2(6+12+72-91) = 2(-1) = -2 -->
+    <rect x="170" y="150" width="25" height="8" fill="url(#barRed)" rx="2"/>
+    <text x="182" y="165" text-anchor="middle" fill="#ff6666" font-size="9">-2</text>
+    <text x="182" y="320" text-anchor="middle" fill="#888" font-size="8">(2,3)</text>
+
+    <!-- Pair (3,3): noise = 2(3·3+4·4+12·12 - 13·13) = 2(9+16+144-169) = 0 -->
+    <rect x="210" y="148" width="25" height="4" fill="url(#barGreen)" rx="2"/>
+    <text x="222" y="165" text-anchor="middle" fill="#00ff88" font-size="9">0</text>
+    <text x="222" y="320" text-anchor="middle" fill="#888" font-size="8">(3,3)</text>
+
+    <!-- Pair (1,4): n=2(1·4+2·5+2·20 - 3·21) = 2(4+10+40-63) = -18 -->
+    <rect x="250" y="150" width="25" height="54" fill="url(#barRed)" rx="2"/>
+    <text x="262" y="210" text-anchor="middle" fill="#ff6666" font-size="9">-18</text>
+    <text x="262" y="320" text-anchor="middle" fill="#888" font-size="8">(1,4)</text>
+
+    <!-- Pair (2,4): n=2(2·4+3·5+6·20 - 7·21) = 2(8+15+120-147) = -8 -->
+    <rect x="290" y="150" width="25" height="24" fill="url(#barRed)" rx="2"/>
+    <text x="302" y="180" text-anchor="middle" fill="#ff6666" font-size="9">-8</text>
+    <text x="302" y="320" text-anchor="middle" fill="#888" font-size="8">(2,4)</text>
+
+    <!-- Pair (3,4): n=2(3·4+4·5+12·20 - 13·21) = 2(12+20+240-273) = -2 -->
+    <rect x="330" y="150" width="25" height="8" fill="url(#barRed)" rx="2"/>
+    <text x="342" y="165" text-anchor="middle" fill="#ff6666" font-size="9">-2</text>
+    <text x="342" y="320" text-anchor="middle" fill="#888" font-size="8">(3,4)</text>
+
+    <!-- Pair (4,4): noise=0 (self-pairing) -->
+    <rect x="370" y="148" width="25" height="4" fill="url(#barGreen)" rx="2"/>
+    <text x="382" y="165" text-anchor="middle" fill="#00ff88" font-size="9">0</text>
+    <text x="382" y="320" text-anchor="middle" fill="#888" font-size="8">(4,4)</text>
+
+    <!-- Pair (1,5) -->
+    <rect x="410" y="150" width="25" height="90" fill="url(#barRed)" rx="2"/>
+    <text x="422" y="250" text-anchor="middle" fill="#ff6666" font-size="9">-32</text>
+    <text x="422" y="320" text-anchor="middle" fill="#888" font-size="8">(1,5)</text>
+
+    <!-- Pair (5,5): noise=0 -->
+    <rect x="450" y="148" width="25" height="4" fill="url(#barGreen)" rx="2"/>
+    <text x="462" y="165" text-anchor="middle" fill="#00ff88" font-size="9">0</text>
+    <text x="462" y="320" text-anchor="middle" fill="#888" font-size="8">(5,5)</text>
+
+    <!-- Pattern annotation -->
+    <text x="520" y="100" fill="#00ff88" font-size="12" font-weight="bold">Pattern:</text>
+    <text x="520" y="120" fill="#aaffaa" font-size="11">Self-pairs (n,n) are</text>
+    <text x="520" y="137" fill="#00ff88" font-size="12" font-weight="bold">always noise-free!</text>
+    <text x="520" y="165" fill="#ffaaaa" font-size="11">Cross-pairs (n₁≠n₂)</text>
+    <text x="520" y="182" fill="#ff6666" font-size="11">have noise ≤ 0</text>
+    <text x="520" y="210" fill="#ffd700" font-size="11">|Noise| grows with</text>
+    <text x="520" y="227" fill="#ffd700" font-size="11">|n₁ − n₂|</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(80, 440)">
+    <rect x="0" y="0" width="15" height="15" fill="url(#barGreen)" rx="3"/>
+    <text x="22" y="12" fill="#00ff88" font-size="11">Noise-free (⟨v₁,v₂⟩ = d₁d₂)</text>
+    <rect x="250" y="0" width="15" height="15" fill="url(#barRed)" rx="3"/>
+    <text x="272" y="12" fill="#ff6666" font-size="11">Noisy (⟨v₁,v₂⟩ ≠ d₁d₂)</text>
+    <text x="550" y="12" fill="#888" font-size="10">X-axis: (n₁, n₂) pair index</text>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="400" y="490" text-anchor="middle" fill="#666" font-size="10">
+    All values computed from quadratic family: n² + (n+1)² + (n(n+1))² = (n²+n+1)²
+  </text>
+</svg>

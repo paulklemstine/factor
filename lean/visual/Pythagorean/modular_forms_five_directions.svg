@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ffaa00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="750" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="500" y="45" text-anchor="middle" fill="url(#gold)" font-size="22" font-weight="bold" filter="url(#glow)">
+    Berggren–Theta Group Correspondence: Five New Directions
+  </text>
+  <text x="500" y="70" text-anchor="middle" fill="#aaa" font-size="13">
+    From Pythagorean Triples to Quantum Computation via Modular Forms
+  </text>
+  
+  <!-- Central node: Berggren-Theta -->
+  <circle cx="500" cy="380" r="65" fill="none" stroke="url(#gold)" stroke-width="3" filter="url(#glow)"/>
+  <text x="500" y="370" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">Γ_θ = ⟨T², S⟩</text>
+  <text x="500" y="390" text-anchor="middle" fill="#ccc" font-size="11">Berggren–Theta</text>
+  <text x="500" y="405" text-anchor="middle" fill="#ccc" font-size="11">Correspondence</text>
+  
+  <!-- Direction 1: Higher Dimensions (top-left) -->
+  <line x1="448" y1="330" x2="230" y2="180" stroke="#4ecdc4" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="200" cy="160" r="55" fill="rgba(78,205,196,0.15)" stroke="#4ecdc4" stroke-width="2"/>
+  <text x="200" y="140" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="bold">1. Higher</text>
+  <text x="200" y="157" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="bold">Dimensions</text>
+  <text x="200" y="177" text-anchor="middle" fill="#8ee" font-size="10">SO(3,1;ℤ)</text>
+  <text x="200" y="192" text-anchor="middle" fill="#8ee" font-size="10">a²+b²+c²=d²</text>
+  
+  <!-- Direction 2: Spectral Gap (top-right) -->
+  <line x1="552" y1="330" x2="770" y2="180" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="800" cy="160" r="55" fill="rgba(255,107,107,0.15)" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="800" y="140" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">2. Spectral</text>
+  <text x="800" y="157" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">Gap</text>
+  <text x="800" y="177" text-anchor="middle" fill="#faa" font-size="10">λ₁ ≥ 3/16</text>
+  <text x="800" y="192" text-anchor="middle" fill="#faa" font-size="10">O(log c) descent</text>
+  
+  <!-- Direction 3: L-Functions (left) -->
+  <line x1="438" y1="400" x2="180" y2="430" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="150" cy="440" r="55" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="2"/>
+  <text x="150" y="420" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="bold">3. L-Functions</text>
+  <text x="150" y="445" text-anchor="middle" fill="#c4b5fd" font-size="10">L(s, χ₋₄)</text>
+  <text x="150" y="460" text-anchor="middle" fill="#c4b5fd" font-size="10">r₂(n) = 4Σ χ₋₄(d)</text>
+  <text x="150" y="475" text-anchor="middle" fill="#c4b5fd" font-size="10">π/4 = 1-⅓+⅕-...</text>
+  
+  <!-- Direction 4: Quantum (right) -->
+  <line x1="562" y1="400" x2="820" y2="430" stroke="#34d399" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="850" cy="440" r="55" fill="rgba(52,211,153,0.15)" stroke="#34d399" stroke-width="2"/>
+  <text x="850" y="420" text-anchor="middle" fill="#34d399" font-size="13" font-weight="bold">4. Quantum</text>
+  <text x="850" y="437" text-anchor="middle" fill="#34d399" font-size="13" font-weight="bold">Computation</text>
+  <text x="850" y="457" text-anchor="middle" fill="#6ee7b7" font-size="10">SU(1,1) gates</text>
+  <text x="850" y="472" text-anchor="middle" fill="#6ee7b7" font-size="10">S⁴ = I, S² = -I</text>
+  
+  <!-- Direction 5: Hauptmodul (bottom) -->
+  <line x1="500" y1="445" x2="500" y2="575" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="500" cy="610" r="55" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="2"/>
+  <text x="500" y="595" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="bold">5. Hauptmodul</text>
+  <text x="500" y="615" text-anchor="middle" fill="#fbbf24" font-size="10">λ(τ) = (θ₂/θ₃)⁴</text>
+  <text x="500" y="630" text-anchor="middle" fill="#fbbf24" font-size="10">j(i) = 1728</text>
+  <text x="500" y="645" text-anchor="middle" fill="#fbbf24" font-size="10">genus 0, 3 cusps</text>
+  
+  <!-- Key formulas box -->
+  <rect x="320" y="87" width="360" height="120" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="500" y="108" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Key Identities (Formally Verified)</text>
+  <text x="340" y="130" fill="#ccc" font-size="11" font-family="monospace">M₃ = T² = [[1,2],[0,1]]</text>
+  <text x="340" y="148" fill="#ccc" font-size="11" font-family="monospace">M₃⁻¹·M₁ = S = [[0,-1],[1,0]]</text>
+  <text x="340" y="166" fill="#ccc" font-size="11" font-family="monospace">M₁ = T²·S (translate + invert)</text>
+  <text x="340" y="184" fill="#ccc" font-size="11" font-family="monospace">det(M₁) = det(M₃) = det(S) = 1</text>
+  
+  <!-- Verification badge -->
+  <rect x="360" y="700" width="280" height="30" rx="15" fill="rgba(52,211,153,0.2)" stroke="#34d399" stroke-width="1"/>
+  <text x="500" y="720" text-anchor="middle" fill="#34d399" font-size="12">
+    ✓ 80+ theorems · 0 sorries · Lean 4 + Mathlib
+  </text>
+</svg>

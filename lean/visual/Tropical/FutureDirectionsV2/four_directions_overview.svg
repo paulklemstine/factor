@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a30;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="800" fill="url(#bg3)"/>
+  
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold" font-family="Arial">
+    Four Frontiers of Tropical Mathematics
+  </text>
+  <text x="400" y="70" text-anchor="middle" fill="#888" font-size="14" font-family="Arial">
+    Machine-Verified Foundations in Lean 4
+  </text>
+  
+  <!-- Center: Tropical Semiring -->
+  <circle cx="400" cy="400" r="80" fill="#1a1a2e" stroke="#ffd700" stroke-width="3" filter="url(#glow2)"/>
+  <text x="400" y="385" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold" font-family="Arial">Tropical</text>
+  <text x="400" y="405" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold" font-family="Arial">Semiring</text>
+  <text x="400" y="425" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">(ℝ, max, +)</text>
+  
+  <!-- Direction 1: Transformers (Top) -->
+  <line x1="400" y1="320" x2="400" y2="180" stroke="#4dd0e1" stroke-width="2" stroke-dasharray="8,4"/>
+  <circle cx="400" cy="150" r="60" fill="#0a2a3a" stroke="#4dd0e1" stroke-width="2"/>
+  <text x="400" y="140" text-anchor="middle" fill="#4dd0e1" font-size="13" font-weight="bold" font-family="Arial">§1 Tropical</text>
+  <text x="400" y="158" text-anchor="middle" fill="#4dd0e1" font-size="13" font-weight="bold" font-family="Arial">Transformers</text>
+  
+  <rect x="500" y="100" width="200" height="100" rx="8" fill="#0a2a3a" stroke="#4dd0e1" stroke-width="1" opacity="0.8"/>
+  <text x="600" y="120" text-anchor="middle" fill="#4dd0e1" font-size="10" font-weight="bold" font-family="Arial">KEY RESULTS</text>
+  <text x="510" y="138" fill="#ccc" font-size="9" font-family="monospace">• softmax_nonneg ✓</text>
+  <text x="510" y="153" fill="#ccc" font-size="9" font-family="monospace">• softmax_sum_one ✓</text>
+  <text x="510" y="168" fill="#ccc" font-size="9" font-family="monospace">• max_score_ge_avg ✓</text>
+  <text x="510" y="183" fill="#ccc" font-size="9" font-family="monospace">• posEncoding_strictMono ✓</text>
+  
+  <!-- Direction 2: Hardware (Right) -->
+  <line x1="480" y1="400" x2="620" y2="400" stroke="#f78166" stroke-width="2" stroke-dasharray="8,4"/>
+  <circle cx="650" cy="400" r="60" fill="#2a1a0a" stroke="#f78166" stroke-width="2"/>
+  <text x="650" y="390" text-anchor="middle" fill="#f78166" font-size="13" font-weight="bold" font-family="Arial">§2 Tropical</text>
+  <text x="650" y="408" text-anchor="middle" fill="#f78166" font-size="13" font-weight="bold" font-family="Arial">Hardware</text>
+  
+  <rect x="600" y="470" width="180" height="80" rx="8" fill="#2a1a0a" stroke="#f78166" stroke-width="1" opacity="0.8"/>
+  <text x="690" y="490" text-anchor="middle" fill="#f78166" font-size="10" font-weight="bold" font-family="Arial">KEY RESULTS</text>
+  <text x="610" y="508" fill="#ccc" font-size="9" font-family="monospace">• gate_count_decomp ✓</text>
+  <text x="610" y="523" fill="#ccc" font-size="9" font-family="monospace">• TropCircuit model ✓</text>
+  <text x="610" y="538" fill="#ccc" font-size="9" font-family="monospace">• O(n²)→O(n) savings</text>
+  
+  <!-- Direction 3: Complexity (Bottom) -->
+  <line x1="400" y1="480" x2="400" y2="620" stroke="#d2a8ff" stroke-width="2" stroke-dasharray="8,4"/>
+  <circle cx="400" cy="650" r="60" fill="#1a0a2a" stroke="#d2a8ff" stroke-width="2"/>
+  <text x="400" y="640" text-anchor="middle" fill="#d2a8ff" font-size="13" font-weight="bold" font-family="Arial">§3 Tropical</text>
+  <text x="400" y="658" text-anchor="middle" fill="#d2a8ff" font-size="13" font-weight="bold" font-family="Arial">Complexity</text>
+  
+  <rect x="100" y="610" width="200" height="100" rx="8" fill="#1a0a2a" stroke="#d2a8ff" stroke-width="1" opacity="0.8"/>
+  <text x="200" y="630" text-anchor="middle" fill="#d2a8ff" font-size="10" font-weight="bold" font-family="Arial">KEY RESULTS</text>
+  <text x="110" y="648" fill="#ccc" font-size="9" font-family="monospace">• tropMatMul_assoc ✓</text>
+  <text x="110" y="663" fill="#ccc" font-size="9" font-family="monospace">• tropDet_ge_perm ✓</text>
+  <text x="110" y="678" fill="#ccc" font-size="9" font-family="monospace">• tropDet_ge_diag ✓</text>
+  <text x="110" y="693" fill="#ccc" font-size="9" font-family="monospace">• path_interpretation ✓</text>
+  
+  <!-- Direction 4: Langlands (Left) -->
+  <line x1="320" y1="400" x2="180" y2="400" stroke="#7ee787" stroke-width="2" stroke-dasharray="8,4"/>
+  <circle cx="150" cy="400" r="60" fill="#0a2a0a" stroke="#7ee787" stroke-width="2"/>
+  <text x="150" y="390" text-anchor="middle" fill="#7ee787" font-size="13" font-weight="bold" font-family="Arial">§4 Tropical</text>
+  <text x="150" y="408" text-anchor="middle" fill="#7ee787" font-size="13" font-weight="bold" font-family="Arial">Langlands</text>
+  
+  <rect x="20" y="260" width="200" height="100" rx="8" fill="#0a2a0a" stroke="#7ee787" stroke-width="1" opacity="0.8"/>
+  <text x="120" y="280" text-anchor="middle" fill="#7ee787" font-size="10" font-weight="bold" font-family="Arial">KEY RESULTS</text>
+  <text x="30" y="298" fill="#ccc" font-size="9" font-family="monospace">• TropicalCharacter ✓</text>
+  <text x="30" y="313" fill="#ccc" font-size="9" font-family="monospace">• tropHeckeOp_mono ✓</text>
+  <text x="30" y="328" fill="#ccc" font-size="9" font-family="monospace">• tropHeckeOp_shift ✓</text>
+  <text x="30" y="343" fill="#ccc" font-size="9" font-family="monospace">• tropLFunction_euler ✓</text>
+  
+  <!-- Cross-cutting results in center ring -->
+  <circle cx="400" cy="400" r="85" fill="none" stroke="#ffd700" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  
+  <!-- Footer -->
+  <text x="400" y="770" text-anchor="middle" fill="#666" font-size="12" font-family="Arial">
+    30+ theorems • 0 sorry • Lean 4 + Mathlib • April 2026
+  </text>
+</svg>

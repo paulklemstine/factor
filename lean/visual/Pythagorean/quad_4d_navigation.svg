@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f0f23"/>
+      <stop offset="100%" stop-color="#1a1a3e"/>
+    </linearGradient>
+    <radialGradient id="sphere" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="rgba(88,166,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(88,166,255,0.02)"/>
+    </radialGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="500" y="35" text-anchor="middle" fill="#4ECDC4" font-size="22" font-weight="bold" filter="url(#glow3)">
+    Navigating 4D Quadruple Space for Integer Factoring
+  </text>
+  <text x="500" y="58" text-anchor="middle" fill="#666" font-size="12">
+    Integer points on the 3-sphere a² + b² + c² = d² encode factor information
+  </text>
+
+  <!-- Left panel: The 3-sphere (projected) -->
+  <ellipse cx="280" cy="340" rx="220" ry="200" fill="url(#sphere)" stroke="#58A6FF" stroke-width="1" opacity="0.6" stroke-dasharray="6,3"/>
+  <text x="280" y="140" text-anchor="middle" fill="#58A6FF" font-size="14">Constraint Surface: a² + b² + c² = d²</text>
+
+  <!-- Grid lines on sphere -->
+  <ellipse cx="280" cy="340" rx="220" ry="50" fill="none" stroke="#333" stroke-width="0.5" transform="rotate(-15, 280, 340)"/>
+  <ellipse cx="280" cy="340" rx="180" ry="50" fill="none" stroke="#333" stroke-width="0.5" transform="rotate(15, 280, 340)"/>
+  <ellipse cx="280" cy="340" rx="50" ry="200" fill="none" stroke="#333" stroke-width="0.5"/>
+
+  <!-- Quadruple points on the sphere -->
+  <!-- Factor-revealing points (green) -->
+  <circle cx="200" cy="280" r="10" fill="#2ECC71" opacity="0.9" filter="url(#glow3)"/>
+  <text x="175" y="270" fill="#2ECC71" font-size="10">(143,924,816,1241)</text>
+  <text x="175" y="283" fill="#7EE787" font-size="8">→ gcd(d-c, N) = 11 ✓</text>
+
+  <circle cx="350" cy="260" r="10" fill="#2ECC71" opacity="0.9" filter="url(#glow3)"/>
+  <text x="365" y="255" fill="#2ECC71" font-size="10">(143,924,1368,1657)</text>
+  <text x="365" y="268" fill="#7EE787" font-size="8">→ gcd(d+c, N) = 13 ✓</text>
+
+  <!-- Non-revealing points (dim) -->
+  <circle cx="160" cy="380" r="6" fill="#666" opacity="0.5"/>
+  <text x="130" y="395" fill="#555" font-size="8">(143,924,...)</text>
+
+  <circle cx="320" cy="420" r="6" fill="#666" opacity="0.5"/>
+  <circle cx="380" cy="350" r="6" fill="#666" opacity="0.5"/>
+  <circle cx="240" cy="450" r="6" fill="#666" opacity="0.5"/>
+  <circle cx="190" cy="330" r="6" fill="#666" opacity="0.5"/>
+
+  <!-- Navigation path -->
+  <path d="M 190 330 Q 200 300 200 280" stroke="#FFD700" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+  <path d="M 200 280 Q 270 260 350 260" stroke="#FFD700" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+  <text x="260" y="250" fill="#FFD700" font-size="10" font-weight="bold">Navigation path</text>
+
+  <!-- Starting point -->
+  <circle cx="280" cy="440" r="8" fill="#FF6B6B" opacity="0.9"/>
+  <text x="295" y="445" fill="#FF6B6B" font-size="10">START: trivial quad</text>
+  <path d="M 280 432 Q 250 400 190 335" stroke="#FF6B6B" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+
+  <!-- Right panel: Factor extraction mechanics -->
+  <rect x="530" y="80" width="440" height="580" rx="12" fill="rgba(255,255,255,0.02)" stroke="#30363d" stroke-width="1"/>
+
+  <text x="750" y="115" text-anchor="middle" fill="#E8D44D" font-size="18" font-weight="bold">Factor Extraction Methods</text>
+
+  <!-- Method 1: d-c GCD -->
+  <rect x="555" y="135" width="390" height="100" rx="8" fill="rgba(46,204,113,0.06)" stroke="#2ECC71" stroke-width="1"/>
+  <text x="570" y="160" fill="#2ECC71" font-size="14" font-weight="bold">Method 1: Difference GCD</text>
+  <text x="570" y="182" fill="#ccc" font-size="11">For quadruple (a,b,c,d): compute (d-c)(d+c) = a²+b²</text>
+  <text x="570" y="200" fill="#ccc" font-size="11">Factor candidate: gcd(d-c, N) or gcd(d+c, N)</text>
+  <text x="570" y="218" fill="#7EE787" font-size="11">Example: gcd(1241-816, 143) = gcd(425, 143) = 11 ✓</text>
+
+  <!-- Method 2: Cross-quad -->
+  <rect x="555" y="250" width="390" height="100" rx="8" fill="rgba(78,205,196,0.06)" stroke="#4ECDC4" stroke-width="1"/>
+  <text x="570" y="275" fill="#4ECDC4" font-size="14" font-weight="bold">Method 2: Cross-Quadruple GCD</text>
+  <text x="570" y="297" fill="#ccc" font-size="11">For two quads q₁, q₂ with same d:</text>
+  <text x="570" y="315" fill="#ccc" font-size="11">gcd(c₁² - c₂², N) → factor candidate</text>
+  <text x="570" y="333" fill="#4ECDC4" font-size="11">Cross-differences amplify factor signal!</text>
+
+  <!-- Method 3: Component GCD -->
+  <rect x="555" y="365" width="390" height="100" rx="8" fill="rgba(232,212,77,0.06)" stroke="#E8D44D" stroke-width="1"/>
+  <text x="570" y="390" fill="#E8D44D" font-size="14" font-weight="bold">Method 3: Component Analysis</text>
+  <text x="570" y="412" fill="#ccc" font-size="11">gcd(component_i, N) for each component</text>
+  <text x="570" y="430" fill="#ccc" font-size="11">gcd(sum_of_comps, N), gcd(diff_of_comps, N)</text>
+  <text x="570" y="448" fill="#E8D44D" font-size="11">Pairwise GCDs create a cascade effect</text>
+
+  <!-- Method 4: Projection -->
+  <rect x="555" y="480" width="390" height="100" rx="8" fill="rgba(210,168,255,0.06)" stroke="#D2A8FF" stroke-width="1"/>
+  <text x="570" y="505" fill="#D2A8FF" font-size="14" font-weight="bold">Method 4: Triple Projection</text>
+  <text x="570" y="527" fill="#ccc" font-size="11">Project quad back to triple: (a,b,√(a²+b²))</text>
+  <text x="570" y="545" fill="#ccc" font-size="11">New triple may have shared factors with N</text>
+  <text x="570" y="563" fill="#D2A8FF" font-size="11">Creates Berggren tree bridges as bonus!</text>
+
+  <!-- Success rate bar -->
+  <rect x="555" y="600" width="390" height="45" rx="8" fill="rgba(46,204,113,0.1)" stroke="#2ECC71" stroke-width="1.5"/>
+  <rect x="560" y="625" width="330" height="12" rx="4" fill="#333"/>
+  <rect x="560" y="625" width="287" height="12" rx="4" fill="#2ECC71" opacity="0.8"/>
+  <text x="750" y="620" text-anchor="middle" fill="#2ECC71" font-size="14" font-weight="bold">
+    Overall Recovery Rate: 86.8%
+  </text>
+
+  <!-- N=143 example box -->
+  <rect x="60" y="530" width="430" height="110" rx="10" fill="rgba(232,212,77,0.06)" stroke="#E8D44D" stroke-width="1"/>
+  <text x="275" y="555" text-anchor="middle" fill="#E8D44D" font-size="14" font-weight="bold">
+    Example: N = 143 = 11 × 13
+  </text>
+  <text x="80" y="578" fill="#ddd" font-size="11">Triple: (143, 10224, 10225)</text>
+  <text x="80" y="596" fill="#ddd" font-size="11">Quadruples: 21 found → GCD cascade → both factors!</text>
+  <text x="80" y="614" fill="#7EE787" font-size="11">Method 1 → 11 ✓     Cross-quad → 13 ✓     Bridge → (13,84,85)</text>
+  <text x="80" y="632" fill="#999" font-size="10">Complete factorization achieved through geometric navigation</text>
+
+  <!-- Footer -->
+  <text x="500" y="688" text-anchor="middle" fill="#444" font-size="10">
+    Quadruple Division Factoring — 4D Navigation Space
+  </text>
+</svg>

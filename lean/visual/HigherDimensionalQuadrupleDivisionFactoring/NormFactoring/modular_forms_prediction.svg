@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a0a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0a2a1a;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="22" font-weight="bold">
+    Modular Forms Predict Factoring Opportunities
+  </text>
+  <text x="450" y="58" text-anchor="middle" fill="#88ffaa" font-family="Georgia" font-size="13">
+    Theta Functions → Representation Counts → Collision Probability
+  </text>
+
+  <!-- Left: The Pipeline -->
+  <g transform="translate(30, 85)">
+    <rect x="0" y="0" width="260" height="480" rx="10" fill="#112211" stroke="#336633" stroke-width="1"/>
+    <text x="130" y="28" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="15" font-weight="bold">
+      Prediction Pipeline
+    </text>
+
+    <!-- Step 1 -->
+    <rect x="15" y="45" width="230" height="65" rx="8" fill="#1a331a" stroke="#448844"/>
+    <text x="130" y="65" text-anchor="middle" fill="#88ff88" font-family="monospace" font-size="12" font-weight="bold">
+      1. Input: N to factor
+    </text>
+    <text x="130" y="82" text-anchor="middle" fill="#66cc66" font-family="monospace" font-size="10">
+      Compute divisor structure
+    </text>
+    <text x="130" y="98" text-anchor="middle" fill="#44aa44" font-family="monospace" font-size="10">
+      σ_k(N) for k = 1, 3
+    </text>
+
+    <!-- Arrow -->
+    <polygon points="130,115 120,115 130,130 140,115" fill="#448844"/>
+
+    <!-- Step 2 -->
+    <rect x="15" y="135" width="230" height="80" rx="8" fill="#1a331a" stroke="#448844"/>
+    <text x="130" y="155" text-anchor="middle" fill="#88ff88" font-family="monospace" font-size="12" font-weight="bold">
+      2. Jacobi Formulas
+    </text>
+    <text x="130" y="175" text-anchor="middle" fill="#66cc66" font-family="monospace" font-size="10">
+      r₂(N) = 4(d₁ - d₃)
+    </text>
+    <text x="130" y="192" text-anchor="middle" fill="#66cc66" font-family="monospace" font-size="10">
+      r₄(N) = 8·σ₁(N) [odd N]
+    </text>
+    <text x="130" y="205" text-anchor="middle" fill="#66cc66" font-family="monospace" font-size="10">
+      r₈(N) = 16·σ₃(N) [odd N]
+    </text>
+
+    <!-- Arrow -->
+    <polygon points="130,220 120,220 130,235 140,220" fill="#448844"/>
+
+    <!-- Step 3 -->
+    <rect x="15" y="240" width="230" height="65" rx="8" fill="#1a331a" stroke="#448844"/>
+    <text x="130" y="260" text-anchor="middle" fill="#88ff88" font-family="monospace" font-size="12" font-weight="bold">
+      3. Choose Optimal k
+    </text>
+    <text x="130" y="278" text-anchor="middle" fill="#66cc66" font-family="monospace" font-size="10">
+      Max collision probability
+    </text>
+    <text x="130" y="295" text-anchor="middle" fill="#44aa44" font-family="monospace" font-size="10">
+      P ∝ r_k(N)² · k / sphere_area
+    </text>
+
+    <!-- Arrow -->
+    <polygon points="130,310 120,310 130,325 140,310" fill="#448844"/>
+
+    <!-- Step 4 -->
+    <rect x="15" y="330" width="230" height="65" rx="8" fill="#1a331a" stroke="#448844"/>
+    <text x="130" y="350" text-anchor="middle" fill="#88ff88" font-family="monospace" font-size="12" font-weight="bold">
+      4. Guided Search
+    </text>
+    <text x="130" y="368" text-anchor="middle" fill="#66cc66" font-family="monospace" font-size="10">
+      Focus on high-probability
+    </text>
+    <text x="130" y="385" text-anchor="middle" fill="#44aa44" font-family="monospace" font-size="10">
+      angular regions on S^{k-1}
+    </text>
+
+    <!-- Arrow -->
+    <polygon points="130,400 120,400 130,415 140,400" fill="#448844"/>
+
+    <!-- Step 5 -->
+    <rect x="15" y="420" width="230" height="50" rx="8" fill="#223322" stroke="#66aa66"/>
+    <text x="130" y="442" text-anchor="middle" fill="#aaffaa" font-family="monospace" font-size="12" font-weight="bold">
+      5. GCD Cascade → Factors
+    </text>
+    <text x="130" y="460" text-anchor="middle" fill="#88dd88" font-family="monospace" font-size="10">
+      gcd(cross_terms, N) = p or q
+    </text>
+  </g>
+
+  <!-- Right: Representation count data -->
+  <g transform="translate(320, 85)">
+    <rect x="0" y="0" width="550" height="230" rx="10" fill="#112211" stroke="#336633" stroke-width="1"/>
+    <text x="275" y="25" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="15" font-weight="bold">
+      Representation Counts: Primes vs. Composites
+    </text>
+
+    <!-- Table -->
+    <text x="20" y="52" fill="#aaccaa" font-family="monospace" font-size="11" font-weight="bold">
+      N        Type       r₂(N)    r₄(N)     r₈(N)
+    </text>
+    <line x1="10" y1="58" x2="540" y2="58" stroke="#336633"/>
+
+    <text x="20" y="78" fill="#88ff88" font-family="monospace" font-size="11">
+      5        prime        8        48       2,016
+    </text>
+    <text x="20" y="98" fill="#88ff88" font-family="monospace" font-size="11">
+      13       prime        8       112      35,280
+    </text>
+    <text x="20" y="118" fill="#ffaa44" font-family="monospace" font-size="11">
+      65 = 5×13  comp      16       624     536,256
+    </text>
+    <text x="20" y="138" fill="#88ff88" font-family="monospace" font-size="11">
+      7        prime        0        64       5,504
+    </text>
+    <text x="20" y="158" fill="#88ff88" font-family="monospace" font-size="11">
+      11       prime        0        96      16,016
+    </text>
+    <text x="20" y="178" fill="#ffaa44" font-family="monospace" font-size="11">
+      77 = 7×11  comp       0       768   1,243,968
+    </text>
+
+    <text x="275" y="210" text-anchor="middle" fill="#ffcc44" font-family="Georgia" font-size="12" font-style="italic">
+      Composites have MORE representations → more collision opportunities!
+    </text>
+  </g>
+
+  <!-- Bottom right: Key formulas -->
+  <g transform="translate(320, 335)">
+    <rect x="0" y="0" width="550" height="120" rx="10" fill="#112211" stroke="#336633" stroke-width="1"/>
+    <text x="275" y="25" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="15" font-weight="bold">
+      Jacobi's Theta Function Connection
+    </text>
+
+    <text x="20" y="52" fill="#cceecc" font-family="monospace" font-size="12">
+      Θ_k(q) = (Σ q^{m²})^k = Σ r_k(n)·q^n
+    </text>
+    <text x="20" y="75" fill="#aaddaa" font-family="monospace" font-size="11">
+      Θ_k is a modular form of weight k/2
+    </text>
+    <text x="20" y="98" fill="#88cc88" font-family="monospace" font-size="11">
+      Fourier coefficients r_k(n) = divisor sums (exact!)
+    </text>
+    <text x="20" y="112" fill="#66aa66" font-family="monospace" font-size="10">
+      Hecke eigenvalues encode multiplicative structure
+    </text>
+  </g>
+
+  <!-- Bottom right: The multiplicativity insight -->
+  <g transform="translate(320, 475)">
+    <rect x="0" y="0" width="550" height="105" rx="10" fill="#1a2a1a" stroke="#44aa44" stroke-width="1.5"/>
+    <text x="275" y="25" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="15" font-weight="bold">
+      The Key Insight
+    </text>
+    <text x="275" y="52" text-anchor="middle" fill="#aaffaa" font-family="Georgia" font-size="13">
+      For N = p·q: r_k(N) relates multiplicatively to r_k(p), r_k(q)
+    </text>
+    <text x="275" y="75" text-anchor="middle" fill="#88dd88" font-family="Georgia" font-size="12">
+      "Extra" representations of N beyond those of p and q
+    </text>
+    <text x="275" y="95" text-anchor="middle" fill="#66bb66" font-family="Georgia" font-size="12">
+      are precisely the ones that encode the factor structure
+    </text>
+  </g>
+
+  <!-- Footer -->
+  <text x="20" y="595" fill="#446644" font-family="Georgia" font-size="10">
+    Formally verified: σ_k(n) ≥ 1, σ_k(n) ≤ n^k·d(n), 8·σ₁(n) ≥ 8n — all in Lean 4 with Mathlib
+  </text>
+</svg>

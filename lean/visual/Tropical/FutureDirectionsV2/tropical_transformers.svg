@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffd700;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4dd0e1;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="900" height="600" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold" font-family="Arial">
+    Tropical Transformers: Softmax → Hard Attention
+  </text>
+  
+  <!-- Left: Softmax Attention -->
+  <rect x="30" y="70" width="380" height="240" rx="15" fill="none" stroke="#4dd0e1" stroke-width="2"/>
+  <text x="220" y="95" text-anchor="middle" fill="#4dd0e1" font-size="16" font-weight="bold" font-family="Arial">
+    Soft Attention (τ = 1)
+  </text>
+  
+  <!-- Softmax bars -->
+  <text x="60" y="130" fill="#aaa" font-size="12" font-family="monospace">Scores: [1.0, 3.0, 2.0, 0.5]</text>
+  
+  <rect x="80" y="150" width="40" height="30" fill="#4dd0e1" opacity="0.3"/>
+  <rect x="150" y="150" width="40" height="95" fill="#4dd0e1" opacity="0.7"/>
+  <rect x="220" y="150" width="40" height="55" fill="#4dd0e1" opacity="0.5"/>
+  <rect x="290" y="150" width="40" height="20" fill="#4dd0e1" opacity="0.2"/>
+  
+  <text x="100" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0.09</text>
+  <text x="170" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0.67</text>
+  <text x="240" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0.24</text>
+  <text x="310" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0.05</text>
+  
+  <text x="220" y="295" text-anchor="middle" fill="#4dd0e1" font-size="13" font-family="Arial">
+    exp(xᵢ/τ) / Σⱼ exp(xⱼ/τ)
+  </text>
+  
+  <!-- Arrow -->
+  <line x1="430" y1="190" x2="490" y2="190" stroke="url(#gold)" stroke-width="3" marker-end="url(#arrowhead)" filter="url(#glow)"/>
+  <text x="460" y="175" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold" font-family="Arial">τ → 0</text>
+  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#ffd700"/>
+  </marker>
+  
+  <!-- Right: Hard Attention -->
+  <rect x="500" y="70" width="380" height="240" rx="15" fill="none" stroke="#ff8c00" stroke-width="2"/>
+  <text x="690" y="95" text-anchor="middle" fill="#ff8c00" font-size="16" font-weight="bold" font-family="Arial">
+    Hard Attention (τ → 0)
+  </text>
+  
+  <text x="530" y="130" fill="#aaa" font-size="12" font-family="monospace">Scores: [1.0, 3.0, 2.0, 0.5]</text>
+  
+  <rect x="550" y="150" width="40" height="5" fill="#ff8c00" opacity="0.1"/>
+  <rect x="620" y="150" width="40" height="95" fill="#ff8c00" opacity="1.0"/>
+  <rect x="690" y="150" width="40" height="5" fill="#ff8c00" opacity="0.1"/>
+  <rect x="760" y="150" width="40" height="5" fill="#ff8c00" opacity="0.1"/>
+  
+  <text x="570" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0</text>
+  <text x="640" y="265" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold" font-family="monospace">1</text>
+  <text x="710" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0</text>
+  <text x="780" y="265" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">0</text>
+  
+  <text x="690" y="295" text-anchor="middle" fill="#ff8c00" font-size="13" font-family="Arial">
+    one-hot(argmax(x)) = TROPICAL
+  </text>
+  
+  <!-- Bottom: Key theorems -->
+  <rect x="30" y="340" width="840" height="240" rx="15" fill="none" stroke="#666" stroke-width="1"/>
+  <text x="450" y="370" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold" font-family="Arial">
+    Machine-Verified Theorems (Lean 4)
+  </text>
+  
+  <!-- Theorem boxes -->
+  <rect x="50" y="390" width="250" height="60" rx="8" fill="#1a3a1a" stroke="#4caf50" stroke-width="1"/>
+  <text x="175" y="415" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold" font-family="monospace">softmax_nonneg ✓</text>
+  <text x="175" y="435" text-anchor="middle" fill="#aaa" font-size="10" font-family="monospace">softmax(x,τ)ᵢ ≥ 0</text>
+  
+  <rect x="325" y="390" width="250" height="60" rx="8" fill="#1a3a1a" stroke="#4caf50" stroke-width="1"/>
+  <text x="450" y="415" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold" font-family="monospace">softmax_sum_one ✓</text>
+  <text x="450" y="435" text-anchor="middle" fill="#aaa" font-size="10" font-family="monospace">Σᵢ softmax(x,τ)ᵢ = 1</text>
+  
+  <rect x="600" y="390" width="250" height="60" rx="8" fill="#1a3a1a" stroke="#4caf50" stroke-width="1"/>
+  <text x="725" y="415" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold" font-family="monospace">max_score_ge_avg ✓</text>
+  <text x="725" y="435" text-anchor="middle" fill="#aaa" font-size="10" font-family="monospace">max(scores) ≥ avg(scores)</text>
+  
+  <rect x="50" y="470" width="250" height="60" rx="8" fill="#1a3a1a" stroke="#4caf50" stroke-width="1"/>
+  <text x="175" y="495" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold" font-family="monospace">posEncoding_strictMono ✓</text>
+  <text x="175" y="515" text-anchor="middle" fill="#aaa" font-size="10" font-family="monospace">i &lt; j → pos(i) &lt; pos(j)</text>
+  
+  <rect x="325" y="470" width="250" height="60" rx="8" fill="#1a3a1a" stroke="#4caf50" stroke-width="1"/>
+  <text x="450" y="495" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold" font-family="monospace">tropical_bridge ✓</text>
+  <text x="450" y="515" text-anchor="middle" fill="#aaa" font-size="10" font-family="monospace">max(a,b) = a + max(0,b-a)</text>
+  
+  <rect x="600" y="470" width="250" height="60" rx="8" fill="#1a3a1a" stroke="#4caf50" stroke-width="1"/>
+  <text x="725" y="495" text-anchor="middle" fill="#4caf50" font-size="12" font-weight="bold" font-family="monospace">hard_attention_target ✓</text>
+  <text x="725" y="515" text-anchor="middle" fill="#aaa" font-size="10" font-family="monospace">∃ Q K, attention → target</text>
+  
+  <!-- Footer -->
+  <text x="450" y="565" text-anchor="middle" fill="#666" font-size="11" font-family="Arial">
+    All theorems machine-verified in Lean 4 with Mathlib • Zero sorry placeholders
+  </text>
+</svg>

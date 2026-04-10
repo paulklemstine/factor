@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="100%" stop-color="#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="smooth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#28a745"/>
+      <stop offset="100%" stop-color="#20923c"/>
+    </linearGradient>
+    <linearGradient id="rough" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dc3545"/>
+      <stop offset="100%" stop-color="#c82333"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="800" fill="url(#bg2)" rx="8"/>
+
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" fill="#212529" font-size="24" font-weight="bold">
+    Smooth Number Detection in the Factor Base
+  </text>
+  <text x="500" y="65" text-anchor="middle" fill="#6c757d" font-size="14">
+    Green = B-smooth (all prime factors ≤ B) | Red = has large prime factor
+  </text>
+
+  <!-- Factor Base illustration -->
+  <rect x="50" y="90" width="900" height="60" rx="8" fill="#ffffff" stroke="#dee2e6" stroke-width="1"/>
+  <text x="70" y="115" fill="#495057" font-size="14" font-weight="bold">Factor Base (B = 23):</text>
+  
+  <!-- Primes in factor base -->
+  <g font-size="18" font-weight="bold" text-anchor="middle">
+    <circle cx="280" cy="120" r="18" fill="#4a90d9"/>
+    <text x="280" y="126" fill="white">2</text>
+    <circle cx="330" cy="120" r="18" fill="#4a90d9"/>
+    <text x="330" y="126" fill="white">3</text>
+    <circle cx="380" cy="120" r="18" fill="#4a90d9"/>
+    <text x="380" y="126" fill="white">5</text>
+    <circle cx="430" cy="120" r="18" fill="#4a90d9"/>
+    <text x="430" y="126" fill="white">7</text>
+    <circle cx="480" cy="120" r="18" fill="#4a90d9"/>
+    <text x="480" y="126" fill="white">11</text>
+    <circle cx="530" cy="120" r="18" fill="#4a90d9"/>
+    <text x="530" y="126" fill="white">13</text>
+    <circle cx="580" cy="120" r="18" fill="#4a90d9"/>
+    <text x="580" y="126" fill="white">17</text>
+    <circle cx="630" cy="120" r="18" fill="#4a90d9"/>
+    <text x="630" y="126" fill="white">19</text>
+    <circle cx="680" cy="120" r="18" fill="#4a90d9"/>
+    <text x="680" y="126" fill="white">23</text>
+  </g>
+
+  <!-- Grid of numbers showing smooth vs rough -->
+  <text x="500" y="190" text-anchor="middle" fill="#212529" font-size="18" font-weight="bold">
+    Q(x) = x² - n values near √n
+  </text>
+
+  <!-- Number grid -->
+  <g font-size="13" text-anchor="middle">
+    <!-- Row headers -->
+    <text x="80" y="225" fill="#6c757d" font-size="11" font-weight="bold">Q(x)</text>
+    <text x="180" y="225" fill="#6c757d" font-size="11" font-weight="bold">Factorization</text>
+    <text x="500" y="225" fill="#6c757d" font-size="11" font-weight="bold">Exponent Vector over Factor Base</text>
+    <text x="850" y="225" fill="#6c757d" font-size="11" font-weight="bold">Smooth?</text>
+
+    <!-- Example: 360 = 2³·3²·5 — SMOOTH -->
+    <rect x="30" y="235" width="940" height="35" rx="4" fill="#d4edda"/>
+    <text x="80" y="258" fill="#155724" font-weight="bold">360</text>
+    <text x="180" y="258" fill="#155724">2³ · 3² · 5¹</text>
+    <text x="340" y="258" fill="#155724" font-family="monospace">[3, 2, 1, 0, 0, 0, 0, 0, 0]</text>
+    <text x="850" y="258" fill="#155724" font-weight="bold">✓ SMOOTH</text>
+
+    <!-- Example: 504 = 2³·3²·7 — SMOOTH -->
+    <rect x="30" y="275" width="940" height="35" rx="4" fill="#d4edda"/>
+    <text x="80" y="298" fill="#155724" font-weight="bold">504</text>
+    <text x="180" y="298" fill="#155724">2³ · 3² · 7¹</text>
+    <text x="340" y="298" fill="#155724" font-family="monospace">[3, 2, 0, 1, 0, 0, 0, 0, 0]</text>
+    <text x="850" y="298" fill="#155724" font-weight="bold">✓ SMOOTH</text>
+
+    <!-- Example: 1073 = 29·37 — ROUGH -->
+    <rect x="30" y="315" width="940" height="35" rx="4" fill="#f8d7da"/>
+    <text x="80" y="338" fill="#721c24" font-weight="bold">1073</text>
+    <text x="180" y="338" fill="#721c24">29 · 37</text>
+    <text x="340" y="338" fill="#721c24" font-family="monospace">— large prime factors —</text>
+    <text x="850" y="338" fill="#721c24" font-weight="bold">✗ ROUGH</text>
+
+    <!-- Example: 2310 = 2·3·5·7·11 — SMOOTH -->
+    <rect x="30" y="355" width="940" height="35" rx="4" fill="#d4edda"/>
+    <text x="80" y="378" fill="#155724" font-weight="bold">2310</text>
+    <text x="180" y="378" fill="#155724">2 · 3 · 5 · 7 · 11</text>
+    <text x="340" y="378" fill="#155724" font-family="monospace">[1, 1, 1, 1, 1, 0, 0, 0, 0]</text>
+    <text x="850" y="378" fill="#155724" font-weight="bold">✓ SMOOTH</text>
+
+    <!-- Example: 4891 = 59·83 — ROUGH -->
+    <rect x="30" y="395" width="940" height="35" rx="4" fill="#f8d7da"/>
+    <text x="80" y="418" fill="#721c24" font-weight="bold">4891</text>
+    <text x="180" y="418" fill="#721c24">59 · 83</text>
+    <text x="340" y="418" fill="#721c24" font-family="monospace">— large prime factors —</text>
+    <text x="850" y="418" fill="#721c24" font-weight="bold">✗ ROUGH</text>
+
+    <!-- Example: 9828 = 2²·3·3²·... — SMOOTH -->
+    <rect x="30" y="435" width="940" height="35" rx="4" fill="#d4edda"/>
+    <text x="80" y="458" fill="#155724" font-weight="bold">7920</text>
+    <text x="180" y="458" fill="#155724">2⁴ · 3² · 5 · 11</text>
+    <text x="340" y="458" fill="#155724" font-family="monospace">[4, 2, 1, 0, 1, 0, 0, 0, 0]</text>
+    <text x="850" y="458" fill="#155724" font-weight="bold">✓ SMOOTH</text>
+  </g>
+
+  <!-- Linear Algebra Section -->
+  <rect x="50" y="500" width="900" height="280" rx="10" fill="#ffffff" stroke="#dee2e6" stroke-width="1"/>
+  <text x="500" y="530" text-anchor="middle" fill="#212529" font-size="18" font-weight="bold">
+    Linear Algebra over GF(2): Finding Even Exponent Combinations
+  </text>
+
+  <!-- Matrix -->
+  <text x="100" y="565" fill="#6c757d" font-size="12">Exponent vectors mod 2:</text>
+  <g font-family="monospace" font-size="14" fill="#212529">
+    <text x="120" y="590">R₁: [1, 0, 1, 0, 0, 0, 0, 0, 0]   ← 360 = 2³·3²·5</text>
+    <text x="120" y="615">R₂: [1, 0, 0, 1, 0, 0, 0, 0, 0]   ← 504 = 2³·3²·7</text>
+    <text x="120" y="640">R₃: [0, 0, 1, 0, 1, 0, 0, 0, 0]   ← 2310 = 2·3·5·7·11</text>
+    <text x="120" y="665">R₄: [0, 0, 1, 0, 1, 0, 0, 0, 0]   ← 7920 = 2⁴·3²·5·11</text>
+  </g>
+
+  <!-- Result -->
+  <rect x="100" y="685" width="800" height="40" rx="6" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="500" y="710" text-anchor="middle" fill="#004085" font-size="14" font-weight="bold">
+    R₁ ⊕ R₂ ⊕ R₃ = [0,0,0,0,0,...] → all exponents even → x² ≡ y² (mod n) → gcd extracts factor!
+  </text>
+
+  <!-- Annotation -->
+  <text x="500" y="760" text-anchor="middle" fill="#6c757d" font-size="12">
+    With k primes in the factor base, we need at most k+1 smooth relations (pigeonhole principle)
+  </text>
+</svg>

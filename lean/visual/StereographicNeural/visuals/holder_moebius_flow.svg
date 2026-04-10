@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4A90D9;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#9B59B6;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#E74C3C;stop-opacity:1"/>
+    </linearGradient>
+    <marker id="arrowFlow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="#FAFAFA" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-family="Georgia" font-size="20" fill="#2C3E50" font-weight="bold">Hölder-Continuous Möbius Flows</text>
+  <text x="400" y="55" text-anchor="middle" font-family="Georgia" font-size="12" fill="#7F8C8D">μ(t): [0,1] → Möb(n), μ(0) = id, μ(1) = target</text>
+
+  <!-- Flow path (curved) -->
+  <path d="M 100,250 C 200,150 350,350 500,200 S 650,300 700,250" stroke="url(#flowGrad)" stroke-width="4" fill="none" stroke-dasharray="8,4"/>
+
+  <!-- Identity point -->
+  <circle cx="100" cy="250" r="15" fill="#4A90D9" stroke="#2C3E50" stroke-width="2"/>
+  <text x="100" y="254" text-anchor="middle" font-family="monospace" font-size="10" fill="white" font-weight="bold">id</text>
+  <text x="100" y="285" text-anchor="middle" font-family="Georgia" font-size="11" fill="#2C3E50">t = 0</text>
+
+  <!-- Intermediate points -->
+  <circle cx="250" cy="210" r="8" fill="#7D3C98" stroke="#2C3E50" stroke-width="1.5"/>
+  <text x="250" y="200" text-anchor="middle" font-family="Georgia" font-size="10" fill="#7D3C98">t = 0.25</text>
+
+  <circle cx="400" cy="270" r="8" fill="#9B59B6" stroke="#2C3E50" stroke-width="1.5"/>
+  <text x="400" y="300" text-anchor="middle" font-family="Georgia" font-size="10" fill="#9B59B6">t = 0.5</text>
+
+  <circle cx="550" cy="215" r="8" fill="#C0392B" stroke="#2C3E50" stroke-width="1.5"/>
+  <text x="550" y="205" text-anchor="middle" font-family="Georgia" font-size="10" fill="#C0392B">t = 0.75</text>
+
+  <!-- Target point -->
+  <circle cx="700" cy="250" r="15" fill="#E74C3C" stroke="#2C3E50" stroke-width="2"/>
+  <text x="700" y="254" text-anchor="middle" font-family="monospace" font-size="9" fill="white" font-weight="bold">μ*</text>
+  <text x="700" y="285" text-anchor="middle" font-family="Georgia" font-size="11" fill="#2C3E50">t = 1</text>
+
+  <!-- Conformal factor plot -->
+  <rect x="80" y="340" width="640" height="130" fill="white" stroke="#BDC3C7" stroke-width="1" rx="5"/>
+  <text x="400" y="360" text-anchor="middle" font-family="Georgia" font-size="12" fill="#2C3E50" font-weight="bold">Conformal Factor Along Flow: 0 &lt; cf(μ(t)·x) ≤ 2</text>
+
+  <!-- cf plot line -->
+  <line x1="120" y1="440" x2="680" y2="440" stroke="#BDC3C7" stroke-width="1"/>
+  <line x1="120" y1="380" x2="120" y2="440" stroke="#BDC3C7" stroke-width="1"/>
+
+  <!-- cf curve -->
+  <path d="M 120,400 Q 200,385 280,395 T 440,390 T 560,405 T 680,395" stroke="#27AE60" stroke-width="2.5" fill="none"/>
+
+  <!-- cf = 2 line -->
+  <line x1="120" y1="380" x2="680" y2="380" stroke="#E74C3C" stroke-width="1" stroke-dasharray="5,5"/>
+  <text x="690" y="384" font-family="monospace" font-size="10" fill="#E74C3C">cf = 2</text>
+
+  <!-- cf = 0 line -->
+  <text x="690" y="444" font-family="monospace" font-size="10" fill="#BDC3C7">cf = 0</text>
+
+  <!-- Velocity label -->
+  <text x="400" y="465" text-anchor="middle" font-family="Georgia" font-size="11" fill="#7F8C8D">‖μ̇(t)‖ bounded ⟹ Hölder continuity with α ∈ (0,1]</text>
+
+  <!-- Arrows along flow -->
+  <line x1="140" y1="240" x2="200" y2="215" stroke="#333" stroke-width="1.5" marker-end="url(#arrowFlow)"/>
+  <line x1="290" y1="225" x2="350" y2="260" stroke="#333" stroke-width="1.5" marker-end="url(#arrowFlow)"/>
+  <line x1="440" y1="265" x2="500" y2="225" stroke="#333" stroke-width="1.5" marker-end="url(#arrowFlow)"/>
+  <line x1="590" y1="225" x2="650" y2="245" stroke="#333" stroke-width="1.5" marker-end="url(#arrowFlow)"/>
+</svg>

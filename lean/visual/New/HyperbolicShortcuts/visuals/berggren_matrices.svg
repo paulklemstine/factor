@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500">
+  <rect width="900" height="500" fill="white"/>
+  <text x="450" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#333">Berggren Matrices ∈ O(2,1;ℤ)</text>
+  <text x="450" y="58" text-anchor="middle" font-size="14" fill="#666">Preserving Q = diag(1, 1, −1) — The Lorentz Metric</text>
+  <rect x="80" y="100" width="200" height="200" rx="10" fill="#fafafa" stroke="#e41a1c" stroke-width="3"/>
+  <text x="180" y="90" text-anchor="middle" font-size="18" font-weight="bold" fill="#e41a1c">B₁</text>
+  <text x="120" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 1</text>
+  <text x="180" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333">-2</text>
+  <text x="240" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="120" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="180" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333">-1</text>
+  <text x="240" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="120" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="180" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333">-2</text>
+  <text x="240" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 3</text>
+  <line x1="90" y1="115" x2="90" y2="285" stroke="#e41a1c" stroke-width="2"/>
+  <line x1="90" y1="115" x2="100" y2="115" stroke="#e41a1c" stroke-width="2"/>
+  <line x1="90" y1="285" x2="100" y2="285" stroke="#e41a1c" stroke-width="2"/>
+  <line x1="270" y1="115" x2="270" y2="285" stroke="#e41a1c" stroke-width="2"/>
+  <line x1="260" y1="115" x2="270" y2="115" stroke="#e41a1c" stroke-width="2"/>
+  <line x1="260" y1="285" x2="270" y2="285" stroke="#e41a1c" stroke-width="2"/>
+  <text x="180" y="325" text-anchor="middle" font-size="13" fill="#555">det = +1</text>
+  <text x="180" y="343" text-anchor="middle" font-size="13" fill="#555">SO(2,1;ℤ)</text>
+  <rect x="360" y="100" width="200" height="200" rx="10" fill="#fafafa" stroke="#377eb8" stroke-width="3"/>
+  <text x="460" y="90" text-anchor="middle" font-size="18" font-weight="bold" fill="#377eb8">B₂</text>
+  <text x="400" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 1</text>
+  <text x="460" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="520" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="400" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="460" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 1</text>
+  <text x="520" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="400" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="460" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="520" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 3</text>
+  <line x1="370" y1="115" x2="370" y2="285" stroke="#377eb8" stroke-width="2"/>
+  <line x1="370" y1="115" x2="380" y2="115" stroke="#377eb8" stroke-width="2"/>
+  <line x1="370" y1="285" x2="380" y2="285" stroke="#377eb8" stroke-width="2"/>
+  <line x1="550" y1="115" x2="550" y2="285" stroke="#377eb8" stroke-width="2"/>
+  <line x1="540" y1="115" x2="550" y2="115" stroke="#377eb8" stroke-width="2"/>
+  <line x1="540" y1="285" x2="550" y2="285" stroke="#377eb8" stroke-width="2"/>
+  <text x="460" y="325" text-anchor="middle" font-size="13" fill="#555">det = −1</text>
+  <text x="460" y="343" text-anchor="middle" font-size="13" fill="#555">O(2,1;ℤ)</text>
+  <rect x="640" y="100" width="200" height="200" rx="10" fill="#fafafa" stroke="#4daf4a" stroke-width="3"/>
+  <text x="740" y="90" text-anchor="middle" font-size="18" font-weight="bold" fill="#4daf4a">B₃</text>
+  <text x="680" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333">-1</text>
+  <text x="740" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="800" y="155" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="680" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333">-2</text>
+  <text x="740" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 1</text>
+  <text x="800" y="210" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="680" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333">-2</text>
+  <text x="740" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 2</text>
+  <text x="800" y="265" text-anchor="middle" font-size="20" font-family="monospace" fill="#333"> 3</text>
+  <line x1="650" y1="115" x2="650" y2="285" stroke="#4daf4a" stroke-width="2"/>
+  <line x1="650" y1="115" x2="660" y2="115" stroke="#4daf4a" stroke-width="2"/>
+  <line x1="650" y1="285" x2="660" y2="285" stroke="#4daf4a" stroke-width="2"/>
+  <line x1="830" y1="115" x2="830" y2="285" stroke="#4daf4a" stroke-width="2"/>
+  <line x1="820" y1="115" x2="830" y2="115" stroke="#4daf4a" stroke-width="2"/>
+  <line x1="820" y1="285" x2="830" y2="285" stroke="#4daf4a" stroke-width="2"/>
+  <text x="740" y="325" text-anchor="middle" font-size="13" fill="#555">det = +1</text>
+  <text x="740" y="343" text-anchor="middle" font-size="13" fill="#555">SO(2,1;ℤ)</text>
+  <text x="450" y="385" text-anchor="middle" font-size="16" fill="#333">Key Property: Bᵢᵀ · Q · Bᵢ = Q  (Lorentz Form Preservation)</text>
+  <text x="450" y="410" text-anchor="middle" font-size="14" fill="#666">where Q = diag(1, 1, −1) is the Minkowski metric of 2+1 spacetime</text>
+  <text x="450" y="445" text-anchor="middle" font-size="13" fill="#888">Frobenius uniformity: tr(Bᵢᵀ Bᵢ) = 30 for all i ∈ {1, 2, 3}</text>
+  <text x="450" y="475" text-anchor="middle" font-size="12" fill="#aaa">Machine-verified in Lean 4 with Mathlib</text>
+</svg>

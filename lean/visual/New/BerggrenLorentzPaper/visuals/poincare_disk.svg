@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <radialGradient id="diskGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a1a3e;stop-opacity:1"/>
+      <stop offset="85%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#000011;stop-opacity:1"/>
+    </radialGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="#050520"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#e0e0ff" font-size="20" font-weight="bold">
+    Poincaré Disk Model: PPTs as Hyperbolic Points
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#8888cc" font-size="12">
+    Map (a,b,c) → (a/c, b/c) · Points on S¹ = boundary at infinity
+  </text>
+
+  <!-- Poincaré disk boundary -->
+  <circle cx="400" cy="420" r="330" fill="url(#diskGrad)" stroke="#4444aa" stroke-width="2"/>
+
+  <!-- Grid circles (geodesics) -->
+  <circle cx="400" cy="420" r="66" fill="none" stroke="#222255" stroke-width="0.5"/>
+  <circle cx="400" cy="420" r="132" fill="none" stroke="#222255" stroke-width="0.5"/>
+  <circle cx="400" cy="420" r="198" fill="none" stroke="#222255" stroke-width="0.5"/>
+  <circle cx="400" cy="420" r="264" fill="none" stroke="#222255" stroke-width="0.5"/>
+
+  <!-- Cross axes -->
+  <line x1="70" y1="420" x2="730" y2="420" stroke="#222255" stroke-width="0.5"/>
+  <line x1="400" y1="90" x2="400" y2="750" stroke="#222255" stroke-width="0.5"/>
+
+  <!--
+    PPT points mapped to Poincaré disk: (a/c, b/c) scaled by 330 + offset (400,420)
+    Root (3,4,5) → (0.6, 0.8) → (598, 156)
+
+    Depth 1:
+    A: (5,12,13) → (0.385, 0.923) → (527, 115)
+    B: (21,20,29) → (0.724, 0.690) → (639, 192)
+    C: (15,8,17) → (0.882, 0.471) → (691, 264)
+
+    Depth 2:
+    AA: (7,24,25) → (0.280, 0.960) → (492, 103)
+    AB: (55,48,73) → (0.753, 0.658) → (649, 203)
+    AC: (45,28,53) → (0.849, 0.528) → (680, 246)
+    BA: (9,40,41) → (0.220, 0.976) → (472, 98)
+    BB: (119,120,169) → (0.704, 0.710) → (632, 186)
+    BC: (77,36,85) → (0.906, 0.424) → (699, 280)
+    CA: (33,56,65) → (0.508, 0.862) → (567, 135)
+    CB: (65,72,97) → (0.670, 0.742) → (621, 175)
+    CC: (35,12,37) → (0.946, 0.324) → (712, 313)
+  -->
+
+  <!-- Edges connecting parent to children -->
+  <g stroke-opacity="0.3" stroke-width="1">
+    <!-- Root to A,B,C -->
+    <line x1="598" y1="156" x2="527" y2="115" stroke="#ff6666"/>
+    <line x1="598" y1="156" x2="639" y2="192" stroke="#66ff66"/>
+    <line x1="598" y1="156" x2="691" y2="264" stroke="#6666ff"/>
+
+    <!-- A to AA,AB,AC -->
+    <line x1="527" y1="115" x2="492" y2="103" stroke="#ff6666"/>
+    <line x1="527" y1="115" x2="649" y2="203" stroke="#66ff66"/>
+    <line x1="527" y1="115" x2="680" y2="246" stroke="#6666ff"/>
+
+    <!-- B to BA,BB,BC -->
+    <line x1="639" y1="192" x2="472" y2="98" stroke="#ff6666"/>
+    <line x1="639" y1="192" x2="632" y2="186" stroke="#66ff66"/>
+    <line x1="639" y1="192" x2="699" y2="280" stroke="#6666ff"/>
+
+    <!-- C to CA,CB,CC -->
+    <line x1="691" y1="264" x2="567" y2="135" stroke="#ff6666"/>
+    <line x1="691" y1="264" x2="621" y2="175" stroke="#66ff66"/>
+    <line x1="691" y1="264" x2="712" y2="313" stroke="#6666ff"/>
+  </g>
+
+  <!-- PPT points -->
+  <g filter="url(#glow2)">
+    <!-- Root -->
+    <circle cx="598" cy="156" r="8" fill="#ffcc00" stroke="#fff" stroke-width="1.5"/>
+    <text x="598" y="145" text-anchor="middle" fill="#ffcc00" font-size="11" font-weight="bold">(3,4,5)</text>
+
+    <!-- Depth 1 -->
+    <circle cx="527" cy="115" r="6" fill="#ff6666"/>
+    <text x="527" y="105" text-anchor="middle" fill="#ff9999" font-size="9">(5,12,13)</text>
+
+    <circle cx="639" cy="192" r="6" fill="#66ff66"/>
+    <text x="660" y="185" text-anchor="start" fill="#99ff99" font-size="9">(21,20,29)</text>
+
+    <circle cx="691" cy="264" r="6" fill="#6666ff"/>
+    <text x="700" y="258" text-anchor="start" fill="#9999ff" font-size="9">(15,8,17)</text>
+
+    <!-- Depth 2 -->
+    <circle cx="492" cy="103" r="4" fill="#cc4444"/>
+    <text x="470" y="97" text-anchor="end" fill="#dd7777" font-size="8">(7,24,25)</text>
+
+    <circle cx="649" cy="203" r="4" fill="#44cc44"/>
+
+    <circle cx="680" cy="246" r="4" fill="#4444cc"/>
+
+    <circle cx="472" cy="98" r="4" fill="#cc4444"/>
+    <text x="450" y="92" text-anchor="end" fill="#dd7777" font-size="8">(9,40,41)</text>
+
+    <circle cx="632" cy="186" r="4" fill="#44cc44"/>
+    <text x="610" y="180" text-anchor="end" fill="#77dd77" font-size="8">(119,120,169)</text>
+
+    <circle cx="699" cy="280" r="4" fill="#4444cc"/>
+
+    <circle cx="567" cy="135" r="4" fill="#cc4444"/>
+
+    <circle cx="621" cy="175" r="4" fill="#44cc44"/>
+
+    <circle cx="712" cy="313" r="4" fill="#4444cc"/>
+    <text x="722" y="310" text-anchor="start" fill="#7777dd" font-size="8">(35,12,37)</text>
+  </g>
+
+  <!-- Axis labels -->
+  <text x="740" y="415" fill="#666688" font-size="11">a/c → 1</text>
+  <text x="405" y="95" fill="#666688" font-size="11">b/c → 1</text>
+  <text x="90" y="415" fill="#666688" font-size="11">−1</text>
+  <text x="405" y="755" fill="#666688" font-size="11">−1</text>
+
+  <!-- Legend -->
+  <rect x="30" y="680" width="740" height="90" rx="10" fill="#0d0d2d" stroke="#333366" opacity="0.9"/>
+  <text x="50" y="705" fill="#aaaaee" font-size="13" font-weight="bold">Hyperbolic Geometry Interpretation</text>
+  <text x="50" y="725" fill="#ccccee" font-size="11">• Each PPT maps to a point inside the unit disk (Poincaré model of H²)</text>
+  <text x="50" y="743" fill="#ccccee" font-size="11">• The unit circle S¹ is the "boundary at infinity" — all PPTs approach it as c → ∞</text>
+  <text x="50" y="761" fill="#ccccee" font-size="11">• Berggren matrices act as hyperbolic isometries: elements of the integer Lorentz group O(2,1;ℤ)</text>
+</svg>

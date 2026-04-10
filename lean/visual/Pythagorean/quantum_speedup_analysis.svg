@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgq" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="900" height="600" fill="url(#bgq)"/>
+  
+  <text x="450" y="40" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">
+    Quantum Speedup: Grover on Inside-Out Branch Sequences
+  </text>
+  
+  <!-- Chart area -->
+  <rect x="80" y="70" width="500" height="380" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" rx="5"/>
+  
+  <!-- Y-axis label -->
+  <text x="30" y="260" text-anchor="middle" fill="#aaa" font-size="12" transform="rotate(-90, 30, 260)">
+    Evaluations (log scale)
+  </text>
+  
+  <!-- X-axis label -->
+  <text x="330" y="475" text-anchor="middle" fill="#aaa" font-size="12">
+    Depth k
+  </text>
+  
+  <!-- Grid lines and labels -->
+  <line x1="80" y1="420" x2="580" y2="420" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <line x1="80" y1="350" x2="580" y2="350" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <line x1="80" y1="280" x2="580" y2="280" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <line x1="80" y1="210" x2="580" y2="210" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <line x1="80" y1="140" x2="580" y2="140" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <line x1="80" y1="100" x2="580" y2="100" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  
+  <text x="75" y="424" text-anchor="end" fill="#888" font-size="9">1</text>
+  <text x="75" y="354" text-anchor="end" fill="#888" font-size="9">10</text>
+  <text x="75" y="284" text-anchor="end" fill="#888" font-size="9">10²</text>
+  <text x="75" y="214" text-anchor="end" fill="#888" font-size="9">10³</text>
+  <text x="75" y="144" text-anchor="end" fill="#888" font-size="9">10⁴</text>
+  <text x="75" y="104" text-anchor="end" fill="#888" font-size="9">10⁵</text>
+  
+  <!-- X-axis labels -->
+  <text x="130" y="440" text-anchor="middle" fill="#888" font-size="9">1</text>
+  <text x="180" y="440" text-anchor="middle" fill="#888" font-size="9">2</text>
+  <text x="230" y="440" text-anchor="middle" fill="#888" font-size="9">3</text>
+  <text x="280" y="440" text-anchor="middle" fill="#888" font-size="9">4</text>
+  <text x="330" y="440" text-anchor="middle" fill="#888" font-size="9">5</text>
+  <text x="380" y="440" text-anchor="middle" fill="#888" font-size="9">6</text>
+  <text x="430" y="440" text-anchor="middle" fill="#888" font-size="9">7</text>
+  <text x="480" y="440" text-anchor="middle" fill="#888" font-size="9">8</text>
+  <text x="530" y="440" text-anchor="middle" fill="#888" font-size="9">9</text>
+  
+  <!-- Classical line (3^k) - red -->
+  <!-- k=1: 3, k=2: 9, k=3: 27, k=4: 81, k=5: 243, k=6: 729, k=7: 2187, k=8: 6561, k=9: 19683 -->
+  <!-- Scale: log10(val) * 70 from y=420 upward -->
+  <polyline points="130,387 180,353 230,320 280,287 330,253 380,220 430,186 480,153 530,120"
+            fill="none" stroke="#ff6b6b" stroke-width="2.5"/>
+  <circle cx="130" cy="387" r="4" fill="#ff6b6b"/>
+  <circle cx="180" cy="353" r="4" fill="#ff6b6b"/>
+  <circle cx="230" cy="320" r="4" fill="#ff6b6b"/>
+  <circle cx="280" cy="287" r="4" fill="#ff6b6b"/>
+  <circle cx="330" cy="253" r="4" fill="#ff6b6b"/>
+  <circle cx="380" cy="220" r="4" fill="#ff6b6b"/>
+  <circle cx="430" cy="186" r="4" fill="#ff6b6b"/>
+  <circle cx="480" cy="153" r="4" fill="#ff6b6b"/>
+  <circle cx="530" cy="120" r="4" fill="#ff6b6b"/>
+  
+  <!-- Grover line (sqrt(3^k)) - cyan -->
+  <!-- k=1: 1.73, k=2: 3, k=3: 5.2, k=4: 9, k=5: 15.6, k=6: 27, k=7: 46.8, k=8: 81, k=9: 140 -->
+  <polyline points="130,403 180,387 230,370 280,353 330,337 380,320 430,303 480,287 530,270"
+            fill="none" stroke="#48dbfb" stroke-width="2.5"/>
+  <circle cx="130" cy="403" r="4" fill="#48dbfb"/>
+  <circle cx="180" cy="387" r="4" fill="#48dbfb"/>
+  <circle cx="230" cy="370" r="4" fill="#48dbfb"/>
+  <circle cx="280" cy="353" r="4" fill="#48dbfb"/>
+  <circle cx="330" cy="337" r="4" fill="#48dbfb"/>
+  <circle cx="380" cy="320" r="4" fill="#48dbfb"/>
+  <circle cx="430" cy="303" r="4" fill="#48dbfb"/>
+  <circle cx="480" cy="287" r="4" fill="#48dbfb"/>
+  <circle cx="530" cy="270" r="4" fill="#48dbfb"/>
+  
+  <!-- Legend -->
+  <line x1="130" y1="460" x2="170" y2="460" stroke="#ff6b6b" stroke-width="2.5"/>
+  <text x="180" y="464" fill="#ff6b6b" font-size="11">Classical: 3ᵏ evaluations</text>
+  
+  <line x1="380" y1="460" x2="420" y2="460" stroke="#48dbfb" stroke-width="2.5"/>
+  <text x="430" y="464" fill="#48dbfb" font-size="11">Grover: √(3ᵏ) evaluations</text>
+  
+  <!-- Right panel: summary -->
+  <rect x="620" y="70" width="250" height="380" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  
+  <text x="745" y="100" text-anchor="middle" fill="#ffeaa7" font-size="14" font-weight="bold">
+    Key Results
+  </text>
+  
+  <rect x="635" y="115" width="220" height="55" rx="6" fill="rgba(255,107,107,0.15)" stroke="#ff6b6b"/>
+  <text x="745" y="135" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="bold">Classical</text>
+  <text x="745" y="155" text-anchor="middle" fill="#ddd" font-size="10">3ᵏ systems, O(3ᵏ · k · log N)</text>
+  
+  <rect x="635" y="180" width="220" height="55" rx="6" fill="rgba(72,219,251,0.15)" stroke="#48dbfb"/>
+  <text x="745" y="200" text-anchor="middle" fill="#48dbfb" font-size="11" font-weight="bold">Grover Quantum</text>
+  <text x="745" y="220" text-anchor="middle" fill="#ddd" font-size="10">√(3ᵏ) queries, O(N^0.79 · log²N)</text>
+  
+  <rect x="635" y="245" width="220" height="55" rx="6" fill="rgba(85,239,196,0.15)" stroke="#55efc4"/>
+  <text x="745" y="265" text-anchor="middle" fill="#55efc4" font-size="11" font-weight="bold">Shor's Algorithm</text>
+  <text x="745" y="285" text-anchor="middle" fill="#ddd" font-size="10">O(log³ N) — polynomial!</text>
+  
+  <rect x="635" y="315" width="220" height="70" rx="6" fill="rgba(253,203,110,0.15)" stroke="#fdcb6e"/>
+  <text x="745" y="340" text-anchor="middle" fill="#fdcb6e" font-size="11" font-weight="bold">Formally Verified</text>
+  <text x="745" y="358" text-anchor="middle" fill="#ddd" font-size="9">√(3ᵏ) ≤ 2ᵏ (Lean 4) ✓</text>
+  <text x="745" y="373" text-anchor="middle" fill="#ddd" font-size="9">3ᵏ &gt; 2ᵏ for k≥1 (Lean 4) ✓</text>
+  
+  <rect x="635" y="400" width="220" height="40" rx="6" fill="rgba(162,155,254,0.15)" stroke="#a29bfe"/>
+  <text x="745" y="420" text-anchor="middle" fill="#a29bfe" font-size="10">
+    Sub-exponential, but ≪ Shor
+  </text>
+  <text x="745" y="435" text-anchor="middle" fill="#888" font-size="9">
+    Simpler oracle, no QFT needed
+  </text>
+</svg>

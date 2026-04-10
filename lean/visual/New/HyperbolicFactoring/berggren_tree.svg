@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <defs>
+    <style>
+      .title { font: bold 22px 'Georgia', serif; fill: #1a1a2e; }
+      .subtitle { font: italic 14px 'Georgia', serif; fill: #555; }
+      .node-text { font: bold 13px 'Courier New', monospace; fill: white; }
+      .label { font: 11px 'Arial', sans-serif; fill: #333; }
+      .matrix-label { font: bold 12px 'Arial', sans-serif; fill: #e94560; }
+      .equation { font: italic 13px 'Georgia', serif; fill: #0f3460; }
+      .branch-L { stroke: #e94560; stroke-width: 2.5; fill: none; }
+      .branch-M { stroke: #0f3460; stroke-width: 2.5; fill: none; }
+      .branch-R { stroke: #16c79a; stroke-width: 2.5; fill: none; }
+      .glow { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    </style>
+    <linearGradient id="rootGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    <linearGradient id="nodeGradL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="100%" style="stop-color:#c23152"/>
+    </linearGradient>
+    <linearGradient id="nodeGradM" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f3460"/>
+      <stop offset="100%" style="stop-color:#1a1a6e"/>
+    </linearGradient>
+    <linearGradient id="nodeGradR" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16c79a"/>
+      <stop offset="100%" style="stop-color:#0e8a6a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="650" fill="#fafafa" rx="10"/>
+  <rect x="5" y="5" width="890" height="640" fill="none" stroke="#ddd" rx="8" stroke-width="1"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" class="title" text-anchor="middle">The Berggren Tree of Pythagorean Triples</text>
+  <text x="450" y="60" class="subtitle" text-anchor="middle">Every primitive Pythagorean triple appears exactly once</text>
+
+  <!-- Level 0: Root -->
+  <!-- Branches from root -->
+  <path d="M 450,110 C 450,140 180,160 150,200" class="branch-L"/>
+  <path d="M 450,110 C 450,140 450,160 450,200" class="branch-M"/>
+  <path d="M 450,110 C 450,140 720,160 750,200" class="branch-R"/>
+  
+  <!-- Branch labels -->
+  <text x="270" y="155" class="matrix-label" text-anchor="middle">B₁</text>
+  <text x="430" y="165" class="matrix-label" text-anchor="middle">B₂</text>
+  <text x="630" y="155" class="matrix-label" text-anchor="middle">B₃</text>
+
+  <!-- Level 1 branches -->
+  <!-- From (5,12,13) -->
+  <path d="M 150,240 C 150,265 70,280 60,310" class="branch-L" opacity="0.6"/>
+  <path d="M 150,240 C 150,265 150,280 150,310" class="branch-M" opacity="0.6"/>
+  <path d="M 150,240 C 150,265 230,280 240,310" class="branch-R" opacity="0.6"/>
+  
+  <!-- From (21,20,29) -->
+  <path d="M 450,240 C 450,265 370,280 360,310" class="branch-L" opacity="0.6"/>
+  <path d="M 450,240 C 450,265 450,280 450,310" class="branch-M" opacity="0.6"/>
+  <path d="M 450,240 C 450,265 530,280 540,310" class="branch-R" opacity="0.6"/>
+  
+  <!-- From (15,8,17) -->
+  <path d="M 750,240 C 750,265 670,280 660,310" class="branch-L" opacity="0.6"/>
+  <path d="M 750,240 C 750,265 750,280 750,310" class="branch-M" opacity="0.6"/>
+  <path d="M 750,240 C 750,265 830,280 840,310" class="branch-R" opacity="0.6"/>
+  
+  <!-- Root node -->
+  <rect x="395" y="75" width="110" height="40" rx="8" fill="url(#rootGrad)" class="glow"/>
+  <text x="450" y="100" class="node-text" text-anchor="middle">(3, 4, 5)</text>
+  
+  <!-- Level 1 nodes -->
+  <rect x="90" y="205" width="120" height="40" rx="8" fill="url(#nodeGradL)" class="glow"/>
+  <text x="150" y="230" class="node-text" text-anchor="middle">(5, 12, 13)</text>
+  
+  <rect x="385" y="205" width="130" height="40" rx="8" fill="url(#nodeGradM)" class="glow"/>
+  <text x="450" y="230" class="node-text" text-anchor="middle">(21, 20, 29)</text>
+  
+  <rect x="690" y="205" width="120" height="40" rx="8" fill="url(#nodeGradR)" class="glow"/>
+  <text x="750" y="230" class="node-text" text-anchor="middle">(15, 8, 17)</text>
+
+  <!-- Level 2 nodes (smaller) -->
+  <!-- Children of (5,12,13) -->
+  <rect x="15" y="315" width="90" height="32" rx="6" fill="url(#nodeGradL)" opacity="0.8"/>
+  <text x="60" y="336" class="node-text" text-anchor="middle" font-size="10">(7,24,25)</text>
+  
+  <rect x="110" y="315" width="80" height="32" rx="6" fill="url(#nodeGradM)" opacity="0.8"/>
+  <text x="150" y="336" class="node-text" text-anchor="middle" font-size="10">(45,28,53)</text>
+
+  <rect x="195" y="315" width="90" height="32" rx="6" fill="url(#nodeGradR)" opacity="0.8"/>
+  <text x="240" y="336" class="node-text" text-anchor="middle" font-size="10">(35,12,37)</text>
+
+  <!-- Children of (21,20,29) -->
+  <rect x="310" y="315" width="100" height="32" rx="6" fill="url(#nodeGradL)" opacity="0.8"/>
+  <text x="360" y="336" class="node-text" text-anchor="middle" font-size="10">(39,80,89)</text>
+
+  <rect x="395" y="315" width="110" height="32" rx="6" fill="url(#nodeGradM)" opacity="0.8"/>
+  <text x="450" y="336" class="node-text" text-anchor="middle" font-size="10">(119,120,169)</text>
+
+  <rect x="495" y="315" width="100" height="32" rx="6" fill="url(#nodeGradR)" opacity="0.8"/>
+  <text x="545" y="336" class="node-text" text-anchor="middle" font-size="9">(77,36,85)</text>
+
+  <!-- Children of (15,8,17) -->
+  <rect x="615" y="315" width="90" height="32" rx="6" fill="url(#nodeGradL)" opacity="0.8"/>
+  <text x="660" y="336" class="node-text" text-anchor="middle" font-size="10">(33,56,65)</text>
+
+  <rect x="710" y="315" width="80" height="32" rx="6" fill="url(#nodeGradM)" opacity="0.8"/>
+  <text x="750" y="336" class="node-text" text-anchor="middle" font-size="10">(65,72,97)</text>
+
+  <rect x="800" y="315" width="90" height="32" rx="6" fill="url(#nodeGradR)" opacity="0.8"/>
+  <text x="845" y="336" class="node-text" text-anchor="middle" font-size="10">(9,40,41)</text>
+
+  <!-- Ellipsis indicators -->
+  <text x="60" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="150" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="240" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="360" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="450" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="545" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="660" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="750" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+  <text x="845" y="370" class="label" text-anchor="middle" fill="#999">⋮</text>
+
+  <!-- Equations panel -->
+  <rect x="30" y="400" width="840" height="230" rx="10" fill="#f0f0f5" stroke="#ccc" stroke-width="1"/>
+  
+  <text x="60" y="430" class="title" font-size="16">Key Identities (Machine-Verified in Lean 4)</text>
+  
+  <text x="60" y="465" class="equation">Pythagorean property:  a² + b² = c²  ⟺  Q(a,b,c) = 0  (null cone)</text>
+  <text x="60" y="495" class="equation">Lorentz preservation:  Bᵢᵀ · Q · Bᵢ = Q    where Q = diag(1, 1, −1)</text>
+  <text x="60" y="525" class="equation">Difference of squares:  (c − b)(c + b) = a²    → factoring connection</text>
+  <text x="60" y="555" class="equation">Shortcut composition:  pathMat(p ++ q) = pathMat(p) · pathMat(q)</text>
+  <text x="60" y="585" class="equation">Inverse formula:  Bᵢ⁻¹ = Q · Bᵢᵀ · Q    (Lorentz adjoint)</text>
+  <text x="60" y="615" class="equation">Chebyshev recurrence:  c_{n+1} = 6cₙ − c_{n−1}    (middle branch hypotenuses: 5, 29, 169, 985, ...)</text>
+
+  <!-- Legend -->
+  <rect x="700" y="430" width="15" height="15" rx="3" fill="url(#nodeGradL)"/>
+  <text x="720" y="442" class="label">B₁ (Left)</text>
+  <rect x="700" y="455" width="15" height="15" rx="3" fill="url(#nodeGradM)"/>
+  <text x="720" y="467" class="label">B₂ (Middle)</text>
+  <rect x="700" y="480" width="15" height="15" rx="3" fill="url(#nodeGradR)"/>
+  <text x="720" y="492" class="label">B₃ (Right)</text>
+</svg>

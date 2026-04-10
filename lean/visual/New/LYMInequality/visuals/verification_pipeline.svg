@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#667eea" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#764ba2" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="900" height="450" fill="url(#bg3)" rx="12"/>
+  <rect width="900" height="450" fill="none" stroke="#dee2e6" rx="12"/>
+  
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c3e50">Formal Verification Pipeline</text>
+  <text x="450" y="55" text-anchor="middle" font-size="12" fill="#7f8c8d">From Mathematical Intuition to Machine-Verified Proof</text>
+  
+  <!-- Step 1: Mathematical Insight -->
+  <rect x="30" y="80" width="160" height="120" rx="12" fill="#3498db" fill-opacity="0.1" stroke="#3498db" stroke-width="2"/>
+  <text x="110" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c3e50">1. Insight</text>
+  <text x="110" y="125" text-anchor="middle" font-size="22">🧠</text>
+  <text x="110" y="150" text-anchor="middle" font-size="10" fill="#34495e">Mathematical</text>
+  <text x="110" y="163" text-anchor="middle" font-size="10" fill="#34495e">intuition &amp;</text>
+  <text x="110" y="176" text-anchor="middle" font-size="10" fill="#34495e">proof strategy</text>
+  
+  <!-- Arrow 1→2 -->
+  <polygon points="200,140 220,130 220,150" fill="#3498db"/>
+  
+  <!-- Step 2: Decomposition -->
+  <rect x="230" y="80" width="160" height="120" rx="12" fill="#2ecc71" fill-opacity="0.1" stroke="#2ecc71" stroke-width="2"/>
+  <text x="310" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c3e50">2. Decompose</text>
+  <text x="310" y="125" text-anchor="middle" font-size="22">🔧</text>
+  <text x="310" y="150" text-anchor="middle" font-size="10" fill="#34495e">Break into</text>
+  <text x="310" y="163" text-anchor="middle" font-size="10" fill="#34495e">lemmas with</text>
+  <text x="310" y="176" text-anchor="middle" font-size="10" fill="#34495e">sorry placeholders</text>
+  
+  <!-- Arrow 2→3 -->
+  <polygon points="400,140 420,130 420,150" fill="#2ecc71"/>
+  
+  <!-- Step 3: AI Proof Search -->
+  <rect x="430" y="80" width="160" height="120" rx="12" fill="#e74c3c" fill-opacity="0.1" stroke="#e74c3c" stroke-width="2"/>
+  <text x="510" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c3e50">3. AI Search</text>
+  <text x="510" y="125" text-anchor="middle" font-size="22">🤖</text>
+  <text x="510" y="150" text-anchor="middle" font-size="10" fill="#34495e">Automated proof</text>
+  <text x="510" y="163" text-anchor="middle" font-size="10" fill="#34495e">search fills</text>
+  <text x="510" y="176" text-anchor="middle" font-size="10" fill="#34495e">sorry → proof</text>
+  
+  <!-- Arrow 3→4 -->
+  <polygon points="600,140 620,130 620,150" fill="#e74c3c"/>
+  
+  <!-- Step 4: Verification -->
+  <rect x="630" y="80" width="160" height="120" rx="12" fill="#f39c12" fill-opacity="0.1" stroke="#f39c12" stroke-width="2"/>
+  <text x="710" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c3e50">4. Verify</text>
+  <text x="710" y="125" text-anchor="middle" font-size="22">✅</text>
+  <text x="710" y="150" text-anchor="middle" font-size="10" fill="#34495e">Lean 4 kernel</text>
+  <text x="710" y="163" text-anchor="middle" font-size="10" fill="#34495e">checks every</text>
+  <text x="710" y="176" text-anchor="middle" font-size="10" fill="#34495e">logical step</text>
+  
+  <!-- Feedback loop -->
+  <path d="M 630,200 L 630,220 L 230,220 L 230,200" fill="none" stroke="#95a5a6" stroke-width="1.5" stroke-dasharray="5,5"/>
+  <polygon points="230,205 225,215 235,215" fill="#95a5a6"/>
+  <text x="430" y="237" text-anchor="middle" font-size="10" fill="#95a5a6" font-style="italic">Iterate on failure: refine strategy or decompose further</text>
+  
+  <!-- Results Panel -->
+  <rect x="30" y="265" width="840" height="170" rx="12" fill="white" stroke="#dee2e6" stroke-width="1"/>
+  <text x="450" y="292" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">Results Achieved</text>
+  
+  <!-- Result columns -->
+  <g font-size="11" fill="#34495e">
+    <!-- Column 1 -->
+    <rect x="50" y="305" width="240" height="25" rx="4" fill="#3498db" fill-opacity="0.1"/>
+    <text x="60" y="322" font-weight="bold" fill="#3498db">Combinatorics</text>
+    <text x="60" y="342">✅ LYM Inequality</text>
+    <text x="60" y="357">✅ Sperner's Theorem</text>
+    <text x="60" y="372">✅ Sauer-Shelah Lemma</text>
+    <text x="60" y="387">✅ Shattering theory</text>
+    
+    <!-- Column 2 -->
+    <rect x="320" y="305" width="240" height="25" rx="4" fill="#2ecc71" fill-opacity="0.1"/>
+    <text x="330" y="322" font-weight="bold" fill="#2ecc71">Number Theory</text>
+    <text x="330" y="342">✅ Stern-Brocot tree</text>
+    <text x="330" y="357">✅ Adjacency invariant</text>
+    <text x="330" y="372">✅ Mediant properties</text>
+    <text x="330" y="387">✅ Denominator positivity</text>
+    
+    <!-- Column 3 -->
+    <rect x="590" y="305" width="260" height="25" rx="4" fill="#e74c3c" fill-opacity="0.1"/>
+    <text x="600" y="322" font-weight="bold" fill="#e74c3c">Information Theory</text>
+    <text x="600" y="342">✅ Kolmogorov complexity</text>
+    <text x="600" y="357">✅ Invariance theorem</text>
+    <text x="600" y="372">✅ Gibbs' inequality (KL ≥ 0)</text>
+    <text x="600" y="387">✅ Source coding bound</text>
+  </g>
+  
+  <!-- Bottom bar -->
+  <text x="450" y="430" text-anchor="middle" font-size="10" fill="#95a5a6">
+    All proofs compiled with Lean 4.28.0 + Mathlib · Zero sorry statements · Standard axioms only
+  </text>
+</svg>

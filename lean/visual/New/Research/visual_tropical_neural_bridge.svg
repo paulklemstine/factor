@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="relu_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="50%" style="stop-color:#ffd93d"/>
+      <stop offset="100%" style="stop-color:#6bcb77"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold">
+    The Tropical–Neural Bridge
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#8b949e" font-size="12">
+    ReLU(x) = max(x, 0) = x ⊕_tropical 0 — A definitional equality
+  </text>
+
+  <!-- Left panel: Classical Neural Network -->
+  <rect x="30" y="75" width="350" height="200" rx="10" fill="#1a1a2e" stroke="#3a3a5e" stroke-width="1"/>
+  <text x="205" y="100" text-anchor="middle" fill="#ff7b7b" font-size="14" font-weight="bold">Classical View</text>
+  <text x="205" y="118" text-anchor="middle" fill="#8b949e" font-size="10">ReLU Neural Network</text>
+
+  <!-- Input neurons -->
+  <circle cx="80" cy="160" r="14" fill="#2a2a4e" stroke="#58a6ff" stroke-width="2"/>
+  <text x="80" y="164" text-anchor="middle" fill="#58a6ff" font-size="10">x₁</text>
+  <circle cx="80" cy="210" r="14" fill="#2a2a4e" stroke="#58a6ff" stroke-width="2"/>
+  <text x="80" y="214" text-anchor="middle" fill="#58a6ff" font-size="10">x₂</text>
+  <circle cx="80" cy="260" r="14" fill="#2a2a4e" stroke="#58a6ff" stroke-width="2"/>
+  <text x="80" y="264" text-anchor="middle" fill="#58a6ff" font-size="10">x₃</text>
+
+  <!-- Hidden neurons with ReLU -->
+  <circle cx="205" cy="150" r="14" fill="#2a2a4e" stroke="#ffd93d" stroke-width="2"/>
+  <text x="205" y="154" text-anchor="middle" fill="#ffd93d" font-size="8">ReLU</text>
+  <circle cx="205" cy="210" r="14" fill="#2a2a4e" stroke="#ffd93d" stroke-width="2"/>
+  <text x="205" y="214" text-anchor="middle" fill="#ffd93d" font-size="8">ReLU</text>
+  <circle cx="205" cy="260" r="14" fill="#2a2a4e" stroke="#ffd93d" stroke-width="2"/>
+  <text x="205" y="264" text-anchor="middle" fill="#ffd93d" font-size="8">ReLU</text>
+
+  <!-- Output neuron -->
+  <circle cx="330" cy="210" r="14" fill="#2a2a4e" stroke="#6bcb77" stroke-width="2"/>
+  <text x="330" y="214" text-anchor="middle" fill="#6bcb77" font-size="10">y</text>
+
+  <!-- Connections -->
+  <g stroke="#444" stroke-width="1" opacity="0.5">
+    <line x1="94" y1="160" x2="191" y2="150"/>
+    <line x1="94" y1="160" x2="191" y2="210"/>
+    <line x1="94" y1="160" x2="191" y2="260"/>
+    <line x1="94" y1="210" x2="191" y2="150"/>
+    <line x1="94" y1="210" x2="191" y2="210"/>
+    <line x1="94" y1="210" x2="191" y2="260"/>
+    <line x1="94" y1="260" x2="191" y2="150"/>
+    <line x1="94" y1="260" x2="191" y2="210"/>
+    <line x1="94" y1="260" x2="191" y2="260"/>
+    <line x1="219" y1="150" x2="316" y2="210"/>
+    <line x1="219" y1="210" x2="316" y2="210"/>
+    <line x1="219" y1="260" x2="316" y2="210"/>
+  </g>
+
+  <!-- Equation under network -->
+  <text x="205" y="290" text-anchor="middle" fill="#ccc" font-size="10">
+    y = ReLU(W₂ · ReLU(W₁ · x + b₁) + b₂)
+  </text>
+
+  <!-- Right panel: Tropical Polynomial -->
+  <rect x="420" y="75" width="350" height="200" rx="10" fill="#1a2a1a" stroke="#3a5e3a" stroke-width="1"/>
+  <text x="595" y="100" text-anchor="middle" fill="#6bcb77" font-size="14" font-weight="bold">Tropical View</text>
+  <text x="595" y="118" text-anchor="middle" fill="#8b949e" font-size="10">Tropical Polynomial Circuit</text>
+
+  <!-- Tropical terms -->
+  <rect x="460" y="135" width="130" height="30" rx="6" fill="#2a3a2a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="525" y="155" text-anchor="middle" fill="#6bcb77" font-size="10">w₁·x + b₁</text>
+
+  <rect x="460" y="175" width="130" height="30" rx="6" fill="#2a3a2a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="525" y="195" text-anchor="middle" fill="#6bcb77" font-size="10">w₂·x + b₂</text>
+
+  <rect x="460" y="215" width="130" height="30" rx="6" fill="#2a3a2a" stroke="#6bcb77" stroke-width="1"/>
+  <text x="525" y="235" text-anchor="middle" fill="#6bcb77" font-size="10">w₃·x + b₃</text>
+
+  <!-- Max operation -->
+  <rect x="640" y="160" width="90" height="50" rx="8" fill="#1a3a1a" stroke="#ffd93d" stroke-width="2"/>
+  <text x="685" y="183" text-anchor="middle" fill="#ffd93d" font-size="12" font-weight="bold">MAX</text>
+  <text x="685" y="200" text-anchor="middle" fill="#aaa" font-size="9">= ⊕_trop</text>
+
+  <!-- Arrows to max -->
+  <line x1="590" y1="150" x2="640" y2="178" stroke="#6bcb77" stroke-width="1.5"/>
+  <line x1="590" y1="190" x2="640" y2="185" stroke="#6bcb77" stroke-width="1.5"/>
+  <line x1="590" y1="230" x2="640" y2="195" stroke="#6bcb77" stroke-width="1.5"/>
+
+  <!-- Equation under tropical -->
+  <text x="595" y="280" text-anchor="middle" fill="#ccc" font-size="10">
+    y = max(w₁·x+b₁, w₂·x+b₂, ..., 0)
+  </text>
+
+  <!-- Bridge arrow -->
+  <rect x="330" y="295" width="140" height="45" rx="8" fill="#2a1a2a" stroke="#ff7b7b" stroke-width="2"/>
+  <text x="400" y="313" text-anchor="middle" fill="#ffd93d" font-size="11" font-weight="bold">≡ IDENTICAL ≡</text>
+  <text x="400" y="330" text-anchor="middle" fill="#aaa" font-size="9">by definition (rfl)</text>
+
+  <!-- ReLU graph -->
+  <rect x="100" y="360" width="250" height="170" rx="8" fill="#1a1a2e" stroke="#3a3a5e" stroke-width="1"/>
+  <text x="225" y="380" text-anchor="middle" fill="#ddd" font-size="11" font-weight="bold">ReLU(x) = max(x, 0)</text>
+
+  <!-- Axes -->
+  <line x1="150" y1="460" x2="320" y2="460" stroke="#555" stroke-width="1"/>
+  <line x1="225" y1="390" x2="225" y2="520" stroke="#555" stroke-width="1"/>
+  <text x="325" y="458" fill="#666" font-size="9">x</text>
+  <text x="230" y="398" fill="#666" font-size="9">y</text>
+
+  <!-- ReLU curve: flat part -->
+  <line x1="150" y1="460" x2="225" y2="460" stroke="#ff6b6b" stroke-width="3"/>
+  <!-- ReLU curve: rising part -->
+  <line x1="225" y1="460" x2="310" y2="395" stroke="#6bcb77" stroke-width="3"/>
+  <!-- Kink point -->
+  <circle cx="225" cy="460" r="4" fill="#ffd93d"/>
+  <text x="218" y="475" fill="#ffd93d" font-size="8">kink</text>
+
+  <!-- Labels -->
+  <text x="175" y="452" fill="#ff6b6b" font-size="9">= 0</text>
+  <text x="270" y="420" fill="#6bcb77" font-size="9">= x</text>
+
+  <!-- Tropical idempotency graph -->
+  <rect x="450" y="360" width="250" height="170" rx="8" fill="#1a2a1a" stroke="#3a5e3a" stroke-width="1"/>
+  <text x="575" y="380" text-anchor="middle" fill="#ddd" font-size="11" font-weight="bold">Tropical: max(a, a) = a</text>
+
+  <!-- Axes -->
+  <line x1="480" y1="460" x2="680" y2="460" stroke="#555" stroke-width="1"/>
+  <line x1="500" y1="390" x2="500" y2="520" stroke="#555" stroke-width="1"/>
+  <text x="685" y="458" fill="#666" font-size="9">a</text>
+  <text x="505" y="398" fill="#666" font-size="9">max</text>
+
+  <!-- Identity line (every element is idempotent) -->
+  <line x1="500" y1="510" x2="670" y2="400" stroke="#96CEB4" stroke-width="3"/>
+
+  <!-- Label -->
+  <text x="600" y="435" fill="#96CEB4" font-size="10" transform="rotate(-30, 600, 435)">density = 100%</text>
+
+  <!-- Footer -->
+  <text x="400" y="545" text-anchor="middle" fill="#555" font-size="10">
+    Machine-verified: ReLU activation IS tropical arithmetic — not merely analogous
+  </text>
+</svg>

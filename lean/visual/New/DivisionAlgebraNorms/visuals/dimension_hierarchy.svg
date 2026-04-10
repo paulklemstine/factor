@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3498db" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2ecc71" stop-opacity="0.15"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="#f8f9fa" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#2c3e50">
+    The Division Algebra Hierarchy for Factoring
+  </text>
+  <text x="450" y="70" text-anchor="middle" font-size="14" fill="#7f8c8d">
+    Hurwitz's Theorem: Composition identities exist only in dimensions 1, 2, 4, 8
+  </text>
+
+  <!-- Dimension 1 Card -->
+  <rect x="30" y="100" width="195" height="280" rx="12" fill="white" stroke="#95a5a6" stroke-width="2" filter="url(#cardShadow)"/>
+  <rect x="30" y="100" width="195" height="50" rx="12" fill="#95a5a6"/>
+  <rect x="30" y="138" width="195" height="12" fill="#95a5a6"/>
+  <text x="128" y="132" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Dim 1 — ℝ</text>
+  <text x="128" y="175" text-anchor="middle" font-size="13" fill="#2c3e50" font-weight="bold">Real Numbers</text>
+  <text x="128" y="200" text-anchor="middle" font-size="11" fill="#555">N = N</text>
+  <text x="128" y="225" text-anchor="middle" font-size="11" fill="#555">Trivial representation</text>
+
+  <text x="50" y="260" font-size="11" fill="#95a5a6">Peel channels:</text>
+  <text x="175" y="260" font-size="14" font-weight="bold" fill="#95a5a6" text-anchor="end">1</text>
+  <text x="50" y="280" font-size="11" fill="#95a5a6">Cross-collisions:</text>
+  <text x="175" y="280" font-size="14" font-weight="bold" fill="#95a5a6" text-anchor="end">0</text>
+  <text x="50" y="300" font-size="11" fill="#95a5a6">Universal:</text>
+  <text x="175" y="300" font-size="14" font-weight="bold" fill="#95a5a6" text-anchor="end">Only □</text>
+  <text x="50" y="325" font-size="11" fill="#95a5a6">Composition:</text>
+  <text x="175" y="325" font-size="14" font-weight="bold" fill="#95a5a6" text-anchor="end">Trivial</text>
+
+  <text x="128" y="365" text-anchor="middle" font-size="10" fill="#bbb" font-style="italic">No factoring power</text>
+
+  <!-- Dimension 2 Card -->
+  <rect x="245" y="100" width="195" height="280" rx="12" fill="white" stroke="#3498db" stroke-width="2" filter="url(#cardShadow)"/>
+  <rect x="245" y="100" width="195" height="50" rx="12" fill="#3498db"/>
+  <rect x="245" y="138" width="195" height="12" fill="#3498db"/>
+  <text x="343" y="132" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Dim 2 — ℂ</text>
+  <text x="343" y="175" text-anchor="middle" font-size="13" fill="#2c3e50" font-weight="bold">Complex Numbers</text>
+  <text x="343" y="200" text-anchor="middle" font-size="11" fill="#555">N = a² + b²</text>
+  <text x="343" y="225" text-anchor="middle" font-size="11" fill="#555">Brahmagupta-Fibonacci</text>
+
+  <text x="265" y="260" font-size="11" fill="#3498db">Peel channels:</text>
+  <text x="390" y="260" font-size="14" font-weight="bold" fill="#3498db" text-anchor="end">2</text>
+  <text x="265" y="280" font-size="11" fill="#3498db">Cross-collisions:</text>
+  <text x="390" y="280" font-size="14" font-weight="bold" fill="#3498db" text-anchor="end">1</text>
+  <text x="265" y="300" font-size="11" fill="#3498db">Universal:</text>
+  <text x="390" y="300" font-size="14" font-weight="bold" fill="#e74c3c" text-anchor="end">No</text>
+  <text x="265" y="325" font-size="11" fill="#3498db">Composition:</text>
+  <text x="390" y="325" font-size="14" font-weight="bold" fill="#3498db" text-anchor="end">2 forms</text>
+
+  <text x="343" y="365" text-anchor="middle" font-size="10" fill="#3498db" font-style="italic">Gaussian integer method</text>
+
+  <!-- Dimension 4 Card -->
+  <rect x="460" y="100" width="195" height="280" rx="12" fill="white" stroke="#e67e22" stroke-width="2" filter="url(#cardShadow)"/>
+  <rect x="460" y="100" width="195" height="50" rx="12" fill="#e67e22"/>
+  <rect x="460" y="138" width="195" height="12" fill="#e67e22"/>
+  <text x="558" y="132" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Dim 4 — ℍ</text>
+  <text x="558" y="175" text-anchor="middle" font-size="13" fill="#2c3e50" font-weight="bold">Quaternions</text>
+  <text x="558" y="200" text-anchor="middle" font-size="11" fill="#555">N = a²+b²+c²+d²</text>
+  <text x="558" y="225" text-anchor="middle" font-size="11" fill="#555">Euler 4-square identity</text>
+
+  <text x="480" y="260" font-size="11" fill="#e67e22">Peel channels:</text>
+  <text x="605" y="260" font-size="14" font-weight="bold" fill="#e67e22" text-anchor="end">4</text>
+  <text x="480" y="280" font-size="11" fill="#e67e22">Cross-collisions:</text>
+  <text x="605" y="280" font-size="14" font-weight="bold" fill="#e67e22" text-anchor="end">6</text>
+  <text x="480" y="300" font-size="11" fill="#e67e22">Universal:</text>
+  <text x="605" y="300" font-size="14" font-weight="bold" fill="#27ae60" text-anchor="end">Yes ✓</text>
+  <text x="480" y="325" font-size="11" fill="#e67e22">Composition:</text>
+  <text x="605" y="325" font-size="14" font-weight="bold" fill="#e67e22" text-anchor="end">Unique</text>
+
+  <text x="558" y="365" text-anchor="middle" font-size="10" fill="#e67e22" font-style="italic">Hurwitz quaternion descent</text>
+
+  <!-- Dimension 8 Card -->
+  <rect x="675" y="100" width="195" height="280" rx="12" fill="white" stroke="#8e44ad" stroke-width="2" filter="url(#cardShadow)"/>
+  <rect x="675" y="100" width="195" height="50" rx="12" fill="#8e44ad"/>
+  <rect x="675" y="138" width="195" height="12" fill="#8e44ad"/>
+  <text x="773" y="132" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Dim 8 — 𝕆</text>
+  <text x="773" y="175" text-anchor="middle" font-size="13" fill="#2c3e50" font-weight="bold">Octonions</text>
+  <text x="773" y="200" text-anchor="middle" font-size="11" fill="#555">N = Σ aᵢ² (i=1..8)</text>
+  <text x="773" y="225" text-anchor="middle" font-size="11" fill="#555">Degen 8-square identity</text>
+
+  <text x="695" y="260" font-size="11" fill="#8e44ad">Peel channels:</text>
+  <text x="820" y="260" font-size="14" font-weight="bold" fill="#8e44ad" text-anchor="end">8</text>
+  <text x="695" y="280" font-size="11" fill="#8e44ad">Cross-collisions:</text>
+  <text x="820" y="280" font-size="14" font-weight="bold" fill="#8e44ad" text-anchor="end">28</text>
+  <text x="695" y="300" font-size="11" fill="#8e44ad">Universal:</text>
+  <text x="820" y="300" font-size="14" font-weight="bold" fill="#27ae60" text-anchor="end">Yes ✓</text>
+  <text x="695" y="325" font-size="11" fill="#8e44ad">Composition:</text>
+  <text x="820" y="325" font-size="14" font-weight="bold" fill="#8e44ad" text-anchor="end">Non-assoc</text>
+
+  <text x="773" y="365" text-anchor="middle" font-size="10" fill="#8e44ad" font-style="italic">E₈ lattice structure</text>
+
+  <!-- Arrows between cards -->
+  <line x1="225" y1="240" x2="245" y2="240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="440" y1="240" x2="460" y2="240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="655" y1="240" x2="675" y2="240" stroke="#2c3e50" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Bottom: Key Properties -->
+  <rect x="30" y="420" width="840" height="210" rx="12" fill="url(#grad1)" stroke="#bdc3c7" stroke-width="1"/>
+
+  <text x="450" y="450" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">Key Properties</text>
+
+  <!-- Composition Identity -->
+  <text x="60" y="480" font-size="13" font-weight="bold" fill="#2c3e50">Composition Identity:</text>
+  <text x="60" y="500" font-size="12" fill="#555">(Σ aᵢ²)(Σ bᵢ²) = Σ cᵢ² where cᵢ are bilinear in a, b</text>
+  <text x="60" y="520" font-size="12" fill="#555">→ Norm is multiplicative: N(αβ) = N(α)N(β)</text>
+
+  <!-- Collision Mechanism -->
+  <text x="60" y="550" font-size="13" font-weight="bold" fill="#2c3e50">Collision Mechanism:</text>
+  <text x="60" y="570" font-size="12" fill="#555">Two representations of N → cross-terms → GCD cascade → factors</text>
+
+  <!-- Formal Verification -->
+  <text x="60" y="600" font-size="13" font-weight="bold" fill="#2c3e50">Formal Verification:</text>
+  <text x="60" y="620" font-size="12" fill="#27ae60">15 theorems verified in Lean 4 + Mathlib • Zero sorry statements</text>
+
+  <!-- Hurwitz badge -->
+  <rect x="550" y="470" width="300" height="120" rx="8" fill="white" stroke="#e74c3c" stroke-width="1.5" opacity="0.9"/>
+  <text x="700" y="495" text-anchor="middle" font-size="13" font-weight="bold" fill="#e74c3c">Hurwitz's Theorem (1898)</text>
+  <text x="700" y="520" text-anchor="middle" font-size="12" fill="#555">A composition identity</text>
+  <text x="700" y="540" text-anchor="middle" font-size="12" fill="#555">(Σ aᵢ²)(Σ bᵢ²) = Σ cᵢ²</text>
+  <text x="700" y="560" text-anchor="middle" font-size="12" fill="#555">exists ⟺ k ∈ {1, 2, 4, 8}</text>
+  <text x="700" y="580" text-anchor="middle" font-size="11" fill="#e74c3c" font-style="italic">These are the only normed division algebras</text>
+</svg>

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="lattice" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#ee5a24"/>
+    </linearGradient>
+    <linearGradient id="he" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#48dbfb"/>
+      <stop offset="100%" stop-color="#0abde3"/>
+    </linearGradient>
+    <linearGradient id="qec" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#feca57"/>
+      <stop offset="100%" stop-color="#ff9f43"/>
+    </linearGradient>
+    <linearGradient id="tda" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#55efc4"/>
+      <stop offset="100%" stop-color="#00b894"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">QDF Four Frontiers: Unified Framework</text>
+  <text x="450" y="70" text-anchor="middle" fill="#aaaacc" font-size="13">a² + b² + c² = d²  →  Lattice · Encryption · Quantum · Topology</text>
+  
+  <!-- Central QDF cone -->
+  <circle cx="450" cy="350" r="85" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <circle cx="450" cy="350" r="60" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.2"/>
+  <text x="450" y="340" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold">QDF Cone</text>
+  <text x="450" y="360" text-anchor="middle" fill="#ccccee" font-size="12">a² + b² + c² = d²</text>
+  <text x="450" y="378" text-anchor="middle" fill="#9999bb" font-size="10">70+ verified theorems</text>
+  
+  <!-- Lattice Cryptography (top-left) -->
+  <rect x="30" y="100" width="280" height="170" rx="15" fill="none" stroke="url(#lattice)" stroke-width="2"/>
+  <rect x="30" y="100" width="280" height="35" rx="15" fill="url(#lattice)" opacity="0.15"/>
+  <text x="170" y="123" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="bold">🔐 Lattice Cryptography</text>
+  <text x="45" y="150" fill="#dddddd" font-size="11">• Cone closed under scaling</text>
+  <text x="45" y="170" fill="#dddddd" font-size="11">• ‖v‖² = 2d² (norm identity)</text>
+  <text x="45" y="190" fill="#dddddd" font-size="11">• Cauchy-Schwarz: ⟨v₁,v₂⟩² ≤ d₁²d₂²</text>
+  <text x="45" y="210" fill="#dddddd" font-size="11">• Basis reduction: ‖v₁-kv₂‖² formula</text>
+  <text x="45" y="230" fill="#dddddd" font-size="11">• GCD primitivity reduction</text>
+  <text x="45" y="255" fill="#ff9999" font-size="10" font-style="italic">Q: Break or strengthen post-quantum?</text>
+  
+  <!-- Homomorphic Encryption (top-right) -->
+  <rect x="590" y="100" width="280" height="170" rx="15" fill="none" stroke="url(#he)" stroke-width="2"/>
+  <rect x="590" y="100" width="280" height="35" rx="15" fill="url(#he)" opacity="0.15"/>
+  <text x="730" y="123" text-anchor="middle" fill="#48dbfb" font-size="14" font-weight="bold">🔒 Homomorphic Encryption</text>
+  <text x="605" y="150" fill="#dddddd" font-size="11">• Exact iff: ⟨v₁,v₂⟩ = d₁d₂</text>
+  <text x="605" y="170" fill="#dddddd" font-size="11">• Noise = 2(⟨v₁,v₂⟩ - d₁d₂)</text>
+  <text x="605" y="190" fill="#dddddd" font-size="11">• Scalar mult always noise-free</text>
+  <text x="605" y="210" fill="#dddddd" font-size="11">• Modular preservation ∀m</text>
+  <text x="605" y="230" fill="#dddddd" font-size="11">• CRT-compatible multi-modulus</text>
+  <text x="605" y="255" fill="#99ddff" font-size="10" font-style="italic">Q: Practical noise-free FHE?</text>
+  
+  <!-- Quantum Error Correction (bottom-left) -->
+  <rect x="30" y="430" width="280" height="170" rx="15" fill="none" stroke="url(#qec)" stroke-width="2"/>
+  <rect x="30" y="430" width="280" height="35" rx="15" fill="url(#qec)" opacity="0.15"/>
+  <text x="170" y="453" text-anchor="middle" fill="#feca57" font-size="14" font-weight="bold">⚛ Quantum Error Correction</text>
+  <text x="45" y="480" fill="#dddddd" font-size="11">• Rational Bloch sphere states</text>
+  <text x="45" y="500" fill="#dddddd" font-size="11">• Syndrome: e(2a+e) factoring</text>
+  <text x="45" y="520" fill="#dddddd" font-size="11">• Weight-1: 2a+1, 2b+1, 2c+1</text>
+  <text x="45" y="540" fill="#dddddd" font-size="11">• Stabilizer triple frame: 3d²</text>
+  <text x="45" y="560" fill="#dddddd" font-size="11">• Fidelity bound ≤ 1</text>
+  <text x="45" y="585" fill="#ffdd99" font-size="10" font-style="italic">Q: Compete with surface codes?</text>
+  
+  <!-- Topological Data Analysis (bottom-right) -->
+  <rect x="590" y="430" width="280" height="170" rx="15" fill="none" stroke="url(#tda)" stroke-width="2"/>
+  <rect x="590" y="430" width="280" height="35" rx="15" fill="url(#tda)" opacity="0.15"/>
+  <text x="730" y="453" text-anchor="middle" fill="#55efc4" font-size="14" font-weight="bold">📐 Topological Number Theory</text>
+  <text x="605" y="480" fill="#dddddd" font-size="11">• dist² = 2d² - 2⟨v₁,v₂⟩</text>
+  <text x="605" y="500" fill="#dddddd" font-size="11">• Max distance: 4d²</text>
+  <text x="605" y="520" fill="#dddddd" font-size="11">• Monotone filtration: gap 2(n+1)</text>
+  <text x="605" y="540" fill="#dddddd" font-size="11">• 48-element O_h symmetry</text>
+  <text x="605" y="560" fill="#dddddd" font-size="11">• All hypotenuses odd</text>
+  <text x="605" y="585" fill="#99ffcc" font-size="10" font-style="italic">Q: Persistent homology → primes?</text>
+  
+  <!-- Connection lines -->
+  <line x1="310" y1="200" x2="390" y2="310" stroke="#ff6b6b" stroke-width="1.5" opacity="0.5"/>
+  <line x1="590" y1="200" x2="510" y2="310" stroke="#48dbfb" stroke-width="1.5" opacity="0.5"/>
+  <line x1="310" y1="500" x2="390" y2="390" stroke="#feca57" stroke-width="1.5" opacity="0.5"/>
+  <line x1="590" y1="500" x2="510" y2="390" stroke="#55efc4" stroke-width="1.5" opacity="0.5"/>
+  
+  <!-- Cross connections (bridges) -->
+  <line x1="170" y1="270" x2="170" y2="430" stroke="#ff9f43" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+  <line x1="730" y1="270" x2="730" y2="430" stroke="#00b894" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+  <line x1="310" y1="350" x2="590" y2="350" stroke="#ffffff" stroke-width="1" opacity="0.2" stroke-dasharray="4,4"/>
+  
+  <!-- Bridge labels -->
+  <text x="150" y="355" text-anchor="middle" fill="#ff9f43" font-size="9" opacity="0.7">Cauchy-Schwarz</text>
+  <text x="150" y="368" text-anchor="middle" fill="#ff9f43" font-size="9" opacity="0.7">= Fidelity</text>
+  <text x="750" y="355" text-anchor="middle" fill="#00b894" font-size="9" opacity="0.7">HE noise</text>
+  <text x="750" y="368" text-anchor="middle" fill="#00b894" font-size="9" opacity="0.7">= TDA dist</text>
+  
+  <!-- Key equation -->
+  <rect x="280" y="635" width="340" height="45" rx="10" fill="#ffffff" opacity="0.08"/>
+  <text x="450" y="655" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">Key Identity: ‖v₁-v₂‖² + ‖v₁+v₂‖² = 4d²</text>
+  <text x="450" y="672" text-anchor="middle" fill="#aaaacc" font-size="10">Parallelogram law unifying all four domains</text>
+</svg>

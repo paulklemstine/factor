@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="box1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a90d9"/>
+      <stop offset="100%" stop-color="#357abd"/>
+    </linearGradient>
+    <linearGradient id="box2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8a838"/>
+      <stop offset="100%" stop-color="#d4942c"/>
+    </linearGradient>
+    <linearGradient id="box3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5cb85c"/>
+      <stop offset="100%" stop-color="#4cae4c"/>
+    </linearGradient>
+    <linearGradient id="box4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d9534f"/>
+      <stop offset="100%" stop-color="#c9433f"/>
+    </linearGradient>
+    <linearGradient id="box5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9b59b6"/>
+      <stop offset="100%" stop-color="#8e44ad"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="700" fill="url(#bg)" rx="10"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="bold" filter="url(#glow)">
+    The Spectral Resonance Sieve — Factoring Pipeline
+  </text>
+  <text x="600" y="75" text-anchor="middle" fill="#8899bb" font-size="14">
+    A novel sub-exponential integer factoring framework
+  </text>
+
+  <!-- Step 1: Input -->
+  <rect x="30" y="110" width="200" height="120" rx="12" fill="url(#box1)" filter="url(#shadow)"/>
+  <text x="130" y="145" text-anchor="middle" fill="white" font-size="16" font-weight="bold">① INPUT</text>
+  <text x="130" y="170" text-anchor="middle" fill="#dde8f0" font-size="12">Composite n = p · q</text>
+  <text x="130" y="190" text-anchor="middle" fill="#dde8f0" font-size="12">Compute √n</text>
+  <text x="130" y="210" text-anchor="middle" fill="#dde8f0" font-size="12">Set B = L(½, c)</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="230" y1="170" x2="280" y2="170" stroke="#4a90d9" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <polygon points="278,164 290,170 278,176" fill="#4a90d9"/>
+
+  <!-- Step 2: Spectral Analysis -->
+  <rect x="290" y="110" width="220" height="120" rx="12" fill="url(#box2)" filter="url(#shadow)"/>
+  <text x="400" y="140" text-anchor="middle" fill="white" font-size="16" font-weight="bold">② SPECTRAL</text>
+  <text x="400" y="158" text-anchor="middle" fill="white" font-size="16" font-weight="bold">ANALYSIS</text>
+  <text x="400" y="183" text-anchor="middle" fill="#fff5e0" font-size="11">Compute character sums</text>
+  <text x="400" y="198" text-anchor="middle" fill="#fff5e0" font-size="11">W(a) = |Σ χ(a)|²</text>
+  <text x="400" y="213" text-anchor="middle" fill="#fff5e0" font-size="11">Rank candidates by W(a)</text>
+
+  <!-- Arrow 2→3 -->
+  <polygon points="508,164 520,170 508,176" fill="#e8a838"/>
+
+  <!-- Step 3: Sieving -->
+  <rect x="530" y="110" width="200" height="120" rx="12" fill="url(#box3)" filter="url(#shadow)"/>
+  <text x="630" y="145" text-anchor="middle" fill="white" font-size="16" font-weight="bold">③ BIASED</text>
+  <text x="630" y="163" text-anchor="middle" fill="white" font-size="16" font-weight="bold">SIEVING</text>
+  <text x="630" y="188" text-anchor="middle" fill="#e8f5e8" font-size="11">Test Q(x) = x² - n</text>
+  <text x="630" y="203" text-anchor="middle" fill="#e8f5e8" font-size="11">Factor over base {p₁,...,pₖ}</text>
+  <text x="630" y="218" text-anchor="middle" fill="#e8f5e8" font-size="11">Collect B-smooth relations</text>
+
+  <!-- Arrow 3→4 -->
+  <polygon points="728,164 740,170 728,176" fill="#5cb85c"/>
+
+  <!-- Step 4: Linear Algebra -->
+  <rect x="750" y="110" width="200" height="120" rx="12" fill="url(#box4)" filter="url(#shadow)"/>
+  <text x="850" y="145" text-anchor="middle" fill="white" font-size="16" font-weight="bold">④ LINEAR</text>
+  <text x="850" y="163" text-anchor="middle" fill="white" font-size="16" font-weight="bold">ALGEBRA</text>
+  <text x="850" y="188" text-anchor="middle" fill="#fde0df" font-size="11">Build exponent matrix mod 2</text>
+  <text x="850" y="203" text-anchor="middle" fill="#fde0df" font-size="11">Gaussian elimination / GF(2)</text>
+  <text x="850" y="218" text-anchor="middle" fill="#fde0df" font-size="11">Find null-space vector</text>
+
+  <!-- Arrow 4→5 -->
+  <polygon points="948,164 960,170 948,176" fill="#d9534f"/>
+
+  <!-- Step 5: Factor Extraction -->
+  <rect x="970" y="110" width="200" height="120" rx="12" fill="url(#box5)" filter="url(#shadow)"/>
+  <text x="1070" y="145" text-anchor="middle" fill="white" font-size="16" font-weight="bold">⑤ EXTRACT</text>
+  <text x="1070" y="163" text-anchor="middle" fill="white" font-size="16" font-weight="bold">FACTORS</text>
+  <text x="1070" y="188" text-anchor="middle" fill="#f0e0f5" font-size="11">x² ≡ y² (mod n)</text>
+  <text x="1070" y="203" text-anchor="middle" fill="#f0e0f5" font-size="11">gcd(x - y, n) → factor</text>
+  <text x="1070" y="218" text-anchor="middle" fill="#f0e0f5" font-size="11">Output: p, q</text>
+
+  <!-- Core Theorem Box -->
+  <rect x="100" y="280" width="1000" height="100" rx="15" fill="none" stroke="#e8a838" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="600" y="310" text-anchor="middle" fill="#e8a838" font-size="18" font-weight="bold">
+    Core Theorem (Formally Verified in Lean 4)
+  </text>
+  <text x="600" y="340" text-anchor="middle" fill="#cccccc" font-size="14" font-family="monospace">
+    If n | (x² - y²) and n ∤ (x - y) and n ∤ (x + y)
+  </text>
+  <text x="600" y="365" text-anchor="middle" fill="#cccccc" font-size="14" font-family="monospace">
+    then 1 &lt; gcd(x - y, n) &lt; n   — a nontrivial factor!
+  </text>
+
+  <!-- Complexity Comparison -->
+  <text x="600" y="420" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">
+    Complexity Landscape
+  </text>
+
+  <!-- Complexity bars -->
+  <!-- Trial Division -->
+  <rect x="100" y="445" width="800" height="30" rx="5" fill="#444466" opacity="0.5"/>
+  <rect x="100" y="445" width="800" height="30" rx="5" fill="#d9534f" opacity="0.8"/>
+  <text x="110" y="465" fill="white" font-size="13" font-weight="bold">Trial Division: O(√n) = O(2^(b/2)) — EXPONENTIAL</text>
+
+  <!-- Dixon -->
+  <rect x="100" y="485" width="500" height="30" rx="5" fill="#444466" opacity="0.5"/>
+  <rect x="100" y="485" width="500" height="30" rx="5" fill="#e8a838" opacity="0.8"/>
+  <text x="110" y="505" fill="white" font-size="13" font-weight="bold">Dixon's Method: L(½, √2) — SUB-EXPONENTIAL</text>
+
+  <!-- QS -->
+  <rect x="100" y="525" width="400" height="30" rx="5" fill="#444466" opacity="0.5"/>
+  <rect x="100" y="525" width="400" height="30" rx="5" fill="#5cb85c" opacity="0.8"/>
+  <text x="110" y="545" fill="white" font-size="13" font-weight="bold">Quadratic Sieve: L(½, 1) — SUB-EXPONENTIAL</text>
+
+  <!-- SRS -->
+  <rect x="100" y="565" width="360" height="30" rx="5" fill="#444466" opacity="0.5"/>
+  <rect x="100" y="565" width="360" height="30" rx="5" fill="#9b59b6" opacity="0.8"/>
+  <text x="110" y="585" fill="white" font-size="13" font-weight="bold">Spectral Resonance Sieve: L(½, c≤1) ★ NEW</text>
+
+  <!-- NFS -->
+  <rect x="100" y="605" width="280" height="30" rx="5" fill="#444466" opacity="0.5"/>
+  <rect x="100" y="605" width="280" height="30" rx="5" fill="#4a90d9" opacity="0.8"/>
+  <text x="110" y="625" fill="white" font-size="13" font-weight="bold">Number Field Sieve: L(⅓, 1.923)</text>
+
+  <!-- Legend -->
+  <text x="600" y="670" text-anchor="middle" fill="#8899bb" font-size="12">
+    L(α, c) = exp(c · (ln n)^α · (ln ln n)^(1-α))  |  Shorter bar = faster algorithm
+  </text>
+</svg>

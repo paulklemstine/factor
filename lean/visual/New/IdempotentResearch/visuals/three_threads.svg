@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a3e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#bg5)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#e8c170" font-size="22" font-weight="bold">
+    Three Threads, One Skeleton
+  </text>
+  <text x="450" y="58" text-anchor="middle" fill="#8888bb" font-size="13">
+    Collapse · Compilation · Cosmos — unified by idempotent structure
+  </text>
+
+  <!-- Thread 1: Idempotent Collapse -->
+  <rect x="20" y="80" width="270" height="370" rx="12" fill="#0a1a2a" stroke="#58a6ff" stroke-width="2" opacity="0.9"/>
+  <text x="155" y="110" text-anchor="middle" fill="#58a6ff" font-size="16" font-weight="bold">🔷 COLLAPSE</text>
+  <text x="155" y="130" text-anchor="middle" fill="#7799cc" font-size="11">Idempotent Theory</text>
+
+  <text x="35" y="160" fill="#aabbdd" font-size="10">f ∘ f = f  →  Universal Collapse</text>
+  <text x="35" y="180" fill="#aabbdd" font-size="10">range(f) = Fix(f)</text>
+  <text x="35" y="200" fill="#aabbdd" font-size="10">Every cardinality achievable</text>
+  <text x="35" y="220" fill="#aabbdd" font-size="10">Commuting comp. is idempotent</text>
+
+  <text x="155" y="255" text-anchor="middle" fill="#58a6ff" font-size="11" font-weight="bold">Applications:</text>
+  <text x="35" y="275" fill="#88aacc" font-size="10">• Neural batch normalization</text>
+  <text x="35" y="295" fill="#88aacc" font-size="10">• Quantum measurement</text>
+  <text x="35" y="315" fill="#88aacc" font-size="10">• Database SELECT DISTINCT</text>
+  <text x="35" y="335" fill="#88aacc" font-size="10">• Fixed-point iteration</text>
+
+  <text x="155" y="370" text-anchor="middle" fill="#58a6ff" font-size="11" font-weight="bold">Key metric:</text>
+  <text x="155" y="390" text-anchor="middle" fill="#aabbdd" font-size="11">ρ = |Idem(A)| / |A|</text>
+  <text x="155" y="410" text-anchor="middle" fill="#88aacc" font-size="10">ρ(ℤ/30ℤ) = 8/30 ✓</text>
+  <text x="155" y="430" text-anchor="middle" fill="#3fb950" font-size="10">ALL PROVED ✓</text>
+
+  <!-- Thread 2: Tropical Compilation -->
+  <rect x="315" y="80" width="270" height="370" rx="12" fill="#0a2a1a" stroke="#3fb950" stroke-width="2" opacity="0.9"/>
+  <text x="450" y="110" text-anchor="middle" fill="#3fb950" font-size="16" font-weight="bold">🌴 COMPILATION</text>
+  <text x="450" y="130" text-anchor="middle" fill="#55aa77" font-size="11">Tropical Neural Networks</text>
+
+  <text x="330" y="160" fill="#88ccaa" font-size="10">ReLU(x) = x ⊕_T 0  (by rfl!)</text>
+  <text x="330" y="180" fill="#88ccaa" font-size="10">(ℝ, max, +) = tropical semiring</text>
+  <text x="330" y="200" fill="#88ccaa" font-size="10">Maslov: max ≤ LSE ≤ max + ln2</text>
+  <text x="330" y="220" fill="#88ccaa" font-size="10">WTA ∘ WTA = WTA (idempotent!)</text>
+
+  <text x="450" y="255" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="bold">Tropical Gates:</text>
+  <text x="330" y="275" fill="#77bb99" font-size="10">• Hadamard → max (idempotent)</text>
+  <text x="330" y="295" fill="#77bb99" font-size="10">• CNOT → (a, a+b)</text>
+  <text x="330" y="315" fill="#77bb99" font-size="10">• Phase(φ) → a + φ (weight)</text>
+  <text x="330" y="335" fill="#77bb99" font-size="10">• Every element: a ⊕ a = a</text>
+
+  <text x="450" y="370" text-anchor="middle" fill="#3fb950" font-size="11" font-weight="bold">Key insight:</text>
+  <text x="450" y="390" text-anchor="middle" fill="#88ccaa" font-size="11">ρ(tropical) = 1</text>
+  <text x="450" y="410" text-anchor="middle" fill="#77bb99" font-size="10">Every element is idempotent!</text>
+  <text x="450" y="430" text-anchor="middle" fill="#3fb950" font-size="10">ALL PROVED ✓</text>
+
+  <!-- Thread 3: Arithmetic Photonics -->
+  <rect x="610" y="80" width="270" height="370" rx="12" fill="#2a1a0a" stroke="#e8c170" stroke-width="2" opacity="0.9"/>
+  <text x="745" y="110" text-anchor="middle" fill="#e8c170" font-size="16" font-weight="bold">☀ COSMOS</text>
+  <text x="745" y="130" text-anchor="middle" fill="#ccaa66" font-size="11">Arithmetic Photonics</text>
+
+  <text x="625" y="160" fill="#ddcc88" font-size="10">a²+b²+c² = d² (light cone)</text>
+  <text x="625" y="180" fill="#ddcc88" font-size="10">a+b+c+d ≡ 0 (mod 2) always</text>
+  <text x="625" y="200" fill="#ddcc88" font-size="10">Rational points on S²</text>
+  <text x="625" y="220" fill="#ddcc88" font-size="10">Berggren tree = factoring</text>
+
+  <text x="745" y="255" text-anchor="middle" fill="#e8c170" font-size="11" font-weight="bold">Open Questions:</text>
+  <text x="625" y="275" fill="#bbaa66" font-size="10">Q1: Photon graph connected?</text>
+  <text x="625" y="295" fill="#bbaa66" font-size="10">Q2: Directions equidistribute?</text>
+  <text x="625" y="315" fill="#bbaa66" font-size="10">Q3: Quantum photon Hilbert?</text>
+  <text x="625" y="335" fill="#bbaa66" font-size="10">Q4: Spectral shape of spacetime?</text>
+
+  <text x="745" y="370" text-anchor="middle" fill="#e8c170" font-size="11" font-weight="bold">Key link:</text>
+  <text x="745" y="390" text-anchor="middle" fill="#ddcc88" font-size="11">Lorentz form x²+y²-z²</text>
+  <text x="745" y="410" text-anchor="middle" fill="#bbaa66" font-size="10">Berggren matrices ∈ SO(2,1)</text>
+  <text x="745" y="430" text-anchor="middle" fill="#e8c170" font-size="10">PARTIAL ⚡ (4 open Qs)</text>
+
+  <!-- Connecting arrows at bottom -->
+  <line x1="155" y1="460" x2="450" y2="475" stroke="#4488aa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="450" y1="475" x2="745" y2="460" stroke="#88aa44" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="450" y="493" text-anchor="middle" fill="#aaaacc" font-size="12" font-weight="bold">
+    f ∘ f = f  ←  The shared skeleton  →  ρ(A) = |Idem|/|A|
+  </text>
+</svg>

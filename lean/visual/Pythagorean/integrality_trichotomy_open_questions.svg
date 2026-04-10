@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="900" height="550" fill="url(#bg4)"/>
+  
+  <text x="450" y="35" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">
+    Four Open Questions in the Integrality Trichotomy
+  </text>
+  
+  <!-- Q1: k=6 Single Tree -->
+  <rect x="25" y="60" width="420" height="210" rx="12" fill="#1a237e" fill-opacity="0.4" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="235" y="85" text-anchor="middle" fill="#9fa8da" font-size="15" font-weight="bold">Q1: k = 6 Single-Tree Property</text>
+  <line x1="45" y1="95" x2="425" y2="95" stroke="#3f51b5" stroke-width="0.5"/>
+  <text x="45" y="115" fill="#c5cae9" font-size="11">Does descent always reach (0,0,0,0,1,1)?</text>
+  <text x="45" y="135" fill="#e8eaf6" font-size="10">Proved: Integrality ✓  Descent identity ✓  Strict bounds ✓</text>
+  <text x="45" y="155" fill="#e8eaf6" font-size="10">Remains: Verify single orbit (computational)</text>
+  <text x="45" y="180" fill="#a5d6a7" font-size="10" font-weight="bold">Evidence:</text>
+  <text x="45" y="200" fill="#c8e6c9" font-size="10">• 212 sextuples with d ≤ 19: ALL reach root ✓</text>
+  <text x="45" y="220" fill="#c8e6c9" font-size="10">• Descent typically converges in 2-4 steps</text>
+  <text x="45" y="240" fill="#fff59d" font-size="10">Status: Strong computational evidence, formal proof pending</text>
+  <rect x="370" y="250" width="60" height="15" rx="4" fill="#ff9800" fill-opacity="0.6"/>
+  <text x="400" y="261" text-anchor="middle" fill="#fff" font-size="9">OPEN</text>
+  
+  <!-- Q2: k=5 Mechanisms -->
+  <rect x="455" y="60" width="420" height="210" rx="12" fill="#4a148c" fill-opacity="0.4" stroke="#ab47bc" stroke-width="1.5"/>
+  <text x="665" y="85" text-anchor="middle" fill="#ce93d8" font-size="15" font-weight="bold">Q2: k = 5 Alternative Descent</text>
+  <line x1="475" y1="95" x2="855" y2="95" stroke="#9c27b0" stroke-width="0.5"/>
+  <text x="475" y="115" fill="#e1bee7" font-size="11">Does a finite set of reflections provide descent?</text>
+  <text x="475" y="135" fill="#f3e5f5" font-size="10">Proved: All-ones fails ✓  ALL uniform s=(a,a,a,a,a) fail ✓</text>
+  <text x="475" y="155" fill="#f3e5f5" font-size="10">Candidate: s=(1,1,0,0,1) with η(s,s)=1 (always integral)</text>
+  <text x="475" y="180" fill="#ef9a9a" font-size="10" font-weight="bold">Key obstacle:</text>
+  <text x="475" y="200" fill="#ffcdd2" font-size="10">• Non-uniform reflections may not preserve symmetry</text>
+  <text x="475" y="220" fill="#ffcdd2" font-size="10">• May need multiple reflections for different tuples</text>
+  <text x="475" y="240" fill="#fff59d" font-size="10">Status: New results narrow the search space</text>
+  <rect x="800" y="250" width="60" height="15" rx="4" fill="#ff9800" fill-opacity="0.6"/>
+  <text x="830" y="261" text-anchor="middle" fill="#fff" font-size="9">OPEN</text>
+  
+  <!-- Q3: Algebraic Structure -->
+  <rect x="25" y="285" width="420" height="210" rx="12" fill="#006064" fill-opacity="0.4" stroke="#00bcd4" stroke-width="1.5"/>
+  <text x="235" y="310" text-anchor="middle" fill="#80deea" font-size="15" font-weight="bold">Q3: Division Algebra Connection</text>
+  <line x1="45" y1="320" x2="425" y2="320" stroke="#00bcd4" stroke-width="0.5"/>
+  <text x="45" y="340" fill="#b2ebf2" font-size="11">Why k−2 = dim(ℝ, ℂ, ℍ)?</text>
+  <text x="45" y="360" fill="#e0f7fa" font-size="10">Established: k−2 ∈ {1,2,4} = associative div. algebra dims</text>
+  <text x="45" y="380" fill="#e0f7fa" font-size="10">Connection: Cl⁺(5,0) ≅ M₂(ℍ) for k=6</text>
+  <text x="45" y="400" fill="#e0f7fa" font-size="10">Octonions (k=10): non-associative → descent fails</text>
+  <text x="45" y="425" fill="#80cbc4" font-size="10" font-weight="bold">Conjecture:</text>
+  <text x="45" y="445" fill="#b2dfdb" font-size="10">Associativity of the norm algebra controls descent</text>
+  <text x="45" y="465" fill="#b2dfdb" font-size="10">The multiplicative norm gives the descent identity</text>
+  <text x="45" y="485" fill="#fff59d" font-size="10">Status: Numerical match established, causal link conjectural</text>
+  <rect x="370" y="475" width="60" height="15" rx="4" fill="#ff9800" fill-opacity="0.6"/>
+  <text x="400" y="486" text-anchor="middle" fill="#fff" font-size="9">OPEN</text>
+  
+  <!-- Q4: Mod-p -->
+  <rect x="455" y="285" width="420" height="210" rx="12" fill="#bf360c" fill-opacity="0.4" stroke="#ff7043" stroke-width="1.5"/>
+  <text x="665" y="310" text-anchor="middle" fill="#ffab91" font-size="15" font-weight="bold">Q4: Mod-p Descent Variants</text>
+  <line x1="475" y1="320" x2="855" y2="320" stroke="#ff5722" stroke-width="0.5"/>
+  <text x="475" y="340" fill="#ffccbc" font-size="11">Can modular descent recover trees for other k?</text>
+  <text x="475" y="360" fill="#fbe9e7" font-size="10">Identified: Barrier prime p=3 for k=5, p=5 for k=7</text>
+  <text x="475" y="380" fill="#fbe9e7" font-size="10">Null cone parity gives universal factor of 2</text>
+  <text x="475" y="400" fill="#fbe9e7" font-size="10">Over 𝔽_p (p≠barrier): reflection is well-defined</text>
+  <text x="475" y="425" fill="#ffab91" font-size="10" font-weight="bold">Conjecture:</text>
+  <text x="475" y="445" fill="#ffccbc" font-size="10">k=5 obstruction is purely 3-adic</text>
+  <text x="475" y="465" fill="#ffccbc" font-size="10">Mod-p descent works for all p ≠ barrier prime</text>
+  <text x="475" y="485" fill="#fff59d" font-size="10">Status: Framework established, verification needed</text>
+  <rect x="800" y="475" width="60" height="15" rx="4" fill="#ff9800" fill-opacity="0.6"/>
+  <text x="830" y="486" text-anchor="middle" fill="#fff" font-size="9">OPEN</text>
+  
+  <!-- Footer -->
+  <rect x="200" y="510" width="500" height="28" rx="14" fill="#2e7d32" fill-opacity="0.5" stroke="#66bb6a"/>
+  <text x="450" y="529" text-anchor="middle" fill="#e8f5e9" font-size="12" font-weight="bold">
+    All formalized results: Lean 4 + Mathlib • Zero sorry • Machine-verified
+  </text>
+</svg>

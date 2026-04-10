@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#74b9ff"/>
+    </marker>
+    <marker id="arrowred" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff7675"/>
+    </marker>
+  </defs>
+  
+  <rect width="1000" height="700" fill="url(#bg2)"/>
+  
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold">
+    Inside-Out Root Search: Framework Overview
+  </text>
+  
+  <!-- The Tree Structure -->
+  <text x="250" y="90" text-anchor="middle" fill="#74b9ff" font-size="16" font-weight="bold">
+    Berggren Ternary Tree
+  </text>
+  
+  <!-- Root node -->
+  <circle cx="250" cy="140" r="30" fill="#e17055" stroke="#fab1a0" stroke-width="2"/>
+  <text x="250" y="135" text-anchor="middle" fill="#fff" font-size="10">(3,4,5)</text>
+  <text x="250" y="150" text-anchor="middle" fill="#fff" font-size="8">ROOT</text>
+  
+  <!-- Level 1 -->
+  <circle cx="130" cy="230" r="22" fill="#00b894" stroke="#55efc4" stroke-width="2"/>
+  <text x="130" y="233" text-anchor="middle" fill="#fff" font-size="8">(5,12,13)</text>
+  
+  <circle cx="250" cy="230" r="22" fill="#00b894" stroke="#55efc4" stroke-width="2"/>
+  <text x="250" y="226" text-anchor="middle" fill="#fff" font-size="8">(21,20,</text>
+  <text x="250" y="238" text-anchor="middle" fill="#fff" font-size="8">29)</text>
+  
+  <circle cx="370" cy="230" r="22" fill="#00b894" stroke="#55efc4" stroke-width="2"/>
+  <text x="370" y="233" text-anchor="middle" fill="#fff" font-size="8">(15,8,17)</text>
+  
+  <!-- Edges -->
+  <line x1="228" y1="162" x2="148" y2="212" stroke="#55efc4" stroke-width="1.5"/>
+  <line x1="250" y1="170" x2="250" y2="208" stroke="#55efc4" stroke-width="1.5"/>
+  <line x1="272" y1="162" x2="352" y2="212" stroke="#55efc4" stroke-width="1.5"/>
+  
+  <!-- Level 2 (partial) -->
+  <circle cx="80" cy="310" r="15" fill="#0984e3" stroke="#74b9ff" stroke-width="1.5"/>
+  <text x="80" y="313" text-anchor="middle" fill="#fff" font-size="6">...</text>
+  <circle cx="130" cy="310" r="15" fill="#0984e3" stroke="#74b9ff" stroke-width="1.5"/>
+  <text x="130" y="313" text-anchor="middle" fill="#fff" font-size="6">...</text>
+  <circle cx="180" cy="310" r="15" fill="#0984e3" stroke="#74b9ff" stroke-width="1.5"/>
+  <text x="180" y="313" text-anchor="middle" fill="#fff" font-size="6">...</text>
+  
+  <line x1="118" y1="248" x2="88" y2="298" stroke="#74b9ff" stroke-width="1"/>
+  <line x1="130" y1="252" x2="130" y2="295" stroke="#74b9ff" stroke-width="1"/>
+  <line x1="142" y1="248" x2="172" y2="298" stroke="#74b9ff" stroke-width="1"/>
+  
+  <!-- Deep node (N) -->
+  <circle cx="250" cy="420" r="30" fill="#6c5ce7" stroke="#a29bfe" stroke-width="3"/>
+  <text x="250" y="415" text-anchor="middle" fill="#fff" font-size="10">(N, u, h)</text>
+  <text x="250" y="430" text-anchor="middle" fill="#fff" font-size="8">TARGET</text>
+  
+  <!-- Descent arrow -->
+  <line x1="250" y1="390" x2="250" y2="170" stroke="#ff7675" stroke-width="2.5" 
+        stroke-dasharray="8,4" marker-end="url(#arrowred)"/>
+  <text x="270" y="290" fill="#ff7675" font-size="12" font-weight="bold">DESCENT</text>
+  <text x="270" y="305" fill="#ff9999" font-size="9">B⁻¹ transforms</text>
+  
+  <!-- Right side: Inside-Out Equations -->
+  <rect x="520" y="90" width="440" height="280" rx="12" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="740" y="120" text-anchor="middle" fill="#ffeaa7" font-size="16" font-weight="bold">
+    Inside-Out Root Equations
+  </text>
+  
+  <!-- Equation 1 -->
+  <rect x="540" y="135" width="400" height="50" rx="8" fill="rgba(225,112,85,0.2)" stroke="#e17055"/>
+  <text x="740" y="155" text-anchor="middle" fill="#fab1a0" font-size="11" font-weight="bold">
+    Depth 1 (B₂⁻¹): 5N² − 8Nu − 20N + 5u² − 20u − 25 = 0
+  </text>
+  <text x="740" y="175" text-anchor="middle" fill="#aaa" font-size="10">
+    With u = N−1: reduces to 2N(N−21) = 0 → N = 21 unique
+  </text>
+  
+  <!-- Equation 2 -->
+  <rect x="540" y="195" width="400" height="50" rx="8" fill="rgba(0,184,148,0.2)" stroke="#00b894"/>
+  <text x="740" y="215" text-anchor="middle" fill="#55efc4" font-size="11" font-weight="bold">
+    Depth 2 (B₂⁻¹∘B₂⁻¹): 9N + 8u − 12h = 3, etc.
+  </text>
+  <text x="740" y="235" text-anchor="middle" fill="#aaa" font-size="10">
+    u = N+1, h = (24N+17)/17. Requires N ≡ 0 (mod 17)
+  </text>
+  
+  <!-- Equation 3 -->
+  <rect x="540" y="255" width="400" height="50" rx="8" fill="rgba(108,92,231,0.2)" stroke="#6c5ce7"/>
+  <text x="740" y="275" text-anchor="middle" fill="#a29bfe" font-size="11" font-weight="bold">
+    Depth k: 3ᵏ linear systems + h² = N² + u²
+  </text>
+  <text x="740" y="295" text-anchor="middle" fill="#aaa" font-size="10">
+    ≤ 2·3ᵏ polynomial roots. Grover: √(3ᵏ) quantum queries
+  </text>
+  
+  <!-- Factor extraction -->
+  <rect x="540" y="315" width="400" height="45" rx="8" fill="rgba(253,121,168,0.2)" stroke="#fd79a8"/>
+  <text x="740" y="335" text-anchor="middle" fill="#fd79a8" font-size="11" font-weight="bold">
+    Factor: (h−u)(h+u) = N² → gcd(h−u, N) = factor
+  </text>
+  <text x="740" y="352" text-anchor="middle" fill="#aaa" font-size="10">
+    Formally verified: diff_of_squares_factor, inside_out_factor_extraction
+  </text>
+  
+  <!-- Key Properties Box -->
+  <rect x="520" y="400" width="440" height="130" rx="12" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="740" y="425" text-anchor="middle" fill="#74b9ff" font-size="14" font-weight="bold">
+    Key Verified Properties
+  </text>
+  
+  <circle cx="545" cy="450" r="5" fill="#55efc4"/>
+  <text x="560" y="454" fill="#ddd" font-size="11">Pythagorean preservation: B⁻¹(PPT) = PPT ✓</text>
+  
+  <circle cx="545" cy="472" r="5" fill="#55efc4"/>
+  <text x="560" y="476" fill="#ddd" font-size="11">Universal hypotenuse: c' = 3c − 2a − 2b ✓</text>
+  
+  <circle cx="545" cy="494" r="5" fill="#55efc4"/>
+  <text x="560" y="498" fill="#ddd" font-size="11">Strict decrease: c' &lt; c (terminates in O(log c)) ✓</text>
+  
+  <circle cx="545" cy="516" r="5" fill="#55efc4"/>
+  <text x="560" y="520" fill="#ddd" font-size="11">Lorentz invariance: B^T Q B = Q (Berggren ⊂ O(2,1;ℤ)) ✓</text>
+  
+  <!-- Bottom: connections -->
+  <rect x="50" y="540" width="260" height="130" rx="10" fill="rgba(253,203,110,0.1)" stroke="#fdcb6e"/>
+  <text x="180" y="565" text-anchor="middle" fill="#fdcb6e" font-size="13" font-weight="bold">Lorentz Group</text>
+  <text x="70" y="585" fill="#ddd" font-size="10">Q = diag(1,1,−1)</text>
+  <text x="70" y="600" fill="#ddd" font-size="10">Berggren ⊂ O(2,1;ℤ)</text>
+  <text x="70" y="615" fill="#ddd" font-size="10">Hyperbolic geometry</text>
+  <text x="70" y="630" fill="#ddd" font-size="10">Cayley graph = PPT tree</text>
+  <text x="70" y="650" fill="#ddd" font-size="10">Geodesic = descent path</text>
+  
+  <rect x="370" y="540" width="260" height="130" rx="10" fill="rgba(116,185,255,0.1)" stroke="#74b9ff"/>
+  <text x="500" y="565" text-anchor="middle" fill="#74b9ff" font-size="13" font-weight="bold">Gaussian Integers</text>
+  <text x="390" y="585" fill="#ddd" font-size="10">a² + b² = c² ↔ |a+bi|² = c²</text>
+  <text x="390" y="600" fill="#ddd" font-size="10">Norm multiplicativity</text>
+  <text x="390" y="615" fill="#ddd" font-size="10">Brahmagupta-Fibonacci</text>
+  <text x="390" y="630" fill="#ddd" font-size="10">Z[i] factorization</text>
+  <text x="390" y="650" fill="#ddd" font-size="10">Sum-of-squares decomp.</text>
+  
+  <rect x="690" y="540" width="260" height="130" rx="10" fill="rgba(162,155,254,0.1)" stroke="#a29bfe"/>
+  <text x="820" y="565" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="bold">Continued Fractions</text>
+  <text x="710" y="585" fill="#ddd" font-size="10">√(N²+1) CF expansion</text>
+  <text x="710" y="600" fill="#ddd" font-size="10">Convergents → PPTs</text>
+  <text x="710" y="615" fill="#ddd" font-size="10">CFRAC connection</text>
+  <text x="710" y="630" fill="#ddd" font-size="10">Modular surface flow</text>
+  <text x="710" y="650" fill="#ddd" font-size="10">Ergodic equidistribution</text>
+</svg>

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0c0c28"/>
+      <stop offset="100%" style="stop-color:#181848"/>
+    </linearGradient>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg4)"/>
+
+  <text x="400" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="white" font-weight="bold">
+    The Orthomodular Law (Theorem 25)
+  </text>
+  <text x="400" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#aabbdd">
+    K ≤ L ⟹ L = K ⊔ (L ⊓ Kᗮ)
+  </text>
+
+  <!-- Left: Venn-like diagram of subspaces -->
+  <text x="200" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#88bbee" font-weight="bold">
+    Subspace Decomposition
+  </text>
+
+  <!-- L (large ellipse) -->
+  <ellipse cx="200" cy="240" rx="160" ry="110" fill="none" stroke="#4488ff" stroke-width="2" opacity="0.6"/>
+  <text x="200" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#4488ff">L</text>
+
+  <!-- K (left part) -->
+  <ellipse cx="140" cy="240" rx="80" ry="80" fill="rgba(68,136,255,0.15)" stroke="#44aaff" stroke-width="2"/>
+  <text x="120" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#44aaff" font-weight="bold">K</text>
+
+  <!-- L ⊓ K⊥ (right part) -->
+  <ellipse cx="270" cy="240" rx="70" ry="70" fill="rgba(255,136,68,0.15)" stroke="#ff8844" stroke-width="2"/>
+  <text x="280" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ff8844" font-weight="bold">L ⊓ Kᗮ</text>
+  <text x="280" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#cc6633">(remainder)</text>
+
+  <!-- = sign -->
+  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#aabbdd">
+    L = K ⊔ (L ⊓ Kᗮ) — the orthomodular decomposition
+  </text>
+
+  <!-- Right: Lattice diagram showing the law -->
+  <text x="580" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#88bbee" font-weight="bold">
+    Lattice View
+  </text>
+
+  <!-- L node -->
+  <circle cx="580" cy="140" r="18" fill="#4488ff" stroke="#66aaff" stroke-width="2" filter="url(#glow4)"/>
+  <text x="580" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="white" font-weight="bold">L</text>
+
+  <!-- K node -->
+  <circle cx="500" cy="240" r="16" fill="#44aaff" stroke="#66ccff" stroke-width="2" filter="url(#glow4)"/>
+  <text x="500" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">K</text>
+
+  <!-- L ⊓ Kᗮ node -->
+  <circle cx="660" cy="240" r="16" fill="#ff8844" stroke="#ffaa66" stroke-width="2" filter="url(#glow4)"/>
+  <text x="660" y="237" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">L⊓Kᗮ</text>
+
+  <!-- {0} node -->
+  <circle cx="580" cy="340" r="16" fill="#224488" stroke="#446688" stroke-width="2" filter="url(#glow4)"/>
+  <text x="580" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">{0}</text>
+
+  <!-- Edges -->
+  <line x1="580" y1="158" x2="500" y2="224" stroke="#66aaff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="580" y1="158" x2="660" y2="224" stroke="#ffaa66" stroke-width="1.5" opacity="0.7"/>
+  <line x1="500" y1="256" x2="580" y2="324" stroke="#66aaff" stroke-width="1.5" opacity="0.7"/>
+  <line x1="660" y1="256" x2="580" y2="324" stroke="#ffaa66" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- K ≤ L annotation -->
+  <text x="520" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#88bbcc">K ≤ L</text>
+
+  <!-- Disjoint annotation -->
+  <text x="580" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#88bbcc">Disjoint</text>
+  <text x="580" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#88bbcc">(K ⊓ Kᗮ = {0})</text>
+
+  <!-- Bottom box: Physical interpretation -->
+  <rect x="80" y="400" width="640" height="40" rx="6" fill="rgba(255,255,255,0.04)" stroke="#4488cc" stroke-width="1"/>
+  <text x="400" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#8899bb">
+    Physical: Measuring K within L leaves remainder L⊓Kᗮ; together they reconstruct L. (QEC: code + error = syndrome)
+  </text>
+</svg>

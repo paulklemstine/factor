@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-size="24" font-weight="bold" fill="#e0e0e0">The Tropical Semiring</text>
+  <text x="400" y="65" text-anchor="middle" font-size="14" fill="#888">(ℝ ∪ {∞}, min, +) — Where Addition Forgets</text>
+
+  <!-- Classical vs Tropical comparison -->
+  <!-- Classical side -->
+  <rect x="30" y="90" width="350" height="140" rx="10" fill="#0f3460" stroke="#533483" stroke-width="2"/>
+  <text x="205" y="115" text-anchor="middle" font-size="16" font-weight="bold" fill="#e94560">Classical Arithmetic</text>
+  <text x="205" y="145" text-anchor="middle" font-size="14" fill="#ccc">(ℝ, +, ×)</text>
+  <text x="60" y="175" font-size="15" fill="#aaa">3 + 3 = 6</text>
+  <text x="60" y="200" font-size="15" fill="#aaa">3 × 5 = 15</text>
+  <text x="220" y="175" font-size="13" fill="#e94560">← counts!</text>
+  <text x="220" y="200" font-size="13" fill="#888">← scales</text>
+
+  <!-- Tropical side -->
+  <rect x="420" y="90" width="350" height="140" rx="10" fill="#0f3460" stroke="#0f9b0f" stroke-width="2"/>
+  <text x="595" y="115" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f9b0f">Tropical Arithmetic</text>
+  <text x="595" y="145" text-anchor="middle" font-size="14" fill="#ccc">(ℝ ∪ {∞}, min, +)</text>
+  <text x="450" y="175" font-size="15" fill="#aaa">3 ⊕ 3 = min(3,3) = 3</text>
+  <text x="450" y="200" font-size="15" fill="#aaa">3 ⊗ 5 = 3 + 5 = 8</text>
+  <text x="700" y="175" font-size="13" fill="#0f9b0f">← forgets!</text>
+  <text x="700" y="200" font-size="13" fill="#888">← shifts</text>
+
+  <!-- Key property: Idempotency -->
+  <rect x="150" y="260" width="500" height="70" rx="15" fill="#533483" stroke="#e94560" stroke-width="2"/>
+  <text x="400" y="290" text-anchor="middle" font-size="20" font-weight="bold" fill="white">Idempotency: a ⊕ a = a</text>
+  <text x="400" y="312" text-anchor="middle" font-size="14" fill="#ccc">min(a, a) = a — The No-Counting Theorem</text>
+
+  <!-- Implications -->
+  <line x1="250" y1="330" x2="150" y2="370" stroke="#888" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="400" y1="330" x2="400" y2="370" stroke="#888" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="550" y1="330" x2="650" y2="370" stroke="#888" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <rect x="40" y="370" width="220" height="60" rx="8" fill="#1a1a2e" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="150" y="395" text-anchor="middle" font-size="12" font-weight="bold" fill="#4CAF50">Circuit Lower Bounds</text>
+  <text x="150" y="415" text-anchor="middle" font-size="10" fill="#888">Can't count monomials</text>
+
+  <rect x="290" y="370" width="220" height="60" rx="8" fill="#1a1a2e" stroke="#2196F3" stroke-width="1.5"/>
+  <text x="400" y="395" text-anchor="middle" font-size="12" font-weight="bold" fill="#2196F3">Proof Complexity</text>
+  <text x="400" y="415" text-anchor="middle" font-size="10" fill="#888">Resolution is idempotent</text>
+
+  <rect x="540" y="370" width="220" height="60" rx="8" fill="#1a1a2e" stroke="#FF9800" stroke-width="1.5"/>
+  <text x="650" y="395" text-anchor="middle" font-size="12" font-weight="bold" fill="#FF9800">Optimization</text>
+  <text x="650" y="415" text-anchor="middle" font-size="10" fill="#888">Shortest paths via min-plus</text>
+</svg>

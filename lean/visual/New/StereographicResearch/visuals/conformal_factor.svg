@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#f0f4f8"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="700" height="400" fill="url(#bgGrad)" rx="8"/>
+  
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#1a1a2e" font-weight="bold">Conformal Factor λ(t) = 2/(1 + t²)</text>
+  
+  <!-- Axes -->
+  <g transform="translate(100, 340)">
+    <!-- x-axis -->
+    <line x1="0" y1="0" x2="500" y2="0" stroke="#333" stroke-width="1.5"/>
+    <!-- y-axis -->
+    <line x1="250" y1="10" x2="250" y2="-280" stroke="#333" stroke-width="1.5"/>
+    
+    <!-- x-axis labels -->
+    <text x="0" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">-5</text>
+    <text x="125" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">-2.5</text>
+    <text x="250" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">0</text>
+    <text x="375" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">2.5</text>
+    <text x="500" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">5</text>
+    <text x="250" y="45" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#333">t</text>
+    
+    <!-- y-axis labels -->
+    <text x="240" y="-125" text-anchor="end" font-family="Georgia, serif" font-size="12" fill="#555">1</text>
+    <text x="240" y="-250" text-anchor="end" font-family="Georgia, serif" font-size="12" fill="#555">2</text>
+    <line x1="245" y1="-125" x2="255" y2="-125" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="0" y1="-250" x2="500" y2="-250" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3"/>
+    
+    <!-- λ = 2 line -->
+    <text x="510" y="-248" font-family="Georgia, serif" font-size="11" fill="#E91E63">λ ≤ 2</text>
+    
+    <!-- The curve λ(t) = 2/(1+t²) -->
+    <!-- Points: t=-5: 2/26=0.077, t=-3: 2/10=0.2, t=-2: 2/5=0.4, t=-1: 1, t=0: 2, t=1: 1, t=2: 0.4, etc -->
+    <path d="M 0,-9.6 
+             C 20,-11 40,-14 60,-18
+             C 80,-24 100,-33 120,-50
+             C 140,-75 160,-105 180,-145
+             C 200,-185 220,-235 240,-248
+             C 245,-249 248,-250 250,-250
+             C 252,-250 255,-249 260,-248
+             C 280,-235 300,-185 320,-145
+             C 340,-105 360,-75 380,-50
+             C 400,-33 420,-24 440,-18
+             C 460,-14 480,-11 500,-9.6"
+          fill="none" stroke="#2196F3" stroke-width="3"/>
+    
+    <!-- Peak annotation -->
+    <circle cx="250" cy="-250" r="5" fill="#FF4444" stroke="white" stroke-width="2"/>
+    <text x="270" y="-258" font-family="Georgia, serif" font-size="12" fill="#FF4444" font-weight="bold">λ(0) = 2</text>
+    
+    <!-- Half-max annotations -->
+    <circle cx="180" cy="-125" r="4" fill="#4CAF50" stroke="white" stroke-width="1.5"/>
+    <circle cx="320" cy="-125" r="4" fill="#4CAF50" stroke="white" stroke-width="1.5"/>
+    <text x="150" y="-132" font-family="Georgia, serif" font-size="11" fill="#4CAF50">t = -1</text>
+    <text x="330" y="-132" font-family="Georgia, serif" font-size="11" fill="#4CAF50">t = 1</text>
+    
+    <!-- Area fill under curve -->
+    <path d="M 0,-9.6 
+             C 20,-11 40,-14 60,-18
+             C 80,-24 100,-33 120,-50
+             C 140,-75 160,-105 180,-145
+             C 200,-185 220,-235 240,-248
+             C 245,-249 248,-250 250,-250
+             C 252,-250 255,-249 260,-248
+             C 280,-235 300,-185 320,-145
+             C 340,-105 360,-75 380,-50
+             C 400,-33 420,-24 440,-18
+             C 460,-14 480,-11 500,-9.6
+             L 500,0 L 0,0 Z"
+          fill="#2196F3" opacity="0.08"/>
+  </g>
+  
+  <!-- Properties box -->
+  <g transform="translate(50, 365)">
+    <text x="0" y="20" font-family="'Courier New', monospace" font-size="11" fill="#666">
+      λ(t) > 0 ∀t ✓    λ(t) ≤ 2 ✓    λ(t)→0 as |t|→∞ ✓    ∫λ²dt = π (sphere area)
+    </text>
+  </g>
+</svg>

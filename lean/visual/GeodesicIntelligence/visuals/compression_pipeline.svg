@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="pbg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117" />
+      <stop offset="100%" style="stop-color:#161b22" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="500" fill="url(#pbg)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#e6edf3" font-size="18" font-weight="bold" font-family="Arial">
+    Multiplicative Compression: Each Technique Multiplies Savings
+  </text>
+  
+  <!-- Funnel visualization -->
+  <!-- Layer 1: Full model -->
+  <polygon points="100,70 700,70 680,120 120,120" fill="#ff6b6b" opacity="0.8"/>
+  <text x="400" y="100" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="Arial">
+    Full Model: d²·L = 25.2M parameters
+  </text>
+  
+  <!-- Layer 2: After Fisher Pruning -->
+  <polygon points="120,130 680,130 640,180 160,180" fill="#ff9f43" opacity="0.8"/>
+  <text x="400" y="155" text-anchor="middle" fill="#fff" font-size="12" font-family="Arial">
+    After Fisher Pruning (r/d ≈ 0.06): 1.6M params
+  </text>
+  <text x="720" y="160" fill="#ff9f43" font-size="11" font-weight="bold" font-family="Arial">16× ↓</text>
+  
+  <!-- Layer 3: After Spherical Projection -->
+  <polygon points="160,190 640,190 610,240 190,240" fill="#ffd93d" opacity="0.8"/>
+  <text x="400" y="215" text-anchor="middle" fill="#333" font-size="12" font-family="Arial">
+    After Spherical Projection ((d-1)/d): 1.58M params
+  </text>
+  <text x="720" y="220" fill="#ffd93d" font-size="11" font-weight="bold" font-family="Arial">1.01× ↓</text>
+  
+  <!-- Layer 4: After Idempotent Collapse -->
+  <polygon points="190,250 610,250 540,300 260,300" fill="#6c5ce7" opacity="0.8"/>
+  <text x="400" y="275" text-anchor="middle" fill="#fff" font-size="12" font-family="Arial">
+    After Idempotent Collapse (log L / L): 530K params
+  </text>
+  <text x="720" y="280" fill="#a29bfe" font-size="11" font-weight="bold" font-family="Arial">3× ↓</text>
+  
+  <!-- Layer 5: After Lattice Quantization -->
+  <polygon points="260,310 540,310 490,360 310,360" fill="#0984e3" opacity="0.8"/>
+  <text x="400" y="335" text-anchor="middle" fill="#fff" font-size="12" font-family="Arial">
+    After E₈ Quantization (4-bit): 133K effective
+  </text>
+  <text x="720" y="340" fill="#74b9ff" font-size="11" font-weight="bold" font-family="Arial">4× ↓</text>
+  
+  <!-- Layer 6: After Hyperbolic Embeddings -->
+  <polygon points="310,370 490,370 450,420 350,420" fill="#00b894" opacity="0.8"/>
+  <text x="400" y="395" text-anchor="middle" fill="#fff" font-size="12" font-family="Arial">
+    + Hyperbolic Embeddings: ~100K effective
+  </text>
+  <text x="720" y="400" fill="#55efc4" font-size="11" font-weight="bold" font-family="Arial">1.3× ↓</text>
+  
+  <!-- Final result -->
+  <rect x="340" y="435" width="120" height="40" rx="8" fill="#55efc4" opacity="0.9"/>
+  <text x="400" y="460" text-anchor="middle" fill="#003" font-size="14" font-weight="bold" font-family="Arial">
+    ~250× total
+  </text>
+  
+  <!-- Side annotation -->
+  <text x="60" y="460" fill="#888" font-size="10" font-family="Arial">
+    Lean 4 verified: s·l·h·c &lt; 1 ✓
+  </text>
+  <text x="60" y="478" fill="#888" font-size="10" font-family="Arial">
+    r·d·log₂(L)+1 &lt; d²·L ✓
+  </text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650">
+<rect width="1000" height="650" fill="#1a1a2e"/>
+<text x="500.0" y="30" text-anchor="middle" fill="white" font-size="18" font-family="sans-serif" font-weight="bold">
+The Berggren Ternary Tree of Pythagorean Triples</text>
+<line x1="500.0" y1="105" x2="200.0" y2="195" stroke="#FF4444" stroke-width="2" opacity="0.6"/>
+<line x1="500.0" y1="105" x2="500.0" y2="195" stroke="#4488FF" stroke-width="2" opacity="0.6"/>
+<line x1="500.0" y1="105" x2="800.0" y2="195" stroke="#44CC44" stroke-width="2" opacity="0.6"/>
+<line x1="200.0" y1="245" x2="105.0" y2="375" stroke="#FF4444" stroke-width="2" opacity="0.6"/>
+<line x1="200.0" y1="245" x2="200.0" y2="375" stroke="#FF4444" stroke-width="2" opacity="0.6"/>
+<line x1="200.0" y1="245" x2="295.0" y2="375" stroke="#FF4444" stroke-width="2" opacity="0.6"/>
+<line x1="500.0" y1="245" x2="405.0" y2="375" stroke="#4488FF" stroke-width="2" opacity="0.6"/>
+<line x1="500.0" y1="245" x2="500.0" y2="375" stroke="#4488FF" stroke-width="2" opacity="0.6"/>
+<line x1="500.0" y1="245" x2="595.0" y2="375" stroke="#4488FF" stroke-width="2" opacity="0.6"/>
+<line x1="800.0" y1="245" x2="705.0" y2="375" stroke="#44CC44" stroke-width="2" opacity="0.6"/>
+<line x1="800.0" y1="245" x2="800.0" y2="375" stroke="#44CC44" stroke-width="2" opacity="0.6"/>
+<line x1="800.0" y1="245" x2="895.0" y2="375" stroke="#44CC44" stroke-width="2" opacity="0.6"/>
+<rect x="455.0" y="62" width="90" height="36" rx="8" fill="#2a2a1a" stroke="#FFD700" stroke-width="1.5"/>
+<text x="500.0" y="85" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(3,4,5)</text>
+<rect x="155.0" y="202" width="90" height="36" rx="8" fill="#2a1a1a" stroke="#FF4444" stroke-width="1.5"/>
+<text x="200.0" y="225" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(5,12,13)</text>
+<text x="200.0" y="198" text-anchor="middle" fill="#FF4444" font-size="10" font-family="monospace" font-weight="bold">A</text>
+<rect x="455.0" y="202" width="90" height="36" rx="8" fill="#1a2240" stroke="#4488FF" stroke-width="1.5"/>
+<text x="500.0" y="225" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(21,20,29)</text>
+<text x="500.0" y="198" text-anchor="middle" fill="#4488FF" font-size="10" font-family="monospace" font-weight="bold">B</text>
+<rect x="755.0" y="202" width="90" height="36" rx="8" fill="#1a2a1a" stroke="#44CC44" stroke-width="1.5"/>
+<text x="800.0" y="225" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(15,8,17)</text>
+<text x="800.0" y="198" text-anchor="middle" fill="#44CC44" font-size="10" font-family="monospace" font-weight="bold">C</text>
+<rect x="60.0" y="382" width="90" height="36" rx="8" fill="#2a1a1a" stroke="#FF4444" stroke-width="1.5"/>
+<text x="105.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(7,24,25)</text>
+<text x="105.0" y="378" text-anchor="middle" fill="#FF4444" font-size="10" font-family="monospace" font-weight="bold">AA</text>
+<rect x="155.0" y="382" width="90" height="36" rx="8" fill="#2a1a1a" stroke="#FF4444" stroke-width="1.5"/>
+<text x="200.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(55,48,73)</text>
+<text x="200.0" y="378" text-anchor="middle" fill="#FF4444" font-size="10" font-family="monospace" font-weight="bold">AB</text>
+<rect x="250.0" y="382" width="90" height="36" rx="8" fill="#2a1a1a" stroke="#FF4444" stroke-width="1.5"/>
+<text x="295.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(45,28,53)</text>
+<text x="295.0" y="378" text-anchor="middle" fill="#FF4444" font-size="10" font-family="monospace" font-weight="bold">AC</text>
+<rect x="360.0" y="382" width="90" height="36" rx="8" fill="#1a2240" stroke="#4488FF" stroke-width="1.5"/>
+<text x="405.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(39,80,89)</text>
+<text x="405.0" y="378" text-anchor="middle" fill="#4488FF" font-size="10" font-family="monospace" font-weight="bold">BA</text>
+<rect x="455.0" y="382" width="90" height="36" rx="8" fill="#1a2240" stroke="#4488FF" stroke-width="1.5"/>
+<text x="500.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(119,120,169)</text>
+<text x="500.0" y="378" text-anchor="middle" fill="#4488FF" font-size="10" font-family="monospace" font-weight="bold">BB</text>
+<rect x="550.0" y="382" width="90" height="36" rx="8" fill="#1a2240" stroke="#4488FF" stroke-width="1.5"/>
+<text x="595.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(77,36,85)</text>
+<text x="595.0" y="378" text-anchor="middle" fill="#4488FF" font-size="10" font-family="monospace" font-weight="bold">BC</text>
+<rect x="660.0" y="382" width="90" height="36" rx="8" fill="#1a2a1a" stroke="#44CC44" stroke-width="1.5"/>
+<text x="705.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(33,56,65)</text>
+<text x="705.0" y="378" text-anchor="middle" fill="#44CC44" font-size="10" font-family="monospace" font-weight="bold">CA</text>
+<rect x="755.0" y="382" width="90" height="36" rx="8" fill="#1a2a1a" stroke="#44CC44" stroke-width="1.5"/>
+<text x="800.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(65,72,97)</text>
+<text x="800.0" y="378" text-anchor="middle" fill="#44CC44" font-size="10" font-family="monospace" font-weight="bold">CB</text>
+<rect x="850.0" y="382" width="90" height="36" rx="8" fill="#1a2a1a" stroke="#44CC44" stroke-width="1.5"/>
+<text x="895.0" y="405" text-anchor="middle" fill="white" font-size="11" font-family="monospace">(35,12,37)</text>
+<text x="895.0" y="378" text-anchor="middle" fill="#44CC44" font-size="10" font-family="monospace" font-weight="bold">CC</text>
+<text x="50" y="570" fill="#FF4444" font-size="11" font-family="monospace">B_A = [1,-2,2; 2,-1,2; 2,-2,3]</text>
+<text x="50" y="590" fill="#4488FF" font-size="11" font-family="monospace">B_B = [1, 2,2; 2, 1,2; 2, 2,3]</text>
+<text x="50" y="610" fill="#44CC44" font-size="11" font-family="monospace">B_C = [-1,2,2;-2,1,2;-2,2,3]</text>
+<text x="650" y="570" fill="#aaa" font-size="11" font-family="sans-serif">All matrices preserve Q(a,b,c) = a²+b²-c²</text>
+<text x="650" y="590" fill="#aaa" font-size="11" font-family="sans-serif">They are elements of O(2,1;ℤ) — the integer Lorentz group</text>
+<text x="650" y="610" fill="#aaa" font-size="11" font-family="sans-serif">Every primitive Pythagorean triple appears exactly once</text>
+<text x="500.0" y="640" text-anchor="middle" fill="#666" font-size="10" font-family="sans-serif">
+Verification: 3²+4²=5² ✓ | 5²+12²=13² ✓ | 21²+20²=29² ✓ | 15²+8²=17² ✓ | ...</text>
+</svg>

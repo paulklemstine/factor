@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5d" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="dim3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50"/>
+      <stop offset="100%" style="stop-color:#2E7D32"/>
+    </linearGradient>
+    <linearGradient id="dim4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3"/>
+      <stop offset="100%" style="stop-color:#1565C0"/>
+    </linearGradient>
+    <linearGradient id="dim5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9800"/>
+      <stop offset="100%" style="stop-color:#E65100"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="700" fill="url(#bg5d)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#E0E0E0" font-size="22" font-weight="bold">
+    Dimensional Hierarchy of Berggren-Type Generators
+  </text>
+  <text x="450" y="58" text-anchor="middle" fill="#90CAF9" font-size="13">
+    From Pythagorean Triples to Quintuples: O(n,1;ℤ) Generator Construction
+  </text>
+
+  <!-- 3D Column -->
+  <rect x="20" y="80" width="270" height="300" rx="10" fill="#1a2332" stroke="#4CAF50" stroke-width="2"/>
+  <text x="155" y="108" text-anchor="middle" fill="#4CAF50" font-size="17" font-weight="bold">
+    3D: a² + b² = c²
+  </text>
+  <text x="155" y="128" text-anchor="middle" fill="#81C784" font-size="12">
+    O(2,1;ℤ) — 3 generators
+  </text>
+
+  <!-- Matrix representations -->
+  <text x="40" y="155" fill="#A5D6A7" font-size="11" font-weight="bold">B₁ (parabolic, det=+1)</text>
+  <text x="40" y="172" fill="#C8E6C9" font-size="10" font-family="monospace">⎡ 1  -2   2⎤</text>
+  <text x="40" y="184" fill="#C8E6C9" font-size="10" font-family="monospace">⎢ 2  -1   2⎥</text>
+  <text x="40" y="196" fill="#C8E6C9" font-size="10" font-family="monospace">⎣ 2  -2   3⎦</text>
+
+  <text x="40" y="218" fill="#A5D6A7" font-size="11" font-weight="bold">B₂ (hyperbolic, det=-1)</text>
+  <text x="40" y="235" fill="#C8E6C9" font-size="10" font-family="monospace">⎡ 1   2   2⎤</text>
+  <text x="40" y="247" fill="#C8E6C9" font-size="10" font-family="monospace">⎢ 2   1   2⎥</text>
+  <text x="40" y="259" fill="#C8E6C9" font-size="10" font-family="monospace">⎣ 2   2   3⎦</text>
+
+  <text x="40" y="281" fill="#A5D6A7" font-size="11" font-weight="bold">B₃ (parabolic, det=+1)</text>
+  <text x="40" y="298" fill="#C8E6C9" font-size="10" font-family="monospace">⎡-1   2   2⎤</text>
+  <text x="40" y="310" fill="#C8E6C9" font-size="10" font-family="monospace">⎢-2   1   2⎥</text>
+  <text x="40" y="322" fill="#C8E6C9" font-size="10" font-family="monospace">⎣-2   2   3⎦</text>
+
+  <rect x="40" y="340" width="230" height="25" rx="5" fill="#2E7D32" opacity="0.6"/>
+  <text x="155" y="357" text-anchor="middle" fill="#E8F5E9" font-size="12">
+    Root: (3, 4, 5)
+  </text>
+
+  <!-- 4D Column -->
+  <rect x="310" y="80" width="270" height="300" rx="10" fill="#1a2332" stroke="#2196F3" stroke-width="2"/>
+  <text x="445" y="108" text-anchor="middle" fill="#2196F3" font-size="17" font-weight="bold">
+    4D: a²+b²+c² = d²
+  </text>
+  <text x="445" y="128" text-anchor="middle" fill="#64B5F6" font-size="12">
+    O(3,1;ℤ) — 4 generators
+  </text>
+
+  <text x="330" y="155" fill="#90CAF9" font-size="11" font-weight="bold">H₁ in (a,c,d), det=+1</text>
+  <text x="330" y="172" fill="#BBDEFB" font-size="10" font-family="monospace">⎡1  0 -2  2⎤</text>
+  <text x="330" y="184" fill="#BBDEFB" font-size="10" font-family="monospace">⎢0  1  0  0⎥</text>
+  <text x="330" y="196" fill="#BBDEFB" font-size="10" font-family="monospace">⎢2  0 -1  2⎥</text>
+  <text x="330" y="208" fill="#BBDEFB" font-size="10" font-family="monospace">⎣2  0 -2  3⎦</text>
+
+  <text x="330" y="230" fill="#90CAF9" font-size="11" font-weight="bold">H₂ in (a,c,d), det=-1</text>
+  <text x="330" y="247" fill="#BBDEFB" font-size="10" font-family="monospace">⎡1  0  2  2⎤ ...</text>
+
+  <text x="330" y="270" fill="#90CAF9" font-size="11" font-weight="bold">H₃ in (b,c,d), det=+1</text>
+  <text x="330" y="287" fill="#BBDEFB" font-size="10" font-family="monospace">⎡1  0  0  0⎤</text>
+  <text x="330" y="299" fill="#BBDEFB" font-size="10" font-family="monospace">⎢0  1 -2  2⎥ ...</text>
+
+  <text x="330" y="320" fill="#90CAF9" font-size="11" font-weight="bold">H₄ in (b,c,d), det=-1</text>
+
+  <rect x="330" y="340" width="230" height="25" rx="5" fill="#1565C0" opacity="0.6"/>
+  <text x="445" y="357" text-anchor="middle" fill="#E3F2FD" font-size="12">
+    Root: (1, 2, 2, 3)
+  </text>
+
+  <!-- 5D Column -->
+  <rect x="600" y="80" width="280" height="300" rx="10" fill="#1a2332" stroke="#FF9800" stroke-width="2"/>
+  <text x="740" y="108" text-anchor="middle" fill="#FF9800" font-size="17" font-weight="bold">
+    5D: Σaᵢ² = d²
+  </text>
+  <text x="740" y="128" text-anchor="middle" fill="#FFB74D" font-size="12">
+    O(4,1;ℤ) — 6 generators
+  </text>
+
+  <text x="620" y="155" fill="#FFE0B2" font-size="10" font-weight="bold">K₁: (a₁,a₄,d) B₃-type, det=+1</text>
+  <text x="620" y="175" fill="#FFE0B2" font-size="10" font-weight="bold">K₂: (a₁,a₄,d) B₂-type, det=-1</text>
+  <text x="620" y="195" fill="#FFE0B2" font-size="10" font-weight="bold">K₃: (a₂,a₄,d) B₃-type, det=+1</text>
+  <text x="620" y="215" fill="#FFE0B2" font-size="10" font-weight="bold">K₄: (a₃,a₄,d) B₃-type, det=+1</text>
+  <text x="620" y="235" fill="#FFE0B2" font-size="10" font-weight="bold">K₅: (a₃,a₄,d) B₂-type, det=-1</text>
+  <text x="620" y="255" fill="#FFE0B2" font-size="10" font-weight="bold">K₆: (a₂,a₄,d) B₂-type, det=-1</text>
+
+  <text x="740" y="285" text-anchor="middle" fill="#FFE0B2" font-size="10">
+    All verified: KᵢᵀQ₅Kᵢ = Q₅
+  </text>
+  <text x="740" y="300" text-anchor="middle" fill="#FFE0B2" font-size="10">
+    Non-involutions: Kᵢ² ≠ I
+  </text>
+  <text x="740" y="315" text-anchor="middle" fill="#FFE0B2" font-size="10">
+    Non-commuting: K₁K₂≠K₂K₁
+  </text>
+
+  <rect x="620" y="340" width="240" height="25" rx="5" fill="#E65100" opacity="0.6"/>
+  <text x="740" y="357" text-anchor="middle" fill="#FFF3E0" font-size="12">
+    Root: (1, 1, 1, 1, 2)
+  </text>
+
+  <!-- Spectral Gap Comparison Chart -->
+  <rect x="20" y="400" width="860" height="280" rx="10" fill="#1a2332" stroke="#CE93D8" stroke-width="1.5"/>
+  <text x="450" y="428" text-anchor="middle" fill="#CE93D8" font-size="16" font-weight="bold">
+    Spectral Gap Monotonicity (Lean-Verified)
+  </text>
+
+  <!-- Bar chart -->
+  <g transform="translate(80, 450)">
+    <!-- Axis -->
+    <line x1="0" y1="180" x2="750" y2="180" stroke="#555" stroke-width="1"/>
+
+    <!-- 3D bar -->
+    <rect x="50" y="129" width="120" height="51" rx="5" fill="url(#dim3)" opacity="0.9"/>
+    <text x="110" y="125" text-anchor="middle" fill="#A5D6A7" font-size="13" font-weight="bold">3D</text>
+    <text x="110" y="195" text-anchor="middle" fill="#81C784" font-size="11">6-regular</text>
+    <text x="110" y="210" text-anchor="middle" fill="#A5D6A7" font-size="12">γ = 6-2√5</text>
+    <text x="110" y="225" text-anchor="middle" fill="#C8E6C9" font-size="11">≈ 1.528</text>
+
+    <!-- 4D bar -->
+    <rect x="270" y="90" width="120" height="90" rx="5" fill="url(#dim4)" opacity="0.9"/>
+    <text x="330" y="85" text-anchor="middle" fill="#90CAF9" font-size="13" font-weight="bold">4D</text>
+    <text x="330" y="195" text-anchor="middle" fill="#64B5F6" font-size="11">8-regular</text>
+    <text x="330" y="210" text-anchor="middle" fill="#90CAF9" font-size="12">γ = 8-2√7</text>
+    <text x="330" y="225" text-anchor="middle" fill="#BBDEFB" font-size="11">≈ 2.708</text>
+
+    <!-- 5D bar -->
+    <rect x="490" y="2" width="120" height="178" rx="5" fill="url(#dim5)" opacity="0.9"/>
+    <text x="550" y="-3" text-anchor="middle" fill="#FFB74D" font-size="13" font-weight="bold">5D</text>
+    <text x="550" y="195" text-anchor="middle" fill="#FFB74D" font-size="11">12-regular</text>
+    <text x="550" y="210" text-anchor="middle" fill="#FF9800" font-size="12">γ = 12-2√11</text>
+    <text x="550" y="225" text-anchor="middle" fill="#FFE0B2" font-size="11">≈ 5.372</text>
+
+    <!-- Arrows -->
+    <text x="210" y="165" fill="#4DB6AC" font-size="24">&lt;</text>
+    <text x="430" y="165" fill="#4DB6AC" font-size="24">&lt;</text>
+  </g>
+
+  <text x="450" y="688" text-anchor="middle" fill="#78909C" font-size="11" font-style="italic">
+    All theorems machine-verified in Lean 4 with Mathlib — zero sorry, standard axioms only
+  </text>
+</svg>

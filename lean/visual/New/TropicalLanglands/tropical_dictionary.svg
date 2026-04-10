@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 700" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fefefe"/>
+      <stop offset="100%" style="stop-color:#f5f7fa"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="820" height="700" fill="url(#bg2)" rx="10"/>
+
+  <!-- Title -->
+  <text x="410" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a2e">
+    Classical ↔ Tropical Dictionary
+  </text>
+  <line x1="60" y1="48" x2="760" y2="48" stroke="#ccc" stroke-width="1"/>
+
+  <!-- Header row -->
+  <rect x="60" y="60" width="340" height="35" rx="5" fill="#4285f4"/>
+  <text x="230" y="83" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Classical Langlands</text>
+  <rect x="420" y="60" width="340" height="35" rx="5" fill="#34a853"/>
+  <text x="590" y="83" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Tropical Langlands</text>
+
+  <!-- Row backgrounds (alternating) -->
+  <rect x="60" y="100" width="700" height="38" fill="#f8f9fa"/>
+  <rect x="60" y="138" width="700" height="38" fill="white"/>
+  <rect x="60" y="176" width="700" height="38" fill="#f8f9fa"/>
+  <rect x="60" y="214" width="700" height="38" fill="white"/>
+  <rect x="60" y="252" width="700" height="38" fill="#f8f9fa"/>
+  <rect x="60" y="290" width="700" height="38" fill="white"/>
+  <rect x="60" y="328" width="700" height="38" fill="#f8f9fa"/>
+  <rect x="60" y="366" width="700" height="38" fill="white"/>
+  <rect x="60" y="404" width="700" height="38" fill="#f8f9fa"/>
+  <rect x="60" y="442" width="700" height="38" fill="white"/>
+  <rect x="60" y="480" width="700" height="38" fill="#f8f9fa"/>
+  <rect x="60" y="518" width="700" height="38" fill="white"/>
+  <rect x="60" y="556" width="700" height="38" fill="#f8f9fa"/>
+
+  <!-- Separator line -->
+  <line x1="410" y1="100" x2="410" y2="594" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Row content -->
+  <text x="70" y="124" font-size="11" fill="#333">Base field: ℂ</text>
+  <text x="430" y="124" font-size="11" fill="#333">Tropical semiring: 𝕋 = (ℝ∪{∞}, min, +)</text>
+
+  <text x="70" y="162" font-size="11" fill="#333">Addition: a + b</text>
+  <text x="430" y="162" font-size="11" fill="#333">Tropical addition: a ⊕ b = min(a, b)</text>
+
+  <text x="70" y="200" font-size="11" fill="#333">Multiplication: a × b</text>
+  <text x="430" y="200" font-size="11" fill="#333">Tropical multiplication: a ⊙ b = a + b</text>
+
+  <text x="70" y="238" font-size="11" fill="#333">Reductive group G</text>
+  <text x="430" y="238" font-size="11" fill="#333">Tropical GL_n (min-plus matrices)</text>
+
+  <text x="70" y="276" font-size="11" fill="#333">Automorphic representations</text>
+  <text x="430" y="276" font-size="11" fill="#333">Piecewise-linear functions on buildings</text>
+
+  <text x="70" y="314" font-size="11" fill="#333">Galois representations</text>
+  <text x="430" y="314" font-size="11" fill="#333">PL actions on tropical modules</text>
+
+  <text x="70" y="352" font-size="11" fill="#333">L-function: L(s) = ∏ₚ Lₚ(s)</text>
+  <text x="430" y="352" font-size="11" fill="#333">Tropical L-function: L(s) = Σₚ Lₚ(s)</text>
+
+  <text x="70" y="390" font-size="11" fill="#333">Fourier transform</text>
+  <text x="430" y="390" font-size="11" fill="#333">Legendre-Fenchel transform</text>
+
+  <text x="70" y="428" font-size="11" fill="#333">Trace formula: Σ_π tr π(f)</text>
+  <text x="430" y="428" font-size="11" fill="#333">Tropical trace: inf eigenvalues</text>
+
+  <text x="70" y="466" font-size="11" fill="#333">Hecke operators</text>
+  <text x="430" y="466" font-size="11" fill="#333">Graph Laplacian / chip-firing</text>
+
+  <text x="70" y="504" font-size="11" fill="#333">Langlands dual group Ĝ</text>
+  <text x="430" y="504" font-size="11" fill="#333">Dual root system / weight transposition</text>
+
+  <text x="70" y="542" font-size="11" fill="#333">Algebraic curve X</text>
+  <text x="430" y="542" font-size="11" fill="#333">Metric graph Γ</text>
+
+  <text x="70" y="580" font-size="11" fill="#333">Moduli stack Bun_G</text>
+  <text x="430" y="580" font-size="11" fill="#333">Tropical Picard group / chip-firing classes</text>
+
+  <!-- Key insight box -->
+  <rect x="100" y="610" width="620" height="70" rx="10" fill="#fff9e6" stroke="#f9ab00" stroke-width="2"/>
+  <text x="410" y="635" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">
+    Key Insight: Tropicalization = Taking Valuations
+  </text>
+  <text x="410" y="655" text-anchor="middle" font-size="11" fill="#bf360c">
+    The p-adic valuation v_p : ℚ_p* → ℤ is already a tropicalization map.
+  </text>
+  <text x="410" y="672" text-anchor="middle" font-size="11" fill="#bf360c">
+    Bruhat-Tits buildings are naturally tropical objects.
+  </text>
+</svg>

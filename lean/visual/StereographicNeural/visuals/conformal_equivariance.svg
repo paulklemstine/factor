@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <marker id="arrEq" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2C3E50"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#FAFAFA" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Georgia" font-size="18" fill="#2C3E50" font-weight="bold">Conformal Equivariance: K(Rx, Ry) = K(x, y)</text>
+
+  <!-- Input space -->
+  <rect x="40" y="60" width="160" height="160" fill="#EBF5FB" stroke="#3498DB" stroke-width="2" rx="8"/>
+  <text x="120" y="80" text-anchor="middle" font-family="Georgia" font-size="13" fill="#2C3E50" font-weight="bold">Input ℝⁿ</text>
+  <!-- Points -->
+  <circle cx="80" cy="140" r="6" fill="#E74C3C"/>
+  <text x="70" y="130" font-family="monospace" font-size="10" fill="#E74C3C">x</text>
+  <circle cx="150" cy="120" r="6" fill="#3498DB"/>
+  <text x="157" y="115" font-family="monospace" font-size="10" fill="#3498DB">y</text>
+  <line x1="86" y1="138" x2="144" y2="122" stroke="#7F8C8D" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Arrow: rotation -->
+  <line x1="210" y1="140" x2="270" y2="140" stroke="#2C3E50" stroke-width="2" marker-end="url(#arrEq)"/>
+  <text x="240" y="130" text-anchor="middle" font-family="Georgia" font-size="11" fill="#8E44AD">R ∈ SO(n)</text>
+
+  <!-- Rotated space -->
+  <rect x="280" y="60" width="160" height="160" fill="#F4ECF7" stroke="#8E44AD" stroke-width="2" rx="8"/>
+  <text x="360" y="80" text-anchor="middle" font-family="Georgia" font-size="13" fill="#2C3E50" font-weight="bold">Rotated ℝⁿ</text>
+  <circle cx="320" cy="150" r="6" fill="#E74C3C"/>
+  <text x="305" y="145" font-family="monospace" font-size="10" fill="#E74C3C">Rx</text>
+  <circle cx="390" cy="110" r="6" fill="#3498DB"/>
+  <text x="397" y="105" font-family="monospace" font-size="10" fill="#3498DB">Ry</text>
+  <line x1="326" y1="148" x2="384" y2="112" stroke="#7F8C8D" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Arrow down: σ⁻¹ -->
+  <line x1="120" y1="230" x2="120" y2="280" stroke="#27AE60" stroke-width="2" marker-end="url(#arrEq)"/>
+  <text x="145" y="260" font-family="Georgia" font-size="11" fill="#27AE60">σ⁻¹</text>
+
+  <line x1="360" y1="230" x2="360" y2="280" stroke="#27AE60" stroke-width="2" marker-end="url(#arrEq)"/>
+  <text x="385" y="260" font-family="Georgia" font-size="11" fill="#27AE60">σ⁻¹</text>
+
+  <!-- Sphere spaces -->
+  <rect x="40" y="290" width="160" height="130" fill="#E8F8F5" stroke="#1ABC9C" stroke-width="2" rx="8"/>
+  <text x="120" y="310" text-anchor="middle" font-family="Georgia" font-size="12" fill="#2C3E50" font-weight="bold">Sⁿ</text>
+  <circle cx="120" cy="370" r="35" fill="none" stroke="#1ABC9C" stroke-width="1.5"/>
+  <circle cx="100" cy="355" r="4" fill="#E74C3C"/>
+  <circle cx="145" cy="385" r="4" fill="#3498DB"/>
+
+  <rect x="280" y="290" width="160" height="130" fill="#E8F8F5" stroke="#1ABC9C" stroke-width="2" rx="8"/>
+  <text x="360" y="310" text-anchor="middle" font-family="Georgia" font-size="12" fill="#2C3E50" font-weight="bold">Sⁿ (rotated)</text>
+  <circle cx="360" cy="370" r="35" fill="none" stroke="#1ABC9C" stroke-width="1.5"/>
+  <circle cx="340" cy="365" r="4" fill="#E74C3C"/>
+  <circle cx="385" cy="375" r="4" fill="#3498DB"/>
+
+  <!-- Kernel computation -->
+  <line x1="120" y1="425" x2="120" y2="440" stroke="#F39C12" stroke-width="2"/>
+  <line x1="360" y1="425" x2="360" y2="440" stroke="#F39C12" stroke-width="2"/>
+
+  <!-- Equal sign -->
+  <rect x="490" y="130" width="280" height="100" fill="#FEF9E7" stroke="#F39C12" stroke-width="2" rx="8"/>
+  <text x="630" y="160" text-anchor="middle" font-family="Georgia" font-size="14" fill="#2C3E50" font-weight="bold">Key Identity</text>
+  <text x="630" y="185" text-anchor="middle" font-family="monospace" font-size="12" fill="#E74C3C">K(Rx, Ry) = K(x, y)</text>
+  <text x="630" y="210" text-anchor="middle" font-family="Georgia" font-size="10" fill="#7F8C8D">Proven: rotationKernel_invariant</text>
+
+  <!-- Proven properties box -->
+  <rect x="490" y="260" width="280" height="170" fill="white" stroke="#27AE60" stroke-width="2" rx="8"/>
+  <text x="630" y="285" text-anchor="middle" font-family="Georgia" font-size="13" fill="#27AE60" font-weight="bold">Formally Verified ✓</text>
+  <text x="505" y="310" font-family="Georgia" font-size="11" fill="#2C3E50">• ‖Rx‖² = ‖x‖² (norm preserved)</text>
+  <text x="505" y="330" font-family="Georgia" font-size="11" fill="#2C3E50">• ⟨Rx,Ry⟩ = ⟨x,y⟩ (inner product)</text>
+  <text x="505" y="350" font-family="Georgia" font-size="11" fill="#2C3E50">• ‖λx‖² = λ²‖x‖² (dilation)</text>
+  <text x="505" y="370" font-family="Georgia" font-size="11" fill="#2C3E50">• 0 &lt; cf(x) ≤ 2 (bounded)</text>
+  <text x="505" y="390" font-family="Georgia" font-size="11" fill="#2C3E50">• Weight sum &gt; 0 (well-defined)</text>
+  <text x="505" y="410" font-family="Georgia" font-size="11" fill="#2C3E50">• Layers compose equivariantly</text>
+</svg>

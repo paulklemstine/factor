@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Arial, sans-serif">
+  <rect width="800" height="450" fill="#fafafa"/>
+
+  <text x="400" y="30" text-anchor="middle" fill="#222" font-size="18" font-weight="bold">
+    Energy Estimates for Navier-Stokes (Formally Verified)
+  </text>
+
+  <!-- Left panel: Gronwall growth -->
+  <rect x="20" y="50" width="370" height="340" rx="8" fill="white" stroke="#ccc"/>
+  <text x="205" y="75" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">
+    Gronwall: a(n) ≤ (1+c)ⁿ · a(0)
+  </text>
+
+  <!-- Axes -->
+  <line x1="70" y1="330" x2="370" y2="330" stroke="#999" stroke-width="1"/>
+  <line x1="70" y1="330" x2="70" y2="95" stroke="#999" stroke-width="1"/>
+  <text x="220" y="355" text-anchor="middle" fill="#666" font-size="11">time step n</text>
+  <text x="45" y="210" text-anchor="middle" fill="#666" font-size="11" transform="rotate(-90,45,210)">a(n)</text>
+
+  <!-- Gronwall bound curve (exponential growth) -->
+  <path d="M70,310 Q150,280 200,240 Q250,190 300,130 Q330,100 360,85" 
+        fill="none" stroke="#e53935" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="320" y="80" fill="#e53935" font-size="10">(1+c)ⁿ·a₀</text>
+
+  <!-- Actual sequence (below bound) -->
+  <path d="M70,310 L100,300 L130,295 L160,282 L190,270 L220,255 L250,235 L280,210 L310,180 L340,155 L360,140" 
+        fill="none" stroke="#1565c0" stroke-width="2"/>
+  <text x="335" y="150" fill="#1565c0" font-size="10">a(n)</text>
+
+  <!-- Shaded region -->
+  <path d="M70,310 Q150,280 200,240 Q250,190 300,130 Q330,100 360,85 L360,140 L340,155 L310,180 L280,210 L250,235 L220,255 L190,270 L160,282 L130,295 L100,300 Z" 
+        fill="#ffcdd2" opacity="0.3"/>
+
+  <text x="200" y="200" text-anchor="middle" fill="#c62828" font-size="10" font-style="italic">
+    bounded region
+  </text>
+
+  <!-- Checkmark -->
+  <text x="340" y="325" fill="#4caf50" font-size="16" font-weight="bold">✓ Verified</text>
+
+  <!-- Right panel: Energy decay -->
+  <rect x="410" y="50" width="370" height="340" rx="8" fill="white" stroke="#ccc"/>
+  <text x="595" y="75" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">
+    Decay: E(n) ≤ (1-ν)ⁿ · E(0)
+  </text>
+
+  <!-- Axes -->
+  <line x1="460" y1="330" x2="760" y2="330" stroke="#999" stroke-width="1"/>
+  <line x1="460" y1="330" x2="460" y2="95" stroke="#999" stroke-width="1"/>
+  <text x="610" y="355" text-anchor="middle" fill="#666" font-size="11">time step n</text>
+  <text x="435" y="210" text-anchor="middle" fill="#666" font-size="11" transform="rotate(-90,435,210)">E(n)</text>
+
+  <!-- Energy decay bound (exponential decay) -->
+  <path d="M460,110 Q520,150 560,190 Q600,230 640,270 Q680,300 720,315 L760,320" 
+        fill="none" stroke="#e53935" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="750" y="310" fill="#e53935" font-size="10">(1-ν)ⁿ·E₀</text>
+
+  <!-- Actual energy (below bound) -->
+  <path d="M460,110 L490,140 L520,165 L550,195 L580,225 L610,255 L640,278 L670,295 L700,308 L730,315 L760,318" 
+        fill="none" stroke="#1565c0" stroke-width="2"/>
+  <text x="745" y="330" fill="#1565c0" font-size="10">E(n)</text>
+
+  <!-- E0 label -->
+  <text x="472" y="105" fill="#333" font-size="10">E₀</text>
+  <line x1="460" y1="110" x2="468" y2="110" stroke="#333" stroke-width="1"/>
+
+  <!-- Zero line -->
+  <line x1="460" y1="330" x2="760" y2="330" stroke="#999" stroke-width="1" stroke-dasharray="2,2"/>
+
+  <!-- Checkmark -->
+  <text x="730" y="295" fill="#4caf50" font-size="16" font-weight="bold">✓ Verified</text>
+
+  <!-- Bottom annotation -->
+  <rect x="30" y="400" width="740" height="40" rx="5" fill="#e8f5e9" stroke="#4caf50"/>
+  <text x="400" y="425" text-anchor="middle" fill="#2e7d32" font-size="12">
+    Both inequalities proved by induction in Lean 4 — key tools for Navier-Stokes energy analysis
+  </text>
+</svg>

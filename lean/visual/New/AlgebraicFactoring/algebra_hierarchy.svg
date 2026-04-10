@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      .title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .subtitle { font: 14px sans-serif; fill: #7f8c8d; }
+      .label { font: 12px sans-serif; fill: #2c3e50; }
+      .small { font: 10px sans-serif; fill: #95a5a6; }
+      .axis { stroke: #bdc3c7; stroke-width: 1; }
+      .grid { stroke: #ecf0f1; stroke-width: 0.5; }
+    </style>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8e44ad;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e67e22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="white" rx="10"/>
+  <text x="400" y="35" text-anchor="middle" class="title">The Normed Division Algebra Hierarchy</text>
+  <text x="400" y="55" text-anchor="middle" class="subtitle">Each doubling loses a property but gains geometric room for factoring</text>
+  <rect x="100" y="90" width="150" height="320" rx="8" fill="#3498db" opacity="0.1" stroke="#3498db" stroke-width="2"/>
+  <rect x="100" y="90" width="150" height="40" rx="8" fill="#3498db" opacity="0.8"/>
+  <rect x="100" y="120" width="150" height="10" fill="#3498db" opacity="0.8"/>
+  <text x="175.0" y="115" text-anchor="middle" fill="white" font-size="14" font-weight="bold">ℝ (Real)</text>
+  <circle cx="175.0" cy="160" r="17" fill="#3498db" opacity="0.3"/>
+  <text x="175.0" y="165" text-anchor="middle" fill="#3498db" font-size="16" font-weight="bold">dim 1</text>
+  <text x="110" y="210" class="small" font-weight="bold">Lost:</text>
+  <text x="110" y="226" class="label">—</text>
+  <text x="110" y="251" class="small" font-weight="bold">Gained:</text>
+  <text x="110" y="267" class="label">Ordered field</text>
+  <text x="110" y="292" class="small" font-weight="bold">Factoring:</text>
+  <text x="110" y="308" class="label">Trivial</text>
+  <rect x="275" y="90" width="150" height="320" rx="8" fill="#2ecc71" opacity="0.1" stroke="#2ecc71" stroke-width="2"/>
+  <rect x="275" y="90" width="150" height="40" rx="8" fill="#2ecc71" opacity="0.8"/>
+  <rect x="275" y="120" width="150" height="10" fill="#2ecc71" opacity="0.8"/>
+  <text x="350.0" y="115" text-anchor="middle" fill="white" font-size="14" font-weight="bold">ℂ (Complex)</text>
+  <circle cx="350.0" cy="160" r="19" fill="#2ecc71" opacity="0.3"/>
+  <text x="350.0" y="165" text-anchor="middle" fill="#2ecc71" font-size="16" font-weight="bold">dim 2</text>
+  <text x="285" y="210" class="small" font-weight="bold">Lost:</text>
+  <text x="285" y="226" class="label">Total order</text>
+  <text x="285" y="251" class="small" font-weight="bold">Gained:</text>
+  <text x="285" y="267" class="label">Algebraic closure</text>
+  <text x="285" y="292" class="small" font-weight="bold">Factoring:</text>
+  <text x="285" y="308" class="label">p ≡ 1 (mod 4)</text>
+  <rect x="450" y="90" width="150" height="320" rx="8" fill="#9b59b6" opacity="0.1" stroke="#9b59b6" stroke-width="2"/>
+  <rect x="450" y="90" width="150" height="40" rx="8" fill="#9b59b6" opacity="0.8"/>
+  <rect x="450" y="120" width="150" height="10" fill="#9b59b6" opacity="0.8"/>
+  <text x="525.0" y="115" text-anchor="middle" fill="white" font-size="14" font-weight="bold">ℍ (Quaternion)</text>
+  <circle cx="525.0" cy="160" r="23" fill="#9b59b6" opacity="0.3"/>
+  <text x="525.0" y="165" text-anchor="middle" fill="#9b59b6" font-size="16" font-weight="bold">dim 4</text>
+  <text x="460" y="210" class="small" font-weight="bold">Lost:</text>
+  <text x="460" y="226" class="label">Commutativity</text>
+  <text x="460" y="251" class="small" font-weight="bold">Gained:</text>
+  <text x="460" y="267" class="label">3D rotations</text>
+  <text x="460" y="292" class="small" font-weight="bold">Factoring:</text>
+  <text x="460" y="308" class="label">Universal (4-sq)</text>
+  <rect x="625" y="90" width="150" height="320" rx="8" fill="#e67e22" opacity="0.1" stroke="#e67e22" stroke-width="2"/>
+  <rect x="625" y="90" width="150" height="40" rx="8" fill="#e67e22" opacity="0.8"/>
+  <rect x="625" y="120" width="150" height="10" fill="#e67e22" opacity="0.8"/>
+  <text x="700.0" y="115" text-anchor="middle" fill="white" font-size="14" font-weight="bold">𝕆 (Octonion)</text>
+  <circle cx="700.0" cy="160" r="31" fill="#e67e22" opacity="0.3"/>
+  <text x="700.0" y="165" text-anchor="middle" fill="#e67e22" font-size="16" font-weight="bold">dim 8</text>
+  <text x="635" y="210" class="small" font-weight="bold">Lost:</text>
+  <text x="635" y="226" class="label">Associativity</text>
+  <text x="635" y="251" class="small" font-weight="bold">Gained:</text>
+  <text x="635" y="267" class="label">E₈ lattice</text>
+  <text x="635" y="292" class="small" font-weight="bold">Factoring:</text>
+  <text x="635" y="308" class="label">254 masks</text>
+  <line x1="250" y1="110" x2="275" y2="110" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="262.5" y="105" text-anchor="middle" class="small">×2</text>
+  <line x1="425" y1="110" x2="450" y2="110" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="437.5" y="105" text-anchor="middle" class="small">×2</text>
+  <line x1="600" y1="110" x2="625" y2="110" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="612.5" y="105" text-anchor="middle" class="small">×2</text>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#bdc3c7"/>
+    </marker>
+  </defs>
+  <text x="400" y="450" text-anchor="middle" class="subtitle">Sedenions (dim 16): Zero divisors appear — no longer a division algebra</text>
+  <line x1="100" y1="460" x2="700" y2="460" stroke="#e74c3c" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="400" y="475" text-anchor="middle" style="font: bold 12px sans-serif; fill: #e74c3c;">⚠ CHANNEL BOUNDARY — Division algebra property lost</text>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+  <rect width="900" height="500" fill="#fafafa" rx="10"/>
+  
+  <text x="450" y="35" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold" fill="#e65100">
+    Q4: Physical Cost Optimization — Choosing the Right Gate Set
+  </text>
+  
+  <!-- Cost model equation -->
+  <rect x="200" y="50" width="500" height="45" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="450" y="78" text-anchor="middle" font-family="Arial" font-size="16" fill="#37474f">
+    Total Cost = c(p) × ⌊log_p(d)⌋ + 1
+  </text>
+  
+  <!-- Platform comparison chart -->
+  <rect x="30" y="110" width="420" height="350" rx="8" fill="white" stroke="#90a4ae" stroke-width="1"/>
+  <text x="240" y="140" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#37474f">
+    Total Cost at d = 100
+  </text>
+  
+  <!-- Bar chart: Superconducting -->
+  <text x="50" y="180" font-family="Arial" font-size="12" fill="#37474f" font-weight="bold">Superconducting:</text>
+  
+  <!-- T bar -->
+  <rect x="60" y="190" width="280" height="22" fill="#e53935" rx="3" opacity="0.85"/>
+  <text x="70" y="206" font-family="monospace" font-size="11" fill="white">T (p=2): 10 × 7 = 70</text>
+  
+  <!-- V bar -->
+  <rect x="60" y="218" width="240" height="22" fill="#43a047" rx="3" opacity="0.85"/>
+  <text x="70" y="234" font-family="monospace" font-size="11" fill="white">V (p=5): 20 × 3 = 60 ★</text>
+  
+  <!-- Trapped Ion -->
+  <text x="50" y="268" font-family="Arial" font-size="12" fill="#37474f" font-weight="bold">Trapped Ion:</text>
+  
+  <rect x="60" y="278" width="84" height="22" fill="#43a047" rx="3" opacity="0.85"/>
+  <text x="70" y="294" font-family="monospace" font-size="11" fill="white">T: 3×7=21 ★</text>
+  
+  <rect x="60" y="306" width="96" height="22" fill="#e53935" rx="3" opacity="0.85"/>
+  <text x="70" y="322" font-family="monospace" font-size="11" fill="white">V: 8×3=24</text>
+  
+  <!-- Photonic -->
+  <text x="50" y="356" font-family="Arial" font-size="12" fill="#37474f" font-weight="bold">Photonic:</text>
+  
+  <rect x="60" y="366" width="315" height="22" fill="#e53935" rx="3" opacity="0.85"/>
+  <text x="70" y="382" font-family="monospace" font-size="11" fill="white">T (p=2): 15 × 7 = 105</text>
+  
+  <rect x="60" y="394" width="144" height="22" fill="#43a047" rx="3" opacity="0.85"/>
+  <text x="70" y="410" font-family="monospace" font-size="11" fill="white">V (p=5): 12×3=36 ★</text>
+  
+  <text x="240" y="445" text-anchor="middle" font-family="Arial" font-size="12" fill="#1b5e20" font-weight="bold">
+    ★ = optimal choice for each platform
+  </text>
+  
+  <!-- Breakeven analysis -->
+  <rect x="480" y="110" width="390" height="180" rx="8" fill="#e8eaf6" stroke="#3f51b5" stroke-width="1.5"/>
+  <text x="675" y="140" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#1a237e">
+    Breakeven Analysis
+  </text>
+  
+  <text x="500" y="170" font-family="Arial" font-size="13" fill="#37474f">V beats T when:</text>
+  <text x="520" y="195" font-family="Arial" font-size="14" fill="#1a237e" font-weight="bold">cost_V / cost_T &lt; log₂(5) ≈ 2.32</text>
+  
+  <text x="500" y="225" font-family="Arial" font-size="12" fill="#37474f">• Superconducting: 20/10 = 2.0 &lt; 2.32 → V wins ✓</text>
+  <text x="500" y="250" font-family="Arial" font-size="12" fill="#37474f">• Trapped Ion: 8/3 = 2.67 &gt; 2.32 → T wins ✓</text>
+  <text x="500" y="275" font-family="Arial" font-size="12" fill="#37474f">• Photonic: 12/15 = 0.80 &lt; 2.32 → V wins ✓</text>
+  
+  <!-- General optimization -->
+  <rect x="480" y="305" width="390" height="155" rx="8" fill="#fce4ec" stroke="#c62828" stroke-width="1.5"/>
+  <text x="675" y="335" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold" fill="#c62828">
+    General Optimization
+  </text>
+  
+  <text x="500" y="365" font-family="Arial" font-size="12" fill="#37474f">For arbitrary prime p, optimal p* minimizes:</text>
+  <text x="520" y="390" font-family="Arial" font-size="14" fill="#c62828" font-weight="bold">f(p) = c(p) · ln(d) / ln(p)</text>
+  <text x="500" y="420" font-family="Arial" font-size="12" fill="#37474f">Setting f'(p) = 0 gives the selection rule:</text>
+  <text x="520" y="445" font-family="Arial" font-size="14" fill="#c62828" font-weight="bold">c'(p)/c(p) = 1/(p · ln(p))</text>
+  
+  <!-- Verified stamp -->
+  <rect x="570" y="462" width="250" height="25" rx="5" fill="#4a148c"/>
+  <text x="695" y="480" text-anchor="middle" font-family="Arial" font-size="11" fill="white" font-weight="bold">
+    Lean 4 verified: superconducting_v_better_100 ✓
+  </text>
+</svg>

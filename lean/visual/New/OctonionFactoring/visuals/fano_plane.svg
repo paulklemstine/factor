@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 550" 
+     width="550" height="550">
+  <defs>
+    <style>
+      text { font-family: 'Georgia', 'Times New Roman', serif; }
+      .title { font-size: 18px; font-weight: bold; fill: #1a1a2e; }
+      .subtitle { font-size: 13px; fill: #444; }
+      .label { font-size: 12px; fill: #333; }
+      .small { font-size: 10px; fill: #666; }
+      .math { font-family: 'Times New Roman', serif; font-style: italic; }
+      .axis { stroke: #333; stroke-width: 1.5; fill: none; }
+      .grid { stroke: #ddd; stroke-width: 0.5; fill: none; }
+      .highlight { fill: #e94560; }
+      .accent1 { fill: #0f3460; }
+      .accent2 { fill: #16213e; }
+      .accent3 { fill: #533483; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
+  <!-- Fano Plane - Octonion Multiplication -->
+  <rect width="550" height="550" fill="#fafbfc" rx="10"/>
+  <text x="275" y="30" text-anchor="middle" class="title">The Fano Plane</text>
+  <text x="275" y="50" text-anchor="middle" class="subtitle">Octonion Multiplication Table: eᵢ · eⱼ = ±eₖ</text>
+  <polygon points="275.0,140.0 145.1,365.0 404.9,365.0" fill="none" stroke="#ccc" stroke-width="1.5"/>
+  <polygon points="275.0,365.0 340.0,252.5 210.0,252.5" fill="none" stroke="#ccc" stroke-width="1.5"/>
+  <line x1="275.0" y1="140.0" x2="275.0" y2="290.0" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="145.1" y1="365.0" x2="275.0" y2="290.0" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="404.9" y1="365.0" x2="275.0" y2="290.0" stroke="#ddd" stroke-width="1.5"/>
+  <circle cx="275" cy="290" r="75.0" fill="none" stroke="#ddd" stroke-width="1"/>
+  <circle cx="275.0" cy="140.0" r="18" fill="#e53935" stroke="white" stroke-width="2.5"/>
+  <text x="275.0" y="145.0" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₁</text>
+  <circle cx="145.1" cy="365.0" r="18" fill="#FF9800" stroke="white" stroke-width="2.5"/>
+  <text x="145.1" y="370.0" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₂</text>
+  <circle cx="404.9" cy="365.0" r="18" fill="#2196F3" stroke="white" stroke-width="2.5"/>
+  <text x="404.9" y="370.0" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₄</text>
+  <circle cx="275.0" cy="365.0" r="18" fill="#795548" stroke="white" stroke-width="2.5"/>
+  <text x="275.0" y="370.0" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₆</text>
+  <circle cx="340.0" cy="252.5" r="18" fill="#4CAF50" stroke="white" stroke-width="2.5"/>
+  <text x="340.0" y="257.5" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₃</text>
+  <circle cx="210.0" cy="252.5" r="18" fill="#9C27B0" stroke="white" stroke-width="2.5"/>
+  <text x="210.0" y="257.5" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₅</text>
+  <circle cx="275.0" cy="290.0" r="18" fill="#333333" stroke="white" stroke-width="2.5"/>
+  <text x="275.0" y="295.0" text-anchor="middle" font-size="13" fill="white" font-weight="bold">e₇</text>
+  <text x="275" y="480" text-anchor="middle" font-size="11" fill="#666">Each line through 3 points defines a multiplication rule: eᵢ · eⱼ = eₖ</text>
+  <text x="275" y="500" text-anchor="middle" font-size="11" fill="#666">Reversing direction negates: eⱼ · eᵢ = -eₖ</text>
+  <text x="275" y="525" text-anchor="middle" font-size="11" fill="#999">The Fano plane encodes octonion non-associativity: 7 lines, 7 points</text>
+</svg>

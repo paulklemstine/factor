@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e94560" />
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg1)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#e94560" font-size="22" font-weight="bold" font-family="Georgia">
+    Tropical Fundamental Lemma
+  </text>
+  <text x="400" y="65" text-anchor="middle" fill="#a8a8b8" font-size="14" font-family="Georgia">
+    GL₂ Orbital Integrals Decompose Along Endoscopic Data
+  </text>
+
+  <!-- GL₂ box -->
+  <rect x="50" y="100" width="250" height="160" rx="10" fill="none" stroke="#0f3460" stroke-width="2"/>
+  <text x="175" y="130" text-anchor="middle" fill="#e94560" font-size="18" font-weight="bold" font-family="monospace">GL₂</text>
+  <text x="175" y="160" text-anchor="middle" fill="#a8a8b8" font-size="14" font-family="monospace">γ = (a, b), a ≤ b</text>
+  <text x="175" y="185" text-anchor="middle" fill="#53d8fb" font-size="16" font-family="monospace">O(γ) = a + b</text>
+
+  <!-- Eigenvalue dots -->
+  <circle cx="130" cy="225" r="8" fill="#e94560"/>
+  <text x="130" y="250" text-anchor="middle" fill="#a8a8b8" font-size="12" font-family="monospace">a</text>
+  <circle cx="220" cy="225" r="8" fill="#e94560"/>
+  <text x="220" y="250" text-anchor="middle" fill="#a8a8b8" font-size="12" font-family="monospace">b</text>
+
+  <!-- Arrow -->
+  <line x1="310" y1="180" x2="490" y2="140" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="310" y1="180" x2="490" y2="220" stroke="#e94560" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="400" y="165" text-anchor="middle" fill="#53d8fb" font-size="13" font-family="Georgia" transform="rotate(-8 400 165)">endoscopic</text>
+  <text x="400" y="215" text-anchor="middle" fill="#53d8fb" font-size="13" font-family="Georgia" transform="rotate(8 400 215)">decomposition</text>
+
+  <!-- GL₁ × GL₁ boxes -->
+  <rect x="500" y="90" width="130" height="80" rx="8" fill="none" stroke="#0f3460" stroke-width="2"/>
+  <text x="565" y="120" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="monospace">GL₁</text>
+  <text x="565" y="145" text-anchor="middle" fill="#53d8fb" font-size="14" font-family="monospace">O(a) = a</text>
+
+  <rect x="500" y="190" width="130" height="80" rx="8" fill="none" stroke="#0f3460" stroke-width="2"/>
+  <text x="565" y="220" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="monospace">GL₁</text>
+  <text x="565" y="245" text-anchor="middle" fill="#53d8fb" font-size="14" font-family="monospace">O(b) = b</text>
+
+  <text x="655" y="175" text-anchor="start" fill="#a8a8b8" font-size="14" font-family="monospace">+</text>
+
+  <!-- = sign -->
+  <rect x="680" y="155" width="80" height="40" rx="5" fill="#0f3460"/>
+  <text x="720" y="180" text-anchor="middle" fill="#53d8fb" font-size="16" font-weight="bold" font-family="monospace">= a + b</text>
+
+  <!-- Transfer Factor Section -->
+  <rect x="50" y="300" width="700" height="80" rx="10" fill="none" stroke="#0f3460" stroke-width="1.5"/>
+  <text x="400" y="325" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="Georgia">Transfer Factor Properties</text>
+  <text x="200" y="355" text-anchor="middle" fill="#a8a8b8" font-size="13" font-family="monospace">Δ(γ₁, γ₂) = −Δ(γ₂, γ₁)</text>
+  <text x="500" y="355" text-anchor="middle" fill="#a8a8b8" font-size="13" font-family="monospace">Δ(γ, γ) = 0</text>
+  <text x="200" y="370" text-anchor="middle" fill="#53d8fb" font-size="11" font-family="monospace">antisymmetry ✅</text>
+  <text x="500" y="370" text-anchor="middle" fill="#53d8fb" font-size="11" font-family="monospace">self-vanishing ✅</text>
+
+  <!-- Hitchin Fibration -->
+  <rect x="50" y="400" width="700" height="80" rx="10" fill="none" stroke="#0f3460" stroke-width="1.5"/>
+  <text x="400" y="425" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold" font-family="Georgia">Tropical Hitchin Fibration</text>
+  <text x="250" y="455" text-anchor="middle" fill="#a8a8b8" font-size="13" font-family="monospace">Hitchin map: γ ↦ eigenvalues</text>
+  <text x="600" y="455" text-anchor="middle" fill="#a8a8b8" font-size="13" font-family="monospace">Injective on reg. s.s. ✅</text>
+  <text x="400" y="475" text-anchor="middle" fill="#53d8fb" font-size="13" font-family="monospace">Σ Hitchin(γ)ᵢ = O(γ) ✅</text>
+</svg>

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bgp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1520;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a2838;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="600" fill="url(#bgp)"/>
+
+  <text x="450" y="40" text-anchor="middle" fill="#ffd700" font-family="Georgia" font-size="22" font-weight="bold">
+    The Pell-Chebyshev-Eigenvalue Trinity
+  </text>
+
+  <!-- Three circles -->
+  <!-- Pell -->
+  <circle cx="250" cy="220" r="140" fill="none" stroke="#ff8866" stroke-width="2" opacity="0.5"/>
+  <text x="250" y="130" text-anchor="middle" fill="#ff8866" font-family="Arial" font-size="16" font-weight="bold">
+    Pell Equation
+  </text>
+  <text x="250" y="155" text-anchor="middle" fill="#ffaa88" font-family="monospace" font-size="13">
+    x² - 2y² = 1
+  </text>
+  <text x="165" y="195" fill="#ddaa88" font-family="monospace" font-size="11">3²-2·2²=1</text>
+  <text x="165" y="215" fill="#ddaa88" font-family="monospace" font-size="11">17²-2·12²=1</text>
+  <text x="165" y="235" fill="#ddaa88" font-family="monospace" font-size="11">99²-2·70²=1</text>
+  <text x="165" y="255" fill="#ddaa88" font-family="monospace" font-size="11">577²-2·408²=1</text>
+
+  <!-- Chebyshev -->
+  <circle cx="650" cy="220" r="140" fill="none" stroke="#66aaff" stroke-width="2" opacity="0.5"/>
+  <text x="650" y="130" text-anchor="middle" fill="#66aaff" font-family="Arial" font-size="16" font-weight="bold">
+    Chebyshev Polynomials
+  </text>
+  <text x="650" y="155" text-anchor="middle" fill="#88ccff" font-family="monospace" font-size="13">
+    Tₙ(x) = cos(n·arccos(x))
+  </text>
+  <text x="575" y="195" fill="#88aabb" font-family="monospace" font-size="11">T₁(3) = 3</text>
+  <text x="575" y="215" fill="#88aabb" font-family="monospace" font-size="11">T₂(3) = 17</text>
+  <text x="575" y="235" fill="#88aabb" font-family="monospace" font-size="11">T₃(3) = 99</text>
+  <text x="575" y="255" fill="#88aabb" font-family="monospace" font-size="11">T₄(3) = 577</text>
+
+  <!-- Eigenvalues -->
+  <circle cx="450" cy="380" r="140" fill="none" stroke="#66ff88" stroke-width="2" opacity="0.5"/>
+  <text x="450" y="325" text-anchor="middle" fill="#66ff88" font-family="Arial" font-size="16" font-weight="bold">
+    B₂ Eigenvalues
+  </text>
+  <text x="450" y="355" text-anchor="middle" fill="#88ffaa" font-family="monospace" font-size="13">
+    -1, 3+2√2, 3-2√2
+  </text>
+  <text x="380" y="395" fill="#88ddaa" font-family="monospace" font-size="11">tr(B₂ⁿ) =</text>
+  <text x="380" y="415" fill="#88ddaa" font-family="monospace" font-size="11">(-1)ⁿ+2Tₙ(3)</text>
+
+  <!-- Intersection labels -->
+  <!-- Pell ∩ Chebyshev -->
+  <text x="450" y="185" text-anchor="middle" fill="#ffdd44" font-family="Arial" font-size="12" font-weight="bold">
+    x_n = T_n(3)
+  </text>
+  <text x="450" y="205" text-anchor="middle" fill="#ddbb44" font-family="monospace" font-size="11">
+    Pell x-coords ARE
+  </text>
+  <text x="450" y="222" text-anchor="middle" fill="#ddbb44" font-family="monospace" font-size="11">
+    Chebyshev values!
+  </text>
+
+  <!-- Pell ∩ Eigenvalue -->
+  <text x="290" y="340" text-anchor="middle" fill="#ffaa44" font-family="Arial" font-size="12" font-weight="bold">
+    (3+2√2) = (1+√2)²
+  </text>
+  <text x="290" y="360" text-anchor="middle" fill="#ddaa44" font-family="monospace" font-size="10">
+    Fund. Pell solution
+  </text>
+
+  <!-- Chebyshev ∩ Eigenvalue -->
+  <text x="610" y="340" text-anchor="middle" fill="#44ccff" font-family="Arial" font-size="12" font-weight="bold">
+    αⁿ + α⁻ⁿ = 2Tₙ(c)
+  </text>
+  <text x="610" y="360" text-anchor="middle" fill="#44aadd" font-family="monospace" font-size="10">
+    c = (α+α⁻¹)/2
+  </text>
+
+  <!-- Center -->
+  <text x="450" y="268" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="14" font-weight="bold">
+    Unified
+  </text>
+  <text x="450" y="286" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="14" font-weight="bold">
+    Framework
+  </text>
+
+  <!-- Arrow annotations -->
+  <text x="450" y="490" text-anchor="middle" fill="#ffd700" font-family="Georgia" font-size="14" font-style="italic">
+    "Three ancient mathematical traditions — right triangles,
+  </text>
+  <text x="450" y="510" text-anchor="middle" fill="#ffd700" font-family="Georgia" font-size="14" font-style="italic">
+    polynomial approximation, and Diophantine equations —
+  </text>
+  <text x="450" y="530" text-anchor="middle" fill="#ffd700" font-family="Georgia" font-size="14" font-style="italic">
+    are secretly the same theory."
+  </text>
+
+  <!-- Generator orders table -->
+  <rect x="30" y="540" width="840" height="45" rx="5" fill="#0a1020" stroke="#444" stroke-width="1"/>
+  <text x="450" y="565" text-anchor="middle" fill="#88aacc" font-family="monospace" font-size="11">
+    Mixed generators extend the pattern: B₁B₂→T_n(9), B₁B₃→T_n(7), B₁B₂B₃→T_n(33)
+  </text>
+</svg>

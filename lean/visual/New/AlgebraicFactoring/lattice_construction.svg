@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <style>
+      .title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .subtitle { font: 14px sans-serif; fill: #7f8c8d; }
+      .label { font: 12px sans-serif; fill: #2c3e50; }
+      .small { font: 10px sans-serif; fill: #95a5a6; }
+      .axis { stroke: #bdc3c7; stroke-width: 1; }
+      .grid { stroke: #ecf0f1; stroke-width: 0.5; }
+    </style>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8e44ad;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e67e22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="white" rx="10"/>
+  <text x="400" y="35" text-anchor="middle" class="title">Quaternion Lattice Construction for Factoring</text>
+  <rect x="50" y="60" width="300" height="120" rx="8" fill="#3498db" opacity="0.1" stroke="#3498db" stroke-width="2"/>
+  <text x="200" y="85" text-anchor="middle" style="font: bold 14px sans-serif; fill: #3498db;">Step 1: Four-Square Decomposition</text>
+  <text x="200" y="110" text-anchor="middle" class="label">N = p × q = 91 = 7 × 13</text>
+  <text x="200" y="130" text-anchor="middle" class="label">91 = 1² + 3² + 9² + 0²</text>
+  <text x="200" y="155" text-anchor="middle" class="small">Lagrange: every n ∈ ℕ is a sum of 4 squares</text>
+  <rect x="450" y="60" width="300" height="180" rx="8" fill="#2ecc71" opacity="0.1" stroke="#2ecc71" stroke-width="2"/>
+  <text x="600" y="85" text-anchor="middle" style="font: bold 14px sans-serif; fill: #2ecc71;">Step 2: Build Lattice</text>
+  <text x="509.0" y="120" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">s</text>
+  <text x="547.0" y="120" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="585.0" y="120" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="623.0" y="120" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="661.0" y="120" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">1</text>
+  <text x="509.0" y="153" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="547.0" y="153" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">s</text>
+  <text x="585.0" y="153" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="623.0" y="153" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="661.0" y="153" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">3</text>
+  <text x="509.0" y="186" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="547.0" y="186" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="585.0" y="186" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">s</text>
+  <text x="623.0" y="186" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="661.0" y="186" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">9</text>
+  <text x="509.0" y="219" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="547.0" y="219" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="585.0" y="219" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="623.0" y="219" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">s</text>
+  <text x="661.0" y="219" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="509.0" y="252" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="547.0" y="252" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="585.0" y="252" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="623.0" y="252" text-anchor="middle" fill="#bdc3c7" font-size="13" font-family="monospace">0</text>
+  <text x="661.0" y="252" text-anchor="middle" fill="#2ecc71" font-size="13" font-family="monospace">91</text>
+  <text x="485" y="160" text-anchor="middle" font-size="80" fill="#2ecc71" opacity="0.5">[</text>
+  <text x="690" y="160" text-anchor="middle" font-size="80" fill="#2ecc71" opacity="0.5">]</text>
+  <text x="600" y="225" text-anchor="middle" class="small">s = ⌊N^α⌋, α ≈ 0.25</text>
+  <path d="M 355 120 L 445 120" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="50" y="260" width="300" height="140" rx="8" fill="#9b59b6" opacity="0.1" stroke="#9b59b6" stroke-width="2"/>
+  <text x="200" y="290" text-anchor="middle" style="font: bold 14px sans-serif; fill: #9b59b6;">Step 3: LLL Reduction</text>
+  <text x="200" y="320" text-anchor="middle" class="label">Find short vectors in the lattice</text>
+  <text x="200" y="345" text-anchor="middle" class="label">Short vector ↔ small quaternion norm</text>
+  <text x="200" y="370" text-anchor="middle" class="label">Small norm that divides N → factor!</text>
+  <rect x="450" y="260" width="300" height="140" rx="8" fill="#e67e22" opacity="0.1" stroke="#e67e22" stroke-width="2"/>
+  <text x="600" y="290" text-anchor="middle" style="font: bold 14px sans-serif; fill: #e67e22;">Step 4: Factor Extraction</text>
+  <text x="600" y="320" text-anchor="middle" class="label">Short vector v = (x,y,z,w,0)</text>
+  <text x="600" y="345" text-anchor="middle" class="label">Norm = x² + y² + z² + w²</text>
+  <text x="600" y="370" text-anchor="middle" class="label">If norm | N → GCD(norm, N) = factor</text>
+  <path d="M 200 185 L 200 255" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 355 330 L 445 330" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="200" y="440" width="400" height="70" rx="12" fill="#27ae60" opacity="0.9"/>
+  <text x="400" y="470" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Result: N = 91 = 7 × 13 ✓</text>
+  <text x="400" y="495" text-anchor="middle" fill="white" font-size="12">Quaternion norm factoring succeeded</text>
+  <path d="M 600 405 Q 600 455 605 455 L 600 440" stroke="#bdc3c7" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#bdc3c7"/>
+    </marker>
+  </defs>
+  <text x="400" y="555" text-anchor="middle" class="subtitle">The key insight: quaternion norm multiplicativity converts factoring into a shortest-vector problem</text>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1000"/>
+      <stop offset="100%" stop-color="#0d0800"/>
+    </linearGradient>
+    <radialGradient id="sphere" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="rgba(245,158,11,0.4)"/>
+      <stop offset="100%" stop-color="rgba(245,158,11,0.05)"/>
+    </radialGradient>
+  </defs>
+  
+  <rect width="900" height="500" fill="url(#hbg)"/>
+  
+  <text x="450" y="35" text-anchor="middle" fill="#f59e0b" font-size="20" font-weight="bold">
+    The Hauptmodul: Modular Lambda Function λ(τ)
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#8b949e" font-size="12">
+    X_θ = Γ_θ\ℍ* ≅ ℙ¹ via λ(τ) · genus 0 · 3 cusps
+  </text>
+  
+  <!-- The sphere (genus 0 = ℙ¹) -->
+  <ellipse cx="250" cy="270" rx="160" ry="160" fill="url(#sphere)" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="250" y="200" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="bold">X_θ ≅ ℙ¹</text>
+  <text x="250" y="220" text-anchor="middle" fill="#fbbf24" font-size="11">(genus 0)</text>
+  
+  <!-- Three cusps on the sphere -->
+  <circle cx="160" cy="180" r="12" fill="none" stroke="#ff7b72" stroke-width="2"/>
+  <text x="160" y="184" text-anchor="middle" fill="#ff7b72" font-size="10" font-weight="bold">∞</text>
+  <text x="130" y="165" fill="#ff7b72" font-size="10">λ = 0</text>
+  
+  <circle cx="340" cy="180" r="12" fill="none" stroke="#7ee787" stroke-width="2"/>
+  <text x="340" y="184" text-anchor="middle" fill="#7ee787" font-size="10" font-weight="bold">0</text>
+  <text x="365" y="165" fill="#7ee787" font-size="10">λ = 1</text>
+  
+  <circle cx="250" cy="400" r="12" fill="none" stroke="#58a6ff" stroke-width="2"/>
+  <text x="250" y="404" text-anchor="middle" fill="#58a6ff" font-size="10" font-weight="bold">1</text>
+  <text x="250" y="430" fill="#58a6ff" font-size="10" text-anchor="middle">λ = ∞</text>
+  
+  <!-- Special point i -->
+  <circle cx="250" cy="270" r="6" fill="#fbbf24"/>
+  <text x="270" y="268" fill="#fbbf24" font-size="11">τ = i</text>
+  <text x="270" y="283" fill="#fbbf24" font-size="11">λ = ½</text>
+  
+  <!-- Arrows for T² and S actions -->
+  <path d="M 175 188 C 200 160, 300 160, 328 180" fill="none" stroke="#d2a8ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="250" y="155" text-anchor="middle" fill="#d2a8ff" font-size="10">S: λ ↦ 1−λ</text>
+  
+  <!-- T² action (loop at cusp ∞) -->
+  <path d="M 148 175 C 120 140, 140 120, 165 170" fill="none" stroke="#ffa657" stroke-width="1.5"/>
+  <text x="115" y="140" fill="#ffa657" font-size="10">T²: λ(τ+2)=λ(τ)</text>
+  
+  <!-- Properties panel -->
+  <rect x="480" y="80" width="390" height="150" rx="10" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="675" y="105" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">Transformation Rules</text>
+  
+  <text x="500" y="135" fill="#e6edf3" font-size="13" font-family="serif">T² action:  λ(τ + 2) = λ(τ)</text>
+  <text x="500" y="160" fill="#e6edf3" font-size="13" font-family="serif">S action:   λ(−1/τ) = 1 − λ(τ)</text>
+  <text x="500" y="185" fill="#e6edf3" font-size="13" font-family="serif">Fixed point: λ(i) = ½  (since ½ = 1−½)</text>
+  <text x="500" y="210" fill="#7ee787" font-size="11">All formally verified in Lean 4 ✓</text>
+  
+  <!-- j-invariant panel -->
+  <rect x="480" y="250" width="390" height="105" rx="10" fill="rgba(126,231,135,0.08)" stroke="#7ee787" stroke-width="1.5"/>
+  <text x="675" y="275" text-anchor="middle" fill="#7ee787" font-size="14" font-weight="bold">j-Invariant Formula</text>
+  
+  <text x="675" y="305" text-anchor="middle" fill="#e6edf3" font-size="14" font-family="serif">
+    j(τ) = 256(λ² − λ + 1)³ / λ²(1−λ)²
+  </text>
+  <text x="675" y="330" text-anchor="middle" fill="#fbbf24" font-size="12">
+    At λ = ½:  j(i) = 1728  ✓
+  </text>
+  <text x="675" y="348" text-anchor="middle" fill="#8b949e" font-size="10">
+    (Verified by exact rational arithmetic in Lean)
+  </text>
+  
+  <!-- Anharmonic group -->
+  <rect x="480" y="375" width="390" height="105" rx="10" fill="rgba(210,153,255,0.08)" stroke="#d2a8ff" stroke-width="1.5"/>
+  <text x="675" y="400" text-anchor="middle" fill="#d2a8ff" font-size="14" font-weight="bold">Anharmonic Group S₃</text>
+  
+  <text x="500" y="425" fill="#e6edf3" font-size="11">λ    →  1−λ   →  1/λ</text>
+  <text x="500" y="445" fill="#e6edf3" font-size="11">1/(1−λ) → λ/(λ−1) → (λ−1)/λ</text>
+  <text x="500" y="465" fill="#d2a8ff" font-size="11">6 transformations = 3! = |S₃|  ✓</text>
+  
+  <!-- Cusp-Branch correspondence -->
+  <rect x="30" y="445" width="410" height="40" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="235" y="470" text-anchor="middle" fill="#fbbf24" font-size="12">
+    3 cusps of X_θ  ↔  3 branches of Berggren tree  ↔  3 cosets of Γ_θ in SL₂(ℤ)
+  </text>
+</svg>

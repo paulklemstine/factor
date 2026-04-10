@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a00"/>
+      <stop offset="100%" style="stop-color:#2a1a10"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="500" fill="url(#bg4)"/>
+  
+  <text x="400" y="35" text-anchor="middle" fill="#FFA726" font-size="20" font-weight="bold">
+    The Modular Lambda Function λ(τ) — Hauptmodul of X_θ
+  </text>
+  
+  <!-- Genus 0 diagram -->
+  <g transform="translate(100, 60)">
+    <text x="150" y="20" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">X_θ = Γ_θ\ℍ* has genus 0</text>
+    
+    <!-- Sphere with 3 punctures -->
+    <ellipse cx="150" cy="100" rx="80" ry="60" fill="none" stroke="#FFA726" stroke-width="2"/>
+    
+    <!-- Three cusps -->
+    <circle cx="90" cy="80" r="8" fill="#1a0a00" stroke="#EF5350" stroke-width="2"/>
+    <text x="90" y="65" text-anchor="middle" fill="#EF5350" font-size="11">∞</text>
+    <text x="90" y="105" text-anchor="middle" fill="#888" font-size="9">λ = 0</text>
+    
+    <circle cx="210" cy="80" r="8" fill="#1a0a00" stroke="#66BB6A" stroke-width="2"/>
+    <text x="210" y="65" text-anchor="middle" fill="#66BB6A" font-size="11">0</text>
+    <text x="210" y="105" text-anchor="middle" fill="#888" font-size="9">λ = 1</text>
+    
+    <circle cx="150" cy="140" r="8" fill="#1a0a00" stroke="#4FC3F7" stroke-width="2"/>
+    <text x="150" y="165" text-anchor="middle" fill="#4FC3F7" font-size="11">1</text>
+    <text x="150" y="178" text-anchor="middle" fill="#888" font-size="9">λ = ∞</text>
+    
+    <!-- Fixed point -->
+    <circle cx="150" cy="95" r="4" fill="#FFD700"/>
+    <text x="170" y="93" fill="#FFD700" font-size="10">τ = i</text>
+    <text x="170" y="106" fill="#FFD700" font-size="9">λ(i) = 1/2</text>
+  </g>
+  
+  <!-- Transformations -->
+  <g transform="translate(400, 60)">
+    <text x="180" y="20" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">Modular Transformations</text>
+    
+    <rect x="20" y="35" width="320" height="140" rx="8" fill="rgba(255,255,255,0.03)" stroke="#555"/>
+    
+    <text x="40" y="60" fill="#FFA726" font-size="12" font-weight="bold">T²-invariance:</text>
+    <text x="60" y="80" fill="#ddd" font-size="13" font-style="italic">λ(τ + 2) = λ(τ)</text>
+    
+    <text x="40" y="110" fill="#FFA726" font-size="12" font-weight="bold">S-transformation:</text>
+    <text x="60" y="130" fill="#ddd" font-size="13" font-style="italic">λ(−1/τ) = 1 − λ(τ)</text>
+    
+    <text x="40" y="160" fill="#FFA726" font-size="12" font-weight="bold">Fixed point:</text>
+    <text x="60" y="160" fill="#ddd" font-size="13" font-style="italic">          λ(i) = 1/2  (unique: 1−x = x)</text>
+  </g>
+  
+  <!-- j-invariant -->
+  <g transform="translate(60, 260)">
+    <rect x="0" y="0" width="680" height="90" rx="8" fill="rgba(255,215,0,0.08)" stroke="#FFD700" stroke-width="1"/>
+    <text x="340" y="25" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">The j-Invariant</text>
+    <text x="340" y="50" text-anchor="middle" fill="#ddd" font-size="14" font-style="italic">
+      j(τ) = 256 · (λ² − λ + 1)³ / (λ²(1−λ)²)
+    </text>
+    <text x="340" y="75" text-anchor="middle" fill="#66BB6A" font-size="13">
+      At λ = 1/2:  j(i) = 256 · (3/4)³ / (1/16) = 1728  ✓
+    </text>
+  </g>
+  
+  <!-- Anharmonic ratios -->
+  <g transform="translate(60, 370)">
+    <rect x="0" y="0" width="320" height="115" rx="8" fill="rgba(255,255,255,0.03)" stroke="#555"/>
+    <text x="160" y="25" text-anchor="middle" fill="#FFA726" font-size="13" font-weight="bold">Six Anharmonic Ratios ≅ S₃</text>
+    
+    <g fill="#ddd" font-size="11">
+      <text x="30" y="48">σ₁: λ</text>
+      <text x="30" y="68">σ₂: 1 − λ</text>
+      <text x="30" y="88">σ₃: 1/λ</text>
+      <text x="180" y="48">σ₄: 1/(1−λ)</text>
+      <text x="180" y="68">σ₅: λ/(λ−1)</text>
+      <text x="180" y="88">σ₆: (λ−1)/λ</text>
+    </g>
+    <text x="160" y="108" text-anchor="middle" fill="#888" font-size="10">|S₃| = 3! = 6  ✓</text>
+  </g>
+  
+  <!-- q-expansion -->
+  <g transform="translate(420, 370)">
+    <rect x="0" y="0" width="320" height="115" rx="8" fill="rgba(255,255,255,0.03)" stroke="#555"/>
+    <text x="160" y="25" text-anchor="middle" fill="#FFA726" font-size="13" font-weight="bold">q-Expansion</text>
+    
+    <text x="30" y="52" fill="#ddd" font-size="12" font-style="italic">λ(τ) = 16q − 128q² + 704q³ − ···</text>
+    <text x="30" y="72" fill="#888" font-size="11">where q = e^{2πiτ}</text>
+    <text x="30" y="95" fill="#66BB6A" font-size="11">Leading coefficient: 16 = 2⁴  ✓</text>
+    <text x="30" y="110" fill="#888" font-size="10">Area = 3·(π/3) = π  ✓</text>
+  </g>
+</svg>

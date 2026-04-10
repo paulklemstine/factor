@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a1a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg3)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#ffa657" font-size="20" font-weight="bold">
+    Quantum → Tropical: The Crystal Limit
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#8b949e" font-size="12">
+    q → 0 tropicalizes quantum group representations into crystal bases
+  </text>
+
+  <!-- R-matrix diagram -->
+  <g transform="translate(100, 100)">
+    <text x="100" y="0" text-anchor="middle" fill="#d2a8ff" font-size="16" font-weight="bold">Tropical R-matrix</text>
+
+    <!-- Input lines -->
+    <line x1="20" y1="30" x2="80" y2="80" stroke="#f97583" stroke-width="2"/>
+    <line x1="180" y1="30" x2="120" y2="80" stroke="#79c0ff" stroke-width="2"/>
+    <!-- Crossing -->
+    <circle cx="100" cy="60" r="12" fill="#21262d" stroke="#ffa657" stroke-width="2"/>
+    <text x="100" y="65" text-anchor="middle" fill="#ffa657" font-size="12" font-weight="bold">R</text>
+    <!-- Output lines -->
+    <line x1="80" y1="80" x2="20" y2="130" stroke="#79c0ff" stroke-width="2"/>
+    <line x1="120" y1="80" x2="180" y2="130" stroke="#f97583" stroke-width="2"/>
+
+    <!-- Labels -->
+    <text x="10" y="25" fill="#f97583" font-size="13">a</text>
+    <text x="185" y="25" fill="#79c0ff" font-size="13">b</text>
+    <text x="-5" y="145" fill="#79c0ff" font-size="13">min(a,b)</text>
+    <text x="155" y="145" fill="#f97583" font-size="13">max(a,b)</text>
+  </g>
+
+  <!-- Properties -->
+  <g transform="translate(350, 100)">
+    <text x="0" y="0" fill="#7ee787" font-size="15" font-weight="bold">Verified Properties:</text>
+
+    <rect x="0" y="15" width="380" height="30" rx="5" fill="#0d1f0d" stroke="#7ee787" stroke-width="1"/>
+    <text x="15" y="35" fill="#7ee787" font-size="12">✅ Sorting: R(a,b).1 ≤ R(a,b).2</text>
+
+    <rect x="0" y="55" width="380" height="30" rx="5" fill="#0d1f0d" stroke="#7ee787" stroke-width="1"/>
+    <text x="15" y="75" fill="#7ee787" font-size="12">✅ Conservation: R(a,b).1 + R(a,b).2 = a + b</text>
+
+    <rect x="0" y="95" width="380" height="30" rx="5" fill="#0d1f0d" stroke="#7ee787" stroke-width="1"/>
+    <text x="15" y="115" fill="#7ee787" font-size="12">✅ Idempotence: R(R(a,b)) = R(a,b)</text>
+
+    <rect x="0" y="135" width="380" height="30" rx="5" fill="#0d1f0d" stroke="#7ee787" stroke-width="1"/>
+    <text x="15" y="155" fill="#7ee787" font-size="12">✅ Crystal duality is involution: dual(dual(w)) = w</text>
+  </g>
+
+  <!-- Crystal limit visualization -->
+  <g transform="translate(100, 280)">
+    <text x="300" y="0" text-anchor="middle" fill="#ffa657" font-size="16" font-weight="bold">
+      The Crystal Limit: q → 0
+    </text>
+
+    <!-- Quantum side -->
+    <rect x="0" y="20" width="250" height="120" rx="10" fill="#21262d" stroke="#d2a8ff" stroke-width="1.5"/>
+    <text x="125" y="45" text-anchor="middle" fill="#d2a8ff" font-size="14" font-weight="bold">Quantum (q ≠ 0)</text>
+    <text x="125" y="70" text-anchor="middle" fill="#c9d1d9" font-size="11">R-matrix: Yang-Baxter eq.</text>
+    <text x="125" y="90" text-anchor="middle" fill="#c9d1d9" font-size="11">Representations: smooth</text>
+    <text x="125" y="110" text-anchor="middle" fill="#c9d1d9" font-size="11">KL polynomials: complex</text>
+    <text x="125" y="130" text-anchor="middle" fill="#c9d1d9" font-size="11">Operations: algebraic</text>
+
+    <!-- Arrow -->
+    <line x1="260" y1="80" x2="340" y2="80" stroke="#ffa657" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="300" y="70" text-anchor="middle" fill="#ffa657" font-size="14" font-weight="bold">q→0</text>
+
+    <!-- Tropical side -->
+    <rect x="350" y="20" width="250" height="120" rx="10" fill="#21262d" stroke="#7ee787" stroke-width="1.5"/>
+    <text x="475" y="45" text-anchor="middle" fill="#7ee787" font-size="14" font-weight="bold">Tropical (q = 0)</text>
+    <text x="475" y="70" text-anchor="middle" fill="#c9d1d9" font-size="11">R-matrix: sorting (min,max)</text>
+    <text x="475" y="90" text-anchor="middle" fill="#c9d1d9" font-size="11">Representations: crystal bases</text>
+    <text x="475" y="110" text-anchor="middle" fill="#c9d1d9" font-size="11">KL values: {0,1}</text>
+    <text x="475" y="130" text-anchor="middle" fill="#c9d1d9" font-size="11">Operations: piecewise-linear</text>
+  </g>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffa657"/>
+    </marker>
+  </defs>
+</svg>

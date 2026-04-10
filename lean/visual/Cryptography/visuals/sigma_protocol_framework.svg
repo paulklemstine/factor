@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="proverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.02"/>
+    </linearGradient>
+    <linearGradient id="verifierGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#22c55e;stop-opacity:0.02"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#1e293b">
+    Sigma Protocol Framework
+  </text>
+  <text x="400" y="55" text-anchor="middle" font-size="12" fill="#64748b">
+    Machine-Verified in Lean 4 — Completeness, Special Soundness, HVZK
+  </text>
+
+  <!-- Prover column -->
+  <rect x="40" y="80" width="300" height="440" fill="url(#proverGrad)" stroke="#3b82f6" stroke-width="2" rx="8"/>
+  <text x="190" y="105" text-anchor="middle" font-size="16" font-weight="bold" fill="#3b82f6">Prover (P)</text>
+  <text x="190" y="120" text-anchor="middle" font-size="11" fill="#64748b">Knows: statement s, witness w</text>
+
+  <!-- Verifier column -->
+  <rect x="460" y="80" width="300" height="440" fill="url(#verifierGrad)" stroke="#22c55e" stroke-width="2" rx="8"/>
+  <text x="610" y="105" text-anchor="middle" font-size="16" font-weight="bold" fill="#22c55e">Verifier (V)</text>
+  <text x="610" y="120" text-anchor="middle" font-size="11" fill="#64748b">Knows: statement s</text>
+
+  <!-- Step 1: Commit -->
+  <rect x="60" y="145" width="260" height="55" fill="white" stroke="#3b82f6" rx="6"/>
+  <text x="190" y="167" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">1. Commit</text>
+  <text x="190" y="185" text-anchor="middle" font-size="11" fill="#64748b">Choose r ← random, compute t = gʳ</text>
+
+  <!-- Arrow: Commit -->
+  <line x1="320" y1="172" x2="460" y2="172" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="390" y="165" text-anchor="middle" font-size="12" fill="#3b82f6" font-weight="bold">t</text>
+
+  <!-- Step 2: Challenge -->
+  <rect x="480" y="215" width="260" height="55" fill="white" stroke="#22c55e" rx="6"/>
+  <text x="610" y="237" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">2. Challenge</text>
+  <text x="610" y="255" text-anchor="middle" font-size="11" fill="#64748b">Choose c ← {0, ..., q-1}</text>
+
+  <!-- Arrow: Challenge -->
+  <line x1="480" y1="242" x2="340" y2="242" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="410" y="235" text-anchor="middle" font-size="12" fill="#22c55e" font-weight="bold">c</text>
+
+  <!-- Step 3: Respond -->
+  <rect x="60" y="285" width="260" height="55" fill="white" stroke="#3b82f6" rx="6"/>
+  <text x="190" y="307" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">3. Respond</text>
+  <text x="190" y="325" text-anchor="middle" font-size="11" fill="#64748b">Compute s = r + c·x mod q</text>
+
+  <!-- Arrow: Response -->
+  <line x1="320" y1="312" x2="460" y2="312" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="390" y="305" text-anchor="middle" font-size="12" fill="#3b82f6" font-weight="bold">s</text>
+
+  <!-- Step 4: Verify -->
+  <rect x="480" y="355" width="260" height="55" fill="white" stroke="#22c55e" rx="6"/>
+  <text x="610" y="377" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">4. Verify</text>
+  <text x="610" y="395" text-anchor="middle" font-size="11" fill="#64748b">Check: gˢ = t · hᶜ</text>
+
+  <!-- Properties boxes -->
+  <rect x="60" y="440" width="680" height="70" fill="white" stroke="#8b5cf6" stroke-width="2" rx="8"/>
+  <text x="400" y="460" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b5cf6">
+    Verified Properties (✓ = Machine-Checked in Lean 4)
+  </text>
+
+  <!-- Property items -->
+  <text x="100" y="490" font-size="11" fill="#1e293b">
+    ✓ Completeness: Honest P always convinces V
+  </text>
+  <text x="360" y="490" font-size="11" fill="#1e293b">
+    ✓ 2-Special Soundness: Extract witness
+  </text>
+  <text x="100" y="500" font-size="11" fill="#1e293b">
+    ✓ Fiat-Shamir Complete
+  </text>
+  <text x="360" y="500" font-size="11" fill="#1e293b">
+    ✓ Parallel Repetition: (1/q)ᵏ error
+  </text>
+
+  <!-- Fiat-Shamir box -->
+  <rect x="60" y="530" width="320" height="50" fill="#fef3c7" stroke="#f59e0b" rx="6"/>
+  <text x="220" y="550" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">
+    Fiat-Shamir Transform
+  </text>
+  <text x="220" y="568" text-anchor="middle" font-size="10" fill="#92400e">
+    Replace c with H(s, t) → Non-interactive proof
+  </text>
+
+  <!-- OR-composition box -->
+  <rect x="420" y="530" width="320" height="50" fill="#ede9fe" stroke="#8b5cf6" rx="6"/>
+  <text x="580" y="550" text-anchor="middle" font-size="12" font-weight="bold" fill="#5b21b6">
+    OR-Composition
+  </text>
+  <text x="580" y="568" text-anchor="middle" font-size="10" fill="#5b21b6">
+    Prove R₁(s₁,w₁) ∨ R₂(s₂,w₂) without revealing which
+  </text>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e0e2e"/>
+      <stop offset="100%" style="stop-color:#1e0e3e"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bg3)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#c084fc" font-size="20" font-weight="bold">
+    The Idempotent Thread: e² = e
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#888" font-size="12">
+    How idempotent elements unify cross-domain bridges
+  </text>
+
+  <!-- Central equation -->
+  <rect x="300" y="70" width="200" height="45" rx="22" fill="#c084fc" opacity="0.2" stroke="#c084fc" stroke-width="2"/>
+  <text x="400" y="100" text-anchor="middle" fill="#e8d5ff" font-size="24" font-weight="bold">e² = e</text>
+
+  <!-- Branches -->
+  <!-- Branch 1: Karoubi Envelope -->
+  <g transform="translate(100, 180)" filter="url(#glow3)">
+    <rect x="-80" y="-25" width="160" height="90" rx="10" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="0" y="0" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">Karoubi Envelope</text>
+    <text x="0" y="20" text-anchor="middle" fill="#ffaaaa" font-size="10">Objects: (X, e) with e²=e</text>
+    <text x="0" y="35" text-anchor="middle" fill="#ffaaaa" font-size="10">Universal idempotent</text>
+    <text x="0" y="50" text-anchor="middle" fill="#ffaaaa" font-size="10">completion</text>
+  </g>
+  <line x1="350" y1="115" x2="100" y2="155" stroke="#c084fc" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Branch 2: Hecke Algebra -->
+  <g transform="translate(300, 180)" filter="url(#glow3)">
+    <rect x="-80" y="-25" width="160" height="90" rx="10" fill="none" stroke="#ffd93d" stroke-width="2"/>
+    <text x="0" y="0" text-anchor="middle" fill="#ffd93d" font-size="13" font-weight="bold">Hecke Algebra</text>
+    <text x="0" y="20" text-anchor="middle" fill="#ffe88a" font-size="10">Idempotents decompose</text>
+    <text x="0" y="35" text-anchor="middle" fill="#ffe88a" font-size="10">automorphic</text>
+    <text x="0" y="50" text-anchor="middle" fill="#ffe88a" font-size="10">representations</text>
+  </g>
+  <line x1="380" y1="115" x2="300" y2="155" stroke="#c084fc" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Branch 3: Temperley-Lieb -->
+  <g transform="translate(500, 180)" filter="url(#glow3)">
+    <rect x="-80" y="-25" width="160" height="90" rx="10" fill="none" stroke="#6bcf7f" stroke-width="2"/>
+    <text x="0" y="0" text-anchor="middle" fill="#6bcf7f" font-size="13" font-weight="bold">Temperley-Lieb</text>
+    <text x="0" y="20" text-anchor="middle" fill="#a3e4b2" font-size="10">eᵢ² = δ·eᵢ</text>
+    <text x="0" y="35" text-anchor="middle" fill="#a3e4b2" font-size="10">Jones-Wenzl projectors</text>
+    <text x="0" y="50" text-anchor="middle" fill="#a3e4b2" font-size="10">Topological quantum</text>
+  </g>
+  <line x1="420" y1="115" x2="500" y2="155" stroke="#c084fc" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Branch 4: Quantum Mechanics -->
+  <g transform="translate(700, 180)" filter="url(#glow3)">
+    <rect x="-80" y="-25" width="160" height="90" rx="10" fill="none" stroke="#60a5fa" stroke-width="2"/>
+    <text x="0" y="0" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="bold">Quantum Mechanics</text>
+    <text x="0" y="20" text-anchor="middle" fill="#93c5fd" font-size="10">Projection operators</text>
+    <text x="0" y="35" text-anchor="middle" fill="#93c5fd" font-size="10">P² = P, P† = P</text>
+    <text x="0" y="50" text-anchor="middle" fill="#93c5fd" font-size="10">Observable bound ✓</text>
+  </g>
+  <line x1="450" y1="115" x2="700" y2="155" stroke="#c084fc" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Formal results box -->
+  <rect x="50" y="310" width="700" height="220" rx="15" fill="none" stroke="#c084fc" stroke-width="1.5" opacity="0.6"/>
+  <text x="400" y="340" text-anchor="middle" fill="#c084fc" font-size="16" font-weight="bold">
+    Formally Verified Results (Lean 4)
+  </text>
+
+  <text x="80" y="375" fill="#e8d5ff" font-size="12">✓ idem_complement: e²=e → (1-e)²=1-e</text>
+  <text x="80" y="400" fill="#e8d5ff" font-size="12">✓ orthogonal_complement: e·(1-e) = (1-e)·e = 0</text>
+  <text x="80" y="425" fill="#e8d5ff" font-size="12">✓ diagonal_01_idempotent: diag(0/1 entries) is idempotent</text>
+  <text x="80" y="450" fill="#e8d5ff" font-size="12">✓ tl_delta2_idempotent: e²=2e → (e/2)²=e/2</text>
+  <text x="80" y="475" fill="#e8d5ff" font-size="12">✓ jones_wenzl_bound: cos(π/(n+1)) > -1 for n > 0</text>
+  <text x="80" y="500" fill="#e8d5ff" font-size="12">✓ idempotent_trace_nonneg: E²=E → tr(E) ≥ 0</text>
+  <text x="80" y="520" fill="#e8d5ff" font-size="12">✓ quantum_observable_bound: complete projector system → tr(Pᵢ) ≥ 0</text>
+</svg>

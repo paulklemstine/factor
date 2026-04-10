@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg_grad)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#e0e0e0" font-size="22" font-weight="bold">
+    The Tropical "No Counting" Theorem
+  </text>
+
+  <!-- Left panel: Classical Arithmetic -->
+  <rect x="30" y="65" width="350" height="190" rx="10" fill="#1a2332" stroke="#4CAF50" stroke-width="2"/>
+  <text x="205" y="92" text-anchor="middle" fill="#4CAF50" font-size="16" font-weight="bold">
+    Classical Arithmetic
+  </text>
+
+  <text x="60" y="125" fill="#ccc" font-size="14">Addition CAN count:</text>
+  <text x="80" y="155" fill="#8BC34A" font-size="18" font-family="monospace">5 + 5 = 10</text>
+  <text x="80" y="180" fill="#8BC34A" font-size="18" font-family="monospace">5 + 5 + 5 = 15</text>
+  <text x="80" y="205" fill="#8BC34A" font-size="18" font-family="monospace">n × 5 = 5n</text>
+  <text x="80" y="235" fill="#aaa" font-size="12">→ Circuits can accumulate, multiply, count</text>
+
+  <!-- Right panel: Tropical Arithmetic -->
+  <rect x="420" y="65" width="350" height="190" rx="10" fill="#1a2332" stroke="#FF5722" stroke-width="2"/>
+  <text x="595" y="92" text-anchor="middle" fill="#FF5722" font-size="16" font-weight="bold">
+    Tropical Arithmetic
+  </text>
+
+  <text x="450" y="125" fill="#ccc" font-size="14">Addition CANNOT count:</text>
+  <text x="470" y="155" fill="#FF8A65" font-size="18" font-family="monospace">min(5, 5) = 5</text>
+  <text x="470" y="180" fill="#FF8A65" font-size="18" font-family="monospace">min(5, 5, 5) = 5</text>
+  <text x="470" y="205" fill="#FF8A65" font-size="18" font-family="monospace">n × min = still 5</text>
+  <text x="470" y="235" fill="#aaa" font-size="12">→ Circuits can only SELECT, never COUNT</text>
+
+  <!-- Central theorem box -->
+  <rect x="150" y="280" width="500" height="80" rx="12" fill="#2d1f3d" stroke="#9C27B0" stroke-width="2" filter="url(#glow)"/>
+  <text x="400" y="310" text-anchor="middle" fill="#CE93D8" font-size="16" font-weight="bold">
+    Theorem (Lean-verified):
+  </text>
+  <text x="400" y="340" text-anchor="middle" fill="white" font-size="18" font-family="monospace">
+    ∀ a : Tropical ℝ, a + a = a
+  </text>
+
+  <!-- Implications -->
+  <rect x="50" y="385" width="700" height="90" rx="10" fill="#1a2332" stroke="#607D8B" stroke-width="1"/>
+  <text x="400" y="410" text-anchor="middle" fill="#90CAF9" font-size="14" font-weight="bold">
+    Implications for Circuit Separations
+  </text>
+  <text x="80" y="435" fill="#aaa" font-size="13">
+    • Tropical circuit of size s → at most 2ˢ distinct monomials
+  </text>
+  <text x="80" y="458" fill="#aaa" font-size="13">
+    • Permanent needs n! monomials → requires superpolynomial tropical circuits
+  </text>
+
+  <!-- Footer -->
+  <text x="400" y="490" text-anchor="middle" fill="#666" font-size="11">
+    tropical_add_idem, tropical_no_counting — proved in Lean 4 with Mathlib
+  </text>
+</svg>

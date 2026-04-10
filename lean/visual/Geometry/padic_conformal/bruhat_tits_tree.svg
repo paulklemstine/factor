@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <style>
+      .title { font: bold 18px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 14px 'Helvetica Neue', Arial, sans-serif; fill: #4a4a6a; }
+      .label { font: 11px 'Courier New', monospace; fill: #2d2d4d; text-anchor: middle; }
+      .edge { stroke: #6c63ff; stroke-width: 2; stroke-opacity: 0.6; }
+      .edge-highlight { stroke: #ff6b6b; stroke-width: 3; stroke-opacity: 0.8; }
+      .node { fill: #6c63ff; stroke: #1a1a2e; stroke-width: 1.5; }
+      .node-root { fill: #ff6b6b; stroke: #1a1a2e; stroke-width: 2; }
+      .node-leaf { fill: #48dbfb; stroke: #1a1a2e; stroke-width: 1; }
+      .level-label { font: italic 12px 'Helvetica Neue', Arial, sans-serif; fill: #888; }
+      .caption { font: 12px 'Helvetica Neue', Arial, sans-serif; fill: #555; }
+    </style>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fafafe" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="35" class="title" text-anchor="middle">Bruhat-Tits Tree for p = 2</text>
+  <text x="400" y="55" class="subtitle" text-anchor="middle">Each vertex has p + 1 = 3 neighbors · PGL₂(ℚ₂) acts by tree automorphisms</text>
+
+  <!-- Level labels -->
+  <text x="30" y="120" class="level-label">Level 0</text>
+  <text x="30" y="230" class="level-label">Level 1</text>
+  <text x="30" y="360" class="level-label">Level 2</text>
+  <text x="30" y="490" class="level-label">Level 3</text>
+
+  <!-- Level 0 → Level 1 edges -->
+  <line x1="400" y1="110" x2="150" y2="220" class="edge"/>
+  <line x1="400" y1="110" x2="400" y2="220" class="edge"/>
+  <line x1="400" y1="110" x2="650" y2="220" class="edge"/>
+
+  <!-- Level 1 → Level 2 edges (left branch) -->
+  <line x1="150" y1="220" x2="80" y2="350" class="edge"/>
+  <line x1="150" y1="220" x2="150" y2="350" class="edge"/>
+  <line x1="150" y1="220" x2="220" y2="350" class="edge"/>
+
+  <!-- Level 1 → Level 2 edges (center branch) -->
+  <line x1="400" y1="220" x2="330" y2="350" class="edge"/>
+  <line x1="400" y1="220" x2="400" y2="350" class="edge"/>
+  <line x1="400" y1="220" x2="470" y2="350" class="edge"/>
+
+  <!-- Level 1 → Level 2 edges (right branch) -->
+  <line x1="650" y1="220" x2="580" y2="350" class="edge"/>
+  <line x1="650" y1="220" x2="650" y2="350" class="edge"/>
+  <line x1="650" y1="220" x2="720" y2="350" class="edge"/>
+
+  <!-- Level 2 → Level 3 edges (sampled, left-most) -->
+  <line x1="80" y1="350" x2="55" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="80" y1="350" x2="80" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="80" y1="350" x2="105" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="150" y1="350" x2="130" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="150" y1="350" x2="150" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="150" y1="350" x2="170" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="220" y1="350" x2="200" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="220" y1="350" x2="220" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="220" y1="350" x2="240" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="330" y1="350" x2="310" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="330" y1="350" x2="330" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="330" y1="350" x2="350" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="400" y1="350" x2="380" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="400" y1="350" x2="400" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="400" y1="350" x2="420" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="470" y1="350" x2="450" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="470" y1="350" x2="470" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="470" y1="350" x2="490" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="580" y1="350" x2="560" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="580" y1="350" x2="580" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="580" y1="350" x2="600" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="650" y1="350" x2="630" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="650" y1="350" x2="650" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="650" y1="350" x2="670" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <line x1="720" y1="350" x2="700" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="720" y1="350" x2="720" y2="480" class="edge" stroke-opacity="0.3"/>
+  <line x1="720" y1="350" x2="740" y2="480" class="edge" stroke-opacity="0.3"/>
+
+  <!-- Highlight a geodesic path -->
+  <line x1="400" y1="110" x2="400" y2="220" class="edge-highlight"/>
+  <line x1="400" y1="220" x2="330" y2="350" class="edge-highlight"/>
+  <line x1="330" y1="350" x2="310" y2="480" class="edge-highlight"/>
+
+  <!-- Level 0 node (root) -->
+  <circle cx="400" cy="110" r="10" class="node-root" filter="url(#glow)"/>
+  <text x="400" y="95" class="label">ℤ₂²</text>
+
+  <!-- Level 1 nodes -->
+  <circle cx="150" cy="220" r="8" class="node"/>
+  <circle cx="400" cy="220" r="8" class="node"/>
+  <circle cx="650" cy="220" r="8" class="node"/>
+
+  <!-- Level 2 nodes -->
+  <circle cx="80" cy="350" r="6" class="node"/>
+  <circle cx="150" cy="350" r="6" class="node"/>
+  <circle cx="220" cy="350" r="6" class="node"/>
+  <circle cx="330" cy="350" r="6" class="node"/>
+  <circle cx="400" cy="350" r="6" class="node"/>
+  <circle cx="470" cy="350" r="6" class="node"/>
+  <circle cx="580" cy="350" r="6" class="node"/>
+  <circle cx="650" cy="350" r="6" class="node"/>
+  <circle cx="720" cy="350" r="6" class="node"/>
+
+  <!-- Level 3 nodes (leaves) -->
+  <circle cx="55" cy="480" r="3" class="node-leaf"/>
+  <circle cx="80" cy="480" r="3" class="node-leaf"/>
+  <circle cx="105" cy="480" r="3" class="node-leaf"/>
+  <circle cx="130" cy="480" r="3" class="node-leaf"/>
+  <circle cx="150" cy="480" r="3" class="node-leaf"/>
+  <circle cx="170" cy="480" r="3" class="node-leaf"/>
+  <circle cx="200" cy="480" r="3" class="node-leaf"/>
+  <circle cx="220" cy="480" r="3" class="node-leaf"/>
+  <circle cx="240" cy="480" r="3" class="node-leaf"/>
+  <circle cx="310" cy="480" r="3" class="node-leaf"/>
+  <circle cx="330" cy="480" r="3" class="node-leaf"/>
+  <circle cx="350" cy="480" r="3" class="node-leaf"/>
+  <circle cx="380" cy="480" r="3" class="node-leaf"/>
+  <circle cx="400" cy="480" r="3" class="node-leaf"/>
+  <circle cx="420" cy="480" r="3" class="node-leaf"/>
+  <circle cx="450" cy="480" r="3" class="node-leaf"/>
+  <circle cx="470" cy="480" r="3" class="node-leaf"/>
+  <circle cx="490" cy="480" r="3" class="node-leaf"/>
+  <circle cx="560" cy="480" r="3" class="node-leaf"/>
+  <circle cx="580" cy="480" r="3" class="node-leaf"/>
+  <circle cx="600" cy="480" r="3" class="node-leaf"/>
+  <circle cx="630" cy="480" r="3" class="node-leaf"/>
+  <circle cx="650" cy="480" r="3" class="node-leaf"/>
+  <circle cx="670" cy="480" r="3" class="node-leaf"/>
+  <circle cx="700" cy="480" r="3" class="node-leaf"/>
+  <circle cx="720" cy="480" r="3" class="node-leaf"/>
+  <circle cx="740" cy="480" r="3" class="node-leaf"/>
+
+  <!-- Caption -->
+  <text x="400" y="530" class="caption" text-anchor="middle">
+    Red path: a geodesic in the tree (p-adic "line segment")
+  </text>
+  <text x="400" y="550" class="caption" text-anchor="middle">
+    Boundary at ∞ ≅ ℙ¹(ℚ₂): the p-adic projective line
+  </text>
+  <text x="400" y="575" class="caption" text-anchor="middle" font-style="italic" fill="#999">
+    Formally verified: PGL₂(ℚ_p) preserves tree adjacency (mobius_preserves_bt_adjacency)
+  </text>
+</svg>

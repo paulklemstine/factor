@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <rect width="800" height="500" fill="#fefefe" rx="10"/>
+
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">
+    Tropical Neural Networks: ReLU = Tropical Polynomial
+  </text>
+
+  <!-- Classical NN side -->
+  <rect x="30" y="50" width="350" height="200" rx="8" fill="#e3f2fd" stroke="#1565c0"/>
+  <text x="205" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">Classical ReLU Network</text>
+
+  <!-- Input layer -->
+  <circle cx="80" cy="130" r="15" fill="white" stroke="#1565c0" stroke-width="2"/>
+  <text x="80" y="135" text-anchor="middle" font-size="10" fill="#1565c0">x₁</text>
+  <circle cx="80" cy="190" r="15" fill="white" stroke="#1565c0" stroke-width="2"/>
+  <text x="80" y="195" text-anchor="middle" font-size="10" fill="#1565c0">x₂</text>
+
+  <!-- Hidden layer -->
+  <circle cx="195" cy="110" r="15" fill="#bbdefb" stroke="#1565c0" stroke-width="2"/>
+  <text x="195" y="115" text-anchor="middle" font-size="8" fill="#1565c0">ReLU</text>
+  <circle cx="195" cy="160" r="15" fill="#bbdefb" stroke="#1565c0" stroke-width="2"/>
+  <text x="195" y="165" text-anchor="middle" font-size="8" fill="#1565c0">ReLU</text>
+  <circle cx="195" cy="210" r="15" fill="#bbdefb" stroke="#1565c0" stroke-width="2"/>
+  <text x="195" y="215" text-anchor="middle" font-size="8" fill="#1565c0">ReLU</text>
+
+  <!-- Output -->
+  <circle cx="310" cy="160" r="15" fill="white" stroke="#1565c0" stroke-width="2"/>
+  <text x="310" y="165" text-anchor="middle" font-size="10" fill="#1565c0">y</text>
+
+  <!-- Connections -->
+  <line x1="95" y1="130" x2="180" y2="110" stroke="#90caf9" stroke-width="1"/>
+  <line x1="95" y1="130" x2="180" y2="160" stroke="#90caf9" stroke-width="1"/>
+  <line x1="95" y1="130" x2="180" y2="210" stroke="#90caf9" stroke-width="1"/>
+  <line x1="95" y1="190" x2="180" y2="110" stroke="#90caf9" stroke-width="1"/>
+  <line x1="95" y1="190" x2="180" y2="160" stroke="#90caf9" stroke-width="1"/>
+  <line x1="95" y1="190" x2="180" y2="210" stroke="#90caf9" stroke-width="1"/>
+  <line x1="210" y1="110" x2="295" y2="160" stroke="#90caf9" stroke-width="1"/>
+  <line x1="210" y1="160" x2="295" y2="160" stroke="#90caf9" stroke-width="1"/>
+  <line x1="210" y1="210" x2="295" y2="160" stroke="#90caf9" stroke-width="1"/>
+
+  <text x="205" y="240" text-anchor="middle" font-size="10" fill="#1565c0">
+    y = Σ wᵢ max(Σ wᵢⱼxⱼ + bᵢ, 0)
+  </text>
+
+  <!-- Arrow -->
+  <text x="400" y="155" text-anchor="middle" font-size="20" fill="#1e8e3e">=</text>
+
+  <!-- Tropical NN side -->
+  <rect x="420" y="50" width="350" height="200" rx="8" fill="#e8f5e9" stroke="#1e8e3e"/>
+  <text x="595" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e8e3e">Tropical Rational Function</text>
+
+  <!-- Input -->
+  <circle cx="470" cy="130" r="15" fill="white" stroke="#1e8e3e" stroke-width="2"/>
+  <text x="470" y="135" text-anchor="middle" font-size="10" fill="#1e8e3e">x₁</text>
+  <circle cx="470" cy="190" r="15" fill="white" stroke="#1e8e3e" stroke-width="2"/>
+  <text x="470" y="195" text-anchor="middle" font-size="10" fill="#1e8e3e">x₂</text>
+
+  <!-- Max-plus operation -->
+  <rect x="550" y="100" width="80" height="35" rx="5" fill="#c8e6c9" stroke="#1e8e3e"/>
+  <text x="590" y="122" text-anchor="middle" font-size="9" fill="#1e8e3e">max(wᵢx+b)</text>
+  <rect x="550" y="150" width="80" height="35" rx="5" fill="#c8e6c9" stroke="#1e8e3e"/>
+  <text x="590" y="172" text-anchor="middle" font-size="9" fill="#1e8e3e">min(wⱼx+c)</text>
+
+  <!-- Output -->
+  <circle cx="700" cy="155" r="15" fill="white" stroke="#1e8e3e" stroke-width="2"/>
+  <text x="700" y="160" text-anchor="middle" font-size="10" fill="#1e8e3e">y</text>
+
+  <line x1="485" y1="130" x2="550" y2="117" stroke="#a5d6a7" stroke-width="1.5"/>
+  <line x1="485" y1="190" x2="550" y2="117" stroke="#a5d6a7" stroke-width="1.5"/>
+  <line x1="485" y1="130" x2="550" y2="167" stroke="#a5d6a7" stroke-width="1.5"/>
+  <line x1="485" y1="190" x2="550" y2="167" stroke="#a5d6a7" stroke-width="1.5"/>
+  <line x1="630" y1="117" x2="685" y2="155" stroke="#a5d6a7" stroke-width="1.5"/>
+  <line x1="630" y1="167" x2="685" y2="155" stroke="#a5d6a7" stroke-width="1.5"/>
+
+  <text x="595" y="240" text-anchor="middle" font-size="10" fill="#1e8e3e">
+    y = sup_i inf_j (wᵢⱼ ⊙ xⱼ) ⊕ bᵢ
+  </text>
+
+  <!-- Bottom: Duality -->
+  <rect x="50" y="270" width="700" height="210" rx="10" fill="white" stroke="#ddd"/>
+
+  <text x="400" y="295" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">
+    Network Duality = Tropical Langlands Duality
+  </text>
+
+  <!-- Primal network -->
+  <rect x="80" y="310" width="260" height="80" rx="8" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="210" y="335" text-anchor="middle" font-size="12" font-weight="bold" fill="#ef6c00">Primal Network W</text>
+  <text x="210" y="355" text-anchor="middle" font-size="10" fill="#e65100">
+    Weight matrix: W ∈ ℝᵐˣⁿ
+  </text>
+  <text x="210" y="375" text-anchor="middle" font-size="10" fill="#e65100">
+    trop det(W) = min_σ Σᵢ W_{i,σ(i)}
+  </text>
+
+  <!-- Double arrow -->
+  <text x="400" y="355" text-anchor="middle" font-size="24" fill="#333">⟷</text>
+  <text x="400" y="375" text-anchor="middle" font-size="9" fill="#333">Transpose</text>
+  <text x="400" y="388" text-anchor="middle" font-size="9" fill="#333">= Langlands dual</text>
+
+  <!-- Dual network -->
+  <rect x="460" y="310" width="260" height="80" rx="8" fill="#f3e5f5" stroke="#7b1fa2"/>
+  <text x="590" y="335" text-anchor="middle" font-size="12" font-weight="bold" fill="#7b1fa2">Dual Network Wᵀ</text>
+  <text x="590" y="355" text-anchor="middle" font-size="10" fill="#6a1b9a">
+    Transposed: Wᵀ ∈ ℝⁿˣᵐ
+  </text>
+  <text x="590" y="375" text-anchor="middle" font-size="10" fill="#6a1b9a">
+    trop det(Wᵀ) = trop det(W) ✅
+  </text>
+
+  <!-- Key result -->
+  <rect x="130" y="405" width="540" height="60" rx="8" fill="#1a1a2e"/>
+  <text x="400" y="430" text-anchor="middle" font-size="12" fill="white" font-weight="bold">
+    Key Result: (Wᵀ)ᵀ = W  and  trop_det(Wᵀ) = trop_det(W)
+  </text>
+  <text x="400" y="450" text-anchor="middle" font-size="10" fill="#aab8d0">
+    The "optimal assignment cost" is invariant under duality — proved in Lean 4 ✅
+  </text>
+</svg>

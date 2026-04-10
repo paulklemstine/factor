@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="matGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00bcd4"/>
+      <stop offset="100%" stop-color="#006064"/>
+    </linearGradient>
+    <linearGradient id="expGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff6f00"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+    <filter id="g4">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1000" height="600" fill="url(#bg2)"/>
+  
+  <text x="500" y="40" text-anchor="middle" fill="#e0e0e0" font-size="24" font-weight="bold">
+    Matrix Exponentiation Skip-Ahead
+  </text>
+  <text x="500" y="62" text-anchor="middle" fill="#78909c" font-size="13">
+    Computing B₂ᵏ in O(log k) steps via repeated squaring
+  </text>
+  
+  <!-- LEFT SIDE: Sequential (slow) -->
+  <g>
+    <rect x="30" y="85" width="440" height="490" rx="10" fill="#1b2838" stroke="#37474f" stroke-width="1.5"/>
+    <text x="250" y="115" text-anchor="middle" fill="#ef9a9a" font-size="18" font-weight="bold">
+      ✗ Sequential: O(k) multiplications
+    </text>
+    
+    <!-- Chain of matrix multiplications -->
+    <g font-size="12" fill="#b0bec5">
+      <rect x="60" y="135" width="80" height="35" rx="5" fill="#263238" stroke="#546e7a"/>
+      <text x="100" y="157" text-anchor="middle" fill="#80cbc4" font-weight="bold">B₂ · v</text>
+      
+      <text x="155" y="157" fill="#546e7a">→</text>
+      
+      <rect x="170" y="135" width="80" height="35" rx="5" fill="#263238" stroke="#546e7a"/>
+      <text x="210" y="157" text-anchor="middle" fill="#80cbc4" font-weight="bold">B₂ · r₁</text>
+      
+      <text x="265" y="157" fill="#546e7a">→</text>
+      
+      <rect x="280" y="135" width="80" height="35" rx="5" fill="#263238" stroke="#546e7a"/>
+      <text x="320" y="157" text-anchor="middle" fill="#80cbc4" font-weight="bold">B₂ · r₂</text>
+      
+      <text x="375" y="157" fill="#546e7a">→ ···</text>
+    </g>
+    
+    <!-- Dots indicating many steps -->
+    <g fill="#546e7a" font-size="14">
+      <text x="100" y="200">Step 1</text>
+      <text x="210" y="200">Step 2</text>
+      <text x="320" y="200">Step 3</text>
+      <text x="400" y="200">···</text>
+    </g>
+    
+    <!-- More steps -->
+    <g font-size="12">
+      <rect x="60" y="220" width="90" height="35" rx="5" fill="#263238" stroke="#546e7a"/>
+      <text x="105" y="242" text-anchor="middle" fill="#80cbc4" font-weight="bold">B₂ · r₉₉₇</text>
+      
+      <text x="165" y="242" fill="#546e7a">→</text>
+      
+      <rect x="175" y="220" width="90" height="35" rx="5" fill="#263238" stroke="#546e7a"/>
+      <text x="220" y="242" text-anchor="middle" fill="#80cbc4" font-weight="bold">B₂ · r₉₉₈</text>
+      
+      <text x="280" y="242" fill="#546e7a">→</text>
+      
+      <rect x="290" y="220" width="90" height="35" rx="5" fill="#263238" stroke="#546e7a"/>
+      <text x="335" y="242" text-anchor="middle" fill="#80cbc4" font-weight="bold">B₂ · r₉₉₉</text>
+    </g>
+    
+    <text x="100" y="278" fill="#546e7a" font-size="11">Step 998</text>
+    <text x="220" y="278" fill="#546e7a" font-size="11">Step 999</text>
+    <text x="335" y="278" fill="#546e7a" font-size="11">Step 1000</text>
+    
+    <text x="250" y="320" text-anchor="middle" fill="#ef5350" font-size="16" font-weight="bold">
+      1000 matrix multiplications!
+    </text>
+    <text x="250" y="345" text-anchor="middle" fill="#e57373" font-size="13">
+      Each: 27 multiply + 18 add = 45 ops
+    </text>
+    <text x="250" y="370" text-anchor="middle" fill="#e57373" font-size="13">
+      Total: ~45,000 integer operations
+    </text>
+    
+    <!-- Time bar -->
+    <rect x="60" y="400" width="380" height="25" rx="5" fill="#b71c1c" fill-opacity="0.3" stroke="#e57373"/>
+    <rect x="60" y="400" width="380" height="25" rx="5" fill="#ef5350" fill-opacity="0.6"/>
+    <text x="250" y="418" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+      ~0.07 seconds (k=10000)
+    </text>
+    
+    <!-- Verdict -->
+    <text x="250" y="470" text-anchor="middle" fill="#ef9a9a" font-size="14">
+      Scales linearly with depth k
+    </text>
+    <text x="250" y="495" text-anchor="middle" fill="#e57373" font-size="20">
+      O(k) time
+    </text>
+  </g>
+  
+  <!-- RIGHT SIDE: Skip-ahead (fast) -->
+  <g>
+    <rect x="510" y="85" width="460" height="490" rx="10" fill="#1b2838" stroke="#37474f" stroke-width="1.5"/>
+    <text x="740" y="115" text-anchor="middle" fill="#a5d6a7" font-size="18" font-weight="bold">
+      ✓ Skip-Ahead: O(log k) multiplications
+    </text>
+    
+    <!-- Repeated squaring steps -->
+    <g font-size="12">
+      <!-- Step 1: B² = B·B -->
+      <rect x="540" y="135" width="140" height="30" rx="5" fill="url(#matGrad)" stroke="#00bcd4"/>
+      <text x="610" y="155" text-anchor="middle" fill="white" font-weight="bold">B² = B · B</text>
+      <text x="700" y="155" fill="#80cbc4" font-size="11">← 1 mult</text>
+      
+      <!-- Step 2: B⁴ = B²·B² -->
+      <rect x="540" y="175" width="140" height="30" rx="5" fill="url(#matGrad)" stroke="#00bcd4"/>
+      <text x="610" y="195" text-anchor="middle" fill="white" font-weight="bold">B⁴ = B² · B²</text>
+      <text x="700" y="195" fill="#80cbc4" font-size="11">← 1 mult</text>
+      
+      <!-- Step 3: B⁸ = B⁴·B⁴ -->
+      <rect x="540" y="215" width="140" height="30" rx="5" fill="url(#matGrad)" stroke="#00bcd4"/>
+      <text x="610" y="235" text-anchor="middle" fill="white" font-weight="bold">B⁸ = B⁴ · B⁴</text>
+      <text x="700" y="235" fill="#80cbc4" font-size="11">← 1 mult</text>
+      
+      <!-- Step 4: B¹⁶ -->
+      <rect x="540" y="255" width="140" height="30" rx="5" fill="url(#matGrad)" stroke="#00bcd4"/>
+      <text x="610" y="275" text-anchor="middle" fill="white" font-weight="bold">B¹⁶ = B⁸ · B⁸</text>
+      <text x="700" y="275" fill="#80cbc4" font-size="11">← 1 mult</text>
+      
+      <!-- Dots -->
+      <text x="610" y="302" text-anchor="middle" fill="#546e7a" font-size="14">⋮</text>
+      
+      <!-- Step 9: B⁵¹² -->
+      <rect x="540" y="310" width="160" height="30" rx="5" fill="url(#matGrad)" stroke="#00bcd4"/>
+      <text x="620" y="330" text-anchor="middle" fill="white" font-weight="bold">B⁵¹² = B²⁵⁶ · B²⁵⁶</text>
+      <text x="720" y="330" fill="#80cbc4" font-size="11">← 1 mult</text>
+      
+      <!-- Final: B¹⁰⁰⁰ = B⁵¹² · B²⁵⁶ · ... -->
+      <rect x="540" y="350" width="200" height="30" rx="5" fill="url(#expGrad)" stroke="#ff9800"/>
+      <text x="640" y="370" text-anchor="middle" fill="white" font-weight="bold">B¹⁰⁰⁰ = B⁵¹² · B²⁵⁶ · B¹²⁸ · ···</text>
+      <text x="760" y="370" fill="#ffb74d" font-size="11">← combine</text>
+    </g>
+    
+    <text x="740" y="415" text-anchor="middle" fill="#66bb6a" font-size="16" font-weight="bold">
+      Only ~10 matrix multiplications!
+    </text>
+    <text x="740" y="440" text-anchor="middle" fill="#81c784" font-size="13">
+      log₂(1000) ≈ 10 steps
+    </text>
+    
+    <!-- Time bar (much shorter) -->
+    <rect x="540" y="460" width="380" height="25" rx="5" fill="#1b5e20" fill-opacity="0.3" stroke="#66bb6a"/>
+    <rect x="540" y="460" width="15" height="25" rx="5" fill="#4caf50" fill-opacity="0.8"/>
+    <text x="630" y="478" text-anchor="middle" fill="white" font-size="12" font-weight="bold">
+      ~0.003 seconds (k=10000) — 25× faster
+    </text>
+    
+    <!-- Verdict -->
+    <text x="740" y="520" text-anchor="middle" fill="#a5d6a7" font-size="14">
+      Scales logarithmically with depth k
+    </text>
+    <text x="740" y="545" text-anchor="middle" fill="#69f0ae" font-size="20" filter="url(#g4)">
+      O(log k) time
+    </text>
+  </g>
+</svg>

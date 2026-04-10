@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <radialGradient id="sphereGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#e8f4fd"/>
+      <stop offset="100%" stop-color="#1a5276"/>
+    </radialGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="700" fill="#fafbfc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#1a5276">
+    Dimension 2: Collision on the Factoring Circle
+  </text>
+  <text x="400" y="65" text-anchor="middle" font-size="14" fill="#666">
+    N = 85 = 5 × 17 = 2² + 9² = 6² + 7²
+  </text>
+
+  <!-- Axes -->
+  <line x1="100" y1="370" x2="700" y2="370" stroke="#ccc" stroke-width="1"/>
+  <line x1="400" y1="100" x2="400" y2="640" stroke="#ccc" stroke-width="1"/>
+  <text x="710" y="375" font-size="12" fill="#999">a</text>
+  <text x="405" y="95" font-size="12" fill="#999">b</text>
+
+  <!-- Circle S¹(√85) -->
+  <circle cx="400" cy="370" r="250" fill="none" stroke="#2980b9" stroke-width="2.5" opacity="0.6"/>
+  <text x="660" y="340" font-size="13" fill="#2980b9">S¹(√85)</text>
+
+  <!-- Grid dots for lattice -->
+  <g opacity="0.15">
+    <g fill="#333">
+      <!-- sparse grid -->
+      <circle cx="150" cy="120" r="1.5"/><circle cx="200" cy="120" r="1.5"/>
+      <circle cx="250" cy="120" r="1.5"/><circle cx="300" cy="120" r="1.5"/>
+      <circle cx="350" cy="120" r="1.5"/><circle cx="400" cy="120" r="1.5"/>
+      <circle cx="450" cy="120" r="1.5"/><circle cx="500" cy="120" r="1.5"/>
+      <circle cx="550" cy="120" r="1.5"/><circle cx="600" cy="120" r="1.5"/>
+      <circle cx="650" cy="120" r="1.5"/>
+    </g>
+  </g>
+
+  <!-- Representation 1: (2, 9) → point at angle -->
+  <!-- Scale: 1 unit = 250/√85 ≈ 27.1 pixels -->
+  <!-- (2, 9): x = 400 + 2*27.1 = 454, y = 370 - 9*27.1 = 126 -->
+  <circle cx="454" cy="126" r="8" fill="#e74c3c" filter="url(#shadow)"/>
+  <text x="470" y="118" font-size="14" font-weight="bold" fill="#e74c3c">(2, 9)</text>
+  <text x="470" y="135" font-size="11" fill="#e74c3c">2² + 9² = 85</text>
+
+  <!-- Representation 1 mirror: (9, 2) -->
+  <circle cx="644" cy="316" r="8" fill="#e74c3c" filter="url(#shadow)"/>
+  <text x="655" y="308" font-size="14" font-weight="bold" fill="#e74c3c">(9, 2)</text>
+
+  <!-- Representation 2: (6, 7) -->
+  <!-- (6, 7): x = 400 + 6*27.1 = 563, y = 370 - 7*27.1 = 180 -->
+  <circle cx="563" cy="180" r="8" fill="#27ae60" filter="url(#shadow)"/>
+  <text x="578" y="172" font-size="14" font-weight="bold" fill="#27ae60">(6, 7)</text>
+  <text x="578" y="189" font-size="11" fill="#27ae60">6² + 7² = 85</text>
+
+  <!-- Representation 2 mirror: (7, 6) -->
+  <circle cx="590" cy="207" r="6" fill="#27ae60" opacity="0.5"/>
+
+  <!-- Collision line -->
+  <line x1="454" y1="126" x2="563" y2="180" stroke="#f39c12" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="490" y="140" font-size="11" fill="#f39c12" font-weight="bold">Collision!</text>
+
+  <!-- Cross-term calculation box -->
+  <rect x="50" y="460" width="330" height="190" rx="8" fill="white" stroke="#2c3e50" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="215" y="485" text-anchor="middle" font-size="15" font-weight="bold" fill="#2c3e50">Cross-Term Computation</text>
+  <text x="70" y="510" font-size="13" fill="#333">a=2, b=9, c=6, d=7</text>
+  <text x="70" y="535" font-size="13" fill="#333">ad − bc = 2·7 − 9·6 = 14 − 54 = −40</text>
+  <text x="70" y="560" font-size="13" fill="#333">ac + bd = 2·6 + 9·7 = 12 + 63 = 75</text>
+  <text x="70" y="590" font-size="13" font-weight="bold" fill="#e74c3c">gcd(40, 85) = 5  ←  Factor!</text>
+  <text x="70" y="615" font-size="13" fill="#333">gcd(75, 85) = 5  ←  Same factor!</text>
+  <text x="70" y="640" font-size="13" font-weight="bold" fill="#27ae60">85 = 5 × 17  ✓</text>
+
+  <!-- Collision-Norm Identity box -->
+  <rect x="420" y="460" width="340" height="140" rx="8" fill="white" stroke="#8e44ad" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="590" y="485" text-anchor="middle" font-size="15" font-weight="bold" fill="#8e44ad">Collision-Norm Identity</text>
+  <text x="440" y="515" font-size="13" fill="#333">(ad−bc)² + (ac+bd)² = N²</text>
+  <text x="440" y="540" font-size="13" fill="#333">(−40)² + (75)² = 1600 + 5625</text>
+  <text x="440" y="565" font-size="13" fill="#333">= 7225 = 85² ✓</text>
+  <text x="440" y="590" font-size="12" fill="#8e44ad" font-style="italic">Formally verified in Lean 4</text>
+
+  <!-- Legend -->
+  <circle cx="130" y="685" r="5" fill="#e74c3c"/>
+  <text x="142" y="689" font-size="11" fill="#333">Representation 1</text>
+  <circle cx="280" y="685" r="5" fill="#27ae60"/>
+  <text x="292" y="689" font-size="11" fill="#333">Representation 2</text>
+  <line x1="410" y1="685" x2="440" y2="685" stroke="#f39c12" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="448" y="689" font-size="11" fill="#333">Collision path</text>
+</svg>

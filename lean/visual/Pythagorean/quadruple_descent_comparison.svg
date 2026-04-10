@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#bg3)"/>
+
+  <text x="450" y="35" text-anchor="middle" fill="#e0e0e0" font-size="20" font-weight="bold">
+    Triples vs Quadruples: Two Dimensions of the Same Idea
+  </text>
+
+  <!-- Left: Triples -->
+  <rect x="30" y="55" width="400" height="420" rx="10" fill="#1c2333" stroke="#4a90d9" stroke-width="2"/>
+  <text x="230" y="80" text-anchor="middle" fill="#4a90d9" font-size="16" font-weight="bold">
+    Pythagorean Triples (k=3)
+  </text>
+  <text x="230" y="98" text-anchor="middle" fill="#8b949e" font-size="12">a² + b² = c²</text>
+
+  <!-- Triple tree -->
+  <g stroke="#4a90d9" stroke-width="1.5" opacity="0.5">
+    <line x1="230" y1="130" x2="130" y2="200"/>
+    <line x1="230" y1="130" x2="230" y2="200"/>
+    <line x1="230" y1="130" x2="330" y2="200"/>
+    <line x1="130" y1="220" x2="80" y2="280"/>
+    <line x1="130" y1="220" x2="130" y2="280"/>
+    <line x1="130" y1="220" x2="180" y2="280"/>
+    <line x1="230" y1="220" x2="200" y2="280"/>
+    <line x1="230" y1="220" x2="230" y2="280"/>
+    <line x1="230" y1="220" x2="260" y2="280"/>
+    <line x1="330" y1="220" x2="280" y2="280"/>
+    <line x1="330" y1="220" x2="330" y2="280"/>
+    <line x1="330" y1="220" x2="380" y2="280"/>
+  </g>
+
+  <!-- Triple nodes -->
+  <circle cx="230" cy="125" r="18" fill="#ffd700" stroke="#fff" stroke-width="1.5"/>
+  <text x="230" y="122" text-anchor="middle" fill="#1a1a2e" font-size="8" font-weight="bold">(3,4,5)</text>
+  <text x="230" y="133" text-anchor="middle" fill="#1a1a2e" font-size="7">ROOT</text>
+
+  <circle cx="130" cy="215" r="14" fill="#4a90d9"/>
+  <text x="130" y="218" text-anchor="middle" fill="white" font-size="7">(5,12,13)</text>
+  <circle cx="230" cy="215" r="14" fill="#4a90d9"/>
+  <text x="230" y="218" text-anchor="middle" fill="white" font-size="7">(21,20,29)</text>
+  <circle cx="330" cy="215" r="14" fill="#4a90d9"/>
+  <text x="330" y="218" text-anchor="middle" fill="white" font-size="7">(15,8,17)</text>
+
+  <text x="130" y="300" fill="#4a90d9" font-size="12" text-anchor="middle">⋮ ⋮ ⋮</text>
+  <text x="230" y="300" fill="#4a90d9" font-size="12" text-anchor="middle">⋮ ⋮ ⋮</text>
+  <text x="330" y="300" fill="#4a90d9" font-size="12" text-anchor="middle">⋮ ⋮ ⋮</text>
+
+  <!-- Triple properties -->
+  <text x="50" y="340" fill="#c9d1d9" font-size="10">Descent vector: s = (1,1,1)</text>
+  <text x="50" y="358" fill="#c9d1d9" font-size="10">η(s,s) = 1+1−1 = 1</text>
+  <text x="50" y="376" fill="#c9d1d9" font-size="10">Reflection coefficient: 2/1 = 2</text>
+  <text x="50" y="394" fill="#c9d1d9" font-size="10">Branching: uniform ternary (3)</text>
+  <text x="50" y="412" fill="#c9d1d9" font-size="10">Root: (3,4,5)</text>
+  <text x="50" y="430" fill="#c9d1d9" font-size="10">Group: O(2,1;ℤ)</text>
+  <text x="50" y="448" fill="#c9d1d9" font-size="10">Generators: 3 matrices</text>
+
+  <!-- Right: Quadruples -->
+  <rect x="470" y="55" width="400" height="420" rx="10" fill="#1c2333" stroke="#ff8c00" stroke-width="2"/>
+  <text x="670" y="80" text-anchor="middle" fill="#ff8c00" font-size="16" font-weight="bold">
+    Pythagorean Quadruples (k=4)
+  </text>
+  <text x="670" y="98" text-anchor="middle" fill="#8b949e" font-size="12">a² + b² + c² = d²</text>
+
+  <!-- Quadruple tree -->
+  <g stroke="#ff8c00" stroke-width="1.5" opacity="0.5">
+    <line x1="670" y1="130" x2="670" y2="200"/>
+    <line x1="670" y1="220" x2="540" y2="280"/>
+    <line x1="670" y1="220" x2="620" y2="280"/>
+    <line x1="670" y1="220" x2="720" y2="280"/>
+    <line x1="670" y1="220" x2="800" y2="280"/>
+  </g>
+
+  <!-- Quadruple nodes -->
+  <circle cx="670" cy="125" r="18" fill="#ffd700" stroke="#fff" stroke-width="1.5"/>
+  <text x="670" y="122" text-anchor="middle" fill="#1a1a2e" font-size="8" font-weight="bold">(0,0,1,1)</text>
+  <text x="670" y="133" text-anchor="middle" fill="#1a1a2e" font-size="7">ROOT</text>
+
+  <circle cx="670" cy="215" r="14" fill="#ff8c00"/>
+  <text x="670" y="218" text-anchor="middle" fill="white" font-size="7">(1,2,2,3)</text>
+
+  <circle cx="540" cy="280" r="12" fill="#cc7000"/>
+  <text x="540" y="283" text-anchor="middle" fill="white" font-size="6">(2,3,6,7)</text>
+  <circle cx="620" cy="280" r="12" fill="#cc7000"/>
+  <text x="620" y="283" text-anchor="middle" fill="white" font-size="6">(4,4,7,9)</text>
+  <circle cx="720" cy="280" r="12" fill="#cc7000"/>
+  <text x="720" y="283" text-anchor="middle" fill="white" font-size="6">(0,3,4,5)</text>
+  <circle cx="800" cy="280" r="12" fill="#cc7000"/>
+  <text x="800" y="283" text-anchor="middle" fill="white" font-size="6">(2,4,4,6)</text>
+
+  <text x="540" y="310" fill="#ff8c00" font-size="12" text-anchor="middle">⋮</text>
+  <text x="620" y="310" fill="#ff8c00" font-size="12" text-anchor="middle">⋮</text>
+  <text x="720" y="310" fill="#ff8c00" font-size="12" text-anchor="middle">⋮</text>
+  <text x="800" y="310" fill="#ff8c00" font-size="12" text-anchor="middle">⋮</text>
+
+  <!-- Quadruple properties -->
+  <text x="490" y="340" fill="#c9d1d9" font-size="10">Descent vector: s = (1,1,1,1)</text>
+  <text x="490" y="358" fill="#c9d1d9" font-size="10">η(s,s) = 1+1+1−1 = 2</text>
+  <text x="490" y="376" fill="#c9d1d9" font-size="10">Reflection coefficient: 2/2 = 1</text>
+  <text x="490" y="394" fill="#ff8c00" font-size="10" font-weight="bold">Branching: variable (avg ≈ 4.35)</text>
+  <text x="490" y="412" fill="#c9d1d9" font-size="10">Root: (0,0,1,1)</text>
+  <text x="490" y="430" fill="#c9d1d9" font-size="10">Group: O(3,1;ℤ)</text>
+  <text x="490" y="448" fill="#c9d1d9" font-size="10">Generators: 4 matrices</text>
+
+  <!-- Central arrow -->
+  <text x="450" y="240" text-anchor="middle" fill="#ffd700" font-size="24">⟷</text>
+  <text x="450" y="260" text-anchor="middle" fill="#ffd700" font-size="10" font-weight="bold">Same idea!</text>
+  <text x="450" y="275" text-anchor="middle" fill="#8b949e" font-size="9">All-ones reflection</text>
+  <text x="450" y="290" text-anchor="middle" fill="#8b949e" font-size="9">in signature (k-1,1)</text>
+
+  <!-- k≥5 note -->
+  <rect x="400" y="380" width="100" height="50" rx="6" fill="#2d1a1a" stroke="#f85149" stroke-width="1"/>
+  <text x="450" y="400" text-anchor="middle" fill="#f85149" font-size="10" font-weight="bold">k ≥ 5</text>
+  <text x="450" y="415" text-anchor="middle" fill="#f85149" font-size="9">FAILS!</text>
+  <text x="450" y="427" text-anchor="middle" fill="#8b949e" font-size="7">coeff ∉ ℤ</text>
+</svg>

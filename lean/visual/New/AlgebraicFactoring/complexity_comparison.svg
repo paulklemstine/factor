@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <style>
+      .title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .subtitle { font: 14px sans-serif; fill: #7f8c8d; }
+      .label { font: 12px sans-serif; fill: #2c3e50; }
+      .small { font: 10px sans-serif; fill: #95a5a6; }
+      .axis { stroke: #bdc3c7; stroke-width: 1; }
+      .grid { stroke: #ecf0f1; stroke-width: 0.5; }
+    </style>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8e44ad;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e67e22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="white" rx="10"/>
+  <text x="400" y="30" text-anchor="middle" class="title">Factoring Algorithm Complexity Landscape</text>
+  <rect x="111.0" y="120.0" width="80" height="250.0" rx="4" fill="#e74c3c" opacity="0.7"/>
+  <text x="151.0" y="385" text-anchor="middle" class="label">Trial Division</text>
+  <text x="151.0" y="138.0" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Exponential</text>
+  <rect x="173.0" y="220.0" width="80" height="150.0" rx="4" fill="#e67e22" opacity="0.7"/>
+  <text x="213.0" y="385" text-anchor="middle" class="label">Pollard ρ</text>
+  <text x="213.0" y="238.0" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Exponential</text>
+  <rect x="297.0" y="188.0" width="80" height="182.0" rx="4" fill="#9b59b6" opacity="0.9"/>
+  <rect x="294.0" y="185.0" width="86" height="188.0" rx="6" fill="none" stroke="#9b59b6" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="337.0" y="173.0" text-anchor="middle" style="font: bold 10px sans-serif; fill: #9b59b6;">This work</text>
+  <text x="337.0" y="385" text-anchor="middle" class="label">Quaternion</text>
+  <text x="337.0" y="399" text-anchor="middle" class="label">Lattice</text>
+  <text x="337.0" y="206.0" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Sub-exp?</text>
+  <rect x="390.0" y="120.0" width="80" height="250.0" rx="4" fill="#3498db" opacity="0.7"/>
+  <text x="430.0" y="385" text-anchor="middle" class="label">Quadratic</text>
+  <text x="430.0" y="399" text-anchor="middle" class="label">Sieve</text>
+  <text x="430.0" y="138.0" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Sub-exponential</text>
+  <rect x="483.0" y="188.0" width="80" height="182.0" rx="4" fill="#2ecc71" opacity="0.7"/>
+  <text x="523.0" y="385" text-anchor="middle" class="label">GNFS</text>
+  <text x="523.0" y="206.0" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Sub-exponential</text>
+  <rect x="607.0" y="320" width="80" height="50" rx="4" fill="#1abc9c" opacity="0.7"/>
+  <text x="647.0" y="385" text-anchor="middle" class="label">Shor's</text>
+  <text x="647.0" y="399" text-anchor="middle" class="label">(Quantum)</text>
+  <text x="647.0" y="338" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Polynomial</text>
+  <line x1="110" y1="370" x2="750" y2="370" class="axis" stroke-width="2"/>
+  <text x="60" y="220.0" text-anchor="middle" class="label" transform="rotate(-90, 60, 220.0)">Relative complexity (log scale)</text>
+  <text x="400" y="425" text-anchor="middle" class="subtitle">Quaternion lattice factoring: sub-exponential complexity conjectured but unproven</text>
+</svg>

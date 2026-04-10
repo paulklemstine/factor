@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fafafa;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#e8e8e8;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#1a1a2e" font-weight="bold">
+    Depth Complexity Spectrum in the Berggren Tree
+  </text>
+  <text x="500" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#555">
+    Depth ranges from Θ(log c) on B-branches to Θ(√c) on A-branches
+  </text>
+
+  <!-- Axes -->
+  <line x1="100" y1="580" x2="950" y2="580" stroke="#333" stroke-width="2"/>
+  <line x1="100" y1="580" x2="100" y2="90" stroke="#333" stroke-width="2"/>
+
+  <!-- X axis label -->
+  <text x="525" y="625" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#333">
+    log₂(hypotenuse c)
+  </text>
+
+  <!-- Y axis label -->
+  <text x="40" y="340" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#333" transform="rotate(-90, 40, 340)">
+    Berggren Tree Depth
+  </text>
+
+  <!-- Grid lines -->
+  <g stroke="#ddd" stroke-width="0.5">
+    <line x1="100" y1="90" x2="950" y2="90"/>
+    <line x1="100" y1="188" x2="950" y2="188"/>
+    <line x1="100" y1="286" x2="950" y2="286"/>
+    <line x1="100" y1="384" x2="950" y2="384"/>
+    <line x1="100" y1="482" x2="950" y2="482"/>
+  </g>
+
+  <!-- Y axis ticks -->
+  <text x="90" y="584" text-anchor="end" font-family="monospace" font-size="11" fill="#666">0</text>
+  <text x="90" y="486" text-anchor="end" font-family="monospace" font-size="11" fill="#666">20</text>
+  <text x="90" y="388" text-anchor="end" font-family="monospace" font-size="11" fill="#666">40</text>
+  <text x="90" y="290" text-anchor="end" font-family="monospace" font-size="11" fill="#666">60</text>
+  <text x="90" y="192" text-anchor="end" font-family="monospace" font-size="11" fill="#666">80</text>
+  <text x="90" y="94" text-anchor="end" font-family="monospace" font-size="11" fill="#666">100</text>
+
+  <!-- X axis ticks -->
+  <text x="100" y="600" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">2</text>
+  <text x="270" y="600" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">5</text>
+  <text x="440" y="600" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">8</text>
+  <text x="610" y="600" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">11</text>
+  <text x="780" y="600" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">14</text>
+  <text x="950" y="600" text-anchor="middle" font-family="monospace" font-size="11" fill="#666">17</text>
+
+  <!-- Scatter plot: random triples (blue dots) -->
+  <!-- These represent typical triples with various depth/log ratios -->
+  <g fill="#2196f3" opacity="0.4">
+    <!-- Depth 1 triples (log c ≈ 3-5) -->
+    <circle cx="157" cy="575" r="3"/>
+    <circle cx="198" cy="575" r="3"/>
+    <circle cx="220" cy="570" r="3"/>
+    <!-- Depth 2-4 triples -->
+    <circle cx="260" cy="570" r="3"/>
+    <circle cx="280" cy="565" r="3"/>
+    <circle cx="300" cy="560" r="3"/>
+    <circle cx="310" cy="555" r="3"/>
+    <circle cx="340" cy="560" r="3"/>
+    <circle cx="350" cy="550" r="3"/>
+    <circle cx="380" cy="545" r="3"/>
+    <!-- Depth 5-10 triples -->
+    <circle cx="400" cy="540" r="3"/>
+    <circle cx="420" cy="535" r="3"/>
+    <circle cx="430" cy="530" r="3"/>
+    <circle cx="450" cy="520" r="3"/>
+    <circle cx="470" cy="515" r="3"/>
+    <circle cx="490" cy="510" r="3"/>
+    <circle cx="500" cy="500" r="3"/>
+    <circle cx="520" cy="490" r="3"/>
+    <circle cx="540" cy="480" r="3"/>
+    <!-- Mixed depths -->
+    <circle cx="560" cy="470" r="3"/>
+    <circle cx="580" cy="450" r="3"/>
+    <circle cx="600" cy="440" r="3"/>
+    <circle cx="620" cy="420" r="3"/>
+    <circle cx="640" cy="400" r="3"/>
+    <circle cx="660" cy="380" r="3"/>
+    <circle cx="680" cy="360" r="3"/>
+    <circle cx="700" cy="340" r="3"/>
+    <circle cx="720" cy="320" r="3"/>
+    <circle cx="740" cy="300" r="3"/>
+    <circle cx="760" cy="280" r="3"/>
+  </g>
+
+  <!-- B-branch curve: depth ≈ log(c) / 2.54 (GREEN) -->
+  <path d="M 100,575 Q 300,560 500,545 T 950,520" stroke="#4caf50" stroke-width="3" fill="none" stroke-dasharray="8,4"/>
+  <text x="880" y="515" font-family="Georgia, serif" font-size="13" fill="#2e7d32" font-weight="bold">
+    B-branch: Θ(log c)
+  </text>
+
+  <!-- Worst-case curve: depth ≈ √c (RED) -->
+  <path d="M 100,575 C 200,565 350,500 500,380 S 750,150 950,90" stroke="#f44336" stroke-width="3" fill="none" stroke-dasharray="12,4"/>
+  <text x="880" y="130" font-family="Georgia, serif" font-size="13" fill="#c62828" font-weight="bold">
+    A-branch: Θ(√c)
+  </text>
+
+  <!-- Average curve (BLUE) -->
+  <path d="M 100,575 C 200,565 400,520 600,440 S 850,280 950,220" stroke="#2196f3" stroke-width="3" fill="none"/>
+  <text x="870" y="250" font-family="Georgia, serif" font-size="13" fill="#1565c0" font-weight="bold">
+    Typical depth
+  </text>
+
+  <!-- Key insight box -->
+  <g transform="translate(120, 100)">
+    <rect x="0" y="0" width="380" height="130" rx="10" fill="white" stroke="#1565c0" stroke-width="2" opacity="0.95"/>
+    <text x="190" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#1a1a2e" font-weight="bold">
+      Key Complexity Result
+    </text>
+    <text x="15" y="48" font-family="monospace" font-size="12" fill="#333">
+      • B-branch spectral radius: λ ≈ 5.83
+    </text>
+    <text x="15" y="66" font-family="monospace" font-size="12" fill="#333">
+      • A,C-branch spectral radius: λ = 1
+    </text>
+    <text x="15" y="84" font-family="monospace" font-size="12" fill="#333">
+      • B-branch: c ~ 5.83ᵈ → d = O(log c)
+    </text>
+    <text x="15" y="102" font-family="monospace" font-size="12" fill="#333">
+      • A-branch: c ~ d² → d = O(√c)
+    </text>
+    <text x="15" y="120" font-family="monospace" font-size="12" fill="#1565c0" font-weight="bold">
+      • Factoring relevance: which path?
+    </text>
+  </g>
+</svg>

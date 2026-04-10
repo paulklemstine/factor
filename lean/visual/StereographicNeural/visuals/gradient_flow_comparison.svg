@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="500" fill="url(#bg3)" rx="12"/>
+
+  <text x="500" y="35" text-anchor="middle" fill="#e2e8f0" font-size="22" font-weight="bold">
+    Gradient Magnitude: Standard vs Stereographic Attention
+  </text>
+
+  <!-- Left panel: Standard attention gradients -->
+  <g transform="translate(50, 70)">
+    <text x="200" y="20" text-anchor="middle" fill="#ef4444" font-size="16" font-weight="bold">
+      Standard Attention
+    </text>
+    <text x="200" y="40" text-anchor="middle" fill="#94a3b8" font-size="12">
+      ‖∇L‖ ∝ ‖q‖·‖k‖/√d — UNBOUNDED
+    </text>
+
+    <!-- Axes -->
+    <line x1="50" y1="320" x2="380" y2="320" stroke="#475569" stroke-width="1.5"/>
+    <line x1="50" y1="60" x2="50" y2="320" stroke="#475569" stroke-width="1.5"/>
+    <text x="215" y="355" text-anchor="middle" fill="#94a3b8" font-size="12">Input scale ‖x‖</text>
+    <text x="20" y="190" text-anchor="middle" fill="#94a3b8" font-size="12" transform="rotate(-90, 20, 190)">Gradient ‖∇L‖</text>
+
+    <!-- Gradient curve (quadratic growth) -->
+    <path d="M50,315 Q100,310 130,295 Q160,270 190,230 Q220,175 250,110 Q280,70 310,55 L340,52" 
+          fill="none" stroke="#ef4444" stroke-width="3"/>
+
+    <!-- Danger zone -->
+    <rect x="200" y="55" width="180" height="100" fill="#ef4444" opacity="0.1" rx="5"/>
+    <text x="290" y="75" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="bold">⚠ GRADIENT</text>
+    <text x="290" y="90" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="bold">EXPLOSION</text>
+
+    <!-- Scale labels -->
+    <text x="50" y="338" text-anchor="middle" fill="#64748b" font-size="10">0</text>
+    <text x="130" y="338" text-anchor="middle" fill="#64748b" font-size="10">1</text>
+    <text x="210" y="338" text-anchor="middle" fill="#64748b" font-size="10">2</text>
+    <text x="290" y="338" text-anchor="middle" fill="#64748b" font-size="10">5</text>
+    <text x="370" y="338" text-anchor="middle" fill="#64748b" font-size="10">10</text>
+
+    <text x="38" y="320" text-anchor="end" fill="#64748b" font-size="10">0</text>
+    <text x="38" y="250" text-anchor="end" fill="#64748b" font-size="10">2</text>
+    <text x="38" y="190" text-anchor="end" fill="#64748b" font-size="10">5</text>
+    <text x="38" y="120" text-anchor="end" fill="#64748b" font-size="10">10</text>
+    <text x="38" y="65" text-anchor="end" fill="#64748b" font-size="10">20</text>
+  </g>
+
+  <!-- Right panel: Stereographic attention gradients -->
+  <g transform="translate(530, 70)">
+    <text x="200" y="20" text-anchor="middle" fill="#34d399" font-size="16" font-weight="bold">
+      Stereographic Attention
+    </text>
+    <text x="200" y="40" text-anchor="middle" fill="#94a3b8" font-size="12">
+      ‖∇L‖ ≤ 2 — BOUNDED by conformal factor
+    </text>
+
+    <!-- Axes -->
+    <line x1="50" y1="320" x2="380" y2="320" stroke="#475569" stroke-width="1.5"/>
+    <line x1="50" y1="60" x2="50" y2="320" stroke="#475569" stroke-width="1.5"/>
+    <text x="215" y="355" text-anchor="middle" fill="#94a3b8" font-size="12">Input scale ‖x‖</text>
+    <text x="20" y="190" text-anchor="middle" fill="#94a3b8" font-size="12" transform="rotate(-90, 20, 190)">Gradient ‖∇L‖</text>
+
+    <!-- Gradient curve (bounded, peaks then decays) -->
+    <path d="M50,315 Q80,300 110,270 Q140,250 160,249 Q200,248 240,249 Q280,251 320,253 L360,254"
+          fill="none" stroke="#34d399" stroke-width="3"/>
+
+    <!-- Bound line at y = 2 -->
+    <line x1="50" y1="250" x2="380" y2="250" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="390" y="254" fill="#fbbf24" font-size="12" font-weight="bold">≤ 2</text>
+
+    <!-- Safe zone -->
+    <rect x="50" y="245" width="330" height="80" fill="#34d399" opacity="0.08" rx="5"/>
+    <text x="215" y="310" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold">✓ STABLE GRADIENTS</text>
+
+    <!-- Scale labels -->
+    <text x="50" y="338" text-anchor="middle" fill="#64748b" font-size="10">0</text>
+    <text x="130" y="338" text-anchor="middle" fill="#64748b" font-size="10">1</text>
+    <text x="210" y="338" text-anchor="middle" fill="#64748b" font-size="10">2</text>
+    <text x="290" y="338" text-anchor="middle" fill="#64748b" font-size="10">5</text>
+    <text x="370" y="338" text-anchor="middle" fill="#64748b" font-size="10">10</text>
+
+    <text x="38" y="320" text-anchor="end" fill="#64748b" font-size="10">0</text>
+    <text x="38" y="250" text-anchor="end" fill="#64748b" font-size="10">2</text>
+    <text x="38" y="190" text-anchor="end" fill="#64748b" font-size="10">5</text>
+    <text x="38" y="120" text-anchor="end" fill="#64748b" font-size="10">10</text>
+    <text x="38" y="65" text-anchor="end" fill="#64748b" font-size="10">20</text>
+  </g>
+
+  <!-- Bottom insight -->
+  <g transform="translate(100, 450)">
+    <text x="400" y="0" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="bold">
+      Key Insight: The conformal factor cf(x) = 2/(1+‖x‖²) ∈ (0, 2] acts as a natural gradient clipper,
+    </text>
+    <text x="400" y="20" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="bold">
+      eliminating the need for ad-hoc gradient clipping hyperparameters.
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="tropGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF5722;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF9800;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="#FAFAFA" rx="10"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#333">
+    The Tropical–Neural Network Bridge
+  </text>
+  <text x="450" y="65" text-anchor="middle" font-family="Arial" font-size="14" fill="#666">
+    max(a, b) = a + ReLU(b − a)  ·  Formally Verified in Lean 4
+  </text>
+
+  <!-- Left: Tropical Algebra -->
+  <rect x="30" y="90" width="370" height="200" rx="15" fill="url(#tropGrad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="215" y="120" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="white">
+    🌴 Tropical Algebra
+  </text>
+  <text x="215" y="148" text-anchor="middle" font-family="Arial" font-size="13" fill="white">(ℝ ∪ {−∞}, max, +)</text>
+  <text x="50" y="175" font-family="monospace" font-size="12" fill="white">a ⊕ b = max(a, b)</text>
+  <text x="50" y="195" font-family="monospace" font-size="12" fill="white">a ⊗ b = a + b</text>
+  <text x="50" y="215" font-family="monospace" font-size="12" fill="white">0_trop = −∞</text>
+  <text x="50" y="235" font-family="monospace" font-size="12" fill="white">1_trop = 0</text>
+  <text x="50" y="260" font-family="monospace" font-size="12" fill="white">Idempotent: a ⊕ a = a</text>
+  <text x="50" y="280" font-family="monospace" font-size="12" fill="white">No subtraction!</text>
+
+  <!-- Right: Neural Networks -->
+  <rect x="500" y="90" width="370" height="200" rx="15" fill="url(#nnGrad)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="685" y="120" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="white">
+    🧠 Neural Networks
+  </text>
+  <text x="685" y="148" text-anchor="middle" font-family="Arial" font-size="13" fill="white">ReLU(x) = max(x, 0)</text>
+  <text x="520" y="175" font-family="monospace" font-size="12" fill="white">Neuron: max(w·x + b, 0)</text>
+  <text x="520" y="195" font-family="monospace" font-size="12" fill="white">Layer: compose affine + ReLU</text>
+  <text x="520" y="215" font-family="monospace" font-size="12" fill="white">Network: piecewise linear fn</text>
+  <text x="520" y="235" font-family="monospace" font-size="12" fill="white">1-Lipschitz: |f(x)−f(y)|≤|x−y|</text>
+  <text x="520" y="260" font-family="monospace" font-size="12" fill="white">≤ 2^n linear regions</text>
+  <text x="520" y="280" font-family="monospace" font-size="12" fill="white">Trainable by backprop</text>
+
+  <!-- Bridge Arrow -->
+  <path d="M 400 190 L 500 190" stroke="#9C27B0" stroke-width="3" fill="none" marker-end="url(#arrowR)"/>
+  <path d="M 500 210 L 400 210" stroke="#9C27B0" stroke-width="3" fill="none" marker-end="url(#arrowL)"/>
+  <defs>
+    <marker id="arrowR" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#9C27B0"/>
+    </marker>
+    <marker id="arrowL" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" fill="#9C27B0"/>
+    </marker>
+  </defs>
+
+  <!-- Applications row -->
+  <rect x="30" y="320" width="180" height="120" rx="10" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+  <text x="120" y="348" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#1565C0">Optimization</text>
+  <text x="120" y="370" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">Shortest paths</text>
+  <text x="120" y="388" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">Assignment problem</text>
+  <text x="120" y="406" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">tropDet = max matching</text>
+  <text x="120" y="424" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">O(n³) via Hungarian</text>
+
+  <rect x="240" y="320" width="180" height="120" rx="10" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+  <text x="330" y="348" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#2E7D32">Probability</text>
+  <text x="330" y="370" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">E_trop[X] = max(logP+X)</text>
+  <text x="330" y="388" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">Monotone ✓</text>
+  <text x="330" y="406" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">Translation-equivariant ✓</text>
+  <text x="330" y="424" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">= Beam search / Viterbi</text>
+
+  <rect x="450" y="320" width="180" height="120" rx="10" fill="#FFF3E0" stroke="#FF9800" stroke-width="2"/>
+  <text x="540" y="348" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#E65100">Geometry</text>
+  <text x="540" y="370" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">Tropical varieties</text>
+  <text x="540" y="388" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">= NN decision boundaries</text>
+  <text x="540" y="406" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">Tropical halfspaces</text>
+  <text x="540" y="424" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">are classically convex</text>
+
+  <rect x="660" y="320" width="210" height="120" rx="10" fill="#FCE4EC" stroke="#E91E63" stroke-width="2"/>
+  <text x="765" y="348" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#AD1457">Hardware</text>
+  <text x="765" y="370" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">No multiplications needed</text>
+  <text x="765" y="388" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">max + add only</text>
+  <text x="765" y="406" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">~5× energy savings</text>
+  <text x="765" y="424" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">FPGA/ASIC friendly</text>
+
+  <!-- Key equation -->
+  <rect x="150" y="470" width="600" height="70" rx="15" fill="#9C27B0" filter="url(#shadow)"/>
+  <text x="450" y="498" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="white">
+    Key Identity (Formally Verified):
+  </text>
+  <text x="450" y="525" text-anchor="middle" font-family="monospace" font-size="20" fill="white">
+    max(a, b)  =  a + ReLU(b − a)
+  </text>
+
+  <!-- Footer -->
+  <text x="450" y="575" text-anchor="middle" font-family="Arial" font-size="12" fill="#999">
+    All theorems machine-verified in Lean 4 with Mathlib · Zero sorry placeholders
+  </text>
+</svg>

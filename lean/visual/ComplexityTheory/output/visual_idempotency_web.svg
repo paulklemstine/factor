@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, sans-serif">
+  <rect width="800" height="500" fill="#1a1a2e"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#e0e0e0">The Idempotency Web</text>
+  <text x="400" y="62" text-anchor="middle" font-size="13" fill="#888">f(x, x) = x — One property, many faces</text>
+
+  <!-- Central node -->
+  <circle cx="400" cy="250" r="55" fill="#533483" stroke="#e94560" stroke-width="3"/>
+  <text x="400" y="245" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Idempotent</text>
+  <text x="400" y="265" text-anchor="middle" font-size="13" fill="#ccc">f(x,x) = x</text>
+
+  <!-- min node -->
+  <line x1="350" y1="210" x2="200" y2="130" stroke="#4CAF50" stroke-width="2"/>
+  <circle cx="170" cy="120" r="40" fill="#1B5E20" stroke="#4CAF50" stroke-width="2"/>
+  <text x="170" y="115" text-anchor="middle" font-size="14" font-weight="bold" fill="#81C784">min</text>
+  <text x="170" y="135" text-anchor="middle" font-size="11" fill="#A5D6A7">min(a,a)=a</text>
+
+  <!-- max node -->
+  <line x1="450" y1="210" x2="600" y2="130" stroke="#2196F3" stroke-width="2"/>
+  <circle cx="630" cy="120" r="40" fill="#0D47A1" stroke="#2196F3" stroke-width="2"/>
+  <text x="630" y="115" text-anchor="middle" font-size="14" font-weight="bold" fill="#64B5F6">max</text>
+  <text x="630" y="135" text-anchor="middle" font-size="11" fill="#90CAF9">max(a,a)=a</text>
+
+  <!-- GCD node -->
+  <line x1="345" y1="250" x2="150" y2="260" stroke="#FF9800" stroke-width="2"/>
+  <circle cx="120" cy="260" r="40" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="120" y="255" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFB74D">gcd</text>
+  <text x="120" y="275" text-anchor="middle" font-size="11" fill="#FFCC80">gcd(a,a)=a</text>
+
+  <!-- LCM node -->
+  <line x1="455" y1="250" x2="650" y2="260" stroke="#9C27B0" stroke-width="2"/>
+  <circle cx="680" cy="260" r="40" fill="#4A148C" stroke="#9C27B0" stroke-width="2"/>
+  <text x="680" y="255" text-anchor="middle" font-size="14" font-weight="bold" fill="#CE93D8">lcm</text>
+  <text x="680" y="275" text-anchor="middle" font-size="11" fill="#E1BEE7">lcm(a,a)=a</text>
+
+  <!-- AND node -->
+  <line x1="350" y1="290" x2="200" y2="390" stroke="#00BCD4" stroke-width="2"/>
+  <circle cx="170" cy="400" r="40" fill="#006064" stroke="#00BCD4" stroke-width="2"/>
+  <text x="170" y="395" text-anchor="middle" font-size="14" font-weight="bold" fill="#80DEEA">AND</text>
+  <text x="170" y="415" text-anchor="middle" font-size="11" fill="#B2EBF2">a∧a = a</text>
+
+  <!-- OR node -->
+  <line x1="450" y1="290" x2="600" y2="390" stroke="#FFEB3B" stroke-width="2"/>
+  <circle cx="630" cy="400" r="40" fill="#F57F17" stroke="#FFEB3B" stroke-width="2"/>
+  <text x="630" y="395" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF9C4">OR</text>
+  <text x="630" y="415" text-anchor="middle" font-size="11" fill="#FFF59D">a∨a = a</text>
+
+  <!-- Applications at bottom -->
+  <rect x="50" y="460" width="200" height="30" rx="5" fill="#0f3460"/>
+  <text x="150" y="480" text-anchor="middle" font-size="11" fill="#aaa">Tropical Circuits</text>
+
+  <rect x="300" y="460" width="200" height="30" rx="5" fill="#0f3460"/>
+  <text x="400" y="480" text-anchor="middle" font-size="11" fill="#aaa">Proof Complexity</text>
+
+  <rect x="550" y="460" width="200" height="30" rx="5" fill="#0f3460"/>
+  <text x="650" y="480" text-anchor="middle" font-size="11" fill="#aaa">CSP Tractability</text>
+
+  <!-- Connecting lines to applications -->
+  <line x1="170" y1="440" x2="150" y2="460" stroke="#4CAF50" stroke-width="1" opacity="0.5"/>
+  <line x1="170" y1="440" x2="400" y2="460" stroke="#00BCD4" stroke-width="1" opacity="0.5"/>
+  <line x1="630" y1="440" x2="650" y2="460" stroke="#FFEB3B" stroke-width="1" opacity="0.5"/>
+</svg>

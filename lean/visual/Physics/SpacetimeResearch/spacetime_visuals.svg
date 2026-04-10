@@ -1,0 +1,268 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="coneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffd93d;stop-opacity:0.3" />
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fff;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#fff;stop-opacity:0" />
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#e0e0ff" font-size="28" font-weight="bold">
+    Formally Verified Spacetime Physics
+  </text>
+  <text x="600" y="72" text-anchor="middle" fill="#8888cc" font-size="14">
+    Machine-checked theorems in Lean 4 — From Light Cones to Cosmic Topology
+  </text>
+
+  <!-- ============================================ -->
+  <!-- Panel 1: Light Cone (top-left) -->
+  <!-- ============================================ -->
+  <g transform="translate(150, 280)">
+    <!-- Light cone -->
+    <polygon points="0,-180 -120,0 0,180 120,0" fill="url(#coneGrad)" stroke="#ff6b6b" stroke-width="1.5"/>
+    <!-- Time axis -->
+    <line x1="0" y1="-190" x2="0" y2="190" stroke="#6666cc" stroke-width="1" stroke-dasharray="5,5"/>
+    <!-- Space axis -->
+    <line x1="-140" y1="0" x2="140" y2="0" stroke="#6666cc" stroke-width="1" stroke-dasharray="5,5"/>
+    <!-- Null rays -->
+    <line x1="-120" y1="0" x2="0" y2="-180" stroke="#ffd93d" stroke-width="2" filter="url(#glow)"/>
+    <line x1="120" y1="0" x2="0" y2="-180" stroke="#ffd93d" stroke-width="2" filter="url(#glow)"/>
+    <line x1="-120" y1="0" x2="0" y2="180" stroke="#ffd93d" stroke-width="2" filter="url(#glow)"/>
+    <line x1="120" y1="0" x2="0" y2="180" stroke="#ffd93d" stroke-width="2" filter="url(#glow)"/>
+    <!-- Origin -->
+    <circle cx="0" cy="0" r="4" fill="#fff" filter="url(#glow)"/>
+    <!-- Labels -->
+    <text x="0" y="-195" text-anchor="middle" fill="#aaa" font-size="12">Future</text>
+    <text x="0" y="205" text-anchor="middle" fill="#aaa" font-size="12">Past</text>
+    <text x="145" y="5" fill="#aaa" font-size="12">Space</text>
+    <!-- Timelike region -->
+    <text x="-5" y="-80" text-anchor="middle" fill="#ff6b6b" font-size="11">Timelike</text>
+    <text x="-5" y="-65" text-anchor="middle" fill="#ff6b6b" font-size="10">η(v,v) &lt; 0</text>
+    <!-- Spacelike region -->
+    <text x="80" y="-50" fill="#6b9bff" font-size="11">Spacelike</text>
+    <text x="80" y="-35" fill="#6b9bff" font-size="10">η(v,v) > 0</text>
+    <!-- Null -->
+    <text x="85" y="-100" fill="#ffd93d" font-size="11">Null</text>
+    <text x="85" y="-85" fill="#ffd93d" font-size="10">η(v,v) = 0</text>
+    <!-- Title -->
+    <text x="0" y="-220" text-anchor="middle" fill="#e0e0ff" font-size="16" font-weight="bold">
+      Causal Structure
+    </text>
+    <!-- Verified badge -->
+    <rect x="-55" y="215" width="110" height="22" rx="11" fill="#2d5a27" stroke="#4a9"/>
+    <text x="0" y="230" text-anchor="middle" fill="#4a9" font-size="10">✓ Lean 4 Verified</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- Panel 2: Dimensional Uniqueness (top-right) -->
+  <!-- ============================================ -->
+  <g transform="translate(500, 120)">
+    <text x="200" y="0" text-anchor="middle" fill="#e0e0ff" font-size="16" font-weight="bold">
+      Why 3+1 Dimensions?
+    </text>
+
+    <!-- Table -->
+    <g transform="translate(30, 20)">
+      <!-- Header -->
+      <rect x="0" y="0" width="340" height="25" fill="#333366" rx="3"/>
+      <text x="25" y="17" fill="#ddd" font-size="11" font-weight="bold">d</text>
+      <text x="75" y="17" fill="#ddd" font-size="11" font-weight="bold">Huygens</text>
+      <text x="145" y="17" fill="#ddd" font-size="11" font-weight="bold">GW=2</text>
+      <text x="210" y="17" fill="#ddd" font-size="11" font-weight="bold">Orbits</text>
+      <text x="280" y="17" fill="#ddd" font-size="11" font-weight="bold">Knots</text>
+
+      <!-- Rows -->
+      <g transform="translate(0, 30)">
+        <rect x="0" y="0" width="340" height="22" fill="#1a1a3e"/>
+        <text x="25" y="16" fill="#888" font-size="11">2</text>
+        <text x="85" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="155" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="220" y="16" fill="#44ff44" font-size="13">✓</text>
+        <text x="290" y="16" fill="#ff4444" font-size="13">✗</text>
+      </g>
+      <g transform="translate(0, 55)">
+        <rect x="0" y="0" width="340" height="22" fill="#1a3a1a" stroke="#4a4" stroke-width="2" rx="3"/>
+        <text x="25" y="16" fill="#4f4" font-size="11" font-weight="bold">3</text>
+        <text x="85" y="16" fill="#44ff44" font-size="13">✓</text>
+        <text x="155" y="16" fill="#44ff44" font-size="13">✓</text>
+        <text x="220" y="16" fill="#44ff44" font-size="13">✓</text>
+        <text x="290" y="16" fill="#44ff44" font-size="13">✓</text>
+      </g>
+      <g transform="translate(0, 80)">
+        <rect x="0" y="0" width="340" height="22" fill="#1a1a3e"/>
+        <text x="25" y="16" fill="#888" font-size="11">4</text>
+        <text x="85" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="155" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="220" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="290" y="16" fill="#ff4444" font-size="13">✗</text>
+      </g>
+      <g transform="translate(0, 105)">
+        <rect x="0" y="0" width="340" height="22" fill="#1a1a3e"/>
+        <text x="25" y="16" fill="#888" font-size="11">5</text>
+        <text x="85" y="16" fill="#44ff44" font-size="13">✓</text>
+        <text x="155" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="220" y="16" fill="#ff4444" font-size="13">✗</text>
+        <text x="290" y="16" fill="#ff4444" font-size="13">✗</text>
+      </g>
+    </g>
+
+    <!-- Conclusion -->
+    <rect x="60" y="175" width="280" height="30" rx="15" fill="#2d5a27" stroke="#4a9"/>
+    <text x="200" y="195" text-anchor="middle" fill="#4a9" font-size="12" font-weight="bold">
+      d = 3 is UNIQUE ✓ Formally Verified
+    </text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- Panel 3: Page Curve (bottom-left) -->
+  <!-- ============================================ -->
+  <g transform="translate(50, 520)">
+    <text x="180" y="0" text-anchor="middle" fill="#e0e0ff" font-size="16" font-weight="bold">
+      Page Curve: Black Hole Information
+    </text>
+
+    <!-- Axes -->
+    <line x1="40" y1="240" x2="360" y2="240" stroke="#555" stroke-width="1.5"/>
+    <line x1="40" y1="240" x2="40" y2="30" stroke="#555" stroke-width="1.5"/>
+
+    <!-- Page curve (triangular) -->
+    <polyline points="40,240 200,50 360,240" fill="none" stroke="#ff6b6b" stroke-width="3" filter="url(#glow)"/>
+
+    <!-- Page time marker -->
+    <line x1="200" y1="240" x2="200" y2="50" stroke="#ffd93d" stroke-width="1" stroke-dasharray="4,4"/>
+    <circle cx="200" cy="50" r="5" fill="#ffd93d" filter="url(#glow)"/>
+
+    <!-- Symmetry arrows -->
+    <text x="120" y="180" fill="#ff6b6b" font-size="11">S(t)</text>
+    <text x="260" y="180" fill="#ff6b6b" font-size="11">S(S-t)</text>
+
+    <!-- Labels -->
+    <text x="200" y="258" text-anchor="middle" fill="#aaa" font-size="11">t → Evaporation Time</text>
+    <text x="200" y="268" text-anchor="middle" fill="#ffd93d" font-size="10">t_Page = S_BH/2</text>
+    <text x="15" y="140" fill="#aaa" font-size="11" transform="rotate(-90, 15, 140)">Entropy S(t)</text>
+
+    <!-- Properties -->
+    <text x="40" y="300" fill="#8888cc" font-size="10">✓ S(t) = S(S_BH - t)  [symmetric]</text>
+    <text x="40" y="316" fill="#8888cc" font-size="10">✓ max at t = S_BH/2  [Page time]</text>
+    <text x="40" y="332" fill="#8888cc" font-size="10">✓ S(t) ≥ 0  [non-negative]</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- Panel 4: GW Polarizations (bottom-center) -->
+  <!-- ============================================ -->
+  <g transform="translate(500, 520)">
+    <text x="150" y="0" text-anchor="middle" fill="#e0e0ff" font-size="16" font-weight="bold">
+      Gravitational Wave Modes
+    </text>
+
+    <!-- Plus polarization -->
+    <g transform="translate(50, 60)">
+      <text x="50" y="0" text-anchor="middle" fill="#ffd93d" font-size="14">h₊ (Plus)</text>
+      <ellipse cx="50" cy="55" rx="40" ry="25" fill="none" stroke="#6b9bff" stroke-width="2"/>
+      <line x1="50" y1="20" x2="50" y2="90" stroke="#6b9bff" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="0" y1="55" x2="100" y2="55" stroke="#6b9bff" stroke-width="1" stroke-dasharray="3,3"/>
+      <!-- Arrows -->
+      <path d="M50,20 L45,28 M50,20 L55,28" stroke="#ff6b6b" stroke-width="1.5" fill="none"/>
+      <path d="M50,90 L45,82 M50,90 L55,82" stroke="#ff6b6b" stroke-width="1.5" fill="none"/>
+      <path d="M0,55 L8,50 M0,55 L8,60" stroke="#6bff6b" stroke-width="1.5" fill="none"/>
+      <path d="M100,55 L92,50 M100,55 L92,60" stroke="#6bff6b" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- Cross polarization -->
+    <g transform="translate(200, 60)">
+      <text x="50" y="0" text-anchor="middle" fill="#ffd93d" font-size="14">h× (Cross)</text>
+      <ellipse cx="50" cy="55" rx="40" ry="25" fill="none" stroke="#6b9bff" stroke-width="2" transform="rotate(45, 50, 55)"/>
+      <line x1="15" y1="20" x2="85" y2="90" stroke="#6b9bff" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="85" y1="20" x2="15" y2="90" stroke="#6b9bff" stroke-width="1" stroke-dasharray="3,3"/>
+    </g>
+
+    <!-- Formula -->
+    <text x="150" y="180" text-anchor="middle" fill="#aaa" font-size="12">
+      N_pol = d(d-1)/2 - 1
+    </text>
+    <text x="150" y="200" text-anchor="middle" fill="#4a9" font-size="12" font-weight="bold">
+      d = 3 → N_pol = 2 ✓
+    </text>
+
+    <!-- Strain decay -->
+    <text x="150" y="240" text-anchor="middle" fill="#e0e0ff" font-size="14" font-weight="bold">
+      Strain ∝ 1/r
+    </text>
+    <text x="150" y="260" text-anchor="middle" fill="#aaa" font-size="11">
+      h₀/r₂ &lt; h₀/r₁ for r₁ &lt; r₂
+    </text>
+
+    <rect x="55" y="280" width="190" height="22" rx="11" fill="#2d5a27" stroke="#4a9"/>
+    <text x="150" y="295" text-anchor="middle" fill="#4a9" font-size="10">✓ All properties Lean 4 verified</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- Panel 5: Lorentz Boost Formula (bottom-right) -->
+  <!-- ============================================ -->
+  <g transform="translate(840, 520)">
+    <text x="150" y="0" text-anchor="middle" fill="#e0e0ff" font-size="16" font-weight="bold">
+      Lorentz Invariance
+    </text>
+
+    <!-- Boost matrix -->
+    <rect x="20" y="25" width="260" height="120" rx="5" fill="#1a1a3e" stroke="#444" stroke-width="1"/>
+    <text x="150" y="50" text-anchor="middle" fill="#ffd93d" font-size="12">Boost Matrix Λ(φ):</text>
+    <text x="150" y="75" text-anchor="middle" fill="#ddd" font-size="13" font-family="monospace">
+      ┌ cosh φ  -sinh φ   0   0 ┐
+    </text>
+    <text x="150" y="95" text-anchor="middle" fill="#ddd" font-size="13" font-family="monospace">
+      │-sinh φ   cosh φ   0   0 │
+    </text>
+    <text x="150" y="115" text-anchor="middle" fill="#ddd" font-size="13" font-family="monospace">
+      │   0        0      1   0 │
+    </text>
+    <text x="150" y="135" text-anchor="middle" fill="#ddd" font-size="13" font-family="monospace">
+      └   0        0      0   1 ┘
+    </text>
+
+    <!-- Key identity -->
+    <text x="150" y="175" text-anchor="middle" fill="#ff6b6b" font-size="13">
+      Key: cosh²φ - sinh²φ = 1
+    </text>
+
+    <!-- Preservation theorems -->
+    <text x="150" y="210" text-anchor="middle" fill="#8888cc" font-size="11">
+      η(Λu, Λv) = η(u, v)
+    </text>
+    <text x="150" y="235" text-anchor="middle" fill="#aaa" font-size="10">
+      Timelike → Timelike ✓
+    </text>
+    <text x="150" y="255" text-anchor="middle" fill="#aaa" font-size="10">
+      Null → Null ✓
+    </text>
+    <text x="150" y="275" text-anchor="middle" fill="#aaa" font-size="10">
+      Spacelike → Spacelike ✓
+    </text>
+
+    <rect x="55" y="290" width="190" height="22" rx="11" fill="#2d5a27" stroke="#4a9"/>
+    <text x="150" y="305" text-anchor="middle" fill="#4a9" font-size="10">✓ linear_combination proof</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="880" text-anchor="middle" fill="#666" font-size="11">
+    All results formally verified in Lean 4 with Mathlib · No axioms beyond propext, choice, quotient
+  </text>
+</svg>

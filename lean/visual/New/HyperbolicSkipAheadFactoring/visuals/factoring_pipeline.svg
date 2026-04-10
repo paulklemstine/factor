@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#1b2838"/>
+    </linearGradient>
+    <linearGradient id="phase1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2196f3"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+    <linearGradient id="phase2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff9800"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+    <linearGradient id="phase3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4caf50"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="flowArrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64b5f6"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="700" fill="url(#bgGrad)"/>
+  
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#eceff1" font-size="30" font-weight="bold">
+    Hyperbolic Skip-Ahead Factoring Pipeline
+  </text>
+  <text x="600" y="72" fill="#78909c" font-size="14" text-anchor="middle">
+    From composite N to its prime factors via Pythagorean triple tree navigation
+  </text>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- INPUT -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="100" width="180" height="80" rx="15" fill="#37474f" stroke="#78909c" stroke-width="2"/>
+    <text x="130" y="130" text-anchor="middle" fill="#eceff1" font-size="16" font-weight="bold">INPUT</text>
+    <text x="130" y="155" text-anchor="middle" fill="#b0bec5" font-size="22" font-family="'Courier New', monospace">N = p × q</text>
+    <text x="130" y="172" text-anchor="middle" fill="#78909c" font-size="10">odd composite</text>
+  </g>
+  
+  <!-- Arrow: Input → Phase 1 -->
+  <line x1="220" y1="140" x2="280" y2="140" stroke="#64b5f6" stroke-width="2" marker-end="url(#flowArrow)"/>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PHASE 1: Trivial Triple -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="290" y="95" width="260" height="160" rx="12" fill="url(#phase1)" stroke="#42a5f5" stroke-width="2"/>
+    <text x="420" y="120" text-anchor="middle" fill="#e3f2fd" font-size="16" font-weight="bold">PHASE 1</text>
+    <text x="420" y="140" text-anchor="middle" fill="#bbdefb" font-size="12">Trivial Triple Construction</text>
+    
+    <rect x="310" y="150" width="220" height="45" rx="6" fill="#0d47a1" fill-opacity="0.6"/>
+    <text x="420" y="168" text-anchor="middle" fill="#e1f5fe" font-size="11" font-family="'Courier New', monospace">a = N</text>
+    <text x="420" y="185" text-anchor="middle" fill="#e1f5fe" font-size="11" font-family="'Courier New', monospace">b = (N²−1)/2, c = (N²+1)/2</text>
+    
+    <text x="420" y="215" text-anchor="middle" fill="#90caf9" font-size="11">a² + b² = c²  ✓</text>
+    <text x="420" y="235" text-anchor="middle" fill="#64b5f6" font-size="10">c − b = 1 (trivial)</text>
+  </g>
+  
+  <!-- Arrow: Phase 1 → Phase 2 -->
+  <line x1="550" y1="175" x2="610" y2="175" stroke="#64b5f6" stroke-width="2" marker-end="url(#flowArrow)"/>
+  <text x="580" y="168" text-anchor="middle" fill="#546e7a" font-size="9">(a,b,c)</text>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PHASE 2: Tree Navigation -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="620" y="95" width="300" height="250" rx="12" fill="url(#phase2)" stroke="#ffb74d" stroke-width="2"/>
+    <text x="770" y="120" text-anchor="middle" fill="#fff3e0" font-size="16" font-weight="bold">PHASE 2</text>
+    <text x="770" y="140" text-anchor="middle" fill="#ffe0b2" font-size="12">Hyperbolic Skip-Ahead</text>
+    
+    <!-- Mini tree inside -->
+    <g stroke="#fff8e1" stroke-width="1" opacity="0.6">
+      <line x1="770" y1="160" x2="700" y2="190"/>
+      <line x1="770" y1="160" x2="770" y2="190"/>
+      <line x1="770" y1="160" x2="840" y2="190"/>
+      <line x1="700" y1="190" x2="670" y2="215"/>
+      <line x1="700" y1="190" x2="700" y2="215"/>
+      <line x1="700" y1="190" x2="730" y2="215"/>
+      <line x1="770" y1="190" x2="740" y2="215"/>
+      <line x1="770" y1="190" x2="770" y2="215"/>
+      <line x1="770" y1="190" x2="800" y2="215"/>
+      <line x1="840" y1="190" x2="810" y2="215"/>
+      <line x1="840" y1="190" x2="840" y2="215"/>
+      <line x1="840" y1="190" x2="870" y2="215"/>
+    </g>
+    <circle cx="770" cy="158" r="5" fill="#ffcc02"/>
+    <g fill="#ffb74d" opacity="0.8">
+      <circle cx="700" cy="192" r="4"/>
+      <circle cx="770" cy="192" r="4"/>
+      <circle cx="840" cy="192" r="4"/>
+    </g>
+    
+    <!-- Skip arrow -->
+    <path d="M 778 162 C 830 180 870 230 850 270" stroke="#ff1744" stroke-width="2" 
+          fill="none" stroke-dasharray="4,2"/>
+    <text x="880" y="230" fill="#ff8a80" font-size="10" font-weight="bold">SKIP!</text>
+    
+    <rect x="640" y="250" width="260" height="55" rx="6" fill="#e65100" fill-opacity="0.5"/>
+    <text x="770" y="270" text-anchor="middle" fill="#fff3e0" font-size="11" font-family="'Courier New', monospace">Bᵢᵏ · v  in O(log k) mults</text>
+    <text x="770" y="288" text-anchor="middle" fill="#ffe0b2" font-size="10">Hypotenuse grows ~ 3ᵏ · c₀</text>
+    <text x="770" y="303" text-anchor="middle" fill="#ffcc80" font-size="10">Check gcd(a', N) at each node</text>
+    
+    <text x="770" y="330" text-anchor="middle" fill="#ffab40" font-size="10" font-style="italic">
+      Lorentz isometries ∈ O(2,1;ℤ)
+    </text>
+  </g>
+  
+  <!-- Arrow: Phase 2 → Phase 3 -->
+  <line x1="920" y1="220" x2="980" y2="220" stroke="#64b5f6" stroke-width="2" marker-end="url(#flowArrow)"/>
+  <text x="950" y="213" text-anchor="middle" fill="#546e7a" font-size="9">(a',b',c')</text>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PHASE 3: Factor Extraction -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="990" y="120" width="180" height="200" rx="12" fill="url(#phase3)" stroke="#66bb6a" stroke-width="2"/>
+    <text x="1080" y="148" text-anchor="middle" fill="#e8f5e9" font-size="16" font-weight="bold">PHASE 3</text>
+    <text x="1080" y="168" text-anchor="middle" fill="#c8e6c9" font-size="12">Factor Extraction</text>
+    
+    <rect x="1010" y="178" width="140" height="60" rx="6" fill="#1b5e20" fill-opacity="0.6"/>
+    <text x="1080" y="198" text-anchor="middle" fill="#e8f5e9" font-size="11" font-family="'Courier New', monospace">g = gcd(a', N)</text>
+    <text x="1080" y="218" text-anchor="middle" fill="#c8e6c9" font-size="11">1 &lt; g &lt; N ?</text>
+    <text x="1080" y="233" text-anchor="middle" fill="#a5d6a7" font-size="10">g | N guaranteed</text>
+    
+    <text x="1080" y="260" text-anchor="middle" fill="#69f0ae" font-size="14" font-weight="bold" filter="url(#glow2)">
+      p = gcd(a', N)
+    </text>
+    <text x="1080" y="282" text-anchor="middle" fill="#b9f6ca" font-size="14" font-weight="bold">
+      q = N / p
+    </text>
+    <text x="1080" y="308" text-anchor="middle" fill="#00e676" font-size="18" filter="url(#glow2)">✓ FACTORED</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- MATHEMATICAL DETAILS BOX -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="380" width="550" height="290" rx="12" fill="#1a237e" fill-opacity="0.7" stroke="#5c6bc0" stroke-width="1.5"/>
+    <text x="315" y="410" text-anchor="middle" fill="#c5cae9" font-size="18" font-weight="bold">Berggren Matrices (Lorentz Isometries)</text>
+    
+    <text x="70" y="445" fill="#e8eaf6" font-size="13" font-family="'Courier New', monospace">
+      B₁ = ⎡ 1  -2   2⎤    B₂ = ⎡ 1   2   2⎤    B₃ = ⎡-1   2   2⎤
+    </text>
+    <text x="70" y="465" fill="#e8eaf6" font-size="13" font-family="'Courier New', monospace">
+           ⎢ 2  -1   2⎥          ⎢ 2   1   2⎥          ⎢-2   1   2⎥
+    </text>
+    <text x="70" y="485" fill="#e8eaf6" font-size="13" font-family="'Courier New', monospace">
+           ⎣ 2  -2   3⎦          ⎣ 2   2   3⎦          ⎣-2   2   3⎦
+    </text>
+    
+    <text x="70" y="520" fill="#9fa8da" font-size="12">• Each Bᵢ preserves Q(a,b,c) = a² + b² − c² = 0</text>
+    <text x="70" y="542" fill="#9fa8da" font-size="12">• det(B₁) = 1,  det(B₂) = −1,  det(B₃) = 1</text>
+    <text x="70" y="564" fill="#9fa8da" font-size="12">• Bᵢ ∈ O(2,1;ℤ)  — integer Lorentz group</text>
+    <text x="70" y="586" fill="#9fa8da" font-size="12">• Tree generates ALL primitive Pythagorean triples</text>
+    <text x="70" y="610" fill="#7986cb" font-size="12">• Path of length k → matrix product in O(log k) via repeated squaring</text>
+    <text x="70" y="632" fill="#7986cb" font-size="12">• Uniform path Bᵢᵏ = matrix power — exponential skip-ahead</text>
+    <text x="70" y="654" fill="#7986cb" font-size="12">• Formally verified in Lean 4 + Mathlib</text>
+  </g>
+  
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- COMPLEXITY BOX -->
+  <!-- ═══════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="620" y="380" width="550" height="290" rx="12" fill="#311b92" fill-opacity="0.7" stroke="#7c4dff" stroke-width="1.5"/>
+    <text x="895" y="410" text-anchor="middle" fill="#d1c4e9" font-size="18" font-weight="bold">Complexity &amp; Key Properties</text>
+    
+    <text x="650" y="445" fill="#ede7f6" font-size="13">🔹 Seed triple: O(1) — just compute (N²±1)/2</text>
+    <text x="650" y="470" fill="#ede7f6" font-size="13">🔹 Skip k levels: O(log k) matrix multiplications</text>
+    <text x="650" y="495" fill="#ede7f6" font-size="13">🔹 GCD computation: O(log N) per check</text>
+    <text x="650" y="520" fill="#ede7f6" font-size="13">🔹 Hypotenuse growth: exponential (≥ 3ᵏ · c₀)</text>
+    
+    <line x1="650" y1="535" x2="1140" y2="535" stroke="#7c4dff" stroke-width="0.5"/>
+    
+    <text x="650" y="560" fill="#b39ddb" font-size="13" font-weight="bold">Proven in Lean 4:</text>
+    <text x="650" y="582" fill="#ce93d8" font-size="12">✓ trivial_triple_pyth — seed is Pythagorean</text>
+    <text x="650" y="600" fill="#ce93d8" font-size="12">✓ berggren_Bi_preserves_pyth — tree invariant</text>
+    <text x="650" y="618" fill="#ce93d8" font-size="12">✓ pathMatrix_append — composition = multiplication</text>
+    <text x="650" y="636" fill="#ce93d8" font-size="12">✓ uniform_path_is_power — skip-ahead correctness</text>
+    <text x="650" y="654" fill="#ce93d8" font-size="12">✓ nontrivial_factor_from_gcd — factor extraction</text>
+  </g>
+</svg>

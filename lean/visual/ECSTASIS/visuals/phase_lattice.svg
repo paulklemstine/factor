@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 550" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <radialGradient id="phaseGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.2"/>
+    </radialGradient>
+  </defs>
+  
+  <rect width="700" height="550" fill="url(#bg3)"/>
+  
+  <text x="350" y="35" text-anchor="middle" fill="white" font-size="20" font-weight="bold">Topological Phase Lattice</text>
+  <text x="350" y="55" text-anchor="middle" fill="#94a3b8" font-size="12">Coherent Wavefront Engineering — Phase Element Array</text>
+  
+  <!-- Phase lattice grid (8x8) -->
+  <g transform="translate(100, 80)">
+    <!-- Draw phase elements as colored circles -->
+    <!-- Row 0 -->
+    <circle cx="0" cy="0" r="18" fill="#fbbf24" opacity="0.9"/><text x="0" y="4" text-anchor="middle" fill="#1e293b" font-size="8">0°</text>
+    <circle cx="62" cy="0" r="18" fill="#fb923c" opacity="0.9"/><text x="62" y="4" text-anchor="middle" fill="#1e293b" font-size="8">15°</text>
+    <circle cx="124" cy="0" r="18" fill="#f97316" opacity="0.9"/><text x="124" y="4" text-anchor="middle" fill="#1e293b" font-size="8">30°</text>
+    <circle cx="186" cy="0" r="18" fill="#ef4444" opacity="0.9"/><text x="186" y="4" text-anchor="middle" fill="white" font-size="8">45°</text>
+    <circle cx="248" cy="0" r="18" fill="#dc2626" opacity="0.9"/><text x="248" y="4" text-anchor="middle" fill="white" font-size="8">60°</text>
+    <circle cx="310" cy="0" r="18" fill="#b91c1c" opacity="0.9"/><text x="310" y="4" text-anchor="middle" fill="white" font-size="8">75°</text>
+    <circle cx="372" cy="0" r="18" fill="#9333ea" opacity="0.9"/><text x="372" y="4" text-anchor="middle" fill="white" font-size="8">90°</text>
+    <circle cx="434" cy="0" r="18" fill="#7c3aed" opacity="0.9"/><text x="434" y="4" text-anchor="middle" fill="white" font-size="8">105°</text>
+    
+    <!-- Row 1 -->
+    <circle cx="0" cy="55" r="18" fill="#fb923c" opacity="0.9"/><text x="0" y="59" text-anchor="middle" fill="#1e293b" font-size="8">15°</text>
+    <circle cx="62" cy="55" r="18" fill="#f97316" opacity="0.9"/><text x="62" y="59" text-anchor="middle" fill="#1e293b" font-size="8">30°</text>
+    <circle cx="124" cy="55" r="18" fill="#ef4444" opacity="0.9"/><text x="124" y="59" text-anchor="middle" fill="white" font-size="8">45°</text>
+    <circle cx="186" cy="55" r="18" fill="#dc2626" opacity="0.9"/><text x="186" y="59" text-anchor="middle" fill="white" font-size="8">60°</text>
+    <circle cx="248" cy="55" r="18" fill="#b91c1c" opacity="0.9"/><text x="248" y="59" text-anchor="middle" fill="white" font-size="8">75°</text>
+    <circle cx="310" cy="55" r="18" fill="#9333ea" opacity="0.9"/><text x="310" y="59" text-anchor="middle" fill="white" font-size="8">90°</text>
+    <circle cx="372" cy="55" r="18" fill="#7c3aed" opacity="0.9"/><text x="372" y="59" text-anchor="middle" fill="white" font-size="8">105°</text>
+    <circle cx="434" cy="55" r="18" fill="#6366f1" opacity="0.9"/><text x="434" y="59" text-anchor="middle" fill="white" font-size="8">120°</text>
+    
+    <!-- Row 2 -->
+    <circle cx="0" cy="110" r="18" fill="#f97316" opacity="0.9"/>
+    <circle cx="62" cy="110" r="18" fill="#ef4444" opacity="0.9"/>
+    <circle cx="124" cy="110" r="18" fill="#dc2626" opacity="0.9"/>
+    <circle cx="186" cy="110" r="18" fill="#b91c1c" opacity="0.9"/>
+    <circle cx="248" cy="110" r="18" fill="#9333ea" opacity="0.9"/>
+    <circle cx="310" cy="110" r="18" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="372" cy="110" r="18" fill="#6366f1" opacity="0.9"/>
+    <circle cx="434" cy="110" r="18" fill="#4f46e5" opacity="0.9"/>
+    
+    <!-- Row 3 -->
+    <circle cx="0" cy="165" r="18" fill="#ef4444" opacity="0.9"/>
+    <circle cx="62" cy="165" r="18" fill="#dc2626" opacity="0.9"/>
+    <circle cx="124" cy="165" r="18" fill="#b91c1c" opacity="0.9"/>
+    <circle cx="186" cy="165" r="18" fill="#9333ea" opacity="0.9"/>
+    <circle cx="248" cy="165" r="18" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="310" cy="165" r="18" fill="#6366f1" opacity="0.9"/>
+    <circle cx="372" cy="165" r="18" fill="#4f46e5" opacity="0.9"/>
+    <circle cx="434" cy="165" r="18" fill="#3b82f6" opacity="0.9"/>
+    
+    <!-- Row 4 -->
+    <circle cx="0" cy="220" r="18" fill="#dc2626" opacity="0.9"/>
+    <circle cx="62" cy="220" r="18" fill="#b91c1c" opacity="0.9"/>
+    <circle cx="124" cy="220" r="18" fill="#9333ea" opacity="0.9"/>
+    <circle cx="186" cy="220" r="18" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="248" cy="220" r="18" fill="#6366f1" opacity="0.9"/>
+    <circle cx="310" cy="220" r="18" fill="#4f46e5" opacity="0.9"/>
+    <circle cx="372" cy="220" r="18" fill="#3b82f6" opacity="0.9"/>
+    <circle cx="434" cy="220" r="18" fill="#0ea5e9" opacity="0.9"/>
+  </g>
+  
+  <!-- Wavefront visualization -->
+  <g transform="translate(100, 400)">
+    <text x="250" y="0" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="bold">Reconstructed Wavefront</text>
+    
+    <!-- Wave -->
+    <path d="M0,60 Q30,20 60,60 Q90,100 120,60 Q150,20 180,60 Q210,100 240,60 Q270,20 300,60 Q330,100 360,60 Q390,20 420,60 Q450,100 500,60" fill="none" stroke="#fbbf24" stroke-width="3" opacity="0.8"/>
+    <path d="M0,65 Q30,25 60,65 Q90,105 120,65 Q150,25 180,65 Q210,105 240,65 Q270,25 300,65 Q330,105 360,65 Q390,25 420,65 Q450,105 500,65" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.4"/>
+    
+    <!-- Coherence annotation -->
+    <text x="250" y="120" text-anchor="middle" fill="#fbbf24" font-size="11">|Σ exp(iθⱼ)| ≤ n (coherence bound)</text>
+  </g>
+  
+  <!-- Legend -->
+  <rect x="570" y="85" width="110" height="240" rx="8" fill="#0f172a" opacity="0.8" stroke="#334155"/>
+  <text x="625" y="105" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Phase</text>
+  <circle cx="590" cy="125" r="8" fill="#fbbf24"/><text x="610" y="129" fill="#94a3b8" font-size="10">0°</text>
+  <circle cx="590" cy="150" r="8" fill="#f97316"/><text x="610" y="154" fill="#94a3b8" font-size="10">30°</text>
+  <circle cx="590" cy="175" r="8" fill="#ef4444"/><text x="610" y="179" fill="#94a3b8" font-size="10">45°</text>
+  <circle cx="590" cy="200" r="8" fill="#b91c1c"/><text x="610" y="204" fill="#94a3b8" font-size="10">75°</text>
+  <circle cx="590" cy="225" r="8" fill="#9333ea"/><text x="610" y="229" fill="#94a3b8" font-size="10">90°</text>
+  <circle cx="590" cy="250" r="8" fill="#6366f1"/><text x="610" y="254" fill="#94a3b8" font-size="10">120°</text>
+  <circle cx="590" cy="275" r="8" fill="#3b82f6"/><text x="610" y="279" fill="#94a3b8" font-size="10">150°</text>
+  <circle cx="590" cy="300" r="8" fill="#0ea5e9"/><text x="610" y="304" fill="#94a3b8" font-size="10">180°</text>
+</svg>

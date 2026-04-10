@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e0a2e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="g3">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="600" fill="url(#bg3)"/>
+
+  <text x="500" y="40" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold" filter="url(#g3)">
+    The Division Algebra–Pythagorean Correspondence
+  </text>
+  <text x="500" y="68" text-anchor="middle" fill="#aaccff" font-size="14">
+    Why k ∈ {3, 4, 6} are the magic dimensions
+  </text>
+
+  <!-- Four columns: ℝ, ℂ, ℍ, 𝕆 -->
+
+  <!-- ℝ -->
+  <rect x="40" y="95" width="200" height="400" rx="12" fill="none" stroke="#00ff88" stroke-width="2.5"/>
+  <circle cx="140" cy="140" r="30" fill="none" stroke="#00ff88" stroke-width="2" filter="url(#g3)"/>
+  <text x="140" y="147" text-anchor="middle" fill="#00ff88" font-size="28" font-weight="bold">ℝ</text>
+  <text x="140" y="185" text-anchor="middle" fill="#88ffbb" font-size="16">dim = 1</text>
+  <text x="140" y="210" text-anchor="middle" fill="#88ffbb" font-size="13">Real numbers</text>
+  <line x1="140" y1="225" x2="140" y2="240" stroke="#00ff88" stroke-width="1" opacity="0.5"/>
+  <text x="140" y="260" text-anchor="middle" fill="#00ff88" font-size="14" font-weight="bold">k = 3</text>
+  <text x="140" y="280" text-anchor="middle" fill="#66cc88" font-size="12">Triples</text>
+  <text x="140" y="300" text-anchor="middle" fill="#66cc88" font-size="11">a² + b² = c²</text>
+  <text x="140" y="325" text-anchor="middle" fill="#66cc88" font-size="11">η(s,s) = 1</text>
+  <text x="140" y="345" text-anchor="middle" fill="#66cc88" font-size="11">1 | 4 ✓</text>
+  <text x="140" y="375" text-anchor="middle" fill="#44ff66" font-size="13" font-weight="bold">Berggren</text>
+  <text x="140" y="395" text-anchor="middle" fill="#44ff66" font-size="13" font-weight="bold">Tree</text>
+  <text x="140" y="420" text-anchor="middle" fill="#44aa66" font-size="11">Root: (3,4,5)</text>
+  <text x="140" y="445" text-anchor="middle" fill="#00ff88" font-size="20" filter="url(#g3)">✓</text>
+  <text x="140" y="475" text-anchor="middle" fill="#66cc88" font-size="11">Assoc. ✓</text>
+
+  <!-- ℂ -->
+  <rect x="270" y="95" width="200" height="400" rx="12" fill="none" stroke="#4488ff" stroke-width="2.5"/>
+  <circle cx="370" cy="140" r="30" fill="none" stroke="#4488ff" stroke-width="2" filter="url(#g3)"/>
+  <text x="370" y="147" text-anchor="middle" fill="#4488ff" font-size="28" font-weight="bold">ℂ</text>
+  <text x="370" y="185" text-anchor="middle" fill="#88aaff" font-size="16">dim = 2</text>
+  <text x="370" y="210" text-anchor="middle" fill="#88aaff" font-size="13">Complex numbers</text>
+  <line x1="370" y1="225" x2="370" y2="240" stroke="#4488ff" stroke-width="1" opacity="0.5"/>
+  <text x="370" y="260" text-anchor="middle" fill="#4488ff" font-size="14" font-weight="bold">k = 4</text>
+  <text x="370" y="280" text-anchor="middle" fill="#6699cc" font-size="12">Quadruples</text>
+  <text x="370" y="300" text-anchor="middle" fill="#6699cc" font-size="11">a²+b²+c² = d²</text>
+  <text x="370" y="325" text-anchor="middle" fill="#6699cc" font-size="11">η(s,s) = 2</text>
+  <text x="370" y="345" text-anchor="middle" fill="#6699cc" font-size="11">2 | 4 ✓</text>
+  <text x="370" y="375" text-anchor="middle" fill="#6699ff" font-size="13" font-weight="bold">Quadruple</text>
+  <text x="370" y="395" text-anchor="middle" fill="#6699ff" font-size="13" font-weight="bold">Tree</text>
+  <text x="370" y="420" text-anchor="middle" fill="#4488cc" font-size="11">Root: (0,0,1,1)</text>
+  <text x="370" y="445" text-anchor="middle" fill="#4488ff" font-size="20" filter="url(#g3)">✓</text>
+  <text x="370" y="475" text-anchor="middle" fill="#6699cc" font-size="11">Assoc. ✓</text>
+
+  <!-- ℍ -->
+  <rect x="500" y="95" width="200" height="400" rx="12" fill="none" stroke="#ff4488" stroke-width="2.5"/>
+  <circle cx="600" cy="140" r="30" fill="none" stroke="#ff4488" stroke-width="2" filter="url(#g3)"/>
+  <text x="600" y="147" text-anchor="middle" fill="#ff4488" font-size="28" font-weight="bold">ℍ</text>
+  <text x="600" y="185" text-anchor="middle" fill="#ff88aa" font-size="16">dim = 4</text>
+  <text x="600" y="210" text-anchor="middle" fill="#ff88aa" font-size="13">Quaternions</text>
+  <line x1="600" y1="225" x2="600" y2="240" stroke="#ff4488" stroke-width="1" opacity="0.5"/>
+  <text x="600" y="260" text-anchor="middle" fill="#ff4488" font-size="14" font-weight="bold">k = 6</text>
+  <text x="600" y="280" text-anchor="middle" fill="#cc6688" font-size="12">Sextuples (NEW)</text>
+  <text x="600" y="300" text-anchor="middle" fill="#cc6688" font-size="11">Σaᵢ² = d² (5 terms)</text>
+  <text x="600" y="325" text-anchor="middle" fill="#cc6688" font-size="11">η(s,s) = 4</text>
+  <text x="600" y="345" text-anchor="middle" fill="#cc6688" font-size="11">4 | 4 ✓ (parity!)</text>
+  <text x="600" y="375" text-anchor="middle" fill="#ff6699" font-size="13" font-weight="bold">Sextuple</text>
+  <text x="600" y="395" text-anchor="middle" fill="#ff6699" font-size="13" font-weight="bold">Tree</text>
+  <text x="600" y="420" text-anchor="middle" fill="#cc4488" font-size="11">Root: (0,0,0,0,1,1)</text>
+  <text x="600" y="445" text-anchor="middle" fill="#ff4488" font-size="20" filter="url(#g3)">✓</text>
+  <text x="600" y="475" text-anchor="middle" fill="#cc6688" font-size="11">Assoc. ✓</text>
+
+  <!-- 𝕆 -->
+  <rect x="730" y="95" width="230" height="400" rx="12" fill="none" stroke="#ff4444" stroke-width="2.5" stroke-dasharray="8,4"/>
+  <circle cx="845" cy="140" r="30" fill="none" stroke="#ff4444" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="845" y="147" text-anchor="middle" fill="#ff4444" font-size="28" font-weight="bold">𝕆</text>
+  <text x="845" y="185" text-anchor="middle" fill="#ff8888" font-size="16">dim = 8</text>
+  <text x="845" y="210" text-anchor="middle" fill="#ff8888" font-size="13">Octonions</text>
+  <line x1="845" y1="225" x2="845" y2="240" stroke="#ff4444" stroke-width="1" opacity="0.5"/>
+  <text x="845" y="260" text-anchor="middle" fill="#ff4444" font-size="14" font-weight="bold">k = 10</text>
+  <text x="845" y="280" text-anchor="middle" fill="#cc4444" font-size="12">10-tuples</text>
+  <text x="845" y="300" text-anchor="middle" fill="#cc4444" font-size="11">Σaᵢ² = d² (9 terms)</text>
+  <text x="845" y="325" text-anchor="middle" fill="#cc4444" font-size="11">η(s,s) = 8</text>
+  <text x="845" y="345" text-anchor="middle" fill="#ff6666" font-size="11" font-weight="bold">8 ∤ 4 ✗</text>
+  <text x="845" y="375" text-anchor="middle" fill="#ff4444" font-size="13" font-weight="bold">NO</text>
+  <text x="845" y="395" text-anchor="middle" fill="#ff4444" font-size="13" font-weight="bold">TREE</text>
+  <text x="845" y="420" text-anchor="middle" fill="#cc4444" font-size="11">Descent fails</text>
+  <text x="845" y="445" text-anchor="middle" fill="#ff4444" font-size="20" filter="url(#g3)">✗</text>
+  <text x="845" y="475" text-anchor="middle" fill="#ff6666" font-size="11" font-weight="bold">NON-ASSOC ✗</text>
+
+  <!-- Bottom annotation -->
+  <text x="500" y="530" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold" filter="url(#g3)">
+    Hurwitz (1898): Only ℝ, ℂ, ℍ, 𝕆 admit multiplicative norms
+  </text>
+  <text x="500" y="555" text-anchor="middle" fill="#ddddff" font-size="14">
+    Our result: Descent works ⟺ associative + norm multiplicative ⟺ k−2 ∈ {1, 2, 4}
+  </text>
+  <text x="500" y="580" text-anchor="middle" fill="#aaaacc" font-size="12">
+    The octonions' non-associativity breaks the reflection composition R∘R = I over ℤ
+  </text>
+</svg>

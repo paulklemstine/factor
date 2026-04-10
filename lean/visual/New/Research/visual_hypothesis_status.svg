@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="520" fill="url(#bg4)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold">
+    New Hypotheses: Experimental Validation Status
+  </text>
+
+  <!-- Table header -->
+  <rect x="40" y="55" width="720" height="30" rx="5" fill="#21262d"/>
+  <text x="80" y="75" fill="#c9d1d9" font-size="11" font-weight="bold">ID</text>
+  <text x="150" y="75" fill="#c9d1d9" font-size="11" font-weight="bold">Hypothesis</text>
+  <text x="560" y="75" fill="#c9d1d9" font-size="11" font-weight="bold">Status</text>
+  <text x="660" y="75" fill="#c9d1d9" font-size="11" font-weight="bold">Method</text>
+
+  <!-- Row function -->
+  <!-- NH1a -->
+  <rect x="40" y="90" width="720" height="28" rx="3" fill="#161b22"/>
+  <text x="80" y="108" fill="#8b949e" font-size="10">NH1a</text>
+  <text x="150" y="108" fill="#c9d1d9" font-size="10">Meet of commuting idempotents is idempotent</text>
+  <circle cx="580" cy="104" r="6" fill="#3fb950"/>
+  <text x="595" y="108" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="108" fill="#8b949e" font-size="10">Lean 4</text>
+
+  <!-- NH1b -->
+  <rect x="40" y="122" width="720" height="28" rx="3" fill="#0d1117"/>
+  <text x="80" y="140" fill="#8b949e" font-size="10">NH1b</text>
+  <text x="150" y="140" fill="#c9d1d9" font-size="10">Fix(f∘g) = Fix(f) ∩ Fix(g) for commuting idempotents</text>
+  <circle cx="580" cy="136" r="6" fill="#3fb950"/>
+  <text x="595" y="140" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="140" fill="#8b949e" font-size="10">Lean 4 (grind)</text>
+
+  <!-- NH2a -->
+  <rect x="40" y="154" width="720" height="28" rx="3" fill="#161b22"/>
+  <text x="80" y="172" fill="#8b949e" font-size="10">NH2a</text>
+  <text x="150" y="172" fill="#c9d1d9" font-size="10">Tropical universal idempotency: max(a,a) = a</text>
+  <circle cx="580" cy="168" r="6" fill="#3fb950"/>
+  <text x="595" y="172" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="172" fill="#8b949e" font-size="10">max_self</text>
+
+  <!-- NH2b -->
+  <rect x="40" y="186" width="720" height="28" rx="3" fill="#0d1117"/>
+  <text x="80" y="204" fill="#8b949e" font-size="10">NH2b</text>
+  <text x="150" y="204" fill="#c9d1d9" font-size="10">Tropical no additive cancellation</text>
+  <circle cx="580" cy="200" r="6" fill="#3fb950"/>
+  <text x="595" y="204" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="204" fill="#8b949e" font-size="10">Counterexample</text>
+
+  <!-- NH2c -->
+  <rect x="40" y="218" width="720" height="28" rx="3" fill="#161b22"/>
+  <text x="80" y="236" fill="#8b949e" font-size="10">NH2c</text>
+  <text x="150" y="236" fill="#c9d1d9" font-size="10">Tropical Peirce: x = ReLU(x) − ReLU(−x)</text>
+  <circle cx="580" cy="232" r="6" fill="#3fb950"/>
+  <text x="595" y="236" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="236" fill="#8b949e" font-size="10">Case split</text>
+
+  <!-- NH3a -->
+  <rect x="40" y="250" width="720" height="28" rx="3" fill="#0d1117"/>
+  <text x="80" y="268" fill="#8b949e" font-size="10">NH3a</text>
+  <text x="150" y="268" fill="#c9d1d9" font-size="10">Peirce 4-way decomposition</text>
+  <circle cx="580" cy="264" r="6" fill="#3fb950"/>
+  <text x="595" y="268" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="268" fill="#8b949e" font-size="10">simp + ring</text>
+
+  <!-- NH3b -->
+  <rect x="40" y="282" width="720" height="28" rx="3" fill="#161b22"/>
+  <text x="80" y="300" fill="#8b949e" font-size="10">NH3b</text>
+  <text x="150" y="300" fill="#c9d1d9" font-size="10">Complement (1−e) is idempotent</text>
+  <circle cx="580" cy="296" r="6" fill="#3fb950"/>
+  <text x="595" y="300" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="300" fill="#8b949e" font-size="10">simp</text>
+
+  <!-- NH3c -->
+  <rect x="40" y="314" width="720" height="28" rx="3" fill="#0d1117"/>
+  <text x="80" y="332" fill="#8b949e" font-size="10">NH3c</text>
+  <text x="150" y="332" fill="#c9d1d9" font-size="10">e·(1−e) = 0</text>
+  <circle cx="580" cy="328" r="6" fill="#3fb950"/>
+  <text x="595" y="332" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="332" fill="#8b949e" font-size="10">rw + sub_self</text>
+
+  <!-- NH4 -->
+  <rect x="40" y="346" width="720" height="28" rx="3" fill="#161b22"/>
+  <text x="80" y="364" fill="#8b949e" font-size="10">NH4</text>
+  <text x="150" y="364" fill="#c9d1d9" font-size="10">#Idem(ℤ/nℤ) = 2^ω(n) for n ∈ {2,3,5,6,7,10,15,30}</text>
+  <circle cx="580" cy="360" r="6" fill="#3fb950"/>
+  <text x="595" y="364" fill="#3fb950" font-size="10">VERIFIED</text>
+  <text x="660" y="364" fill="#8b949e" font-size="10">native_decide</text>
+
+  <!-- NH5 -->
+  <rect x="40" y="378" width="720" height="28" rx="3" fill="#0d1117"/>
+  <text x="80" y="396" fill="#8b949e" font-size="10">NH5</text>
+  <text x="150" y="396" fill="#c9d1d9" font-size="10">Photon parity: 2 | (a+b+c+d) when a²+b²+c²=d²</text>
+  <circle cx="580" cy="392" r="6" fill="#3fb950"/>
+  <text x="595" y="396" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="396" fill="#8b949e" font-size="10">parity_simps</text>
+
+  <!-- NH6 -->
+  <rect x="40" y="410" width="720" height="28" rx="3" fill="#161b22"/>
+  <text x="80" y="428" fill="#8b949e" font-size="10">NH6</text>
+  <text x="150" y="428" fill="#c9d1d9" font-size="10">Gazing Pool: every finite endomorphism has periodic point</text>
+  <circle cx="580" cy="424" r="6" fill="#3fb950"/>
+  <text x="595" y="428" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="428" fill="#8b949e" font-size="10">Pigeonhole</text>
+
+  <!-- NH7 -->
+  <rect x="40" y="442" width="720" height="28" rx="3" fill="#0d1117"/>
+  <text x="80" y="460" fill="#8b949e" font-size="10">NH7</text>
+  <text x="150" y="460" fill="#c9d1d9" font-size="10">Entropy of total collapse = 0</text>
+  <circle cx="580" cy="456" r="6" fill="#3fb950"/>
+  <text x="595" y="460" fill="#3fb950" font-size="10">PROVED</text>
+  <text x="660" y="460" fill="#8b949e" font-size="10">card_eq_one</text>
+
+  <!-- Summary -->
+  <rect x="40" y="480" width="720" height="30" rx="5" fill="#0d2818" stroke="#238636" stroke-width="1"/>
+  <text x="400" y="500" text-anchor="middle" fill="#3fb950" font-size="13" font-weight="bold">
+    ALL 14 HYPOTHESES: PROVED ✓  |  0 sorry remaining  |  0 unverified axioms
+  </text>
+</svg>

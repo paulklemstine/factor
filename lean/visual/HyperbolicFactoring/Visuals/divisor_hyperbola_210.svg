@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="'Georgia', serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="curveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b35"/>
+      <stop offset="50%" style="stop-color:#ffcc02"/>
+      <stop offset="100%" style="stop-color:#ff6b35"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffcc02" font-size="24" font-weight="bold"
+        filter="url(#softGlow)">The Divisor Hyperbola: xy = 210</text>
+  <text x="450" y="70" text-anchor="middle" fill="#aab" font-size="14">
+    210 = 2 × 3 × 5 × 7 — Lattice points encode all 16 divisor pairs
+  </text>
+
+  <!-- Coordinate system -->
+  <g transform="translate(80, 620) scale(1, -1)">
+    <!-- Grid -->
+    <g stroke="#1a1a5e" stroke-width="0.5">
+      <line x1="0" y1="0" x2="750" y2="0"/>
+      <line x1="0" y1="0" x2="0" y2="520"/>
+      <!-- Vertical gridlines -->
+      <line x1="75" y1="0" x2="75" y2="520" stroke-dasharray="2,4"/>
+      <line x1="150" y1="0" x2="150" y2="520" stroke-dasharray="2,4"/>
+      <line x1="225" y1="0" x2="225" y2="520" stroke-dasharray="2,4"/>
+      <line x1="300" y1="0" x2="300" y2="520" stroke-dasharray="2,4"/>
+      <line x1="375" y1="0" x2="375" y2="520" stroke-dasharray="2,4"/>
+      <line x1="450" y1="0" x2="450" y2="520" stroke-dasharray="2,4"/>
+      <line x1="525" y1="0" x2="525" y2="520" stroke-dasharray="2,4"/>
+      <line x1="600" y1="0" x2="600" y2="520" stroke-dasharray="2,4"/>
+      <!-- Horizontal gridlines -->
+      <line x1="0" y1="100" x2="750" y2="100" stroke-dasharray="2,4"/>
+      <line x1="0" y1="200" x2="750" y2="200" stroke-dasharray="2,4"/>
+      <line x1="0" y1="300" x2="750" y2="300" stroke-dasharray="2,4"/>
+      <line x1="0" y1="400" x2="750" y2="400" stroke-dasharray="2,4"/>
+      <line x1="0" y1="500" x2="750" y2="500" stroke-dasharray="2,4"/>
+    </g>
+
+    <!-- Axes -->
+    <line x1="0" y1="0" x2="750" y2="0" stroke="#667" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="520" stroke="#667" stroke-width="1.5"/>
+
+    <!-- √210 ≈ 14.49 line (diagonal reference) -->
+    <line x1="0" y1="0" x2="500" y2="500" stroke="#335" stroke-width="1" stroke-dasharray="5,5"/>
+
+    <!-- √n marker -->
+    <line x1="108" y1="0" x2="108" y2="520" stroke="#446" stroke-width="1" stroke-dasharray="3,6"/>
+    <line x1="0" y1="108" x2="750" y2="108" stroke="#446" stroke-width="1" stroke-dasharray="3,6"/>
+
+    <!-- Hyperbola curve xy = 210, scale: 1 unit = 7.5px for x up to 100 -->
+    <!-- Plotting y = 210/x, scaled: px_x = x*3.5, px_y = y*2.4 -->
+    <path d="M 3.5 504 Q 7 252, 10.5 168 Q 17.5 100.8, 24.5 72 Q 35 50.4, 49 36
+             Q 52.5 33.6, 70 24 Q 73.5 22.8, 105 16.8 Q 115.5 15.36, 157.5 12
+             Q 175 10.8, 245 7.2 Q 294 6, 367.5 4.8 Q 490 3.6, 735 2.4"
+            fill="none" stroke="url(#curveGlow)" stroke-width="2.5" filter="url(#glow)"/>
+
+    <!-- Lattice points: (d, 210/d) for each divisor of 210 -->
+    <!-- Divisors: 1,2,3,5,6,7,10,14,15,21,30,35,42,70,105,210 -->
+    <!-- Scale: x → x*3.5, y → y*2.4 -->
+
+    <!-- (1, 210) -->
+    <circle cx="3.5" cy="504" r="6" fill="#ff3366" filter="url(#glow)"/>
+    <!-- (2, 105) -->
+    <circle cx="7" cy="252" r="6" fill="#ff3366" filter="url(#glow)"/>
+    <!-- (3, 70) -->
+    <circle cx="10.5" cy="168" r="6" fill="#ff3366" filter="url(#glow)"/>
+    <!-- (5, 42) -->
+    <circle cx="17.5" cy="100.8" r="6" fill="#ff3366" filter="url(#glow)"/>
+    <!-- (6, 35) -->
+    <circle cx="21" cy="84" r="6" fill="#ff3366" filter="url(#glow)"/>
+    <!-- (7, 30) -->
+    <circle cx="24.5" cy="72" r="6" fill="#ff3366" filter="url(#glow)"/>
+    <!-- (10, 21) -->
+    <circle cx="35" cy="50.4" r="6" fill="#00ff88" filter="url(#glow)"/>
+    <!-- (14, 15) — nearest to √210 -->
+    <circle cx="49" cy="36" r="7" fill="#ffcc02" filter="url(#glow)"/>
+    <!-- (15, 14) -->
+    <circle cx="52.5" cy="33.6" r="7" fill="#ffcc02" filter="url(#glow)"/>
+    <!-- (21, 10) -->
+    <circle cx="73.5" cy="24" r="6" fill="#00ff88" filter="url(#glow)"/>
+    <!-- (30, 7) -->
+    <circle cx="105" cy="16.8" r="6" fill="#3399ff" filter="url(#glow)"/>
+    <!-- (35, 6) -->
+    <circle cx="122.5" cy="14.4" r="6" fill="#3399ff" filter="url(#glow)"/>
+    <!-- (42, 5) -->
+    <circle cx="147" cy="12" r="6" fill="#3399ff" filter="url(#glow)"/>
+    <!-- (70, 3) -->
+    <circle cx="245" cy="7.2" r="6" fill="#3399ff" filter="url(#glow)"/>
+    <!-- (105, 2) -->
+    <circle cx="367.5" cy="4.8" r="6" fill="#3399ff" filter="url(#glow)"/>
+    <!-- (210, 1) -->
+    <circle cx="735" cy="2.4" r="6" fill="#3399ff" filter="url(#glow)"/>
+  </g>
+
+  <!-- Labels (in screen coordinates, not flipped) -->
+  <g fill="#dde" font-size="10">
+    <!-- x-axis labels -->
+    <text x="80" y="640" text-anchor="middle">0</text>
+    <text x="155" y="640" text-anchor="middle">20</text>
+    <text x="230" y="640" text-anchor="middle">40</text>
+    <text x="380" y="640" text-anchor="middle">80</text>
+    <text x="530" y="640" text-anchor="middle">120</text>
+    <text x="815" y="640" text-anchor="middle">210</text>
+    <text x="450" y="665" text-anchor="middle" font-size="13" fill="#aab">x (divisor d)</text>
+
+    <!-- y-axis labels -->
+    <text x="70" y="624" text-anchor="end">0</text>
+    <text x="70" y="524" text-anchor="end">40</text>
+    <text x="70" y="424" text-anchor="end">80</text>
+    <text x="70" y="324" text-anchor="end">120</text>
+    <text x="70" y="224" text-anchor="end">160</text>
+    <text x="70" y="124" text-anchor="end">200</text>
+    <text x="35" y="350" text-anchor="middle" font-size="13" fill="#aab"
+          transform="rotate(-90, 35, 350)">y = n/d (complementary divisor)</text>
+  </g>
+
+  <!-- Point labels -->
+  <g fill="#fff" font-size="9" font-weight="bold">
+    <text x="95" y="100">(1, 210)</text>
+    <text x="100" y="355">(2, 105)</text>
+    <text x="105" y="440">(3, 70)</text>
+    <text x="110" y="510">(5, 42)</text>
+    <text x="115" y="526">(6, 35)</text>
+    <text x="120" y="540">(7, 30)</text>
+    <text x="125" y="563">(10, 21)</text>
+    <text x="145" y="578" fill="#ffcc02">(14, 15) ← nearest √210</text>
+    <text x="145" y="592" fill="#ffcc02">(15, 14)</text>
+    <text x="167" y="600">(21, 10)</text>
+    <text x="195" y="610">(30, 7)</text>
+    <text x="210" y="598">(35, 6)</text>
+    <text x="235" y="610">(42, 5)</text>
+    <text x="330" y="618">(70, 3)</text>
+    <text x="445" y="618">(105, 2)</text>
+    <text x="780" y="618">(210, 1)</text>
+  </g>
+
+  <!-- √210 annotation -->
+  <text x="195" y="95" fill="#446" font-size="11" font-style="italic">√210 ≈ 14.49</text>
+
+  <!-- Legend -->
+  <g transform="translate(630, 90)">
+    <rect x="0" y="0" width="220" height="140" rx="8" fill="#0a0a2e" fill-opacity="0.8"
+          stroke="#335" stroke-width="1"/>
+    <text x="110" y="22" text-anchor="middle" fill="#ffcc02" font-size="12" font-weight="bold">Legend</text>
+    <circle cx="15" cy="42" r="5" fill="#ff3366"/>
+    <text x="30" y="46" fill="#dde" font-size="10">d ≤ 7 (small divisors)</text>
+    <circle cx="15" cy="62" r="5" fill="#00ff88"/>
+    <text x="30" y="66" fill="#dde" font-size="10">8 ≤ d ≤ 21 (mid divisors)</text>
+    <circle cx="15" cy="82" r="5" fill="#3399ff"/>
+    <text x="30" y="86" fill="#dde" font-size="10">d ≥ 30 (large divisors)</text>
+    <circle cx="15" cy="102" r="6" fill="#ffcc02"/>
+    <text x="30" y="106" fill="#dde" font-size="10">Nearest to √n (14,15)</text>
+    <line x1="10" y1="122" x2="40" y2="122" stroke="#446" stroke-dasharray="3,3"/>
+    <text x="50" y="126" fill="#dde" font-size="10">√210 reference lines</text>
+  </g>
+
+  <!-- Equation box -->
+  <g transform="translate(630, 250)">
+    <rect x="0" y="0" width="220" height="80" rx="8" fill="#1a1a4e" fill-opacity="0.9"
+          stroke="#ffcc02" stroke-width="1"/>
+    <text x="110" y="25" text-anchor="middle" fill="#ffcc02" font-size="14" font-weight="bold">xy = 210</text>
+    <text x="110" y="45" text-anchor="middle" fill="#aab" font-size="11">16 lattice points</text>
+    <text x="110" y="65" text-anchor="middle" fill="#aab" font-size="11">τ(210) = (1+1)⁴ = 16</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="690" text-anchor="middle" fill="#557" font-size="10">
+    Hyperbolic Factoring Research · Divisor Hyperbola Visualization · 2026
+  </text>
+</svg>

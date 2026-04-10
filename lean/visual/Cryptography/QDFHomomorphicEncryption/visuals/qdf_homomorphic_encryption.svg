@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+    <linearGradient id="noiseFree" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d2ff"/>
+      <stop offset="100%" style="stop-color:#3a7bd5"/>
+    </linearGradient>
+    <linearGradient id="noisy" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="500" y="45" text-anchor="middle" fill="#00d2ff" font-size="22" font-weight="bold" filter="url(#glow)">
+    QDF Homomorphic Encryption: Noise-Free Addition
+  </text>
+  <text x="500" y="70" text-anchor="middle" fill="#8888cc" font-size="13">
+    Formally Verified: a²+b²+c²=d² → Component-wise addition is exact when ⟨v₁,v₂⟩ = d₁d₂
+  </text>
+
+  <!-- Left: Quadruple 1 -->
+  <g transform="translate(100, 120)">
+    <rect x="0" y="0" width="240" height="130" rx="12" fill="rgba(0,210,255,0.1)" stroke="#00d2ff" stroke-width="1.5"/>
+    <text x="120" y="25" text-anchor="middle" fill="#00d2ff" font-size="14" font-weight="bold">Quadruple Q₁</text>
+    <text x="120" y="50" text-anchor="middle" fill="#ffffff" font-size="16" font-family="monospace">(a₁, b₁, c₁, d₁)</text>
+    <text x="120" y="75" text-anchor="middle" fill="#aaaaff" font-size="13">a₁² + b₁² + c₁² = d₁²</text>
+    <text x="120" y="100" text-anchor="middle" fill="#66ddff" font-size="12" font-family="monospace">Example: (1, 2, 2, 3)</text>
+    <text x="120" y="120" text-anchor="middle" fill="#888" font-size="11">1 + 4 + 4 = 9 ✓</text>
+  </g>
+
+  <!-- Right: Quadruple 2 -->
+  <g transform="translate(660, 120)">
+    <rect x="0" y="0" width="240" height="130" rx="12" fill="rgba(240,147,251,0.1)" stroke="#f093fb" stroke-width="1.5"/>
+    <text x="120" y="25" text-anchor="middle" fill="#f093fb" font-size="14" font-weight="bold">Quadruple Q₂</text>
+    <text x="120" y="50" text-anchor="middle" fill="#ffffff" font-size="16" font-family="monospace">(a₂, b₂, c₂, d₂)</text>
+    <text x="120" y="75" text-anchor="middle" fill="#ffaaff" font-size="13">a₂² + b₂² + c₂² = d₂²</text>
+    <text x="120" y="100" text-anchor="middle" fill="#ff88dd" font-size="12" font-family="monospace">Example: (2, 3, 6, 7)</text>
+    <text x="120" y="120" text-anchor="middle" fill="#888" font-size="11">4 + 9 + 36 = 49 ✓</text>
+  </g>
+
+  <!-- Center: Addition operator -->
+  <g transform="translate(440, 155)">
+    <circle cx="60" cy="30" r="30" fill="rgba(255,255,255,0.1)" stroke="#ffffff" stroke-width="2"/>
+    <text x="60" y="37" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="bold">+</text>
+  </g>
+
+  <!-- Arrow down from Q1 -->
+  <line x1="220" y1="250" x2="380" y2="320" stroke="#00d2ff" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+  <!-- Arrow down from Q2 -->
+  <line x1="780" y1="250" x2="620" y2="320" stroke="#f093fb" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+
+  <!-- Center: Noise Formula Box -->
+  <g transform="translate(300, 290)">
+    <rect x="0" y="0" width="400" height="120" rx="15" fill="rgba(255,215,0,0.08)" stroke="#ffd700" stroke-width="2"/>
+    <text x="200" y="25" text-anchor="middle" fill="#ffd700" font-size="15" font-weight="bold" filter="url(#softGlow)">
+      ⚡ THE NOISE FORMULA ⚡
+    </text>
+    <text x="200" y="55" text-anchor="middle" fill="#ffffff" font-size="14" font-family="monospace">
+      Noise = 2 × (⟨v₁,v₂⟩ − d₁d₂)
+    </text>
+    <text x="200" y="80" text-anchor="middle" fill="#aaffaa" font-size="13">
+      where ⟨v₁,v₂⟩ = a₁a₂ + b₁b₂ + c₁c₂
+    </text>
+    <text x="200" y="100" text-anchor="middle" fill="#ffff88" font-size="12">
+      Noise = 0 ⟺ ⟨v₁,v₂⟩ = d₁d₂ (Exact Homomorphism!)
+    </text>
+  </g>
+
+  <!-- Two paths: Noise-Free and Noisy -->
+  <!-- Left path: Noise-Free -->
+  <line x1="400" y1="410" x2="250" y2="470" stroke="#00ff88" stroke-width="2" opacity="0.7"/>
+  <g transform="translate(80, 470)">
+    <rect x="0" y="0" width="340" height="120" rx="12" fill="rgba(0,255,136,0.08)" stroke="#00ff88" stroke-width="2"/>
+    <text x="170" y="25" text-anchor="middle" fill="#00ff88" font-size="14" font-weight="bold">✓ NOISE-FREE (Aligned)</text>
+    <text x="170" y="50" text-anchor="middle" fill="#ffffff" font-size="12" font-family="monospace">
+      ⟨v₁,v₂⟩ = d₁d₂
+    </text>
+    <text x="170" y="72" text-anchor="middle" fill="#aaffaa" font-size="12">
+      (a₁+a₂)² + (b₁+b₂)² + (c₁+c₂)² = (d₁+d₂)²
+    </text>
+    <text x="170" y="95" text-anchor="middle" fill="#66ff99" font-size="11">
+      Perfect closure on the quadruple cone
+    </text>
+    <text x="170" y="112" text-anchor="middle" fill="#44cc66" font-size="11">
+      No bootstrapping needed!
+    </text>
+  </g>
+
+  <!-- Right path: Noisy -->
+  <line x1="600" y1="410" x2="750" y2="470" stroke="#ff6666" stroke-width="2" opacity="0.7"/>
+  <g transform="translate(580, 470)">
+    <rect x="0" y="0" width="340" height="120" rx="12" fill="rgba(255,102,102,0.08)" stroke="#ff6666" stroke-width="2"/>
+    <text x="170" y="25" text-anchor="middle" fill="#ff6666" font-size="14" font-weight="bold">⚠ NOISY (Misaligned)</text>
+    <text x="170" y="50" text-anchor="middle" fill="#ffffff" font-size="12" font-family="monospace">
+      ⟨v₁,v₂⟩ ≠ d₁d₂
+    </text>
+    <text x="170" y="72" text-anchor="middle" fill="#ffaaaa" font-size="12">
+      Residual = 2(⟨v₁,v₂⟩ − d₁d₂)
+    </text>
+    <text x="170" y="95" text-anchor="middle" fill="#ff8888" font-size="11">
+      Bounded: |Noise| ≤ 2|d₁d₂|
+    </text>
+    <text x="170" y="112" text-anchor="middle" fill="#cc6666" font-size="11">
+      Cauchy–Schwarz guarantees finite noise
+    </text>
+  </g>
+
+  <!-- Bottom: Key Properties -->
+  <g transform="translate(50, 620)">
+    <rect x="0" y="0" width="900" height="60" rx="10" fill="rgba(100,100,200,0.1)" stroke="#6666cc" stroke-width="1"/>
+    <text x="20" y="22" fill="#00d2ff" font-size="11" font-weight="bold">Key Properties:</text>
+    <text x="20" y="42" fill="#aaaadd" font-size="10">
+      • Cone closure (scaling) • Modular preservation (mod m) • Error syndrome: e(2a+e) • 48-element symmetry (O_h)
+    </text>
+    <text x="20" y="55" fill="#aaaadd" font-size="10">
+      • Cauchy–Schwarz: ⟨v₁,v₂⟩² ≤ d₁²d₂² • Gram diagonal: ‖v‖² = 2d² • Composition towers • CRT compatibility
+    </text>
+    <text x="750" y="40" fill="#ffd700" font-size="11" font-weight="bold">Verified in Lean 4 ✓</text>
+  </g>
+
+  <!-- Decorative sphere (Bloch sphere reference) -->
+  <g transform="translate(500, 185)">
+    <circle cx="0" cy="0" r="35" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <ellipse cx="0" cy="0" rx="35" ry="12" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+    <ellipse cx="0" cy="0" rx="12" ry="35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+    <circle cx="10" cy="-15" r="3" fill="#00d2ff" opacity="0.8"/>
+    <circle cx="-12" cy="8" r="3" fill="#f093fb" opacity="0.8"/>
+    <text x="0" y="50" text-anchor="middle" fill="#666" font-size="9">Bloch Sphere S²</text>
+  </g>
+</svg>

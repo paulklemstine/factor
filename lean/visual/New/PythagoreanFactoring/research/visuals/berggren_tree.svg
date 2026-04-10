@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4fc3f7;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0288d1;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="nodeGradA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff8a65;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#d84315;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="nodeGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#81c784;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#2e7d32;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="nodeGradC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ce93d8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#7b1fa2;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#e0e0e0" font-weight="bold">
+    The Berggren Tree of Primitive Pythagorean Triples
+  </text>
+  <text x="600" y="78" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#90caf9">
+    Each node (a, b, c) satisfies a² + b² = c² — Three Lorentz transformations generate all primitive triples
+  </text>
+
+  <!-- Depth labels -->
+  <text x="30" y="150" font-family="monospace" font-size="12" fill="#616161">d = 0</text>
+  <text x="30" y="310" font-family="monospace" font-size="12" fill="#616161">d = 1</text>
+  <text x="30" y="520" font-family="monospace" font-size="12" fill="#616161">d = 2</text>
+  <text x="30" y="750" font-family="monospace" font-size="12" fill="#616161">d = 3</text>
+
+  <!-- Edges from root -->
+  <line x1="600" y1="165" x2="200" y2="285" stroke="#ff8a65" stroke-width="2" opacity="0.7"/>
+  <line x1="600" y1="165" x2="600" y2="285" stroke="#81c784" stroke-width="2" opacity="0.7"/>
+  <line x1="600" y1="165" x2="1000" y2="285" stroke="#ce93d8" stroke-width="2" opacity="0.7"/>
+
+  <!-- Edges depth 1 to depth 2 -->
+  <!-- From A child (5,12,13) -->
+  <line x1="200" y1="325" x2="80" y2="495" stroke="#ff8a65" stroke-width="1.5" opacity="0.5"/>
+  <line x1="200" y1="325" x2="200" y2="495" stroke="#81c784" stroke-width="1.5" opacity="0.5"/>
+  <line x1="200" y1="325" x2="320" y2="495" stroke="#ce93d8" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- From B child (21,20,29) -->
+  <line x1="600" y1="325" x2="480" y2="495" stroke="#ff8a65" stroke-width="1.5" opacity="0.5"/>
+  <line x1="600" y1="325" x2="600" y2="495" stroke="#81c784" stroke-width="1.5" opacity="0.5"/>
+  <line x1="600" y1="325" x2="720" y2="495" stroke="#ce93d8" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- From C child (15,8,17) -->
+  <line x1="1000" y1="325" x2="880" y2="495" stroke="#ff8a65" stroke-width="1.5" opacity="0.5"/>
+  <line x1="1000" y1="325" x2="1000" y2="495" stroke="#81c784" stroke-width="1.5" opacity="0.5"/>
+  <line x1="1000" y1="325" x2="1120" y2="495" stroke="#ce93d8" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Depth 2 to 3 edges (just from first A-child) -->
+  <line x1="80" y1="535" x2="40" y2="720" stroke="#ff8a65" stroke-width="1" opacity="0.3"/>
+  <line x1="80" y1="535" x2="80" y2="720" stroke="#81c784" stroke-width="1" opacity="0.3"/>
+  <line x1="80" y1="535" x2="120" y2="720" stroke="#ce93d8" stroke-width="1" opacity="0.3"/>
+
+  <!-- ROOT NODE: (3, 4, 5) -->
+  <g filter="url(#glow)">
+    <rect x="535" y="110" width="130" height="55" rx="12" fill="url(#nodeGrad)" filter="url(#shadow)"/>
+    <text x="600" y="133" text-anchor="middle" font-family="monospace" font-size="18" fill="white" font-weight="bold">(3, 4, 5)</text>
+    <text x="600" y="155" text-anchor="middle" font-family="monospace" font-size="11" fill="#b3e5fc">c = 5</text>
+  </g>
+
+  <!-- DEPTH 1 NODES -->
+  <!-- A child: (5, 12, 13) -->
+  <g>
+    <rect x="130" y="285" width="140" height="42" rx="10" fill="url(#nodeGradA)" filter="url(#shadow)"/>
+    <text x="200" y="305" text-anchor="middle" font-family="monospace" font-size="14" fill="white" font-weight="bold">(5, 12, 13)</text>
+    <text x="200" y="321" text-anchor="middle" font-family="monospace" font-size="10" fill="#ffccbc">A · root</text>
+  </g>
+
+  <!-- B child: (21, 20, 29) -->
+  <g>
+    <rect x="525" y="285" width="150" height="42" rx="10" fill="url(#nodeGradB)" filter="url(#shadow)"/>
+    <text x="600" y="305" text-anchor="middle" font-family="monospace" font-size="14" fill="white" font-weight="bold">(21, 20, 29)</text>
+    <text x="600" y="321" text-anchor="middle" font-family="monospace" font-size="10" fill="#c8e6c9">B · root</text>
+  </g>
+
+  <!-- C child: (15, 8, 17) -->
+  <g>
+    <rect x="925" y="285" width="150" height="42" rx="10" fill="url(#nodeGradC)" filter="url(#shadow)"/>
+    <text x="1000" y="305" text-anchor="middle" font-family="monospace" font-size="14" fill="white" font-weight="bold">(15, 8, 17)</text>
+    <text x="1000" y="321" text-anchor="middle" font-family="monospace" font-size="10" fill="#e1bee7">C · root</text>
+  </g>
+
+  <!-- DEPTH 2 NODES -->
+  <!-- AA: (7, 24, 25) -->
+  <g>
+    <rect x="15" y="495" width="130" height="42" rx="8" fill="url(#nodeGradA)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="80" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(7, 24, 25)</text>
+    <text x="80" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#ffccbc">A²</text>
+  </g>
+
+  <!-- AB: (55, 48, 73) -->
+  <g>
+    <rect x="135" y="495" width="130" height="42" rx="8" fill="url(#nodeGradB)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="200" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(55, 48, 73)</text>
+    <text x="200" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#c8e6c9">AB</text>
+  </g>
+
+  <!-- AC: (45, 28, 53) -->
+  <g>
+    <rect x="255" y="495" width="130" height="42" rx="8" fill="url(#nodeGradC)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="320" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(45, 28, 53)</text>
+    <text x="320" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#e1bee7">AC</text>
+  </g>
+
+  <!-- BA: (39, 80, 89) -->
+  <g>
+    <rect x="415" y="495" width="130" height="42" rx="8" fill="url(#nodeGradA)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="480" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(39, 80, 89)</text>
+    <text x="480" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#ffccbc">BA</text>
+  </g>
+
+  <!-- BB: (119, 120, 169) -->
+  <g>
+    <rect x="530" y="495" width="140" height="42" rx="8" fill="url(#nodeGradB)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="600" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(119,120,169)</text>
+    <text x="600" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#c8e6c9">B²</text>
+  </g>
+
+  <!-- BC: (77, 36, 85) -->
+  <g>
+    <rect x="655" y="495" width="130" height="42" rx="8" fill="url(#nodeGradC)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="720" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(77, 36, 85)</text>
+    <text x="720" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#e1bee7">BC</text>
+  </g>
+
+  <!-- CA: (33, 56, 65) -->
+  <g>
+    <rect x="815" y="495" width="130" height="42" rx="8" fill="url(#nodeGradA)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="880" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(33, 56, 65)</text>
+    <text x="880" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#ffccbc">CA</text>
+  </g>
+
+  <!-- CB: (65, 72, 97) -->
+  <g>
+    <rect x="935" y="495" width="130" height="42" rx="8" fill="url(#nodeGradB)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="1000" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(65, 72, 97)</text>
+    <text x="1000" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#c8e6c9">CB</text>
+  </g>
+
+  <!-- CC: (35, 12, 37) -->
+  <g>
+    <rect x="1055" y="495" width="130" height="42" rx="8" fill="url(#nodeGradC)" opacity="0.85" filter="url(#shadow)"/>
+    <text x="1120" y="513" text-anchor="middle" font-family="monospace" font-size="12" fill="white">(35, 12, 37)</text>
+    <text x="1120" y="530" text-anchor="middle" font-family="monospace" font-size="9" fill="#e1bee7">C²</text>
+  </g>
+
+  <!-- Sample depth 3 node -->
+  <g>
+    <rect x="15" y="720" width="130" height="42" rx="8" fill="url(#nodeGradA)" opacity="0.65" filter="url(#shadow)"/>
+    <text x="80" y="738" text-anchor="middle" font-family="monospace" font-size="11" fill="white">(9, 40, 41)</text>
+    <text x="80" y="754" text-anchor="middle" font-family="monospace" font-size="9" fill="#ffccbc">A³</text>
+  </g>
+
+  <!-- Ellipsis indicators -->
+  <text x="200" y="745" font-family="serif" font-size="24" fill="#616161">⋯</text>
+  <text x="500" y="745" font-family="serif" font-size="24" fill="#616161">⋯</text>
+  <text x="800" y="745" font-family="serif" font-size="24" fill="#616161">⋯</text>
+  <text x="1050" y="745" font-family="serif" font-size="24" fill="#616161">⋯</text>
+
+  <!-- Legend -->
+  <g transform="translate(80, 790)">
+    <rect x="0" y="0" width="1040" height="80" rx="10" fill="#1a1a3e" stroke="#333" stroke-width="1"/>
+    <text x="520" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#e0e0e0" font-weight="bold">Key Properties</text>
+
+    <rect x="20" y="35" width="14" height="14" rx="3" fill="url(#nodeGradA)"/>
+    <text x="40" y="47" font-family="monospace" font-size="11" fill="#ff8a65">A: growth O(d²), eigenvalue ≈ 1</text>
+
+    <rect x="280" y="35" width="14" height="14" rx="3" fill="url(#nodeGradB)"/>
+    <text x="300" y="47" font-family="monospace" font-size="11" fill="#81c784">B: growth O(5.83ᵈ), eigenvalue ≈ 5.83</text>
+
+    <rect x="580" y="35" width="14" height="14" rx="3" fill="url(#nodeGradC)"/>
+    <text x="600" y="47" font-family="monospace" font-size="11" fill="#ce93d8">C: growth O(d²), eigenvalue ≈ 1</text>
+
+    <text x="20" y="68" font-family="monospace" font-size="11" fill="#90caf9">
+      Lorentz Form: a² + b² − c² = 0 preserved by all transformations | Ternary tree ≅ tiling of hyperbolic plane
+    </text>
+  </g>
+</svg>

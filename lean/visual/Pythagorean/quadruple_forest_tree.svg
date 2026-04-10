@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,3 L0,6" fill="#4488ff"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    The Quadruple Forest is a Single Tree
+  </text>
+  <text x="600" y="65" text-anchor="middle" fill="#88aaff" font-size="14">
+    Universal Descent via R₁₁₁₁ ∈ O(3,1;ℤ)
+  </text>
+
+  <!-- Level 0: Root -->
+  <rect x="535" y="90" width="130" height="35" rx="8" fill="#ff4444" stroke="#ff8888" stroke-width="2" filter="url(#glow)"/>
+  <text x="600" y="113" text-anchor="middle" fill="white" font-size="14" font-weight="bold">(0,0,1,1)</text>
+  <text x="600" y="85" text-anchor="middle" fill="#ff8888" font-size="10">ROOT · d=1</text>
+
+  <!-- Edge to Level 1 -->
+  <line x1="600" y1="125" x2="600" y2="165" stroke="#4488ff" stroke-width="2"/>
+
+  <!-- Level 1 -->
+  <rect x="535" y="165" width="130" height="30" rx="6" fill="#ff8800" stroke="#ffaa44" stroke-width="1.5"/>
+  <text x="600" y="185" text-anchor="middle" fill="white" font-size="13">(1,2,2,3)</text>
+  <text x="700" y="185" fill="#ffaa44" font-size="10">d=3</text>
+
+  <!-- Edges to Level 2 -->
+  <line x1="600" y1="195" x2="240" y2="250" stroke="#44aa88" stroke-width="1.5"/>
+  <line x1="600" y1="195" x2="480" y2="250" stroke="#44aa88" stroke-width="1.5"/>
+  <line x1="600" y1="195" x2="720" y2="250" stroke="#44aa88" stroke-width="1.5"/>
+  <line x1="600" y1="195" x2="960" y2="250" stroke="#44aa88" stroke-width="1.5"/>
+
+  <!-- Level 2 -->
+  <rect x="175" y="250" width="130" height="30" rx="6" fill="#44aa44" stroke="#66cc66" stroke-width="1.5"/>
+  <text x="240" y="270" text-anchor="middle" fill="white" font-size="12">(0,3,4,5)</text>
+  <text x="335" y="270" fill="#66cc66" font-size="10">d=5</text>
+
+  <rect x="415" y="250" width="130" height="30" rx="6" fill="#44aa44" stroke="#66cc66" stroke-width="1.5"/>
+  <text x="480" y="270" text-anchor="middle" fill="white" font-size="12">(2,3,6,7)</text>
+  <text x="575" y="270" fill="#66cc66" font-size="10">d=7</text>
+
+  <rect x="655" y="250" width="130" height="30" rx="6" fill="#44aa44" stroke="#66cc66" stroke-width="1.5"/>
+  <text x="720" y="270" text-anchor="middle" fill="white" font-size="12">(4,4,7,9)</text>
+  <text x="815" y="270" fill="#66cc66" font-size="10">d=9</text>
+
+  <rect x="895" y="250" width="140" height="30" rx="6" fill="#44aa44" stroke="#66cc66" stroke-width="1.5"/>
+  <text x="965" y="270" text-anchor="middle" fill="white" font-size="12">(6,6,7,11)</text>
+  <text x="1060" y="270" fill="#66cc66" font-size="10">d=11</text>
+
+  <!-- Edges to Level 3 from (0,3,4,5) -->
+  <line x1="240" y1="280" x2="100" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="240" y1="280" x2="200" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="240" y1="280" x2="300" y2="340" stroke="#4488cc" stroke-width="1"/>
+
+  <!-- Edges to Level 3 from (2,3,6,7) -->
+  <line x1="480" y1="280" x2="400" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="480" y1="280" x2="470" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="480" y1="280" x2="540" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="480" y1="280" x2="610" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="480" y1="280" x2="680" y2="340" stroke="#4488cc" stroke-width="1"/>
+
+  <!-- Edges to Level 3 from (4,4,7,9) -->
+  <line x1="720" y1="280" x2="760" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="720" y1="280" x2="830" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="720" y1="280" x2="900" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="720" y1="280" x2="970" y2="340" stroke="#4488cc" stroke-width="1"/>
+
+  <!-- Edges from (6,6,7,11) -->
+  <line x1="965" y1="280" x2="1040" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="965" y1="280" x2="1100" y2="340" stroke="#4488cc" stroke-width="1"/>
+  <line x1="965" y1="280" x2="1160" y2="340" stroke="#4488cc" stroke-width="1"/>
+
+  <!-- Level 3 nodes (selected) -->
+  <rect x="50" y="340" width="100" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="100" y="357" text-anchor="middle" fill="white" font-size="10">(1,4,8,9)</text>
+
+  <rect x="155" y="340" width="100" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="205" y="357" text-anchor="middle" fill="white" font-size="10">(2,6,9,11)</text>
+
+  <rect x="260" y="340" width="105" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="312" y="357" text-anchor="middle" fill="white" font-size="10">(8,9,12,17)</text>
+
+  <rect x="370" y="340" width="105" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="422" y="357" text-anchor="middle" fill="white" font-size="10">(3,4,12,13)</text>
+
+  <rect x="480" y="340" width="110" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="535" y="357" text-anchor="middle" fill="white" font-size="10">(2,10,11,15)</text>
+
+  <rect x="595" y="340" width="115" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="652" y="357" text-anchor="middle" fill="white" font-size="10">(6,10,15,19)</text>
+
+  <rect x="715" y="340" width="115" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="772" y="357" text-anchor="middle" fill="white" font-size="10">(8,11,16,21)</text>
+
+  <rect x="835" y="340" width="115" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="892" y="357" text-anchor="middle" fill="white" font-size="10">(12,15,16,25)</text>
+
+  <!-- More level 3 nodes -->
+  <rect x="955" y="340" width="120" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="1015" y="357" text-anchor="middle" fill="white" font-size="10">(1,12,12,17)</text>
+
+  <rect x="1080" y="340" width="110" height="25" rx="5" fill="#3366aa" stroke="#5588cc" stroke-width="1"/>
+  <text x="1135" y="357" text-anchor="middle" fill="white" font-size="10">(6,6,17,19)</text>
+
+  <!-- Dots indicating more children -->
+  <text x="1170" y="360" fill="#5588cc" font-size="16">…</text>
+
+  <!-- Ellipsis for deeper levels -->
+  <text x="600" y="410" text-anchor="middle" fill="#5588cc" font-size="16">⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮ ⋮</text>
+
+  <!-- The Reflection Box -->
+  <rect x="50" y="440" width="500" height="170" rx="10" fill="none" stroke="#ff8844" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="300" y="470" text-anchor="middle" fill="#ff8844" font-size="16" font-weight="bold">The Descent Map R₁₁₁₁</text>
+
+  <text x="80" y="500" fill="#dddddd" font-size="13">R₁₁₁₁(a,b,c,d) = (d−b−c, d−a−c, d−a−b, 2d−a−b−c)</text>
+  <text x="80" y="525" fill="#aaaaaa" font-size="12">• R₁₁₁₁ ∈ O(3,1;ℤ)  (Lorentz transformation)</text>
+  <text x="80" y="545" fill="#aaaaaa" font-size="12">• R₁₁₁₁² = I  (involution)</text>
+  <text x="80" y="565" fill="#aaaaaa" font-size="12">• 0 &lt; d' = 2d−(a+b+c) &lt; d  (strict descent)</text>
+  <text x="80" y="585" fill="#aaaaaa" font-size="12">• Preserves null cone: a²+b²+c²=d² ⟹ a'²+b'²+c'²=d'²</text>
+  <text x="80" y="605" fill="#88ff88" font-size="12" font-weight="bold">→ Every quadruple descends to root (0,0,1,1)</text>
+
+  <!-- Comparison Box -->
+  <rect x="600" y="440" width="560" height="170" rx="10" fill="none" stroke="#4488ff" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="880" y="470" text-anchor="middle" fill="#4488ff" font-size="16" font-weight="bold">Triples vs Quadruples</text>
+
+  <text x="640" y="500" fill="#cccccc" font-size="12">Property      Triples (2+1)    Quadruples (3+1)</text>
+  <text x="640" y="520" fill="#aaaaaa" font-size="12">Equation      a²+b²=c²         a²+b²+c²=d²</text>
+  <text x="640" y="540" fill="#aaaaaa" font-size="12">Group         O(2,1;ℤ)         O(3,1;ℤ)</text>
+  <text x="640" y="560" fill="#aaaaaa" font-size="12">Descent vec   (1,1,1)          (1,1,1,1)</text>
+  <text x="640" y="580" fill="#aaaaaa" font-size="12">Root          (3,4,5)          (0,0,1,1)</text>
+  <text x="640" y="600" fill="#88ff88" font-size="12" font-weight="bold">Structure     Single tree      Single tree ✓</text>
+
+  <!-- Statistics Box -->
+  <rect x="50" y="630" width="500" height="140" rx="10" fill="none" stroke="#44cc44" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="300" y="660" text-anchor="middle" fill="#44cc44" font-size="16" font-weight="bold">Computational Verification</text>
+  <text x="80" y="690" fill="#aaaaaa" font-size="12">d ≤ 10:    5 quads → all descend to (0,0,1,1) ✓</text>
+  <text x="80" y="710" fill="#aaaaaa" font-size="12">d ≤ 20:   17 quads → all descend to (0,0,1,1) ✓</text>
+  <text x="80" y="730" fill="#aaaaaa" font-size="12">d ≤ 30:   36 quads → all descend to (0,0,1,1) ✓</text>
+  <text x="80" y="750" fill="#88ff88" font-size="12" font-weight="bold">d ≤ 50:   93 quads → all descend to (0,0,1,1) ✓</text>
+
+  <!-- Key Identity Box -->
+  <rect x="600" y="630" width="560" height="140" rx="10" fill="none" stroke="#cc44cc" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="880" y="660" text-anchor="middle" fill="#cc44cc" font-size="16" font-weight="bold">The Key Identity</text>
+  <text x="640" y="690" fill="#dddddd" font-size="13">If a² + b² + c² = d², then:</text>
+  <text x="640" y="720" fill="#ffaaff" font-size="14" font-weight="bold">(d−b−c)² + (d−a−c)² + (d−a−b)²</text>
+  <text x="700" y="745" fill="#ffaaff" font-size="14" font-weight="bold">= (2d−a−b−c)²</text>
+  <text x="640" y="765" fill="#aaaaaa" font-size="11">Machine-verified in Lean 4 · Zero sorry · 330+ lines</text>
+
+  <!-- Decorative light cone lines -->
+  <line x1="600" y1="100" x2="50" y2="400" stroke="#ffffff" stroke-width="0.3" opacity="0.15"/>
+  <line x1="600" y1="100" x2="1150" y2="400" stroke="#ffffff" stroke-width="0.3" opacity="0.15"/>
+</svg>

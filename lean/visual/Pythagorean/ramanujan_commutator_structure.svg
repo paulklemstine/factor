@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgComm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bgComm)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#E0E0E0" font-size="20" font-weight="bold">
+    Commutator Structure of Berggren Generators
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#90CAF9" font-size="12">
+    Non-commutativity drives expansion quality — Machine-verified in Lean 4
+  </text>
+
+  <!-- 3D Section -->
+  <rect x="20" y="70" width="240" height="210" rx="10" fill="#1a2332" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="140" y="95" text-anchor="middle" fill="#4CAF50" font-size="16" font-weight="bold">3D Generators</text>
+  <text x="140" y="112" text-anchor="middle" fill="#81C784" font-size="11">All pairs non-commuting</text>
+
+  <!-- 3D graph: triangle with all red edges -->
+  <circle cx="140" cy="155" r="18" fill="#2E7D32" stroke="#4CAF50" stroke-width="2"/>
+  <text x="140" y="160" text-anchor="middle" fill="white" font-size="11" font-weight="bold">B₁</text>
+
+  <circle cx="90" cy="230" r="18" fill="#2E7D32" stroke="#4CAF50" stroke-width="2"/>
+  <text x="90" y="235" text-anchor="middle" fill="white" font-size="11" font-weight="bold">B₂</text>
+
+  <circle cx="190" cy="230" r="18" fill="#2E7D32" stroke="#4CAF50" stroke-width="2"/>
+  <text x="190" y="235" text-anchor="middle" fill="white" font-size="11" font-weight="bold">B₃</text>
+
+  <!-- Red edges = non-commuting -->
+  <line x1="130" y1="170" x2="100" y2="215" stroke="#FF5252" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <line x1="150" y1="170" x2="180" y2="215" stroke="#FF5252" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <line x1="108" y1="230" x2="172" y2="230" stroke="#FF5252" stroke-width="2.5" stroke-dasharray="5,3"/>
+
+  <text x="95" y="188" fill="#FF8A80" font-size="9">≠</text>
+  <text x="170" y="188" fill="#FF8A80" font-size="9">≠</text>
+  <text x="140" y="248" fill="#FF8A80" font-size="9">≠</text>
+
+  <!-- 4D Section -->
+  <rect x="280" y="70" width="240" height="210" rx="10" fill="#1a2332" stroke="#2196F3" stroke-width="1.5"/>
+  <text x="400" y="95" text-anchor="middle" fill="#2196F3" font-size="16" font-weight="bold">4D Generators</text>
+  <text x="400" y="112" text-anchor="middle" fill="#64B5F6" font-size="11">H₁H₃ = H₃H₁ (orthogonal!)</text>
+
+  <!-- 4D graph: square with mixed edges -->
+  <circle cx="350" cy="155" r="18" fill="#1565C0" stroke="#42A5F5" stroke-width="2"/>
+  <text x="350" y="160" text-anchor="middle" fill="white" font-size="11" font-weight="bold">H₁</text>
+
+  <circle cx="450" cy="155" r="18" fill="#1565C0" stroke="#42A5F5" stroke-width="2"/>
+  <text x="450" y="160" text-anchor="middle" fill="white" font-size="11" font-weight="bold">H₂</text>
+
+  <circle cx="350" cy="240" r="18" fill="#1565C0" stroke="#42A5F5" stroke-width="2"/>
+  <text x="350" y="245" text-anchor="middle" fill="white" font-size="11" font-weight="bold">H₃</text>
+
+  <circle cx="450" cy="240" r="18" fill="#1565C0" stroke="#42A5F5" stroke-width="2"/>
+  <text x="450" y="245" text-anchor="middle" fill="white" font-size="11" font-weight="bold">H₄</text>
+
+  <!-- H1-H2: non-commuting (red dashed) -->
+  <line x1="368" y1="155" x2="432" y2="155" stroke="#FF5252" stroke-width="2" stroke-dasharray="5,3"/>
+  <!-- H1-H3: COMMUTING (green solid) -->
+  <line x1="350" y1="173" x2="350" y2="222" stroke="#4CAF50" stroke-width="3"/>
+  <!-- H1-H4: non-commuting -->
+  <line x1="365" y1="168" x2="435" y2="227" stroke="#FF5252" stroke-width="2" stroke-dasharray="5,3"/>
+  <!-- H2-H3: non-commuting -->
+  <line x1="435" y1="168" x2="365" y2="227" stroke="#FF5252" stroke-width="2" stroke-dasharray="5,3"/>
+  <!-- H2-H4: non-commuting -->
+  <line x1="450" y1="173" x2="450" y2="222" stroke="#FF5252" stroke-width="2" stroke-dasharray="5,3"/>
+  <!-- H3-H4: non-commuting -->
+  <line x1="368" y1="240" x2="432" y2="240" stroke="#FF5252" stroke-width="2" stroke-dasharray="5,3"/>
+
+  <!-- 5D Section -->
+  <rect x="540" y="70" width="240" height="210" rx="10" fill="#1a2332" stroke="#FF9800" stroke-width="1.5"/>
+  <text x="660" y="95" text-anchor="middle" fill="#FF9800" font-size="16" font-weight="bold">5D Generators</text>
+  <text x="660" y="112" text-anchor="middle" fill="#FFB74D" font-size="11">Rich non-abelian structure</text>
+
+  <!-- 5D graph: hexagon with mostly red edges -->
+  <circle cx="660" cy="145" r="14" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="660" y="149" text-anchor="middle" fill="white" font-size="9" font-weight="bold">K₁</text>
+
+  <circle cx="710" cy="170" r="14" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="710" y="174" text-anchor="middle" fill="white" font-size="9" font-weight="bold">K₂</text>
+
+  <circle cx="710" cy="220" r="14" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="710" y="224" text-anchor="middle" fill="white" font-size="9" font-weight="bold">K₃</text>
+
+  <circle cx="660" cy="248" r="14" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="660" y="252" text-anchor="middle" fill="white" font-size="9" font-weight="bold">K₄</text>
+
+  <circle cx="610" cy="220" r="14" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="610" y="224" text-anchor="middle" fill="white" font-size="9" font-weight="bold">K₅</text>
+
+  <circle cx="610" cy="170" r="14" fill="#E65100" stroke="#FF9800" stroke-width="2"/>
+  <text x="610" y="174" text-anchor="middle" fill="white" font-size="9" font-weight="bold">K₆</text>
+
+  <!-- Some verified non-commuting edges -->
+  <line x1="672" y1="149" x2="698" y2="162" stroke="#FF5252" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="672" y1="152" x2="698" y2="214" stroke="#FF5252" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="666" y1="158" x2="657" y2="235" stroke="#FF5252" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+  <!-- Legend -->
+  <rect x="20" y="300" width="760" height="80" rx="10" fill="#1a2332" stroke="#78909C" stroke-width="1"/>
+  <text x="400" y="325" text-anchor="middle" fill="#B0BEC5" font-size="14" font-weight="bold">Legend</text>
+  <line x1="60" y1="345" x2="100" y2="345" stroke="#FF5252" stroke-width="2.5" stroke-dasharray="5,3"/>
+  <text x="110" y="349" fill="#FF8A80" font-size="12">AB ≠ BA (non-commuting → expansion)</text>
+  <line x1="400" y1="345" x2="440" y2="345" stroke="#4CAF50" stroke-width="3"/>
+  <text x="450" y="349" fill="#A5D6A7" font-size="12">AB = BA (commuting — orthogonal planes)</text>
+  <text x="400" y="370" text-anchor="middle" fill="#78909C" font-size="11">
+    Non-commutativity is essential: abelian Cayley graphs have trivial expansion
+  </text>
+
+  <!-- Insight Box -->
+  <rect x="20" y="400" width="760" height="130" rx="10" fill="#1a2332" stroke="#CE93D8" stroke-width="1.5"/>
+  <text x="400" y="425" text-anchor="middle" fill="#CE93D8" font-size="15" font-weight="bold">
+    Physical Interpretation
+  </text>
+  <text x="400" y="450" text-anchor="middle" fill="#E1BEE7" font-size="12">
+    3D: B₁ acts on (a,b,c), B₂ on (a,b,c), B₃ on (a,b,c) — all overlap → all non-commute
+  </text>
+  <text x="400" y="475" text-anchor="middle" fill="#E1BEE7" font-size="12">
+    4D: H₁ acts on (a,c,d), H₃ on (b,c,d) — share only (c,d) → COMMUTE
+  </text>
+  <text x="400" y="500" text-anchor="middle" fill="#E1BEE7" font-size="12">
+    5D: Generators acting on overlapping triples within 5 coordinates → mostly non-commute
+  </text>
+  <text x="400" y="525" text-anchor="middle" fill="#B39DDB" font-size="11" font-style="italic">
+    Commutativity structure encodes the geometry of coordinate plane intersections
+  </text>
+</svg>

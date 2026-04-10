@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1a0a"/>
+      <stop offset="100%" stop-color="#1a2a1a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#hbg)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#44ff44" font-size="20" font-weight="bold">
+    Higher-Dimensional Pythagorean Trees
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#888" font-size="12">
+    From a²+b²=c² to a²+b²+c²=d² and beyond
+  </text>
+
+  <!-- 3D column -->
+  <rect x="40" y="80" width="340" height="180" rx="10" fill="#1a2a1a" stroke="#00ddff" stroke-width="1.5"/>
+  <text x="210" y="105" text-anchor="middle" fill="#00ddff" font-size="15" font-weight="bold">3D: Pythagorean Triples</text>
+  <text x="60" y="130" fill="#ddd" font-size="12">Equation: a² + b² = c²</text>
+  <text x="60" y="150" fill="#ddd" font-size="12">Root: (3, 4, 5)</text>
+  <text x="60" y="170" fill="#ddd" font-size="12">Group: O(2,1;ℤ), 3 generators</text>
+  <text x="60" y="190" fill="#ddd" font-size="12">Cayley degree: d = 6</text>
+  <text x="60" y="210" fill="#ddd" font-size="12">Ramanujan bound: 2√5 ≈ 4.47</text>
+  <text x="60" y="230" fill="#0f0" font-size="12">Spectral gap: 6 − 2√5 ≈ 1.53 ✓</text>
+  <text x="60" y="250" fill="#0f0" font-size="12">Lorentz: Q = diag(1,1,−1) ✓</text>
+
+  <!-- 4D column -->
+  <rect x="420" y="80" width="340" height="180" rx="10" fill="#1a2a1a" stroke="#44ff44" stroke-width="1.5"/>
+  <text x="590" y="105" text-anchor="middle" fill="#44ff44" font-size="15" font-weight="bold">4D: Pythagorean Quadruples</text>
+  <text x="440" y="130" fill="#ddd" font-size="12">Equation: a² + b² + c² = d²</text>
+  <text x="440" y="150" fill="#ddd" font-size="12">Root: (1, 2, 2, 3)</text>
+  <text x="440" y="170" fill="#ddd" font-size="12">Group: O(3,1;ℤ), 4 generators</text>
+  <text x="440" y="190" fill="#ddd" font-size="12">Cayley degree: d = 8</text>
+  <text x="440" y="210" fill="#ddd" font-size="12">Ramanujan bound: 2√7 ≈ 5.29</text>
+  <text x="440" y="230" fill="#0f0" font-size="12">Spectral gap: 8 − 2√7 ≈ 2.71 ✓</text>
+  <text x="440" y="250" fill="#0f0" font-size="12">Lorentz: Q₄= diag(1,1,1,−1) ✓</text>
+
+  <!-- Arrow between -->
+  <text x="400" y="175" text-anchor="middle" fill="#ffd700" font-size="24">⟹</text>
+  <text x="400" y="195" text-anchor="middle" fill="#aaa" font-size="10">Generalize</text>
+
+  <!-- Comparison table -->
+  <rect x="60" y="290" width="680" height="190" rx="10" fill="#0a1a2a" stroke="#ffd700" stroke-width="1"/>
+  <text x="400" y="315" text-anchor="middle" fill="#ffd700" font-size="15" font-weight="bold">
+    Dimensional Comparison (All Verified ✓)
+  </text>
+
+  <!-- Table headers -->
+  <text x="120" y="345" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">Property</text>
+  <text x="310" y="345" text-anchor="middle" fill="#00ddff" font-size="12" font-weight="bold">3D (triples)</text>
+  <text x="500" y="345" text-anchor="middle" fill="#44ff44" font-size="12" font-weight="bold">4D (quadruples)</text>
+  <text x="660" y="345" text-anchor="middle" fill="#aaa" font-size="12">Trend</text>
+
+  <line x1="70" y1="352" x2="730" y2="352" stroke="#555" stroke-width="0.5"/>
+
+  <!-- Table rows -->
+  <text x="120" y="372" text-anchor="middle" fill="#ccc" font-size="11">Generators</text>
+  <text x="310" y="372" text-anchor="middle" fill="#ccc" font-size="11">3 (B₁,B₂,B₃)</text>
+  <text x="500" y="372" text-anchor="middle" fill="#ccc" font-size="11">4 (H₁,H₂,H₃,H₄)</text>
+  <text x="660" y="372" text-anchor="middle" fill="#aaa" font-size="11">+1 per dim</text>
+
+  <text x="120" y="395" text-anchor="middle" fill="#ccc" font-size="11">Cayley deg.</text>
+  <text x="310" y="395" text-anchor="middle" fill="#ccc" font-size="11">6</text>
+  <text x="500" y="395" text-anchor="middle" fill="#ccc" font-size="11">8</text>
+  <text x="660" y="395" text-anchor="middle" fill="#aaa" font-size="11">+2 per dim</text>
+
+  <text x="120" y="418" text-anchor="middle" fill="#ccc" font-size="11">Spectral gap</text>
+  <text x="310" y="418" text-anchor="middle" fill="#ccc" font-size="11">1.528</text>
+  <text x="500" y="418" text-anchor="middle" fill="#ccc" font-size="11">2.708</text>
+  <text x="660" y="418" text-anchor="middle" fill="#0f0" font-size="11">↑ Increasing</text>
+
+  <text x="120" y="441" text-anchor="middle" fill="#ccc" font-size="11">Rel. gap γ/d</text>
+  <text x="310" y="441" text-anchor="middle" fill="#ccc" font-size="11">0.255</text>
+  <text x="500" y="441" text-anchor="middle" fill="#ccc" font-size="11">0.339</text>
+  <text x="660" y="441" text-anchor="middle" fill="#0f0" font-size="11">↑ Increasing</text>
+
+  <text x="120" y="464" text-anchor="middle" fill="#ccc" font-size="11">det(gen)</text>
+  <text x="310" y="464" text-anchor="middle" fill="#ccc" font-size="11">1, −1, 1</text>
+  <text x="500" y="464" text-anchor="middle" fill="#ccc" font-size="11">1, −1, 1, −1</text>
+  <text x="660" y="464" text-anchor="middle" fill="#aaa" font-size="11">Alternating</text>
+</svg>

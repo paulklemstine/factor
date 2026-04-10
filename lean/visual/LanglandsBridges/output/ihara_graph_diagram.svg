@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg3)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">
+    Ihara Zeta: Number Theory ↔ Graph Theory
+  </text>
+
+  <!-- Left: Number Theory -->
+  <g transform="translate(180, 250)">
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#52b788" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="0" y="-110" text-anchor="middle" fill="#52b788" font-size="14" font-weight="bold">Number Theory</text>
+
+    <text x="0" y="-70" text-anchor="middle" fill="#95d5b2" font-size="12">Dedekind ζ_K(s)</text>
+    <text x="0" y="-48" text-anchor="middle" fill="#b7e4c7" font-size="10">= ∏_𝔭 (1 - N(𝔭)⁻ˢ)⁻¹</text>
+
+    <text x="0" y="-15" text-anchor="middle" fill="#95d5b2" font-size="12">Prime ideals 𝔭</text>
+    <text x="0" y="20" text-anchor="middle" fill="#95d5b2" font-size="12">Ideal class group</text>
+    <text x="0" y="50" text-anchor="middle" fill="#95d5b2" font-size="12">Riemann Hypothesis:</text>
+    <text x="0" y="70" text-anchor="middle" fill="#b7e4c7" font-size="11">Re(s) = 1/2</text>
+
+    <text x="0" y="105" text-anchor="middle" fill="#52b788" font-size="11" font-style="italic">Riemann–Roch:</text>
+    <text x="0" y="120" text-anchor="middle" fill="#b7e4c7" font-size="10">deg(K) = 2g - 2</text>
+  </g>
+
+  <!-- Right: Graph Theory -->
+  <g transform="translate(620, 250)">
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#c77dff" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="0" y="-110" text-anchor="middle" fill="#c77dff" font-size="14" font-weight="bold">Graph Theory</text>
+
+    <text x="0" y="-70" text-anchor="middle" fill="#e0aaff" font-size="12">Ihara ζ_G(u)</text>
+    <text x="0" y="-48" text-anchor="middle" fill="#e0aaff" font-size="10">= ∏_[C] (1 - u^|C|)⁻¹</text>
+
+    <text x="0" y="-15" text-anchor="middle" fill="#e0aaff" font-size="12">Prime cycles [C]</text>
+    <text x="0" y="20" text-anchor="middle" fill="#e0aaff" font-size="12">Tropical Jacobian</text>
+    <text x="0" y="50" text-anchor="middle" fill="#e0aaff" font-size="12">Ramanujan property:</text>
+    <text x="0" y="70" text-anchor="middle" fill="#e0aaff" font-size="11">|λ| ≤ 2√q</text>
+
+    <text x="0" y="105" text-anchor="middle" fill="#c77dff" font-size="11" font-style="italic">Baker–Norine:</text>
+    <text x="0" y="120" text-anchor="middle" fill="#e0aaff" font-size="10">deg(K) = 2g - 2 ✓</text>
+  </g>
+
+  <!-- Bridge Arrows -->
+  <g>
+    <line x1="300" y1="180" x2="500" y2="180" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <line x1="500" y1="195" x2="300" y2="195" stroke="#e94560" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <text x="400" y="173" text-anchor="middle" fill="#e94560" font-size="11" font-weight="bold">↔</text>
+
+    <line x1="300" y1="235" x2="500" y2="235" stroke="#ffa500" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="400" y="228" text-anchor="middle" fill="#ffa500" font-size="10">↔</text>
+
+    <line x1="300" y1="270" x2="500" y2="270" stroke="#ffa500" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="400" y="263" text-anchor="middle" fill="#ffa500" font-size="10">↔</text>
+
+    <line x1="300" y1="305" x2="500" y2="305" stroke="#ffa500" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="400" y="298" text-anchor="middle" fill="#ffa500" font-size="10">↔</text>
+
+    <line x1="300" y1="355" x2="500" y2="355" stroke="#ffa500" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="400" y="348" text-anchor="middle" fill="#ffa500" font-size="10">↔</text>
+  </g>
+
+  <!-- Central Bridge Label -->
+  <rect x="355" y="390" width="90" height="30" rx="5" fill="#e94560" opacity="0.9"/>
+  <text x="400" y="410" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">L-function</text>
+  <text x="400" y="440" text-anchor="middle" fill="#aaa" font-size="10">The universal bridge</text>
+
+  <!-- Petersen graph mini-diagram -->
+  <g transform="translate(620, 250) scale(0.3)">
+    <!-- Outer pentagon vertices -->
+    <circle cx="0" cy="-100" r="8" fill="#c77dff"/>
+    <circle cx="95" cy="-31" r="8" fill="#c77dff"/>
+    <circle cx="59" cy="81" r="8" fill="#c77dff"/>
+    <circle cx="-59" cy="81" r="8" fill="#c77dff"/>
+    <circle cx="-95" cy="-31" r="8" fill="#c77dff"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(30, 460)">
+    <rect width="740" height="30" rx="5" fill="#0a0a1a" stroke="#333"/>
+    <text x="370" y="20" text-anchor="middle" fill="#aaa" font-size="11">
+      All correspondences formally verified in Lean 4: ihara_matrix_regular_simplification, canonical_divisor_degree, ramanujan_spectral_gap
+    </text>
+  </g>
+</svg>

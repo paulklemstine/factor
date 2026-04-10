@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#37474f"/>
+    </marker>
+  </defs>
+  
+  <rect width="900" height="520" fill="#fafafa" rx="10"/>
+  
+  <text x="450" y="35" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold" fill="#0d47a1">
+    Q5: Lattice Sieving for Practical Gate Synthesis
+  </text>
+  
+  <!-- Lattice visualization -->
+  <rect x="30" y="55" width="360" height="290" rx="8" fill="white" stroke="#90a4ae" stroke-width="1"/>
+  <text x="210" y="80" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#37474f">
+    CVP in ℤ⁴: Find Closest Lattice Point
+  </text>
+  
+  <!-- 2D lattice grid (projection) -->
+  <g transform="translate(50,95)">
+    <!-- Grid dots -->
+    <g fill="#bbdefb">
+      <circle cx="0" cy="0" r="4"/><circle cx="60" cy="0" r="4"/><circle cx="120" cy="0" r="4"/>
+      <circle cx="180" cy="0" r="4"/><circle cx="240" cy="0" r="4"/><circle cx="300" cy="0" r="4"/>
+      <circle cx="0" cy="50" r="4"/><circle cx="60" cy="50" r="4"/><circle cx="120" cy="50" r="4"/>
+      <circle cx="180" cy="50" r="4"/><circle cx="240" cy="50" r="4"/><circle cx="300" cy="50" r="4"/>
+      <circle cx="0" cy="100" r="4"/><circle cx="60" cy="100" r="4"/><circle cx="120" cy="100" r="4"/>
+      <circle cx="180" cy="100" r="4"/><circle cx="240" cy="100" r="4"/><circle cx="300" cy="100" r="4"/>
+      <circle cx="0" cy="150" r="4"/><circle cx="60" cy="150" r="4"/><circle cx="120" cy="150" r="4"/>
+      <circle cx="180" cy="150" r="4"/><circle cx="240" cy="150" r="4"/><circle cx="300" cy="150" r="4"/>
+      <circle cx="0" cy="200" r="4"/><circle cx="60" cy="200" r="4"/><circle cx="120" cy="200" r="4"/>
+      <circle cx="180" cy="200" r="4"/><circle cx="240" cy="200" r="4"/><circle cx="300" cy="200" r="4"/>
+    </g>
+    
+    <!-- Target point -->
+    <circle cx="155" cy="82" r="7" fill="#e53935"/>
+    <text x="170" y="78" font-family="Arial" font-size="11" fill="#e53935" font-weight="bold">√d·t</text>
+    
+    <!-- Closest point highlight -->
+    <circle cx="180" cy="100" r="7" fill="none" stroke="#1b5e20" stroke-width="2.5"/>
+    <text x="195" y="118" font-family="Arial" font-size="11" fill="#1b5e20" font-weight="bold">closest q</text>
+    
+    <!-- Distance line -->
+    <line x1="155" y1="82" x2="180" y2="100" stroke="#e65100" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="145" y="100" font-family="Arial" font-size="9" fill="#e65100">ε</text>
+    
+    <!-- Norm circle -->
+    <circle cx="155" cy="82" r="35" fill="none" stroke="#3f51b5" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+    <text x="115" y="52" font-family="Arial" font-size="9" fill="#3f51b5">|q|²=d sphere</text>
+  </g>
+  
+  <!-- Algorithm comparison -->
+  <rect x="420" y="55" width="450" height="290" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+  <text x="645" y="80" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#0d47a1">
+    Lattice Reduction Algorithms
+  </text>
+  
+  <!-- Algorithm boxes -->
+  <!-- LLL -->
+  <rect x="440" y="95" width="200" height="100" rx="6" fill="white" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="540" y="118" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#1565c0">LLL Algorithm</text>
+  <text x="540" y="140" text-anchor="middle" font-family="Arial" font-size="11" fill="#37474f">Time: O(n⁶ log² B)</text>
+  <text x="540" y="160" text-anchor="middle" font-family="Arial" font-size="11" fill="#37474f">Approx: 2^((n-1)/2)</text>
+  <text x="540" y="180" text-anchor="middle" font-family="Arial" font-size="11" fill="#1b5e20" font-weight="bold">n=4: factor ≤ 4</text>
+  
+  <!-- BKZ -->
+  <rect x="660" y="95" width="190" height="100" rx="6" fill="white" stroke="#7b1fa2" stroke-width="1.5"/>
+  <text x="755" y="118" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#7b1fa2">BKZ Algorithm</text>
+  <text x="755" y="140" text-anchor="middle" font-family="Arial" font-size="11" fill="#37474f">Time: O(2^β · poly)</text>
+  <text x="755" y="160" text-anchor="middle" font-family="Arial" font-size="11" fill="#37474f">Approx: β^(n/β)</text>
+  <text x="755" y="180" text-anchor="middle" font-family="Arial" font-size="11" fill="#1b5e20" font-weight="bold">n=4, β=2: factor ≤ 4</text>
+  
+  <!-- Kannan -->
+  <rect x="440" y="210" width="410" height="60" rx="6" fill="#1b5e20" opacity="0.9"/>
+  <text x="645" y="235" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">
+    Kannan's Algorithm: EXACT CVP in 2^O(n) time
+  </text>
+  <text x="645" y="258" text-anchor="middle" font-family="Arial" font-size="12" fill="#a5d6a7">
+    n=4: just O(16) operations — trivially feasible!
+  </text>
+  
+  <!-- Key insight -->
+  <rect x="440" y="285" width="410" height="50" rx="6" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="645" y="308" text-anchor="middle" font-family="Arial" font-size="12" fill="#e65100">
+    Dimension 4 is the sweet spot: high enough for SU(2),
+  </text>
+  <text x="645" y="326" text-anchor="middle" font-family="Arial" font-size="12" fill="#e65100">
+    low enough for exact CVP — no approximation needed!
+  </text>
+  
+  <!-- Bottom: complexity landscape -->
+  <rect x="30" y="370" width="840" height="130" rx="8" fill="white" stroke="#37474f" stroke-width="1"/>
+  <text x="450" y="395" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#37474f">
+    CVP Complexity Landscape
+  </text>
+  
+  <!-- Dimension axis -->
+  <line x1="80" y1="460" x2="820" y2="460" stroke="#37474f" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="830" y="465" font-family="Arial" font-size="11" fill="#37474f">dim n</text>
+  
+  <!-- Points on axis -->
+  <g font-family="monospace" font-size="10" fill="#37474f" text-anchor="middle">
+    <line x1="120" y1="455" x2="120" y2="465" stroke="#37474f"/>
+    <text x="120" y="478">2</text>
+    <line x1="200" y1="455" x2="200" y2="465" stroke="#37474f"/>
+    <text x="200" y="478">4</text>
+    <line x1="280" y1="455" x2="280" y2="465" stroke="#37474f"/>
+    <text x="280" y="478">6</text>
+    <line x1="400" y1="455" x2="400" y2="465" stroke="#37474f"/>
+    <text x="400" y="478">10</text>
+    <line x1="560" y1="455" x2="560" y2="465" stroke="#37474f"/>
+    <text x="560" y="478">40</text>
+    <line x1="720" y1="455" x2="720" y2="465" stroke="#37474f"/>
+    <text x="720" y="478">256+</text>
+  </g>
+  
+  <!-- Feasibility regions -->
+  <rect x="80" y="415" width="220" height="35" fill="#c8e6c9" rx="4"/>
+  <text x="190" y="437" text-anchor="middle" font-family="Arial" font-size="11" fill="#1b5e20" font-weight="bold">
+    Exact CVP feasible
+  </text>
+  
+  <rect x="310" y="415" width="280" height="35" fill="#fff9c4" rx="4"/>
+  <text x="450" y="437" text-anchor="middle" font-family="Arial" font-size="11" fill="#f57f17" font-weight="bold">
+    LLL/BKZ approximate
+  </text>
+  
+  <rect x="600" y="415" width="190" height="35" fill="#ffcdd2" rx="4"/>
+  <text x="695" y="437" text-anchor="middle" font-family="Arial" font-size="11" fill="#c62828" font-weight="bold">
+    NP-hard (crypto)
+  </text>
+  
+  <!-- SU(2) marker -->
+  <circle cx="200" cy="432" r="4" fill="#1a237e"/>
+  <text x="200" y="408" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a237e" font-weight="bold">SU(2)=ℤ⁴</text>
+  
+  <!-- SU(4) marker -->
+  <circle cx="280" cy="432" r="4" fill="#4a148c"/>
+  <text x="280" y="408" text-anchor="middle" font-family="Arial" font-size="10" fill="#4a148c" font-weight="bold">SU(4)=ℤ⁶</text>
+  
+  <!-- Crypto marker -->
+  <circle cx="720" cy="432" r="4" fill="#c62828"/>
+  <text x="720" y="408" text-anchor="middle" font-family="Arial" font-size="10" fill="#c62828" font-weight="bold">ML-KEM</text>
+  
+  <!-- Verified stamp -->
+  <text x="450" y="498" text-anchor="middle" font-family="Arial" font-size="11" fill="#4a148c" font-weight="bold">
+    Lean 4 verified: lll_approx_4d, bkz_4d_block2, cvp_exact_feasible_4d, lattice_sieving_practical ✓
+  </text>
+</svg>

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Georgia, serif">
+  <rect width="800" height="450" fill="#fefefe" rx="10"/>
+
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">
+    Higher-Rank Tropical Langlands: Type A₂ Root System
+  </text>
+
+  <!-- Root system diagram -->
+  <rect x="30" y="50" width="370" height="370" rx="8" fill="white" stroke="#1565c0"/>
+  <text x="215" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565c0">Root System A₂ (GL₃)</text>
+
+  <!-- Coordinate axes -->
+  <line x1="215" y1="380" x2="215" y2="90" stroke="#ccc" stroke-width="1"/>
+  <line x1="50" y1="235" x2="380" y2="235" stroke="#ccc" stroke-width="1"/>
+
+  <!-- Roots as vectors (6 roots of A2) -->
+  <!-- e1-e2 -->
+  <line x1="215" y1="235" x2="305" y2="183" stroke="#ea4335" stroke-width="2.5"/>
+  <circle cx="305" cy="183" r="5" fill="#ea4335"/>
+  <text x="320" y="178" font-size="9" fill="#ea4335">e₁−e₂</text>
+
+  <!-- e2-e1 -->
+  <line x1="215" y1="235" x2="125" y2="287" stroke="#ea4335" stroke-width="2.5"/>
+  <circle cx="125" cy="287" r="5" fill="#ea4335"/>
+  <text x="95" y="302" font-size="9" fill="#ea4335">e₂−e₁</text>
+
+  <!-- e1-e3 -->
+  <line x1="215" y1="235" x2="305" y2="287" stroke="#4285f4" stroke-width="2.5"/>
+  <circle cx="305" cy="287" r="5" fill="#4285f4"/>
+  <text x="330" y="295" font-size="9" fill="#4285f4">e₁−e₃</text>
+
+  <!-- e3-e1 -->
+  <line x1="215" y1="235" x2="125" y2="183" stroke="#4285f4" stroke-width="2.5"/>
+  <circle cx="125" cy="183" r="5" fill="#4285f4"/>
+  <text x="95" y="175" font-size="9" fill="#4285f4">e₃−e₁</text>
+
+  <!-- e2-e3 -->
+  <line x1="215" y1="235" x2="215" y2="131" stroke="#34a853" stroke-width="2.5"/>
+  <circle cx="215" cy="131" r="5" fill="#34a853"/>
+  <text x="235" y="128" font-size="9" fill="#34a853">e₂−e₃</text>
+
+  <!-- e3-e2 -->
+  <line x1="215" y1="235" x2="215" y2="339" stroke="#34a853" stroke-width="2.5"/>
+  <circle cx="215" cy="339" r="5" fill="#34a853"/>
+  <text x="235" y="348" font-size="9" fill="#34a853">e₃−e₂</text>
+
+  <!-- Origin -->
+  <circle cx="215" cy="235" r="4" fill="#333"/>
+
+  <!-- Dominant chamber (shaded) -->
+  <path d="M 215,235 L 305,183 L 305,287 Z" fill="#fbbc04" fill-opacity="0.15" stroke="#fbbc04" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="275" y="240" font-size="10" fill="#e65100" font-weight="bold">C⁺</text>
+
+  <text x="215" y="400" text-anchor="middle" font-size="10" fill="#555">
+    Dominant chamber C⁺ = {x₁ ≥ x₂ ≥ x₃} is convex ✅
+  </text>
+
+  <!-- Right: Parabolic Induction -->
+  <rect x="420" y="50" width="350" height="175" rx="8" fill="#e8f5e9" stroke="#1e8e3e"/>
+  <text x="595" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e8e3e">Tropical Parabolic Induction</text>
+
+  <text x="595" y="105" text-anchor="middle" font-size="11" fill="#333">GL₂ × GL₁ → GL₃</text>
+
+  <!-- GL2 box -->
+  <rect x="450" y="120" width="90" height="40" rx="5" fill="#c8e6c9"/>
+  <text x="495" y="137" text-anchor="middle" font-size="10" fill="#1e8e3e">GL₂</text>
+  <text x="495" y="152" text-anchor="middle" font-size="9" fill="#333">(α₁, α₂)</text>
+
+  <!-- GL1 box -->
+  <rect x="560" y="120" width="70" height="40" rx="5" fill="#c8e6c9"/>
+  <text x="595" y="137" text-anchor="middle" font-size="10" fill="#1e8e3e">GL₁</text>
+  <text x="595" y="152" text-anchor="middle" font-size="9" fill="#333">(β₁)</text>
+
+  <!-- Arrow down -->
+  <text x="550" y="180" text-anchor="middle" font-size="16" fill="#1e8e3e">↓</text>
+
+  <!-- GL3 result -->
+  <rect x="460" y="190" width="200" height="25" rx="5" fill="#1e8e3e"/>
+  <text x="560" y="207" text-anchor="middle" font-size="10" fill="white">
+    GL₃: sort(α₁, α₂, β₁)
+  </text>
+
+  <!-- Right: Langlands Dual -->
+  <rect x="420" y="245" width="350" height="175" rx="8" fill="#fce4ec" stroke="#c62828"/>
+  <text x="595" y="270" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">Langlands Dual Groups</text>
+
+  <!-- Type A -->
+  <rect x="440" y="290" width="140" height="50" rx="5" fill="#ffcdd2"/>
+  <text x="510" y="310" text-anchor="middle" font-size="11" font-weight="bold" fill="#c62828">Type A (GLₙ)</text>
+  <text x="510" y="328" text-anchor="middle" font-size="10" fill="#b71c1c">GL̂ₙ = GLₙ (self-dual)</text>
+
+  <!-- Type BC -->
+  <rect x="600" y="290" width="155" height="50" rx="5" fill="#ffcdd2"/>
+  <text x="677" y="310" text-anchor="middle" font-size="11" font-weight="bold" fill="#c62828">Type B/C</text>
+  <text x="677" y="328" text-anchor="middle" font-size="10" fill="#b71c1c">SO₂ₙ₊₁ ↔ Sp₂ₙ</text>
+
+  <text x="595" y="370" text-anchor="middle" font-size="10" fill="#555">
+    Type A: Ĝ(x) = x (identity involution) ✅
+  </text>
+  <text x="595" y="388" text-anchor="middle" font-size="10" fill="#555">
+    Type B/C: Ĝ(x) = 2x (scaling) ✅
+  </text>
+  <text x="595" y="406" text-anchor="middle" font-size="10" fill="#555">
+    L-function additive under induction ✅
+  </text>
+</svg>

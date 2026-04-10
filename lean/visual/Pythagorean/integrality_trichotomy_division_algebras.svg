@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0033;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0d001a;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="850" height="500" fill="url(#bg3)"/>
+  
+  <!-- Title -->
+  <text x="425" y="38" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">
+    The Division Algebra ↔ Descent Correspondence
+  </text>
+  <text x="425" y="60" text-anchor="middle" fill="#b39ddb" font-size="12">
+    k−2 = dimension of an associative normed division algebra over ℝ
+  </text>
+  
+  <!-- Column headers -->
+  <text x="120" y="100" text-anchor="middle" fill="#90caf9" font-size="14" font-weight="bold">k</text>
+  <text x="210" y="100" text-anchor="middle" fill="#90caf9" font-size="14" font-weight="bold">k−2</text>
+  <text x="380" y="100" text-anchor="middle" fill="#90caf9" font-size="14" font-weight="bold">Division Algebra</text>
+  <text x="580" y="100" text-anchor="middle" fill="#90caf9" font-size="14" font-weight="bold">Properties</text>
+  <text x="760" y="100" text-anchor="middle" fill="#90caf9" font-size="14" font-weight="bold">Descent</text>
+  
+  <line x1="50" y1="110" x2="800" y2="110" stroke="#3f51b5" stroke-width="1"/>
+  
+  <!-- k=3 row -->
+  <rect x="50" y="120" width="750" height="55" rx="8" fill="#1b5e20" fill-opacity="0.25"/>
+  <circle cx="120" cy="147" r="20" fill="#1b5e20" stroke="#4caf50" stroke-width="2" filter="url(#glow2)"/>
+  <text x="120" y="152" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">3</text>
+  <text x="210" y="152" text-anchor="middle" fill="#a5d6a7" font-size="18" font-weight="bold">1</text>
+  <text x="380" y="142" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">ℝ</text>
+  <text x="380" y="162" text-anchor="middle" fill="#c8e6c9" font-size="11">Real numbers</text>
+  <text x="580" y="142" text-anchor="middle" fill="#e8f5e9" font-size="11">Commutative, associative</text>
+  <text x="580" y="160" text-anchor="middle" fill="#e8f5e9" font-size="11">ordered, complete</text>
+  <text x="760" y="152" text-anchor="middle" fill="#00e676" font-size="14" font-weight="bold">✓ Berggren</text>
+  
+  <!-- k=4 row -->
+  <rect x="50" y="180" width="750" height="55" rx="8" fill="#0d47a1" fill-opacity="0.25"/>
+  <circle cx="120" cy="207" r="20" fill="#0d47a1" stroke="#42a5f5" stroke-width="2" filter="url(#glow2)"/>
+  <text x="120" y="212" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">4</text>
+  <text x="210" y="212" text-anchor="middle" fill="#90caf9" font-size="18" font-weight="bold">2</text>
+  <text x="380" y="202" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">ℂ</text>
+  <text x="380" y="222" text-anchor="middle" fill="#bbdefb" font-size="11">Complex numbers</text>
+  <text x="580" y="202" text-anchor="middle" fill="#e3f2fd" font-size="11">Commutative, associative</text>
+  <text x="580" y="220" text-anchor="middle" fill="#e3f2fd" font-size="11">algebraically closed</text>
+  <text x="760" y="212" text-anchor="middle" fill="#40c4ff" font-size="14" font-weight="bold">✓ Quadruples</text>
+  
+  <!-- k=6 row -->
+  <rect x="50" y="240" width="750" height="55" rx="8" fill="#e65100" fill-opacity="0.25"/>
+  <circle cx="120" cy="267" r="20" fill="#e65100" stroke="#ff9800" stroke-width="2" filter="url(#glow2)"/>
+  <text x="120" y="272" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">6</text>
+  <text x="210" y="272" text-anchor="middle" fill="#ffcc80" font-size="18" font-weight="bold">4</text>
+  <text x="380" y="262" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">ℍ</text>
+  <text x="380" y="282" text-anchor="middle" fill="#ffe0b2" font-size="11">Quaternions (Hamilton)</text>
+  <text x="580" y="262" text-anchor="middle" fill="#fff3e0" font-size="11">Non-commutative, associative</text>
+  <text x="580" y="280" text-anchor="middle" fill="#fff3e0" font-size="11">i² = j² = k² = ijk = −1</text>
+  <text x="760" y="272" text-anchor="middle" fill="#ffab40" font-size="14" font-weight="bold">✓ Sextuples ★</text>
+  
+  <!-- Divider -->
+  <line x1="50" y1="305" x2="800" y2="305" stroke="#f44336" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="425" y="320" text-anchor="middle" fill="#ef5350" font-size="11" font-weight="bold">
+    ▼ ASSOCIATIVITY BARRIER ▼
+  </text>
+  
+  <!-- k=10 row (octonions) -->
+  <rect x="50" y="330" width="750" height="55" rx="8" fill="#b71c1c" fill-opacity="0.2"/>
+  <circle cx="120" cy="357" r="20" fill="#b71c1c" stroke="#ef5350" stroke-width="2"/>
+  <text x="120" y="362" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">10</text>
+  <text x="210" y="362" text-anchor="middle" fill="#ef9a9a" font-size="18" font-weight="bold">8</text>
+  <text x="380" y="352" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">𝕆</text>
+  <text x="380" y="372" text-anchor="middle" fill="#ffcdd2" font-size="11">Octonions (Cayley)</text>
+  <text x="580" y="352" text-anchor="middle" fill="#ffebee" font-size="11">Non-commutative, NON-ASSOCIATIVE</text>
+  <text x="580" y="370" text-anchor="middle" fill="#ffebee" font-size="11">8 ∤ 4 — the 2-adic barrier</text>
+  <text x="760" y="362" text-anchor="middle" fill="#ff5252" font-size="14" font-weight="bold">✗ Fails</text>
+  
+  <!-- k=5 row -->
+  <rect x="50" y="390" width="750" height="45" rx="8" fill="#4a148c" fill-opacity="0.2"/>
+  <circle cx="120" cy="412" r="16" fill="#4a148c" stroke="#ab47bc" stroke-width="1.5"/>
+  <text x="120" y="417" text-anchor="middle" fill="#fff" font-size="14">5</text>
+  <text x="210" y="417" text-anchor="middle" fill="#ce93d8" font-size="15" font-weight="bold">3</text>
+  <text x="380" y="417" text-anchor="middle" fill="#e1bee7" font-size="12">No division algebra</text>
+  <text x="580" y="417" text-anchor="middle" fill="#f3e5f5" font-size="11">Barrier prime p = 3, and 3 ∤ 4</text>
+  <text x="760" y="417" text-anchor="middle" fill="#f48fb1" font-size="13" font-weight="bold">✗ Fails</text>
+  
+  <!-- k=7 row -->
+  <rect x="50" y="438" width="750" height="45" rx="8" fill="#4a148c" fill-opacity="0.15"/>
+  <circle cx="120" cy="460" r="16" fill="#311b92" stroke="#7e57c2" stroke-width="1.5"/>
+  <text x="120" y="465" text-anchor="middle" fill="#fff" font-size="14">7+</text>
+  <text x="210" y="465" text-anchor="middle" fill="#b39ddb" font-size="15" font-weight="bold">≥5</text>
+  <text x="380" y="465" text-anchor="middle" fill="#d1c4e9" font-size="12">No division algebra</text>
+  <text x="580" y="465" text-anchor="middle" fill="#ede7f6" font-size="11">Has prime factor p ≥ 5, and p ∤ 4</text>
+  <text x="760" y="465" text-anchor="middle" fill="#f48fb1" font-size="13" font-weight="bold">✗ Fails</text>
+</svg>

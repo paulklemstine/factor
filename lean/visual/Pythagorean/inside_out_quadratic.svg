@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#58a6ff" font-size="26" font-weight="bold">
+    The Inside-Out Quadratic: Root Equations for Factoring
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- Panel 1: The Setup -->
+  <!-- ============================================================ -->
+  <rect x="30" y="70" width="370" height="310" rx="15" fill="#21262d" stroke="#30363d" stroke-width="2"/>
+  <text x="215" y="100" text-anchor="middle" fill="#58a6ff" font-size="18" font-weight="bold">① The Setup</text>
+
+  <text x="50" y="135" fill="#c9d1d9" font-size="14">Given: N (odd composite to factor)</text>
+  <text x="50" y="165" fill="#c9d1d9" font-size="14">Form the parametric triple:</text>
+
+  <rect x="60" y="180" width="320" height="45" rx="8" fill="#0d1117" stroke="#58a6ff" stroke-width="1"/>
+  <text x="220" y="208" text-anchor="middle" fill="#ffd93d" font-size="18" font-style="italic">
+    (N, u, h)  where  h² = N² + u²
+  </text>
+
+  <text x="50" y="250" fill="#8b949e" font-size="13">• N is the number we want to factor</text>
+  <text x="50" y="275" fill="#8b949e" font-size="13">• u is the unknown second leg</text>
+  <text x="50" y="300" fill="#8b949e" font-size="13">• h is determined: h = √(N² + u²)</text>
+  <text x="50" y="325" fill="#8b949e" font-size="13">• Finding u ⟺ finding a factorization</text>
+  <text x="50" y="350" fill="#ffa657" font-size="13">• (h−u)(h+u) = N² → factors of N!</text>
+
+  <!-- ============================================================ -->
+  <!-- Panel 2: The Parent Transform -->
+  <!-- ============================================================ -->
+  <rect x="415" y="70" width="370" height="310" rx="15" fill="#21262d" stroke="#30363d" stroke-width="2"/>
+  <text x="600" y="100" text-anchor="middle" fill="#58a6ff" font-size="18" font-weight="bold">② Parent Transform B₂⁻¹</text>
+
+  <text x="435" y="135" fill="#c9d1d9" font-size="14">Apply inverse Berggren B₂⁻¹:</text>
+
+  <rect x="435" y="150" width="330" height="85" rx="8" fill="#0d1117" stroke="#58a6ff" stroke-width="1"/>
+  <text x="600" y="175" text-anchor="middle" fill="#ffd93d" font-size="14">a' = N + 2u − 2h</text>
+  <text x="600" y="198" text-anchor="middle" fill="#ffd93d" font-size="14">b' = 2N + u − 2h</text>
+  <text x="600" y="221" text-anchor="middle" fill="#ffd93d" font-size="14">c' = −2N − 2u + 3h</text>
+
+  <text x="435" y="260" fill="#c9d1d9" font-size="13">Set parent = root (3, 4, 5):</text>
+  <text x="435" y="285" fill="#7ee787" font-size="13">N + 2u − 2h = 3</text>
+  <text x="435" y="305" fill="#7ee787" font-size="13">2N + u − 2h = 4</text>
+  <text x="435" y="325" fill="#7ee787" font-size="13">−2N − 2u + 3h = 5</text>
+  <text x="435" y="350" fill="#8b949e" font-size="12">Solve: u = N−1, h = (4N+3)/3</text>
+
+  <!-- ============================================================ -->
+  <!-- Panel 3: The Quadratic -->
+  <!-- ============================================================ -->
+  <rect x="800" y="70" width="370" height="310" rx="15" fill="#21262d" stroke="#30363d" stroke-width="2"/>
+  <text x="985" y="100" text-anchor="middle" fill="#58a6ff" font-size="18" font-weight="bold">③ The Quadratic</text>
+
+  <text x="820" y="135" fill="#c9d1d9" font-size="13">Substitute h = (2N+2u+5)/3 into</text>
+  <text x="820" y="155" fill="#c9d1d9" font-size="13">h² = N² + u², multiply by 9:</text>
+
+  <rect x="820" y="170" width="330" height="50" rx="8" fill="#0d1117" stroke="#ff7b72" stroke-width="2"/>
+  <text x="985" y="198" text-anchor="middle" fill="#ff7b72" font-size="16" font-weight="bold" filter="url(#glow2)">
+    5N² − 8Nu − 20N + 5u² − 20u − 25 = 0
+  </text>
+
+  <text x="820" y="245" fill="#c9d1d9" font-size="13">With u = N − 1:</text>
+  <text x="820" y="268" fill="#ffd93d" font-size="14">5N² − 8N(N−1) − 20N</text>
+  <text x="820" y="288" fill="#ffd93d" font-size="14">  + 5(N−1)² − 20(N−1) − 25</text>
+  <text x="820" y="310" fill="#ffd93d" font-size="14">  = 2N² − 42N = 2N(N − 21)</text>
+
+  <rect x="840" y="320" width="310" height="35" rx="8" fill="#238636" opacity="0.3" stroke="#238636"/>
+  <text x="985" y="343" text-anchor="middle" fill="#7ee787" font-size="15" font-weight="bold">
+    N = 21 is the unique solution!
+  </text>
+
+  <!-- ============================================================ -->
+  <!-- Panel 4: The Solution -->
+  <!-- ============================================================ -->
+  <rect x="30" y="400" width="555" height="190" rx="15" fill="#21262d" stroke="#30363d" stroke-width="2"/>
+  <text x="307" y="430" text-anchor="middle" fill="#58a6ff" font-size="18" font-weight="bold">④ Verification: N = 21</text>
+
+  <text x="50" y="465" fill="#c9d1d9" font-size="14">N = 21, u = 20, h = (84+3)/3 = 29</text>
+  <text x="50" y="490" fill="#7ee787" font-size="14">✓  21² + 20² = 441 + 400 = 841 = 29²</text>
+  <text x="50" y="515" fill="#7ee787" font-size="14">✓  B₂⁻¹(21, 20, 29) = (3, 4, 5)</text>
+  <text x="50" y="540" fill="#ffa657" font-size="14">Factor: h − u = 29 − 20 = 9</text>
+  <text x="50" y="565" fill="#ffa657" font-size="14">gcd(9, 21) = 3  →  21 = 3 × 7  ✓</text>
+
+  <!-- Arrow showing the factorization -->
+  <rect x="370" y="450" width="190" height="120" rx="10" fill="#0d1117" stroke="#ffd93d" stroke-width="2"/>
+  <text x="465" y="480" text-anchor="middle" fill="#ffd93d" font-size="16" font-weight="bold">Factorization</text>
+  <text x="465" y="510" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">21 = 3 × 7</text>
+  <text x="465" y="540" text-anchor="middle" fill="#8b949e" font-size="12">(h−u)(h+u) = N²</text>
+  <text x="465" y="558" text-anchor="middle" fill="#8b949e" font-size="12">9 × 49 = 441 = 21²</text>
+
+  <!-- ============================================================ -->
+  <!-- Panel 5: Generalization -->
+  <!-- ============================================================ -->
+  <rect x="600" y="400" width="570" height="190" rx="15" fill="#21262d" stroke="#30363d" stroke-width="2"/>
+  <text x="885" y="430" text-anchor="middle" fill="#58a6ff" font-size="18" font-weight="bold">⑤ Deeper Root Equations</text>
+
+  <text x="620" y="460" fill="#c9d1d9" font-size="13">At depth k, the ancestor-to-root map is a product</text>
+  <text x="620" y="480" fill="#c9d1d9" font-size="13">of k inverse Berggren matrices. Each gives a system:</text>
+
+  <text x="620" y="510" fill="#ffd93d" font-size="13">Depth 1: linear system → quadratic in N,u</text>
+  <text x="620" y="530" fill="#ffd93d" font-size="13">Depth 2: grandparent system → quartic in N,u</text>
+  <text x="620" y="550" fill="#ffd93d" font-size="13">Depth k: degree-2k polynomial in u</text>
+
+  <text x="620" y="578" fill="#7ee787" font-size="13">Each integer root → a valid factorization path</text>
+
+  <!-- ============================================================ -->
+  <!-- Bottom: The Flow Diagram -->
+  <!-- ============================================================ -->
+  <rect x="30" y="610" width="1140" height="170" rx="15" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+  <text x="600" y="640" text-anchor="middle" fill="#58a6ff" font-size="16" font-weight="bold">The Inside-Out Algorithm Flow</text>
+
+  <!-- Flow boxes -->
+  <rect x="60" y="660" width="150" height="50" rx="8" fill="#21262d" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="135" y="682" text-anchor="middle" fill="#c9d1d9" font-size="11">Start: (N, u, h)</text>
+  <text x="135" y="698" text-anchor="middle" fill="#8b949e" font-size="10">h² = N² + u²</text>
+
+  <line x1="210" y1="685" x2="260" y2="685" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="260" y="660" width="150" height="50" rx="8" fill="#21262d" stroke="#ffa657" stroke-width="1.5"/>
+  <text x="335" y="682" text-anchor="middle" fill="#ffa657" font-size="11">Apply B⁻¹</text>
+  <text x="335" y="698" text-anchor="middle" fill="#8b949e" font-size="10">Parent transform</text>
+
+  <line x1="410" y1="685" x2="460" y2="685" stroke="#ffa657" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="460" y="660" width="150" height="50" rx="8" fill="#21262d" stroke="#7ee787" stroke-width="1.5"/>
+  <text x="535" y="682" text-anchor="middle" fill="#7ee787" font-size="11">Check gcd(leg, N)</text>
+  <text x="535" y="698" text-anchor="middle" fill="#8b949e" font-size="10">Factor detection</text>
+
+  <line x1="610" y1="685" x2="660" y2="685" stroke="#7ee787" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="660" y="660" width="150" height="50" rx="8" fill="#21262d" stroke="#ffd93d" stroke-width="1.5"/>
+  <text x="735" y="682" text-anchor="middle" fill="#ffd93d" font-size="11">Root reached?</text>
+  <text x="735" y="698" text-anchor="middle" fill="#8b949e" font-size="10">(3, 4, 5)?</text>
+
+  <!-- Branch: Yes -->
+  <line x1="810" y1="685" x2="860" y2="685" stroke="#7ee787" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <rect x="860" y="660" width="140" height="50" rx="8" fill="#238636" opacity="0.4" stroke="#7ee787" stroke-width="2"/>
+  <text x="930" y="682" text-anchor="middle" fill="#7ee787" font-size="12" font-weight="bold">Factor Found!</text>
+  <text x="930" y="698" text-anchor="middle" fill="#7ee787" font-size="10">or N is prime</text>
+
+  <!-- Branch: No (loop back) -->
+  <path d="M735 710 L735 740 L335 740 L335 710" fill="none" stroke="#ff7b72" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#arrowGold)"/>
+  <text x="535" y="755" text-anchor="middle" fill="#ff7b72" font-size="10">No → iterate (hypotenuse decreases)</text>
+
+  <!-- Annotation -->
+  <text x="1050" y="685" text-anchor="middle" fill="#8b949e" font-size="11">O(log N)</text>
+  <text x="1050" y="700" text-anchor="middle" fill="#8b949e" font-size="11">steps total</text>
+</svg>

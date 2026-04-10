@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a23"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg3)"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#7c3aed" font-size="22" font-weight="bold">
+    ORACLE THEORY: UNIFIED FRAMEWORK
+  </text>
+  
+  <!-- Central node: Idempotent Collapse -->
+  <circle cx="400" cy="280" r="60" fill="none" stroke="#7c3aed" stroke-width="3" filter="url(#glow3)"/>
+  <circle cx="400" cy="280" r="58" fill="#1a1a3e" opacity="0.9"/>
+  <text x="400" y="272" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="bold">IDEMPOTENT</text>
+  <text x="400" y="290" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="bold">COLLAPSE</text>
+  <text x="400" y="305" text-anchor="middle" fill="#888" font-size="9">T² = T</text>
+  
+  <!-- Node 1: Spectral Collapse (top-left) -->
+  <circle cx="180" cy="120" r="50" fill="none" stroke="#e94560" stroke-width="2"/>
+  <circle cx="180" cy="120" r="48" fill="#1a1a2e" opacity="0.9"/>
+  <text x="180" y="113" text-anchor="middle" fill="#e94560" font-size="11" font-weight="bold">SPECTRAL</text>
+  <text x="180" y="128" text-anchor="middle" fill="#e94560" font-size="11" font-weight="bold">COLLAPSE</text>
+  <text x="180" y="143" text-anchor="middle" fill="#888" font-size="9">spec ⊆ {0,1}</text>
+  <line x1="220" y1="155" x2="355" y2="240" stroke="#e94560" stroke-width="1.5" stroke-dasharray="4,4"/>
+  
+  <!-- Node 2: Oracle Complexity (top-right) -->
+  <circle cx="620" cy="120" r="50" fill="none" stroke="#00d2ff" stroke-width="2"/>
+  <circle cx="620" cy="120" r="48" fill="#1a1a2e" opacity="0.9"/>
+  <text x="620" y="113" text-anchor="middle" fill="#00d2ff" font-size="11" font-weight="bold">ORACLE</text>
+  <text x="620" y="128" text-anchor="middle" fill="#00d2ff" font-size="11" font-weight="bold">COMPLEXITY</text>
+  <text x="620" y="143" text-anchor="middle" fill="#888" font-size="9">2^k query bound</text>
+  <line x1="580" y1="155" x2="445" y2="240" stroke="#00d2ff" stroke-width="1.5" stroke-dasharray="4,4"/>
+  
+  <!-- Node 3: Goodhart's Law (left) -->
+  <circle cx="120" cy="350" r="50" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+  <circle cx="120" cy="350" r="48" fill="#1a1a2e" opacity="0.9"/>
+  <text x="120" y="343" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="bold">GOODHART</text>
+  <text x="120" y="358" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="bold">REPULSOR</text>
+  <text x="120" y="373" text-anchor="middle" fill="#888" font-size="9">proxy → repel</text>
+  <line x1="165" y1="325" x2="345" y2="290" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="4,4"/>
+  
+  <!-- Node 4: Category Theory (right) -->
+  <circle cx="680" cy="350" r="50" fill="none" stroke="#51cf66" stroke-width="2"/>
+  <circle cx="680" cy="350" r="48" fill="#1a1a2e" opacity="0.9"/>
+  <text x="680" y="343" text-anchor="middle" fill="#51cf66" font-size="11" font-weight="bold">KAROUBI</text>
+  <text x="680" y="358" text-anchor="middle" fill="#51cf66" font-size="11" font-weight="bold">ENVELOPE</text>
+  <text x="680" y="373" text-anchor="middle" fill="#888" font-size="9">split idem.</text>
+  <line x1="635" y1="325" x2="455" y2="290" stroke="#51cf66" stroke-width="1.5" stroke-dasharray="4,4"/>
+  
+  <!-- Node 5: Phase Transitions (bottom-left) -->
+  <circle cx="220" cy="490" r="50" fill="none" stroke="#ffd43b" stroke-width="2"/>
+  <circle cx="220" cy="490" r="48" fill="#1a1a2e" opacity="0.9"/>
+  <text x="220" y="483" text-anchor="middle" fill="#ffd43b" font-size="11" font-weight="bold">PHASE</text>
+  <text x="220" y="498" text-anchor="middle" fill="#ffd43b" font-size="11" font-weight="bold">TRANSITION</text>
+  <text x="220" y="513" text-anchor="middle" fill="#888" font-size="9">|c| = 1 critical</text>
+  <line x1="260" y1="455" x2="370" y2="330" stroke="#ffd43b" stroke-width="1.5" stroke-dasharray="4,4"/>
+  
+  <!-- Node 6: Neural Collapse (bottom-right) -->
+  <circle cx="580" cy="490" r="50" fill="none" stroke="#f783ac" stroke-width="2"/>
+  <circle cx="580" cy="490" r="48" fill="#1a1a2e" opacity="0.9"/>
+  <text x="580" y="483" text-anchor="middle" fill="#f783ac" font-size="11" font-weight="bold">NEURAL</text>
+  <text x="580" y="498" text-anchor="middle" fill="#f783ac" font-size="11" font-weight="bold">COLLAPSE</text>
+  <text x="580" y="513" text-anchor="middle" fill="#888" font-size="9">simplex ETF</text>
+  <line x1="540" y1="455" x2="430" y2="330" stroke="#f783ac" stroke-width="1.5" stroke-dasharray="4,4"/>
+  
+  <!-- Theorem counts -->
+  <text x="400" y="570" text-anchor="middle" fill="#888" font-size="13">
+    40+ theorems • all machine-verified in Lean 4 • zero sorry
+  </text>
+  
+  <!-- Connection labels -->
+  <text x="270" y="180" text-anchor="middle" fill="#888" font-size="9" transform="rotate(-30,270,180)">eigenvalues</text>
+  <text x="530" y="180" text-anchor="middle" fill="#888" font-size="9" transform="rotate(30,530,180)">queries</text>
+  <text x="230" y="310" text-anchor="middle" fill="#888" font-size="9" transform="rotate(15,230,310)">dynamics</text>
+  <text x="570" y="310" text-anchor="middle" fill="#888" font-size="9" transform="rotate(-15,570,310)">splitting</text>
+</svg>

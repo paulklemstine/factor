@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 650" width="600" height="650">
+  <defs>
+    <radialGradient id="outerGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="80%" style="stop-color:#f8f9fa;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#e0e7ee;stop-opacity:1"/>
+    </radialGradient>
+  </defs>
+  
+  <rect width="600" height="650" fill="#1a1a2e" rx="10"/>
+  
+  <!-- Title -->
+  <text x="300" y="35" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#e0e7ee" font-weight="bold">Apollonian Gasket</text>
+  <text x="300" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8899aa">via Descartes Circle Theorem (Machine-Verified)</text>
+  
+  <g transform="translate(300, 320)">
+    <!-- Outer circle (k = -1, r = 1) -->
+    <circle cx="0" cy="0" r="250" fill="none" stroke="#4FC3F7" stroke-width="2" opacity="0.8"/>
+    
+    <!-- Generation 0: Three initial tangent circles -->
+    <!-- Top circle: k=2, r=125, center (0, -125) -->
+    <circle cx="0" cy="-125" r="125" fill="none" stroke="#FF7043" stroke-width="1.8"/>
+    <!-- Bottom circle: k=2, r=125, center (0, 125) -->
+    <circle cx="0" cy="125" r="125" fill="none" stroke="#FF7043" stroke-width="1.8"/>
+    <!-- Right circle: k=3, r=83.3, but adjusted for visual -->
+    <circle cx="108" cy="0" r="83" fill="none" stroke="#AB47BC" stroke-width="1.8"/>
+    <!-- Left circle: k=3 (the reflected one) -->
+    <circle cx="-108" cy="0" r="83" fill="none" stroke="#AB47BC" stroke-width="1.8"/>
+    
+    <!-- Generation 1: Smaller circles in gaps -->
+    <!-- Between top, right, outer -->
+    <circle cx="130" cy="-150" r="52" fill="none" stroke="#66BB6A" stroke-width="1.4"/>
+    <!-- Between bottom, right, outer -->
+    <circle cx="130" cy="150" r="52" fill="none" stroke="#66BB6A" stroke-width="1.4"/>
+    <!-- Between top, left, outer -->
+    <circle cx="-130" cy="-150" r="52" fill="none" stroke="#66BB6A" stroke-width="1.4"/>
+    <!-- Between bottom, left, outer -->
+    <circle cx="-130" cy="150" r="52" fill="none" stroke="#66BB6A" stroke-width="1.4"/>
+    
+    <!-- Between top and bottom, right of center -->
+    <circle cx="60" cy="0" r="30" fill="none" stroke="#FFA726" stroke-width="1.2"/>
+    <!-- Between top and bottom, left of center -->
+    <circle cx="-60" cy="0" r="30" fill="none" stroke="#FFA726" stroke-width="1.2"/>
+    
+    <!-- Top-right gap -->
+    <circle cx="200" cy="-80" r="28" fill="none" stroke="#42A5F5" stroke-width="1"/>
+    <circle cx="200" cy="80" r="28" fill="none" stroke="#42A5F5" stroke-width="1"/>
+    <circle cx="-200" cy="-80" r="28" fill="none" stroke="#42A5F5" stroke-width="1"/>
+    <circle cx="-200" cy="80" r="28" fill="none" stroke="#42A5F5" stroke-width="1"/>
+    
+    <!-- Generation 2: Even smaller -->
+    <circle cx="0" cy="-230" r="20" fill="none" stroke="#EF5350" stroke-width="0.8"/>
+    <circle cx="0" cy="230" r="20" fill="none" stroke="#EF5350" stroke-width="0.8"/>
+    <circle cx="210" cy="0" r="18" fill="none" stroke="#EF5350" stroke-width="0.8"/>
+    <circle cx="-210" cy="0" r="18" fill="none" stroke="#EF5350" stroke-width="0.8"/>
+    
+    <!-- Tiny circles -->
+    <circle cx="80" cy="-210" r="12" fill="none" stroke="#CE93D8" stroke-width="0.6"/>
+    <circle cx="-80" cy="-210" r="12" fill="none" stroke="#CE93D8" stroke-width="0.6"/>
+    <circle cx="80" cy="210" r="12" fill="none" stroke="#CE93D8" stroke-width="0.6"/>
+    <circle cx="-80" cy="210" r="12" fill="none" stroke="#CE93D8" stroke-width="0.6"/>
+    
+    <circle cx="170" cy="-180" r="10" fill="none" stroke="#80CBC4" stroke-width="0.5"/>
+    <circle cx="170" cy="180" r="10" fill="none" stroke="#80CBC4" stroke-width="0.5"/>
+    <circle cx="-170" cy="-180" r="10" fill="none" stroke="#80CBC4" stroke-width="0.5"/>
+    <circle cx="-170" cy="180" r="10" fill="none" stroke="#80CBC4" stroke-width="0.5"/>
+    
+    <!-- Even tinier -->
+    <circle cx="230" cy="-140" r="7" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    <circle cx="230" cy="140" r="7" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    <circle cx="-230" cy="-140" r="7" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    <circle cx="-230" cy="140" r="7" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    
+    <circle cx="150" cy="-50" r="8" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    <circle cx="150" cy="50" r="8" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    <circle cx="-150" cy="-50" r="8" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    <circle cx="-150" cy="50" r="8" fill="none" stroke="#B0BEC5" stroke-width="0.4"/>
+    
+    <!-- Curvature labels for main circles -->
+    <text x="0" y="-125" text-anchor="middle" font-family="'Courier New'" font-size="18" fill="#FF7043" dominant-baseline="middle">k=2</text>
+    <text x="0" y="125" text-anchor="middle" font-family="'Courier New'" font-size="18" fill="#FF7043" dominant-baseline="middle">k=2</text>
+    <text x="108" y="0" text-anchor="middle" font-family="'Courier New'" font-size="14" fill="#AB47BC" dominant-baseline="middle">k=3</text>
+    <text x="-108" y="0" text-anchor="middle" font-family="'Courier New'" font-size="14" fill="#AB47BC" dominant-baseline="middle">k=3</text>
+  </g>
+  
+  <!-- Formula box -->
+  <rect x="50" y="585" width="500" height="50" rx="5" fill="#2a2a4e" stroke="#4FC3F7" stroke-width="1"/>
+  <text x="300" y="605" text-anchor="middle" font-family="'Courier New', monospace" font-size="13" fill="#e0e7ee">
+    Descartes: (k₁+k₂+k₃+k₄)² = 2(k₁²+k₂²+k₃²+k₄²) ✓
+  </text>
+  <text x="300" y="625" text-anchor="middle" font-family="'Courier New', monospace" font-size="12" fill="#8899aa">
+    Replacement: k₄' = 2(k₁+k₂+k₃) - k₄ preserves Descartes ✓
+  </text>
+</svg>

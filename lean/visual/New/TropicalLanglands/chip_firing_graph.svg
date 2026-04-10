@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="Georgia, serif">
+  <rect width="800" height="400" fill="#fefefe" rx="10"/>
+
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">
+    Chip-Firing on Graphs: Tropical Automorphic Forms
+  </text>
+
+  <!-- Before firing -->
+  <rect x="30" y="50" width="350" height="320" rx="8" fill="#f3e5f5" stroke="#7b1fa2"/>
+  <text x="205" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#7b1fa2">Before: D = (3, -1, 0)</text>
+  <text x="205" y="95" text-anchor="middle" font-size="11" fill="#555">degree = 2</text>
+
+  <!-- Triangle graph -->
+  <!-- Vertices -->
+  <circle cx="205" cy="150" r="28" fill="white" stroke="#7b1fa2" stroke-width="2.5"/>
+  <text x="205" y="155" text-anchor="middle" font-size="16" font-weight="bold" fill="#7b1fa2">3</text>
+  <text x="205" y="125" text-anchor="middle" font-size="9" fill="#7b1fa2">v₀</text>
+
+  <circle cx="130" cy="290" r="28" fill="white" stroke="#c62828" stroke-width="2.5"/>
+  <text x="130" y="295" text-anchor="middle" font-size="16" font-weight="bold" fill="#c62828">-1</text>
+  <text x="100" y="275" text-anchor="middle" font-size="9" fill="#c62828">v₁</text>
+
+  <circle cx="280" cy="290" r="28" fill="white" stroke="#1565c0" stroke-width="2.5"/>
+  <text x="280" y="295" text-anchor="middle" font-size="16" font-weight="bold" fill="#1565c0">0</text>
+  <text x="310" y="275" text-anchor="middle" font-size="9" fill="#1565c0">v₂</text>
+
+  <!-- Edges -->
+  <line x1="185" y1="175" x2="145" y2="265" stroke="#333" stroke-width="2"/>
+  <line x1="225" y1="175" x2="265" y2="265" stroke="#333" stroke-width="2"/>
+  <line x1="158" y1="290" x2="252" y2="290" stroke="#333" stroke-width="2"/>
+
+  <!-- Chip dots on v0 -->
+  <circle cx="193" cy="142" r="4" fill="#fbbc04"/>
+  <circle cx="205" cy="138" r="4" fill="#fbbc04"/>
+  <circle cx="217" cy="142" r="4" fill="#fbbc04"/>
+
+  <!-- Fire arrow -->
+  <text x="400" y="200" text-anchor="middle" font-size="32" fill="#e65100">⟹</text>
+  <text x="400" y="225" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">v₀ fires!</text>
+  <text x="400" y="245" text-anchor="middle" font-size="9" fill="#e65100">sends 1 chip</text>
+  <text x="400" y="258" text-anchor="middle" font-size="9" fill="#e65100">to each neighbor</text>
+
+  <!-- After firing -->
+  <rect x="420" y="50" width="350" height="320" rx="8" fill="#e8f5e9" stroke="#1e8e3e"/>
+  <text x="595" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e8e3e">After: D' = (1, 0, 1)</text>
+  <text x="595" y="95" text-anchor="middle" font-size="11" fill="#555">degree = 2 ✓ (preserved!)</text>
+
+  <!-- Triangle graph after -->
+  <circle cx="595" cy="150" r="28" fill="white" stroke="#1e8e3e" stroke-width="2.5"/>
+  <text x="595" y="155" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e8e3e">1</text>
+  <text x="595" y="125" text-anchor="middle" font-size="9" fill="#1e8e3e">v₀</text>
+
+  <circle cx="520" cy="290" r="28" fill="white" stroke="#1e8e3e" stroke-width="2.5"/>
+  <text x="520" y="295" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e8e3e">0</text>
+  <text x="490" y="275" text-anchor="middle" font-size="9" fill="#1e8e3e">v₁</text>
+
+  <circle cx="670" cy="290" r="28" fill="white" stroke="#1e8e3e" stroke-width="2.5"/>
+  <text x="670" y="295" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e8e3e">1</text>
+  <text x="700" y="275" text-anchor="middle" font-size="9" fill="#1e8e3e">v₂</text>
+
+  <!-- Edges -->
+  <line x1="575" y1="175" x2="535" y2="265" stroke="#333" stroke-width="2"/>
+  <line x1="615" y1="175" x2="655" y2="265" stroke="#333" stroke-width="2"/>
+  <line x1="548" y1="290" x2="642" y2="290" stroke="#333" stroke-width="2"/>
+
+  <!-- Chip dots -->
+  <circle cx="595" cy="138" r="4" fill="#fbbc04"/>
+  <circle cx="670" cy="278" r="4" fill="#fbbc04"/>
+
+  <!-- Bottom text -->
+  <text x="400" y="390" text-anchor="middle" font-size="11" fill="#555">
+    Chip-firing preserves degree (Theorem: tropEquiv_same_degree) — proved in Lean 4 ✅
+  </text>
+</svg>

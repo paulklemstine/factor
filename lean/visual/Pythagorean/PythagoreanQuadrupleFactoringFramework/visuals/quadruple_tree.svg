@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c1222"/>
+      <stop offset="100%" style="stop-color:#1a1f3a"/>
+    </linearGradient>
+    <linearGradient id="descend" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#ef4444"/>
+    </linearGradient>
+    <linearGradient id="ascend" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <filter id="nodeGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg5)"/>
+
+  <text x="450" y="38" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">
+    The Pythagorean Quadruple Tree
+  </text>
+  <text x="450" y="60" text-anchor="middle" fill="#94a3b8" font-size="13">
+    Gravity (descent) concentrates factors — Energy (ascent) finds new representations
+  </text>
+
+  <!-- Gravity arrow on the left -->
+  <text x="40" y="200" fill="#ef4444" font-size="14" font-weight="bold" transform="rotate(-90, 40, 200)">
+    ← GRAVITY (descent)
+  </text>
+  <line x1="55" y1="100" x2="55" y2="450" stroke="url(#descend)" stroke-width="3" marker-end="url(#arrowDown)"/>
+
+  <!-- Energy arrow on the right -->
+  <text x="870" y="300" fill="#8b5cf6" font-size="14" font-weight="bold" transform="rotate(90, 870, 300)">
+    ENERGY (ascent) →
+  </text>
+  <line x1="855" y1="450" x2="855" y2="100" stroke="url(#ascend)" stroke-width="3"/>
+
+  <!-- Tree structure -->
+  <!-- Root node -->
+  <circle cx="450" cy="100" r="30" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5" filter="url(#nodeGlow)"/>
+  <text x="450" y="95" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">(1,2,2,3)</text>
+  <text x="450" y="110" text-anchor="middle" fill="#f59e0b" font-size="9">d=3</text>
+
+  <!-- Level 2: Three children -->
+  <!-- Edges from root -->
+  <line x1="425" y1="125" x2="200" y2="205" stroke="#475569" stroke-width="1.5"/>
+  <line x1="450" y1="130" x2="450" y2="205" stroke="#475569" stroke-width="1.5"/>
+  <line x1="475" y1="125" x2="700" y2="205" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- Child 1 -->
+  <circle cx="200" cy="230" r="28" fill="#1e293b" stroke="#3b82f6" stroke-width="2" filter="url(#nodeGlow)"/>
+  <text x="200" y="225" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">(2,3,6,7)</text>
+  <text x="200" y="240" text-anchor="middle" fill="#3b82f6" font-size="9">d=7</text>
+
+  <!-- Child 2 -->
+  <circle cx="450" cy="230" r="28" fill="#1e293b" stroke="#22c55e" stroke-width="2" filter="url(#nodeGlow)"/>
+  <text x="450" y="225" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">(3,4,12,13)</text>
+  <text x="450" y="240" text-anchor="middle" fill="#22c55e" font-size="9">d=13</text>
+
+  <!-- Child 3 -->
+  <circle cx="700" cy="230" r="28" fill="#1e293b" stroke="#a78bfa" stroke-width="2" filter="url(#nodeGlow)"/>
+  <text x="700" y="225" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">(1,4,8,9)</text>
+  <text x="700" y="240" text-anchor="middle" fill="#a78bfa" font-size="9">d=9</text>
+
+  <!-- Level 3 (partial) -->
+  <!-- From child 2 -->
+  <line x1="425" y1="255" x2="320" y2="330" stroke="#475569" stroke-width="1"/>
+  <line x1="450" y1="258" x2="450" y2="330" stroke="#475569" stroke-width="1"/>
+  <line x1="475" y1="255" x2="580" y2="330" stroke="#475569" stroke-width="1"/>
+
+  <circle cx="320" cy="355" r="22" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="320" y="358" text-anchor="middle" fill="#94a3b8" font-size="8">d=...</text>
+
+  <circle cx="450" cy="355" r="22" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="450" y="358" text-anchor="middle" fill="#94a3b8" font-size="8">d=...</text>
+
+  <circle cx="580" cy="355" r="22" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="580" y="358" text-anchor="middle" fill="#94a3b8" font-size="8">d=...</text>
+
+  <!-- From child 3 -->
+  <line x1="680" y1="255" x2="650" y2="330" stroke="#475569" stroke-width="1"/>
+  <line x1="700" y1="258" x2="700" y2="330" stroke="#475569" stroke-width="1"/>
+  <line x1="720" y1="255" x2="770" y2="330" stroke="#475569" stroke-width="1"/>
+
+  <circle cx="650" cy="355" r="22" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="650" y="358" text-anchor="middle" fill="#94a3b8" font-size="8">d=...</text>
+
+  <circle cx="700" cy="355" r="22" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="700" y="358" text-anchor="middle" fill="#94a3b8" font-size="8">d=...</text>
+
+  <circle cx="770" cy="355" r="22" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="770" y="358" text-anchor="middle" fill="#94a3b8" font-size="8">d=...</text>
+
+  <!-- Dots indicating more -->
+  <text x="450" y="420" text-anchor="middle" fill="#475569" font-size="24">⋮  ⋮  ⋮</text>
+
+  <!-- Info boxes -->
+  <rect x="80" y="460" width="230" height="120" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="195" y="485" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="bold">↓ Descent (Gravity)</text>
+  <text x="195" y="505" text-anchor="middle" fill="#94a3b8" font-size="11">Reduces hypotenuse d</text>
+  <text x="195" y="525" text-anchor="middle" fill="#94a3b8" font-size="11">Concentrates factors</text>
+  <text x="195" y="545" text-anchor="middle" fill="#94a3b8" font-size="11">GCD cascades amplify</text>
+  <text x="195" y="565" text-anchor="middle" fill="#f59e0b" font-size="11">K = Φ² conserved</text>
+
+  <rect x="340" y="460" width="230" height="120" rx="10" fill="#1e293b" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="455" y="485" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="bold">9 Channels per Node</text>
+  <text x="455" y="505" text-anchor="middle" fill="#94a3b8" font-size="11">3 peel channels</text>
+  <text x="455" y="525" text-anchor="middle" fill="#94a3b8" font-size="11">3 cross-collision</text>
+  <text x="455" y="545" text-anchor="middle" fill="#94a3b8" font-size="11">3 GCD computations</text>
+  <text x="455" y="565" text-anchor="middle" fill="#22c55e" font-size="11">3× amplification vs triples</text>
+
+  <rect x="600" y="460" width="230" height="120" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="715" y="485" text-anchor="middle" fill="#8b5cf6" font-size="14" font-weight="bold">↑ Ascent (Energy)</text>
+  <text x="715" y="505" text-anchor="middle" fill="#94a3b8" font-size="11">Lebesgue parametrisation</text>
+  <text x="715" y="525" text-anchor="middle" fill="#94a3b8" font-size="11">Finds new representations</text>
+  <text x="715" y="545" text-anchor="middle" fill="#94a3b8" font-size="11">d = m² + n² + p²</text>
+  <text x="715" y="565" text-anchor="middle" fill="#a78bfa" font-size="11">Recursive structure</text>
+</svg>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a3e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="url(#goldGrad)" font-size="28" font-weight="bold" filter="url(#glow)">
+    The Integrality Trichotomy: k ∈ {3, 4, 6}
+  </text>
+  <text x="600" y="75" text-anchor="middle" fill="#aaccff" font-size="16">
+    Generating Set for Primitive Pythagorean Quadruples under O(3,1;ℤ)
+  </text>
+
+  <!-- Three columns for k=3, k=4, k=6 -->
+
+  <!-- k=3 Column -->
+  <rect x="30" y="100" width="360" height="340" rx="15" fill="none" stroke="#00ff88" stroke-width="2" opacity="0.6"/>
+  <text x="210" y="130" text-anchor="middle" fill="#00ff88" font-size="22" font-weight="bold">k = 3: Triples</text>
+  <text x="210" y="155" text-anchor="middle" fill="#88ffbb" font-size="14">η(s,s) = 1 · ℝ</text>
+
+  <!-- Berggren tree for k=3 -->
+  <circle cx="210" cy="200" r="22" fill="none" stroke="#00ff88" stroke-width="2"/>
+  <text x="210" y="205" text-anchor="middle" fill="#00ff88" font-size="11">(3,4,5)</text>
+
+  <line x1="180" y1="222" x2="120" y2="270" stroke="#00ff88" stroke-width="1.5" opacity="0.6"/>
+  <line x1="210" y1="222" x2="210" y2="270" stroke="#00ff88" stroke-width="1.5" opacity="0.6"/>
+  <line x1="240" y1="222" x2="300" y2="270" stroke="#00ff88" stroke-width="1.5" opacity="0.6"/>
+
+  <circle cx="120" cy="285" r="20" fill="none" stroke="#00ff88" stroke-width="1.5"/>
+  <text x="120" y="290" text-anchor="middle" fill="#00ff88" font-size="9">(5,12,13)</text>
+
+  <circle cx="210" cy="285" r="20" fill="none" stroke="#00ff88" stroke-width="1.5"/>
+  <text x="210" y="290" text-anchor="middle" fill="#00ff88" font-size="9">(21,20,29)</text>
+
+  <circle cx="300" cy="285" r="20" fill="none" stroke="#00ff88" stroke-width="1.5"/>
+  <text x="300" y="290" text-anchor="middle" fill="#00ff88" font-size="9">(15,8,17)</text>
+
+  <text x="210" y="340" text-anchor="middle" fill="#88ccaa" font-size="12">Ternary branching</text>
+  <text x="210" y="360" text-anchor="middle" fill="#88ccaa" font-size="12">s = (1,1,1), η(s,s) = 1</text>
+  <text x="210" y="380" text-anchor="middle" fill="#88ccaa" font-size="12">1 | anything ⟹ always integral</text>
+  <text x="210" y="410" text-anchor="middle" fill="#66ff99" font-size="14" font-weight="bold">Division algebra: ℝ</text>
+
+  <!-- k=4 Column -->
+  <rect x="420" y="100" width="360" height="340" rx="15" fill="none" stroke="#4488ff" stroke-width="2" opacity="0.6"/>
+  <text x="600" y="130" text-anchor="middle" fill="#4488ff" font-size="22" font-weight="bold">k = 4: Quadruples</text>
+  <text x="600" y="155" text-anchor="middle" fill="#88aaff" font-size="14">η(s,s) = 2 · ℂ</text>
+
+  <!-- Quad tree -->
+  <circle cx="600" cy="200" r="22" fill="none" stroke="#4488ff" stroke-width="2"/>
+  <text x="600" y="205" text-anchor="middle" fill="#4488ff" font-size="11">(0,0,1,1)</text>
+
+  <line x1="560" y1="222" x2="500" y2="270" stroke="#4488ff" stroke-width="1.5" opacity="0.6"/>
+  <line x1="600" y1="222" x2="600" y2="270" stroke="#4488ff" stroke-width="1.5" opacity="0.6"/>
+  <line x1="640" y1="222" x2="700" y2="270" stroke="#4488ff" stroke-width="1.5" opacity="0.6"/>
+
+  <circle cx="500" cy="285" r="20" fill="none" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="500" y="290" text-anchor="middle" fill="#4488ff" font-size="9">(1,2,2,3)</text>
+
+  <circle cx="600" cy="285" r="20" fill="none" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="600" y="290" text-anchor="middle" fill="#4488ff" font-size="9">(0,0,1,1)</text>
+
+  <circle cx="700" cy="285" r="20" fill="none" stroke="#4488ff" stroke-width="1.5"/>
+  <text x="700" y="290" text-anchor="middle" fill="#4488ff" font-size="9">(0,3,4,5)</text>
+
+  <text x="600" y="340" text-anchor="middle" fill="#88aacc" font-size="12">Variable branching</text>
+  <text x="600" y="360" text-anchor="middle" fill="#88aacc" font-size="12">s = (1,1,1,1), η(s,s) = 2</text>
+  <text x="600" y="380" text-anchor="middle" fill="#88aacc" font-size="12">2 | 2η ⟹ always integral</text>
+  <text x="600" y="410" text-anchor="middle" fill="#6699ff" font-size="14" font-weight="bold">Division algebra: ℂ</text>
+
+  <!-- k=6 Column -->
+  <rect x="810" y="100" width="360" height="340" rx="15" fill="none" stroke="#ff4488" stroke-width="2" opacity="0.6"/>
+  <text x="990" y="130" text-anchor="middle" fill="#ff4488" font-size="22" font-weight="bold">k = 6: Sextuples</text>
+  <text x="990" y="155" text-anchor="middle" fill="#ff88aa" font-size="14">η(s,s) = 4 · ℍ (NEW!)</text>
+
+  <!-- Sextuple tree -->
+  <circle cx="990" cy="200" r="25" fill="none" stroke="#ff4488" stroke-width="2" filter="url(#glow)"/>
+  <text x="990" y="198" text-anchor="middle" fill="#ff4488" font-size="9">(0,0,0,0,</text>
+  <text x="990" y="211" text-anchor="middle" fill="#ff4488" font-size="9">1,1)</text>
+
+  <line x1="950" y1="225" x2="900" y2="270" stroke="#ff4488" stroke-width="1.5" opacity="0.6"/>
+  <line x1="1030" y1="225" x2="1080" y2="270" stroke="#ff4488" stroke-width="1.5" opacity="0.6"/>
+
+  <circle cx="900" cy="285" r="22" fill="none" stroke="#ff4488" stroke-width="1.5"/>
+  <text x="900" y="283" text-anchor="middle" fill="#ff4488" font-size="8">(0,0,1,2,</text>
+  <text x="900" y="294" text-anchor="middle" fill="#ff4488" font-size="8">2,3)</text>
+
+  <circle cx="1080" cy="285" r="22" fill="none" stroke="#ff4488" stroke-width="1.5"/>
+  <text x="1080" y="283" text-anchor="middle" fill="#ff4488" font-size="8">(0,1,1,1,</text>
+  <text x="1080" y="294" text-anchor="middle" fill="#ff4488" font-size="8">1,2)</text>
+
+  <text x="990" y="340" text-anchor="middle" fill="#cc8899" font-size="12">Parity rescue!</text>
+  <text x="990" y="360" text-anchor="middle" fill="#cc8899" font-size="12">s = (1,...,1), η(s,s) = 4</text>
+  <text x="990" y="380" text-anchor="middle" fill="#cc8899" font-size="12">η always even ⟹ 4 | 2η ✓</text>
+  <text x="990" y="410" text-anchor="middle" fill="#ff6699" font-size="14" font-weight="bold">Division algebra: ℍ</text>
+
+  <!-- Failing dimensions -->
+  <rect x="30" y="460" width="1140" height="120" rx="15" fill="none" stroke="#ff4444" stroke-width="2" opacity="0.4"/>
+  <text x="600" y="490" text-anchor="middle" fill="#ff6666" font-size="20" font-weight="bold">Failing Dimensions</text>
+
+  <text x="200" y="520" text-anchor="middle" fill="#ff8888" font-size="14">k = 5: barrier prime 3</text>
+  <text x="200" y="540" text-anchor="middle" fill="#ffaaaa" font-size="12">3 ∤ 4, (1,1,1,1,2) → fractions</text>
+  <text x="200" y="560" text-anchor="middle" fill="#ffaaaa" font-size="11">ALL uniform s = (a,a,a,a,a) fail</text>
+
+  <text x="600" y="520" text-anchor="middle" fill="#ff8888" font-size="14">k = 7: barrier prime 5</text>
+  <text x="600" y="540" text-anchor="middle" fill="#ffaaaa" font-size="12">5 ∤ 4, (1,1,1,1,0,0,2) → fractions</text>
+
+  <text x="1000" y="520" text-anchor="middle" fill="#ff8888" font-size="14">k = 10: octonion barrier</text>
+  <text x="1000" y="540" text-anchor="middle" fill="#ffaaaa" font-size="12">8 ∤ 4, non-associative</text>
+  <text x="1000" y="560" text-anchor="middle" fill="#ffaaaa" font-size="11">𝕆 multiplication breaks descent</text>
+
+  <!-- Generator matrices -->
+  <rect x="30" y="600" width="1140" height="270" rx="15" fill="none" stroke="#ffdd44" stroke-width="2" opacity="0.4"/>
+  <text x="600" y="630" text-anchor="middle" fill="url(#goldGrad)" font-size="20" font-weight="bold">O(3,1;ℤ) Generator Set for k = 4</text>
+
+  <!-- R1 matrix -->
+  <text x="150" y="665" text-anchor="middle" fill="#ffdd44" font-size="16" font-weight="bold">R₁ (descent)</text>
+  <text x="150" y="690" text-anchor="middle" fill="#ffeeaa" font-size="13" font-family="monospace">⎡ 0 -1 -1  1⎤</text>
+  <text x="150" y="710" text-anchor="middle" fill="#ffeeaa" font-size="13" font-family="monospace">⎢-1  0 -1  1⎥</text>
+  <text x="150" y="730" text-anchor="middle" fill="#ffeeaa" font-size="13" font-family="monospace">⎢-1 -1  0  1⎥</text>
+  <text x="150" y="750" text-anchor="middle" fill="#ffeeaa" font-size="13" font-family="monospace">⎣-1 -1 -1  2⎦</text>
+  <text x="150" y="775" text-anchor="middle" fill="#ccbb88" font-size="11">det = -1, R₁² = I</text>
+
+  <!-- Permutations -->
+  <text x="420" y="665" text-anchor="middle" fill="#44ff88" font-size="16" font-weight="bold">Permutations</text>
+  <text x="420" y="695" text-anchor="middle" fill="#88ffbb" font-size="13">P₀₁: swap coords 0↔1</text>
+  <text x="420" y="720" text-anchor="middle" fill="#88ffbb" font-size="13">P₀₂: swap coords 0↔2</text>
+  <text x="420" y="745" text-anchor="middle" fill="#88ffbb" font-size="13">P₁₂: swap coords 1↔2</text>
+  <text x="420" y="775" text-anchor="middle" fill="#66cc88" font-size="11">All involutions, det = -1</text>
+
+  <!-- Sign changes -->
+  <text x="680" y="665" text-anchor="middle" fill="#ff8844" font-size="16" font-weight="bold">Sign Changes</text>
+  <text x="680" y="695" text-anchor="middle" fill="#ffaa66" font-size="13">S₀: negate coord 0</text>
+  <text x="680" y="720" text-anchor="middle" fill="#ffaa66" font-size="13">S₁ = P₀₁·S₀·P₀₁</text>
+  <text x="680" y="745" text-anchor="middle" fill="#ffaa66" font-size="13">S₂ = P₀₂·S₀·P₀₂</text>
+  <text x="680" y="775" text-anchor="middle" fill="#cc8844" font-size="11">Involutions, det = -1</text>
+
+  <!-- Properties -->
+  <text x="960" y="665" text-anchor="middle" fill="#88aaff" font-size="16" font-weight="bold">Properties</text>
+  <text x="960" y="695" text-anchor="middle" fill="#aaccff" font-size="13">All preserve η: MᵀηM = η</text>
+  <text x="960" y="720" text-anchor="middle" fill="#aaccff" font-size="13">All involutions: M² = I</text>
+  <text x="960" y="745" text-anchor="middle" fill="#aaccff" font-size="13">Generate O(3,1;ℤ)⁺</text>
+  <text x="960" y="770" text-anchor="middle" fill="#aaccff" font-size="13">on null cone</text>
+  <text x="960" y="800" text-anchor="middle" fill="#88aaff" font-size="13" font-weight="bold">Machine-verified in Lean 4</text>
+
+  <!-- Central equation -->
+  <text x="600" y="845" text-anchor="middle" fill="url(#goldGrad)" font-size="18" filter="url(#bigGlow)">
+    (k−2) | 4  ⟺  k ∈ {3, 4, 6}  ⟺  k−2 ∈ dim{ℝ, ℂ, ℍ}
+  </text>
+  <text x="600" y="875" text-anchor="middle" fill="#aaaacc" font-size="12">
+    Zero sorry statements · All proofs machine-verified · Research Team PHOTON-4
+  </text>
+</svg>

@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700"/>
+      <stop offset="100%" style="stop-color:#ffaa00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffd700" font-size="24" font-weight="bold" filter="url(#glow)">The Berggren Tree of Pythagorean Triples</text>
+  <text x="450" y="70" text-anchor="middle" fill="#aaaacc" font-size="14">Every primitive Pythagorean triple appears exactly once</text>
+
+  <!-- Tree edges -->
+  <g stroke="#4466aa" stroke-width="2" opacity="0.7">
+    <!-- Root to level 1 -->
+    <line x1="450" y1="130" x2="150" y2="250"/>
+    <line x1="450" y1="130" x2="450" y2="250"/>
+    <line x1="450" y1="130" x2="750" y2="250"/>
+
+    <!-- Level 1 to level 2 -->
+    <!-- A children -->
+    <line x1="150" y1="280" x2="50" y2="390"/>
+    <line x1="150" y1="280" x2="150" y2="390"/>
+    <line x1="150" y1="280" x2="250" y2="390"/>
+    <!-- B children -->
+    <line x1="450" y1="280" x2="350" y2="390"/>
+    <line x1="450" y1="280" x2="450" y2="390"/>
+    <line x1="450" y1="280" x2="550" y2="390"/>
+    <!-- C children -->
+    <line x1="750" y1="280" x2="650" y2="390"/>
+    <line x1="750" y1="280" x2="750" y2="390"/>
+    <line x1="750" y1="280" x2="850" y2="390"/>
+  </g>
+
+  <!-- Root node: (3, 4, 5) -->
+  <circle cx="450" cy="120" r="35" fill="#2244aa" stroke="#ffd700" stroke-width="3" filter="url(#glow)"/>
+  <text x="450" y="115" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">(3, 4, 5)</text>
+  <text x="450" y="133" text-anchor="middle" fill="#aaddff" font-size="10">root</text>
+
+  <!-- Level 1 nodes -->
+  <!-- A child -->
+  <circle cx="150" cy="265" r="32" fill="#226644" stroke="#44dd88" stroke-width="2"/>
+  <text x="150" y="260" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">(5, 12, 13)</text>
+  <text x="150" y="278" text-anchor="middle" fill="#88ffaa" font-size="10">A</text>
+
+  <!-- B child -->
+  <circle cx="450" cy="265" r="32" fill="#664422" stroke="#ddaa44" stroke-width="2"/>
+  <text x="450" y="260" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">(21, 20, 29)</text>
+  <text x="450" y="278" text-anchor="middle" fill="#ffddaa" font-size="10">B</text>
+
+  <!-- C child -->
+  <circle cx="750" cy="265" r="32" fill="#442266" stroke="#aa44dd" stroke-width="2"/>
+  <text x="750" y="260" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">(15, 8, 17)</text>
+  <text x="750" y="278" text-anchor="middle" fill="#ddaaff" font-size="10">C</text>
+
+  <!-- Level 2 nodes (smaller) -->
+  <g font-size="9" fill="#ccccee">
+    <!-- A's children -->
+    <circle cx="50" cy="400" r="25" fill="#1a3322" stroke="#44dd88" stroke-width="1.5"/>
+    <text x="50" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(7,24,25)</text>
+    <text x="50" y="410" text-anchor="middle" fill="#88ffaa" font-size="8">AA</text>
+
+    <circle cx="150" cy="400" r="25" fill="#1a3322" stroke="#44dd88" stroke-width="1.5"/>
+    <text x="150" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(55,48,73)</text>
+    <text x="150" y="410" text-anchor="middle" fill="#88ffaa" font-size="8">AB</text>
+
+    <circle cx="250" cy="400" r="25" fill="#1a3322" stroke="#44dd88" stroke-width="1.5"/>
+    <text x="250" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(45,28,53)</text>
+    <text x="250" y="410" text-anchor="middle" fill="#88ffaa" font-size="8">AC</text>
+
+    <!-- B's children -->
+    <circle cx="350" cy="400" r="25" fill="#332211" stroke="#ddaa44" stroke-width="1.5"/>
+    <text x="350" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(9,40,41)</text>
+    <text x="350" y="410" text-anchor="middle" fill="#ffddaa" font-size="8">BA</text>
+
+    <circle cx="450" cy="400" r="25" fill="#332211" stroke="#ddaa44" stroke-width="1.5"/>
+    <text x="450" y="396" text-anchor="middle" fill="#ffffff" font-size="8">(119,120,169)</text>
+    <text x="450" y="410" text-anchor="middle" fill="#ffddaa" font-size="8">BB</text>
+
+    <circle cx="550" cy="400" r="25" fill="#332211" stroke="#ddaa44" stroke-width="1.5"/>
+    <text x="550" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(77,36,85)</text>
+    <text x="550" y="410" text-anchor="middle" fill="#ffddaa" font-size="8">BC</text>
+
+    <!-- C's children -->
+    <circle cx="650" cy="400" r="25" fill="#221133" stroke="#aa44dd" stroke-width="1.5"/>
+    <text x="650" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(28,45,53)</text>
+    <text x="650" y="410" text-anchor="middle" fill="#ddaaff" font-size="8">CA</text>
+
+    <circle cx="750" cy="400" r="25" fill="#221133" stroke="#aa44dd" stroke-width="1.5"/>
+    <text x="750" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(65,72,97)</text>
+    <text x="750" y="410" text-anchor="middle" fill="#ddaaff" font-size="8">CB</text>
+
+    <circle cx="850" cy="400" r="25" fill="#221133" stroke="#aa44dd" stroke-width="1.5"/>
+    <text x="850" y="396" text-anchor="middle" fill="#ffffff" font-size="9">(36,77,85)</text>
+    <text x="850" y="410" text-anchor="middle" fill="#ddaaff" font-size="8">CC</text>
+  </g>
+
+  <!-- Dots indicating continuation -->
+  <text x="50" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="150" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="250" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="350" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="450" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="550" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="650" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="750" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+  <text x="850" y="450" text-anchor="middle" fill="#666688" font-size="18">⋮</text>
+
+  <!-- Legend box -->
+  <rect x="30" y="480" width="840" height="100" rx="10" fill="#111133" stroke="#334466" stroke-width="1"/>
+
+  <text x="60" y="510" fill="#ffd700" font-size="14" font-weight="bold">Verified Properties (Lean 4 / Mathlib):</text>
+
+  <text x="60" y="535" fill="#44dd88" font-size="12">✓ Each matrix preserves a² + b² = c²</text>
+  <text x="350" y="535" fill="#ddaa44" font-size="12">✓ Hypotenuse strictly increases</text>
+  <text x="640" y="535" fill="#aa44dd" font-size="12">✓ 12 | abc always</text>
+
+  <text x="60" y="558" fill="#44dd88" font-size="12">✓ Not both legs odd</text>
+  <text x="350" y="558" fill="#ddaa44" font-size="12">✓ 3 divides a leg</text>
+  <text x="640" y="558" fill="#aa44dd" font-size="12">✓ 4 divides ab</text>
+</svg>

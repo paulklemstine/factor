@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 750" width="700" height="750">
+  <defs>
+    <style>
+      .title { font: bold 20px 'Georgia', serif; fill: #1a1a2e; }
+      .subtitle { font: italic 13px 'Georgia', serif; fill: #555; }
+      .point-label { font: 10px 'Courier New', monospace; fill: #333; }
+      .axis-label { font: italic 12px 'Georgia', serif; fill: #888; }
+      .note { font: 12px 'Arial', sans-serif; fill: #555; }
+    </style>
+    <radialGradient id="diskGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#f8f8ff"/>
+      <stop offset="85%" style="stop-color:#e8e8f0"/>
+      <stop offset="100%" style="stop-color:#d0d0e0"/>
+    </radialGradient>
+    <clipPath id="diskClip">
+      <circle cx="350" cy="370" r="280"/>
+    </clipPath>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e94560"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0f3460"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16c79a"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="700" height="750" fill="#fafafa" rx="10"/>
+  
+  <!-- Title -->
+  <text x="350" y="35" class="title" text-anchor="middle">Poincaré Disk Model: Berggren Tree as Hyperbolic Tiling</text>
+  <text x="350" y="55" class="subtitle" text-anchor="middle">Pythagorean triples projected onto the hyperbolic plane</text>
+
+  <!-- Poincaré disk -->
+  <circle cx="350" cy="370" r="280" fill="url(#diskGrad)" stroke="#333" stroke-width="2"/>
+  
+  <!-- Hyperbolic geodesics (simplified as arcs) -->
+  <g clip-path="url(#diskClip)" opacity="0.15">
+    <!-- Concentric hyperbolic circles -->
+    <circle cx="350" cy="370" r="50" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="350" cy="370" r="100" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="350" cy="370" r="150" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="350" cy="370" r="200" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="350" cy="370" r="250" fill="none" stroke="#666" stroke-width="0.5"/>
+    
+    <!-- Radial geodesics -->
+    <line x1="350" y1="90" x2="350" y2="650" stroke="#666" stroke-width="0.5"/>
+    <line x1="70" y1="370" x2="630" y2="370" stroke="#666" stroke-width="0.5"/>
+    <line x1="152" y1="172" x2="548" y2="568" stroke="#666" stroke-width="0.5"/>
+    <line x1="548" y1="172" x2="152" y2="568" stroke="#666" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Root point (3,4,5) at center -->
+  <circle cx="350" cy="370" r="8" fill="#e94560" stroke="white" stroke-width="2"/>
+  <text x="350" y="360" class="point-label" text-anchor="middle" font-weight="bold" fill="#e94560">(3,4,5)</text>
+  
+  <!-- Level 1: Three children -->
+  <!-- B₁: (5,12,13) -->
+  <line x1="350" y1="370" x2="250" y2="280" stroke="#e94560" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+  <circle cx="240" cy="272" r="6" fill="#e94560" stroke="white" stroke-width="1.5"/>
+  <text x="220" y="262" class="point-label" fill="#e94560">(5,12,13)</text>
+  
+  <!-- B₂: (21,20,29) -->
+  <line x1="350" y1="370" x2="350" y2="270" stroke="#0f3460" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <circle cx="350" cy="262" r="6" fill="#0f3460" stroke="white" stroke-width="1.5"/>
+  <text x="362" y="255" class="point-label" fill="#0f3460">(21,20,29)</text>
+  
+  <!-- B₃: (15,8,17) -->
+  <line x1="350" y1="370" x2="450" y2="280" stroke="#16c79a" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <circle cx="458" cy="272" r="6" fill="#16c79a" stroke="white" stroke-width="1.5"/>
+  <text x="468" y="265" class="point-label" fill="#16c79a">(15,8,17)</text>
+  
+  <!-- Level 2: Children of middle -->
+  <!-- B₂·B₂: (119,120,169) -->
+  <line x1="350" y1="262" x2="350" y2="195" stroke="#0f3460" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="350" cy="190" r="4" fill="#0f3460" opacity="0.7"/>
+  <text x="365" y="188" class="point-label" font-size="9" fill="#0f3460">(119,120,169)</text>
+  
+  <!-- B₂·B₁: (39,80,89) -->
+  <line x1="350" y1="262" x2="300" y2="210" stroke="#e94560" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="296" cy="206" r="4" fill="#e94560" opacity="0.7"/>
+  <text x="258" y="200" class="point-label" font-size="9" fill="#e94560">(39,80,89)</text>
+  
+  <!-- B₂·B₃: (77,36,85) -->
+  <line x1="350" y1="262" x2="400" y2="210" stroke="#16c79a" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="404" cy="206" r="4" fill="#16c79a" opacity="0.7"/>
+  <text x="415" y="200" class="point-label" font-size="9" fill="#16c79a">(77,36,85)</text>
+  
+  <!-- Level 3: Middle-Middle-Middle -->
+  <line x1="350" y1="190" x2="350" y2="152" stroke="#0f3460" stroke-width="1" opacity="0.4"/>
+  <circle cx="350" cy="148" r="3" fill="#0f3460" opacity="0.5"/>
+  <text x="365" y="146" class="point-label" font-size="8" fill="#0f3460">(697,696,985)</text>
+  
+  <!-- Level 2: Children of left -->
+  <line x1="240" y1="272" x2="195" y2="225" stroke="#0f3460" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="192" cy="222" r="4" fill="#0f3460" opacity="0.7"/>
+  <text x="142" y="218" class="point-label" font-size="9" fill="#0f3460">(45,28,53)</text>
+  
+  <line x1="240" y1="272" x2="180" y2="260" stroke="#e94560" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="176" cy="258" r="4" fill="#e94560" opacity="0.7"/>
+  <text x="128" y="256" class="point-label" font-size="9" fill="#e94560">(7,24,25)</text>
+  
+  <line x1="240" y1="272" x2="225" y2="215" stroke="#16c79a" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="222" cy="212" r="4" fill="#16c79a" opacity="0.7"/>
+  <text x="220" y="203" class="point-label" font-size="9" fill="#16c79a">(35,12,37)</text>
+  
+  <!-- Level 2: Children of right -->
+  <line x1="458" y1="272" x2="500" y2="225" stroke="#0f3460" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="504" cy="222" r="4" fill="#0f3460" opacity="0.7"/>
+  <text x="515" y="218" class="point-label" font-size="9" fill="#0f3460">(65,72,97)</text>
+  
+  <line x1="458" y1="272" x2="520" y2="260" stroke="#e94560" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="524" cy="258" r="4" fill="#e94560" opacity="0.7"/>
+  <text x="534" y="256" class="point-label" font-size="9" fill="#e94560">(33,56,65)</text>
+  
+  <line x1="458" y1="272" x2="475" y2="215" stroke="#16c79a" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="478" cy="212" r="4" fill="#16c79a" opacity="0.7"/>
+  <text x="488" y="205" class="point-label" font-size="9" fill="#16c79a">(9,40,41)</text>
+  
+  <!-- Boundary label -->
+  <text x="350" y="680" class="axis-label" text-anchor="middle">Boundary circle = "infinity" in hyperbolic geometry</text>
+  
+  <!-- Annotations -->
+  <text x="350" y="710" class="note" text-anchor="middle">Points closer to the boundary represent triples with larger hypotenuse.</text>
+  <text x="350" y="730" class="note" text-anchor="middle">The Berggren matrices act as hyperbolic isometries (distance-preserving maps).</text>
+  
+  <!-- Legend -->
+  <rect x="30" y="80" width="140" height="90" rx="6" fill="white" stroke="#ddd" opacity="0.9"/>
+  <line x1="45" y1="100" x2="75" y2="100" stroke="#e94560" stroke-width="2.5"/>
+  <text x="82" y="104" class="point-label" fill="#333">B₁ (Left)</text>
+  <line x1="45" y1="122" x2="75" y2="122" stroke="#0f3460" stroke-width="2.5"/>
+  <text x="82" y="126" class="point-label" fill="#333">B₂ (Middle)</text>
+  <line x1="45" y1="144" x2="75" y2="144" stroke="#16c79a" stroke-width="2.5"/>
+  <text x="82" y="148" class="point-label" fill="#333">B₃ (Right)</text>
+</svg>

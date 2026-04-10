@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a0a"/>
+      <stop offset="100%" stop-color="#2a1a1a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#cbg)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#ff6644" font-size="20" font-weight="bold">
+    Cryptographic One-Way Function from the Berggren Tree
+  </text>
+
+  <!-- Forward direction (EASY) -->
+  <rect x="30" y="60" width="350" height="160" rx="10" fill="#1a2a1a" stroke="#44ff44" stroke-width="1.5"/>
+  <text x="205" y="85" text-anchor="middle" fill="#44ff44" font-size="15" font-weight="bold">→ FORWARD (Easy)</text>
+
+  <text x="50" y="110" fill="#ddd" font-size="12">Path: L → M → R → L → M</text>
+  <text x="50" y="132" fill="#ddd" font-size="12">(3,4,5) →B₁→ (5,12,13)</text>
+  <text x="50" y="152" fill="#ddd" font-size="12">(5,12,13) →B₂→ (45,28,53)</text>
+  <text x="50" y="172" fill="#ddd" font-size="12">...</text>
+
+  <text x="50" y="200" fill="#44ff44" font-size="13" font-weight="bold">Cost: O(n) multiplications</text>
+
+  <!-- Backward direction (HARD) -->
+  <rect x="420" y="60" width="350" height="160" rx="10" fill="#2a1a1a" stroke="#ff4444" stroke-width="1.5"/>
+  <text x="595" y="85" text-anchor="middle" fill="#ff4444" font-size="15" font-weight="bold">← BACKWARD (Hard)</text>
+
+  <text x="440" y="110" fill="#ddd" font-size="12">Given: (17597882918857,</text>
+  <text x="440" y="130" fill="#ddd" font-size="12">  12020733131064,</text>
+  <text x="440" y="150" fill="#ddd" font-size="12">  21269252674025)</text>
+  <text x="440" y="172" fill="#ddd" font-size="12">Find: path back to (3,4,5) ?</text>
+
+  <text x="440" y="200" fill="#ff4444" font-size="13" font-weight="bold">Cost: Discrete log in O(2,1;ℤ)</text>
+
+  <!-- Arrow between -->
+  <text x="400" y="145" text-anchor="middle" fill="#ffd700" font-size="30">⟹</text>
+
+  <!-- Security properties -->
+  <rect x="30" y="240" width="230" height="185" rx="10" fill="#1a1a2a" stroke="#00ddff" stroke-width="1"/>
+  <text x="145" y="265" text-anchor="middle" fill="#00ddff" font-size="13" font-weight="bold">Collision Resistance</text>
+  <text x="45" y="290" fill="#ccc" font-size="11">• B₁ step injective ✓</text>
+  <text x="45" y="310" fill="#ccc" font-size="11">• B₂ step injective ✓</text>
+  <text x="45" y="330" fill="#ccc" font-size="11">• B₃ step injective ✓</text>
+  <text x="45" y="350" fill="#ccc" font-size="11">• B₁≠B₂ children ✓</text>
+  <text x="45" y="370" fill="#ccc" font-size="11">• Unique path per</text>
+  <text x="45" y="388" fill="#ccc" font-size="11">  primitive triple</text>
+  <text x="45" y="415" fill="#0f0" font-size="10">All verified in Lean 4</text>
+
+  <rect x="280" y="240" width="240" height="185" rx="10" fill="#1a1a2a" stroke="#ffaa00" stroke-width="1"/>
+  <text x="400" y="265" text-anchor="middle" fill="#ffaa00" font-size="13" font-weight="bold">Preimage Resistance</text>
+  <text x="295" y="290" fill="#ccc" font-size="11">• Hypotenuse ≥ 3ⁿ·5</text>
+  <text x="295" y="310" fill="#ccc" font-size="11">• Exponential growth ✓</text>
+  <text x="295" y="330" fill="#ccc" font-size="11">• Bit-length ≥ n·log₂3</text>
+  <text x="295" y="350" fill="#ccc" font-size="11">• 3ⁿ ≥ 2ⁿ always ✓</text>
+  <text x="295" y="380" fill="#ffaa00" font-size="11" font-weight="bold">Security at depth n:</text>
+  <text x="295" y="400" fill="#ccc" font-size="11">  ≥ n · 1.585 bits</text>
+  <text x="295" y="415" fill="#0f0" font-size="10">Growth bound verified</text>
+
+  <rect x="540" y="240" width="230" height="185" rx="10" fill="#1a1a2a" stroke="#ff44ff" stroke-width="1"/>
+  <text x="655" y="265" text-anchor="middle" fill="#ff44ff" font-size="13" font-weight="bold">Lorentz Structure</text>
+  <text x="555" y="290" fill="#ccc" font-size="11">• BᵢᵀQBᵢ = Q ∀i ✓</text>
+  <text x="555" y="310" fill="#ccc" font-size="11">• Products preserve Q ✓</text>
+  <text x="555" y="330" fill="#ccc" font-size="11">• det(Bᵢ) = ±1 ✓</text>
+  <text x="555" y="350" fill="#ccc" font-size="11">• Q preserved mod p ✓</text>
+  <text x="555" y="380" fill="#ff44ff" font-size="11" font-weight="bold">Post-quantum:</text>
+  <text x="555" y="400" fill="#ccc" font-size="11">  Non-abelian group</text>
+  <text x="555" y="415" fill="#ccc" font-size="11">  → Shor doesn't apply</text>
+</svg>

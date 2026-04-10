@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bgsph" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#001122;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#002244;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sphere" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#336699;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#112233;stop-opacity:0.1" />
+    </radialGradient>
+    <filter id="glowpt">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bgsph)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="30" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">
+    Continuous Sphere Navigation for Factor Discovery
+  </text>
+  <text x="400" y="50" fill="#88aacc" font-family="Arial, sans-serif" font-size="11" text-anchor="middle">
+    Integer points on S²(d) as factor-revealing positions • Gradient descent finds optimal GCD cascades
+  </text>
+
+  <!-- Sphere -->
+  <circle cx="300" cy="260" r="180" fill="url(#sphere)" stroke="#336699" stroke-width="1.5"/>
+
+  <!-- Equator ellipse -->
+  <ellipse cx="300" cy="280" rx="180" ry="40" fill="none" stroke="#4488aa" stroke-width="0.5" stroke-dasharray="3"/>
+
+  <!-- Integer points on sphere (quadruples) -->
+  <!-- Factor-revealing points (green) -->
+  <circle cx="200" cy="180" r="5" fill="#44ff44" filter="url(#glowpt)"/>
+  <circle cx="350" cy="130" r="5" fill="#44ff44" filter="url(#glowpt)"/>
+  <circle cx="420" cy="200" r="5" fill="#44ff44" filter="url(#glowpt)"/>
+  <circle cx="160" cy="300" r="5" fill="#44ff44" filter="url(#glowpt)"/>
+  <circle cx="380" cy="350" r="4" fill="#44ff44" filter="url(#glowpt)"/>
+
+  <!-- Non-revealing points (dim red) -->
+  <circle cx="250" cy="150" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="310" cy="180" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="180" cy="230" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="400" cy="270" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="230" cy="340" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="350" cy="310" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="280" cy="200" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="370" cy="250" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="220" cy="280" r="3" fill="#993333" opacity="0.6"/>
+  <circle cx="440" cy="300" r="3" fill="#993333" opacity="0.6"/>
+
+  <!-- Gradient descent path -->
+  <path d="M 280 200 Q 260 190 250 150 Q 240 140 200 180" fill="none" stroke="#ffcc00" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="280" cy="200" r="4" fill="#ffcc00"/>
+  <text x="295" y="198" fill="#ffcc00" font-family="Arial, sans-serif" font-size="9">start</text>
+
+  <!-- Labels -->
+  <text x="300" y="450" fill="#336699" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">S²(d): 3-sphere of radius d</text>
+
+  <!-- Legend panel -->
+  <rect x="540" y="80" width="240" height="380" fill="rgba(0,0,0,0.4)" stroke="#334466" stroke-width="1" rx="8"/>
+  <text x="660" y="105" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Navigation Methods</text>
+
+  <!-- Method 1 -->
+  <circle cx="560" cy="135" r="5" fill="#44ff44"/>
+  <text x="580" y="139" fill="#ffffff" font-family="Arial, sans-serif" font-size="10">Factor-revealing point</text>
+
+  <circle cx="560" cy="160" r="3" fill="#993333"/>
+  <text x="580" y="164" fill="#aaaaaa" font-family="Arial, sans-serif" font-size="10">Non-revealing point</text>
+
+  <line x1="555" y1="185" x2="575" y2="185" stroke="#ffcc00" stroke-width="2" stroke-dasharray="4"/>
+  <text x="580" y="189" fill="#ffcc00" font-family="Arial, sans-serif" font-size="10">Gradient descent path</text>
+
+  <line x1="555" y1="220" x2="770" y2="220" stroke="#334466" stroke-width="0.5"/>
+
+  <text x="660" y="245" fill="#4fc3f7" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Search Strategies</text>
+
+  <text x="560" y="270" fill="#aaddff" font-family="Arial, sans-serif" font-size="10">1. Local perturbation (±1)</text>
+  <text x="560" y="290" fill="#aaddff" font-family="Arial, sans-serif" font-size="10">2. Hypotenuse-guided enum</text>
+  <text x="560" y="310" fill="#aaddff" font-family="Arial, sans-serif" font-size="10">3. Parametric navigation</text>
+  <text x="560" y="330" fill="#aaddff" font-family="Arial, sans-serif" font-size="10">4. Gradient descent (smooth)</text>
+  <text x="560" y="350" fill="#aaddff" font-family="Arial, sans-serif" font-size="10">5. RL-guided navigation</text>
+
+  <line x1="555" y1="365" x2="770" y2="365" stroke="#334466" stroke-width="0.5"/>
+
+  <text x="660" y="390" fill="#ffa726" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Key Metric</text>
+  <text x="660" y="415" fill="#ffcc88" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">Density of green points</text>
+  <text x="660" y="435" fill="#ffcc88" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">= r_k(d²) × P(reveal)</text>
+  <text x="660" y="455" fill="#ffcc88" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">Grows with dimension k</text>
+
+  <!-- Bottom annotation -->
+  <text x="400" y="490" fill="#556688" font-family="Arial, sans-serif" font-size="9" text-anchor="middle">
+    Higher dimensions increase point density on the sphere → more factor-revealing positions
+  </text>
+</svg>

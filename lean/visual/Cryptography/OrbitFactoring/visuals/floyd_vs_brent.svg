@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#fafafa" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#1a1a1a" font-weight="bold">
+    Floyd's vs Brent's Cycle Detection
+  </text>
+
+  <!-- Floyd's side -->
+  <rect x="20" y="50" width="370" height="330" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="205" y="75" text-anchor="middle" font-family="Arial" font-size="14" fill="#1d4ed8" font-weight="bold">
+    Floyd's Tortoise &amp; Hare
+  </text>
+
+  <!-- Floyd's orbit visualization -->
+  <g transform="translate(205, 200)">
+    <!-- Cycle (circle) -->
+    <circle cx="0" cy="0" r="70" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="4,3"/>
+
+    <!-- Tail -->
+    <line x1="-140" y1="0" x2="-70" y2="0" stroke="#93c5fd" stroke-width="2"/>
+
+    <!-- Nodes on tail -->
+    <circle cx="-140" cy="0" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="-110" cy="0" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+
+    <!-- Nodes on cycle -->
+    <circle cx="-70" cy="0" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="-49" cy="-49" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="0" cy="-70" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="49" cy="-49" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="70" cy="0" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="49" cy="49" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="0" cy="70" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="-49" cy="49" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+
+    <!-- Tortoise (slow) -->
+    <circle cx="-49" cy="-49" r="12" fill="#22c55e" stroke="#15803d" stroke-width="2" opacity="0.8"/>
+    <text x="-49" y="-45" text-anchor="middle" font-family="Arial" font-size="8" fill="white" font-weight="bold">🐢</text>
+
+    <!-- Hare (fast) -->
+    <circle cx="49" cy="-49" r="12" fill="#ef4444" stroke="#b91c1c" stroke-width="2" opacity="0.8"/>
+    <text x="49" y="-45" text-anchor="middle" font-family="Arial" font-size="8" fill="white" font-weight="bold">🐇</text>
+
+    <!-- Meeting point -->
+    <circle cx="70" cy="0" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2.5"/>
+    <text x="70" y="4" text-anchor="middle" font-family="Arial" font-size="8" fill="#7c2d12" font-weight="bold">⭐</text>
+    <text x="95" y="4" text-anchor="start" font-family="Arial" font-size="9" fill="#d97706">Meet!</text>
+  </g>
+
+  <!-- Floyd's description -->
+  <text x="205" y="310" text-anchor="middle" font-family="Arial" font-size="11" fill="#1e40af">
+    Tortoise: x ← f(x)
+  </text>
+  <text x="205" y="326" text-anchor="middle" font-family="Arial" font-size="11" fill="#1e40af">
+    Hare: y ← f(f(y))
+  </text>
+  <text x="205" y="348" text-anchor="middle" font-family="Arial" font-size="11" fill="#1e40af">
+    Stop when x = y
+  </text>
+  <text x="205" y="368" text-anchor="middle" font-family="Arial" font-size="10" fill="#6b7280">
+    Guaranteed: ∃k ≤ N, f^[k](x₀) = f^[2k](x₀)
+  </text>
+
+  <!-- Brent's side -->
+  <rect x="410" y="50" width="370" height="330" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="595" y="75" text-anchor="middle" font-family="Arial" font-size="14" fill="#b91c1c" font-weight="bold">
+    Brent's Power-of-Two
+  </text>
+
+  <!-- Brent's orbit visualization -->
+  <g transform="translate(595, 200)">
+    <!-- Cycle (circle) -->
+    <circle cx="0" cy="0" r="70" fill="none" stroke="#fca5a5" stroke-width="2" stroke-dasharray="4,3"/>
+
+    <!-- Tail -->
+    <line x1="-140" y1="0" x2="-70" y2="0" stroke="#fca5a5" stroke-width="2"/>
+
+    <!-- Nodes -->
+    <circle cx="-140" cy="0" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="-110" cy="0" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="-70" cy="0" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="-49" cy="-49" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="0" cy="-70" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="49" cy="-49" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="70" cy="0" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="49" cy="49" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="0" cy="70" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="-49" cy="49" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+
+    <!-- Reference (fixed at power of 2) -->
+    <circle cx="-70" cy="0" r="14" fill="#a78bfa" stroke="#7c3aed" stroke-width="2.5"/>
+    <text x="-70" y="4" text-anchor="middle" font-family="Arial" font-size="8" fill="white" font-weight="bold">REF</text>
+    <text x="-70" y="-20" text-anchor="middle" font-family="Arial" font-size="9" fill="#7c3aed">2^r</text>
+
+    <!-- Moving pointer -->
+    <circle cx="49" cy="49" r="12" fill="#f97316" stroke="#c2410c" stroke-width="2" opacity="0.8"/>
+    <text x="49" y="53" text-anchor="middle" font-family="Arial" font-size="8" fill="white" font-weight="bold">→</text>
+
+    <!-- Match found -->
+    <circle cx="-49" cy="49" r="14" fill="#fbbf24" stroke="#d97706" stroke-width="2.5"/>
+    <text x="-49" y="53" text-anchor="middle" font-family="Arial" font-size="8" fill="#7c2d12" font-weight="bold">⭐</text>
+  </g>
+
+  <!-- Brent's description -->
+  <text x="595" y="310" text-anchor="middle" font-family="Arial" font-size="11" fill="#b91c1c">
+    Reference fixed at f^[2^r](x₀)
+  </text>
+  <text x="595" y="326" text-anchor="middle" font-family="Arial" font-size="11" fill="#b91c1c">
+    Moving pointer advances one step at a time
+  </text>
+  <text x="595" y="348" text-anchor="middle" font-family="Arial" font-size="11" fill="#b91c1c">
+    Update reference when pointer reaches 2^(r+1)
+  </text>
+  <text x="595" y="368" text-anchor="middle" font-family="Arial" font-size="10" fill="#6b7280">
+    ~24% faster than Floyd in practice
+  </text>
+</svg>

@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" font-family="'Georgia', serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="450" fill="url(#bg4)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#f7d794" font-size="20" font-weight="bold">
+    Log-Space Linearization: The Hyperbola Becomes a Line
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#aaa" font-size="12">
+    In (log x, log y) coordinates, xy = 210 becomes log x + log y = log 210
+  </text>
+
+  <!-- Left panel: original hyperbola -->
+  <g transform="translate(60, 390) scale(1, -1)">
+    <text x="160" y="340" text-anchor="middle" fill="#f7d794" font-size="14"
+          transform="scale(1,-1)"
+          style="dominant-baseline: hanging;">xy = 210 (Euclidean)</text>
+
+    <!-- Axes -->
+    <line x1="0" y1="0" x2="340" y2="0" stroke="#555" stroke-width="1"/>
+    <line x1="0" y1="0" x2="0" y2="310" stroke="#555" stroke-width="1"/>
+
+    <!-- Hyperbola (scaled: x → x*1.5, y → y*1.4) -->
+    <path d="M 1.5 294 Q 3 147, 4.5 98 Q 7.5 58.8, 9 49 Q 10.5 42, 15 29.4
+             Q 21 21, 22.5 19.6 Q 31.5 14, 45 9.8 Q 52.5 8.4, 63 7
+             Q 105 4.2, 157.5 2.8 Q 315 1.4, 315 1.4"
+          fill="none" stroke="#e55039" stroke-width="2"/>
+
+    <!-- Lattice points for n=210 -->
+    <circle cx="1.5" cy="294" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="3" cy="147" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="4.5" cy="98" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="7.5" cy="58.8" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="9" cy="49" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="10.5" cy="42" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="15" cy="29.4" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="21" cy="21" r="5" fill="#f7d794" filter="url(#glow4)"/>
+    <circle cx="22.5" cy="19.6" r="5" fill="#f7d794" filter="url(#glow4)"/>
+    <circle cx="31.5" cy="14" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="45" cy="9.8" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="52.5" cy="8.4" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="63" cy="7" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="105" cy="4.2" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="157.5" cy="2.8" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="315" cy="1.4" r="4" fill="#78e08f" filter="url(#glow4)"/>
+  </g>
+
+  <!-- Arrow between panels -->
+  <g transform="translate(410, 220)">
+    <line x1="0" y1="0" x2="60" y2="0" stroke="#f7d794" stroke-width="2"/>
+    <polygon points="60,-5 70,0 60,5" fill="#f7d794"/>
+    <text x="35" y="-10" text-anchor="middle" fill="#f7d794" font-size="11">log</text>
+  </g>
+
+  <!-- Right panel: log-space line -->
+  <g transform="translate(500, 390) scale(1, -1)">
+    <text x="170" y="340" text-anchor="middle" fill="#78e08f" font-size="14"
+          transform="scale(1,-1)"
+          style="dominant-baseline: hanging;">log x + log y = 5.35 (Linear)</text>
+
+    <!-- Axes -->
+    <line x1="0" y1="0" x2="350" y2="0" stroke="#555" stroke-width="1"/>
+    <line x1="0" y1="0" x2="0" y2="310" stroke="#555" stroke-width="1"/>
+
+    <!-- The line log x + log y = log(210) ≈ 5.347 -->
+    <!-- Scale: log values 0..5.35 → 0..300px, factor ≈ 56 -->
+    <!-- Points: (log d, log(210/d)) -->
+    <!-- d=1: (0, 5.35) → (0, 300) -->
+    <!-- d=2: (0.69, 4.65) → (39, 261) -->
+    <!-- d=3: (1.10, 4.25) → (61, 238) -->
+    <!-- d=5: (1.61, 3.74) → (90, 209) -->
+    <!-- d=6: (1.79, 3.56) → (100, 199) -->
+    <!-- d=7: (1.95, 3.40) → (109, 190) -->
+    <!-- d=10: (2.30, 3.04) → (129, 170) -->
+    <!-- d=14: (2.64, 2.71) → (148, 152) -->
+    <!-- d=15: (2.71, 2.64) → (152, 148) -->
+    <!-- d=21: (3.04, 2.30) → (170, 129) -->
+    <!-- d=30: (3.40, 1.95) → (190, 109) -->
+    <!-- d=35: (3.56, 1.79) → (199, 100) -->
+    <!-- d=42: (3.74, 1.61) → (209, 90) -->
+    <!-- d=70: (4.25, 1.10) → (238, 61) -->
+    <!-- d=105: (4.65, 0.69) → (261, 39) -->
+    <!-- d=210: (5.35, 0) → (300, 0) -->
+
+    <!-- The line -->
+    <line x1="0" y1="300" x2="300" y2="0" stroke="#78e08f" stroke-width="2" opacity="0.5"/>
+
+    <!-- Diagonal y = x reference -->
+    <line x1="0" y1="0" x2="300" y2="300" stroke="#444" stroke-width="1" stroke-dasharray="4,4"/>
+
+    <!-- Lattice points on the line -->
+    <circle cx="0" cy="300" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="39" cy="261" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="61" cy="238" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="90" cy="209" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="100" cy="199" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="109" cy="190" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="129" cy="170" r="4" fill="#e55039" filter="url(#glow4)"/>
+    <circle cx="148" cy="152" r="5" fill="#f7d794" filter="url(#glow4)"/>
+    <circle cx="152" cy="148" r="5" fill="#f7d794" filter="url(#glow4)"/>
+    <circle cx="170" cy="129" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="190" cy="109" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="199" cy="100" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="209" cy="90" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="238" cy="61" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="261" cy="39" r="4" fill="#78e08f" filter="url(#glow4)"/>
+    <circle cx="300" cy="0" r="4" fill="#78e08f" filter="url(#glow4)"/>
+
+    <!-- √n marker at (log√210, log√210) ≈ (2.67, 2.67) → (150, 150) -->
+    <circle cx="150" cy="150" r="3" fill="none" stroke="#f7d794" stroke-width="1.5"
+            stroke-dasharray="3,2"/>
+  </g>
+
+  <!-- Axis labels -->
+  <text x="230" y="410" text-anchor="middle" fill="#888" font-size="11">x</text>
+  <text x="47" y="230" text-anchor="middle" fill="#888" font-size="11"
+        transform="rotate(-90, 47, 230)">y</text>
+  <text x="670" y="410" text-anchor="middle" fill="#888" font-size="11">log x</text>
+  <text x="487" y="230" text-anchor="middle" fill="#888" font-size="11"
+        transform="rotate(-90, 487, 230)">log y</text>
+
+  <!-- Insight box -->
+  <g transform="translate(505, 70)">
+    <rect x="0" y="0" width="340" height="65" rx="8" fill="#24243e" stroke="#78e08f" stroke-width="1"/>
+    <text x="170" y="22" text-anchor="middle" fill="#78e08f" font-size="12" font-weight="bold">
+      Key Insight
+    </text>
+    <text x="170" y="40" text-anchor="middle" fill="#ccc" font-size="10">
+      Points cluster near the center (log √n, log √n)
+    </text>
+    <text x="170" y="55" text-anchor="middle" fill="#ccc" font-size="10">
+      Gap distribution reveals factorization structure
+    </text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="440" text-anchor="middle" fill="#444" font-size="9">
+    Hyperbolic Factoring Research · Log-Space Linearization · 2026
+  </text>
+</svg>

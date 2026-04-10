@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 650" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a0a"/>
+      <stop offset="100%" stop-color="#0a1a2a"/>
+    </linearGradient>
+    <linearGradient id="descentGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff3333" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3333ff" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="650" fill="url(#bg5)"/>
+
+  <text x="425" y="35" text-anchor="middle" fill="#ff8844" font-size="20" font-weight="bold">
+    Quadruple Tree Descent: Gravity Reveals Factors
+  </text>
+  <text x="425" y="55" text-anchor="middle" fill="#888" font-size="12">
+    Following the Lebesgue parametrization recursion to find smooth numbers
+  </text>
+
+  <!-- Gravitational well visualization -->
+  <!-- Well curve -->
+  <path d="M 100 100 Q 425 80 750 100 Q 760 110 750 120 Q 425 550 100 120 Q 90 110 100 100"
+        fill="none" stroke="#334" stroke-width="1"/>
+  <path d="M 130 110 Q 425 90 720 110" fill="none" stroke="#445" stroke-width="0.5"/>
+  <path d="M 160 120 Q 425 100 690 120" fill="none" stroke="#445" stroke-width="0.5"/>
+  <path d="M 200 140 Q 425 120 650 140" fill="none" stroke="#445" stroke-width="0.5"/>
+  <path d="M 250 180 Q 425 160 600 180" fill="none" stroke="#445" stroke-width="0.5"/>
+  <path d="M 300 240 Q 425 220 550 240" fill="none" stroke="#445" stroke-width="0.5"/>
+  <path d="M 340 300 Q 425 280 510 300" fill="none" stroke="#445" stroke-width="0.5"/>
+  <path d="M 370 360 Q 425 340 480 360" fill="none" stroke="#445" stroke-width="0.5"/>
+
+  <!-- Descent path (ball rolling down) -->
+  <!-- Level 1: N = target -->
+  <circle cx="600" cy="115" r="18" fill="#ff6644" stroke="#ffd700" stroke-width="2"/>
+  <text x="600" y="112" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">N=d₀</text>
+  <text x="600" y="124" text-anchor="middle" fill="#ffd700" font-size="7">target</text>
+
+  <text x="660" y="115" fill="#ff6644" font-size="9">d₀² = a₀² + b₀² + c₀²</text>
+
+  <!-- Arrow down -->
+  <line x1="585" y1="132" x2="500" y2="175" stroke="#ff8844" stroke-width="1.5"
+        marker-end="url(#arrow)"/>
+  <text x="530" y="145" fill="#ffd700" font-size="8">Lebesgue</text>
+  <text x="530" y="155" fill="#ffd700" font-size="8">descent</text>
+
+  <!-- Level 2 -->
+  <circle cx="500" cy="190" r="16" fill="#cc5533" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="500" y="187" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">d₁</text>
+  <text x="500" y="198" text-anchor="middle" fill="#ffd700" font-size="7">m²+n²+p²</text>
+
+  <text x="550" y="185" fill="#cc5533" font-size="9">3 peel channels</text>
+  <text x="550" y="197" fill="#cc5533" font-size="9">→ GCD cascade</text>
+
+  <!-- Branch: found factor? -->
+  <line x1="530" y1="195" x2="700" y2="210" stroke="#88ff88" stroke-width="1"
+        stroke-dasharray="4,3"/>
+  <rect x="700" y="198" width="100" height="24" rx="4" fill="#1a3a1a" stroke="#88ff88" stroke-width="1"/>
+  <text x="750" y="215" text-anchor="middle" fill="#88ff88" font-size="9">Factor found?</text>
+
+  <!-- Arrow down to level 3 -->
+  <line x1="490" y1="206" x2="440" y2="260" stroke="#ff8844" stroke-width="1.5"/>
+
+  <!-- Level 3 -->
+  <circle cx="440" cy="275" r="14" fill="#aa4422" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="440" y="272" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">d₂</text>
+  <text x="440" y="283" text-anchor="middle" fill="#ffd700" font-size="7">recurse</text>
+
+  <text x="490" y="270" fill="#aa4422" font-size="9">9 more channels</text>
+  <text x="490" y="282" fill="#aa4422" font-size="9">→ smooth sieve</text>
+
+  <!-- Arrow down to level 4 -->
+  <line x1="435" y1="289" x2="420" y2="340" stroke="#ff8844" stroke-width="1.5"/>
+
+  <!-- Level 4 -->
+  <circle cx="420" cy="355" r="12" fill="#883311" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="420" y="352" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">d₃</text>
+  <text x="420" y="362" text-anchor="middle" fill="#ffd700" font-size="6">small</text>
+
+  <!-- Level 5: smooth! -->
+  <line x1="417" y1="367" x2="415" y2="410" stroke="#ff8844" stroke-width="1.5"/>
+
+  <circle cx="415" cy="425" r="10" fill="#662200" stroke="#88ff88" stroke-width="2"/>
+  <text x="415" y="428" text-anchor="middle" fill="#88ff88" font-size="7" font-weight="bold">✓</text>
+
+  <text x="445" y="420" fill="#88ff88" font-size="10" font-weight="bold">Smooth!</text>
+  <text x="445" y="434" fill="#88ff88" font-size="9">B-smooth components</text>
+  <text x="445" y="448" fill="#88ff88" font-size="9">→ factor extracted</text>
+
+  <!-- Energy conservation annotation -->
+  <rect x="100" y="460" width="300" height="80" rx="8" fill="#0a0a1e" stroke="#ffd700" stroke-width="1"/>
+  <text x="250" y="485" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">
+    Conservation: K = Φ²
+  </text>
+  <text x="250" y="505" text-anchor="middle" fill="#ddd" font-size="10">
+    At each level: aᵢ² + bᵢ² + cᵢ² = dᵢ²
+  </text>
+  <text x="250" y="522" text-anchor="middle" fill="#aaa" font-size="10">
+    dᵢ₊₁ = mᵢ² + nᵢ² + pᵢ²  (recursive!)
+  </text>
+
+  <!-- Statistics box -->
+  <rect x="450" y="460" width="350" height="150" rx="8" fill="#0a0a1e" stroke="#ff6644" stroke-width="1"/>
+  <text x="625" y="485" text-anchor="middle" fill="#ff6644" font-size="12" font-weight="bold">
+    Descent Statistics
+  </text>
+
+  <text x="475" y="505" fill="#aaa" font-size="10">Level 0 (target):</text>
+  <text x="720" y="505" fill="#ffd700" font-size="10">9 channels</text>
+
+  <text x="475" y="523" fill="#aaa" font-size="10">Level 1 (first descent):</text>
+  <text x="720" y="523" fill="#ffd700" font-size="10">+9 channels</text>
+
+  <text x="475" y="541" fill="#aaa" font-size="10">Level k (k-th descent):</text>
+  <text x="720" y="541" fill="#ffd700" font-size="10">+9 channels</text>
+
+  <text x="475" y="565" fill="#aaa" font-size="10">Total after k descents:</text>
+  <text x="720" y="565" fill="#ff6644" font-size="10" font-weight="bold">9(k+1) channels</text>
+
+  <text x="625" y="590" text-anchor="middle" fill="#888" font-size="9">
+    Depth ~ O(log N) → O(9 log N) channels
+  </text>
+
+  <!-- Gravity label -->
+  <text x="170" y="300" fill="#ff3333" font-size="28" opacity="0.15" font-weight="bold"
+        transform="rotate(70, 170, 300)">GRAVITY</text>
+
+  <!-- Footer -->
+  <text x="425" y="635" text-anchor="middle" fill="#556" font-size="9">
+    Formally verified: energy_conservation, peel_channel_*, binding_energy_sum, lebesgue_is_quadruple
+  </text>
+</svg>

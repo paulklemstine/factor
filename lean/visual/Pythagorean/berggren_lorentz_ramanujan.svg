@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628"/>
+      <stop offset="100%" style="stop-color:#1a2848"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" fill="url(#bg3)"/>
+
+  <text x="400" y="35" fill="#e0e8ff" font-size="18" font-weight="bold" text-anchor="middle">
+    Berggren–Lorentz–Ramanujan Connection
+  </text>
+  <text x="400" y="55" fill="#8899bb" font-size="12" text-anchor="middle">
+    Three pillars of the spectral theory of Pythagorean triples
+  </text>
+
+  <!-- Pillar 1: Number Theory -->
+  <rect x="30" y="80" width="220" height="160" rx="12" fill="#112244" stroke="#3355aa" stroke-width="2"/>
+  <text x="140" y="110" fill="#6699ff" font-size="15" font-weight="bold" text-anchor="middle">Number Theory</text>
+
+  <text x="50" y="140" fill="#aabbdd" font-size="11">• Pythagorean triples</text>
+  <text x="50" y="160" fill="#aabbdd" font-size="11">  a² + b² = c²</text>
+  <text x="50" y="185" fill="#aabbdd" font-size="11">• Berggren tree generates</text>
+  <text x="50" y="205" fill="#aabbdd" font-size="11">  ALL primitive triples</text>
+  <text x="50" y="225" fill="#ffcc44" font-size="10">  Root: (3, 4, 5)</text>
+
+  <!-- Pillar 2: Geometry/Physics -->
+  <rect x="290" y="80" width="220" height="160" rx="12" fill="#113322" stroke="#33aa55" stroke-width="2"/>
+  <text x="400" y="110" fill="#66ff99" font-size="15" font-weight="bold" text-anchor="middle">Lorentz Geometry</text>
+
+  <text x="310" y="140" fill="#aaddbb" font-size="11">• Q = diag(1, 1, −1)</text>
+  <text x="310" y="160" fill="#aaddbb" font-size="11">  Minkowski metric</text>
+  <text x="310" y="185" fill="#aaddbb" font-size="11">• Bᵢ ∈ O(2,1;ℤ)</text>
+  <text x="310" y="205" fill="#aaddbb" font-size="11">  Integer Lorentz group</text>
+  <text x="310" y="225" fill="#ffcc44" font-size="10">  BᵢᵀQBᵢ = Q ✓</text>
+
+  <!-- Pillar 3: Spectral Theory -->
+  <rect x="550" y="80" width="220" height="160" rx="12" fill="#331122" stroke="#aa3355" stroke-width="2"/>
+  <text x="660" y="110" fill="#ff6699" font-size="15" font-weight="bold" text-anchor="middle">Ramanujan Graphs</text>
+
+  <text x="570" y="140" fill="#ddaabb" font-size="11">• Spectral gap: optimal</text>
+  <text x="570" y="160" fill="#ddaabb" font-size="11">  expansion property</text>
+  <text x="570" y="185" fill="#ddaabb" font-size="11">• |λ| ≤ 2√(d−1)</text>
+  <text x="570" y="205" fill="#ddaabb" font-size="11">  Ramanujan bound</text>
+  <text x="570" y="225" fill="#ffcc44" font-size="10">  γ = 3−2√2 > 0 ✓</text>
+
+  <!-- Connecting arrows -->
+  <path d="M 250 160 Q 270 145 290 160" stroke="#5588cc" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M 510 160 Q 530 145 550 160" stroke="#88cc55" stroke-width="2" fill="none"/>
+
+  <!-- Central synthesis -->
+  <rect x="150" y="270" width="500" height="90" rx="12" fill="#1a1a44" stroke="#5555aa" stroke-width="2"/>
+  <text x="400" y="298" fill="#ffdd66" font-size="16" font-weight="bold" text-anchor="middle">
+    Synthesis: Arithmetic Ramanujan Graphs
+  </text>
+  <text x="400" y="322" fill="#ccccee" font-size="12" text-anchor="middle">
+    The Berggren group ⟨B₁, B₂, B₃⟩ ⊂ O(2,1;ℤ) is an arithmetic lattice
+  </text>
+  <text x="400" y="342" fill="#ccccee" font-size="12" text-anchor="middle">
+    whose finite quotients may produce Ramanujan graphs (cf. LPS 1988)
+  </text>
+
+  <!-- Lines from pillars to synthesis -->
+  <line x1="140" y1="240" x2="250" y2="270" stroke="#5588cc" stroke-width="1.5" opacity="0.5"/>
+  <line x1="400" y1="240" x2="400" y2="270" stroke="#55cc88" stroke-width="1.5" opacity="0.5"/>
+  <line x1="660" y1="240" x2="550" y2="270" stroke="#cc5588" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Bottom: Verified Results -->
+  <rect x="50" y="385" width="700" height="75" rx="10" fill="#0d1122" stroke="#334466" opacity="0.8"/>
+  <text x="400" y="410" fill="#88ff88" font-size="13" font-weight="bold" text-anchor="middle">
+    Machine-Verified in Lean 4 (All Proofs Compile Without Sorry)
+  </text>
+
+  <text x="120" y="435" fill="#bbccdd" font-size="11" text-anchor="middle">Lorentz form ✓</text>
+  <text x="260" y="435" fill="#bbccdd" font-size="11" text-anchor="middle">Determinants ✓</text>
+  <text x="400" y="435" fill="#bbccdd" font-size="11" text-anchor="middle">Spectral gap ✓</text>
+  <text x="540" y="435" fill="#bbccdd" font-size="11" text-anchor="middle">Cheeger bound ✓</text>
+  <text x="680" y="435" fill="#bbccdd" font-size="11" text-anchor="middle">Injectivity ✓</text>
+</svg>

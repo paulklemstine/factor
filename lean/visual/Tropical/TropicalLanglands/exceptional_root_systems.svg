@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#bg1)"/>
+
+  <text x="450" y="40" text-anchor="middle" fill="#e94560" font-size="22" font-weight="bold">
+    Tropical Root Systems for Exceptional Groups
+  </text>
+
+  <!-- E6 -->
+  <g transform="translate(150, 160)">
+    <text x="0" y="-60" text-anchor="middle" fill="#0f3460" font-size="48" font-weight="bold" opacity="0.3">E₆</text>
+    <circle r="70" fill="none" stroke="#e94560" stroke-width="1.5" opacity="0.4"/>
+    <!-- Root pairs (simplified 2D projection) -->
+    <g stroke="#ff6b6b" stroke-width="2" filter="url(#glow)">
+      <line x1="0" y1="-60" x2="0" y2="60"/>
+      <line x1="-52" y1="-30" x2="52" y2="30"/>
+      <line x1="-52" y1="30" x2="52" y2="-30"/>
+      <line x1="-60" y1="0" x2="60" y2="0"/>
+      <line x1="-30" y1="-52" x2="30" y2="52"/>
+      <line x1="-30" y1="52" x2="30" y2="-52"/>
+    </g>
+    <!-- Root dots -->
+    <g fill="#ff6b6b">
+      <circle cx="0" cy="-60" r="4"/><circle cx="0" cy="60" r="4"/>
+      <circle cx="-52" cy="-30" r="4"/><circle cx="52" cy="30" r="4"/>
+      <circle cx="-52" cy="30" r="4"/><circle cx="52" cy="-30" r="4"/>
+      <circle cx="-60" cy="0" r="4"/><circle cx="60" cy="0" r="4"/>
+      <circle cx="-30" cy="-52" r="4"/><circle cx="30" cy="52" r="4"/>
+      <circle cx="-30" cy="52" r="4"/><circle cx="30" cy="-52" r="4"/>
+    </g>
+    <text x="0" y="95" text-anchor="middle" fill="#e0e0e0" font-size="14" font-weight="bold">E₆</text>
+    <text x="0" y="115" text-anchor="middle" fill="#a0a0a0" font-size="11">72 roots | rank 6</text>
+    <text x="0" y="132" text-anchor="middle" fill="#a0a0a0" font-size="11">dim 78 | |W|=51840</text>
+  </g>
+
+  <!-- E7 -->
+  <g transform="translate(450, 160)">
+    <text x="0" y="-70" text-anchor="middle" fill="#0f3460" font-size="48" font-weight="bold" opacity="0.3">E₇</text>
+    <circle r="80" fill="none" stroke="#00d2ff" stroke-width="1.5" opacity="0.4"/>
+    <g stroke="#00d2ff" stroke-width="1.8" filter="url(#glow)">
+      <line x1="0" y1="-70" x2="0" y2="70"/>
+      <line x1="-61" y1="-35" x2="61" y2="35"/>
+      <line x1="-61" y1="35" x2="61" y2="-35"/>
+      <line x1="-70" y1="0" x2="70" y2="0"/>
+      <line x1="-35" y1="-61" x2="35" y2="61"/>
+      <line x1="-35" y1="61" x2="35" y2="-61"/>
+      <line x1="-50" y1="-50" x2="50" y2="50"/>
+    </g>
+    <g fill="#00d2ff">
+      <circle cx="0" cy="-70" r="4"/><circle cx="0" cy="70" r="4"/>
+      <circle cx="-61" cy="-35" r="4"/><circle cx="61" cy="35" r="4"/>
+      <circle cx="-61" cy="35" r="4"/><circle cx="61" cy="-35" r="4"/>
+      <circle cx="-70" cy="0" r="4"/><circle cx="70" cy="0" r="4"/>
+      <circle cx="-35" cy="-61" r="4"/><circle cx="35" cy="61" r="4"/>
+      <circle cx="-35" cy="61" r="4"/><circle cx="35" cy="-61" r="4"/>
+      <circle cx="-50" cy="-50" r="4"/><circle cx="50" cy="50" r="4"/>
+    </g>
+    <text x="0" y="105" text-anchor="middle" fill="#e0e0e0" font-size="14" font-weight="bold">E₇</text>
+    <text x="0" y="125" text-anchor="middle" fill="#a0a0a0" font-size="11">126 roots | rank 7</text>
+    <text x="0" y="142" text-anchor="middle" fill="#a0a0a0" font-size="11">dim 133 | |W|=2903040</text>
+  </g>
+
+  <!-- E8 -->
+  <g transform="translate(750, 160)">
+    <text x="0" y="-80" text-anchor="middle" fill="#0f3460" font-size="48" font-weight="bold" opacity="0.3">E₈</text>
+    <circle r="90" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.4"/>
+    <g stroke="#a855f7" stroke-width="1.5" filter="url(#glow)">
+      <line x1="0" y1="-80" x2="0" y2="80"/>
+      <line x1="-69" y1="-40" x2="69" y2="40"/>
+      <line x1="-69" y1="40" x2="69" y2="-40"/>
+      <line x1="-80" y1="0" x2="80" y2="0"/>
+      <line x1="-40" y1="-69" x2="40" y2="69"/>
+      <line x1="-40" y1="69" x2="40" y2="-69"/>
+      <line x1="-57" y1="-57" x2="57" y2="57"/>
+      <line x1="-57" y1="57" x2="57" y2="-57"/>
+    </g>
+    <g fill="#a855f7">
+      <circle cx="0" cy="-80" r="3.5"/><circle cx="0" cy="80" r="3.5"/>
+      <circle cx="-69" cy="-40" r="3.5"/><circle cx="69" cy="40" r="3.5"/>
+      <circle cx="-69" cy="40" r="3.5"/><circle cx="69" cy="-40" r="3.5"/>
+      <circle cx="-80" cy="0" r="3.5"/><circle cx="80" cy="0" r="3.5"/>
+      <circle cx="-40" cy="-69" r="3.5"/><circle cx="40" cy="69" r="3.5"/>
+      <circle cx="-40" cy="69" r="3.5"/><circle cx="40" cy="-69" r="3.5"/>
+      <circle cx="-57" cy="-57" r="3.5"/><circle cx="57" cy="57" r="3.5"/>
+      <circle cx="-57" cy="57" r="3.5"/><circle cx="57" cy="-57" r="3.5"/>
+    </g>
+    <text x="0" y="115" text-anchor="middle" fill="#e0e0e0" font-size="14" font-weight="bold">E₈</text>
+    <text x="0" y="135" text-anchor="middle" fill="#a0a0a0" font-size="11">240 roots | rank 8</text>
+    <text x="0" y="152" text-anchor="middle" fill="#a0a0a0" font-size="11">dim 248 | |W|≈7×10⁸</text>
+  </g>
+
+  <!-- Properties box -->
+  <rect x="50" y="370" width="800" height="110" rx="10" fill="#0f3460" opacity="0.6"/>
+  <text x="450" y="395" text-anchor="middle" fill="#e94560" font-size="16" font-weight="bold">
+    Verified Properties (Lean 4 + Mathlib)
+  </text>
+  <text x="100" y="420" fill="#e0e0e0" font-size="12">✅ Root count is always even (±α pairs)</text>
+  <text x="100" y="440" fill="#e0e0e0" font-size="12">✅ Dominant Weyl chamber is convex</text>
+  <text x="100" y="460" fill="#e0e0e0" font-size="12">✅ Origin lies in every dominant chamber</text>
+  <text x="500" y="420" fill="#e0e0e0" font-size="12">✅ All E-type groups are Langlands self-dual</text>
+  <text x="500" y="440" fill="#e0e0e0" font-size="12">✅ Weyl group orders: explicit factorizations</text>
+  <text x="500" y="460" fill="#e0e0e0" font-size="12">✅ Casselman-Shalika additivity</text>
+</svg>

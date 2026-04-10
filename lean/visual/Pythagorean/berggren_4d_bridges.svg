@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrW" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="white" opacity="0.7"/>
+    </marker>
+    <marker id="arrR" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FF6B6B"/>
+    </marker>
+    <marker id="arrB" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ECDC4"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#E8D44D" font-size="26" font-weight="bold" filter="url(#glow2)">
+    Berggren Tree: 4D Quadruple Bridges &amp; Self-Loop Structure
+  </text>
+  <text x="600" y="65" text-anchor="middle" fill="#8b949e" font-size="13">
+    How quadruple lifts create teleportation links between distant tree nodes
+  </text>
+
+  <!-- LEFT PANEL: Standard Berggren Tree -->
+  <text x="250" y="100" text-anchor="middle" fill="#58A6FF" font-size="18" font-weight="bold">Standard Berggren Tree</text>
+
+  <!-- Root -->
+  <circle cx="250" cy="155" r="30" fill="none" stroke="#E8D44D" stroke-width="2.5"/>
+  <text x="250" y="152" text-anchor="middle" fill="#E8D44D" font-size="12" font-weight="bold">(3,4,5)</text>
+  <text x="250" y="167" text-anchor="middle" fill="#E8D44D" font-size="9">root</text>
+
+  <!-- Level 1 -->
+  <circle cx="100" cy="260" r="26" fill="none" stroke="#58A6FF" stroke-width="2" id="node_5_12_13"/>
+  <text x="100" y="257" text-anchor="middle" fill="#58A6FF" font-size="10">(5,12,13)</text>
+  <text x="100" y="272" text-anchor="middle" fill="#666" font-size="8">M₁</text>
+
+  <circle cx="250" cy="260" r="26" fill="none" stroke="#58A6FF" stroke-width="2"/>
+  <text x="250" y="257" text-anchor="middle" fill="#58A6FF" font-size="10">(21,20,29)</text>
+  <text x="250" y="272" text-anchor="middle" fill="#666" font-size="8">M₂</text>
+
+  <circle cx="400" cy="260" r="26" fill="none" stroke="#58A6FF" stroke-width="2" id="node_15_8_17"/>
+  <text x="400" y="257" text-anchor="middle" fill="#58A6FF" font-size="10">(15,8,17)</text>
+  <text x="400" y="272" text-anchor="middle" fill="#666" font-size="8">M₃</text>
+
+  <!-- Standard edges -->
+  <line x1="225" y1="178" x2="120" y2="237" stroke="#444" stroke-width="1.5"/>
+  <line x1="250" y1="185" x2="250" y2="234" stroke="#444" stroke-width="1.5"/>
+  <line x1="275" y1="178" x2="380" y2="237" stroke="#444" stroke-width="1.5"/>
+
+  <!-- Level 2 -->
+  <circle cx="40" cy="370" r="22" fill="none" stroke="#7EE787" stroke-width="1.5" id="node_7_24_25"/>
+  <text x="40" y="367" text-anchor="middle" fill="#7EE787" font-size="9">(7,24,25)</text>
+  <text x="40" y="380" text-anchor="middle" fill="#666" font-size="7">M₁M₁</text>
+
+  <circle cx="100" cy="370" r="22" fill="none" stroke="#7EE787" stroke-width="1.5"/>
+  <text x="100" y="367" text-anchor="middle" fill="#7EE787" font-size="9">(55,48,73)</text>
+  <text x="100" y="380" text-anchor="middle" fill="#666" font-size="7">M₁M₂</text>
+
+  <circle cx="165" cy="370" r="22" fill="none" stroke="#7EE787" stroke-width="1.5"/>
+  <text x="165" y="367" text-anchor="middle" fill="#7EE787" font-size="9">(45,28,53)</text>
+  <text x="165" y="380" text-anchor="middle" fill="#666" font-size="7">M₁M₃</text>
+
+  <circle cx="340" cy="370" r="22" fill="none" stroke="#7EE787" stroke-width="1.5"/>
+  <text x="340" y="367" text-anchor="middle" fill="#7EE787" font-size="9">(39,80,89)</text>
+  <text x="340" y="380" text-anchor="middle" fill="#666" font-size="7">M₃M₁</text>
+
+  <circle cx="410" cy="370" r="22" fill="none" stroke="#7EE787" stroke-width="1.5"/>
+  <text x="410" y="367" text-anchor="middle" fill="#7EE787" font-size="9">(77,36,85)</text>
+  <text x="410" y="380" text-anchor="middle" fill="#666" font-size="7">M₃M₂</text>
+
+  <circle cx="475" cy="370" r="22" fill="none" stroke="#7EE787" stroke-width="1.5"/>
+  <text x="475" y="367" text-anchor="middle" fill="#7EE787" font-size="9">(33,56,65)</text>
+  <text x="475" y="380" text-anchor="middle" fill="#666" font-size="7">M₃M₃</text>
+
+  <!-- Level 2 edges -->
+  <line x1="82" y1="282" x2="48" y2="350" stroke="#444" stroke-width="1"/>
+  <line x1="100" y1="286" x2="100" y2="348" stroke="#444" stroke-width="1"/>
+  <line x1="118" y1="282" x2="158" y2="350" stroke="#444" stroke-width="1"/>
+  <line x1="382" y1="282" x2="348" y2="350" stroke="#444" stroke-width="1"/>
+  <line x1="400" y1="286" x2="410" y2="348" stroke="#444" stroke-width="1"/>
+  <line x1="418" y1="282" x2="468" y2="350" stroke="#444" stroke-width="1"/>
+
+  <!-- 4D BRIDGES (the key visual) -->
+  <!-- Bridge 1: (7,24,25) to (15,8,17) via quadruple -->
+  <path d="M 62 365 C 200 300 300 300 380 262" stroke="#FF6B6B" stroke-width="3" fill="none" stroke-dasharray="10,5" marker-end="url(#arrR)" filter="url(#glow2)"/>
+  <rect x="170" y="295" width="160" height="30" rx="5" fill="rgba(255,107,107,0.15)" stroke="#FF6B6B" stroke-width="1"/>
+  <text x="250" y="315" text-anchor="middle" fill="#FF6B6B" font-size="10" font-weight="bold">4D Bridge: depth 2→1</text>
+
+  <!-- Bridge 2: (7,24,25) to (5,12,13) -->
+  <path d="M 55 350 C 60 320 80 300 87 282" stroke="#4ECDC4" stroke-width="2.5" fill="none" stroke-dasharray="8,4" marker-end="url(#arrB)"/>
+  <text x="30" y="320" fill="#4ECDC4" font-size="9">parent bridge</text>
+
+  <!-- Bridge 3: (33,56,65) to (3,4,5) via quadruple long-jump -->
+  <path d="M 468 348 C 500 200 400 150 278 155" stroke="#E8D44D" stroke-width="2" fill="none" stroke-dasharray="6,4" opacity="0.7"/>
+  <text x="440" y="250" fill="#E8D44D" font-size="9">Long jump to root!</text>
+
+  <!-- RIGHT PANEL: 4D Quadruple Space -->
+  <rect x="550" y="85" width="620" height="380" rx="12" fill="rgba(255,255,255,0.02)" stroke="#30363d" stroke-width="1"/>
+  <text x="860" y="115" text-anchor="middle" fill="#E8D44D" font-size="18" font-weight="bold">4D Quadruple Space Navigation</text>
+
+  <!-- 3D projection of 4D space -->
+  <!-- Coordinate frame -->
+  <line x1="620" y1="380" x2="620" y2="160" stroke="#30363d" stroke-width="1"/>
+  <line x1="620" y1="380" x2="850" y2="380" stroke="#30363d" stroke-width="1"/>
+  <line x1="620" y1="380" x2="570" y2="340" stroke="#30363d" stroke-width="1"/>
+  <text x="855" y="395" fill="#555" font-size="10">a</text>
+  <text x="610" y="155" fill="#555" font-size="10">d</text>
+  <text x="558" y="335" fill="#555" font-size="10">b</text>
+
+  <!-- Quadruple sphere (the constraint surface a²+b²+c²=d²) -->
+  <ellipse cx="730" cy="280" rx="120" ry="100" fill="none" stroke="#58A6FF" stroke-width="1" opacity="0.3" stroke-dasharray="4,4"/>
+  <text x="730" y="190" text-anchor="middle" fill="#58A6FF" font-size="10" opacity="0.6">Constraint: a²+b²+c²=d²</text>
+
+  <!-- Quadruple points on the surface -->
+  <circle cx="660" cy="340" r="8" fill="#FF6B6B" opacity="0.8"/>
+  <text x="660" y="360" text-anchor="middle" fill="#FF6B6B" font-size="9">(1,2,2,3)</text>
+
+  <circle cx="710" cy="290" r="8" fill="#4ECDC4" opacity="0.8"/>
+  <text x="735" y="285" fill="#4ECDC4" font-size="9">(2,3,6,7)</text>
+
+  <circle cx="770" cy="250" r="8" fill="#E8D44D" opacity="0.8"/>
+  <text x="795" y="245" fill="#E8D44D" font-size="9">(1,4,8,9)</text>
+
+  <circle cx="820" cy="310" r="8" fill="#7EE787" opacity="0.8"/>
+  <text x="845" y="305" fill="#7EE787" font-size="9">(4,4,7,9)</text>
+
+  <circle cx="680" cy="230" r="8" fill="#D2A8FF" opacity="0.8"/>
+  <text x="680" y="218" text-anchor="middle" fill="#D2A8FF" font-size="9">(6,6,7,11)</text>
+
+  <!-- Navigation paths in 4D -->
+  <path d="M 668 340 L 705 295" stroke="#FF6B6B" stroke-width="1.5" opacity="0.5" marker-end="url(#arrW)"/>
+  <path d="M 718 288 L 765 255" stroke="#4ECDC4" stroke-width="1.5" opacity="0.5" marker-end="url(#arrW)"/>
+  <path d="M 778 252 L 815 308" stroke="#E8D44D" stroke-width="1.5" opacity="0.5" marker-end="url(#arrW)"/>
+  <path d="M 775 248 L 685 235" stroke="#7EE787" stroke-width="1.5" opacity="0.5" marker-end="url(#arrW)"/>
+
+  <!-- Factor extraction annotation -->
+  <rect x="890" y="140" width="260" height="300" rx="10" fill="rgba(232,212,77,0.06)" stroke="#E8D44D" stroke-width="1"/>
+  <text x="1020" y="170" text-anchor="middle" fill="#E8D44D" font-size="14" font-weight="bold">Factor Extraction</text>
+
+  <text x="910" y="200" fill="#ccc" font-size="11">Quadruple (a,b,c,d):</text>
+  <text x="910" y="220" fill="#7EE787" font-size="11">• (d-c)(d+c) = a²+b²</text>
+  <text x="910" y="245" fill="#7EE787" font-size="11">• gcd(d-c, N) → factor</text>
+  <text x="910" y="265" fill="#7EE787" font-size="11">• gcd(d+c, N) → factor</text>
+
+  <text x="910" y="295" fill="#ccc" font-size="11">Cross-quad GCDs:</text>
+  <text x="910" y="315" fill="#4ECDC4" font-size="11">• gcd(a₁²-a₂², N)</text>
+  <text x="910" y="335" fill="#4ECDC4" font-size="11">• gcd(c₁-c₂, N)</text>
+  <text x="910" y="355" fill="#4ECDC4" font-size="11">• gcd(d₁-d₂, N)</text>
+
+  <text x="910" y="385" fill="#ccc" font-size="11">Pairwise cascades:</text>
+  <text x="910" y="405" fill="#D2A8FF" font-size="11">• gcd(comp_i, comp_j)</text>
+  <text x="910" y="425" fill="#D2A8FF" font-size="11">• product divisibility</text>
+
+  <!-- BOTTOM PANEL: Self-Loop and Parent Link Structure -->
+  <rect x="30" y="480" width="1140" height="390" rx="12" fill="rgba(255,255,255,0.02)" stroke="#30363d" stroke-width="1"/>
+  <text x="600" y="515" text-anchor="middle" fill="#FF6B6B" font-size="20" font-weight="bold">Berggren Self-Loops via Quadruple Division</text>
+
+  <!-- The key insight diagram -->
+  <!-- Triple A -->
+  <rect x="80" y="545" width="180" height="70" rx="10" fill="rgba(88,166,255,0.1)" stroke="#58A6FF" stroke-width="1.5"/>
+  <text x="170" y="570" text-anchor="middle" fill="#58A6FF" font-size="13" font-weight="bold">Triple A: (a,b,c)</text>
+  <text x="170" y="590" text-anchor="middle" fill="#888" font-size="10">a²+b²=c²</text>
+  <text x="170" y="605" text-anchor="middle" fill="#666" font-size="9">Berggren depth = d₁</text>
+
+  <!-- Arrow: lift -->
+  <path d="M 260 580 L 340 580" stroke="#E8D44D" stroke-width="2" marker-end="url(#arrW)"/>
+  <text x="300" y="570" text-anchor="middle" fill="#E8D44D" font-size="10">LIFT</text>
+
+  <!-- Quadruple -->
+  <rect x="350" y="545" width="200" height="70" rx="10" fill="rgba(232,212,77,0.1)" stroke="#E8D44D" stroke-width="1.5"/>
+  <text x="450" y="570" text-anchor="middle" fill="#E8D44D" font-size="13" font-weight="bold">Quadruple (a,b,k,d)</text>
+  <text x="450" y="590" text-anchor="middle" fill="#888" font-size="10">a²+b²+k²=d²</text>
+  <text x="450" y="605" text-anchor="middle" fill="#666" font-size="9">4D point on sphere</text>
+
+  <!-- Arrow: divide -->
+  <path d="M 550 580 L 630 580" stroke="#FF6B6B" stroke-width="2" marker-end="url(#arrW)"/>
+  <text x="590" y="570" text-anchor="middle" fill="#FF6B6B" font-size="10">DIVIDE</text>
+
+  <!-- Reduced quadruple -->
+  <rect x="640" y="545" width="200" height="70" rx="10" fill="rgba(255,107,107,0.1)" stroke="#FF6B6B" stroke-width="1.5"/>
+  <text x="740" y="565" text-anchor="middle" fill="#FF6B6B" font-size="12" font-weight="bold">Reduced (a/g,b/g,k/g,d/g)</text>
+  <text x="740" y="585" text-anchor="middle" fill="#888" font-size="10">g = gcd(a,b,k,d)</text>
+  <text x="740" y="605" text-anchor="middle" fill="#666" font-size="9">Smaller primitive quad</text>
+
+  <!-- Arrow: project -->
+  <path d="M 840 580 L 920 580" stroke="#7EE787" stroke-width="2" marker-end="url(#arrW)"/>
+  <text x="880" y="570" text-anchor="middle" fill="#7EE787" font-size="10">PROJECT</text>
+
+  <!-- Triple B -->
+  <rect x="930" y="545" width="180" height="70" rx="10" fill="rgba(126,231,135,0.1)" stroke="#7EE787" stroke-width="1.5"/>
+  <text x="1020" y="570" text-anchor="middle" fill="#7EE787" font-size="13" font-weight="bold">Triple B: (a',b',c')</text>
+  <text x="1020" y="590" text-anchor="middle" fill="#888" font-size="10">a'²+b'²=c'²</text>
+  <text x="1020" y="605" text-anchor="middle" fill="#666" font-size="9">Berggren depth = d₂</text>
+
+  <!-- Self-loop arrow -->
+  <path d="M 1020 615 C 1020 750 170 750 170 615" stroke="#D2A8FF" stroke-width="3" fill="none" stroke-dasharray="12,6" marker-end="url(#arrW)" filter="url(#glow2)"/>
+  <text x="600" y="720" text-anchor="middle" fill="#D2A8FF" font-size="16" font-weight="bold">
+    BERGGREN SELF-LOOP: If A = B, the quadruple maps back to itself!
+  </text>
+  <text x="600" y="745" text-anchor="middle" fill="#D2A8FF" font-size="12">
+    When A ≠ B: creates a new parent/child link — a "wormhole" in the tree
+  </text>
+
+  <!-- Key insight boxes -->
+  <rect x="80" y="780" width="320" height="70" rx="8" fill="rgba(78,205,196,0.08)" stroke="#4ECDC4" stroke-width="1"/>
+  <text x="240" y="805" text-anchor="middle" fill="#4ECDC4" font-size="12" font-weight="bold">New Parent Links</text>
+  <text x="240" y="825" text-anchor="middle" fill="#999" font-size="10">4D division maps deep nodes to ancestors,</text>
+  <text x="240" y="840" text-anchor="middle" fill="#999" font-size="10">creating shortcuts in the Berggren graph</text>
+
+  <rect x="440" y="780" width="320" height="70" rx="8" fill="rgba(232,212,77,0.08)" stroke="#E8D44D" stroke-width="1"/>
+  <text x="600" y="805" text-anchor="middle" fill="#E8D44D" font-size="12" font-weight="bold">New Children Links</text>
+  <text x="600" y="825" text-anchor="middle" fill="#999" font-size="10">Reverse direction: find all quadruples that</text>
+  <text x="600" y="840" text-anchor="middle" fill="#999" font-size="10">project to a given triple → fan-out children</text>
+
+  <rect x="800" y="780" width="320" height="70" rx="8" fill="rgba(255,107,107,0.08)" stroke="#FF6B6B" stroke-width="1"/>
+  <text x="960" y="805" text-anchor="middle" fill="#FF6B6B" font-size="12" font-weight="bold">Factor Information</text>
+  <text x="960" y="825" text-anchor="middle" fill="#999" font-size="10">The GCD g in the division step reveals</text>
+  <text x="960" y="840" text-anchor="middle" fill="#999" font-size="10">factors shared between components → factors of N</text>
+
+  <!-- Footer -->
+  <text x="600" y="888" text-anchor="middle" fill="#555" font-size="10">
+    Berggren Tree × Pythagorean Quadruples × Integer Factoring
+  </text>
+</svg>

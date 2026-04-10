@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3498db;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="600" fill="#f8f9fa" rx="10"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-family="Georgia" font-size="22" font-weight="bold" fill="#2c3e50">
+    The Hilbert-Pólya Framework: From Graphs to Riemann Zeros
+  </text>
+  
+  <!-- Number Theory Side -->
+  <rect x="30" y="70" width="260" height="200" rx="15" fill="#ebf5fb" stroke="#2980b9" stroke-width="2" filter="url(#shadow)"/>
+  <text x="160" y="100" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#2980b9">Number Theory</text>
+  <text x="50" y="130" font-family="Arial" font-size="13" fill="#2c3e50">• Riemann ζ(s) = Σ n⁻ˢ</text>
+  <text x="50" y="155" font-family="Arial" font-size="13" fill="#2c3e50">• Zeros on Re(s) = ½</text>
+  <text x="50" y="180" font-family="Arial" font-size="13" fill="#2c3e50">• Hilbert-Pólya conjecture:</text>
+  <text x="60" y="200" font-family="Arial" font-size="12" fill="#7f8c8d">  Self-adjoint operator H</text>
+  <text x="60" y="220" font-family="Arial" font-size="12" fill="#7f8c8d">  with spec(H) = {ρ}</text>
+  <text x="60" y="245" font-family="Arial" font-size="13" fill="#c0392b" font-weight="bold">  STATUS: OPEN</text>
+  
+  <!-- Graph Theory Side -->
+  <rect x="610" y="70" width="260" height="200" rx="15" fill="#fef9e7" stroke="#f39c12" stroke-width="2" filter="url(#shadow)"/>
+  <text x="740" y="100" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#f39c12">Graph Theory</text>
+  <text x="630" y="130" font-family="Arial" font-size="13" fill="#2c3e50">• Ihara ζ_G(u) = ∏ cycles</text>
+  <text x="630" y="155" font-family="Arial" font-size="13" fill="#2c3e50">• Zeros: qu² - λu + 1 = 0</text>
+  <text x="630" y="180" font-family="Arial" font-size="13" fill="#2c3e50">• HP operator: H = A/√q</text>
+  <text x="640" y="200" font-family="Arial" font-size="12" fill="#7f8c8d">  Self-adjoint (A symmetric)</text>
+  <text x="640" y="220" font-family="Arial" font-size="12" fill="#7f8c8d">  spec(H) ⊂ [-2, 2] (Ramanujan)</text>
+  <text x="640" y="245" font-family="Arial" font-size="13" fill="#27ae60" font-weight="bold">  STATUS: PROVED ✓</text>
+  
+  <!-- Bridge Arrow -->
+  <path d="M 300 170 C 400 100 500 100 600 170" fill="none" stroke="url(#grad2)" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <path d="M 600 170 C 500 240 400 240 300 170" fill="none" stroke="url(#grad2)" stroke-width="3" marker-end="url(#arrowhead)"/>
+  
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c"/>
+    </marker>
+  </defs>
+  
+  <text x="450" y="140" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#e74c3c">Langlands Bridge</text>
+  <text x="450" y="210" text-anchor="middle" font-family="Arial" font-size="11" fill="#7f8c8d">Ihara ↔ Selberg</text>
+  
+  <!-- Key Theorems Box -->
+  <rect x="120" y="310" width="660" height="130" rx="15" fill="white" stroke="#27ae60" stroke-width="2" filter="url(#shadow)"/>
+  <text x="450" y="340" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#27ae60">Formally Verified Theorems (Lean 4)</text>
+  
+  <text x="150" y="370" font-family="monospace" font-size="12" fill="#2c3e50">hilbertPolya_selfadjoint: (A/√q)ᵀ = A/√q when Aᵀ = A</text>
+  <text x="150" y="392" font-family="monospace" font-size="12" fill="#2c3e50">hilbertPolya_ramanujan_bound: |λ/√q| ≤ 2 for Ramanujan graphs</text>
+  <text x="150" y="414" font-family="monospace" font-size="12" fill="#2c3e50">ramanujan_critical_line: λ² - 4q ≤ 0 ⟹ zeros on "critical line"</text>
+  
+  <!-- Bottom: Spectral Connection -->
+  <rect x="60" y="470" width="350" height="110" rx="15" fill="#fdedec" stroke="#e74c3c" stroke-width="2" filter="url(#shadow)"/>
+  <text x="235" y="500" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#e74c3c">Laplacian PSD (Proved)</text>
+  <text x="80" y="525" font-family="Arial" font-size="12" fill="#2c3e50">v^T(D-A)v = ½ Σᵢⱼ Aᵢⱼ(vᵢ-vⱼ)² ≥ 0</text>
+  <text x="80" y="548" font-family="Arial" font-size="12" fill="#7f8c8d">⟹ All Laplacian eigenvalues ≥ 0</text>
+  <text x="80" y="568" font-family="Arial" font-size="12" fill="#7f8c8d">⟹ Graph is a "positive" space</text>
+  
+  <rect x="490" y="470" width="350" height="110" rx="15" fill="#eafaf1" stroke="#27ae60" stroke-width="2" filter="url(#shadow)"/>
+  <text x="665" y="500" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#27ae60">Vieta's Formula (Proved)</text>
+  <text x="510" y="525" font-family="Arial" font-size="12" fill="#2c3e50">u₁ + u₂ = λ/q (sum of Ihara zeros)</text>
+  <text x="510" y="548" font-family="Arial" font-size="12" fill="#7f8c8d">⟹ Zeros symmetric about Re = λ/(2q)</text>
+  <text x="510" y="568" font-family="Arial" font-size="12" fill="#7f8c8d">⟹ Discrete analogue of Re(s) = ½</text>
+</svg>

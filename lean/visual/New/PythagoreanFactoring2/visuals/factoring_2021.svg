@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480"
+     viewBox="0 0 900 480">
+<rect width="900" height="480" fill="#fafaf5"/>
+<text x="450.0" y="30" text-anchor="middle" fill="#333"
+      font-family="Georgia, serif" font-size="16" font-weight="bold">
+  Factoring N = 2021 via Pythagorean Triples</text>
+<text x="450.0" y="50" text-anchor="middle" fill="#666"
+      font-family="Georgia, serif" font-size="12">
+  (c - b)(c + b) = N*N = 4084441    |    gcd extraction reveals factors</text>
+
+<rect x="30" y="80" width="840" height="75" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+<text x="50" y="100" fill="#333" font-family="monospace" font-size="13">Triple #1: (2021, 2042220, 2042221)</text>
+<text x="50" y="120" fill="#555" font-family="monospace" font-size="11">(c−b)(c+b) = 1 × 4084441 = 4084441</text>
+<text x="50" y="140" fill="#888" font-family="monospace" font-size="11">gcd(2021, 1) = 1    gcd(2021, 4084441) = 2021</text>
+<rect x="30" y="170" width="840" height="75" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+<text x="50" y="190" fill="#333" font-family="monospace" font-size="13">Triple #2: (2021, 47472, 47515)</text>
+<text x="50" y="210" fill="#555" font-family="monospace" font-size="11">(c−b)(c+b) = 43 × 94987 = 4084441</text>
+<text x="50" y="230" fill="#27ae60" font-family="monospace" font-size="11">gcd(2021, 43) = 43  →  2021 = 43 × 47  ★    gcd(2021, 94987) = 2021</text>
+<rect x="30" y="260" width="840" height="75" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+<text x="50" y="280" fill="#333" font-family="monospace" font-size="13">Triple #3: (2021, 43428, 43475)</text>
+<text x="50" y="300" fill="#555" font-family="monospace" font-size="11">(c−b)(c+b) = 47 × 86903 = 4084441</text>
+<text x="50" y="320" fill="#27ae60" font-family="monospace" font-size="11">gcd(2021, 47) = 47  →  2021 = 47 × 43  ★    gcd(2021, 86903) = 2021</text>
+<rect x="30" y="350" width="840" height="75" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+<text x="50" y="370" fill="#333" font-family="monospace" font-size="13">Triple #4: (2021, 180, 2029)</text>
+<text x="50" y="390" fill="#555" font-family="monospace" font-size="11">(c−b)(c+b) = 1849 × 2209 = 4084441</text>
+<text x="50" y="410" fill="#27ae60" font-family="monospace" font-size="11">gcd(2021, 1849) = 43  →  2021 = 43 × 47  ★    gcd(2021, 2209) = 47  →  2021 = 47 × 43  ★</text>
+</svg>

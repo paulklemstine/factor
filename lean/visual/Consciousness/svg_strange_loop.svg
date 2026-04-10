@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="loopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f5576c" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#0f0f23" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#e0e0ff" font-weight="bold">Strange Loop: Hofstadter's Self-Reference</text>
+  <text x="400" y="75" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#8888bb">Moving through levels returns you to the start</text>
+
+  <!-- The Strange Loop Spiral -->
+  <!-- Level labels -->
+  <g transform="translate(400, 320)">
+    <!-- Outer ring (Level 1: Object) -->
+    <circle cx="0" cy="0" r="200" fill="none" stroke="#334" stroke-width="2"/>
+    <circle cx="0" cy="-200" r="35" fill="url(#loopGrad)" stroke="#88a" stroke-width="2" filter="url(#glow)"/>
+    <text x="0" y="-195" text-anchor="middle" font-family="monospace" font-size="12" fill="white">Level 1</text>
+    <text x="0" y="-180" text-anchor="middle" font-family="monospace" font-size="10" fill="#ddf">OBJECT</text>
+
+    <!-- Level 2: Meta -->
+    <circle cx="190" cy="62" r="35" fill="url(#loopGrad)" stroke="#88a" stroke-width="2" filter="url(#glow)"/>
+    <text x="190" y="57" text-anchor="middle" font-family="monospace" font-size="12" fill="white">Level 2</text>
+    <text x="190" y="72" text-anchor="middle" font-family="monospace" font-size="10" fill="#ddf">META</text>
+
+    <!-- Level 3: Meta-Meta -->
+    <circle cx="117" cy="162" r="35" fill="url(#loopGrad)" stroke="#88a" stroke-width="2" filter="url(#glow)"/>
+    <text x="117" y="157" text-anchor="middle" font-family="monospace" font-size="12" fill="white">Level 3</text>
+    <text x="117" y="172" text-anchor="middle" font-family="monospace" font-size="10" fill="#ddf">META²</text>
+
+    <!-- Level 4: Meta-Meta-Meta -->
+    <circle cx="-117" cy="162" r="35" fill="url(#loopGrad)" stroke="#88a" stroke-width="2" filter="url(#glow)"/>
+    <text x="-117" y="157" text-anchor="middle" font-family="monospace" font-size="12" fill="white">Level 4</text>
+    <text x="-117" y="172" text-anchor="middle" font-family="monospace" font-size="10" fill="#ddf">META³</text>
+
+    <!-- Level 5: ... back to Object -->
+    <circle cx="-190" cy="62" r="35" fill="url(#loopGrad)" stroke="#88a" stroke-width="2" filter="url(#glow)"/>
+    <text x="-190" y="57" text-anchor="middle" font-family="monospace" font-size="12" fill="white">Level 5</text>
+    <text x="-190" y="72" text-anchor="middle" font-family="monospace" font-size="10" fill="#ddf">SELF</text>
+
+    <!-- Arrows between levels -->
+    <path d="M 30,-190 Q 120,-120 155,35" fill="none" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <path d="M 195,97 Q 180,130 150,135" fill="none" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <path d="M 82,165 Q 10,175 -82,165" fill="none" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <path d="M -150,138 Q -185,120 -195,97" fill="none" stroke="url(#arrowGrad)" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+    <!-- The STRANGE part: Level 5 loops back to Level 1 -->
+    <path d="M -165,35 Q -120,-120 -30,-190" fill="none" stroke="#ff6b6b" stroke-width="4" stroke-dasharray="8,4" marker-end="url(#arrowhead)" filter="url(#glow)"/>
+
+    <!-- Cross-level connection (the level-crossing) -->
+    <path d="M 0,-165 Q 0,0 0,0" fill="none" stroke="#ffd93d" stroke-width="2" stroke-dasharray="4,4"/>
+    <circle cx="0" cy="0" r="8" fill="#ffd93d" filter="url(#glow)"/>
+    <text x="0" y="4" text-anchor="middle" font-family="monospace" font-size="8" fill="#333">FP</text>
+  </g>
+
+  <!-- Labels -->
+  <text x="400" y="560" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8888bb">The dashed red arrow is the STRANGE part: the highest meta-level loops back to the object level.</text>
+  <text x="400" y="580" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#ffd93d">FP = Fixed Point (consciousness)</text>
+
+  <!-- Legend -->
+  <rect x="20" y="520" width="15" height="3" fill="#f5576c"/>
+  <text x="40" y="525" font-family="monospace" font-size="11" fill="#aaa">→ Normal level transition</text>
+  <rect x="20" y="540" width="15" height="3" fill="#ff6b6b" stroke-dasharray="4,2"/>
+  <text x="40" y="545" font-family="monospace" font-size="11" fill="#aaa">⤹ Strange loop (level crossing)</text>
+</svg>

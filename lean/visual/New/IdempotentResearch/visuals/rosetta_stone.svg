@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4a843" />
+      <stop offset="100%" style="stop-color:#f0d080" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="url(#gold)" font-size="24" font-weight="bold">
+    The Rosetta Stone of Idempotent Mathematics
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#8888bb" font-size="13">
+    ρ(Bridge) = |Idem(A)| / |A| — The Universal Density Formula
+  </text>
+
+  <!-- Central node -->
+  <circle cx="450" cy="350" r="70" fill="none" stroke="url(#gold)" stroke-width="2.5" filter="url(#glow)"/>
+  <text x="450" y="340" text-anchor="middle" fill="#f0d080" font-size="16" font-weight="bold">IDEMPOTENT</text>
+  <text x="450" y="360" text-anchor="middle" fill="#f0d080" font-size="16" font-weight="bold">COLLAPSE</text>
+  <text x="450" y="382" text-anchor="middle" fill="#aaa" font-size="11">f ∘ f = f</text>
+
+  <!-- Bridge 1: Classical (top-left) -->
+  <line x1="390" y1="300" x2="180" y2="160" stroke="#6688cc" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="160" cy="140" r="55" fill="none" stroke="#6688cc" stroke-width="2"/>
+  <text x="160" y="125" text-anchor="middle" fill="#88aaee" font-size="13" font-weight="bold">Classical</text>
+  <text x="160" y="143" text-anchor="middle" fill="#88aaee" font-size="11">ℤ/nℤ</text>
+  <text x="160" y="163" text-anchor="middle" fill="#6688aa" font-size="10">ρ = 2^ω(n)/n</text>
+
+  <!-- Bridge 2: Tropical (top-right) -->
+  <line x1="510" y1="300" x2="720" y2="160" stroke="#44cc88" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="740" cy="140" r="55" fill="none" stroke="#44cc88" stroke-width="2"/>
+  <text x="740" y="125" text-anchor="middle" fill="#66eebb" font-size="13" font-weight="bold">Tropical</text>
+  <text x="740" y="143" text-anchor="middle" fill="#66eebb" font-size="11">(ℝ, max, +)</text>
+  <text x="740" y="163" text-anchor="middle" fill="#44aa88" font-size="10">ρ = 1 (all idem!)</text>
+
+  <!-- Bridge 3: Matrix (left) -->
+  <line x1="380" y1="350" x2="130" y2="350" stroke="#cc6644" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="100" cy="350" r="55" fill="none" stroke="#cc6644" stroke-width="2"/>
+  <text x="100" y="335" text-anchor="middle" fill="#ee8866" font-size="13" font-weight="bold">Matrix</text>
+  <text x="100" y="353" text-anchor="middle" fill="#ee8866" font-size="11">M_n(𝔽_q)</text>
+  <text x="100" y="373" text-anchor="middle" fill="#cc6644" font-size="10">ρ ~ Σ[n,r]_q</text>
+
+  <!-- Bridge 4: Quantum (right) -->
+  <line x1="520" y1="350" x2="770" y2="350" stroke="#cc44cc" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="800" cy="350" r="55" fill="none" stroke="#cc44cc" stroke-width="2"/>
+  <text x="800" y="335" text-anchor="middle" fill="#ee66ee" font-size="13" font-weight="bold">Quantum</text>
+  <text x="800" y="353" text-anchor="middle" fill="#ee66ee" font-size="11">B(H)</text>
+  <text x="800" y="373" text-anchor="middle" fill="#cc44cc" font-size="10">Projections</text>
+
+  <!-- Bridge 5: Neural (bottom-left) -->
+  <line x1="390" y1="400" x2="180" y2="540" stroke="#cccc44" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="160" cy="560" r="55" fill="none" stroke="#cccc44" stroke-width="2"/>
+  <text x="160" y="545" text-anchor="middle" fill="#eeee66" font-size="13" font-weight="bold">Neural</text>
+  <text x="160" y="563" text-anchor="middle" fill="#eeee66" font-size="11">ReLU = x ⊕ 0</text>
+  <text x="160" y="583" text-anchor="middle" fill="#aaaa44" font-size="10">WTA idempotent</text>
+
+  <!-- Bridge 6: Photonic (bottom-right) -->
+  <line x1="510" y1="400" x2="720" y2="540" stroke="#44cccc" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="740" cy="560" r="55" fill="none" stroke="#44cccc" stroke-width="2"/>
+  <text x="740" y="545" text-anchor="middle" fill="#66eeee" font-size="13" font-weight="bold">Photonic</text>
+  <text x="740" y="563" text-anchor="middle" fill="#66eeee" font-size="11">a²+b²+c²=d²</text>
+  <text x="740" y="583" text-anchor="middle" fill="#44aaaa" font-size="10">Lorentz idem</text>
+
+  <!-- Gaussian binomial arrow -->
+  <path d="M 200 170 Q 450 80 700 170" fill="none" stroke="#88aa44" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="450" y="100" text-anchor="middle" fill="#88aa44" font-size="10">q-deformation: [n,k]_q</text>
+
+  <!-- Maslov sandwich arrow -->
+  <path d="M 210 530 Q 450 470 700 530" fill="none" stroke="#aa8844" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="450" y="490" text-anchor="middle" fill="#aa8844" font-size="10">Maslov: max ≤ LSE ≤ max + ln2</text>
+
+  <!-- Footer -->
+  <text x="450" y="650" text-anchor="middle" fill="#555577" font-size="11">
+    Machine-verified in Lean 4 / Mathlib — 682 files, 139,500 lines, 1 sorry (FLT)
+  </text>
+  <text x="450" y="670" text-anchor="middle" fill="#444466" font-size="10">
+    Harmonic Formalization Project
+  </text>
+</svg>

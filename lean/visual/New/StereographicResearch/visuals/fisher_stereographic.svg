@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#fafbfc" rx="8"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#1a1a2e" font-weight="bold">Fisher Information = Round Metric on S¹</text>
+  <text x="400" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#666">The Bernoulli Statistical Manifold is a Sphere</text>
+  
+  <!-- Left panel: Bernoulli manifold -->
+  <g transform="translate(30, 70)">
+    <rect width="340" height="280" rx="6" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="170" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#333" font-weight="bold">Bernoulli Parameter Space</text>
+    
+    <!-- Axis -->
+    <line x1="40" y1="240" x2="310" y2="240" stroke="#333" stroke-width="1.5"/>
+    <line x1="40" y1="240" x2="40" y2="50" stroke="#333" stroke-width="1.5"/>
+    
+    <!-- Labels -->
+    <text x="175" y="265" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">θ (probability of heads)</text>
+    <text x="15" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555" transform="rotate(-90, 15, 145)">Fisher information g(θ)</text>
+    
+    <!-- θ axis ticks -->
+    <text x="40" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">0</text>
+    <text x="175" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">0.5</text>
+    <text x="310" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">1</text>
+    
+    <!-- Fisher metric curve g(θ) = 1/(θ(1-θ)) -->
+    <!-- This blows up at θ=0 and θ=1, minimum at θ=0.5 where g=4 -->
+    <path d="M 55,52 C 60,55 65,62 75,78 C 85,100 100,130 120,155
+             C 140,175 160,185 175,188
+             C 190,185 210,175 230,155
+             C 250,130 265,100 275,78
+             C 285,62 290,55 295,52"
+          fill="none" stroke="#E91E63" stroke-width="2.5"/>
+    
+    <!-- Minimum annotation -->
+    <circle cx="175" cy="188" r="4" fill="#E91E63" stroke="white" stroke-width="1.5"/>
+    <text x="175" y="210" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#E91E63">g(½) = 4</text>
+    
+    <!-- Divergence arrows -->
+    <text x="50" y="47" font-family="Georgia, serif" font-size="10" fill="#E91E63">→ ∞</text>
+    <text x="288" y="47" font-family="Georgia, serif" font-size="10" fill="#E91E63">→ ∞</text>
+  </g>
+  
+  <!-- Arrow -->
+  <g transform="translate(395, 210)">
+    <line x1="-15" y1="0" x2="25" y2="0" stroke="#333" stroke-width="2"/>
+    <polygon points="25,-5 35,0 25,5" fill="#333"/>
+    <text x="10" y="-12" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#555">θ = t²/(1+t²)</text>
+    <text x="10" y="20" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">stereographic</text>
+  </g>
+  
+  <!-- Right panel: Round metric on S¹ -->
+  <g transform="translate(430, 70)">
+    <rect width="340" height="280" rx="6" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="170" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#333" font-weight="bold">Stereographic Coordinates</text>
+    
+    <!-- Axis -->
+    <line x1="20" y1="240" x2="320" y2="240" stroke="#333" stroke-width="1.5"/>
+    <line x1="170" y1="250" x2="170" y2="50" stroke="#333" stroke-width="1.5"/>
+    
+    <!-- Labels -->
+    <text x="170" y="265" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555">t (stereographic parameter)</text>
+    <text x="8" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555" transform="rotate(-90, 8, 145)">g̃(t) = 4/(1+t²)²</text>
+    
+    <!-- t axis ticks -->
+    <text x="20" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">-5</text>
+    <text x="95" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">-2</text>
+    <text x="170" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">0</text>
+    <text x="245" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">2</text>
+    <text x="320" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#888">5</text>
+    
+    <!-- Round metric curve g̃(t) = 4/(1+t²)² -->
+    <!-- At t=0: 4, t=±1: 1, t=±2: 4/25=0.16, t=±5: 4/676≈0.006 -->
+    <path d="M 20,238 C 40,237 60,235 80,230
+             C 100,220 120,195 140,150
+             C 155,110 165,70 170,55
+             C 175,70 185,110 200,150
+             C 220,195 240,220 260,230
+             C 280,235 300,237 320,238"
+          fill="none" stroke="#2196F3" stroke-width="2.5"/>
+    
+    <!-- Fill under curve -->
+    <path d="M 20,238 C 40,237 60,235 80,230
+             C 100,220 120,195 140,150
+             C 155,110 165,70 170,55
+             C 175,70 185,110 200,150
+             C 220,195 240,220 260,230
+             C 280,235 300,237 320,238 L 320,240 L 20,240 Z"
+          fill="#2196F3" opacity="0.1"/>
+    
+    <!-- Peak annotation -->
+    <circle cx="170" cy="55" r="4" fill="#2196F3" stroke="white" stroke-width="1.5"/>
+    <text x="195" y="50" font-family="Georgia, serif" font-size="11" fill="#2196F3">g̃(0) = 4</text>
+    
+    <!-- Half-max -->
+    <circle cx="140" cy="150" r="3" fill="#4CAF50" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="150" r="3" fill="#4CAF50" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Bottom: Key identity -->
+  <rect x="100" y="370" width="600" height="65" rx="6" fill="#f0f4f8" stroke="#2196F3" stroke-width="1.5"/>
+  <text x="400" y="395" text-anchor="middle" font-family="'Courier New', monospace" font-size="14" fill="#1a1a2e">
+    1/(θ(1-θ)) · (dθ/dt)² = 4/(1+t²)² = (2/(1+t²))² = λ(t)²
+  </text>
+  <text x="400" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#666">
+    Machine-verified in Lean 4: fisher_stereo_metric_identity ✓
+  </text>
+</svg>

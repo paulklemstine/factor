@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      .axis { stroke: #333; stroke-width: 2; }
+      .axis-label { fill: #333; font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+      .boost-point { fill: #e94560; stroke: #333; stroke-width: 1; }
+      .boost-label { fill: #333; font-family: 'Courier New', monospace; font-size: 11px; text-anchor: start; }
+      .boost-line { stroke: #e94560; stroke-width: 2; stroke-dasharray: 5,3; }
+      .chart-title { fill: #333; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; }
+      .null-cone { stroke: #0f3460; stroke-width: 1.5; stroke-dasharray: 8,4; fill: none; }
+      .hyperboloid { stroke: #533483; stroke-width: 2; fill: none; }
+    </style>
+  </defs>
+  <rect width="800" height="500" fill="#fafafa"/>
+  <text x="400" y="30" class="chart-title">Integer Lorentz Boosts: Powers of B₂</text>
+
+  <line x1="100" y1="420" x2="700" y2="420" class="axis"/>
+  <line x1="100" y1="420" x2="100" y2="70" class="axis"/>
+  <text x="400" y="460" class="axis-label">Rapidity φ = acosh(cosh_val)</text>
+  <text x="60" y="245" class="axis-label" transform="rotate(-90,60,245)">cosh(φ) value</text>
+  <circle cx="100.0" cy="390.1" r="6" class="boost-point"/>
+  <text x="110.0" y="385.1" class="boost-label">B₂^0: cosh=1</text>
+  <circle cx="220.0" cy="360.3" r="6" class="boost-point"/>
+  <text x="230.0" y="355.3" class="boost-label">B₂^1: cosh=3</text>
+  <line x1="100.0" y1="390.1" x2="220.0" y2="360.3" class="boost-line"/>
+  <circle cx="340.0" cy="295.4" r="6" class="boost-point"/>
+  <text x="350.0" y="290.4" class="boost-label">B₂^2: cosh=17</text>
+  <line x1="220.0" y1="360.3" x2="340.0" y2="295.4" class="boost-line"/>
+  <circle cx="460.0" cy="221.5" r="6" class="boost-point"/>
+  <text x="470.0" y="216.5" class="boost-label">B₂^3: cosh=99</text>
+  <line x1="340.0" y1="295.4" x2="460.0" y2="221.5" class="boost-line"/>
+  <circle cx="580.0" cy="145.9" r="6" class="boost-point"/>
+  <text x="590.0" y="140.9" class="boost-label">B₂^4: cosh=577</text>
+  <line x1="460.0" y1="221.5" x2="580.0" y2="145.9" class="boost-line"/>
+  <circle cx="700.0" cy="70.0" r="6" class="boost-point"/>
+  <text x="710.0" y="65.0" class="boost-label">B₂^5: cosh=3363</text>
+  <line x1="580.0" y1="145.9" x2="700.0" y2="70.0" class="boost-line"/>
+  <text x="400" y="480" class="axis-label" style="font-size:12px; fill:#666;">Rapidity grows linearly; cosh grows exponentially (~3^k)</text>
+</svg>

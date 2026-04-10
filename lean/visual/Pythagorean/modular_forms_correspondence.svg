@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="Georgia, serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8f4f0"/>
+      <stop offset="100%" stop-color="#e8e0d8"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c1810">
+    Berggren–Theta Group Correspondence
+  </text>
+  <text x="450" y="62" text-anchor="middle" font-size="13" fill="#666" font-style="italic">
+    Formally Verified in Lean 4 with Mathlib
+  </text>
+
+  <!-- LEFT: Berggren Tree -->
+  <rect x="30" y="80" width="380" height="260" rx="10" fill="white" stroke="#b8860b" stroke-width="2" filter="url(#shadow)"/>
+  <text x="220" y="105" text-anchor="middle" font-size="16" font-weight="bold" fill="#b8860b">Berggren Tree</text>
+
+  <!-- Tree structure -->
+  <circle cx="220" cy="145" r="22" fill="#fff8e7" stroke="#b8860b" stroke-width="2"/>
+  <text x="220" y="150" text-anchor="middle" font-size="11" fill="#333">(3,4,5)</text>
+
+  <!-- Branch 1 -->
+  <line x1="200" y1="165" x2="120" y2="210" stroke="#c41e3a" stroke-width="1.5"/>
+  <circle cx="120" cy="220" r="20" fill="#ffe8ec" stroke="#c41e3a" stroke-width="1.5"/>
+  <text x="120" y="224" text-anchor="middle" font-size="9" fill="#333">(5,12,13)</text>
+  <text x="155" y="185" font-size="10" fill="#c41e3a" font-weight="bold">M₁</text>
+
+  <!-- Branch 2 -->
+  <line x1="220" y1="167" x2="220" y2="210" stroke="#2e7d32" stroke-width="1.5"/>
+  <circle cx="220" cy="220" r="20" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="220" y="224" text-anchor="middle" font-size="8" fill="#333">(21,20,29)</text>
+  <text x="232" y="195" font-size="10" fill="#2e7d32" font-weight="bold">M₂</text>
+
+  <!-- Branch 3 -->
+  <line x1="240" y1="165" x2="320" y2="210" stroke="#1565c0" stroke-width="1.5"/>
+  <circle cx="320" cy="220" r="20" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="320" y="224" text-anchor="middle" font-size="9" fill="#333">(15,8,17)</text>
+  <text x="285" y="185" font-size="10" fill="#1565c0" font-weight="bold">M₃</text>
+
+  <!-- Sub-branches hint -->
+  <line x1="108" y1="238" x2="80" y2="265" stroke="#c41e3a" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="120" y1="240" x2="120" y2="267" stroke="#2e7d32" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="132" y1="238" x2="160" y2="265" stroke="#1565c0" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <line x1="208" y1="238" x2="180" y2="265" stroke="#c41e3a" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="220" y1="240" x2="220" y2="267" stroke="#2e7d32" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="232" y1="238" x2="260" y2="265" stroke="#1565c0" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <line x1="308" y1="238" x2="280" y2="265" stroke="#c41e3a" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="320" y1="240" x2="320" y2="267" stroke="#2e7d32" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="332" y1="238" x2="360" y2="265" stroke="#1565c0" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <text x="220" y="290" text-anchor="middle" font-size="10" fill="#666">∞ triples, ternary tree</text>
+
+  <!-- Matrices -->
+  <text x="60" y="320" font-size="10" fill="#333">
+    <tspan>M₁ = T²S = </tspan><tspan font-family="monospace" font-size="9">[[2,-1],[1,0]]</tspan>
+  </text>
+  <text x="60" y="333" font-size="10" fill="#333">
+    <tspan>M₃ = T²  = </tspan><tspan font-family="monospace" font-size="9">[[1, 2],[0,1]]</tspan>
+  </text>
+
+  <!-- RIGHT: Modular Surface -->
+  <rect x="490" y="80" width="380" height="260" rx="10" fill="white" stroke="#4a148c" stroke-width="2" filter="url(#shadow)"/>
+  <text x="680" y="105" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a148c">Modular Surface X_θ</text>
+
+  <!-- Upper half-plane with fundamental domain -->
+  <rect x="530" y="120" width="300" height="160" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1" rx="5"/>
+  <text x="680" y="140" text-anchor="middle" font-size="11" fill="#7b1fa2">Upper Half-Plane ℍ</text>
+
+  <!-- Fundamental domain (schematic) -->
+  <path d="M 610 275 Q 610 180 680 160 Q 750 180 750 275" fill="rgba(156,39,176,0.1)" stroke="#9c27b0" stroke-width="2"/>
+
+  <!-- Three cusps -->
+  <circle cx="610" cy="275" r="6" fill="#c41e3a" stroke="white" stroke-width="1.5"/>
+  <text x="610" y="295" text-anchor="middle" font-size="11" fill="#c41e3a" font-weight="bold">0</text>
+
+  <circle cx="680" cy="145" r="6" fill="#1565c0" stroke="white" stroke-width="1.5"/>
+  <text x="695" y="150" font-size="11" fill="#1565c0" font-weight="bold">∞</text>
+
+  <circle cx="750" cy="275" r="6" fill="#2e7d32" stroke="white" stroke-width="1.5"/>
+  <text x="750" y="295" text-anchor="middle" font-size="11" fill="#2e7d32" font-weight="bold">1</text>
+
+  <!-- Cusp labels -->
+  <text x="570" y="270" font-size="9" fill="#c41e3a">M₁ branch</text>
+  <text x="760" y="260" font-size="9" fill="#2e7d32">M₂ branch</text>
+  <text x="690" y="165" font-size="9" fill="#1565c0">M₃ branch</text>
+
+  <!-- Generators -->
+  <text x="530" y="320" font-size="10" fill="#333">
+    <tspan>Γ_θ = ⟨T², S⟩, index 3 in SL(2,ℤ)</tspan>
+  </text>
+  <text x="530" y="333" font-size="10" fill="#333">
+    <tspan>Genus 0, 3 cusps, Hauptmodul = λ(τ)</tspan>
+  </text>
+
+  <!-- CENTER: Correspondence Arrows -->
+  <g transform="translate(450, 210)">
+    <line x1="-20" y1="-20" x2="20" y2="-20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="20" y1="20" x2="-20" y2="20" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="0" y="-5" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">↔</text>
+  </g>
+
+  <!-- BOTTOM: Key Identities -->
+  <rect x="30" y="360" width="840" height="120" rx="10" fill="white" stroke="#37474f" stroke-width="2" filter="url(#shadow)"/>
+  <text x="450" y="385" text-anchor="middle" font-size="15" font-weight="bold" fill="#37474f">Key Verified Identities</text>
+
+  <text x="60" y="410" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#c41e3a">①</tspan> M₃ = T²
+  </text>
+  <text x="60" y="430" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#2e7d32">②</tspan> M₃⁻¹ · M₁ = S
+  </text>
+  <text x="60" y="450" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#1565c0">③</tspan> M₁ = T² · S
+  </text>
+  <text x="60" y="470" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#9c27b0">④</tspan> S² = -I, S⁴ = I
+  </text>
+
+  <text x="340" y="410" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#c41e3a">⑤</tspan> det(M₁) = det(M₃) = 1
+  </text>
+  <text x="340" y="430" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#2e7d32">⑥</tspan> tr(M₁) = tr(M₃) = 2 (parabolic)
+  </text>
+  <text x="340" y="450" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#1565c0">⑦</tspan> Γ_θ parity closed under ×
+  </text>
+  <text x="340" y="470" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#9c27b0">⑧</tspan> T ∉ Γ_θ (index = 3)
+  </text>
+
+  <text x="640" y="410" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#c41e3a">⑨</tspan> B_iᵀ Q B_i = Q (Lorentz)
+  </text>
+  <text x="640" y="430" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#2e7d32">⑩</tspan> M₃ᵏ = [[1,2k],[0,1]]
+  </text>
+  <text x="640" y="450" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#1565c0">⑪</tspan> r₂(0) = 1, r₂(1) = 4
+  </text>
+  <text x="640" y="470" font-size="12" fill="#333">
+    <tspan font-weight="bold" fill="#9c27b0">⑫</tspan> p ≡ 1 mod 4 ⇒ p = a²+b²
+  </text>
+
+  <!-- BOTTOM: Theta Function -->
+  <rect x="30" y="500" width="840" height="130" rx="10" fill="white" stroke="#006064" stroke-width="2" filter="url(#shadow)"/>
+  <text x="450" y="525" text-anchor="middle" font-size="15" font-weight="bold" fill="#006064">The Theta Function Bridge</text>
+
+  <text x="60" y="555" font-size="13" fill="#333" font-family="serif">
+    θ₃(τ) = Σ q^(n²) = 1 + 2q + 2q⁴ + 2q⁹ + ···     (modular form for Γ_θ)
+  </text>
+  <text x="60" y="580" font-size="13" fill="#333" font-family="serif">
+    θ₃(τ)² = Σ r₂(n)qⁿ = 1 + 4q + 4q² + 4q⁴ + 8q⁵ + ···     (counts sums of 2 squares)
+  </text>
+  <text x="60" y="605" font-size="13" fill="#333" font-family="serif">
+    a² + b² = c² ⟺ (a,b,c) on Berggren tree ⟺ r₂(c²) ≥ 4 ⟺ lattice point on Q = 0
+  </text>
+
+  <!-- Footer -->
+  <text x="450" y="640" text-anchor="middle" font-size="10" fill="#999">
+    All theorems machine-verified in Lean 4 · Pythagorean__ModularForms.lean
+  </text>
+</svg>

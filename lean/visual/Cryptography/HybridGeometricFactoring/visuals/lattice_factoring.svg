@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#141e2e"/>
+    </linearGradient>
+    <filter id="glow4">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg4)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#e0e8ff" font-size="20" font-weight="bold">
+    The Factoring Lattice
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#7788aa" font-size="12">
+    Basis: (1, a mod n) and (0, n). Short vectors → smooth residues → factors.
+  </text>
+
+  <!-- Grid (lattice points) -->
+  <g fill="#223344" opacity="0.3">
+    <!-- Row of dots representing lattice structure -->
+    <circle cx="100" cy="100" r="2"/>
+    <circle cx="200" cy="100" r="2"/>
+    <circle cx="300" cy="100" r="2"/>
+    <circle cx="400" cy="100" r="2"/>
+    <circle cx="500" cy="100" r="2"/>
+    <circle cx="600" cy="100" r="2"/>
+    <circle cx="700" cy="100" r="2"/>
+
+    <circle cx="100" cy="200" r="2"/>
+    <circle cx="200" cy="200" r="2"/>
+    <circle cx="300" cy="200" r="2"/>
+    <circle cx="400" cy="200" r="2"/>
+    <circle cx="500" cy="200" r="2"/>
+    <circle cx="600" cy="200" r="2"/>
+    <circle cx="700" cy="200" r="2"/>
+
+    <circle cx="100" cy="300" r="2"/>
+    <circle cx="200" cy="300" r="2"/>
+    <circle cx="300" cy="300" r="2"/>
+    <circle cx="400" cy="300" r="2"/>
+    <circle cx="500" cy="300" r="2"/>
+    <circle cx="600" cy="300" r="2"/>
+    <circle cx="700" cy="300" r="2"/>
+
+    <circle cx="100" cy="400" r="2"/>
+    <circle cx="200" cy="400" r="2"/>
+    <circle cx="300" cy="400" r="2"/>
+    <circle cx="400" cy="400" r="2"/>
+    <circle cx="500" cy="400" r="2"/>
+    <circle cx="600" cy="400" r="2"/>
+    <circle cx="700" cy="400" r="2"/>
+
+    <circle cx="100" cy="500" r="2"/>
+    <circle cx="200" cy="500" r="2"/>
+    <circle cx="300" cy="500" r="2"/>
+    <circle cx="400" cy="500" r="2"/>
+    <circle cx="500" cy="500" r="2"/>
+    <circle cx="600" cy="500" r="2"/>
+    <circle cx="700" cy="500" r="2"/>
+  </g>
+
+  <!-- Origin -->
+  <circle cx="100" cy="500" r="5" fill="#ffffff" filter="url(#glow4)"/>
+  <text x="85" y="520" fill="#aabbcc" font-size="11">(0,0)</text>
+
+  <!-- Basis vector 1: (1, a) — shown as going right and up -->
+  <line x1="100" y1="500" x2="200" y2="350" stroke="#ff6644" stroke-width="3"/>
+  <circle cx="200" cy="350" r="6" fill="#ff6644" filter="url(#glow4)"/>
+  <text x="145" y="410" fill="#ff8866" font-size="12" font-weight="bold">b₁ = (1, a)</text>
+
+  <!-- Basis vector 2: (0, n) — shown as going straight up -->
+  <line x1="100" y1="500" x2="100" y2="100" stroke="#4488ff" stroke-width="3"/>
+  <circle cx="100" cy="100" r="6" fill="#4488ff" filter="url(#glow4)"/>
+  <text x="35" y="300" fill="#6699ff" font-size="12" font-weight="bold" transform="rotate(-90, 35, 300)">b₂ = (0, n)</text>
+
+  <!-- LLL-reduced basis (shorter vectors) -->
+  <line x1="100" y1="500" x2="250" y2="420" stroke="#44ff88" stroke-width="3" stroke-dasharray="8,4"/>
+  <circle cx="250" cy="420" r="7" fill="#44ff88" filter="url(#glow4)"/>
+  <text x="260" y="415" fill="#66ffaa" font-size="12" font-weight="bold">b₁' (LLL-reduced)</text>
+
+  <line x1="100" y1="500" x2="170" y2="340" stroke="#ffdd44" stroke-width="3" stroke-dasharray="8,4"/>
+  <circle cx="170" cy="340" r="7" fill="#ffdd44" filter="url(#glow4)"/>
+  <text x="180" y="335" fill="#ffee66" font-size="12" font-weight="bold">b₂' (LLL-reduced)</text>
+
+  <!-- Fundamental domain (parallelogram) -->
+  <polygon points="100,500 200,350 300,250 200,400"
+           fill="#4466aa" fill-opacity="0.1" stroke="#4466aa" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Short vector region (circle around origin) -->
+  <circle cx="100" cy="500" r="120" fill="none" stroke="#ffaa44" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.4"/>
+  <text x="210" y="550" fill="#ffbb66" font-size="10" opacity="0.7">Minkowski bound: ||v|| ≤ C√n</text>
+
+  <!-- Some lattice points in the lattice -->
+  <g filter="url(#glow4)">
+    <circle cx="300" cy="200" r="4" fill="#8888ff" opacity="0.6"/>
+    <circle cx="400" cy="250" r="4" fill="#8888ff" opacity="0.6"/>
+    <circle cx="200" cy="200" r="4" fill="#8888ff" opacity="0.6"/>
+    <circle cx="300" cy="350" r="4" fill="#8888ff" opacity="0.6"/>
+    <circle cx="400" cy="400" r="4" fill="#8888ff" opacity="0.6"/>
+    <circle cx="500" cy="300" r="4" fill="#8888ff" opacity="0.6"/>
+  </g>
+
+  <!-- Labels for the process -->
+  <rect x="450" y="80" width="320" height="200" rx="10" fill="#0d1520" stroke="#334455" opacity="0.95"/>
+  <text x="470" y="105" fill="#e0e8ff" font-size="14" font-weight="bold">Lattice Factoring Process</text>
+
+  <text x="470" y="130" fill="#aabbcc" font-size="11">1. Choose random a, compute a² mod n</text>
+  <text x="470" y="150" fill="#aabbcc" font-size="11">2. Build lattice L with basis</text>
+  <text x="490" y="167" fill="#ff8866" font-size="11">b₁ = (1, a mod n)</text>
+  <text x="490" y="184" fill="#6699ff" font-size="11">b₂ = (0, n)</text>
+  <text x="470" y="204" fill="#aabbcc" font-size="11">3. Apply LLL → reduced basis</text>
+  <text x="470" y="224" fill="#66ffaa" font-size="11">4. Short vectors → smooth residues</text>
+  <text x="470" y="244" fill="#ffee66" font-size="11">5. Collect enough → GF(2) → factor</text>
+
+  <!-- det = n annotation -->
+  <rect x="480" y="360" width="250" height="50" rx="8" fill="#1a1a2e" stroke="#556677"/>
+  <text x="605" y="385" text-anchor="middle" fill="#88aacc" font-size="14">
+    det(L) = |1·n - a·0| = n
+  </text>
+  <text x="605" y="400" text-anchor="middle" fill="#556677" font-size="10">
+    Determinant encodes the factoring target
+  </text>
+
+  <!-- Caption -->
+  <text x="400" y="580" text-anchor="middle" fill="#7788aa" font-size="11">
+    LLL lattice reduction finds short vectors in polynomial time, enabling smooth number discovery
+  </text>
+</svg>

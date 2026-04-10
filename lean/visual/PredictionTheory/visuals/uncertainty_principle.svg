@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A0033"/>
+      <stop offset="100%" style="stop-color:#0D001A"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#7C4DFF;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#7C4DFF;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg3)" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#E1BEE7" font-size="22" font-weight="bold">
+    The Prediction-Information Uncertainty Principle
+  </text>
+  <text x="400" y="62" text-anchor="middle" fill="#9575CD" font-size="14">
+    Error × Information ≥ 1  — Formally Verified in Lean 4
+  </text>
+
+  <!-- Glow effect -->
+  <circle cx="350" cy="260" r="180" fill="url(#glow1)"/>
+
+  <!-- Axes -->
+  <line x1="120" y1="380" x2="680" y2="380" stroke="#7C4DFF" stroke-width="1.5"/>
+  <line x1="120" y1="380" x2="120" y2="90" stroke="#7C4DFF" stroke-width="1.5"/>
+  <text x="400" y="415" text-anchor="middle" fill="#B39DDB" font-size="14">Information (bits)</text>
+  <text x="55" y="240" text-anchor="middle" fill="#B39DDB" font-size="14" transform="rotate(-90, 55, 240)">Prediction Error</text>
+
+  <!-- The curve: Error = 1/Info -->
+  <path d="M140,100 Q180,170 200,200 Q250,260 300,290 Q380,330 500,355 Q600,367 680,373"
+        fill="none" stroke="#FF6D00" stroke-width="3" filter="url(#glow)"/>
+
+  <!-- Forbidden region (below curve) -->
+  <path d="M140,100 Q180,170 200,200 Q250,260 300,290 Q380,330 500,355 Q600,367 680,373 L680,380 L140,380 Z"
+        fill="#FF6D00" opacity="0.08"/>
+  <text x="400" y="370" text-anchor="middle" fill="#FF6D00" font-size="13" opacity="0.8">
+    FORBIDDEN REGION
+  </text>
+
+  <!-- Achievable region label -->
+  <text x="300" y="140" text-anchor="middle" fill="#4CAF50" font-size="13" opacity="0.8">
+    ACHIEVABLE
+  </text>
+
+  <!-- Key equation -->
+  <rect x="480" y="100" width="280" height="100" rx="12" fill="rgba(255,255,255,0.05)" stroke="#7C4DFF" stroke-width="1"/>
+  <text x="620" y="130" text-anchor="middle" fill="#E1BEE7" font-size="16" font-weight="bold">
+    ε · I ≥ 1
+  </text>
+  <text x="620" y="155" text-anchor="middle" fill="#B39DDB" font-size="12">
+    ε = prediction error
+  </text>
+  <text x="620" y="175" text-anchor="middle" fill="#B39DDB" font-size="12">
+    I = mutual information
+  </text>
+  <text x="620" y="195" text-anchor="middle" fill="#9575CD" font-size="11">
+    ⟹  ε ≥ 1/I always
+  </text>
+
+  <!-- Cramér-Rao box -->
+  <rect x="480" y="220" width="280" height="75" rx="12" fill="rgba(255,255,255,0.05)" stroke="#448AFF" stroke-width="1"/>
+  <text x="620" y="248" text-anchor="middle" fill="#82B1FF" font-size="14" font-weight="bold">
+    Cramér-Rao Bound
+  </text>
+  <text x="620" y="270" text-anchor="middle" fill="#90CAF9" font-size="12">
+    Var(θ̂) ≥ 1 / (n · I(θ))
+  </text>
+  <text x="620" y="288" text-anchor="middle" fill="#64B5F6" font-size="11">
+    Tight for Gaussian models
+  </text>
+
+  <!-- Implication box -->
+  <rect x="480" y="315" width="280" height="55" rx="12" fill="rgba(255,255,255,0.05)" stroke="#FF5252" stroke-width="1"/>
+  <text x="620" y="338" text-anchor="middle" fill="#FF8A80" font-size="13" font-weight="bold">
+    Perfect prediction impossible
+  </text>
+  <text x="620" y="358" text-anchor="middle" fill="#EF9A9A" font-size="11">
+    ε → 0  requires  I → ∞
+  </text>
+
+  <!-- Example points -->
+  <circle cx="200" cy="200" r="6" fill="#4CAF50" stroke="white" stroke-width="1.5"/>
+  <text x="215" y="195" fill="#A5D6A7" font-size="11">Low data</text>
+
+  <circle cx="350" cy="150" r="6" fill="#4CAF50" stroke="white" stroke-width="1.5"/>
+  <text x="365" y="145" fill="#A5D6A7" font-size="11">Moderate</text>
+
+  <circle cx="550" cy="250" r="6" fill="#4CAF50" stroke="white" stroke-width="1.5"/>
+  <text x="460" y="248" fill="#A5D6A7" font-size="11">High data</text>
+</svg>

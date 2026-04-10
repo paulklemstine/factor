@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="encGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7B1FA2"/>
+      <stop offset="100%" style="stop-color:#CE93D8"/>
+    </linearGradient>
+    <linearGradient id="compGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0288D1"/>
+      <stop offset="100%" style="stop-color:#4FC3F7"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#aaa"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="#0d1117" rx="12"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="white" font-size="20" font-weight="bold" font-family="Arial">
+    FHE Oracle: Privacy-Preserving On-Chain Computation
+  </text>
+
+  <!-- User Side -->
+  <rect x="30" y="70" width="180" height="120" rx="10" fill="#1a2332" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="120" y="95" text-anchor="middle" fill="#4CAF50" font-size="14" font-weight="bold" font-family="Arial">User (Client)</text>
+  <text x="120" y="118" text-anchor="middle" fill="#81C784" font-size="11" font-family="Arial">plaintext: amount = 500</text>
+  <text x="120" y="138" text-anchor="middle" fill="#81C784" font-size="11" font-family="Arial">↓ Encrypt(amount)</text>
+  <text x="120" y="158" text-anchor="middle" fill="#81C784" font-size="11" font-family="Arial">ciphertext: Enc(500)</text>
+  <rect x="50" y="165" width="140" height="4" rx="2" fill="url(#encGrad)"/>
+
+  <!-- Arrow -->
+  <line x1="210" y1="130" x2="270" y2="130" stroke="#aaa" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="240" y="120" text-anchor="middle" fill="#aaa" font-size="10" font-family="Arial">encrypted</text>
+
+  <!-- Smart Contract -->
+  <rect x="275" y="60" width="250" height="150" rx="10" fill="#1a2332" stroke="#0288D1" stroke-width="1.5"/>
+  <text x="400" y="85" text-anchor="middle" fill="#4FC3F7" font-size="14" font-weight="bold" font-family="Arial">FHE Smart Contract</text>
+
+  <rect x="295" y="95" width="210" height="35" rx="5" fill="url(#compGrad)" opacity="0.3"/>
+  <text x="400" y="117" text-anchor="middle" fill="#4FC3F7" font-size="11" font-family="Arial">homAdd(Enc(a), Enc(b)) = Enc(a+b)</text>
+
+  <rect x="295" y="135" width="210" height="35" rx="5" fill="url(#compGrad)" opacity="0.3"/>
+  <text x="400" y="157" text-anchor="middle" fill="#4FC3F7" font-size="11" font-family="Arial">homMul(Enc(a), Enc(b)) = Enc(a·b)</text>
+
+  <rect x="295" y="175" width="210" height="25" rx="5" fill="#333"/>
+  <text x="400" y="192" text-anchor="middle" fill="#aaa" font-size="10" font-family="Arial">dy = Enc(y·dx/(x+dx))</text>
+
+  <!-- Attacker -->
+  <rect x="590" y="70" width="180" height="120" rx="10" fill="#1a2332" stroke="#F44336" stroke-width="1.5"/>
+  <text x="680" y="95" text-anchor="middle" fill="#F44336" font-size="14" font-weight="bold" font-family="Arial">Attacker 🚫</text>
+  <text x="680" y="118" text-anchor="middle" fill="#E57373" font-size="11" font-family="Arial">Sees: Enc(amount)</text>
+  <text x="680" y="138" text-anchor="middle" fill="#E57373" font-size="11" font-family="Arial">Guesses: g ≠ amount</text>
+  <text x="680" y="158" text-anchor="middle" fill="#E57373" font-size="11" font-family="Arial">y·g/(x+g) ≠ y·a/(x+a) ✗</text>
+  <text x="680" y="175" text-anchor="middle" fill="#F44336" font-size="10" font-weight="bold" font-family="Arial">
+    Sandwich attack FAILS
+  </text>
+
+  <!-- Arrow: Contract → Attacker (blocked) -->
+  <line x1="525" y1="130" x2="590" y2="130" stroke="#F44336" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="557" y="120" text-anchor="middle" fill="#F44336" font-size="18" font-family="Arial">✗</text>
+
+  <!-- Noise Growth Section -->
+  <rect x="30" y="230" width="350" height="100" rx="10" fill="#1a2332" stroke="#FF9800" stroke-width="1"/>
+  <text x="205" y="255" text-anchor="middle" fill="#FFB74D" font-size="14" font-weight="bold" font-family="Arial">
+    Noise Growth Model
+  </text>
+
+  <!-- Noise bars -->
+  <rect x="60" y="270" width="30" height="10" rx="2" fill="#4CAF50"/>
+  <text x="100" y="280" fill="#aaa" font-size="10" font-family="Arial">depth=1: noise = n₀</text>
+
+  <rect x="60" y="285" width="90" height="10" rx="2" fill="#FF9800"/>
+  <text x="160" y="295" fill="#aaa" font-size="10" font-family="Arial">depth=3: noise = 3·n₀</text>
+
+  <rect x="60" y="300" width="270" height="10" rx="2" fill="#F44336"/>
+  <text x="340" y="310" fill="#aaa" font-size="10" font-family="Arial">depth=d_max: noise ≥ N_max</text>
+
+  <!-- Threshold FHE Section -->
+  <rect x="420" y="230" width="350" height="100" rx="10" fill="#1a2332" stroke="#9C27B0" stroke-width="1"/>
+  <text x="595" y="255" text-anchor="middle" fill="#CE93D8" font-size="14" font-weight="bold" font-family="Arial">
+    Threshold FHE (t-of-n)
+  </text>
+
+  <!-- Key holders -->
+  <g transform="translate(450, 275)">
+    <circle cx="0" cy="0" r="12" fill="#4CAF50"/>
+    <text x="0" y="4" text-anchor="middle" fill="white" font-size="10" font-family="Arial">1</text>
+  </g>
+  <g transform="translate(480, 275)">
+    <circle cx="0" cy="0" r="12" fill="#4CAF50"/>
+    <text x="0" y="4" text-anchor="middle" fill="white" font-size="10" font-family="Arial">2</text>
+  </g>
+  <g transform="translate(510, 275)">
+    <circle cx="0" cy="0" r="12" fill="#4CAF50"/>
+    <text x="0" y="4" text-anchor="middle" fill="white" font-size="10" font-family="Arial">3</text>
+  </g>
+  <g transform="translate(540, 275)">
+    <circle cx="0" cy="0" r="12" fill="#F44336"/>
+    <text x="0" y="4" text-anchor="middle" fill="white" font-size="10" font-family="Arial">4</text>
+  </g>
+  <g transform="translate(570, 275)">
+    <circle cx="0" cy="0" r="12" fill="#F44336"/>
+    <text x="0" y="4" text-anchor="middle" fill="white" font-size="10" font-family="Arial">5</text>
+  </g>
+  <text x="595" y="310" text-anchor="middle" fill="#CE93D8" font-size="11" font-family="Arial">
+    t=3 of n=5: 3 honest → decrypt ✓
+  </text>
+  <text x="595" y="325" text-anchor="middle" fill="#CE93D8" font-size="11" font-family="Arial">
+    &lt;3 colluders → no decrypt ✓
+  </text>
+
+  <!-- Bottom: Verified Properties -->
+  <rect x="30" y="350" width="740" height="80" rx="10" fill="#0a1628" stroke="#69F0AE" stroke-width="1"/>
+  <text x="400" y="375" text-anchor="middle" fill="#69F0AE" font-size="15" font-weight="bold" font-family="Arial">
+    ✓ Formally Verified in Lean 4
+  </text>
+  <text x="200" y="400" text-anchor="middle" fill="#a0f0c0" font-size="11" font-family="Arial">
+    fhe_prevents_sandwich: g≠a → y·g/(x+g) ≠ y·a/(x+a)
+  </text>
+  <text x="600" y="400" text-anchor="middle" fill="#a0f0c0" font-size="11" font-family="Arial">
+    max_depth_exists: ∃ d, d·n₀ ≥ N_max
+  </text>
+  <text x="400" y="420" text-anchor="middle" fill="#a0f0c0" font-size="11" font-family="Arial">
+    decrypt_encrypt: ∀ m, Dec(Enc(m)) = m    |    private_trade_output_pos: 0 &lt; y·a/(x+a)
+  </text>
+</svg>

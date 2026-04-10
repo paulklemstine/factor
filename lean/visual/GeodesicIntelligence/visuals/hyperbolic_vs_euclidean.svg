@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="hebg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117" />
+      <stop offset="100%" style="stop-color:#161b22" />
+    </linearGradient>
+    <radialGradient id="disk" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a2744" />
+      <stop offset="90%" style="stop-color:#0a1520" />
+      <stop offset="100%" style="stop-color:#000" />
+    </radialGradient>
+  </defs>
+  
+  <rect width="800" height="400" fill="url(#hebg)"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" fill="#e6edf3" font-size="16" font-weight="bold" font-family="Arial">
+    Hyperbolic vs Euclidean Embeddings: Dimension Reduction for Trees
+  </text>
+  
+  <!-- Left: Euclidean (needs many dimensions) -->
+  <text x="200" y="60" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="bold" font-family="Arial">
+    Euclidean ℝ^d (d = O(n))
+  </text>
+  
+  <!-- Simple tree in flat space (spread out, needing many dimensions) -->
+  <rect x="50" y="75" width="300" height="250" rx="10" fill="#111822" stroke="#333" stroke-width="1"/>
+  
+  <!-- Tree nodes in Euclidean space (spread out) -->
+  <circle cx="200" cy="100" r="6" fill="#ff6b6b"/>
+  <text cx="200" cy="95" x="210" y="105" fill="#ff9999" font-size="9" font-family="Arial">root</text>
+  
+  <line x1="200" y1="106" x2="140" y2="145" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+  <line x1="200" y1="106" x2="260" y2="145" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+  
+  <circle cx="140" cy="150" r="5" fill="#ff9f43"/>
+  <circle cx="260" cy="150" r="5" fill="#ff9f43"/>
+  
+  <line x1="140" y1="155" x2="105" y2="195" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <line x1="140" y1="155" x2="175" y2="195" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <line x1="260" y1="155" x2="225" y2="195" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <line x1="260" y1="155" x2="295" y2="195" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  
+  <circle cx="105" cy="200" r="4" fill="#ffd93d"/>
+  <circle cx="175" cy="200" r="4" fill="#ffd93d"/>
+  <circle cx="225" cy="200" r="4" fill="#ffd93d"/>
+  <circle cx="295" cy="200" r="4" fill="#ffd93d"/>
+  
+  <line x1="105" y1="204" x2="85" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="105" y1="204" x2="120" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="175" y1="204" x2="158" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="175" y1="204" x2="192" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="225" y1="204" x2="208" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="225" y1="204" x2="242" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="295" y1="204" x2="278" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  <line x1="295" y1="204" x2="312" y2="240" stroke="#ffd93d" stroke-width="1" opacity="0.4"/>
+  
+  <!-- Leaf nodes -->
+  <circle cx="85" cy="245" r="3" fill="#aaa"/>
+  <circle cx="120" cy="245" r="3" fill="#aaa"/>
+  <circle cx="158" cy="245" r="3" fill="#aaa"/>
+  <circle cx="192" cy="245" r="3" fill="#aaa"/>
+  <circle cx="208" cy="245" r="3" fill="#aaa"/>
+  <circle cx="242" cy="245" r="3" fill="#aaa"/>
+  <circle cx="278" cy="245" r="3" fill="#aaa"/>
+  <circle cx="312" cy="245" r="3" fill="#aaa"/>
+  
+  <text x="200" y="295" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="Arial">
+    Needs ~15 dimensions for 15 nodes
+  </text>
+  <text x="200" y="312" text-anchor="middle" fill="#ff9999" font-size="10" font-family="Arial">
+    Distances distorted in low dims
+  </text>
+  
+  <!-- Right: Hyperbolic (2D suffices) -->
+  <text x="600" y="60" text-anchor="middle" fill="#55efc4" font-size="14" font-weight="bold" font-family="Arial">
+    Hyperbolic H² (d = O(log n))
+  </text>
+  
+  <!-- Poincaré disk -->
+  <circle cx="600" cy="195" r="120" fill="url(#disk)" stroke="#55efc4" stroke-width="1.5"/>
+  
+  <!-- Tree nodes in hyperbolic space (packed near center) -->
+  <circle cx="600" cy="180" r="6" fill="#55efc4"/>
+  <text x="610" y="175" fill="#88ffdd" font-size="9" font-family="Arial">root</text>
+  
+  <line x1="600" y1="186" x2="570" y2="210" stroke="#55efc4" stroke-width="1.5" opacity="0.6"/>
+  <line x1="600" y1="186" x2="630" y2="210" stroke="#55efc4" stroke-width="1.5" opacity="0.6"/>
+  
+  <circle cx="570" cy="215" r="5" fill="#00b894"/>
+  <circle cx="630" cy="215" r="5" fill="#00b894"/>
+  
+  <line x1="570" y1="220" x2="545" y2="245" stroke="#00b894" stroke-width="1" opacity="0.5"/>
+  <line x1="570" y1="220" x2="580" y2="250" stroke="#00b894" stroke-width="1" opacity="0.5"/>
+  <line x1="630" y1="220" x2="620" y2="250" stroke="#00b894" stroke-width="1" opacity="0.5"/>
+  <line x1="630" y1="220" x2="655" y2="245" stroke="#00b894" stroke-width="1" opacity="0.5"/>
+  
+  <circle cx="545" cy="250" r="4" fill="#ffeaa7"/>
+  <circle cx="580" cy="255" r="4" fill="#ffeaa7"/>
+  <circle cx="620" cy="255" r="4" fill="#ffeaa7"/>
+  <circle cx="655" cy="250" r="4" fill="#ffeaa7"/>
+  
+  <!-- Leaves near boundary -->
+  <circle cx="525" cy="272" r="3" fill="#888"/>
+  <circle cx="540" cy="278" r="3" fill="#888"/>
+  <circle cx="565" cy="280" r="3" fill="#888"/>
+  <circle cx="585" cy="283" r="3" fill="#888"/>
+  <circle cx="615" cy="283" r="3" fill="#888"/>
+  <circle cx="635" cy="280" r="3" fill="#888"/>
+  <circle cx="660" cy="278" r="3" fill="#888"/>
+  <circle cx="675" cy="272" r="3" fill="#888"/>
+  
+  <text x="600" y="340" text-anchor="middle" fill="#55efc4" font-size="11" font-family="Arial">
+    Only 2 dimensions needed!
+  </text>
+  <text x="600" y="357" text-anchor="middle" fill="#88ccbb" font-size="10" font-family="Arial">
+    Distances preserved by curvature
+  </text>
+  
+  <!-- Bottom comparison table -->
+  <text x="400" y="385" text-anchor="middle" fill="#e6edf3" font-size="12" font-weight="bold" font-family="Arial">
+    Vocabulary 50K: Euclidean 512D → Hyperbolic 16D = 32× dimension reduction (Lean-verified: log₂(n)+1 &lt; n)
+  </text>
+</svg>

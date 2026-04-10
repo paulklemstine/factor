@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <style>
+      .title { font: bold 18px sans-serif; fill: #2c3e50; }
+      .subtitle { font: 14px sans-serif; fill: #7f8c8d; }
+      .label { font: 12px sans-serif; fill: #2c3e50; }
+      .small { font: 10px sans-serif; fill: #95a5a6; }
+      .axis { stroke: #bdc3c7; stroke-width: 1; }
+      .grid { stroke: #ecf0f1; stroke-width: 0.5; }
+    </style>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8e44ad;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e67e22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="white" rx="10"/>
+  <text x="400" y="30" text-anchor="middle" class="title">Scaling Exponent α vs. Factoring Success Rate</text>
+  <text x="400" y="50" text-anchor="middle" class="subtitle">Quaternion lattice method on 30-bit semiprimes (1000 trials each)</text>
+  <line x1="100" y1="70.0" x2="700" y2="70.0" class="grid"/>
+  <text x="90" y="74.0" text-anchor="end" class="small">100%</text>
+  <line x1="100" y1="100.0" x2="700" y2="100.0" class="grid"/>
+  <text x="90" y="104.0" text-anchor="end" class="small">90%</text>
+  <line x1="100" y1="130.0" x2="700" y2="130.0" class="grid"/>
+  <text x="90" y="134.0" text-anchor="end" class="small">80%</text>
+  <line x1="100" y1="160.0" x2="700" y2="160.0" class="grid"/>
+  <text x="90" y="164.0" text-anchor="end" class="small">70%</text>
+  <line x1="100" y1="190.0" x2="700" y2="190.0" class="grid"/>
+  <text x="90" y="194.0" text-anchor="end" class="small">60%</text>
+  <line x1="100" y1="220.0" x2="700" y2="220.0" class="grid"/>
+  <text x="90" y="224.0" text-anchor="end" class="small">50%</text>
+  <line x1="100" y1="250.0" x2="700" y2="250.0" class="grid"/>
+  <text x="90" y="254.0" text-anchor="end" class="small">40%</text>
+  <line x1="100" y1="280.0" x2="700" y2="280.0" class="grid"/>
+  <text x="90" y="284.0" text-anchor="end" class="small">30%</text>
+  <line x1="100" y1="310.0" x2="700" y2="310.0" class="grid"/>
+  <text x="90" y="314.0" text-anchor="end" class="small">20%</text>
+  <line x1="100" y1="340.0" x2="700" y2="340.0" class="grid"/>
+  <text x="90" y="344.0" text-anchor="end" class="small">10%</text>
+  <line x1="100" y1="370.0" x2="700" y2="370.0" class="grid"/>
+  <text x="90" y="374.0" text-anchor="end" class="small">0%</text>
+  <path d="M 166.66666666666663 370 L 166.66666666666663 286.0 L 233.33333333333331 235.0 L 260.0 214.0 L 299.99999999999994 184.0 L 326.66666666666663 175.0 L 340.0 169.0 L 366.66666666666663 169.0 L 406.66666666666663 196.0 L 433.3333333333332 214.0 L 500.0 247.0 L 566.6666666666665 280.0 L 633.3333333333333 316.0 L 633.3333333333333 370 Z" fill="#3498db" opacity="0.15"/>
+  <polyline points="166.66666666666663,286.0 233.33333333333331,235.0 260.0,214.0 299.99999999999994,184.0 326.66666666666663,175.0 340.0,169.0 366.66666666666663,169.0 406.66666666666663,196.0 433.3333333333332,214.0 500.0,247.0 566.6666666666665,280.0 633.3333333333333,316.0 " fill="none" stroke="#3498db" stroke-width="2.5"/>
+  <circle cx="166.66666666666663" cy="286.0" r="4" fill="#3498db"/>
+  <circle cx="233.33333333333331" cy="235.0" r="4" fill="#3498db"/>
+  <circle cx="260.0" cy="214.0" r="4" fill="#3498db"/>
+  <circle cx="299.99999999999994" cy="184.0" r="4" fill="#3498db"/>
+  <circle cx="326.66666666666663" cy="175.0" r="4" fill="#3498db"/>
+  <circle cx="340.0" cy="169.0" r="4" fill="#3498db"/>
+  <circle cx="366.66666666666663" cy="169.0" r="4" fill="#3498db"/>
+  <circle cx="406.66666666666663" cy="196.0" r="4" fill="#3498db"/>
+  <circle cx="433.3333333333332" cy="214.0" r="4" fill="#3498db"/>
+  <circle cx="500.0" cy="247.0" r="4" fill="#3498db"/>
+  <circle cx="566.6666666666665" cy="280.0" r="4" fill="#3498db"/>
+  <circle cx="633.3333333333333" cy="316.0" r="4" fill="#3498db"/>
+  <rect x="299.99999999999994" y="70" width="66.66666666666669" height="300" fill="#2ecc71" opacity="0.1"/>
+  <text x="333.33333333333326" y="400" text-anchor="middle" style="font: bold 11px sans-serif; fill: #27ae60;">Optimal range</text>
+  <line x1="340.0" y1="154.0" x2="340.0" y2="129.0" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="340.0" y="124.0" text-anchor="middle" style="font: bold 11px sans-serif; fill: #e74c3c;">Peak: 67% at α ≈ 0.28</text>
+  <text x="166.66666666666663" y="385" text-anchor="middle" class="small">0.15</text>
+  <text x="233.33333333333331" y="385" text-anchor="middle" class="small">0.20</text>
+  <text x="299.99999999999994" y="385" text-anchor="middle" class="small">0.25</text>
+  <text x="366.66666666666663" y="385" text-anchor="middle" class="small">0.30</text>
+  <text x="433.3333333333332" y="385" text-anchor="middle" class="small">0.35</text>
+  <text x="500.0" y="385" text-anchor="middle" class="small">0.40</text>
+  <text x="566.6666666666665" y="385" text-anchor="middle" class="small">0.45</text>
+  <text x="633.3333333333333" y="385" text-anchor="middle" class="small">0.50</text>
+  <line x1="100" y1="70" x2="100" y2="370" class="axis"/>
+  <line x1="100" y1="370" x2="700" y2="370" class="axis"/>
+  <text x="400.0" y="410" text-anchor="middle" class="label">Scaling exponent α</text>
+  <text x="55" y="220.0" text-anchor="middle" class="label" transform="rotate(-90, 55, 220.0)">Success rate</text>
+</svg>

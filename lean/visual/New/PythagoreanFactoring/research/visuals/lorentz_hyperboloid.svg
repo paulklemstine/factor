@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="800" viewBox="0 0 900 800">
+  <defs>
+    <radialGradient id="disk_bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a237e;stop-opacity:0.3"/>
+      <stop offset="80%" style="stop-color:#0d47a1;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#000;stop-opacity:0.8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="800" fill="#0a0a1a"/>
+
+  <text x="450" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e0e0e0" font-weight="bold">
+    Pythagorean Triples on the Klein Disk (Hyperbolic Plane)
+  </text>
+  <text x="450" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#90caf9">
+    Berggren tree as a tiling of H² via O(2,1;ℤ) — the integer Lorentz group
+  </text>
+
+  <!-- Klein disk -->
+  <g transform="translate(450, 420)">
+    <!-- Disk boundary (light cone) -->
+    <circle cx="0" cy="0" r="300" fill="url(#disk_bg)" stroke="#42a5f5" stroke-width="2"/>
+
+    <!-- Coordinate axes -->
+    <line x1="-290" y1="0" x2="290" y2="0" stroke="#333" stroke-width="0.5"/>
+    <line x1="0" y1="-290" x2="0" y2="290" stroke="#333" stroke-width="0.5"/>
+    <text x="295" y="15" font-family="monospace" font-size="10" fill="#666">a/c</text>
+    <text x="10" y="-285" font-family="monospace" font-size="10" fill="#666">b/c</text>
+
+    <!-- Ideal boundary label -->
+    <text x="220" y="-220" font-family="Georgia, serif" font-size="11" fill="#42a5f5">
+      Light cone: a²+b²=c²
+    </text>
+
+    <!-- Points on disk (a/c, b/c) mapped to pixel coords: multiply by 300 -->
+    <!-- Root: (3/5, 4/5) = (0.6, 0.8) → (180, -240) -->
+    <circle cx="180" cy="-240" r="8" fill="#ffeb3b" stroke="#fff" stroke-width="2"/>
+    <text x="195" y="-245" font-family="monospace" font-size="10" fill="#ffeb3b">(3,4,5)</text>
+
+    <!-- Depth 1 -->
+    <!-- A: (5/13, 12/13) = (0.385, 0.923) → (115, -277) -->
+    <circle cx="115" cy="-277" r="6" fill="#ff8a65"/>
+    <text x="125" y="-280" font-family="monospace" font-size="9" fill="#ff8a65">(5,12,13)</text>
+
+    <!-- B: (21/29, 20/29) = (0.724, 0.690) → (217, -207) -->
+    <circle cx="217" cy="-207" r="6" fill="#81c784"/>
+    <text x="227" y="-210" font-family="monospace" font-size="9" fill="#81c784">(21,20,29)</text>
+
+    <!-- C: (15/17, 8/17) = (0.882, 0.471) → (265, -141) -->
+    <circle cx="265" cy="-141" r="6" fill="#ce93d8"/>
+    <text x="240" y="-130" font-family="monospace" font-size="9" fill="#ce93d8">(15,8,17)</text>
+
+    <!-- Depth 2 -->
+    <!-- AA: (7/25, 24/25) = (0.28, 0.96) → (84, -288) -->
+    <circle cx="84" cy="-288" r="4" fill="#ff8a65" opacity="0.7"/>
+    <!-- AB: (55/73, 48/73) = (0.753, 0.658) → (226, -197) -->
+    <circle cx="226" cy="-197" r="4" fill="#81c784" opacity="0.7"/>
+    <!-- BA: (39/89, 80/89) = (0.438, 0.899) → (131, -270) -->
+    <circle cx="131" cy="-270" r="4" fill="#ff8a65" opacity="0.7"/>
+    <!-- BB: (119/169, 120/169) = (0.704, 0.710) → (211, -213) -->
+    <circle cx="211" cy="-213" r="4" fill="#81c784" opacity="0.7"/>
+    <!-- CC: (35/37, 12/37) = (0.946, 0.324) → (284, -97) -->
+    <circle cx="284" cy="-97" r="4" fill="#ce93d8" opacity="0.7"/>
+    <!-- CA: (33/65, 56/65) = (0.508, 0.862) → (152, -259) -->
+    <circle cx="152" cy="-259" r="4" fill="#ff8a65" opacity="0.7"/>
+    <!-- CB: (65/97, 72/97) = (0.670, 0.742) → (201, -223) -->
+    <circle cx="201" cy="-223" r="4" fill="#81c784" opacity="0.7"/>
+
+    <!-- Depth 3 -->
+    <!-- AAA: (9/41, 40/41) = (0.220, 0.976) → (66, -293) -->
+    <circle cx="66" cy="-293" r="3" fill="#ff8a65" opacity="0.5"/>
+    <!-- BBB: (697/985, 696/985) → (212, -212) -->
+    <circle cx="212" cy="-212" r="3" fill="#81c784" opacity="0.5"/>
+    <!-- CCC: (63/65, 16/65) = (0.969, 0.246) → (291, -74) -->
+    <circle cx="291" cy="-74" r="3" fill="#ce93d8" opacity="0.5"/>
+
+    <!-- Geodesics (arcs connecting parent to children) -->
+    <line x1="180" y1="-240" x2="115" y2="-277" stroke="#ff8a65" stroke-width="1" opacity="0.5"/>
+    <line x1="180" y1="-240" x2="217" y2="-207" stroke="#81c784" stroke-width="1" opacity="0.5"/>
+    <line x1="180" y1="-240" x2="265" y2="-141" stroke="#ce93d8" stroke-width="1" opacity="0.5"/>
+
+    <!-- A chain geodesic -->
+    <line x1="115" y1="-277" x2="84" y2="-288" stroke="#ff8a65" stroke-width="0.8" opacity="0.4"/>
+    <line x1="84" y1="-288" x2="66" y2="-293" stroke="#ff8a65" stroke-width="0.6" opacity="0.3"/>
+
+    <!-- B chain geodesic -->
+    <line x1="217" y1="-207" x2="211" y2="-213" stroke="#81c784" stroke-width="0.8" opacity="0.4"/>
+
+    <!-- C chain geodesic -->
+    <line x1="265" y1="-141" x2="284" y2="-97" stroke="#ce93d8" stroke-width="0.8" opacity="0.4"/>
+    <line x1="284" y1="-97" x2="291" y2="-74" stroke="#ce93d8" stroke-width="0.6" opacity="0.3"/>
+
+    <!-- Annotation: A-branch approaches (0,1) -->
+    <text x="-50" y="-295" font-family="Georgia, serif" font-size="10" fill="#ff8a65" font-style="italic">
+      A-chain → (0,1)
+    </text>
+
+    <!-- Annotation: C-branch approaches (1,0) -->
+    <text x="230" y="-50" font-family="Georgia, serif" font-size="10" fill="#ce93d8" font-style="italic">
+      C-chain → (1,0)
+    </text>
+
+    <!-- Annotation: B-branch stays interior -->
+    <text x="230" y="-220" font-family="Georgia, serif" font-size="10" fill="#81c784" font-style="italic">
+      B-chain: bounded
+    </text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(50, 720)">
+    <rect x="0" y="0" width="800" height="60" rx="10" fill="#1a1a3e" stroke="#333"/>
+    <text x="400" y="20" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#e0e0e0" font-weight="bold">
+      Hyperbolic Interpretation
+    </text>
+    <text x="400" y="42" text-anchor="middle" font-family="monospace" font-size="11" fill="#90caf9">
+      Klein model: (x,y) = (a/c, b/c) ∈ D² | Lorentz form a²+b²−c²=0 defines the light cone (boundary)
+    </text>
+  </g>
+</svg>

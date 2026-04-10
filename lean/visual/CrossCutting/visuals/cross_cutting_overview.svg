@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38f9d7;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="22" font-weight="bold" fill="#2d3436">
+    Cross-Cutting Themes in Mathematics
+  </text>
+  <text x="400" y="70" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="14" fill="#636e72">
+    90+ Formally Verified Theorems in Lean 4
+  </text>
+
+  <!-- Central triangle edges -->
+  <line x1="400" y1="140" x2="180" y2="420" stroke="#ddd" stroke-width="3" stroke-dasharray="8,4"/>
+  <line x1="400" y1="140" x2="620" y2="420" stroke="#ddd" stroke-width="3" stroke-dasharray="8,4"/>
+  <line x1="180" y1="420" x2="620" y2="420" stroke="#ddd" stroke-width="3" stroke-dasharray="8,4"/>
+
+  <!-- Edge labels -->
+  <text x="270" y="270" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="11" fill="#636e72" transform="rotate(-50, 270, 270)">
+    max(x,x) = x
+  </text>
+  <text x="530" y="270" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="11" fill="#636e72" transform="rotate(50, 530, 270)">
+    P² = P (measurement)
+  </text>
+  <text x="400" y="455" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="11" fill="#636e72">
+    ε → 0: LSE → max
+  </text>
+
+  <!-- Node 1: Idempotent Collapse (top) -->
+  <g filter="url(#shadow)">
+    <ellipse cx="400" cy="140" rx="120" ry="50" fill="url(#grad1)" opacity="0.9"/>
+  </g>
+  <text x="400" y="132" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">Idempotent</text>
+  <text x="400" y="152" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">Collapse</text>
+  <text x="400" y="170" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="10" fill="rgba(255,255,255,0.8)">f(f(x)) = f(x)</text>
+
+  <!-- Node 2: Tropical Algebra (bottom-left) -->
+  <g filter="url(#shadow)">
+    <ellipse cx="180" cy="420" rx="120" ry="50" fill="url(#grad2)" opacity="0.9"/>
+  </g>
+  <text x="180" y="412" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">Tropical</text>
+  <text x="180" y="432" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">Algebra</text>
+  <text x="180" y="450" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="10" fill="rgba(255,255,255,0.8)">(ℝ, max, +)</text>
+
+  <!-- Node 3: Quantum/Smooth (bottom-right) -->
+  <g filter="url(#shadow)">
+    <ellipse cx="620" cy="420" rx="120" ry="50" fill="url(#grad3)" opacity="0.9"/>
+  </g>
+  <text x="620" y="412" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">Quantum</text>
+  <text x="620" y="432" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">Bridge</text>
+  <text x="620" y="450" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="10" fill="rgba(255,255,255,0.8)">LogSumExp(ε)</text>
+
+  <!-- Center: Berggren Tree -->
+  <g filter="url(#shadow)">
+    <circle cx="400" cy="340" r="55" fill="url(#grad4)" opacity="0.9"/>
+  </g>
+  <text x="400" y="332" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="14" font-weight="bold" fill="white">Berggren</text>
+  <text x="400" y="352" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="14" font-weight="bold" fill="white">Tree</text>
+  <text x="400" y="370" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.8)">O(2,1;ℤ)</text>
+
+  <!-- Connecting lines from Berggren to vertices -->
+  <line x1="355" y1="310" x2="400" y2="190" stroke="#43e97b" stroke-width="2" opacity="0.5"/>
+  <line x1="350" y1="360" x2="230" y2="390" stroke="#43e97b" stroke-width="2" opacity="0.5"/>
+  <line x1="450" y1="360" x2="570" y2="390" stroke="#43e97b" stroke-width="2" opacity="0.5"/>
+
+  <!-- Open Problems boxes -->
+  <g transform="translate(30, 500)">
+    <rect width="170" height="70" rx="8" fill="white" stroke="#667eea" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="85" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#667eea">Open Problem 1</text>
+    <text x="85" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2d3436">Tropical Langlands</text>
+    <text x="85" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#636e72">Berggren → automorphic</text>
+  </g>
+
+  <g transform="translate(215, 500)">
+    <rect width="170" height="70" rx="8" fill="white" stroke="#f5576c" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="85" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#f5576c">Open Problem 2</text>
+    <text x="85" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2d3436">Idempotent Networks</text>
+    <text x="85" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#636e72">1-step convergence</text>
+  </g>
+
+  <g transform="translate(400, 500)">
+    <rect width="170" height="70" rx="8" fill="white" stroke="#4facfe" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="85" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#4facfe">Open Problem 3</text>
+    <text x="85" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2d3436">Quantum Gates</text>
+    <text x="85" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#636e72">O(2,1;ℤ) → SU(2)</text>
+  </g>
+
+  <g transform="translate(585, 500)">
+    <rect width="170" height="70" rx="8" fill="white" stroke="#43e97b" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="85" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#43e97b">Open Problem 4</text>
+    <text x="85" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#2d3436">Sauer–Shelah</text>
+    <text x="85" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#636e72">Idempotent + VC dim</text>
+  </g>
+</svg>

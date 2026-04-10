@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520">
+<defs>
+  <filter id="shadow">
+    <feDropShadow dx="1" dy="1" stdDeviation="2" flood-opacity="0.2"/>
+  </filter>
+</defs>
+
+<rect width="1000" height="520" fill="#fafaf8"/>
+
+<text x="500" y="30" text-anchor="middle" fill="#222" font-family="Georgia, serif"
+      font-size="20" font-weight="bold">The Berggren Ternary Tree of Pythagorean Triples</text>
+<text x="500" y="50" text-anchor="middle" fill="#666" font-family="Georgia, serif" font-size="12">
+  Every primitive Pythagorean triple appears exactly once</text>
+
+<!-- Depth labels -->
+<text x="20" y="100" fill="#999" font-family="sans-serif" font-size="11">d=0</text>
+<text x="20" y="230" fill="#999" font-family="sans-serif" font-size="11">d=1</text>
+<text x="20" y="380" fill="#999" font-family="sans-serif" font-size="11">d=2</text>
+
+<!-- Root: (3,4,5) -->
+<rect x="430" y="73" width="140" height="40" rx="20" fill="#f39c12" filter="url(#shadow)"/>
+<text x="500" y="98" text-anchor="middle" fill="white" font-family="monospace" font-size="14" font-weight="bold">
+  (3, 4, 5)</text>
+
+<!-- Edges to depth 1 -->
+<line x1="460" y1="113" x2="200" y2="205" stroke="#e74c3c" stroke-width="2.5"/>
+<line x1="500" y1="113" x2="500" y2="205" stroke="#2ecc71" stroke-width="2.5"/>
+<line x1="540" y1="113" x2="800" y2="205" stroke="#3498db" stroke-width="2.5"/>
+
+<!-- Branch labels -->
+<text x="310" y="155" fill="#e74c3c" font-family="sans-serif" font-size="14" font-weight="bold">A</text>
+<text x="510" y="165" fill="#2ecc71" font-family="sans-serif" font-size="14" font-weight="bold">B</text>
+<text x="680" y="155" fill="#3498db" font-family="sans-serif" font-size="14" font-weight="bold">C</text>
+
+<!-- Depth 1: A child (5,12,13) -->
+<rect x="120" y="205" width="150" height="40" rx="20" fill="#e74c3c" filter="url(#shadow)"/>
+<text x="195" y="230" text-anchor="middle" fill="white" font-family="monospace" font-size="13">
+  (5, 12, 13)</text>
+
+<!-- Depth 1: B child (21,20,29) -->
+<rect x="425" y="205" width="150" height="40" rx="20" fill="#2ecc71" filter="url(#shadow)"/>
+<text x="500" y="230" text-anchor="middle" fill="white" font-family="monospace" font-size="13">
+  (21, 20, 29)</text>
+
+<!-- Depth 1: C child (15,8,17) -->
+<rect x="720" y="205" width="150" height="40" rx="20" fill="#3498db" filter="url(#shadow)"/>
+<text x="795" y="230" text-anchor="middle" fill="white" font-family="monospace" font-size="13">
+  (15, 8, 17)</text>
+
+<!-- Edges to depth 2 (from A child) -->
+<line x1="145" y1="245" x2="65" y2="355" stroke="#e74c3c" stroke-width="1.5" opacity="0.6"/>
+<line x1="195" y1="245" x2="195" y2="355" stroke="#2ecc71" stroke-width="1.5" opacity="0.6"/>
+<line x1="245" y1="245" x2="325" y2="355" stroke="#3498db" stroke-width="1.5" opacity="0.6"/>
+
+<!-- Depth 2 from A -->
+<rect x="15" y="355" width="100" height="35" rx="15" fill="#e74c3c" opacity="0.8"/>
+<text x="65" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="10">(7, 24, 25)</text>
+
+<rect x="140" y="355" width="110" height="35" rx="15" fill="#2ecc71" opacity="0.8"/>
+<text x="195" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="10">(55, 48, 73)</text>
+
+<rect x="275" y="355" width="110" height="35" rx="15" fill="#3498db" opacity="0.8"/>
+<text x="330" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="10">(45, 28, 53)</text>
+
+<!-- Edges to depth 2 (from B child) -->
+<line x1="455" y1="245" x2="420" y2="355" stroke="#e74c3c" stroke-width="1.5" opacity="0.6"/>
+<line x1="500" y1="245" x2="500" y2="355" stroke="#2ecc71" stroke-width="1.5" opacity="0.6"/>
+<line x1="545" y1="245" x2="580" y2="355" stroke="#3498db" stroke-width="1.5" opacity="0.6"/>
+
+<!-- Depth 2 from B -->
+<rect x="395" y="355" width="55" height="35" rx="15" fill="#e74c3c" opacity="0.8"/>
+<text x="422" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="8">…</text>
+
+<rect x="470" y="355" width="60" height="35" rx="15" fill="#2ecc71" opacity="0.8"/>
+<text x="500" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="7">119,120,169</text>
+
+<rect x="555" y="355" width="55" height="35" rx="15" fill="#3498db" opacity="0.8"/>
+<text x="582" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="8">…</text>
+
+<!-- Edges to depth 2 (from C child) -->
+<line x1="755" y1="245" x2="675" y2="355" stroke="#e74c3c" stroke-width="1.5" opacity="0.6"/>
+<line x1="795" y1="245" x2="795" y2="355" stroke="#2ecc71" stroke-width="1.5" opacity="0.6"/>
+<line x1="835" y1="245" x2="920" y2="355" stroke="#3498db" stroke-width="1.5" opacity="0.6"/>
+
+<!-- Depth 2 from C -->
+<rect x="645" y="355" width="55" height="35" rx="15" fill="#e74c3c" opacity="0.8"/>
+<text x="672" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="8">…</text>
+
+<rect x="765" y="355" width="60" height="35" rx="15" fill="#2ecc71" opacity="0.8"/>
+<text x="795" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="8">…</text>
+
+<rect x="895" y="355" width="55" height="35" rx="15" fill="#3498db" opacity="0.8"/>
+<text x="922" y="377" text-anchor="middle" fill="white" font-family="monospace" font-size="8">…</text>
+
+<!-- Dots indicating continuation -->
+<text x="500" y="425" text-anchor="middle" fill="#888" font-family="serif" font-size="16">⋮</text>
+
+<!-- Key facts -->
+<rect x="50" y="445" width="900" height="60" rx="8" fill="#f0f0ea" stroke="#ddd"/>
+<text x="100" y="468" fill="#333" font-family="serif" font-size="12">
+  <tspan font-weight="bold" fill="#e74c3c">A-branch:</tspan> hyp grows as ~2d²  (slow lane, √c depth)
+</text>
+<text x="400" y="468" fill="#333" font-family="serif" font-size="12">
+  <tspan font-weight="bold" fill="#2ecc71">B-branch:</tspan> hyp grows as ~(3+2√2)ᵈ  (fast lane, log c depth)
+</text>
+<text x="750" y="468" fill="#333" font-family="serif" font-size="12">
+  <tspan font-weight="bold" fill="#3498db">C-branch:</tspan> mirror of A
+</text>
+<text x="500" y="493" text-anchor="middle" fill="#666" font-family="serif" font-size="11" font-style="italic">
+  At depth d: 3ᵈ nodes  •  Depth 10: 59,049 triples  •  All Bᵢ preserve Q(a,b,c) = a²+b²−c²
+</text>
+</svg>

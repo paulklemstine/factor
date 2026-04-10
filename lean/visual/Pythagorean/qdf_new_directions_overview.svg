@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="card1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#1565C0;stop-opacity:0.3"/>
+    </linearGradient>
+    <linearGradient id="card2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#2E7D32;stop-opacity:0.3"/>
+    </linearGradient>
+    <linearGradient id="card3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#E65100;stop-opacity:0.3"/>
+    </linearGradient>
+    <linearGradient id="card4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9C27B0;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:0.3"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="55" text-anchor="middle" fill="#fff" font-size="28" font-weight="bold" filter="url(#glow)">
+    QDF New Research Directions
+  </text>
+  <text x="600" y="85" text-anchor="middle" fill="#90CAF9" font-size="16">
+    Quadruple Division Factoring: From Arithmetic Geometry to Quantum Information
+  </text>
+
+  <!-- Central equation -->
+  <rect x="350" y="100" width="500" height="60" rx="10" fill="#1a237e" stroke="#42A5F5" stroke-width="2" opacity="0.8"/>
+  <text x="600" y="138" text-anchor="middle" fill="#E3F2FD" font-size="22" font-weight="bold">
+    a² + b² + c² = d²  ⟹  (d−c)(d+c) = a² + b²
+  </text>
+
+  <!-- Direction 1: Arithmetic Geometry (top-left) -->
+  <rect x="30" y="190" width="360" height="280" rx="15" fill="url(#card1)" stroke="#42A5F5" stroke-width="2"/>
+  <text x="210" y="225" text-anchor="middle" fill="#64B5F6" font-size="20" font-weight="bold">🔷 Arithmetic Geometry</text>
+  <line x1="60" y1="240" x2="360" y2="240" stroke="#42A5F5" stroke-width="1" opacity="0.5"/>
+  <text x="50" y="270" fill="#E3F2FD" font-size="14">• Radical bounds → abc conjecture</text>
+  <text x="50" y="295" fill="#E3F2FD" font-size="14">• Thin quadruples → Pell equations</text>
+  <text x="50" y="320" fill="#E3F2FD" font-size="14">• Cross-quadruple products</text>
+  <text x="50" y="345" fill="#E3F2FD" font-size="14">• L-function connections</text>
+  <text x="50" y="380" fill="#90CAF9" font-size="12" font-style="italic">Key theorem: a²+b² = 2d−1 for thin quads</text>
+  <text x="50" y="405" fill="#90CAF9" font-size="12" font-style="italic">(d₁d₂)² = Σa₁² · Σa₂² (cross product)</text>
+  <text x="50" y="440" fill="#4CAF50" font-size="13" font-weight="bold">✓ 5 theorems formally verified</text>
+
+  <!-- Direction 2: Computational Complexity (top-right) -->
+  <rect x="420" y="190" width="360" height="280" rx="15" fill="url(#card2)" stroke="#66BB6A" stroke-width="2"/>
+  <text x="600" y="225" text-anchor="middle" fill="#81C784" font-size="20" font-weight="bold">🔶 Complexity Theory</text>
+  <line x1="450" y1="240" x2="750" y2="240" stroke="#66BB6A" stroke-width="1" opacity="0.5"/>
+  <text x="440" y="270" fill="#E8F5E9" font-size="14">• Complete parity classification</text>
+  <text x="440" y="295" fill="#E8F5E9" font-size="14">• Modular filter pre-screening</text>
+  <text x="440" y="320" fill="#E8F5E9" font-size="14">• Descent termination proof</text>
+  <text x="440" y="345" fill="#E8F5E9" font-size="14">• Search space O(D²) bound</text>
+  <text x="440" y="380" fill="#A5D6A7" font-size="12" font-style="italic">Even d + odd a,b ⟹ even c (mod 4)</text>
+  <text x="440" y="405" fill="#A5D6A7" font-size="12" font-style="italic">d/g &lt; d guaranteed, descent in O(log d)</text>
+  <text x="440" y="440" fill="#4CAF50" font-size="13" font-weight="bold">✓ 6 theorems formally verified</text>
+
+  <!-- Direction 3: Quantum Information (bottom-left) -->
+  <rect x="810" y="190" width="360" height="280" rx="15" fill="url(#card3)" stroke="#FFA726" stroke-width="2"/>
+  <text x="990" y="225" text-anchor="middle" fill="#FFB74D" font-size="20" font-weight="bold">🔸 Quantum Information</text>
+  <line x1="840" y1="240" x2="1140" y2="240" stroke="#FFA726" stroke-width="1" opacity="0.5"/>
+  <text x="830" y="270" fill="#FFF3E0" font-size="14">• Bloch sphere representation</text>
+  <text x="830" y="295" fill="#FFF3E0" font-size="14">• Grover oracle construction</text>
+  <text x="830" y="320" fill="#FFF3E0" font-size="14">• Quantum walk on Berggren graph</text>
+  <text x="830" y="345" fill="#FFF3E0" font-size="14">• N^(1/4) quantum speedup</text>
+  <text x="830" y="380" fill="#FFCC80" font-size="12" font-style="italic">(a/d)² + (b/d)² + (c/d)² = 1 on S²</text>
+  <text x="830" y="405" fill="#FFCC80" font-size="12" font-style="italic">Oracle: ∀p&gt;0, ∃c. p | (d−c)</text>
+  <text x="830" y="440" fill="#4CAF50" font-size="13" font-weight="bold">✓ 3 theorems formally verified</text>
+
+  <!-- Direction 4: Higher Dimensions (bottom center-left) -->
+  <rect x="30" y="500" width="360" height="180" rx="15" fill="url(#card4)" stroke="#AB47BC" stroke-width="2"/>
+  <text x="210" y="535" text-anchor="middle" fill="#CE93D8" font-size="20" font-weight="bold">🔹 Higher Dimensions</text>
+  <line x1="60" y1="550" x2="360" y2="550" stroke="#AB47BC" stroke-width="1" opacity="0.5"/>
+  <text x="50" y="580" fill="#F3E5F5" font-size="14">• Sextuple: 5 factorizations</text>
+  <text x="50" y="605" fill="#F3E5F5" font-size="14">• Septuple: 6 factorizations</text>
+  <text x="50" y="630" fill="#F3E5F5" font-size="14">• k-tuple: (k−1) factorizations</text>
+  <text x="50" y="655" fill="#F3E5F5" font-size="14">• Double-lift cascades</text>
+
+  <!-- Direction 5: Berggren Structure (bottom center-right) -->
+  <rect x="420" y="500" width="360" height="180" rx="15" fill="url(#card1)" stroke="#42A5F5" stroke-width="2"/>
+  <text x="600" y="535" text-anchor="middle" fill="#64B5F6" font-size="20" font-weight="bold">🌳 Berggren Structure</text>
+  <line x1="450" y1="550" x2="750" y2="550" stroke="#42A5F5" stroke-width="1" opacity="0.5"/>
+  <text x="440" y="580" fill="#E3F2FD" font-size="14">• M₁, M₂, M₃ all preserve triples</text>
+  <text x="440" y="605" fill="#E3F2FD" font-size="14">• det(M₁) = +1 ∈ SL(3,ℤ)</text>
+  <text x="440" y="630" fill="#E3F2FD" font-size="14">• Hypotenuse growth: c' &gt; c</text>
+  <text x="440" y="655" fill="#E3F2FD" font-size="14">• Bridge adjacency → small-world</text>
+
+  <!-- Direction 6: Parametric Families (bottom right) -->
+  <rect x="810" y="500" width="360" height="180" rx="15" fill="url(#card2)" stroke="#66BB6A" stroke-width="2"/>
+  <text x="990" y="535" text-anchor="middle" fill="#81C784" font-size="20" font-weight="bold">📐 Parametric Families</text>
+  <line x1="840" y1="550" x2="1140" y2="550" stroke="#66BB6A" stroke-width="1" opacity="0.5"/>
+  <text x="830" y="580" fill="#E8F5E9" font-size="14">• (k, 2k, 2k, 3k) family</text>
+  <text x="830" y="605" fill="#E8F5E9" font-size="14">• (2k, 3k, 6k, 7k) family</text>
+  <text x="830" y="630" fill="#E8F5E9" font-size="14">• (k, 4k, 8k, 9k) family</text>
+  <text x="830" y="655" fill="#E8F5E9" font-size="14">• Universal existence: ∀N&gt;2, ∃ quad</text>
+
+  <!-- Bottom summary -->
+  <rect x="30" y="710" width="1140" height="80" rx="15" fill="#1a237e" stroke="#42A5F5" stroke-width="2" opacity="0.6"/>
+  <text x="600" y="745" text-anchor="middle" fill="#E3F2FD" font-size="18" font-weight="bold">
+    30+ Theorems  •  All Formally Verified in Lean 4  •  Zero Sorries  •  Standard Axioms Only
+  </text>
+  <text x="600" y="775" text-anchor="middle" fill="#90CAF9" font-size="14">
+    Pythagorean__QDF_NewDirections.lean  |  Machine-checked proofs with Mathlib
+  </text>
+
+  <!-- Connecting arrows -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#42A5F5" opacity="0.6"/>
+    </marker>
+  </defs>
+
+  <!-- Arrows from central equation to directions -->
+  <line x1="450" y1="160" x2="300" y2="190" stroke="#42A5F5" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="160" x2="600" y2="190" stroke="#66BB6A" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+  <line x1="750" y1="160" x2="900" y2="190" stroke="#FFA726" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+
+  <!-- Version badge -->
+  <rect x="1050" y="830" width="130" height="30" rx="5" fill="#263238" stroke="#546E7A" stroke-width="1"/>
+  <text x="1115" y="850" text-anchor="middle" fill="#90A4AE" font-size="11">Lean 4.28.0</text>
+
+  <rect x="910" y="830" width="130" height="30" rx="5" fill="#263238" stroke="#546E7A" stroke-width="1"/>
+  <text x="975" y="850" text-anchor="middle" fill="#90A4AE" font-size="11">Mathlib v4.28</text>
+</svg>

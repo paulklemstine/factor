@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="blsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3"/>
+      <stop offset="100%" style="stop-color:#1565C0"/>
+    </linearGradient>
+    <linearGradient id="latGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF5722"/>
+      <stop offset="100%" style="stop-color:#BF360C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="400" fill="#0d1117" rx="12"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="white" font-size="20" font-weight="bold" font-family="Arial">
+    Post-Quantum: BLS vs Lattice Signatures — Formally Verified
+  </text>
+
+  <!-- Left panel: Size comparison -->
+  <rect x="20" y="55" width="360" height="170" rx="8" fill="#1a2332"/>
+  <text x="200" y="78" text-anchor="middle" fill="#aaa" font-size="14" font-weight="bold" font-family="Arial">
+    Signature Size Comparison
+  </text>
+
+  <!-- BLS bar -->
+  <rect x="50" y="100" width="48" height="25" rx="4" fill="url(#blsGrad)"/>
+  <text x="105" y="117" fill="#64B5F6" font-size="12" font-family="Arial">BLS: 48 bytes (constant)</text>
+
+  <!-- Lattice bars at different security levels -->
+  <rect x="50" y="135" width="32" height="20" rx="3" fill="url(#latGrad)" opacity="0.6"/>
+  <text x="90" y="150" fill="#FF8A65" font-size="10" font-family="Arial">n=16: 32 bytes (lattice wins)</text>
+
+  <rect x="50" y="160" width="48" height="20" rx="3" fill="url(#latGrad)" opacity="0.8"/>
+  <text x="105" y="175" fill="#FF8A65" font-size="10" font-family="Arial">n=24: 48 bytes (tie)</text>
+
+  <rect x="50" y="185" width="128" height="20" rx="3" fill="url(#latGrad)"/>
+  <text x="185" y="200" fill="#FF8A65" font-size="10" font-family="Arial">n=64: 128 bytes (BLS wins)</text>
+
+  <!-- Crossover annotation -->
+  <line x1="98" y1="95" x2="98" y2="210" stroke="#FFD54F" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="98" y="220" text-anchor="middle" fill="#FFD54F" font-size="10" font-weight="bold" font-family="Arial">
+    n=24 crossover ✓
+  </text>
+
+  <!-- Right panel: Quantum security -->
+  <rect x="420" y="55" width="360" height="170" rx="8" fill="#1a2332"/>
+  <text x="600" y="78" text-anchor="middle" fill="#aaa" font-size="14" font-weight="bold" font-family="Arial">
+    Quantum Security
+  </text>
+
+  <!-- Security comparison table -->
+  <text x="450" y="105" fill="#888" font-size="11" font-family="monospace">Scheme     Classical    Quantum</text>
+  <line x1="440" y1="110" x2="760" y2="110" stroke="#444" stroke-width="1"/>
+
+  <text x="450" y="130" fill="#64B5F6" font-size="11" font-family="monospace">BLS        2^n          n³ (Shor)</text>
+  <rect x="680" y="118" width="70" height="18" rx="4" fill="#F44336" opacity="0.3"/>
+  <text x="715" y="132" text-anchor="middle" fill="#F44336" font-size="10" font-weight="bold" font-family="Arial">BROKEN</text>
+
+  <text x="450" y="155" fill="#FF8A65" font-size="11" font-family="monospace">Lattice    2^n          2^(n/2)</text>
+  <rect x="680" y="143" width="70" height="18" rx="4" fill="#4CAF50" opacity="0.3"/>
+  <text x="715" y="157" text-anchor="middle" fill="#4CAF50" font-size="10" font-weight="bold" font-family="Arial">SAFE</text>
+
+  <text x="600" y="185" text-anchor="middle" fill="#aaa" font-size="10" font-family="Arial">
+    Verified: 2^n > 1 for n ≥ 2 (exponential hardness)
+  </text>
+  <text x="600" y="200" text-anchor="middle" fill="#aaa" font-size="10" font-family="Arial">
+    Verified: forgery ≤ 2·SIS_adv + (1/n)^n
+  </text>
+
+  <!-- Bottom: Key theorems -->
+  <rect x="20" y="240" width="760" height="140" rx="10" fill="#0a1628" stroke="#69F0AE" stroke-width="1"/>
+
+  <text x="400" y="270" text-anchor="middle" fill="#69F0AE" font-size="16" font-weight="bold" font-family="Arial">
+    ✓ Formally Verified Theorems (Lean 4 + Mathlib)
+  </text>
+
+  <text x="60" y="300" fill="#a0f0c0" font-size="12" font-family="Arial">
+    • bls_more_compact_small: n &lt; 24 → 2n &lt; 48
+  </text>
+  <text x="60" y="322" fill="#a0f0c0" font-size="12" font-family="Arial">
+    • lattice_larger_for_security: 24 ≤ n → 48 ≤ 2n
+  </text>
+  <text x="60" y="344" fill="#a0f0c0" font-size="12" font-family="Arial">
+    • quantum_lattice_exponential: 2 ≤ n → 1 &lt; 2^n
+  </text>
+  <text x="430" y="300" fill="#a0f0c0" font-size="12" font-family="Arial">
+    • lattice_sig_security: SIS hard → forgery negligible
+  </text>
+  <text x="430" y="322" fill="#a0f0c0" font-size="12" font-family="Arial">
+    • aggregation_space_saving: agg &lt; k·sig → agg/(k·sig) &lt; 1
+  </text>
+  <text x="430" y="344" fill="#a0f0c0" font-size="12" font-family="Arial">
+    • bls_quantum_broken: break(n) ≤ n³ (polynomial)
+  </text>
+</svg>

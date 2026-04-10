@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ffaa00"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00ddff"/>
+      <stop offset="100%" stop-color="#0088ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="url(#gold)" font-size="22" font-weight="bold">
+    Ramanujan Frontiers of the Berggren Tree
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#aaa" font-size="12">
+    Four Research Directions — Machine-Verified in Lean 4
+  </text>
+
+  <!-- Central tree -->
+  <g transform="translate(450, 200)" filter="url(#glow)">
+    <!-- Tree edges -->
+    <line x1="0" y1="0" x2="-120" y2="80" stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+    <line x1="0" y1="0" x2="0" y2="80" stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+    <line x1="0" y1="0" x2="120" y2="80" stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+    <line x1="-120" y1="80" x2="-170" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="-120" y1="80" x2="-120" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="-120" y1="80" x2="-70" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="0" y1="80" x2="-50" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="0" y1="80" x2="0" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="0" y1="80" x2="50" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="120" y1="80" x2="70" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="120" y1="80" x2="120" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <line x1="120" y1="80" x2="170" y2="140" stroke="#ffd700" stroke-width="1.5" opacity="0.5"/>
+    <!-- Root -->
+    <circle cx="0" cy="0" r="22" fill="#ffd700" opacity="0.9"/>
+    <text x="0" y="5" text-anchor="middle" fill="#0a0a2e" font-size="10" font-weight="bold">3,4,5</text>
+    <!-- Children -->
+    <circle cx="-120" cy="80" r="16" fill="#ffaa00" opacity="0.8"/>
+    <text x="-120" y="84" text-anchor="middle" fill="#0a0a2e" font-size="8">5,12,13</text>
+    <circle cx="0" cy="80" r="16" fill="#ffaa00" opacity="0.8"/>
+    <text x="0" y="84" text-anchor="middle" fill="#0a0a2e" font-size="8">21,20,29</text>
+    <circle cx="120" cy="80" r="16" fill="#ffaa00" opacity="0.8"/>
+    <text x="120" y="84" text-anchor="middle" fill="#0a0a2e" font-size="8">15,8,17</text>
+    <!-- Grandchildren (dots) -->
+    <circle cx="-170" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="-120" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="-70" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="-50" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="0" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="50" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="70" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="120" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+    <circle cx="170" cy="140" r="5" fill="#ffcc44" opacity="0.5"/>
+  </g>
+
+  <!-- Four research boxes -->
+  <!-- Box 1: Ramanujan Graphs -->
+  <rect x="30" y="400" width="195" height="220" rx="10" fill="#1a2a5e" stroke="#00ddff" stroke-width="1.5" opacity="0.9"/>
+  <text x="127" y="425" text-anchor="middle" fill="#00ddff" font-size="13" font-weight="bold">1. Ramanujan Graphs</text>
+  <text x="40" y="448" fill="#ccc" font-size="10">• Quotients mod p</text>
+  <text x="40" y="465" fill="#ccc" font-size="10">• Lorentz form preserved</text>
+  <text x="40" y="482" fill="#ccc" font-size="10">• γ₆ = 6−2√5 ≈ 1.53</text>
+  <text x="40" y="499" fill="#ccc" font-size="10">• Cheeger h ≥ 0.76</text>
+  <text x="40" y="520" fill="#0f0" font-size="9">✓ Verified mod 5,7,13</text>
+  <text x="40" y="537" fill="#0f0" font-size="9">✓ Gap positivity proven</text>
+  <text x="40" y="554" fill="#0f0" font-size="9">✓ 6-reg > 3-reg gap</text>
+  <!-- Arrow from tree to box -->
+  <line x1="350" y1="340" x2="127" y2="395" stroke="#00ddff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+
+  <!-- Box 2: Quantum Walks -->
+  <rect x="240" y="400" width="195" height="220" rx="10" fill="#1a2a5e" stroke="#ff44ff" stroke-width="1.5" opacity="0.9"/>
+  <text x="337" y="425" text-anchor="middle" fill="#ff44ff" font-size="13" font-weight="bold">2. Quantum Walks</text>
+  <text x="250" y="448" fill="#ccc" font-size="10">• Grover coin G²∝I</text>
+  <text x="250" y="465" fill="#ccc" font-size="10">• γ_Q = 17−12√2</text>
+  <text x="250" y="482" fill="#ccc" font-size="10">• O(log N) vs O(log²N)</text>
+  <text x="250" y="499" fill="#ccc" font-size="10">• Quadratic speedup</text>
+  <text x="250" y="520" fill="#0f0" font-size="9">✓ Coin eigenvalues</text>
+  <text x="250" y="537" fill="#0f0" font-size="9">✓ Quantum gap > 0</text>
+  <text x="250" y="554" fill="#0f0" font-size="9">✓ Node count formula</text>
+  <line x1="420" y1="340" x2="337" y2="395" stroke="#ff44ff" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+
+  <!-- Box 3: Cryptography -->
+  <rect x="450" y="400" width="195" height="220" rx="10" fill="#1a2a5e" stroke="#ff6644" stroke-width="1.5" opacity="0.9"/>
+  <text x="547" y="425" text-anchor="middle" fill="#ff6644" font-size="13" font-weight="bold">3. Cryptography</text>
+  <text x="460" y="448" fill="#ccc" font-size="10">• One-way function</text>
+  <text x="460" y="465" fill="#ccc" font-size="10">• O(n) forward, hard inv.</text>
+  <text x="460" y="482" fill="#ccc" font-size="10">• 3ⁿ ≥ 2ⁿ security</text>
+  <text x="460" y="499" fill="#ccc" font-size="10">• Collision-resistant</text>
+  <text x="460" y="520" fill="#0f0" font-size="9">✓ B₁,B₂,B₃ injective</text>
+  <text x="460" y="537" fill="#0f0" font-size="9">✓ Hypotenuse growth</text>
+  <text x="460" y="554" fill="#0f0" font-size="9">✓ Directions distinct</text>
+  <line x1="480" y1="340" x2="547" y2="395" stroke="#ff6644" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+
+  <!-- Box 4: Higher Dimensions -->
+  <rect x="660" y="400" width="210" height="220" rx="10" fill="#1a2a5e" stroke="#44ff44" stroke-width="1.5" opacity="0.9"/>
+  <text x="765" y="425" text-anchor="middle" fill="#44ff44" font-size="13" font-weight="bold">4. Higher Dimensions</text>
+  <text x="670" y="448" fill="#ccc" font-size="10">• a²+b²+c²=d² trees</text>
+  <text x="670" y="465" fill="#ccc" font-size="10">• O(3,1;ℤ) generators</text>
+  <text x="670" y="482" fill="#ccc" font-size="10">• γ₈ = 8−2√7 ≈ 2.71</text>
+  <text x="670" y="499" fill="#ccc" font-size="10">• Gap monotonicity</text>
+  <text x="670" y="520" fill="#0f0" font-size="9">✓ 4D Lorentz preserved</text>
+  <text x="670" y="537" fill="#0f0" font-size="9">✓ Quad. eq. preserved</text>
+  <text x="670" y="554" fill="#0f0" font-size="9">✓ γ₈ > γ₆ > γ₃ proven</text>
+  <line x1="550" y1="340" x2="765" y2="395" stroke="#44ff44" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+
+  <!-- Lorentz form -->
+  <text x="450" y="375" text-anchor="middle" fill="#ffd700" font-size="14" font-style="italic">
+    Q = diag(1, 1, −1) — Lorentz metric
+  </text>
+</svg>

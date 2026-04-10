@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#1a2a48"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#e0e8f0" font-size="24" font-weight="bold">
+    Millennium Prize Problems: Formal Verification Map
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#8899aa" font-size="13">
+    Machine-verified structural results in Lean 4 / Mathlib
+  </text>
+
+  <!-- Central node -->
+  <circle cx="450" cy="350" r="55" fill="#1e3a5f" stroke="#4a9eff" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="343" text-anchor="middle" fill="#4a9eff" font-size="13" font-weight="bold">Formal</text>
+  <text x="450" y="360" text-anchor="middle" fill="#4a9eff" font-size="13" font-weight="bold">Verification</text>
+
+  <!-- Riemann Hypothesis -->
+  <line x1="450" y1="295" x2="300" y2="155" stroke="#ff6b6b" stroke-width="2" opacity="0.6"/>
+  <circle cx="300" cy="150" r="60" fill="#2a1a1a" stroke="#ff6b6b" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="300" y="138" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">Riemann</text>
+  <text x="300" y="155" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">Hypothesis</text>
+  <text x="300" y="175" text-anchor="middle" fill="#cc8888" font-size="9">Li criterion ✓</text>
+  <text x="300" y="188" text-anchor="middle" fill="#cc8888" font-size="9">Spectral theory ✓</text>
+
+  <!-- P vs NP -->
+  <line x1="450" y1="295" x2="650" y2="155" stroke="#6bff6b" stroke-width="2" opacity="0.6"/>
+  <circle cx="650" cy="150" r="60" fill="#1a2a1a" stroke="#6bff6b" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="650" y="143" text-anchor="middle" fill="#6bff6b" font-size="13" font-weight="bold">P vs NP</text>
+  <text x="650" y="165" text-anchor="middle" fill="#88cc88" font-size="9">Diagonalization ✓</text>
+  <text x="650" y="178" text-anchor="middle" fill="#88cc88" font-size="9">Circuit counting ✓</text>
+
+  <!-- Yang-Mills -->
+  <line x1="395" y1="350" x2="130" y2="330" stroke="#ff6bff" stroke-width="2" opacity="0.6"/>
+  <circle cx="130" cy="330" r="60" fill="#2a1a2a" stroke="#ff6bff" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="130" y="318" text-anchor="middle" fill="#ff6bff" font-size="12" font-weight="bold">Yang-Mills</text>
+  <text x="130" y="335" text-anchor="middle" fill="#ff6bff" font-size="12" font-weight="bold">Mass Gap</text>
+  <text x="130" y="355" text-anchor="middle" fill="#cc88cc" font-size="9">Lie algebra ✓</text>
+  <text x="130" y="368" text-anchor="middle" fill="#cc88cc" font-size="9">Jacobi identity ✓</text>
+
+  <!-- Navier-Stokes -->
+  <line x1="505" y1="350" x2="780" y2="330" stroke="#6bffff" stroke-width="2" opacity="0.6"/>
+  <circle cx="780" cy="330" r="60" fill="#1a2a2a" stroke="#6bffff" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="780" y="318" text-anchor="middle" fill="#6bffff" font-size="12" font-weight="bold">Navier-Stokes</text>
+  <text x="780" y="335" text-anchor="middle" fill="#6bffff" font-size="12" font-weight="bold">Regularity</text>
+  <text x="780" y="355" text-anchor="middle" fill="#88cccc" font-size="9">Gronwall ineq. ✓</text>
+  <text x="780" y="368" text-anchor="middle" fill="#88cccc" font-size="9">Energy decay ✓</text>
+
+  <!-- Collatz -->
+  <line x1="420" y1="400" x2="230" y2="530" stroke="#ffff6b" stroke-width="2" opacity="0.6"/>
+  <circle cx="230" cy="530" r="55" fill="#2a2a1a" stroke="#ffff6b" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="230" y="518" text-anchor="middle" fill="#ffff6b" font-size="12" font-weight="bold">Collatz</text>
+  <text x="230" y="535" text-anchor="middle" fill="#ffff6b" font-size="12" font-weight="bold">Conjecture</text>
+  <text x="230" y="555" text-anchor="middle" fill="#cccc88" font-size="9">Trajectories ✓</text>
+  <text x="230" y="568" text-anchor="middle" fill="#cccc88" font-size="9">n=27 verified ✓</text>
+
+  <!-- Brocard & Erdos-Straus -->
+  <line x1="480" y1="400" x2="650" y2="530" stroke="#ffaa6b" stroke-width="2" opacity="0.6"/>
+  <circle cx="650" cy="530" r="55" fill="#2a1f1a" stroke="#ffaa6b" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="650" y="515" text-anchor="middle" fill="#ffaa6b" font-size="11" font-weight="bold">Brocard &amp;</text>
+  <text x="650" y="532" text-anchor="middle" fill="#ffaa6b" font-size="11" font-weight="bold">Erdős-Straus</text>
+  <text x="650" y="552" text-anchor="middle" fill="#cc9977" font-size="9">Solutions ✓</text>
+  <text x="650" y="565" text-anchor="middle" fill="#cc9977" font-size="9">Decompositions ✓</text>
+
+  <!-- Legend -->
+  <rect x="30" y="620" width="840" height="55" rx="8" fill="#0d1a2d" stroke="#334455" stroke-width="1"/>
+  <text x="50" y="642" fill="#8899aa" font-size="11">✓ = Formally verified in Lean 4</text>
+  <text x="50" y="660" fill="#8899aa" font-size="11">All proofs compile without sorry or non-standard axioms</text>
+  <text x="550" y="642" fill="#667788" font-size="10">Millennium Problems remain OPEN</text>
+  <text x="550" y="660" fill="#667788" font-size="10">These are structural foundations, not solutions</text>
+</svg>

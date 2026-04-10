@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 650" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="fbg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4488cc"/>
+    </marker>
+    <marker id="arr2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#44cc88"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="650" fill="url(#fbg)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">GCD CASCADE ALGORITHM</text>
+  <text x="400" y="55" text-anchor="middle" fill="#7799bb" font-size="12">From Composite Number to Prime Factors via Sphere Geometry</text>
+
+  <!-- Step 1: Input -->
+  <rect x="280" y="75" width="240" height="55" rx="10" fill="#1a2744" stroke="#ff6b35" stroke-width="2"/>
+  <text x="400" y="98" text-anchor="middle" fill="#ff6b35" font-size="14" font-weight="bold">INPUT: N = p × q</text>
+  <text x="400" y="118" text-anchor="middle" fill="#ccccdd" font-size="11">Composite number to factor</text>
+
+  <line x1="400" y1="130" x2="400" y2="155" stroke="#4488cc" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 2: Find Representations -->
+  <rect x="200" y="160" width="400" height="70" rx="10" fill="#1a2744" stroke="#4488cc" stroke-width="2"/>
+  <text x="400" y="185" text-anchor="middle" fill="#4488cc" font-size="13" font-weight="bold">STEP 1: Find Representations</text>
+  <text x="400" y="205" text-anchor="middle" fill="#ccccdd" font-size="10">Find (a₁,b₁,c₁), (a₂,b₂,c₂), ... on N-sphere</text>
+  <text x="400" y="220" text-anchor="middle" fill="#aabbcc" font-size="9">aᵢ² + bᵢ² + cᵢ² = N²</text>
+
+  <line x1="400" y1="230" x2="400" y2="255" stroke="#4488cc" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Step 3: Compute Channels -->
+  <rect x="200" y="260" width="400" height="80" rx="10" fill="#1a2744" stroke="#f7c948" stroke-width="2"/>
+  <text x="400" y="285" text-anchor="middle" fill="#f7c948" font-size="13" font-weight="bold">STEP 2: Compute Channels</text>
+  <text x="220" y="305" fill="#ccccdd" font-size="10">For each rep i, compute 3 channel values:</text>
+  <text x="220" y="325" fill="#ccccdd" font-size="10">aᵢ²+bᵢ² = (N−cᵢ)(N+cᵢ), aᵢ²+cᵢ² = (N−bᵢ)(N+bᵢ), ...</text>
+
+  <!-- Split into two paths -->
+  <line x1="300" y1="340" x2="200" y2="380" stroke="#4488cc" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="500" y1="340" x2="600" y2="380" stroke="#44cc88" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- Left Path: Direct Factor Check -->
+  <rect x="50" y="385" width="300" height="75" rx="10" fill="#1a2744" stroke="#4ecdc4" stroke-width="2"/>
+  <text x="200" y="408" text-anchor="middle" fill="#4ecdc4" font-size="12" font-weight="bold">STEP 3a: Direct Channel Check</text>
+  <text x="70" y="428" fill="#ccccdd" font-size="10">Check each (N−cᵢ) and (N+cᵢ):</text>
+  <text x="70" y="445" fill="#ccccdd" font-size="10">If gcd(N−cᵢ, N) &gt; 1 → factor found!</text>
+
+  <!-- Right Path: Cross-Rep GCD -->
+  <rect x="450" y="385" width="300" height="75" rx="10" fill="#1a2744" stroke="#44cc88" stroke-width="2"/>
+  <text x="600" y="408" text-anchor="middle" fill="#44cc88" font-size="12" font-weight="bold">STEP 3b: GCD Cascade</text>
+  <text x="470" y="428" fill="#ccccdd" font-size="10">For each pair (i,j), compute:</text>
+  <text x="470" y="445" fill="#ccccdd" font-size="10">g = gcd(N−cᵢ, N−cⱼ) → divides cⱼ−cᵢ</text>
+
+  <!-- Merge -->
+  <line x1="200" y1="460" x2="300" y2="500" stroke="#4488cc" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="600" y1="460" x2="500" y2="500" stroke="#44cc88" stroke-width="2" marker-end="url(#arr2)"/>
+
+  <!-- Step 4: Factor Check -->
+  <rect x="250" y="505" width="300" height="55" rx="10" fill="#1a2744" stroke="#cc44aa" stroke-width="2"/>
+  <text x="400" y="528" text-anchor="middle" fill="#cc44aa" font-size="12" font-weight="bold">STEP 4: Factor Extraction</text>
+  <text x="400" y="548" text-anchor="middle" fill="#ccccdd" font-size="10">Check gcd(g, N) for nontrivial factor</text>
+
+  <!-- Decision -->
+  <line x1="400" y1="560" x2="400" y2="585" stroke="#4488cc" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Output -->
+  <rect x="250" y="590" width="300" height="50" rx="10" fill="#1a3322" stroke="#44cc88" stroke-width="2"/>
+  <text x="400" y="613" text-anchor="middle" fill="#44cc88" font-size="14" font-weight="bold">OUTPUT: N = p × q</text>
+  <text x="400" y="630" text-anchor="middle" fill="#88ddaa" font-size="11">Prime factorization revealed!</text>
+
+  <!-- Feedback loop -->
+  <path d="M 550 555 Q 720 555 720 430 Q 720 300 600 260" fill="none" stroke="#ff6b35" stroke-width="1.5" stroke-dasharray="5,5" marker-end="url(#arr)"/>
+  <text x="735" y="410" fill="#ff9966" font-size="9" transform="rotate(90, 735, 410)">cascade transitivity</text>
+
+  <!-- Key insight box -->
+  <rect x="30" y="75" width="230" height="85" rx="8" fill="#111a2e" stroke="#334466" stroke-width="1"/>
+  <text x="145" y="98" text-anchor="middle" fill="#88aaff" font-size="11" font-weight="bold">KEY THEOREMS USED</text>
+  <text x="40" y="118" fill="#aabbcc" font-size="9">• Cross-channel GCD (Thm 1)</text>
+  <text x="40" y="133" fill="#aabbcc" font-size="9">• Cascade transitivity (Thm 9)</text>
+  <text x="40" y="148" fill="#aabbcc" font-size="9">• Prime dichotomy (New)</text>
+</svg>

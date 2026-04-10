@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <radialGradient id="sphere" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#4488ff;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#2244aa;stop-opacity:0.1"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="22" font-weight="bold">
+    Quantum Search on the Factoring Sphere
+  </text>
+  <text x="450" y="62" text-anchor="middle" fill="#88aaff" font-family="Georgia" font-size="13">
+    Classical Birthday Bound vs. Grover vs. BHT Collision Finding
+  </text>
+
+  <!-- Sphere (circle representation) -->
+  <circle cx="250" cy="300" r="180" fill="url(#sphere)" stroke="#4488ff" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="250" y="510" text-anchor="middle" fill="#aaccff" font-family="monospace" font-size="12">
+    S^(k-1)(√N) — Factoring Sphere
+  </text>
+
+  <!-- Integer points on sphere -->
+  <g filter="url(#glow)">
+    <!-- Rep 1 -->
+    <circle cx="160" cy="160" r="6" fill="#ff6644"/>
+    <text x="135" y="148" fill="#ff8866" font-family="monospace" font-size="10">(a,b)</text>
+    <!-- Rep 2 -->
+    <circle cx="370" cy="200" r="6" fill="#ff6644"/>
+    <text x="378" y="195" fill="#ff8866" font-family="monospace" font-size="10">(c,d)</text>
+    <!-- Rep 3 -->
+    <circle cx="320" cy="430" r="6" fill="#44ff88"/>
+    <text x="330" y="445" fill="#66ffaa" font-family="monospace" font-size="10">(e,f)</text>
+    <!-- Rep 4 -->
+    <circle cx="120" cy="380" r="6" fill="#44ff88"/>
+    <text x="80" y="395" fill="#66ffaa" font-family="monospace" font-size="10">(g,h)</text>
+    <!-- More points -->
+    <circle cx="280" cy="130" r="4" fill="#ffaa44" opacity="0.7"/>
+    <circle cx="400" cy="340" r="4" fill="#ffaa44" opacity="0.7"/>
+    <circle cx="180" cy="450" r="4" fill="#ffaa44" opacity="0.7"/>
+    <circle cx="100" cy="250" r="4" fill="#ffaa44" opacity="0.7"/>
+    <circle cx="350" cy="150" r="4" fill="#ffaa44" opacity="0.5"/>
+    <circle cx="220" cy="470" r="4" fill="#ffaa44" opacity="0.5"/>
+  </g>
+
+  <!-- Collision line -->
+  <line x1="160" y1="160" x2="370" y2="200" stroke="#ff4444" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="265" y="168" text-anchor="middle" fill="#ff6666" font-family="monospace" font-size="10">
+    COLLISION
+  </text>
+  <text x="265" y="182" text-anchor="middle" fill="#ff8888" font-family="monospace" font-size="9">
+    gcd(ad-bc, N)
+  </text>
+
+  <!-- Right panel: Complexity comparison -->
+  <rect x="510" y="90" width="370" height="420" rx="10" fill="#111133" stroke="#334" stroke-width="1"/>
+  <text x="695" y="120" text-anchor="middle" fill="#ffffff" font-family="Georgia" font-size="16" font-weight="bold">
+    Search Complexity
+  </text>
+
+  <!-- Bar chart -->
+  <g transform="translate(540, 150)">
+    <!-- Classical -->
+    <rect x="0" y="0" width="60" height="240" rx="4" fill="#ff6644" opacity="0.8"/>
+    <text x="30" y="260" text-anchor="middle" fill="#ff8866" font-family="monospace" font-size="11">Classical</text>
+    <text x="30" y="278" text-anchor="middle" fill="#ffaa88" font-family="monospace" font-size="9">O(S^½)</text>
+    <text x="30" y="-8" text-anchor="middle" fill="#ff8866" font-family="monospace" font-size="10">√S</text>
+
+    <!-- Grover -->
+    <rect x="80" y="120" width="60" height="120" rx="4" fill="#44aaff" opacity="0.8"/>
+    <text x="110" y="260" text-anchor="middle" fill="#66ccff" font-family="monospace" font-size="11">Grover</text>
+    <text x="110" y="278" text-anchor="middle" fill="#88ddff" font-family="monospace" font-size="9">O(S^¼)</text>
+    <text x="110" y="112" text-anchor="middle" fill="#66ccff" font-family="monospace" font-size="10">S^¼</text>
+
+    <!-- BHT -->
+    <rect x="160" y="80" width="60" height="160" rx="4" fill="#44ff88" opacity="0.8"/>
+    <text x="190" y="260" text-anchor="middle" fill="#66ffaa" font-family="monospace" font-size="11">BHT</text>
+    <text x="190" y="278" text-anchor="middle" fill="#88ffcc" font-family="monospace" font-size="9">O(S^⅓)</text>
+    <text x="190" y="72" text-anchor="middle" fill="#66ffaa" font-family="monospace" font-size="10">S^⅓</text>
+
+    <!-- Shor -->
+    <rect x="240" y="220" width="60" height="20" rx="4" fill="#ffff44" opacity="0.8"/>
+    <text x="270" y="260" text-anchor="middle" fill="#ffff66" font-family="monospace" font-size="11">Shor</text>
+    <text x="270" y="278" text-anchor="middle" fill="#ffff88" font-family="monospace" font-size="9">O(log³N)</text>
+    <text x="270" y="215" text-anchor="middle" fill="#ffff66" font-family="monospace" font-size="10">poly</text>
+  </g>
+
+  <!-- Annotations -->
+  <text x="695" y="460" text-anchor="middle" fill="#aaccff" font-family="Georgia" font-size="11" font-style="italic">
+    S = sphere lattice point count ≈ N^{(k-1)/2}
+  </text>
+  <text x="695" y="480" text-anchor="middle" fill="#8899bb" font-family="Georgia" font-size="10">
+    Quantum collision search: polynomial, not exponential speedup
+  </text>
+
+  <!-- Key insight box -->
+  <rect x="510" y="530" width="370" height="50" rx="8" fill="#222244" stroke="#4466aa" stroke-width="1"/>
+  <text x="695" y="550" text-anchor="middle" fill="#aaccff" font-family="Georgia" font-size="11" font-weight="bold">
+    Key Insight
+  </text>
+  <text x="695" y="568" text-anchor="middle" fill="#8899bb" font-family="Georgia" font-size="10">
+    Grover helps, but doesn't change the complexity class
+  </text>
+</svg>

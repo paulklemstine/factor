@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="dim2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e17055"/>
+      <stop offset="100%" stop-color="#d63031"/>
+    </linearGradient>
+    <linearGradient id="dim3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#74b9ff"/>
+      <stop offset="100%" stop-color="#0984e3"/>
+    </linearGradient>
+    <linearGradient id="dim4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#55efc4"/>
+      <stop offset="100%" stop-color="#00b894"/>
+    </linearGradient>
+    <linearGradient id="dimn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#dfe6e9"/>
+      <stop offset="100%" stop-color="#b2bec3"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#f9ca24" font-size="26" font-weight="bold" filter="url(#glow2)">
+    Higher-Dimensional Channel Hierarchy
+  </text>
+  <text x="600" y="70" text-anchor="middle" fill="#b2bec3" font-size="14">
+    From Triples to n-tuples: How Dimensions Multiply Factoring Channels
+  </text>
+
+  <!-- Dimension 2: Triples -->
+  <g transform="translate(150, 180)">
+    <rect x="-130" y="-70" width="260" height="200" rx="15" fill="rgba(225,112,85,0.1)" stroke="url(#dim2)" stroke-width="2"/>
+    <text x="0" y="-45" text-anchor="middle" fill="url(#dim2)" font-size="18" font-weight="bold">Triples (n=2)</text>
+    <text x="0" y="-20" text-anchor="middle" fill="#dfe6e9" font-size="14">a² + b² = c²</text>
+
+    <!-- Triangle visualization -->
+    <line x1="-60" y1="80" x2="60" y2="80" stroke="#e17055" stroke-width="2"/>
+    <line x1="-60" y1="80" x2="-60" y2="10" stroke="#e17055" stroke-width="2"/>
+    <line x1="-60" y1="10" x2="60" y2="80" stroke="#f9ca24" stroke-width="2"/>
+    <text x="0" y="100" text-anchor="middle" fill="#e17055" font-size="11">a</text>
+    <text x="-75" y="50" text-anchor="middle" fill="#e17055" font-size="11">b</text>
+    <text x="10" y="40" text-anchor="middle" fill="#f9ca24" font-size="11">c</text>
+
+    <text x="0" y="120" text-anchor="middle" fill="#b2bec3" font-size="12">1 channel • Sum = c²</text>
+  </g>
+
+  <!-- Arrow -->
+  <text x="310" y="200" fill="#636e72" font-size="30">→</text>
+
+  <!-- Dimension 3: Quadruples -->
+  <g transform="translate(450, 180)">
+    <rect x="-130" y="-70" width="260" height="200" rx="15" fill="rgba(116,185,255,0.1)" stroke="url(#dim3)" stroke-width="2"/>
+    <text x="0" y="-45" text-anchor="middle" fill="url(#dim3)" font-size="18" font-weight="bold">Quadruples (n=3)</text>
+    <text x="0" y="-20" text-anchor="middle" fill="#dfe6e9" font-size="14">a² + b² + c² = d²</text>
+
+    <!-- Box diagonal visualization -->
+    <g transform="translate(-30, 30)">
+      <!-- Back face -->
+      <polygon points="0,0 50,0 70,-20 20,-20" fill="none" stroke="#74b9ff" stroke-width="1" opacity="0.5"/>
+      <!-- Front face -->
+      <polygon points="0,50 50,50 70,30 20,30" fill="none" stroke="#74b9ff" stroke-width="1.5"/>
+      <!-- Sides -->
+      <line x1="0" y1="0" x2="0" y2="50" stroke="#74b9ff" stroke-width="1" opacity="0.5"/>
+      <line x1="50" y1="0" x2="50" y2="50" stroke="#74b9ff" stroke-width="1.5"/>
+      <line x1="70" y1="-20" x2="70" y2="30" stroke="#74b9ff" stroke-width="1" opacity="0.5"/>
+      <line x1="20" y1="-20" x2="20" y2="30" stroke="#74b9ff" stroke-width="1" opacity="0.5"/>
+      <!-- Diagonal -->
+      <line x1="0" y1="50" x2="70" y2="-20" stroke="#f9ca24" stroke-width="2.5"/>
+      <circle cx="0" cy="50" r="3" fill="#74b9ff"/>
+      <circle cx="70" cy="-20" r="3" fill="#f9ca24"/>
+    </g>
+
+    <text x="0" y="120" text-anchor="middle" fill="#b2bec3" font-size="12">3 channels • Sum = 2d²</text>
+  </g>
+
+  <!-- Arrow -->
+  <text x="610" y="200" fill="#636e72" font-size="30">→</text>
+
+  <!-- Dimension 4: Quintuples -->
+  <g transform="translate(750, 180)">
+    <rect x="-130" y="-70" width="260" height="200" rx="15" fill="rgba(85,239,196,0.1)" stroke="url(#dim4)" stroke-width="2"/>
+    <text x="0" y="-45" text-anchor="middle" fill="url(#dim4)" font-size="18" font-weight="bold">Quintuples (n=4)</text>
+    <text x="0" y="-20" text-anchor="middle" fill="#dfe6e9" font-size="14">a²+b²+c²+d² = e²</text>
+
+    <!-- 4D hypercube projection -->
+    <g transform="translate(-10, 50)">
+      <!-- Outer cube -->
+      <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="#55efc4" stroke-width="1.5"/>
+      <!-- Inner cube -->
+      <rect x="-15" y="-15" width="30" height="30" fill="none" stroke="#55efc4" stroke-width="1" opacity="0.6"/>
+      <!-- Connections -->
+      <line x1="-30" y1="-30" x2="-15" y2="-15" stroke="#55efc4" stroke-width="1" opacity="0.4"/>
+      <line x1="30" y1="-30" x2="15" y2="-15" stroke="#55efc4" stroke-width="1" opacity="0.4"/>
+      <line x1="30" y1="30" x2="15" y2="15" stroke="#55efc4" stroke-width="1" opacity="0.4"/>
+      <line x1="-30" y1="30" x2="-15" y2="15" stroke="#55efc4" stroke-width="1" opacity="0.4"/>
+      <!-- Diagonal -->
+      <line x1="-30" y1="30" x2="15" y2="-15" stroke="#f9ca24" stroke-width="2.5"/>
+      <circle cx="-30" cy="30" r="3" fill="#55efc4"/>
+      <circle cx="15" cy="-15" r="3" fill="#f9ca24"/>
+    </g>
+
+    <text x="0" y="120" text-anchor="middle" fill="#b2bec3" font-size="12">6 channels • Sum = 3e²</text>
+  </g>
+
+  <!-- Arrow -->
+  <text x="910" y="200" fill="#636e72" font-size="30">→</text>
+
+  <!-- Dimension n: General -->
+  <g transform="translate(1050, 180)">
+    <rect x="-130" y="-70" width="260" height="200" rx="15" fill="rgba(223,230,233,0.05)" stroke="url(#dimn)" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="0" y="-45" text-anchor="middle" fill="url(#dimn)" font-size="18" font-weight="bold">n-tuples</text>
+    <text x="0" y="-20" text-anchor="middle" fill="#dfe6e9" font-size="13">Σxᵢ² = y²</text>
+
+    <text x="0" y="20" text-anchor="middle" fill="#dfe6e9" font-size="40">∞</text>
+
+    <text x="0" y="80" text-anchor="middle" fill="#b2bec3" font-size="12">C(n,2) channels</text>
+    <text x="0" y="100" text-anchor="middle" fill="#b2bec3" font-size="12">Sum = (n−1)y²</text>
+  </g>
+
+  <!-- Table -->
+  <g transform="translate(100, 450)">
+    <rect x="0" y="0" width="1000" height="200" rx="10" fill="rgba(255,255,255,0.03)" stroke="#636e72" stroke-width="1"/>
+
+    <!-- Header -->
+    <rect x="0" y="0" width="1000" height="40" rx="10" fill="rgba(249,202,36,0.1)"/>
+    <text x="100" y="27" text-anchor="middle" fill="#f9ca24" font-size="14" font-weight="bold">Dimension</text>
+    <text x="280" y="27" text-anchor="middle" fill="#f9ca24" font-size="14" font-weight="bold">Equation</text>
+    <text x="470" y="27" text-anchor="middle" fill="#f9ca24" font-size="14" font-weight="bold">Pair Channels</text>
+    <text x="630" y="27" text-anchor="middle" fill="#f9ca24" font-size="14" font-weight="bold">Channel Sum</text>
+    <text x="830" y="27" text-anchor="middle" fill="#f9ca24" font-size="14" font-weight="bold">Factoring Power</text>
+
+    <!-- Rows -->
+    <line x1="0" y1="40" x2="1000" y2="40" stroke="#636e72" stroke-width="0.5"/>
+
+    <text x="100" y="70" text-anchor="middle" fill="#e17055" font-size="13">n = 2 (Triples)</text>
+    <text x="280" y="70" text-anchor="middle" fill="#dfe6e9" font-size="13">a²+b² = c²</text>
+    <text x="470" y="70" text-anchor="middle" fill="#dfe6e9" font-size="13">1</text>
+    <text x="630" y="70" text-anchor="middle" fill="#dfe6e9" font-size="13">c²</text>
+    <text x="830" y="70" text-anchor="middle" fill="#b2bec3" font-size="12">Single difference-of-squares</text>
+
+    <line x1="20" y1="85" x2="980" y2="85" stroke="#636e72" stroke-width="0.3"/>
+
+    <text x="100" y="110" text-anchor="middle" fill="#74b9ff" font-size="13">n = 3 (Quadruples)</text>
+    <text x="280" y="110" text-anchor="middle" fill="#dfe6e9" font-size="13">a²+b²+c² = d²</text>
+    <text x="470" y="110" text-anchor="middle" fill="#dfe6e9" font-size="13">3</text>
+    <text x="630" y="110" text-anchor="middle" fill="#dfe6e9" font-size="13">2d²</text>
+    <text x="830" y="110" text-anchor="middle" fill="#b2bec3" font-size="12">Three channels + cross-GCDs</text>
+
+    <line x1="20" y1="125" x2="980" y2="125" stroke="#636e72" stroke-width="0.3"/>
+
+    <text x="100" y="150" text-anchor="middle" fill="#55efc4" font-size="13">n = 4 (Quintuples)</text>
+    <text x="280" y="150" text-anchor="middle" fill="#dfe6e9" font-size="13">a²+b²+c²+d² = e²</text>
+    <text x="470" y="150" text-anchor="middle" fill="#dfe6e9" font-size="13">6</text>
+    <text x="630" y="150" text-anchor="middle" fill="#dfe6e9" font-size="13">3e²</text>
+    <text x="830" y="150" text-anchor="middle" fill="#b2bec3" font-size="12">Six channels + 15 cross-GCDs</text>
+
+    <line x1="20" y1="165" x2="980" y2="165" stroke="#636e72" stroke-width="0.3"/>
+
+    <text x="100" y="187" text-anchor="middle" fill="#dfe6e9" font-size="13">n (General)</text>
+    <text x="280" y="187" text-anchor="middle" fill="#dfe6e9" font-size="13">Σxᵢ² = y²</text>
+    <text x="470" y="187" text-anchor="middle" fill="#dfe6e9" font-size="13">C(n,2)</text>
+    <text x="630" y="187" text-anchor="middle" fill="#dfe6e9" font-size="13">(n−1)y²</text>
+    <text x="830" y="187" text-anchor="middle" fill="#b2bec3" font-size="12">Quadratic growth in channels</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="685" text-anchor="middle" fill="#636e72" font-size="11">
+    All channel sum formulas formally verified in Lean 4 with Mathlib • Pythagorean__SharedFactorBridge__NewTheorems.lean
+  </text>
+</svg>

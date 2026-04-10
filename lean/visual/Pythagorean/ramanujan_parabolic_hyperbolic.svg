@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+  <defs>
+    <linearGradient id="bgP" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0a0a"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </linearGradient>
+    <filter id="glowP">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="500" fill="url(#bgP)"/>
+
+  <text x="450" y="35" text-anchor="middle" fill="#FFD700" font-size="20" font-weight="bold">
+    Parabolic vs Hyperbolic: Lorentz Classification of Berggren Generators
+  </text>
+
+  <!-- Light cone diagram -->
+  <g transform="translate(200, 250)">
+    <!-- Light cone -->
+    <line x1="-120" y1="120" x2="0" y2="0" stroke="#FFD700" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="120" y1="120" x2="0" y2="0" stroke="#FFD700" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="-120" y1="-120" x2="0" y2="0" stroke="#FFD700" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="120" y1="-120" x2="0" y2="0" stroke="#FFD700" stroke-width="1" stroke-dasharray="4,4"/>
+
+    <!-- Parabolic flow (along light cone) -->
+    <path d="M-80,80 Q-40,60 -20,40 Q0,20 10,5" fill="none" stroke="#44ff44" stroke-width="2" marker-end="url(#arrowG)"/>
+    <path d="M80,-80 Q40,-60 20,-40 Q0,-20 -10,-5" fill="none" stroke="#44ff44" stroke-width="2"/>
+    <text x="-90" y="100" fill="#44ff44" font-size="11">B₁ flow</text>
+    <text x="-90" y="115" fill="#66ff66" font-size="10">(along light cone)</text>
+
+    <!-- Hyperbolic flow (boost) -->
+    <path d="M-30,-80 Q-20,-40 -10,0 Q0,40 10,80" fill="none" stroke="#ff4444" stroke-width="2"/>
+    <path d="M30,-80 Q20,-40 10,0 Q0,40 -10,80" fill="none" stroke="#ff4444" stroke-width="2"/>
+    <text x="40" y="-70" fill="#ff4444" font-size="11">B₂ flow</text>
+    <text x="40" y="-55" fill="#ff6666" font-size="10">(Lorentz boost)</text>
+
+    <text x="0" y="145" text-anchor="middle" fill="#aaaaaa" font-size="12">Lorentz Light Cone</text>
+    <text x="130" y="130" fill="#FFD700" font-size="10">x²+y²=d²</text>
+  </g>
+
+  <!-- Classification boxes -->
+  <!-- B₁ Parabolic -->
+  <rect x="430" y="60" width="220" height="130" rx="10" fill="#0a2a0a" stroke="#44ff44" stroke-width="2"/>
+  <text x="540" y="85" text-anchor="middle" fill="#44ff44" font-size="15" font-weight="bold">B₁ — PARABOLIC</text>
+  <text x="540" y="105" text-anchor="middle" fill="#88ff88" font-size="12">tr(B₁) = 3 = dim</text>
+  <text x="540" y="122" text-anchor="middle" fill="#88ff88" font-size="12">det(B₁) = +1</text>
+  <text x="540" y="139" text-anchor="middle" fill="#88ff88" font-size="12">eigenvalues: {1, 1, 1}</text>
+  <text x="540" y="156" text-anchor="middle" fill="#ccffcc" font-size="11">(B₁-I)³ = 0, (B₁-I)² ≠ 0</text>
+  <text x="540" y="178" text-anchor="middle" fill="#aaffaa" font-size="11" font-style="italic">tr(B₁ⁿ) = 3 ∀n</text>
+
+  <!-- B₂ Hyperbolic -->
+  <rect x="670" y="60" width="220" height="130" rx="10" fill="#2a0a0a" stroke="#ff4444" stroke-width="2"/>
+  <text x="780" y="85" text-anchor="middle" fill="#ff4444" font-size="15" font-weight="bold">B₂ — HYPERBOLIC</text>
+  <text x="780" y="105" text-anchor="middle" fill="#ff8888" font-size="12">tr(B₂) = 5 > 3</text>
+  <text x="780" y="122" text-anchor="middle" fill="#ff8888" font-size="12">det(B₂) = -1</text>
+  <text x="780" y="139" text-anchor="middle" fill="#ff8888" font-size="12">eigenvalues: {-1, 3±2√2}</text>
+  <text x="780" y="156" text-anchor="middle" fill="#ffcccc" font-size="11">Cayley-Hamilton verified</text>
+  <text x="780" y="178" text-anchor="middle" fill="#ffaaaa" font-size="11" font-style="italic">tr(B₂ⁿ) → ∞ exponentially</text>
+
+  <!-- B₃ Parabolic -->
+  <rect x="430" y="210" width="220" height="100" rx="10" fill="#0a2a0a" stroke="#44ff44" stroke-width="2"/>
+  <text x="540" y="235" text-anchor="middle" fill="#44ff44" font-size="15" font-weight="bold">B₃ — PARABOLIC</text>
+  <text x="540" y="255" text-anchor="middle" fill="#88ff88" font-size="12">tr(B₃) = 3 = dim</text>
+  <text x="540" y="272" text-anchor="middle" fill="#88ff88" font-size="12">det(B₃) = +1, eig={1,1,1}</text>
+  <text x="540" y="298" text-anchor="middle" fill="#aaffaa" font-size="11" font-style="italic">Same structure as B₁</text>
+
+  <!-- Synergy box -->
+  <rect x="430" y="335" width="460" height="145" rx="12" fill="#1a1a0a" stroke="#FFD700" stroke-width="2"/>
+  <text x="660" y="360" text-anchor="middle" fill="#FFD700" font-size="15" font-weight="bold">
+    Why the Mixture Matters for Ramanujan Property
+  </text>
+  <text x="660" y="385" text-anchor="middle" fill="#ddddaa" font-size="12">
+    • Parabolic: shears along light cone → polynomial growth → mixing
+  </text>
+  <text x="660" y="405" text-anchor="middle" fill="#ddddaa" font-size="12">
+    • Hyperbolic: Lorentz boosts → exponential stretching → spreading
+  </text>
+  <text x="660" y="425" text-anchor="middle" fill="#ddddaa" font-size="12">
+    • Together: optimal spectral gap (analogous to LPS construction)
+  </text>
+  <text x="660" y="450" text-anchor="middle" fill="#ffcc44" font-size="13" font-style="italic">
+    Result: G₅ and G₇ are Ramanujan ✓ (verified computationally)
+  </text>
+  <text x="660" y="470" text-anchor="middle" fill="#ff8844" font-size="12">
+    G₁₁ exceeds the bound — parabolic mixing insufficient at larger p
+  </text>
+</svg>

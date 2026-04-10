@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a2e"/>
+      <stop offset="100%" style="stop-color:#0a2e1a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="550" fill="url(#bg5)"/>
+
+  <text x="400" y="35" text-anchor="middle" fill="#33cc99" font-size="20" font-weight="bold">
+    Modular Forms and the Branching Function r₃(n)
+  </text>
+
+  <!-- Theta function display -->
+  <rect x="50" y="60" width="700" height="50" rx="10" fill="#0a2a1a" stroke="#33cc99" stroke-width="1.5"/>
+  <text x="400" y="90" text-anchor="middle" fill="#33cc99" font-size="15" font-style="italic">
+    θ₃(q)³ = (Σ q^{n²})³ = Σ r₃(n) qⁿ — modular form of weight 3/2 on Γ₀(4)
+  </text>
+
+  <!-- r₃(n) bar chart -->
+  <text x="60" y="145" fill="#ffd700" font-size="14" font-weight="bold">r₃(n) values</text>
+
+  <!-- Bars -->
+  <g>
+    <!-- n=1: r₃=6 -->
+    <rect x="80" y="335" width="25" height="60" fill="#4a9eff" rx="2"/>
+    <text x="92" y="405" text-anchor="middle" fill="#aaa" font-size="9">1</text>
+    <text x="92" y="330" text-anchor="middle" fill="#4a9eff" font-size="9">6</text>
+
+    <!-- n=2: r₃=12 -->
+    <rect x="115" y="275" width="25" height="120" fill="#4a9eff" rx="2"/>
+    <text x="127" y="405" text-anchor="middle" fill="#aaa" font-size="9">2</text>
+    <text x="127" y="270" text-anchor="middle" fill="#4a9eff" font-size="9">12</text>
+
+    <!-- n=3: r₃=8 -->
+    <rect x="150" y="315" width="25" height="80" fill="#4a9eff" rx="2"/>
+    <text x="162" y="405" text-anchor="middle" fill="#aaa" font-size="9">3</text>
+    <text x="162" y="310" text-anchor="middle" fill="#4a9eff" font-size="9">8</text>
+
+    <!-- n=4: r₃=6 -->
+    <rect x="185" y="335" width="25" height="60" fill="#4a9eff" rx="2"/>
+    <text x="197" y="405" text-anchor="middle" fill="#aaa" font-size="9">4</text>
+    <text x="197" y="330" text-anchor="middle" fill="#4a9eff" font-size="9">6</text>
+
+    <!-- n=5: r₃=24 -->
+    <rect x="220" y="155" width="25" height="240" fill="#33cc99" rx="2"/>
+    <text x="232" y="405" text-anchor="middle" fill="#aaa" font-size="9">5</text>
+    <text x="232" y="150" text-anchor="middle" fill="#33cc99" font-size="9">24</text>
+
+    <!-- n=6: r₃=24 -->
+    <rect x="255" y="155" width="25" height="240" fill="#33cc99" rx="2"/>
+    <text x="267" y="405" text-anchor="middle" fill="#aaa" font-size="9">6</text>
+    <text x="267" y="150" text-anchor="middle" fill="#33cc99" font-size="9">24</text>
+
+    <!-- n=7: r₃=0 (OBSTRUCTED) -->
+    <rect x="290" y="393" width="25" height="2" fill="#ff4444" rx="1"/>
+    <text x="302" y="405" text-anchor="middle" fill="#ff4444" font-size="9" font-weight="bold">7</text>
+    <text x="302" y="390" text-anchor="middle" fill="#ff4444" font-size="8">0!</text>
+
+    <!-- n=8: r₃=12 -->
+    <rect x="325" y="275" width="25" height="120" fill="#4a9eff" rx="2"/>
+    <text x="337" y="405" text-anchor="middle" fill="#aaa" font-size="9">8</text>
+    <text x="337" y="270" text-anchor="middle" fill="#4a9eff" font-size="9">12</text>
+
+    <!-- n=9: r₃=30 -->
+    <rect x="360" y="95" width="25" height="300" fill="#ffd700" rx="2"/>
+    <text x="372" y="405" text-anchor="middle" fill="#aaa" font-size="9">9</text>
+    <text x="372" y="90" text-anchor="middle" fill="#ffd700" font-size="9">30</text>
+
+    <!-- n=10: r₃=24 -->
+    <rect x="395" y="155" width="25" height="240" fill="#33cc99" rx="2"/>
+    <text x="407" y="405" text-anchor="middle" fill="#aaa" font-size="9">10</text>
+  </g>
+
+  <!-- Axis label -->
+  <text x="250" y="425" text-anchor="middle" fill="#888" font-size="11">n</text>
+
+  <!-- Obstruction annotation -->
+  <line x1="302" y1="385" x2="302" y2="355" stroke="#ff4444" stroke-width="1" stroke-dasharray="2,2"/>
+  <rect x="240" y="335" width="125" height="22" rx="4" fill="#2a0a0a" stroke="#ff4444" stroke-width="1"/>
+  <text x="302" y="350" text-anchor="middle" fill="#ff4444" font-size="10">
+    7 = 8·0+7 → obstructed
+  </text>
+
+  <!-- Class number connection -->
+  <rect x="460" y="130" width="310" height="180" rx="12" fill="#0a2a1a" stroke="#33cc99" stroke-width="1.5"/>
+  <text x="615" y="155" text-anchor="middle" fill="#33cc99" font-size="14" font-weight="bold">
+    Class Number Formula
+  </text>
+  <text x="615" y="180" text-anchor="middle" fill="#ddd" font-size="12">
+    For squarefree n ≡ 1,2 (mod 4):
+  </text>
+  <text x="615" y="205" text-anchor="middle" fill="#ffd700" font-size="15" font-style="italic">
+    r₃(n) = 12 · h(-4n)
+  </text>
+  <text x="615" y="235" text-anchor="middle" fill="#ddd" font-size="11">r₃(1) = 6 → h(-4) = ½ *</text>
+  <text x="615" y="255" text-anchor="middle" fill="#ddd" font-size="11">r₃(2) = 12 → h(-8) = 1</text>
+  <text x="615" y="275" text-anchor="middle" fill="#ddd" font-size="11">r₃(5) = 24 → h(-20) = 2</text>
+  <text x="615" y="295" text-anchor="middle" fill="#888" font-size="9">
+    * Adjustment needed for n=1
+  </text>
+
+  <!-- Shimura lift -->
+  <rect x="460" y="330" width="310" height="80" rx="12" fill="#0a2a1a" stroke="#ffd700" stroke-width="1"/>
+  <text x="615" y="355" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="bold">
+    Shimura Correspondence
+  </text>
+  <text x="615" y="378" text-anchor="middle" fill="#ddd" font-size="11">
+    Weight 3/2 → Weight 2
+  </text>
+  <text x="615" y="398" text-anchor="middle" fill="#ddd" font-size="11">
+    θ₃³ ↦ Eisenstein series E₂
+  </text>
+
+  <!-- Legendre's theorem -->
+  <rect x="100" y="440" width="600" height="80" rx="12" fill="#1a1a2a" stroke="#ff9933" stroke-width="1"/>
+  <text x="400" y="465" text-anchor="middle" fill="#ff9933" font-size="14" font-weight="bold">
+    Legendre's Three-Square Theorem
+  </text>
+  <text x="400" y="488" text-anchor="middle" fill="#ddd" font-size="12">
+    n is a sum of 3 squares ⟺ n ≠ 4ᵃ(8b+7)
+  </text>
+  <text x="400" y="508" text-anchor="middle" fill="#88ff88" font-size="11">
+    Formalized: isThreeSquareObstructed verified for n = 7, 15, 23, 28
+  </text>
+</svg>

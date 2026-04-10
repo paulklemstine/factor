@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <style>
+      .title { font: bold 18px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 13px 'Helvetica Neue', Arial, sans-serif; fill: #4a4a6a; }
+      .label { font: 12px 'Courier New', monospace; fill: #2d2d4d; text-anchor: middle; }
+      .disk-outer { fill: #e8e6ff; stroke: #6c63ff; stroke-width: 2; }
+      .disk-inner { fill: #d4f0ff; stroke: #48dbfb; stroke-width: 2; }
+      .disk-disjoint1 { fill: #ffe8e8; stroke: #ff6b6b; stroke-width: 2; }
+      .disk-disjoint2 { fill: #e8ffe8; stroke: #2ed573; stroke-width: 2; }
+      .disk-euclidean { fill: #fff3e0; stroke: #ff9800; stroke-width: 2; fill-opacity: 0.5; }
+      .vs { font: bold 20px Arial; fill: #999; }
+      .scenario { font: bold 14px 'Helvetica Neue', Arial, sans-serif; fill: #333; }
+      .caption { font: 11px 'Helvetica Neue', Arial, sans-serif; fill: #666; text-anchor: middle; }
+      .check { font: 16px Arial; fill: #2ed573; }
+      .cross { font: 16px Arial; fill: #ff6b6b; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#fafafe" rx="10"/>
+
+  <!-- Title -->
+  <text x="450" y="35" class="title" text-anchor="middle">P-adic Disk Dichotomy vs. Euclidean Geometry</text>
+  <text x="450" y="55" class="subtitle" text-anchor="middle">Formally verified: padic_disk_dichotomy</text>
+
+  <!-- ========== P-adic side (left) ========== -->
+  <text x="225" y="85" class="scenario" text-anchor="middle">P-ADIC (ℚ_p): Ultrametric</text>
+
+  <!-- Scenario 1: Nested disks -->
+  <text x="120" y="120" class="label">Case 1: Nested</text>
+  <circle cx="120" cy="200" r="65" class="disk-outer"/>
+  <circle cx="120" cy="200" r="35" class="disk-inner"/>
+  <text x="120" y="205" class="label" font-size="10">D(a,r)</text>
+  <text x="120" y="280" class="caption">D(a,r) ⊆ D(b,s)</text>
+  <text x="120" y="295" class="check">✓ Possible</text>
+
+  <!-- Scenario 2: Disjoint disks -->
+  <text x="330" y="120" class="label">Case 2: Disjoint</text>
+  <circle cx="290" cy="200" r="40" class="disk-disjoint1"/>
+  <circle cx="380" cy="200" r="35" class="disk-disjoint2"/>
+  <text x="290" y="205" class="label" font-size="10">D₁</text>
+  <text x="380" y="205" class="label" font-size="10">D₂</text>
+  <text x="335" y="280" class="caption">D₁ ∩ D₂ = ∅</text>
+  <text x="335" y="295" class="check">✓ Possible</text>
+
+  <!-- ========== Divider ========== -->
+  <line x1="450" y1="75" x2="450" y2="480" stroke="#ddd" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="450" y="310" class="vs" text-anchor="middle">vs</text>
+
+  <!-- ========== Euclidean side (right) ========== -->
+  <text x="675" y="85" class="scenario" text-anchor="middle">EUCLIDEAN (ℝ): Archimedean</text>
+
+  <!-- Scenario 3: Partial overlap (only Euclidean) -->
+  <text x="675" y="120" class="label">Case 3: Partial overlap</text>
+  <circle cx="645" cy="200" r="50" class="disk-euclidean"/>
+  <circle cx="705" cy="200" r="50" class="disk-euclidean"/>
+  <!-- Overlap region highlight -->
+  <path d="M675,158 A50,50 0 0,1 675,242 A50,50 0 0,1 675,158"
+        fill="#ff9800" fill-opacity="0.3" stroke="#ff5722" stroke-width="2"/>
+  <text x="675" y="280" class="caption">D₁ ∩ D₂ ≠ ∅ but</text>
+  <text x="675" y="295" class="caption">D₁ ⊄ D₂ and D₂ ⊄ D₁</text>
+  <text x="675" y="315" class="cross">✗ Impossible in ℚ_p!</text>
+
+  <!-- ========== Bottom section: Why ========== -->
+  <rect x="50" y="340" width="800" height="140" rx="8" fill="#f0f0ff" stroke="#6c63ff" stroke-width="1"/>
+
+  <text x="450" y="370" class="scenario" text-anchor="middle">Why? The Ultrametric Inequality</text>
+
+  <text x="450" y="400" class="label">In ℚ_p: ‖x + y‖ ≤ max(‖x‖, ‖y‖)   (stronger than ‖x + y‖ ≤ ‖x‖ + ‖y‖)</text>
+
+  <text x="450" y="430" class="caption">
+    Consequence: Every point inside a p-adic disk is a center of that disk.
+  </text>
+  <text x="450" y="450" class="caption">
+    If z ∈ D(a,r) then D(a,r) = D(z,r). So if two disks share a point, one must contain the other.
+  </text>
+  <text x="450" y="470" class="caption" font-style="italic" fill="#999">
+    Lean proof: Uses IsUltrametricDist.closedBall_subset_trichotomy from Mathlib
+  </text>
+</svg>

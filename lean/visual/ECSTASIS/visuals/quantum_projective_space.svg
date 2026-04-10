@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0a0a28"/>
+      <stop offset="100%" style="stop-color:#151545"/>
+    </linearGradient>
+    <radialGradient id="sphere" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#3366aa"/>
+      <stop offset="70%" style="stop-color:#1a3366"/>
+      <stop offset="100%" style="stop-color:#0a1a33"/>
+    </radialGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg3)"/>
+
+  <text x="400" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="white" font-weight="bold">
+    Projective Hilbert Space P(H)
+  </text>
+  <text x="400" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#8899bb">
+    Quantum states are rays, not vectors: [ψ] = {e^{iθ}ψ : θ ∈ ℝ}
+  </text>
+
+  <!-- Bloch sphere representation -->
+  <ellipse cx="250" cy="270" rx="150" ry="150" fill="url(#sphere)" stroke="#4477aa" stroke-width="1.5" opacity="0.7"/>
+  <!-- Equator -->
+  <ellipse cx="250" cy="270" rx="150" ry="40" fill="none" stroke="#4477aa" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <!-- Meridian -->
+  <ellipse cx="250" cy="270" rx="40" ry="150" fill="none" stroke="#4477aa" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+
+  <!-- North pole |0⟩ -->
+  <circle cx="250" cy="120" r="6" fill="#ff4444" filter="url(#glow3)"/>
+  <text x="270" y="115" font-family="Arial, sans-serif" font-size="13" fill="#ff6666">|0⟩</text>
+
+  <!-- South pole |1⟩ -->
+  <circle cx="250" cy="420" r="6" fill="#4444ff" filter="url(#glow3)"/>
+  <text x="270" y="425" font-family="Arial, sans-serif" font-size="13" fill="#6666ff">|1⟩</text>
+
+  <!-- State on sphere -->
+  <circle cx="340" cy="200" r="5" fill="#44ff88" filter="url(#glow3)"/>
+  <text x="350" y="195" font-family="Arial, sans-serif" font-size="12" fill="#66ffaa">|ψ⟩</text>
+
+  <!-- Ray (phase circle) -->
+  <ellipse cx="340" cy="200" rx="20" ry="8" fill="none" stroke="#44ff88" stroke-width="1.5"
+           transform="rotate(-30 340 200)" opacity="0.6"/>
+  <text x="370" y="210" font-family="Arial, sans-serif" font-size="10" fill="#44ff88" opacity="0.8">e^{iθ}|ψ⟩</text>
+
+  <!-- Another state -->
+  <circle cx="180" cy="310" r="5" fill="#ffaa44" filter="url(#glow3)"/>
+  <text x="140" y="305" font-family="Arial, sans-serif" font-size="12" fill="#ffcc66">|φ⟩</text>
+
+  <!-- Fidelity arc -->
+  <path d="M 340 200 Q 280 230 180 310" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+  <text x="240" y="260" font-family="Arial, sans-serif" font-size="10" fill="#aabbcc">|⟨ψ|φ⟩|²</text>
+
+  <!-- Bloch sphere label -->
+  <text x="250" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#8899bb">
+    Bloch Sphere (C²)
+  </text>
+
+  <!-- Phase invariance box -->
+  <rect x="450" y="90" width="320" height="140" rx="8" fill="rgba(255,255,255,0.04)" stroke="#4488cc" stroke-width="1"/>
+  <text x="610" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#88bbee" font-weight="bold">Phase Invariance (Thm 7, 8)</text>
+
+  <text x="465" y="140" font-family="Arial, sans-serif" font-size="12" fill="#aabbdd">‖e^{iθ}ψ‖ = ‖ψ‖</text>
+  <text x="465" y="162" font-family="Arial, sans-serif" font-size="12" fill="#aabbdd">|⟨ψ|e^{iθ}φ⟩| = |⟨ψ|φ⟩|</text>
+  <text x="465" y="190" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">Global phase is unobservable.</text>
+  <text x="465" y="210" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">States are equivalence classes</text>
+  <text x="465" y="225" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">[ψ] ∈ P(H), not vectors ψ ∈ H.</text>
+
+  <!-- Born rule box -->
+  <rect x="450" y="250" width="320" height="100" rx="8" fill="rgba(255,255,255,0.04)" stroke="#44cc88" stroke-width="1"/>
+  <text x="610" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#66ddaa" font-weight="bold">Born Rule (Thm 4–6)</text>
+  <text x="465" y="300" font-family="Arial, sans-serif" font-size="12" fill="#aabbdd">P(ψ → φ) = |⟨ψ|φ⟩|²</text>
+  <text x="465" y="322" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">0 ≤ P ≤ 1 for unit vectors</text>
+  <text x="465" y="342" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">Depends only on rays [ψ], [φ]</text>
+
+  <!-- Spectral box -->
+  <rect x="450" y="370" width="320" height="110" rx="8" fill="rgba(255,255,255,0.04)" stroke="#ff8844" stroke-width="1"/>
+  <text x="610" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ffaa66" font-weight="bold">Spectral Theory (Thm 37–40)</text>
+  <text x="465" y="418" font-family="Arial, sans-serif" font-size="11" fill="#aabbdd">Self-adjoint A = A†:</text>
+  <text x="465" y="436" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Eigenvalues λ ∈ ℝ</text>
+  <text x="465" y="452" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Eigenvectors: λ₁≠λ₂ ⟹ ⟨v₁|v₂⟩=0</text>
+  <text x="465" y="468" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">• Im⟨Av,v⟩ = 0 (real expectations)</text>
+</svg>

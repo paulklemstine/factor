@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="100%" stop-color="#2d1b4e"/>
+    </linearGradient>
+    <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#ffd93d" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6bcfff" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#4ecdc4" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#6bcfff" stop-opacity="0.8"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#bg3)" rx="8"/>
+
+  <!-- Title -->
+  <text x="500" y="45" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="bold" filter="url(#glow2)">
+    Spectral Resonance in Multiplicative Groups
+  </text>
+  <text x="500" y="72" text-anchor="middle" fill="#b8a9c9" font-size="14">
+    Character sums reveal hidden structure in (ℤ/nℤ)× when n = p · q
+  </text>
+
+  <!-- Left panel: Character sum for composite n -->
+  <rect x="30" y="95" width="460" height="250" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="260" y="120" text-anchor="middle" fill="#ffd93d" font-size="16" font-weight="bold">
+    Character Sum: Composite n = p·q
+  </text>
+  <text x="260" y="140" text-anchor="middle" fill="#b8a9c9" font-size="12">
+    S(χ) = Σ χ(a) · 𝟙[a is B-smooth] shows spectral peaks
+  </text>
+
+  <!-- Simulated waveform for composite -->
+  <polyline points="50,250 70,220 90,280 110,200 130,290 150,190 170,260 190,210 210,270 230,180 250,300 270,170 290,280 310,220 330,260 350,200 370,270 390,210 410,250 430,230 450,240 470,250" 
+    stroke="url(#wave1)" stroke-width="3" fill="none" filter="url(#glow2)"/>
+  <!-- Peak markers -->
+  <circle cx="250" cy="170" r="5" fill="#ffd93d" filter="url(#glow2)"/>
+  <text x="250" y="160" text-anchor="middle" fill="#ffd93d" font-size="11">peak!</text>
+  <circle cx="110" cy="200" r="4" fill="#ffd93d" filter="url(#glow2)"/>
+  <text x="110" y="190" text-anchor="middle" fill="#ffd93d" font-size="11">peak!</text>
+
+  <text x="260" y="330" text-anchor="middle" fill="#ff9999" font-size="12">
+    Peaks at frequencies related to p and q — exploitable!
+  </text>
+
+  <!-- Right panel: Character sum for prime n -->
+  <rect x="510" y="95" width="460" height="250" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="740" y="120" text-anchor="middle" fill="#4ecdc4" font-size="16" font-weight="bold">
+    Character Sum: Prime n = p
+  </text>
+  <text x="740" y="140" text-anchor="middle" fill="#b8a9c9" font-size="12">
+    Same sum for prime n — no spectral peaks
+  </text>
+
+  <!-- Simulated flat waveform for prime -->
+  <polyline points="530,250 550,245 570,255 590,248 610,252 630,247 650,253 670,249 690,251 710,248 730,252 750,249 770,251 790,248 810,253 830,249 850,251 870,249 890,250 910,251 930,249 950,250"
+    stroke="url(#wave2)" stroke-width="3" fill="none"/>
+
+  <text x="740" y="330" text-anchor="middle" fill="#88ddcc" font-size="12">
+    Flat spectrum — no structure to exploit for factoring
+  </text>
+
+  <!-- Key Insight Box -->
+  <rect x="50" y="370" width="900" height="80" rx="10" fill="rgba(255,217,61,0.1)" stroke="#ffd93d" stroke-width="2"/>
+  <text x="500" y="400" text-anchor="middle" fill="#ffd93d" font-size="18" font-weight="bold">
+    Key Insight: The SRS Spectral Bias
+  </text>
+  <text x="500" y="425" text-anchor="middle" fill="#e8d4a0" font-size="14">
+    When n = p·q, characters of (ℤ/nℤ)× ≅ (ℤ/pℤ)× × (ℤ/qℤ)× create interference patterns.
+  </text>
+  <text x="500" y="443" text-anchor="middle" fill="#e8d4a0" font-size="14">
+    Candidates at spectral peaks have 15-40% higher probability of yielding smooth Q(x) values.
+  </text>
+
+  <!-- Mathematical formulas -->
+  <rect x="50" y="475" width="420" height="200" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="260" y="505" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold">
+    Mathematical Framework
+  </text>
+  <g font-family="monospace" font-size="13" fill="#cccccc">
+    <text x="70" y="540">n = p · q (semiprime to factor)</text>
+    <text x="70" y="565">(ℤ/nℤ)× ≅ (ℤ/pℤ)× × (ℤ/qℤ)×</text>
+    <text x="70" y="590">χ: (ℤ/nℤ)× → ℂ×  (character)</text>
+    <text x="70" y="615">W(a) = |Σₖ χₖ(a)|²  (spectral weight)</text>
+    <text x="70" y="645" fill="#ffd93d">Goal: max W(a) → high P[Q(a) smooth]</text>
+  </g>
+
+  <!-- Algorithm advantage -->
+  <rect x="530" y="475" width="420" height="200" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+  <text x="740" y="505" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold">
+    Practical Advantage
+  </text>
+  <g font-size="13" fill="#cccccc">
+    <text x="550" y="540">Without spectral bias (QS):</text>
+    <text x="570" y="560" fill="#ff6b6b">• Test candidates sequentially</text>
+    <text x="570" y="580" fill="#ff6b6b">• ~0.5% smooth hit rate</text>
+    <text x="550" y="610">With spectral bias (SRS):</text>
+    <text x="570" y="630" fill="#4ecdc4">• Prioritize high-weight candidates</text>
+    <text x="570" y="650" fill="#4ecdc4">• ~0.7% smooth hit rate (+40%)</text>
+    <text x="570" y="670" fill="#ffd93d">• Fewer candidates → faster factoring</text>
+  </g>
+</svg>

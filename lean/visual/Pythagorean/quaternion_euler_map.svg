@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      .title { font: bold 18px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a2e; }
+      .subtitle { font: italic 12px 'Helvetica Neue', Arial, sans-serif; fill: #555; }
+      .box { rx: 8; ry: 8; stroke-width: 2; }
+      .box-quat { fill: #eef4ff; stroke: #457b9d; }
+      .box-quad { fill: #fff3e6; stroke: #e76f51; }
+      .box-norm { fill: #f0fff0; stroke: #2a9d8f; }
+      .box-sigma { fill: #fff0f0; stroke: #e63946; }
+      .header { font: bold 13px 'Helvetica Neue', Arial, sans-serif; }
+      .content { font: 12px 'Courier New', monospace; fill: #333; }
+      .content-small { font: 10px 'Courier New', monospace; fill: #555; }
+      .arrow-label { font: italic 11px 'Helvetica Neue', Arial, sans-serif; fill: #666; }
+      .emphasis { font: bold 12px 'Helvetica Neue', Arial, sans-serif; fill: #e63946; }
+    </style>
+    <marker id="a1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#457b9d"/>
+    </marker>
+    <marker id="a2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e63946"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="#fafafa" rx="8"/>
+
+  <text x="400" y="30" class="title" text-anchor="middle">The Euler Map: Quaternions → Pythagorean Quadruples</text>
+  <text x="400" y="50" class="subtitle" text-anchor="middle">Every integer quaternion produces a Pythagorean quadruple via the norm decomposition</text>
+
+  <!-- Quaternion input boxes -->
+  <rect x="30" y="70" width="170" height="80" class="box box-quat"/>
+  <text x="115" y="92" class="header" fill="#457b9d" text-anchor="middle">α = 1</text>
+  <text x="115" y="110" class="content" text-anchor="middle">|α|² = 1</text>
+  <text x="115" y="130" class="content-small" text-anchor="middle">(m,n,p,q) = (1,0,0,0)</text>
+
+  <rect x="30" y="165" width="170" height="80" class="box box-quat"/>
+  <text x="115" y="187" class="header" fill="#457b9d" text-anchor="middle">α = 1+i+k</text>
+  <text x="115" y="205" class="content" text-anchor="middle">|α|² = 3</text>
+  <text x="115" y="225" class="content-small" text-anchor="middle">(m,n,p,q) = (1,1,0,1)</text>
+
+  <rect x="30" y="260" width="170" height="80" class="box box-quat"/>
+  <text x="115" y="282" class="header" fill="#457b9d" text-anchor="middle">α = 1+2i+j+k</text>
+  <text x="115" y="300" class="content" text-anchor="middle">|α|² = 7</text>
+  <text x="115" y="320" class="content-small" text-anchor="middle">(m,n,p,q) = (1,2,1,1)</text>
+
+  <rect x="30" y="355" width="170" height="80" class="box box-quat"/>
+  <text x="115" y="377" class="header" fill="#457b9d" text-anchor="middle">α = 1+i+j</text>
+  <text x="115" y="395" class="content" text-anchor="middle">|α|² = 3</text>
+  <text x="115" y="415" class="content-small" text-anchor="middle">(m,n,p,q) = (1,1,1,0)</text>
+
+  <!-- Arrows -->
+  <line x1="200" y1="110" x2="320" y2="110" stroke="#457b9d" stroke-width="2" marker-end="url(#a1)"/>
+  <line x1="200" y1="205" x2="320" y2="205" stroke="#457b9d" stroke-width="2" marker-end="url(#a1)"/>
+  <line x1="200" y1="300" x2="320" y2="300" stroke="#457b9d" stroke-width="2" marker-end="url(#a1)"/>
+  <line x1="200" y1="395" x2="320" y2="395" stroke="#457b9d" stroke-width="2" marker-end="url(#a1)"/>
+
+  <text x="260" y="100" class="arrow-label" text-anchor="middle">Euler</text>
+  <text x="260" y="195" class="arrow-label" text-anchor="middle">Euler</text>
+  <text x="260" y="290" class="arrow-label" text-anchor="middle">Euler</text>
+  <text x="260" y="385" class="arrow-label" text-anchor="middle">Euler</text>
+
+  <!-- Quadruple output boxes -->
+  <rect x="330" y="70" width="200" height="80" class="box box-quad"/>
+  <text x="430" y="92" class="header" fill="#e76f51" text-anchor="middle">(1, 0, 0, 1)</text>
+  <text x="430" y="112" class="content" text-anchor="middle">1²+0²+0² = 1²  ✓</text>
+  <text x="430" y="132" class="content-small" text-anchor="middle">sorted: (0, 0, 1, 1)</text>
+
+  <rect x="330" y="165" width="200" height="80" class="box box-quad"/>
+  <text x="430" y="187" class="header" fill="#e76f51" text-anchor="middle">(1, 2, 2, 3)</text>
+  <text x="430" y="207" class="content" text-anchor="middle">1²+2²+2² = 3²  ✓</text>
+  <text x="430" y="227" class="content-small" text-anchor="middle">sorted: (1, 2, 2, 3)</text>
+
+  <rect x="330" y="260" width="200" height="80" class="box box-quad"/>
+  <text x="430" y="282" class="header" fill="#e76f51" text-anchor="middle">(3, 6, 2, 7)</text>
+  <text x="430" y="302" class="content" text-anchor="middle">3²+6²+2² = 7²  ✓</text>
+  <text x="430" y="322" class="content-small" text-anchor="middle">sorted: (2, 3, 6, 7)</text>
+
+  <rect x="330" y="355" width="200" height="80" class="box box-quad"/>
+  <text x="430" y="377" class="header" fill="#e76f51" text-anchor="middle">(1, 2, −2, 3)</text>
+  <text x="430" y="397" class="content" text-anchor="middle">1²+2²+(−2)² = 3²  ✓</text>
+  <text x="430" y="417" class="content-small" text-anchor="middle">sorted: (1, 2, 2, 3)</text>
+
+  <!-- Descent arrows -->
+  <line x1="540" y1="205" x2="540" y2="135" stroke="#e63946" stroke-width="2" marker-end="url(#a2)" stroke-dasharray="5,3"/>
+  <line x1="540" y1="300" x2="540" y2="230" stroke="#e63946" stroke-width="2" marker-end="url(#a2)" stroke-dasharray="5,3"/>
+  <line x1="540" y1="395" x2="540" y2="135" stroke="#e63946" stroke-width="2" marker-end="url(#a2)" stroke-dasharray="5,3" opacity="0.5"/>
+
+  <text x="555" y="170" class="emphasis" font-size="10">R₁₁₁₁</text>
+  <text x="555" y="265" class="emphasis" font-size="10">R₁₁₁₁</text>
+
+  <!-- Sigma box -->
+  <rect x="600" y="80" width="180" height="100" class="box box-sigma"/>
+  <text x="690" y="105" class="header" fill="#e63946" text-anchor="middle">σ = 1+i+j+k</text>
+  <text x="690" y="125" class="content" text-anchor="middle">|σ|² = 4</text>
+  <text x="690" y="145" class="content" text-anchor="middle">η(s,s) = 2</text>
+  <text x="690" y="165" class="content-small" text-anchor="middle">σ/2 = Hurwitz unit</text>
+
+  <!-- Key insight box -->
+  <rect x="600" y="200" width="180" height="120" class="box box-norm"/>
+  <text x="690" y="222" class="header" fill="#2a9d8f" text-anchor="middle">Key Identity</text>
+  <text x="690" y="248" class="content" text-anchor="middle">|pq|² = |p|²|q|²</text>
+  <text x="690" y="270" class="content-small" text-anchor="middle">⟺</text>
+  <text x="690" y="290" class="content" text-anchor="middle">Four-square</text>
+  <text x="690" y="308" class="content" text-anchor="middle">identity</text>
+
+  <!-- Note at bottom -->
+  <rect x="30" y="450" width="740" height="35" rx="5" fill="#f8f8f8" stroke="#ddd"/>
+  <text x="400" y="472" class="content" text-anchor="middle" fill="#333">
+    Different quaternions can map to the same sorted quadruple (e.g., 1+i+k and 1+i+j both → (1,2,2,3))
+  </text>
+</svg>

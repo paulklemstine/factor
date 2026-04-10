@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0d2b"/>
+      <stop offset="100%" stop-color="#1a1a3e"/>
+    </linearGradient>
+    <radialGradient id="sphere" cx="45%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#334477" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#1a2244" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0a0a1a" stop-opacity="0.3"/>
+    </radialGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#aaaacc"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg2)" rx="12"/>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    Collision-Based Factoring on the Circle S¹(√N)
+  </text>
+  <text x="400" y="62" text-anchor="middle" fill="#aaaacc" font-size="14">
+    N = 65 = 5 × 13, representations on a²+b² = 65
+  </text>
+
+  <!-- Circle (the "factoring sphere" in dim 2) -->
+  <g transform="translate(300, 320)">
+    <!-- The sphere/circle -->
+    <circle cx="0" cy="0" r="180" fill="url(#sphere)" stroke="#4466aa" stroke-width="2"/>
+    <circle cx="0" cy="0" r="180" fill="none" stroke="#6688cc" stroke-width="1" stroke-dasharray="8,4" opacity="0.5"/>
+
+    <!-- Axes -->
+    <line x1="-200" y1="0" x2="200" y2="0" stroke="#333355" stroke-width="0.5"/>
+    <line x1="0" y1="-200" x2="0" y2="200" stroke="#333355" stroke-width="0.5"/>
+    <text x="205" y="5" fill="#555577" font-size="11">a</text>
+    <text x="5" y="-195" fill="#555577" font-size="11">b</text>
+
+    <!-- √65 ≈ 8.06, scale factor = 180/8.06 ≈ 22.3 -->
+    <!-- Rep 1: (1, 8) → (22.3, 178.6) -->
+    <circle cx="22" cy="-179" r="8" fill="#ff6b6b" stroke="#ff9999" stroke-width="2" filter="url(#glow2)"/>
+    <text x="38" y="-175" fill="#ff9999" font-size="13" font-weight="bold">(1, 8)</text>
+
+    <!-- Rep 2: (4, 7) → (89.3, 156.2) -->
+    <circle cx="89" cy="-156" r="8" fill="#4ecdc4" stroke="#7eeee6" stroke-width="2" filter="url(#glow2)"/>
+    <text x="105" y="-152" fill="#7eeee6" font-size="13" font-weight="bold">(4, 7)</text>
+
+    <!-- Rep 3: (7, 4) → (156.2, 89.3) -->
+    <circle cx="156" cy="-89" r="8" fill="#ffe66d" stroke="#fff099" stroke-width="2" filter="url(#glow2)"/>
+    <text x="168" y="-85" fill="#fff099" font-size="13" font-weight="bold">(7, 4)</text>
+
+    <!-- Rep 4: (8, 1) → (178.6, 22.3) -->
+    <circle cx="179" cy="-22" r="8" fill="#a29bfe" stroke="#c4bfff" stroke-width="2" filter="url(#glow2)"/>
+    <text x="168" y="-32" fill="#c4bfff" font-size="13" font-weight="bold">(8, 1)</text>
+
+    <!-- Collision line between rep 1 and rep 2 -->
+    <line x1="22" y1="-179" x2="89" y2="-156" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="5,3" opacity="0.7"/>
+
+    <!-- Cross term annotation -->
+    <text x="-120" y="100" fill="#ffffff" font-size="12" text-anchor="start">
+      <tspan x="-170" dy="0" fill="#ff6b6b">Rep 1:</tspan>
+      <tspan dx="5" fill="#ddddee">1² + 8² = 65</tspan>
+    </text>
+    <text x="-120" y="120" fill="#ffffff" font-size="12" text-anchor="start">
+      <tspan x="-170" dy="0" fill="#4ecdc4">Rep 2:</tspan>
+      <tspan dx="5" fill="#ddddee">4² + 7² = 65</tspan>
+    </text>
+    <text x="-120" y="150" fill="#ffffff" font-size="12" text-anchor="start">
+      <tspan x="-170" dy="0" fill="#ffcc00">Cross:</tspan>
+      <tspan dx="5" fill="#ddddee">ad−bc = 1·7−8·4 = −25</tspan>
+    </text>
+    <text x="-120" y="170" fill="#ffffff" font-size="12" text-anchor="start">
+      <tspan x="-170" dy="0" fill="#ffcc00">GCD:</tspan>
+      <tspan dx="5" fill="#ddddee">gcd(25, 65) = </tspan>
+      <tspan fill="#00ff88" font-weight="bold" font-size="14">5</tspan>
+      <tspan fill="#ddddee"> → 65 = 5 × 13 ✓</tspan>
+    </text>
+
+    <!-- Label the radius -->
+    <line x1="0" y1="0" x2="127" y2="-127" stroke="#888899" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="75" y="-80" fill="#888899" font-size="11" transform="rotate(-45, 75, -80)">r = √65</text>
+  </g>
+
+  <!-- Identity box -->
+  <g transform="translate(570, 130)">
+    <rect x="0" y="0" width="210" height="160" fill="#111133" stroke="#334466" stroke-width="1" rx="8"/>
+    <text x="105" y="25" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">Collision-Norm Identity</text>
+    <line x1="10" y1="35" x2="200" y2="35" stroke="#334466" stroke-width="0.5"/>
+    <text x="105" y="60" text-anchor="middle" fill="#aabbdd" font-size="12">If a²+b² = c²+d² = N</text>
+    <text x="105" y="85" text-anchor="middle" fill="#aabbdd" font-size="12">then:</text>
+    <text x="105" y="110" text-anchor="middle" fill="#ffcc00" font-size="13" font-weight="bold">(ad−bc)² + (ac+bd)² = N²</text>
+    <text x="105" y="140" text-anchor="middle" fill="#66dd88" font-size="11">✓ Verified in Lean 4</text>
+  </g>
+
+  <!-- Formula box -->
+  <g transform="translate(570, 310)">
+    <rect x="0" y="0" width="210" height="130" fill="#111133" stroke="#334466" stroke-width="1" rx="8"/>
+    <text x="105" y="25" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">Factor Extraction</text>
+    <line x1="10" y1="35" x2="200" y2="35" stroke="#334466" stroke-width="0.5"/>
+    <text x="105" y="58" text-anchor="middle" fill="#aabbdd" font-size="12">gcd(ad−bc, N) ∈ {1,p,q,N}</text>
+    <text x="105" y="82" text-anchor="middle" fill="#aabbdd" font-size="12">If ∉ {1, N}: factor found!</text>
+    <text x="105" y="112" text-anchor="middle" fill="#ff6b6b" font-size="12">28 channels in dim 8</text>
+    <text x="105" y="125" text-anchor="middle" fill="#4ecdc4" font-size="11">vs 1 channel in dim 2</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="585" text-anchor="middle" fill="#555577" font-size="11">
+    Brahmagupta-Fibonacci Identity × Birthday Paradox = Factoring Algorithm
+  </text>
+</svg>

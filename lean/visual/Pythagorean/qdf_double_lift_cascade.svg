@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1b2838;stop-opacity:1"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#42A5F5"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#66BB6A"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="650" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="550" y="45" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold">
+    Double-Lift Factor Cascade
+  </text>
+  <text x="550" y="72" text-anchor="middle" fill="#90CAF9" font-size="14">
+    Two independent factorizations from a single Pythagorean triple
+  </text>
+
+  <!-- Level 0: Triple -->
+  <rect x="380" y="100" width="340" height="80" rx="15" fill="#1565C0" fill-opacity="0.3" stroke="#42A5F5" stroke-width="2"/>
+  <text x="550" y="130" text-anchor="middle" fill="#90CAF9" font-size="16" font-weight="bold">Level 0: Triple</text>
+  <text x="550" y="158" text-anchor="middle" fill="#E3F2FD" font-size="18">a² + b² = c²</text>
+
+  <!-- Arrow down -->
+  <line x1="550" y1="180" x2="550" y2="220" stroke="#42A5F5" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="570" y="205" fill="#64B5F6" font-size="12">lift (+k₁)</text>
+
+  <!-- Level 1: Quadruple -->
+  <rect x="300" y="225" width="500" height="100" rx="15" fill="#2E7D32" fill-opacity="0.3" stroke="#66BB6A" stroke-width="2"/>
+  <text x="550" y="255" text-anchor="middle" fill="#A5D6A7" font-size="16" font-weight="bold">Level 1: Quadruple</text>
+  <text x="550" y="283" text-anchor="middle" fill="#C8E6C9" font-size="18">a² + b² + k₁² = d₁²</text>
+  <text x="550" y="310" text-anchor="middle" fill="#81C784" font-size="14">Factor: (d₁−k₁)(d₁+k₁) = a² + b²</text>
+
+  <!-- Arrow down -->
+  <line x1="550" y1="325" x2="550" y2="365" stroke="#66BB6A" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="570" y="350" fill="#81C784" font-size="12">lift (+k₂)</text>
+
+  <!-- Level 2: Quintuple -->
+  <rect x="250" y="370" width="600" height="100" rx="15" fill="#E65100" fill-opacity="0.2" stroke="#FF9800" stroke-width="2"/>
+  <text x="550" y="400" text-anchor="middle" fill="#FFB74D" font-size="16" font-weight="bold">Level 2: Quintuple</text>
+  <text x="550" y="428" text-anchor="middle" fill="#FFE0B2" font-size="18">a² + b² + k₁² + k₂² = d₂²</text>
+  <text x="550" y="455" text-anchor="middle" fill="#FFA726" font-size="14">Factor: (d₂−k₂)(d₂+k₂) = a² + b² + k₁²</text>
+
+  <!-- Factor extraction boxes -->
+  <rect x="50" y="250" width="220" height="70" rx="10" fill="#4CAF50" fill-opacity="0.15" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="160" y="275" text-anchor="middle" fill="#81C784" font-size="13" font-weight="bold">Factor Pair 1</text>
+  <text x="160" y="300" text-anchor="middle" fill="#A5D6A7" font-size="12">gcd(d₁−k₁, N), gcd(d₁+k₁, N)</text>
+
+  <rect x="830" y="395" width="220" height="70" rx="10" fill="#FF9800" fill-opacity="0.15" stroke="#FF9800" stroke-width="1.5"/>
+  <text x="940" y="420" text-anchor="middle" fill="#FFB74D" font-size="13" font-weight="bold">Factor Pair 2</text>
+  <text x="940" y="445" text-anchor="middle" fill="#FFCC80" font-size="12">gcd(d₂−k₂, N), gcd(d₂+k₂, N)</text>
+
+  <!-- Arrows to factor boxes -->
+  <line x1="300" y1="285" x2="270" y2="285" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <line x1="850" y1="430" x2="830" y2="430" stroke="#FF9800" stroke-width="1.5"/>
+
+  <!-- Nested cascade identity -->
+  <rect x="200" y="510" width="700" height="80" rx="12" fill="#311B92" fill-opacity="0.3" stroke="#7C4DFF" stroke-width="2"/>
+  <text x="550" y="540" text-anchor="middle" fill="#B388FF" font-size="16" font-weight="bold">Nested Cascade Identity</text>
+  <text x="550" y="568" text-anchor="middle" fill="#D1C4E9" font-size="16">
+    (d₂−k₂)(d₂+k₂) − (d₁−k₁)(d₁+k₁) = k₁²
+  </text>
+
+  <!-- Meaning arrow -->
+  <text x="550" y="620" text-anchor="middle" fill="#78909C" font-size="13">
+    ⟹ The two levels interact algebraically, revealing the lifting parameter k₁
+  </text>
+
+  <!-- Verified badge -->
+  <rect x="900" y="100" width="160" height="40" rx="8" fill="#1B5E20" fill-opacity="0.4" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="980" y="125" text-anchor="middle" fill="#4CAF50" font-size="13" font-weight="bold">✓ Lean 4 Verified</text>
+</svg>

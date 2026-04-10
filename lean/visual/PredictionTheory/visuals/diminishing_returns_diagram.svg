@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5F5"/>
+      <stop offset="100%" style="stop-color:#E0E0E0"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg2)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#1A237E" font-size="22" font-weight="bold">
+    Diminishing Returns Theorem
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#5C6BC0" font-size="13">
+    Ensemble variance V(n) = σ²/n + ρσ²(n−1)/n
+  </text>
+
+  <!-- Axes -->
+  <line x1="100" y1="400" x2="700" y2="400" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="100" y1="400" x2="100" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="400" y="440" text-anchor="middle" fill="#333" font-size="14">Number of Oracles (n)</text>
+  <text x="50" y="240" text-anchor="middle" fill="#333" font-size="14" transform="rotate(-90, 50, 240)">Ensemble Variance</text>
+
+  <!-- Axis labels -->
+  <text x="100" y="420" text-anchor="middle" fill="#666" font-size="11">1</text>
+  <text x="220" y="420" text-anchor="middle" fill="#666" font-size="11">5</text>
+  <text x="340" y="420" text-anchor="middle" fill="#666" font-size="11">10</text>
+  <text x="460" y="420" text-anchor="middle" fill="#666" font-size="11">15</text>
+  <text x="580" y="420" text-anchor="middle" fill="#666" font-size="11">20</text>
+  <text x="700" y="420" text-anchor="middle" fill="#666" font-size="11">25</text>
+
+  <!-- Y axis labels -->
+  <text x="90" y="400" text-anchor="end" fill="#666" font-size="11">0</text>
+  <text x="90" y="240" text-anchor="end" fill="#666" font-size="11">0.5</text>
+  <text x="90" y="80" text-anchor="end" fill="#666" font-size="11">1.0</text>
+
+  <!-- Curves for different ρ values -->
+  <!-- ρ = 0 (independent) -->
+  <path d="M100,80 Q150,200 220,330 Q300,370 460,385 Q580,393 700,395" 
+        fill="none" stroke="#2196F3" stroke-width="3"/>
+  <text x="710" y="395" fill="#2196F3" font-size="12" font-weight="bold">ρ = 0</text>
+
+  <!-- ρ = 0.3 -->
+  <path d="M100,80 Q160,220 220,310 Q340,335 460,340 Q580,342 700,343" 
+        fill="none" stroke="#4CAF50" stroke-width="3"/>
+  <line x1="100" y1="304" x2="700" y2="304" stroke="#4CAF50" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <text x="710" y="343" fill="#4CAF50" font-size="12" font-weight="bold">ρ = 0.3</text>
+
+  <!-- ρ = 0.5 -->
+  <path d="M100,80 Q170,210 220,270 Q340,250 460,245 Q580,242 700,241" 
+        fill="none" stroke="#FF9800" stroke-width="3"/>
+  <line x1="100" y1="240" x2="700" y2="240" stroke="#FF9800" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <text x="710" y="241" fill="#FF9800" font-size="12" font-weight="bold">ρ = 0.5</text>
+
+  <!-- ρ = 0.8 -->
+  <path d="M100,80 Q170,170 220,170 Q340,145 460,142 Q580,140 700,139" 
+        fill="none" stroke="#F44336" stroke-width="3"/>
+  <line x1="100" y1="144" x2="700" y2="144" stroke="#F44336" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <text x="710" y="139" fill="#F44336" font-size="12" font-weight="bold">ρ = 0.8</text>
+
+  <!-- Irreducible floor annotation -->
+  <rect x="460" y="155" width="220" height="70" rx="8" fill="white" stroke="#F44336" stroke-width="1.5" opacity="0.95"/>
+  <text x="570" y="175" text-anchor="middle" fill="#B71C1C" font-size="13" font-weight="bold">Irreducible Floor</text>
+  <text x="570" y="195" text-anchor="middle" fill="#333" font-size="12">V(∞) = ρ · σ²</text>
+  <text x="570" y="215" text-anchor="middle" fill="#666" font-size="11">No ensemble can reduce</text>
+
+  <!-- Marginal improvement annotation -->
+  <rect x="140" y="85" width="200" height="50" rx="8" fill="white" stroke="#1565C0" stroke-width="1.5" opacity="0.95"/>
+  <text x="240" y="105" text-anchor="middle" fill="#0D47A1" font-size="13" font-weight="bold">Marginal Improvement</text>
+  <text x="240" y="125" text-anchor="middle" fill="#333" font-size="12">ΔV(n) = σ² / (n·(n+1))</text>
+
+  <!-- Optimal n annotation -->
+  <rect x="240" y="450" width="320" height="35" rx="6" fill="#E8EAF6" stroke="#3F51B5" stroke-width="1"/>
+  <text x="400" y="472" text-anchor="middle" fill="#1A237E" font-size="13">
+    Optimal: n* = √(σ²/c), MinCost = 2√(σ²c)  [AM-GM]
+  </text>
+</svg>

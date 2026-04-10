@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+  <defs>
+    <style>
+      .title { font: bold 18px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a2e; }
+      .subtitle { font: italic 12px 'Helvetica Neue', Arial, sans-serif; fill: #555; }
+      .axis { stroke: #999; stroke-width: 1; }
+      .axis-label { font: 11px 'Helvetica Neue', Arial, sans-serif; fill: #666; }
+      .circle { fill: none; stroke-width: 1.5; }
+      .point { stroke-width: 1.5; }
+      .point-label { font: 10px 'Courier New', monospace; }
+      .arrow { stroke-width: 2; fill: none; }
+      .section-title { font: bold 14px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a2e; }
+      .note { font: 11px 'Helvetica Neue', Arial, sans-serif; fill: #555; }
+    </style>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e63946"/>
+    </marker>
+    <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#457b9d"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="600" fill="#fafafa" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="30" class="title" text-anchor="middle">Quaternion Division ↔ Pythagorean Descent</text>
+  <text x="450" y="48" class="subtitle" text-anchor="middle">The R₁₁₁₁ reflection is division by σ = 1+i+j+k in disguise</text>
+
+  <!-- LEFT PANEL: Quaternion Norm Circles -->
+  <text x="200" y="80" class="section-title" text-anchor="middle">Quaternion Norms (|α|² = d)</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="280" x2="370" y2="280" class="axis"/>
+  <line x1="200" y1="100" x2="200" y2="460" class="axis"/>
+  <text x="375" y="284" class="axis-label">Re</text>
+  <text x="204" y="96" class="axis-label">Im(i)</text>
+
+  <!-- Norm circles (projected to Re-Im(i) plane) -->
+  <circle cx="200" cy="280" r="30" class="circle" stroke="#e63946" opacity="0.3"/>
+  <text x="233" y="270" class="axis-label" fill="#e63946">|α|²=1</text>
+
+  <circle cx="200" cy="280" r="52" class="circle" stroke="#f4a261" opacity="0.3"/>
+  <text x="257" y="248" class="axis-label" fill="#f4a261">|α|²=3</text>
+
+  <circle cx="200" cy="280" r="67" class="circle" stroke="#2a9d8f" opacity="0.3"/>
+  <text x="273" y="230" class="axis-label" fill="#2a9d8f">|α|²=5</text>
+
+  <circle cx="200" cy="280" r="79" class="circle" stroke="#457b9d" opacity="0.3"/>
+  <text x="285" y="215" class="axis-label" fill="#457b9d">|α|²=7</text>
+
+  <circle cx="200" cy="280" r="90" class="circle" stroke="#264653" opacity="0.3"/>
+  <text x="296" y="200" class="axis-label" fill="#264653">|α|²=9</text>
+
+  <!-- Quaternion points (projected) -->
+  <!-- d=1: (1,0,0,0) -->
+  <circle cx="230" cy="280" r="5" class="point" fill="#e63946" stroke="#1a1a2e"/>
+  <text x="238" y="295" class="point-label" fill="#e63946">(1,0,0,0)</text>
+
+  <!-- d=3: (1,1,0,1) projected to (1,1) -->
+  <circle cx="230" cy="250" r="5" class="point" fill="#f4a261" stroke="#1a1a2e"/>
+  <text x="238" y="248" class="point-label" fill="#f4a261">(1,1,0,1)</text>
+
+  <!-- d=3: (1,1,1,0) projected to (1,1) -->
+  <circle cx="230" cy="250" r="3" class="point" fill="#f4a261" stroke="#f4a261"/>
+
+  <!-- Division arrow: from (1,1,0,1) to (1,0,0,0) -->
+  <path d="M 228,255 Q 215,270 228,278" class="arrow" stroke="#e63946" marker-end="url(#arr)"/>
+
+  <!-- d=5: various points -->
+  <circle cx="200" cy="213" r="4" class="point" fill="#2a9d8f" stroke="#1a1a2e"/>
+
+  <!-- d=7 -->
+  <circle cx="230" cy="209" r="4" class="point" fill="#457b9d" stroke="#1a1a2e"/>
+  <circle cx="260" cy="250" r="4" class="point" fill="#457b9d" stroke="#1a1a2e"/>
+
+  <!-- Division arrows -->
+  <path d="M 228,213 Q 215,240 218,252" class="arrow" stroke="#e63946" marker-end="url(#arr)" opacity="0.5"/>
+  <path d="M 256,253 Q 240,260 232,253" class="arrow" stroke="#e63946" marker-end="url(#arr)" opacity="0.5"/>
+
+  <!-- Label -->
+  <text x="120" y="420" class="note">Each circle = constant |α|²</text>
+  <text x="120" y="435" class="note">Division by σ moves inward</text>
+  <text x="120" y="450" class="note">(norm decreases each step)</text>
+
+  <!-- RIGHT PANEL: Null Cone Descent -->
+  <text x="650" y="80" class="section-title" text-anchor="middle">Null Cone Descent (a²+b²+c²=d²)</text>
+
+  <!-- Cone shape -->
+  <path d="M 650,120 L 520,430 L 780,430 Z" fill="none" stroke="#ddd" stroke-width="1"/>
+  <path d="M 650,120 L 560,430" fill="none" stroke="#ddd" stroke-width="0.5" stroke-dasharray="4,4"/>
+  <path d="M 650,120 L 740,430" fill="none" stroke="#ddd" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+  <!-- Cross-sections (circles at each d level) -->
+  <ellipse cx="650" cy="160" rx="15" ry="6" fill="none" stroke="#e63946" opacity="0.4"/>
+  <text x="570" y="164" class="axis-label" fill="#e63946" font-weight="bold">d = 1</text>
+
+  <ellipse cx="650" cy="220" rx="40" ry="14" fill="none" stroke="#f4a261" opacity="0.4"/>
+  <text x="570" y="224" class="axis-label" fill="#f4a261" font-weight="bold">d = 3</text>
+
+  <ellipse cx="650" cy="280" rx="60" ry="20" fill="none" stroke="#2a9d8f" opacity="0.4"/>
+  <text x="565" y="284" class="axis-label" fill="#2a9d8f" font-weight="bold">d = 5–7</text>
+
+  <ellipse cx="650" cy="350" rx="80" ry="26" fill="none" stroke="#457b9d" opacity="0.4"/>
+  <text x="555" y="354" class="axis-label" fill="#457b9d" font-weight="bold">d = 9–13</text>
+
+  <ellipse cx="650" cy="410" rx="95" ry="30" fill="none" stroke="#264653" opacity="0.4"/>
+  <text x="545" y="414" class="axis-label" fill="#264653" font-weight="bold">d = 15+</text>
+
+  <!-- Points on null cone -->
+  <!-- d=1: (0,0,1,1) -->
+  <circle cx="650" cy="155" r="5" fill="#e63946" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="670" y="158" class="point-label" fill="#e63946">(0,0,1,1)</text>
+
+  <!-- d=3: (1,2,2,3) -->
+  <circle cx="660" cy="215" r="4" fill="#f4a261" stroke="#1a1a2e" stroke-width="1.5"/>
+  <text x="675" y="218" class="point-label" fill="#f4a261">(1,2,2,3)</text>
+
+  <!-- d=5 -->
+  <circle cx="630" cy="272" r="3.5" fill="#2a9d8f" stroke="#1a1a2e"/>
+  <text x="640" y="269" class="point-label" fill="#2a9d8f" font-size="9">(0,3,4,5)</text>
+
+  <!-- d=7 -->
+  <circle cx="670" cy="276" r="3.5" fill="#2a9d8f" stroke="#1a1a2e"/>
+  <text x="680" y="290" class="point-label" fill="#2a9d8f" font-size="9">(2,3,6,7)</text>
+
+  <!-- d=9 -->
+  <circle cx="640" cy="345" r="3" fill="#457b9d" stroke="#1a1a2e"/>
+  <circle cx="680" cy="348" r="3" fill="#457b9d" stroke="#1a1a2e"/>
+
+  <!-- Descent arrows -->
+  <path d="M 659,220 Q 655,240 652,268" class="arrow" stroke="#e63946" marker-end="url(#arr)" opacity="0.6"/>
+  <path d="M 658,218 Q 655,193 652,160" class="arrow" stroke="#e63946" marker-end="url(#arr)"/>
+  <path d="M 669,279 Q 665,210 661,218" class="arrow" stroke="#e63946" marker-end="url(#arr)" opacity="0.6"/>
+
+  <!-- Labels -->
+  <text x="570" y="460" class="note">Descent by R₁₁₁₁ moves</text>
+  <text x="570" y="475" class="note">up the cone (d decreases)</text>
+  <text x="570" y="490" class="note">to the root at d = 1</text>
+
+  <!-- Center connection -->
+  <text x="450" y="520" class="section-title" text-anchor="middle" fill="#e63946">≡</text>
+  <text x="450" y="540" class="note" text-anchor="middle">Both are the same algorithm:</text>
+  <text x="450" y="555" class="note" text-anchor="middle" font-weight="bold">Euclidean descent by σ = 1+i+j+k</text>
+
+  <!-- Arrows connecting panels -->
+  <path d="M 380,300 L 500,300" stroke="#e63946" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arr)"/>
+  <path d="M 500,320 L 380,320" stroke="#457b9d" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arr-blue)"/>
+  <text x="440" y="295" class="note" text-anchor="middle" fill="#e63946">Euler</text>
+  <text x="440" y="340" class="note" text-anchor="middle" fill="#457b9d">param</text>
+</svg>

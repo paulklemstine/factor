@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a1a2a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="600" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#e8c170" font-size="22" font-weight="bold">
+    The Berggren Tree: From Pythagoras to Factoring
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#8888aa" font-size="12">
+    Every primitive Pythagorean triple appears exactly once
+  </text>
+
+  <!-- Root: (3,4,5) -->
+  <circle cx="450" cy="110" r="30" fill="#2a1a0a" stroke="#e8c170" stroke-width="2" filter="url(#glow2)"/>
+  <text x="450" y="107" text-anchor="middle" fill="#e8c170" font-size="11" font-weight="bold">(3,4,5)</text>
+  <text x="450" y="121" text-anchor="middle" fill="#aa9060" font-size="9">root</text>
+
+  <!-- Level 1: three children -->
+  <!-- A child: (5,12,13) -->
+  <line x1="425" y1="135" x2="200" y2="195" stroke="#6688cc" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="180" cy="210" r="30" fill="#0a1a2a" stroke="#6688cc" stroke-width="1.5"/>
+  <text x="180" y="207" text-anchor="middle" fill="#88aaee" font-size="10">(5,12,13)</text>
+  <text x="180" y="221" text-anchor="middle" fill="#6688aa" font-size="8">A</text>
+
+  <!-- B child: (21,20,29) -->
+  <line x1="450" y1="140" x2="450" y2="195" stroke="#44cc88" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="450" cy="210" r="30" fill="#0a2a1a" stroke="#44cc88" stroke-width="1.5"/>
+  <text x="450" y="207" text-anchor="middle" fill="#66eebb" font-size="10">(21,20,29)</text>
+  <text x="450" y="221" text-anchor="middle" fill="#44aa88" font-size="8">B</text>
+
+  <!-- C child: (15,8,17) -->
+  <line x1="475" y1="135" x2="720" y2="195" stroke="#cc6644" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="720" cy="210" r="30" fill="#2a0a0a" stroke="#cc6644" stroke-width="1.5"/>
+  <text x="720" y="207" text-anchor="middle" fill="#ee8866" font-size="10">(15,8,17)</text>
+  <text x="720" y="221" text-anchor="middle" fill="#cc6644" font-size="8">C</text>
+
+  <!-- Level 2: A's children -->
+  <line x1="155" y1="235" x2="80" y2="285" stroke="#6688cc" stroke-width="1" opacity="0.3"/>
+  <circle cx="70" cy="300" r="25" fill="#0a1a2a" stroke="#5577aa" stroke-width="1"/>
+  <text x="70" y="298" text-anchor="middle" fill="#7799cc" font-size="8">(7,24,25)</text>
+
+  <line x1="180" y1="240" x2="180" y2="285" stroke="#6688cc" stroke-width="1" opacity="0.3"/>
+  <circle cx="180" cy="300" r="25" fill="#0a1a2a" stroke="#5577aa" stroke-width="1"/>
+  <text x="180" y="298" text-anchor="middle" fill="#7799cc" font-size="8">(55,48,73)</text>
+
+  <line x1="205" y1="235" x2="290" y2="285" stroke="#6688cc" stroke-width="1" opacity="0.3"/>
+  <circle cx="290" cy="300" r="25" fill="#0a1a2a" stroke="#5577aa" stroke-width="1"/>
+  <text x="290" y="298" text-anchor="middle" fill="#7799cc" font-size="8">(45,28,53)</text>
+
+  <!-- Level 2: B's children -->
+  <line x1="425" y1="235" x2="370" y2="285" stroke="#44cc88" stroke-width="1" opacity="0.3"/>
+  <circle cx="370" cy="300" r="25" fill="#0a2a1a" stroke="#339977" stroke-width="1"/>
+  <text x="370" y="298" text-anchor="middle" fill="#55bb99" font-size="8">(9,40,41)</text>
+
+  <line x1="450" y1="240" x2="450" y2="285" stroke="#44cc88" stroke-width="1" opacity="0.3"/>
+  <circle cx="450" cy="300" r="25" fill="#0a2a1a" stroke="#339977" stroke-width="1"/>
+  <text x="450" y="295" text-anchor="middle" fill="#55bb99" font-size="7">(119,120,</text>
+  <text x="450" y="306" text-anchor="middle" fill="#55bb99" font-size="7">169)</text>
+
+  <line x1="475" y1="235" x2="530" y2="285" stroke="#44cc88" stroke-width="1" opacity="0.3"/>
+  <circle cx="530" cy="300" r="25" fill="#0a2a1a" stroke="#339977" stroke-width="1"/>
+  <text x="530" y="298" text-anchor="middle" fill="#55bb99" font-size="8">(77,36,85)</text>
+
+  <!-- Level 2: C's children -->
+  <line x1="695" y1="235" x2="620" y2="285" stroke="#cc6644" stroke-width="1" opacity="0.3"/>
+  <circle cx="620" cy="300" r="25" fill="#2a0a0a" stroke="#aa5533" stroke-width="1"/>
+  <text x="620" y="298" text-anchor="middle" fill="#cc7755" font-size="8">(11,60,61)</text>
+
+  <line x1="720" y1="240" x2="720" y2="285" stroke="#cc6644" stroke-width="1" opacity="0.3"/>
+  <circle cx="720" cy="300" r="25" fill="#2a0a0a" stroke="#aa5533" stroke-width="1"/>
+  <text x="720" y="295" text-anchor="middle" fill="#cc7755" font-size="7">(105,88,</text>
+  <text x="720" y="306" text-anchor="middle" fill="#cc7755" font-size="7">137)</text>
+
+  <line x1="745" y1="235" x2="830" y2="285" stroke="#cc6644" stroke-width="1" opacity="0.3"/>
+  <circle cx="830" cy="300" r="25" fill="#2a0a0a" stroke="#aa5533" stroke-width="1"/>
+  <text x="830" y="298" text-anchor="middle" fill="#cc7755" font-size="8">(63,16,65)</text>
+
+  <!-- Dots for deeper levels -->
+  <text x="180" y="345" text-anchor="middle" fill="#555577" font-size="20">⋮</text>
+  <text x="450" y="345" text-anchor="middle" fill="#555577" font-size="20">⋮</text>
+  <text x="720" y="345" text-anchor="middle" fill="#555577" font-size="20">⋮</text>
+
+  <!-- Factoring connection box -->
+  <rect x="50" y="380" width="380" height="180" rx="10" fill="#0a0a1a" stroke="#e8c170" stroke-width="1.5" opacity="0.8"/>
+  <text x="240" y="405" text-anchor="middle" fill="#e8c170" font-size="14" font-weight="bold">
+    Factoring via Pythagorean Triples
+  </text>
+  <text x="240" y="430" text-anchor="middle" fill="#aaaacc" font-size="11">
+    n² + b² = c²  ⟺  n² = (c-b)(c+b)
+  </text>
+  <text x="240" y="455" text-anchor="middle" fill="#aaaacc" font-size="11">
+    Same-parity divisor pairs ↔ triples
+  </text>
+  <text x="240" y="480" text-anchor="middle" fill="#88aa88" font-size="11">
+    n is prime ⟺ exactly 1 triple with leg n
+  </text>
+  <text x="240" y="505" text-anchor="middle" fill="#aaaacc" font-size="11">
+    Example: 15² = 9×25 → (15, 8, 17)
+  </text>
+  <text x="240" y="530" text-anchor="middle" fill="#aaaacc" font-size="11">
+    gcd(15, 9) = 3, gcd(15, 25) = 5 → factors!
+  </text>
+  <text x="240" y="550" text-anchor="middle" fill="#66aa66" font-size="10">✓ Machine-Verified</text>
+
+  <!-- Lorentz connection box -->
+  <rect x="470" y="380" width="380" height="180" rx="10" fill="#0a0a1a" stroke="#cc44cc" stroke-width="1.5" opacity="0.8"/>
+  <text x="660" y="405" text-anchor="middle" fill="#cc66cc" font-size="14" font-weight="bold">
+    Lorentz Geometry Connection
+  </text>
+  <text x="660" y="435" text-anchor="middle" fill="#aaaacc" font-size="11">
+    Berggren matrices preserve:
+  </text>
+  <text x="660" y="460" text-anchor="middle" fill="#ee88ee" font-size="13">
+    x² + y² − z² = 0
+  </text>
+  <text x="660" y="485" text-anchor="middle" fill="#aaaacc" font-size="11">
+    This is the Lorentz form (signature 2,1)
+  </text>
+  <text x="660" y="510" text-anchor="middle" fill="#aaaacc" font-size="11">
+    The tree lives in hyperbolic space ℍ²
+  </text>
+  <text x="660" y="535" text-anchor="middle" fill="#cc88cc" font-size="11">
+    Open: Can geodesics shortcut factoring?
+  </text>
+  <text x="660" y="555" text-anchor="middle" fill="#ccaa44" font-size="10">⚡ Hypothesis H-AP1</text>
+</svg>

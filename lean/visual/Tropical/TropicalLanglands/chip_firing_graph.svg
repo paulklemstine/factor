@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f0f23"/>
+      <stop offset="100%" stop-color="#1a1a3e"/>
+    </linearGradient>
+    <filter id="glow5">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="400" fill="url(#bg5)"/>
+  
+  <text x="400" y="35" text-anchor="middle" fill="#fff" font-size="20" font-weight="bold">
+    Chip-Firing on Metric Graphs: Tropical Automorphic Forms
+  </text>
+  
+  <!-- LEFT: Before chip-firing -->
+  <g transform="translate(120, 200)">
+    <text x="0" y="-140" text-anchor="middle" fill="#ff6b6b" font-size="16" font-weight="bold">
+      Before Firing v₁
+    </text>
+    <text x="0" y="-120" text-anchor="middle" fill="#ff9999" font-size="12">
+      Divisor D = (3, 0, 1, 0)
+    </text>
+    
+    <!-- Edges -->
+    <line x1="-80" y1="-60" x2="80" y2="-60" stroke="#555" stroke-width="2"/>
+    <line x1="-80" y1="-60" x2="-80" y2="60" stroke="#555" stroke-width="2"/>
+    <line x1="80" y1="-60" x2="80" y2="60" stroke="#555" stroke-width="2"/>
+    <line x1="-80" y1="60" x2="80" y2="60" stroke="#555" stroke-width="2"/>
+    <line x1="-80" y1="-60" x2="80" y2="60" stroke="#555" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <line x1="80" y1="-60" x2="-80" y2="60" stroke="#555" stroke-width="1.5" stroke-dasharray="4,4"/>
+    
+    <!-- Edge labels -->
+    <text x="0" y="-70" text-anchor="middle" fill="#666" font-size="10">1.0</text>
+    <text x="-95" y="0" text-anchor="middle" fill="#666" font-size="10">1.5</text>
+    <text x="95" y="0" text-anchor="middle" fill="#666" font-size="10">1.5</text>
+    <text x="0" y="78" text-anchor="middle" fill="#666" font-size="10">1.0</text>
+    
+    <!-- Vertices with chips -->
+    <!-- v1: 3 chips (top-left) -->
+    <circle cx="-80" cy="-60" r="22" fill="#ff6b6b" stroke="#fff" stroke-width="2"/>
+    <text x="-80" y="-55" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">3</text>
+    <text x="-80" y="-85" text-anchor="middle" fill="#ff9999" font-size="10">v₁</text>
+    
+    <!-- v2: 0 chips (top-right) -->
+    <circle cx="80" cy="-60" r="22" fill="#333" stroke="#fff" stroke-width="2"/>
+    <text x="80" y="-55" text-anchor="middle" fill="#888" font-size="18" font-weight="bold">0</text>
+    <text x="80" y="-85" text-anchor="middle" fill="#888" font-size="10">v₂</text>
+    
+    <!-- v3: 1 chip (bottom-left) -->
+    <circle cx="-80" cy="60" r="22" fill="#4ecdc4" stroke="#fff" stroke-width="2"/>
+    <text x="-80" y="65" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">1</text>
+    <text x="-80" y="90" text-anchor="middle" fill="#7bed9f" font-size="10">v₃</text>
+    
+    <!-- v4: 0 chips (bottom-right) -->
+    <circle cx="80" cy="60" r="22" fill="#333" stroke="#fff" stroke-width="2"/>
+    <text x="80" y="65" text-anchor="middle" fill="#888" font-size="18" font-weight="bold">0</text>
+    <text x="80" y="90" text-anchor="middle" fill="#888" font-size="10">v₄</text>
+    
+    <!-- Total -->
+    <text x="0" y="120" text-anchor="middle" fill="#f9ca24" font-size="13">
+      deg = 3+0+1+0 = 4
+    </text>
+  </g>
+  
+  <!-- ARROW -->
+  <g transform="translate(340, 200)">
+    <polygon points="0,-15 30,0 0,15" fill="#f9ca24"/>
+    <line x1="-30" y1="0" x2="0" y2="0" stroke="#f9ca24" stroke-width="3"/>
+    <text x="0" y="-25" text-anchor="middle" fill="#f9ca24" font-size="12" font-weight="bold">FIRE v₁</text>
+    <text x="0" y="30" text-anchor="middle" fill="#f9ca24" font-size="10">sends 1 chip</text>
+    <text x="0" y="45" text-anchor="middle" fill="#f9ca24" font-size="10">to each neighbor</text>
+  </g>
+  
+  <!-- RIGHT: After chip-firing -->
+  <g transform="translate(560, 200)">
+    <text x="0" y="-140" text-anchor="middle" fill="#4ecdc4" font-size="16" font-weight="bold">
+      After Firing v₁
+    </text>
+    <text x="0" y="-120" text-anchor="middle" fill="#7bed9f" font-size="12">
+      Divisor D' = (0, 1, 2, 1)
+    </text>
+    
+    <!-- Edges -->
+    <line x1="-80" y1="-60" x2="80" y2="-60" stroke="#555" stroke-width="2"/>
+    <line x1="-80" y1="-60" x2="-80" y2="60" stroke="#555" stroke-width="2"/>
+    <line x1="80" y1="-60" x2="80" y2="60" stroke="#555" stroke-width="2"/>
+    <line x1="-80" y1="60" x2="80" y2="60" stroke="#555" stroke-width="2"/>
+    <line x1="-80" y1="-60" x2="80" y2="60" stroke="#555" stroke-width="1.5" stroke-dasharray="4,4"/>
+    <line x1="80" y1="-60" x2="-80" y2="60" stroke="#555" stroke-width="1.5" stroke-dasharray="4,4"/>
+    
+    <!-- Vertices with chips -->
+    <!-- v1: 0 chips -->
+    <circle cx="-80" cy="-60" r="22" fill="#333" stroke="#fff" stroke-width="2"/>
+    <text x="-80" y="-55" text-anchor="middle" fill="#888" font-size="18" font-weight="bold">0</text>
+    <text x="-80" y="-85" text-anchor="middle" fill="#888" font-size="10">v₁</text>
+    
+    <!-- v2: 1 chip -->
+    <circle cx="80" cy="-60" r="22" fill="#4ecdc4" stroke="#fff" stroke-width="2"/>
+    <text x="80" y="-55" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">1</text>
+    <text x="80" y="-85" text-anchor="middle" fill="#7bed9f" font-size="10">v₂</text>
+    
+    <!-- v3: 2 chips -->
+    <circle cx="-80" cy="60" r="22" fill="#ff6b6b" stroke="#fff" stroke-width="2"/>
+    <text x="-80" y="65" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">2</text>
+    <text x="-80" y="90" text-anchor="middle" fill="#ff9999" font-size="10">v₃</text>
+    
+    <!-- v4: 1 chip -->
+    <circle cx="80" cy="60" r="22" fill="#4ecdc4" stroke="#fff" stroke-width="2"/>
+    <text x="80" y="65" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">1</text>
+    <text x="80" y="90" text-anchor="middle" fill="#7bed9f" font-size="10">v₄</text>
+    
+    <!-- Total -->
+    <text x="0" y="120" text-anchor="middle" fill="#f9ca24" font-size="13">
+      deg = 0+1+2+1 = 4 ✓
+    </text>
+  </g>
+  
+  <!-- Bottom bar -->
+  <rect x="100" y="355" width="600" height="35" rx="8" fill="#1a1a2e" stroke="#6c5ce7" stroke-width="1"/>
+  <text x="400" y="378" text-anchor="middle" fill="#a29bfe" font-size="13">
+    Degree preserved under chip-firing (tropical Picard group) — proved in Lean ✓
+  </text>
+</svg>

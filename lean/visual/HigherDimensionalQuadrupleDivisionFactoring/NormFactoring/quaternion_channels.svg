@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 750" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a1a4e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="750" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">
+    Quaternion Factoring Channels (Dimension 4)
+  </text>
+  <text x="450" y="65" text-anchor="middle" fill="#aaa" font-size="14">
+    Each representation N = a² + b² + c² + d² provides 4 peel channels and 6 cross-collision pairs
+  </text>
+
+  <!-- The 4 peel channels -->
+  <text x="450" y="110" text-anchor="middle" fill="#FF9800" font-size="18" font-weight="bold">
+    4 Peel Channels from N = a² + b² + c² + d²
+  </text>
+
+  <!-- Channel boxes -->
+  <g transform="translate(50, 130)">
+    <rect width="185" height="100" rx="8" fill="rgba(255,152,0,0.1)" stroke="#FF9800" stroke-width="1.5"/>
+    <text x="92" y="25" text-anchor="middle" fill="#FF9800" font-size="14" font-weight="bold">Channel a</text>
+    <text x="92" y="50" text-anchor="middle" fill="#FFB74D" font-size="12">(N-a)(N+a) = N²-a²</text>
+    <text x="92" y="70" text-anchor="middle" fill="#FFB74D" font-size="12">= b²+c²+d²+N(N-1)</text>
+    <text x="92" y="88" text-anchor="middle" fill="#aaa" font-size="11">gcd(N-a, N)?</text>
+  </g>
+
+  <g transform="translate(255, 130)">
+    <rect width="185" height="100" rx="8" fill="rgba(33,150,243,0.1)" stroke="#2196F3" stroke-width="1.5"/>
+    <text x="92" y="25" text-anchor="middle" fill="#2196F3" font-size="14" font-weight="bold">Channel b</text>
+    <text x="92" y="50" text-anchor="middle" fill="#64B5F6" font-size="12">(N-b)(N+b) = N²-b²</text>
+    <text x="92" y="70" text-anchor="middle" fill="#64B5F6" font-size="12">= a²+c²+d²+N(N-1)</text>
+    <text x="92" y="88" text-anchor="middle" fill="#aaa" font-size="11">gcd(N-b, N)?</text>
+  </g>
+
+  <g transform="translate(460, 130)">
+    <rect width="185" height="100" rx="8" fill="rgba(76,175,80,0.1)" stroke="#4CAF50" stroke-width="1.5"/>
+    <text x="92" y="25" text-anchor="middle" fill="#4CAF50" font-size="14" font-weight="bold">Channel c</text>
+    <text x="92" y="50" text-anchor="middle" fill="#81C784" font-size="12">(N-c)(N+c) = N²-c²</text>
+    <text x="92" y="70" text-anchor="middle" fill="#81C784" font-size="12">= a²+b²+d²+N(N-1)</text>
+    <text x="92" y="88" text-anchor="middle" fill="#aaa" font-size="11">gcd(N-c, N)?</text>
+  </g>
+
+  <g transform="translate(665, 130)">
+    <rect width="185" height="100" rx="8" fill="rgba(233,30,99,0.1)" stroke="#E91E63" stroke-width="1.5"/>
+    <text x="92" y="25" text-anchor="middle" fill="#E91E63" font-size="14" font-weight="bold">Channel d</text>
+    <text x="92" y="50" text-anchor="middle" fill="#F48FB1" font-size="12">(N-d)(N+d) = N²-d²</text>
+    <text x="92" y="70" text-anchor="middle" fill="#F48FB1" font-size="12">= a²+b²+c²+N(N-1)</text>
+    <text x="92" y="88" text-anchor="middle" fill="#aaa" font-size="11">gcd(N-d, N)?</text>
+  </g>
+
+  <!-- Comparison section -->
+  <text x="450" y="280" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">
+    Channel Count Comparison Across Dimensions
+  </text>
+
+  <!-- Bar chart -->
+  <g transform="translate(100, 300)">
+    <!-- Dim 1 -->
+    <rect x="30" y="130" width="60" height="10" rx="3" fill="#666"/>
+    <text x="60" y="160" text-anchor="middle" fill="#999" font-size="12">Dim 1</text>
+    <text x="60" y="175" text-anchor="middle" fill="#666" font-size="11">1 ch</text>
+
+    <!-- Dim 2 -->
+    <rect x="150" y="120" width="60" height="20" rx="3" fill="#2196F3"/>
+    <text x="180" y="160" text-anchor="middle" fill="#64B5F6" font-size="12">Dim 2</text>
+    <text x="180" y="175" text-anchor="middle" fill="#2196F3" font-size="11">2 ch</text>
+
+    <!-- Dim 4 -->
+    <rect x="270" y="100" width="60" height="40" rx="3" fill="#FF9800"/>
+    <text x="300" y="160" text-anchor="middle" fill="#FFB74D" font-size="12">Dim 4</text>
+    <text x="300" y="175" text-anchor="middle" fill="#FF9800" font-size="11">4 ch</text>
+
+    <!-- Dim 8 -->
+    <rect x="390" y="60" width="60" height="80" rx="3" fill="#E91E63"/>
+    <text x="420" y="160" text-anchor="middle" fill="#F48FB1" font-size="12">Dim 8</text>
+    <text x="420" y="175" text-anchor="middle" fill="#E91E63" font-size="11">8 ch</text>
+
+    <text x="230" y="15" text-anchor="middle" fill="#aaa" font-size="13">Channels per representation</text>
+
+    <!-- Cross-collisions with 2 reps -->
+    <text x="600" y="15" text-anchor="middle" fill="#aaa" font-size="13">Cross-collisions (2 reps)</text>
+
+    <rect x="530" y="130" width="60" height="10" rx="3" fill="#666"/>
+    <text x="560" y="160" text-anchor="middle" fill="#999" font-size="12">Dim 1</text>
+    <text x="560" y="175" text-anchor="middle" fill="#666" font-size="11">1</text>
+
+    <rect x="620" y="110" width="60" height="30" rx="3" fill="#2196F3"/>
+    <text x="650" y="160" text-anchor="middle" fill="#64B5F6" font-size="12">Dim 2</text>
+    <text x="650" y="175" text-anchor="middle" fill="#2196F3" font-size="11">3</text>
+
+    <rect x="710" y="80" width="60" height="60" rx="3" fill="#FF9800"/>
+    <text x="740" y="160" text-anchor="middle" fill="#FFB74D" font-size="12">Dim 4</text>
+    <text x="740" y="175" text-anchor="middle" fill="#FF9800" font-size="11">10</text>
+  </g>
+
+  <!-- Example section -->
+  <rect x="50" y="510" width="800" height="210" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+
+  <text x="450" y="540" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">
+    Example: Factoring N = 91 = 7 × 13 via Quaternion Collisions
+  </text>
+
+  <text x="80" y="570" fill="#4CAF50" font-size="13">Rep 1: 91 = 0² + 1² + 3² + 9²</text>
+  <text x="80" y="590" fill="#FF9800" font-size="13">Rep 2: 91 = 1² + 1² + 5² + 8²</text>
+
+  <text x="80" y="620" fill="#2196F3" font-size="13">Cross-product (components 2,3): 1·8 - 5·3 = -7</text>
+  <text x="80" y="640" fill="#2196F3" font-size="13">gcd(|-7|, 91) = gcd(7, 91) = 7  →  91 = 7 × 13 ✓</text>
+
+  <text x="80" y="670" fill="#E91E63" font-size="13">Cross-product (components 1,3): 1·8 - 1·9 = -1</text>
+  <text x="80" y="690" fill="#E91E63" font-size="13">gcd(|-1|, 91) = 1 (trivial — not every channel works, but many do)</text>
+
+  <text x="450" y="715" text-anchor="middle" fill="#aaa" font-size="12" font-style="italic">
+    With 10 cross-collision pairs per pair of representations, the probability of finding a factor is high
+  </text>
+</svg>

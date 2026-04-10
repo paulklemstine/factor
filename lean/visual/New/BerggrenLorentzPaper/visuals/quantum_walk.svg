@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="qBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a30;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a0a30;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="qglow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="500" fill="url(#qBg)"/>
+
+  <text x="450" y="35" text-anchor="middle" fill="#e0e0ff" font-size="20" font-weight="bold">
+    Quantum Lorentz Walk: O(√(3^d)) Speedup Hypothesis
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#9988cc" font-size="12">
+    Grover coin quantum walk on Berggren tree vs classical random walk
+  </text>
+
+  <!-- Classical side -->
+  <g transform="translate(50, 80)">
+    <rect x="0" y="0" width="380" height="380" rx="12" fill="#0d0d25" stroke="#4444aa" opacity="0.9"/>
+    <text x="190" y="25" text-anchor="middle" fill="#aaaaee" font-size="14" font-weight="bold">
+      Classical Random Walk
+    </text>
+    <text x="190" y="45" text-anchor="middle" fill="#8888bb" font-size="11">
+      Hitting time: O(3^d) steps
+    </text>
+
+    <!-- Tree with random walk arrows -->
+    <circle cx="190" cy="80" r="12" fill="#333366" stroke="#6666cc" stroke-width="2"/>
+    <text x="190" y="84" text-anchor="middle" fill="#aaaaff" font-size="9">root</text>
+
+    <line x1="190" y1="92" x2="100" y2="130" stroke="#444477" stroke-width="1"/>
+    <line x1="190" y1="92" x2="190" y2="130" stroke="#444477" stroke-width="1"/>
+    <line x1="190" y1="92" x2="280" y2="130" stroke="#444477" stroke-width="1"/>
+
+    <circle cx="100" cy="140" r="10" fill="#333355" stroke="#5555aa"/>
+    <circle cx="190" cy="140" r="10" fill="#333355" stroke="#5555aa"/>
+    <circle cx="280" cy="140" r="10" fill="#333355" stroke="#5555aa"/>
+
+    <!-- More tree levels -->
+    <g opacity="0.6">
+      <line x1="100" y1="150" x2="70" y2="185" stroke="#333366"/>
+      <line x1="100" y1="150" x2="100" y2="185" stroke="#333366"/>
+      <line x1="100" y1="150" x2="130" y2="185" stroke="#333366"/>
+      <line x1="190" y1="150" x2="160" y2="185" stroke="#333366"/>
+      <line x1="190" y1="150" x2="190" y2="185" stroke="#333366"/>
+      <line x1="190" y1="150" x2="220" y2="185" stroke="#333366"/>
+      <line x1="280" y1="150" x2="250" y2="185" stroke="#333366"/>
+      <line x1="280" y1="150" x2="280" y2="185" stroke="#333366"/>
+      <line x1="280" y1="150" x2="310" y2="185" stroke="#333366"/>
+
+      <circle cx="70" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="100" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="130" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="160" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="190" cy="190" r="7" fill="#ff4444" stroke="#ff6666" stroke-width="2"/>
+      <circle cx="220" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="250" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="280" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+      <circle cx="310" cy="190" r="7" fill="#2a2a44" stroke="#444488"/>
+    </g>
+
+    <!-- Random walk path (zigzag) -->
+    <polyline points="190,80 280,140 250,190 280,140 190,140 160,190 190,140 100,140 130,190 100,140 190,140 190,190"
+              fill="none" stroke="#ff8844" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.8"/>
+    <text x="320" y="195" fill="#ff4444" font-size="10" font-weight="bold">TARGET</text>
+
+    <!-- Performance -->
+    <text x="20" y="240" fill="#ccccee" font-size="11">Performance (depth d):</text>
+    <text x="20" y="260" fill="#aaaacc" font-size="10" font-family="monospace">d=1:     3 nodes → ~3 steps</text>
+    <text x="20" y="278" fill="#aaaacc" font-size="10" font-family="monospace">d=2:     9 nodes → ~9 steps</text>
+    <text x="20" y="296" fill="#aaaacc" font-size="10" font-family="monospace">d=3:    27 nodes → ~27 steps</text>
+    <text x="20" y="314" fill="#aaaacc" font-size="10" font-family="monospace">d=4:    81 nodes → ~81 steps</text>
+    <text x="20" y="332" fill="#aaaacc" font-size="10" font-family="monospace">d=10: 59049 nodes → ~59049 steps</text>
+    <text x="20" y="360" fill="#ff8844" font-size="12" font-weight="bold">Total: O(3^d) steps needed</text>
+  </g>
+
+  <!-- Quantum side -->
+  <g transform="translate(470, 80)">
+    <rect x="0" y="0" width="380" height="380" rx="12" fill="#0d0d25" stroke="#cc44cc" opacity="0.9"/>
+    <text x="190" y="25" text-anchor="middle" fill="#eeccee" font-size="14" font-weight="bold">
+      Quantum Lorentz Walk
+    </text>
+    <text x="190" y="45" text-anchor="middle" fill="#bb88bb" font-size="11">
+      Hitting time: O(√(3^d)) steps
+    </text>
+
+    <!-- Tree with quantum amplitudes (glowing) -->
+    <circle cx="190" cy="80" r="12" fill="#442244" stroke="#cc66cc" stroke-width="2" filter="url(#qglow)"/>
+    <text x="190" y="84" text-anchor="middle" fill="#ffaaff" font-size="9">root</text>
+
+    <line x1="190" y1="92" x2="100" y2="130" stroke="#664466" stroke-width="1"/>
+    <line x1="190" y1="92" x2="190" y2="130" stroke="#664466" stroke-width="1"/>
+    <line x1="190" y1="92" x2="280" y2="130" stroke="#664466" stroke-width="1"/>
+
+    <circle cx="100" cy="140" r="10" fill="#442255" stroke="#8855aa" opacity="0.5"/>
+    <circle cx="190" cy="140" r="10" fill="#553366" stroke="#aa66cc" opacity="0.8"/>
+    <circle cx="280" cy="140" r="10" fill="#442255" stroke="#8855aa" opacity="0.5"/>
+
+    <!-- Quantum amplitude visualization -->
+    <g opacity="0.6">
+      <line x1="100" y1="150" x2="70" y2="185" stroke="#553366"/>
+      <line x1="100" y1="150" x2="100" y2="185" stroke="#553366"/>
+      <line x1="100" y1="150" x2="130" y2="185" stroke="#553366"/>
+      <line x1="190" y1="150" x2="160" y2="185" stroke="#553366"/>
+      <line x1="190" y1="150" x2="190" y2="185" stroke="#aa44aa" stroke-width="2"/>
+      <line x1="190" y1="150" x2="220" y2="185" stroke="#553366"/>
+      <line x1="280" y1="150" x2="250" y2="185" stroke="#553366"/>
+      <line x1="280" y1="150" x2="280" y2="185" stroke="#553366"/>
+      <line x1="280" y1="150" x2="310" y2="185" stroke="#553366"/>
+
+      <circle cx="70" cy="190" r="7" fill="#331133" stroke="#553355" opacity="0.3"/>
+      <circle cx="100" cy="190" r="7" fill="#331133" stroke="#553355" opacity="0.3"/>
+      <circle cx="130" cy="190" r="7" fill="#331133" stroke="#553355" opacity="0.3"/>
+      <circle cx="160" cy="190" r="7" fill="#442244" stroke="#774477" opacity="0.5"/>
+      <circle cx="190" cy="190" r="14" fill="#ff44ff" stroke="#ff88ff" stroke-width="3" filter="url(#qglow)"/>
+      <circle cx="220" cy="190" r="7" fill="#442244" stroke="#774477" opacity="0.5"/>
+      <circle cx="250" cy="190" r="7" fill="#331133" stroke="#553355" opacity="0.3"/>
+      <circle cx="280" cy="190" r="7" fill="#331133" stroke="#553355" opacity="0.3"/>
+      <circle cx="310" cy="190" r="7" fill="#331133" stroke="#553355" opacity="0.3"/>
+    </g>
+
+    <text x="220" y="195" fill="#ff44ff" font-size="10" font-weight="bold">|ψ|² peak</text>
+
+    <!-- Superposition waves -->
+    <path d="M 100,140 Q 145,110 190,140 Q 235,170 280,140" fill="none"
+          stroke="#cc88ff" stroke-width="1" opacity="0.4" stroke-dasharray="3,3"/>
+
+    <!-- Performance -->
+    <text x="20" y="240" fill="#eeccee" font-size="11">Performance (depth d):</text>
+    <text x="20" y="260" fill="#ccaacc" font-size="10" font-family="monospace">d=1:  √3    ≈  2 steps</text>
+    <text x="20" y="278" fill="#ccaacc" font-size="10" font-family="monospace">d=2:  √9    =  3 steps</text>
+    <text x="20" y="296" fill="#ccaacc" font-size="10" font-family="monospace">d=3:  √27   ≈  5 steps</text>
+    <text x="20" y="314" fill="#ccaacc" font-size="10" font-family="monospace">d=4:  √81   =  9 steps</text>
+    <text x="20" y="332" fill="#ccaacc" font-size="10" font-family="monospace">d=10: √59049 ≈ 243 steps</text>
+    <text x="20" y="360" fill="#ff88ff" font-size="12" font-weight="bold">Total: O(√(3^d)) steps — quadratic speedup!</text>
+  </g>
+</svg>

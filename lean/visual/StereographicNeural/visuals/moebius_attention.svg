@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#fefce8" rx="8"/>
+  
+  <text x="400" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1e293b">Learnable Möbius Transforms as Attention Parameters</text>
+  <text x="400" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Replacing linear Q/K/V projections with conformal Möbius maps</text>
+  
+  <!-- Standard attention path (top) -->
+  <g transform="translate(0, 100)">
+    <text x="70" y="0" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#94a3b8">Standard</text>
+    
+    <rect x="20" y="15" width="100" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="70" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">X ∈ ℝᵈ</text>
+    
+    <line x1="120" y1="35" x2="170" y2="35" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+    
+    <rect x="170" y="15" width="120" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="230" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">Q = XW_Q</text>
+    
+    <line x1="290" y1="35" x2="340" y2="35" stroke="#94a3b8" stroke-width="1.5"/>
+    
+    <rect x="340" y="15" width="120" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="400" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">QKᵀ/√d</text>
+    
+    <line x1="460" y1="35" x2="510" y2="35" stroke="#94a3b8" stroke-width="1.5"/>
+    
+    <rect x="510" y="15" width="120" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="570" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">softmax</text>
+    
+    <line x1="630" y1="35" x2="680" y2="35" stroke="#94a3b8" stroke-width="1.5"/>
+    
+    <rect x="680" y="15" width="80" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="720" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">αV</text>
+    
+    <text x="230" y="70" text-anchor="middle" font-family="Arial" font-size="9" fill="#94a3b8">d² params</text>
+    <text x="400" y="70" text-anchor="middle" font-family="Arial" font-size="9" fill="#94a3b8">unbounded</text>
+  </g>
+  
+  <!-- Möbius attention path (bottom) -->
+  <g transform="translate(0, 230)">
+    <text x="70" y="0" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#d97706">Möbius</text>
+    
+    <rect x="20" y="15" width="100" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="70" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#92400e">X ∈ ℂ</text>
+    
+    <line x1="120" y1="35" x2="170" y2="35" stroke="#f59e0b" stroke-width="2"/>
+    
+    <rect x="170" y="15" width="120" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="230" y="35" text-anchor="middle" font-family="monospace" font-size="10" fill="#92400e">Q = μ_Q(X)</text>
+    <text x="230" y="48" text-anchor="middle" font-family="monospace" font-size="8" fill="#b45309">= (aX+b)/(cX+d)</text>
+    
+    <line x1="290" y1="35" x2="340" y2="35" stroke="#f59e0b" stroke-width="2"/>
+    
+    <rect x="340" y="15" width="120" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="400" y="35" text-anchor="middle" font-family="monospace" font-size="10" fill="#92400e">⟨σ⁻¹Q, σ⁻¹K⟩</text>
+    <text x="400" y="48" text-anchor="middle" font-family="monospace" font-size="8" fill="#b45309">conformal kernel</text>
+    
+    <line x1="460" y1="35" x2="510" y2="35" stroke="#f59e0b" stroke-width="2"/>
+    
+    <rect x="510" y="15" width="120" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="570" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#92400e">softmax</text>
+    
+    <line x1="630" y1="35" x2="680" y2="35" stroke="#f59e0b" stroke-width="2"/>
+    
+    <rect x="680" y="15" width="80" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="720" y="40" text-anchor="middle" font-family="monospace" font-size="11" fill="#92400e">αV</text>
+    
+    <text x="230" y="73" text-anchor="middle" font-family="Arial" font-size="9" fill="#d97706" font-weight="bold">8 params!</text>
+    <text x="400" y="73" text-anchor="middle" font-family="Arial" font-size="9" fill="#d97706" font-weight="bold">bounded ∈ [-1,1]</text>
+  </g>
+  
+  <!-- Comparison box -->
+  <rect x="150" y="340" width="500" height="45" rx="6" fill="#1e293b"/>
+  <text x="400" y="360" text-anchor="middle" font-family="Arial" font-size="12" fill="#fcd34d" font-weight="bold">Key: det(μ₁∘μ₂) = det(μ₁)·det(μ₂)</text>
+  <text x="400" y="378" text-anchor="middle" font-family="monospace" font-size="10" fill="#94a3b8">Möbius composition ≡ matrix multiplication (proved in Lean 4)</text>
+</svg>

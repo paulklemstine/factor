@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <radialGradient id="e8glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8e44ad" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1a1a2e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="#0d1117" rx="12"/>
+
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#ecf0f1">
+    Three Speculative Research Directions
+  </text>
+
+  <!-- Panel 1: Quantum -->
+  <rect x="20" y="60" width="245" height="510" rx="10" fill="#161b22" stroke="#3498db" stroke-width="1.5"/>
+  <text x="143" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#3498db">
+    🔬 Quantum Collisions
+  </text>
+
+  <!-- Sphere icon -->
+  <circle cx="143" cy="160" r="50" fill="none" stroke="#3498db" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="143" cy="160" r="3" fill="#e74c3c"/>
+  <circle cx="163" cy="140" r="3" fill="#2ecc71"/>
+  <line x1="143" y1="160" x2="163" y2="140" stroke="#f1c40f" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- Wave pattern for quantum -->
+  <path d="M 50 195 Q 70 185 90 195 T 130 195 T 170 195 T 210 195 T 240 195" fill="none" stroke="#3498db" stroke-width="1.5" opacity="0.6"/>
+
+  <text x="40" y="230" font-size="11" fill="#bbb">Can quantum computers find</text>
+  <text x="40" y="248" font-size="11" fill="#bbb">collisions on S^(k-1)(√N)</text>
+  <text x="40" y="266" font-size="11" fill="#bbb">faster than classical?</text>
+
+  <text x="40" y="300" font-size="11" font-weight="bold" fill="#3498db">Classical:</text>
+  <text x="40" y="318" font-size="11" fill="#999">O(√N) for dim 2</text>
+
+  <text x="40" y="345" font-size="11" font-weight="bold" fill="#3498db">Grover:</text>
+  <text x="40" y="363" font-size="11" fill="#999">O(N^{1/4}) quadratic speedup</text>
+
+  <text x="40" y="390" font-size="11" font-weight="bold" fill="#e74c3c">But:</text>
+  <text x="40" y="408" font-size="11" fill="#999">Shor's algorithm already</text>
+  <text x="40" y="426" font-size="11" fill="#999">factors in poly time</text>
+
+  <text x="40" y="460" font-size="11" font-weight="bold" fill="#2ecc71">Open:</text>
+  <text x="40" y="478" font-size="11" fill="#999">Restricted quantum models?</text>
+  <text x="40" y="496" font-size="11" fill="#999">Limited qubit architectures</text>
+  <text x="40" y="514" font-size="11" fill="#999">may benefit from sphere</text>
+  <text x="40" y="532" font-size="11" fill="#999">geometry over group structure</text>
+
+  <!-- Panel 2: E₈ Lattice -->
+  <rect x="278" y="60" width="245" height="510" rx="10" fill="#161b22" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="400" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#8e44ad">
+    💎 E₈ Lattice Shortcuts
+  </text>
+
+  <!-- Stylized E8 diagram (2D projection of vertices) -->
+  <g transform="translate(400, 160)">
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#8e44ad" stroke-width="1" opacity="0.3"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#8e44ad" stroke-width="0.5" opacity="0.2"/>
+    <!-- 8 root directions -->
+    <g stroke="#8e44ad" stroke-width="1" opacity="0.6">
+      <line x1="0" y1="-50" x2="0" y2="50"/>
+      <line x1="-50" y1="0" x2="50" y2="0"/>
+      <line x1="-35" y1="-35" x2="35" y2="35"/>
+      <line x1="35" y1="-35" x2="-35" y2="35"/>
+    </g>
+    <!-- Vertices -->
+    <g fill="#c39bd3" filter="url(#softGlow)">
+      <circle cx="0" cy="-50" r="3"/><circle cx="0" cy="50" r="3"/>
+      <circle cx="-50" cy="0" r="3"/><circle cx="50" cy="0" r="3"/>
+      <circle cx="-35" cy="-35" r="3"/><circle cx="35" cy="35" r="3"/>
+      <circle cx="35" cy="-35" r="3"/><circle cx="-35" cy="35" r="3"/>
+    </g>
+    <text x="0" y="70" text-anchor="middle" font-size="10" fill="#8e44ad" opacity="0.7">
+      240 root vectors (8 shown)
+    </text>
+  </g>
+
+  <text x="298" y="250" font-size="11" fill="#bbb">E₈ = unique even unimodular</text>
+  <text x="298" y="268" font-size="11" fill="#bbb">lattice in dimension 8</text>
+
+  <text x="298" y="300" font-size="11" font-weight="bold" fill="#8e44ad">Symmetry group:</text>
+  <text x="298" y="318" font-size="11" fill="#999">|W(E₈)| = 696,729,600</text>
+
+  <text x="298" y="345" font-size="11" font-weight="bold" fill="#8e44ad">Kissing number:</text>
+  <text x="298" y="363" font-size="11" fill="#999">240 nearest neighbors</text>
+
+  <text x="298" y="390" font-size="11" font-weight="bold" fill="#8e44ad">Factoring idea:</text>
+  <text x="298" y="408" font-size="11" fill="#999">240 root vectors define</text>
+  <text x="298" y="426" font-size="11" fill="#999">algebraic descent directions</text>
+  <text x="298" y="444" font-size="11" fill="#999">via octonion multiplication</text>
+
+  <text x="298" y="475" font-size="11" font-weight="bold" fill="#e74c3c">Challenge:</text>
+  <text x="298" y="493" font-size="11" fill="#999">Non-associativity prevents</text>
+  <text x="298" y="511" font-size="11" fill="#999">clean recursive factorization</text>
+  <text x="298" y="529" font-size="11" fill="#999">(unlike dim 2 and dim 4)</text>
+
+  <!-- Panel 3: Modular Forms -->
+  <rect x="536" y="60" width="245" height="510" rx="10" fill="#161b22" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="658" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#e67e22">
+    📐 Modular Form Guidance
+  </text>
+
+  <!-- Theta function visualization -->
+  <g transform="translate(556, 110)">
+    <text x="52" y="10" font-size="12" fill="#e67e22">Θₖ(q) = Σ rₖ(n) qⁿ</text>
+    <!-- Bar chart of r₂(n) coefficients -->
+    <g fill="#e67e22" opacity="0.6">
+      <rect x="0" y="45" width="8" height="10"/><!-- r₂(1)=4/4=1 -->
+      <rect x="12" y="35" width="8" height="20"/><!-- r₂(2)=4 -->
+      <rect x="36" y="45" width="8" height="10"/><!-- r₂(4) -->
+      <rect x="48" y="25" width="8" height="30"/><!-- r₂(5)=8 -->
+      <rect x="84" y="35" width="8" height="20"/><!-- r₂(8) -->
+      <rect x="96" y="45" width="8" height="10"/><!-- r₂(9) -->
+      <rect x="108" y="25" width="8" height="30"/><!-- r₂(10)=8 -->
+      <rect x="120" y="40" width="8" height="15"/>
+      <rect x="144" y="25" width="8" height="30"/><!-- r₂(13)=8 -->
+      <rect x="168" y="35" width="8" height="20"/>
+      <rect x="192" y="40" width="8" height="15"/>
+      <rect x="204" y="25" width="8" height="30"/>
+    </g>
+    <text x="102" y="72" text-anchor="middle" font-size="9" fill="#999">n →</text>
+    <text x="-5" y="45" text-anchor="end" font-size="9" fill="#999">r₂</text>
+  </g>
+
+  <text x="556" y="210" font-size="11" fill="#bbb">Exact formulas:</text>
+  <text x="556" y="230" font-size="10" fill="#e67e22">r₂(N) = 4 Σ_{d|N} χ(d)</text>
+  <text x="556" y="250" font-size="10" fill="#e67e22">r₄(N) = 8 Σ_{d|N,4∤d} d</text>
+  <text x="556" y="270" font-size="10" fill="#e67e22">r₈(N) = 16 Σ_{d|N} (-1)^{N+d} d³</text>
+
+  <text x="556" y="305" font-size="11" font-weight="bold" fill="#e67e22">Key insight:</text>
+  <text x="556" y="325" font-size="11" fill="#999">r_k(N) encodes divisor</text>
+  <text x="556" y="343" font-size="11" fill="#999">structure of N</text>
+
+  <text x="556" y="375" font-size="11" font-weight="bold" fill="#e67e22">For N = p·q, p≡q≡1(mod 4):</text>
+  <text x="556" y="395" font-size="11" fill="#999">r₂(N) = 16 → 2 distinct reps</text>
+  <text x="556" y="413" font-size="11" fill="#999">Collision guaranteed!</text>
+
+  <text x="556" y="445" font-size="11" font-weight="bold" fill="#e74c3c">Circular problem:</text>
+  <text x="556" y="465" font-size="11" fill="#999">Computing r_k(N) exactly</text>
+  <text x="556" y="483" font-size="11" fill="#999">requires knowing the</text>
+  <text x="556" y="501" font-size="11" fill="#999">factorization of N</text>
+
+  <text x="556" y="530" font-size="11" font-weight="bold" fill="#2ecc71">But:</text>
+  <text x="556" y="548" font-size="11" fill="#999">Balanced representations</text>
+  <text x="556" y="566" font-size="11" fill="#999">heuristically best for GCDs</text>
+</svg>

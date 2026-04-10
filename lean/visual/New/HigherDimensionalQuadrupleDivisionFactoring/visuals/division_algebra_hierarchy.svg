@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#ee5a24;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="glow2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#48dbfb;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0abde3;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="glow3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#feca57;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="glow4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a29bfe;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#6c5ce7;stop-opacity:0.6" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="400" y="45" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    The Division Algebra Hierarchy
+  </text>
+  <text x="400" y="70" text-anchor="middle" fill="#aaaacc" font-size="14">
+    Cayley-Dickson Construction &amp; Sum-of-Squares Identities
+  </text>
+
+  <!-- Connecting arrows -->
+  <line x1="200" y1="170" x2="200" y2="230" stroke="#ffffff44" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="200" y1="300" x2="200" y2="360" stroke="#ffffff44" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="200" y1="430" x2="200" y2="490" stroke="#ffffff44" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- Arrow labels -->
+  <text x="215" y="205" fill="#ffffff88" font-size="11" font-style="italic">Cayley-Dickson</text>
+  <text x="215" y="335" fill="#ffffff88" font-size="11" font-style="italic">Cayley-Dickson</text>
+  <text x="215" y="465" fill="#ffffff88" font-size="11" font-style="italic">Cayley-Dickson</text>
+
+  <!-- ℝ (dim 1) -->
+  <rect x="80" y="100" width="240" height="65" rx="12" fill="url(#glow1)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="200" y="125" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">ℝ — Real Numbers</text>
+  <text x="200" y="150" text-anchor="middle" fill="#ffffffcc" font-size="13">dim 1 · 1-square identity (trivial)</text>
+
+  <!-- ℂ (dim 2) -->
+  <rect x="80" y="230" width="240" height="65" rx="12" fill="url(#glow2)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="200" y="255" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">ℂ — Complex Numbers</text>
+  <text x="200" y="280" text-anchor="middle" fill="#ffffffcc" font-size="13">dim 2 · Brahmagupta-Fibonacci</text>
+
+  <!-- ℍ (dim 4) -->
+  <rect x="80" y="360" width="240" height="65" rx="12" fill="url(#glow3)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="200" y="385" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">ℍ — Quaternions</text>
+  <text x="200" y="410" text-anchor="middle" fill="#ffffffcc" font-size="13">dim 4 · Euler four-square</text>
+
+  <!-- 𝕆 (dim 8) -->
+  <rect x="80" y="490" width="240" height="65" rx="12" fill="url(#glow4)" filter="url(#shadow)" opacity="0.9"/>
+  <text x="200" y="515" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">𝕆 — Octonions</text>
+  <text x="200" y="540" text-anchor="middle" fill="#ffffffcc" font-size="13">dim 8 · Degen eight-square</text>
+
+  <!-- Properties lost -->
+  <text x="400" y="125" fill="#ff6b6b" font-size="12">✓ ordered ✓ commutative ✓ associative ✓ division</text>
+  <text x="400" y="255" fill="#48dbfb" font-size="12">✗ ordered ✓ commutative ✓ associative ✓ division</text>
+  <text x="400" y="385" fill="#feca57" font-size="12">✗ ordered ✗ commutative ✓ associative ✓ division</text>
+  <text x="400" y="515" fill="#a29bfe" font-size="12">✗ ordered ✗ commutative ✗ associative ✓ alternative</text>
+
+  <!-- Factor channels -->
+  <rect x="500" y="135" width="260" height="35" rx="8" fill="#ff6b6b33" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="630" y="157" text-anchor="middle" fill="#ff6b6b" font-size="12">0 factor channels</text>
+
+  <rect x="500" y="265" width="260" height="35" rx="8" fill="#48dbfb33" stroke="#48dbfb" stroke-width="1"/>
+  <text x="630" y="287" text-anchor="middle" fill="#48dbfb" font-size="12">1 channel · 0 cross pairs</text>
+
+  <rect x="500" y="395" width="260" height="35" rx="8" fill="#feca5733" stroke="#feca57" stroke-width="1"/>
+  <text x="630" y="417" text-anchor="middle" fill="#feca57" font-size="12">3 channels · 3 cross pairs</text>
+
+  <rect x="500" y="525" width="260" height="35" rx="8" fill="#a29bfe33" stroke="#a29bfe" stroke-width="1"/>
+  <text x="630" y="547" text-anchor="middle" fill="#a29bfe" font-size="12">7 channels · 21 cross pairs</text>
+
+  <!-- Footer -->
+  <text x="400" y="590" text-anchor="middle" fill="#666688" font-size="10">
+    Higher-Dimensional Quadruple Division Factoring · Division Algebra Composition Chain
+  </text>
+</svg>

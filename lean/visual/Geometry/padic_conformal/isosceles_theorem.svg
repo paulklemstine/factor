@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <style>
+      .title { font: bold 18px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a2e; }
+      .subtitle { font: 13px 'Helvetica Neue', Arial, sans-serif; fill: #4a4a6a; }
+      .label { font: 13px 'Helvetica Neue', Arial, sans-serif; fill: #333; }
+      .formula { font: 14px 'Courier New', monospace; fill: #1a1a2e; }
+      .point { stroke: #1a1a2e; stroke-width: 2; }
+      .edge { stroke-width: 3; }
+      .theorem-box { fill: #fff8e1; stroke: #ff9800; stroke-width: 2; rx: 8; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="#fafafe" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">Every P-adic Triangle Is Isosceles</text>
+  <text x="400" y="50" class="subtitle" text-anchor="middle">Formally verified: padic_isosceles</text>
+
+  <!-- ===== Left: Euclidean triangle (scalene possible) ===== -->
+  <text x="200" y="85" class="label" text-anchor="middle" font-weight="bold" font-size="14">Euclidean (ℝ)</text>
+
+  <!-- Scalene triangle -->
+  <polygon points="120,280 280,280 220,130" fill="none" stroke="#ff6b6b" stroke-width="3"/>
+  <circle cx="120" cy="280" r="5" class="point" fill="#ff6b6b"/>
+  <circle cx="280" cy="280" r="5" class="point" fill="#ff6b6b"/>
+  <circle cx="220" cy="130" r="5" class="point" fill="#ff6b6b"/>
+  <text x="105" y="300" class="label" text-anchor="middle">A</text>
+  <text x="295" y="300" class="label" text-anchor="middle">B</text>
+  <text x="220" y="120" class="label" text-anchor="middle">C</text>
+
+  <!-- Side lengths -->
+  <text x="200" y="295" class="label" text-anchor="middle" fill="#ff6b6b" font-size="12">|AB| = 3.0</text>
+  <text x="265" y="205" class="label" fill="#ff6b6b" font-size="12">|BC| = 1.6</text>
+  <text x="148" y="205" class="label" fill="#ff6b6b" font-size="12" text-anchor="end">|AC| = 1.7</text>
+
+  <text x="200" y="330" class="label" text-anchor="middle" fill="#888" font-style="italic">
+    All three sides can differ ✓
+  </text>
+
+  <!-- ===== Divider ===== -->
+  <line x1="400" y1="75" x2="400" y2="350" stroke="#ddd" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- ===== Right: P-adic triangle (always isosceles) ===== -->
+  <text x="600" y="85" class="label" text-anchor="middle" font-weight="bold" font-size="14">P-adic (ℚ₅)</text>
+
+  <!-- Isosceles triangle with two equal sides highlighted -->
+  <line x1="520" y1="280" x2="680" y2="280" stroke="#6c63ff" stroke-width="4"/>
+  <line x1="520" y1="280" x2="600" y2="140" stroke="#2ed573" stroke-width="4"/>
+  <line x1="680" y1="280" x2="600" y2="140" stroke="#2ed573" stroke-width="4"/>
+
+  <circle cx="520" cy="280" r="5" class="point" fill="#6c63ff"/>
+  <circle cx="680" cy="280" r="5" class="point" fill="#6c63ff"/>
+  <circle cx="600" cy="140" r="5" class="point" fill="#6c63ff"/>
+  <text x="505" y="300" class="label" text-anchor="middle">A=0</text>
+  <text x="695" y="300" class="label" text-anchor="middle">B=1</text>
+  <text x="600" y="130" class="label" text-anchor="middle">C=5</text>
+
+  <!-- Side lengths (5-adic) -->
+  <text x="600" y="295" class="label" text-anchor="middle" fill="#6c63ff" font-size="12">|AB|₅ = 1</text>
+  <text x="660" y="200" class="label" fill="#2ed573" font-size="12">|BC|₅ = 1</text>
+  <text x="540" y="200" class="label" fill="#ff9800" font-size="12" text-anchor="end">|AC|₅ = 1/5</text>
+
+  <text x="600" y="330" class="label" text-anchor="middle" fill="#2ed573" font-weight="bold">
+    Always at least two sides equal ✓
+  </text>
+
+  <!-- ===== Bottom theorem box ===== -->
+  <rect x="80" y="360" width="640" height="120" class="theorem-box"/>
+
+  <text x="400" y="390" class="label" text-anchor="middle" font-weight="bold" fill="#ff9800">
+    Theorem (padic_isosceles)
+  </text>
+  <text x="400" y="415" class="formula" text-anchor="middle">
+    If ‖x‖ ≠ ‖y‖ then ‖x + y‖ = max(‖x‖, ‖y‖)
+  </text>
+  <text x="400" y="445" class="label" text-anchor="middle" fill="#666">
+    Proof: Direct consequence of the non-archimedean (ultrametric) norm on ℚ_p.
+  </text>
+  <text x="400" y="465" class="label" text-anchor="middle" fill="#999" font-style="italic">
+    Lean proof uses: Padic.add_eq_max_of_ne from Mathlib
+  </text>
+</svg>

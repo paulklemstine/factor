@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <radialGradient id="sphere" cx="40%" cy="35%" r="50%">
+      <stop offset="0%" style="stop-color:#4a90d9;stop-opacity:0.3"/>
+      <stop offset="70%" style="stop-color:#2563eb;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:0.05"/>
+    </radialGradient>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <filter id="pointGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg4)"/>
+
+  <text x="450" y="40" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">
+    Collision Factoring on the 2-Sphere
+  </text>
+  <text x="450" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">
+    Solutions to a² + b² + c² = d² form points on S²(√d²) — collisions reveal factors
+  </text>
+
+  <!-- The sphere -->
+  <ellipse cx="320" cy="330" rx="220" ry="220" fill="url(#sphere)" stroke="#3b82f6" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- Equator ellipse (perspective) -->
+  <ellipse cx="320" cy="330" rx="220" ry="60" fill="none" stroke="#3b82f6" stroke-width="0.8" stroke-dasharray="6,4" opacity="0.4"/>
+
+  <!-- Meridian -->
+  <ellipse cx="320" cy="330" rx="60" ry="220" fill="none" stroke="#3b82f6" stroke-width="0.8" stroke-dasharray="6,4" opacity="0.3"/>
+
+  <!-- Label: S²(√81) -->
+  <text x="320" y="570" text-anchor="middle" fill="#3b82f6" font-size="16">S²(9) for d = 9</text>
+
+  <!-- Points on the sphere — representations of 81 as sum of 3 squares -->
+  <!-- (1, 4, 8): mapped to sphere coordinates -->
+  <circle cx="220" cy="240" r="8" fill="#ef4444" filter="url(#pointGlow)"/>
+  <text x="195" y="225" fill="#ef4444" font-size="12" font-weight="bold">(1, 4, 8)</text>
+
+  <!-- (4, 4, 7): mapped to sphere coordinates -->
+  <circle cx="400" cy="270" r="8" fill="#22c55e" filter="url(#pointGlow)"/>
+  <text x="415" y="260" fill="#22c55e" font-size="12" font-weight="bold">(4, 4, 7)</text>
+
+  <!-- (0, 0, 9) -->
+  <circle cx="320" cy="115" r="6" fill="#fbbf24" filter="url(#pointGlow)"/>
+  <text x="340" y="108" fill="#fbbf24" font-size="11">(0, 0, 9)</text>
+
+  <!-- (3, 6, 6) -->
+  <circle cx="250" cy="400" r="7" fill="#a78bfa" filter="url(#pointGlow)"/>
+  <text x="225" y="425" fill="#a78bfa" font-size="11">(3, 6, 6)</text>
+
+  <!-- Collision line between (1,4,8) and (4,4,7) -->
+  <line x1="228" y1="240" x2="392" y2="270" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="310" y="240" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="bold">COLLISION</text>
+
+  <!-- Right side: collision details -->
+  <rect x="580" y="100" width="300" height="350" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="730" y="130" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Collision Analysis</text>
+  <text x="730" y="150" text-anchor="middle" fill="#94a3b8" font-size="12">d = 9, two representations</text>
+
+  <line x1="600" y1="165" x2="860" y2="165" stroke="#334155" stroke-width="1"/>
+
+  <!-- Rep 1 -->
+  <text x="600" y="190" fill="#ef4444" font-size="13" font-weight="bold">q₁ = (1, 4, 8, 9)</text>
+  <text x="610" y="210" fill="#94a3b8" font-size="11">Peel-a: (9−1)(9+1) = 80</text>
+  <text x="610" y="228" fill="#94a3b8" font-size="11">Peel-b: (9−4)(9+4) = 65</text>
+  <text x="610" y="246" fill="#94a3b8" font-size="11">Peel-c: (9−8)(9+8) = 17</text>
+
+  <!-- Rep 2 -->
+  <text x="600" y="275" fill="#22c55e" font-size="13" font-weight="bold">q₂ = (4, 4, 7, 9)</text>
+  <text x="610" y="295" fill="#94a3b8" font-size="11">Peel-a: (9−4)(9+4) = 65</text>
+  <text x="610" y="313" fill="#94a3b8" font-size="11">Peel-b: (9−4)(9+4) = 65</text>
+  <text x="610" y="331" fill="#94a3b8" font-size="11">Peel-c: (9−7)(9+7) = 32</text>
+
+  <line x1="600" y1="345" x2="860" y2="345" stroke="#334155" stroke-width="1"/>
+
+  <!-- Factor extraction -->
+  <text x="600" y="370" fill="#fbbf24" font-size="13" font-weight="bold">Factor Extraction:</text>
+  <text x="610" y="390" fill="#fff" font-size="12">gcd(80, 65) = <tspan fill="#7bed9f" font-weight="bold">5</tspan></text>
+  <text x="610" y="410" fill="#fff" font-size="12">gcd(17, 32) = 1</text>
+  <text x="610" y="430" fill="#fff" font-size="12">gcd(80, 32) = <tspan fill="#7bed9f" font-weight="bold">16</tspan></text>
+
+  <!-- Bottom: comparison table -->
+  <rect x="100" y="580" width="700" height="55" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="200" y="605" text-anchor="middle" fill="#94a3b8" font-size="12">Triples (S¹): O(√N) points</text>
+  <text x="450" y="605" text-anchor="middle" fill="#3b82f6" font-size="12" font-weight="bold">Quadruples (S²): O(N) points</text>
+  <text x="700" y="605" text-anchor="middle" fill="#a78bfa" font-size="12">E₈: 240 neighbours</text>
+  <text x="200" y="625" text-anchor="middle" fill="#94a3b8" font-size="11">~O(N^ε) reps</text>
+  <text x="450" y="625" text-anchor="middle" fill="#3b82f6" font-size="11">~O(N^{1/2}) reps</text>
+  <text x="700" y="625" text-anchor="middle" fill="#a78bfa" font-size="11">r₈(N) = 480·σ₃(N)</text>
+</svg>

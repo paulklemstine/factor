@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <radialGradient id="coneGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4a90d9" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#4a90d9" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="800" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#e0e0ff">
+    Lorentz Geometry of Pythagorean Triples
+  </text>
+  <text x="500" y="65" text-anchor="middle" font-size="13" fill="#8888cc">
+    Null cone Q(a,b,c) = a² + b² − c² = 0 in signature (2,1) space
+  </text>
+
+  <!-- Left panel: Null cone cross-section -->
+  <g transform="translate(250, 380)">
+    <!-- Axes -->
+    <line x1="-200" y1="0" x2="200" y2="0" stroke="#333" stroke-width="1"/>
+    <line x1="0" y1="-280" x2="0" y2="200" stroke="#333" stroke-width="1"/>
+    <text x="210" y="5" font-size="11" fill="#666">a</text>
+    <text x="5" y="-285" font-size="11" fill="#666">c</text>
+
+    <!-- Null cone (hyperbola-like curves) -->
+    <!-- Upper cone: c = √(a² + b²), shown for b=0: c = |a| -->
+    <line x1="-200" y1="-200" x2="0" y2="0" stroke="#4a90d9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="200" y1="-200" x2="0" y2="0" stroke="#4a90d9" stroke-width="1.5" opacity="0.4"/>
+
+    <!-- Shaded cone region -->
+    <polygon points="-180,-180 0,0 180,-180 0,-260" fill="#4a90d9" opacity="0.05"/>
+
+    <!-- Grid of Pythagorean triples (projected to a-c plane) -->
+    <!-- (3,4,5) -->
+    <circle cx="36" cy="-60" r="6" fill="#e74c3c" filter="url(#glow2)"/>
+    <text x="48" y="-55" font-size="10" fill="#e74c3c">(3,4,5)</text>
+
+    <!-- (5,12,13) -->
+    <circle cx="30" cy="-78" r="5" fill="#2ecc71"/>
+    <text x="42" y="-73" font-size="9" fill="#2ecc71">(5,12,13)</text>
+
+    <!-- (21,20,29) -->
+    <circle cx="63" cy="-87" r="5" fill="#e74c3c"/>
+    <text x="75" y="-82" font-size="9" fill="#e74c3c">(21,20,29)</text>
+
+    <!-- (15,8,17) -->
+    <circle cx="75" cy="-85" r="5" fill="#f39c12"/>
+    <text x="87" y="-88" font-size="9" fill="#f39c12">(15,8,17)</text>
+
+    <!-- (7,24,25) -->
+    <circle cx="21" cy="-100" r="4" fill="#2ecc71" opacity="0.8"/>
+    <text x="30" y="-95" font-size="8" fill="#2ecc71">(7,24,25)</text>
+
+    <!-- (119,120,169) -->
+    <circle cx="42" cy="-135" r="4" fill="#e74c3c" opacity="0.8"/>
+    <text x="52" y="-130" font-size="8" fill="#e74c3c">(119,120,169)</text>
+
+    <!-- (697,696,985) -->
+    <circle cx="35" cy="-200" r="3" fill="#e74c3c" opacity="0.6"/>
+    <text x="42" y="-197" font-size="7" fill="#e74c3c">(697,...,985)</text>
+
+    <!-- Arrows showing B₂ action -->
+    <path d="M 40,-63 C 55,-70 58,-78 63,-83" stroke="#ff6b6b" stroke-width="1.5" fill="none" marker-end="url(#arrowRed)"/>
+    <path d="M 63,-90 C 56,-105 48,-120 44,-130" stroke="#ff6b6b" stroke-width="1.5" fill="none" marker-end="url(#arrowRed)"/>
+
+    <text x="-190" y="-260" font-size="14" font-weight="bold" fill="#e0e0ff">Null Cone Cross-Section</text>
+    <text x="-190" y="-242" font-size="10" fill="#8888cc">Pythagorean triples on Q = 0</text>
+    <text x="-190" y="-225" font-size="10" fill="#ff6b6b">→ Red arrows: B₂ (middle branch)</text>
+  </g>
+
+  <!-- Right panel: Difference of squares -->
+  <g transform="translate(620, 130)">
+    <rect x="0" y="0" width="350" height="300" rx="12" fill="#111133" stroke="#333366" stroke-width="1.5"/>
+
+    <text x="175" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#e0e0ff">
+      Difference of Squares
+    </text>
+
+    <!-- a² + b² = c² diagram -->
+    <text x="175" y="60" text-anchor="middle" font-size="14" fill="#ccc">a² + b² = c²</text>
+    <text x="175" y="80" text-anchor="middle" font-size="12" fill="#8888cc">↕ rearrange</text>
+    <text x="175" y="100" text-anchor="middle" font-size="14" fill="#ccc">c² − b² = a²</text>
+    <text x="175" y="120" text-anchor="middle" font-size="12" fill="#8888cc">↕ factor</text>
+    <text x="175" y="145" text-anchor="middle" font-size="16" font-weight="bold" fill="#2ecc71">
+      (c−b)(c+b) = a²
+    </text>
+
+    <line x1="20" y1="160" x2="330" y2="160" stroke="#333366" stroke-width="1"/>
+
+    <text x="175" y="185" text-anchor="middle" font-size="13" fill="#f39c12">Example: (21, 20, 29)</text>
+    <text x="175" y="210" text-anchor="middle" font-size="13" fill="#ccc">(29−20)(29+20) = 9 × 49</text>
+    <text x="175" y="232" text-anchor="middle" font-size="13" fill="#ccc">= 3² × 7² = 441 = 21²</text>
+
+    <text x="175" y="260" text-anchor="middle" font-size="12" fill="#2ecc71">gcd(9, 21) = 3 → factor!</text>
+    <text x="175" y="280" text-anchor="middle" font-size="12" fill="#2ecc71">gcd(49, 21) = 7 → factor!</text>
+  </g>
+
+  <!-- Bottom panel: Chebyshev recurrence -->
+  <g transform="translate(620, 460)">
+    <rect x="0" y="0" width="350" height="310" rx="12" fill="#111133" stroke="#333366" stroke-width="1.5"/>
+
+    <text x="175" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#e0e0ff">
+      Chebyshev Recurrence
+    </text>
+    <text x="175" y="50" text-anchor="middle" font-size="13" fill="#f39c12">
+      c_{n+1} = 6c_n − c_{n-1}
+    </text>
+
+    <text x="30" y="80" font-size="12" fill="#ccc">n=0:  c₀ = 5</text>
+    <text x="30" y="100" font-size="12" fill="#ccc">n=1:  c₁ = 29</text>
+    <text x="30" y="120" font-size="12" fill="#ccc">n=2:  c₂ = 169 = 6·29 − 5 ✓</text>
+    <text x="30" y="140" font-size="12" fill="#ccc">n=3:  c₃ = 985 = 6·169 − 29 ✓</text>
+    <text x="30" y="160" font-size="12" fill="#ccc">n=4:  c₄ = 5741 = 6·985 − 169 ✓</text>
+    <text x="30" y="180" font-size="12" fill="#ccc">n=5:  c₅ = 33461</text>
+    <text x="30" y="200" font-size="12" fill="#ccc">n=6:  c₆ = 195025</text>
+
+    <line x1="20" y1="215" x2="330" y2="215" stroke="#333366" stroke-width="1"/>
+
+    <text x="175" y="240" text-anchor="middle" font-size="12" fill="#8888cc">Eigenvalues of B₂: λ = 3 ± 2√2</text>
+    <text x="175" y="260" text-anchor="middle" font-size="12" fill="#8888cc">Growth ratio → 3 + 2√2 ≈ 5.828</text>
+    <text x="175" y="280" text-anchor="middle" font-size="12" fill="#8888cc">Connected to Pell equation x²−2y²=1</text>
+    <text x="175" y="300" text-anchor="middle" font-size="11" fill="#666">Hypotenuses: denominators of √2 convergents</text>
+  </g>
+
+  <!-- Bottom-left: Lorentz group info -->
+  <g transform="translate(30, 580)">
+    <rect x="0" y="0" width="420" height="190" rx="12" fill="#111133" stroke="#333366" stroke-width="1.5"/>
+
+    <text x="210" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#e0e0ff">
+      Integer Lorentz Group O(2,1;ℤ)
+    </text>
+
+    <text x="20" y="55" font-size="12" fill="#ccc">Quadratic form: Q(a,b,c) = a² + b² − c²</text>
+    <text x="20" y="78" font-size="12" fill="#ccc">Metric matrix: Q = diag(1, 1, −1)</text>
+    <text x="20" y="101" font-size="12" fill="#ccc">Preservation: BᵢᵀQBᵢ = Q for all generators</text>
+    <text x="20" y="124" font-size="12" fill="#ccc">Involution: Q² = I (Q is its own inverse)</text>
+    <text x="20" y="147" font-size="12" fill="#2ecc71">Inverse formula: Bᵢ⁻¹ = Q · Bᵢᵀ · Q</text>
+    <text x="20" y="170" font-size="12" fill="#f39c12">det(B₁) = +1, det(B₂) = −1, det(B₃) = +1</text>
+  </g>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/>
+    </marker>
+  </defs>
+</svg>

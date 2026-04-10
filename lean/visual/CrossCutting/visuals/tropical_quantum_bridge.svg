@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="tropical_grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3498db;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="#1a1a2e" rx="10"/>
+
+  <text x="400" y="40" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="22" font-weight="bold" fill="white">
+    The Tropical–Quantum Bridge
+  </text>
+  <text x="400" y="65" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="14" fill="#aaa">
+    LSE_ε(x,y) = ε · ln(exp(x/ε) + exp(y/ε))
+  </text>
+
+  <!-- Temperature axis -->
+  <rect x="80" y="100" width="640" height="8" rx="4" fill="url(#tropical_grad)"/>
+
+  <!-- Labels -->
+  <text x="80" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#e74c3c" font-weight="bold">ε → 0</text>
+  <text x="80" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ccc">TROPICAL</text>
+  <text x="80" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#888">max(x,y)</text>
+
+  <text x="720" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#3498db" font-weight="bold">ε → ∞</text>
+  <text x="720" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ccc">CLASSICAL</text>
+  <text x="720" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#888">(x+y)/2</text>
+
+  <!-- Piecewise linear function (tropical) -->
+  <g transform="translate(50, 200)">
+    <rect width="200" height="160" rx="8" fill="rgba(231,76,60,0.15)" stroke="#e74c3c" stroke-width="1"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#e74c3c">Tropical World</text>
+
+    <!-- max(x,0) graph -->
+    <line x1="20" y1="130" x2="100" y2="130" stroke="#e74c3c" stroke-width="2.5"/>
+    <line x1="100" y1="130" x2="180" y2="50" stroke="#e74c3c" stroke-width="2.5"/>
+    <circle cx="100" cy="130" r="3" fill="#e74c3c"/>
+
+    <text x="100" y="152" text-anchor="middle" font-family="monospace" font-size="10" fill="#ccc">max(x, 0)</text>
+  </g>
+
+  <!-- Smooth function (LogSumExp) -->
+  <g transform="translate(300, 200)">
+    <rect width="200" height="160" rx="8" fill="rgba(155,89,182,0.15)" stroke="#9b59b6" stroke-width="1"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#9b59b6">Bridge (ε = 1)</text>
+
+    <!-- Smooth approximation -->
+    <path d="M 20 120 Q 60 120 80 110 Q 100 95 120 70 Q 140 45 180 30" stroke="#9b59b6" stroke-width="2.5" fill="none"/>
+
+    <text x="100" y="152" text-anchor="middle" font-family="monospace" font-size="10" fill="#ccc">LSE_ε(x, 0)</text>
+  </g>
+
+  <!-- Classical function -->
+  <g transform="translate(550, 200)">
+    <rect width="200" height="160" rx="8" fill="rgba(52,152,219,0.15)" stroke="#3498db" stroke-width="1"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#3498db">Classical World</text>
+
+    <!-- Linear function -->
+    <line x1="20" y1="130" x2="180" y2="50" stroke="#3498db" stroke-width="2.5"/>
+
+    <text x="100" y="152" text-anchor="middle" font-family="monospace" font-size="10" fill="#ccc">(x + 0)/2</text>
+  </g>
+
+  <!-- Arrows -->
+  <text x="265" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#aaa">→</text>
+  <text x="515" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#aaa">→</text>
+
+  <!-- Key bounds -->
+  <rect x="100" y="385" width="600" height="50" rx="8" fill="rgba(255,255,255,0.05)" stroke="#666" stroke-width="1"/>
+  <text x="400" y="415" text-anchor="middle" font-family="monospace" font-size="15" fill="#ffeaa7">
+    max(x,y)  ≤  LSE_ε(x,y)  ≤  max(x,y) + ε·ln(2)
+  </text>
+  <text x="400" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#888">
+    Formally verified sandwich bound — error at most ε·ln(2)
+  </text>
+</svg>

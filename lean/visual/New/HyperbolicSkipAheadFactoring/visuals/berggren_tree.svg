@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#0288d1"/>
+    </linearGradient>
+    <linearGradient id="rootGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffb74d"/>
+      <stop offset="100%" stop-color="#f57c00"/>
+    </linearGradient>
+    <linearGradient id="skipGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e91e63"/>
+      <stop offset="100%" stop-color="#ff5722"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#90caf9"/>
+    </marker>
+    <marker id="skipArrow" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#ff5722"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#e0e0e0" font-size="28" font-weight="bold" filter="url(#softGlow)">
+    The Berggren Tree of Pythagorean Triples
+  </text>
+  <text x="600" y="72" text-anchor="middle" fill="#90caf9" font-size="14">
+    with Hyperbolic Skip-Ahead Paths (shown in red)
+  </text>
+  
+  <!-- Grid lines (hyperbolic-style curves) -->
+  <g opacity="0.1" stroke="#4fc3f7" fill="none" stroke-width="0.5">
+    <ellipse cx="600" cy="100" rx="500" ry="30"/>
+    <ellipse cx="600" cy="200" rx="550" ry="40"/>
+    <ellipse cx="600" cy="350" rx="580" ry="50"/>
+    <ellipse cx="600" cy="520" rx="590" ry="60"/>
+  </g>
+  
+  <!-- Tree edges (Level 0 → Level 1) -->
+  <g stroke="#4fc3f7" stroke-width="2" fill="none" opacity="0.6">
+    <line x1="600" y1="130" x2="200" y2="220"/>
+    <line x1="600" y1="130" x2="600" y2="220"/>
+    <line x1="600" y1="130" x2="1000" y2="220"/>
+  </g>
+  
+  <!-- Tree edges (Level 1 → Level 2) -->
+  <g stroke="#4fc3f7" stroke-width="1.5" fill="none" opacity="0.5">
+    <!-- From (5,12,13) -->
+    <line x1="200" y1="260" x2="80" y2="370"/>
+    <line x1="200" y1="260" x2="200" y2="370"/>
+    <line x1="200" y1="260" x2="320" y2="370"/>
+    <!-- From (21,20,29) -->
+    <line x1="600" y1="260" x2="480" y2="370"/>
+    <line x1="600" y1="260" x2="600" y2="370"/>
+    <line x1="600" y1="260" x2="720" y2="370"/>
+    <!-- From (15,8,17) -->
+    <line x1="1000" y1="260" x2="880" y2="370"/>
+    <line x1="1000" y1="260" x2="1000" y2="370"/>
+    <line x1="1000" y1="260" x2="1120" y2="370"/>
+  </g>
+  
+  <!-- Depth-2 → Depth-3 edges (selected) -->
+  <g stroke="#4fc3f7" stroke-width="1" fill="none" opacity="0.3">
+    <line x1="600" y1="410" x2="540" y2="530"/>
+    <line x1="600" y1="410" x2="600" y2="530"/>
+    <line x1="600" y1="410" x2="660" y2="530"/>
+  </g>
+  
+  <!-- SKIP-AHEAD PATH (dramatic red curve) -->
+  <path d="M 610 130 C 650 200 700 350 600 530" 
+        stroke="url(#skipGrad)" stroke-width="3" fill="none" 
+        stroke-dasharray="8,4" filter="url(#glow)"
+        marker-end="url(#skipArrow)"/>
+  <text x="700" y="330" fill="#ff5722" font-size="13" font-weight="bold" 
+        transform="rotate(-15, 700, 330)" filter="url(#softGlow)">
+    SKIP-AHEAD
+  </text>
+  <text x="700" y="348" fill="#ff8a65" font-size="11" 
+        transform="rotate(-15, 700, 348)">
+    B₂³ via matrix exp
+  </text>
+  
+  <!-- Another skip-ahead path -->
+  <path d="M 200 260 C 100 400 80 550 150 680" 
+        stroke="#e91e63" stroke-width="2.5" fill="none" 
+        stroke-dasharray="6,3" filter="url(#glow)"
+        marker-end="url(#skipArrow)"/>
+  <text x="60" y="480" fill="#e91e63" font-size="12" font-weight="bold" filter="url(#softGlow)">
+    SKIP k=64
+  </text>
+  <text x="60" y="498" fill="#ef9a9a" font-size="10">
+    O(log 64) = 6 mults
+  </text>
+  
+  <!-- Root node (3, 4, 5) -->
+  <g filter="url(#glow)">
+    <ellipse cx="600" cy="115" rx="70" ry="22" fill="url(#rootGrad)" stroke="#ffcc02" stroke-width="2"/>
+    <text x="600" y="112" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="bold">(3, 4, 5)</text>
+    <text x="600" y="127" text-anchor="middle" fill="#3e2723" font-size="9">ROOT</text>
+  </g>
+  
+  <!-- Level 1 nodes -->
+  <g filter="url(#softGlow)">
+    <ellipse cx="200" cy="240" rx="72" ry="22" fill="url(#nodeGrad)" stroke="#4fc3f7" stroke-width="1.5"/>
+    <text x="200" y="237" text-anchor="middle" fill="#0a0a2e" font-size="13" font-weight="bold">(5, 12, 13)</text>
+    <text x="200" y="252" text-anchor="middle" fill="#01579b" font-size="9">B₁</text>
+  </g>
+  
+  <g filter="url(#softGlow)">
+    <ellipse cx="600" cy="240" rx="72" ry="22" fill="url(#nodeGrad)" stroke="#4fc3f7" stroke-width="1.5"/>
+    <text x="600" y="237" text-anchor="middle" fill="#0a0a2e" font-size="13" font-weight="bold">(21, 20, 29)</text>
+    <text x="600" y="252" text-anchor="middle" fill="#01579b" font-size="9">B₂</text>
+  </g>
+  
+  <g filter="url(#softGlow)">
+    <ellipse cx="1000" cy="240" rx="72" ry="22" fill="url(#nodeGrad)" stroke="#4fc3f7" stroke-width="1.5"/>
+    <text x="1000" y="237" text-anchor="middle" fill="#0a0a2e" font-size="13" font-weight="bold">(15, 8, 17)</text>
+    <text x="1000" y="252" text-anchor="middle" fill="#01579b" font-size="9">B₃</text>
+  </g>
+  
+  <!-- Level 2 nodes -->
+  <g opacity="0.85">
+    <ellipse cx="80" cy="390" rx="62" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="80" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(7, 24, 25)</text>
+    <text x="80" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₁·B₁</text>
+    
+    <ellipse cx="200" cy="390" rx="68" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="200" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(55, 48, 73)</text>
+    <text x="200" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₁·B₂</text>
+    
+    <ellipse cx="320" cy="390" rx="68" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="320" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(45, 28, 53)</text>
+    <text x="320" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₁·B₃</text>
+    
+    <ellipse cx="480" cy="390" rx="72" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="480" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(39, 80, 89)</text>
+    <text x="480" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₂·B₁</text>
+    
+    <ellipse cx="600" cy="390" rx="80" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="600" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(119, 120, 169)</text>
+    <text x="600" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₂·B₂</text>
+    
+    <ellipse cx="720" cy="390" rx="68" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="720" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(77, 36, 85)</text>
+    <text x="720" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₂·B₃</text>
+    
+    <ellipse cx="880" cy="390" rx="72" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="880" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(33, 56, 65)</text>
+    <text x="880" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₃·B₁</text>
+    
+    <ellipse cx="1000" cy="390" rx="72" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="1000" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(65, 72, 97)</text>
+    <text x="1000" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₃·B₂</text>
+    
+    <ellipse cx="1120" cy="390" rx="68" ry="20" fill="#1565c0" stroke="#42a5f5" stroke-width="1"/>
+    <text x="1120" y="387" text-anchor="middle" fill="#e3f2fd" font-size="11" font-weight="bold">(35, 12, 37)</text>
+    <text x="1120" y="402" text-anchor="middle" fill="#90caf9" font-size="8">B₃·B₃</text>
+  </g>
+  
+  <!-- Skip-ahead target node (highlighted) -->
+  <g filter="url(#glow)">
+    <ellipse cx="600" cy="550" rx="90" ry="24" fill="#b71c1c" stroke="#ff5722" stroke-width="2"/>
+    <text x="600" y="545" text-anchor="middle" fill="#ffccbc" font-size="12" font-weight="bold">(4059, 4060, 5741)</text>
+    <text x="600" y="562" text-anchor="middle" fill="#ef9a9a" font-size="10">B₂⁴ · (3,4,5) — Skip depth 4</text>
+  </g>
+  
+  <!-- Deep skip target -->
+  <g filter="url(#glow)">
+    <ellipse cx="150" cy="700" rx="110" ry="24" fill="#880e4f" stroke="#e91e63" stroke-width="2"/>
+    <text x="150" y="695" text-anchor="middle" fill="#f8bbd0" font-size="11" font-weight="bold">(a', b', c') — huge triple</text>
+    <text x="150" y="712" text-anchor="middle" fill="#f48fb1" font-size="10">gcd(a', N) → factor!</text>
+  </g>
+  
+  <!-- Formula box -->
+  <rect x="780" y="520" width="380" height="250" rx="12" fill="#1a237e" fill-opacity="0.8" stroke="#5c6bc0" stroke-width="1.5"/>
+  <text x="970" y="548" text-anchor="middle" fill="#c5cae9" font-size="16" font-weight="bold">Key Identities</text>
+  
+  <text x="800" y="578" fill="#e8eaf6" font-size="13" font-family="'Courier New', monospace">a² + b² = c²</text>
+  <text x="800" y="600" fill="#9fa8da" font-size="12">⟹ (c−b)(c+b) = a²</text>
+  
+  <text x="800" y="632" fill="#e8eaf6" font-size="13" font-family="'Courier New', monospace">Trivial: N odd</text>
+  <text x="800" y="652" fill="#9fa8da" font-size="12">(N, (N²−1)/2, (N²+1)/2)</text>
+  <text x="800" y="672" fill="#7986cb" font-size="11">c − b = 1 (no info)</text>
+  
+  <text x="800" y="702" fill="#e8eaf6" font-size="13" font-family="'Courier New', monospace">Skip-ahead:</text>
+  <text x="800" y="722" fill="#9fa8da" font-size="12">Bᵢᵏ computed in O(log k)</text>
+  <text x="800" y="742" fill="#9fa8da" font-size="12">Hyp grows ~ 3ᵏ · c₀</text>
+  <text x="800" y="762" fill="#7986cb" font-size="11">Check gcd(a', N) at each node</text>
+  
+  <!-- Depth labels -->
+  <text x="30" y="118" fill="#546e7a" font-size="11">Depth 0</text>
+  <text x="30" y="243" fill="#546e7a" font-size="11">Depth 1</text>
+  <text x="30" y="393" fill="#546e7a" font-size="11">Depth 2</text>
+  <text x="30" y="553" fill="#546e7a" font-size="11">Depth 4</text>
+  <text x="30" y="703" fill="#546e7a" font-size="11">Depth 64</text>
+  
+  <!-- Dots indicating more nodes -->
+  <g fill="#546e7a" opacity="0.5">
+    <circle cx="580" cy="460" r="2"/>
+    <circle cx="600" cy="470" r="2"/>
+    <circle cx="620" cy="460" r="2"/>
+    <circle cx="200" cy="460" r="2"/>
+    <circle cx="220" cy="470" r="2"/>
+    <circle cx="180" cy="470" r="2"/>
+  </g>
+</svg>

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#58a6ff" font-size="22" font-weight="bold">The Sum-of-Two-Squares Landscape</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8b949e" font-size="13">Which integers n = a² + b²? Machine-verified obstructions and closures.</text>
+
+  <!-- Grid of numbers 0-39, colored by S2S status -->
+  <g font-size="14" font-weight="bold">
+    <!-- Row labels -->
+    <text x="30" y="100" fill="#8b949e" font-size="11">n:</text>
+
+    <!-- Numbers 0-39, 10 per row -->
+    <!-- Row 1: 0-9 -->
+    <rect x="60" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="78" y="100" text-anchor="middle" fill="#fff" font-size="13">0</text>
+    <rect x="100" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="118" y="100" text-anchor="middle" fill="#fff" font-size="13">1</text>
+    <rect x="140" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="158" y="100" text-anchor="middle" fill="#fff" font-size="13">2</text>
+    <rect x="180" y="80" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="198" y="100" text-anchor="middle" fill="#fff" font-size="13">3</text>
+    <rect x="220" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="238" y="100" text-anchor="middle" fill="#fff" font-size="13">4</text>
+    <rect x="260" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="278" y="100" text-anchor="middle" fill="#fff" font-size="13">5</text>
+    <rect x="300" y="80" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="318" y="100" text-anchor="middle" fill="#fff" font-size="13">6</text>
+    <rect x="340" y="80" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="358" y="100" text-anchor="middle" fill="#fff" font-size="13">7</text>
+    <rect x="380" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="398" y="100" text-anchor="middle" fill="#fff" font-size="13">8</text>
+    <rect x="420" y="80" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="438" y="100" text-anchor="middle" fill="#fff" font-size="13">9</text>
+
+    <!-- Row 2: 10-19 -->
+    <rect x="60" y="115" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="78" y="135" text-anchor="middle" fill="#fff" font-size="13">10</text>
+    <rect x="100" y="115" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="118" y="135" text-anchor="middle" fill="#fff" font-size="13">11</text>
+    <rect x="140" y="115" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="158" y="135" text-anchor="middle" fill="#fff" font-size="13">12</text>
+    <rect x="180" y="115" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="198" y="135" text-anchor="middle" fill="#fff" font-size="13">13</text>
+    <rect x="220" y="115" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="238" y="135" text-anchor="middle" fill="#fff" font-size="13">14</text>
+    <rect x="260" y="115" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="278" y="135" text-anchor="middle" fill="#fff" font-size="13">15</text>
+    <rect x="300" y="115" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="318" y="135" text-anchor="middle" fill="#fff" font-size="13">16</text>
+    <rect x="340" y="115" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="358" y="135" text-anchor="middle" fill="#fff" font-size="13">17</text>
+    <rect x="380" y="115" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="398" y="135" text-anchor="middle" fill="#fff" font-size="13">18</text>
+    <rect x="420" y="115" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="438" y="135" text-anchor="middle" fill="#fff" font-size="13">19</text>
+
+    <!-- Row 3: 20-29 -->
+    <rect x="60" y="150" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="78" y="170" text-anchor="middle" fill="#fff" font-size="13">20</text>
+    <rect x="100" y="150" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="118" y="170" text-anchor="middle" fill="#fff" font-size="13">21</text>
+    <rect x="140" y="150" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="158" y="170" text-anchor="middle" fill="#fff" font-size="13">22</text>
+    <rect x="180" y="150" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="198" y="170" text-anchor="middle" fill="#fff" font-size="13">23</text>
+    <rect x="220" y="150" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="238" y="170" text-anchor="middle" fill="#fff" font-size="13">24</text>
+    <rect x="260" y="150" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="278" y="170" text-anchor="middle" fill="#fff" font-size="13">25</text>
+    <rect x="300" y="150" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="318" y="170" text-anchor="middle" fill="#fff" font-size="13">26</text>
+    <rect x="340" y="150" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="358" y="170" text-anchor="middle" fill="#fff" font-size="13">27</text>
+    <rect x="380" y="150" width="36" height="30" rx="5" fill="#da3633" opacity="0.8"/><text x="398" y="170" text-anchor="middle" fill="#fff" font-size="13">28</text>
+    <rect x="420" y="150" width="36" height="30" rx="5" fill="#238636" opacity="0.8"/><text x="438" y="170" text-anchor="middle" fill="#fff" font-size="13">29</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="500" y="85" width="25" height="18" rx="3" fill="#238636" opacity="0.8"/>
+  <text x="530" y="100" fill="#c9d1d9" font-size="12">= Sum of two squares (n ∈ S₂)</text>
+  <rect x="500" y="110" width="25" height="18" rx="3" fill="#da3633" opacity="0.8"/>
+  <text x="530" y="125" fill="#c9d1d9" font-size="12">= NOT a sum of two squares</text>
+
+  <!-- Key Theorems Box -->
+  <rect x="40" y="210" width="720" height="270" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+
+  <text x="400" y="240" text-anchor="middle" fill="#58a6ff" font-size="18" font-weight="bold">Machine-Verified Theorems</text>
+
+  <!-- Theorem 1 -->
+  <rect x="60" y="260" width="330" height="80" rx="8" fill="#0d1117" stroke="#238636" stroke-width="1.5"/>
+  <text x="225" y="285" text-anchor="middle" fill="#238636" font-size="14" font-weight="bold">Brahmagupta-Fibonacci Identity</text>
+  <text x="225" y="305" text-anchor="middle" fill="#c9d1d9" font-size="11">(a²+b²)(c²+d²) = (ac−bd)²+(ad+bc)²</text>
+  <text x="225" y="325" text-anchor="middle" fill="#8b949e" font-size="10">⟹ S₂ is closed under multiplication</text>
+
+  <!-- Theorem 2 -->
+  <rect x="410" y="260" width="330" height="80" rx="8" fill="#0d1117" stroke="#da3633" stroke-width="1.5"/>
+  <text x="575" y="285" text-anchor="middle" fill="#da3633" font-size="14" font-weight="bold">Mod 4 Obstruction</text>
+  <text x="575" y="305" text-anchor="middle" fill="#c9d1d9" font-size="11">n ≡ 3 (mod 4) ⟹ n ∉ S₂</text>
+  <text x="575" y="325" text-anchor="middle" fill="#8b949e" font-size="10">Squares mod 4 ∈ {0,1}, sum ∈ {0,1,2}</text>
+
+  <!-- Theorem 3 -->
+  <rect x="60" y="355" width="330" height="80" rx="8" fill="#0d1117" stroke="#f0883e" stroke-width="1.5"/>
+  <text x="225" y="380" text-anchor="middle" fill="#f0883e" font-size="14" font-weight="bold">Fermat's Christmas (partial)</text>
+  <text x="225" y="400" text-anchor="middle" fill="#c9d1d9" font-size="11">p prime, p ≡ 3 (mod 4) ⟹ p ∉ S₂</text>
+  <text x="225" y="420" text-anchor="middle" fill="#8b949e" font-size="10">Proved: 3, 7, 11, 19, 23, ... never S₂</text>
+
+  <!-- Theorem 4 -->
+  <rect x="410" y="355" width="330" height="80" rx="8" fill="#0d1117" stroke="#a371f7" stroke-width="1.5"/>
+  <text x="575" y="380" text-anchor="middle" fill="#a371f7" font-size="14" font-weight="bold">Gaussian Connection</text>
+  <text x="575" y="400" text-anchor="middle" fill="#c9d1d9" font-size="11">N(a+bi) = a² + b² is multiplicative</text>
+  <text x="575" y="420" text-anchor="middle" fill="#8b949e" font-size="10">⟹ algebraic proof of BF identity</text>
+</svg>

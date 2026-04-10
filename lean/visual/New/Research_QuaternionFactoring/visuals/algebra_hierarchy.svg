@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="realG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2ea043"/>
+      <stop offset="100%" stop-color="#238636"/>
+    </linearGradient>
+    <linearGradient id="complexG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f6feb"/>
+      <stop offset="100%" stop-color="#388bfd"/>
+    </linearGradient>
+    <linearGradient id="quatG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a371f7"/>
+      <stop offset="100%" stop-color="#8957e5"/>
+    </linearGradient>
+    <linearGradient id="octG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f78166"/>
+      <stop offset="100%" stop-color="#da3633"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#f0f6fc" font-size="22" font-weight="bold">
+    The Normed Division Algebra Hierarchy
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#8b949e" font-size="13">
+    Each step up gains geometric room for factoring — but loses algebraic structure
+  </text>
+
+  <!-- Connection arrows -->
+  <line x1="165" y1="210" x2="165" y2="260" stroke="#484f58" stroke-width="2" stroke-dasharray="6,3"/>
+  <line x1="375" y1="210" x2="375" y2="260" stroke="#484f58" stroke-width="2" stroke-dasharray="6,3"/>
+  <line x1="585" y1="210" x2="585" y2="260" stroke="#484f58" stroke-width="2" stroke-dasharray="6,3"/>
+  <line x1="795" y1="210" x2="795" y2="260" stroke="#484f58" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Arrows between boxes -->
+  <g stroke="#484f58" stroke-width="2.5" fill="none" marker-end="url(#arrowhead)">
+    <path d="M 255 160 L 295 160" />
+    <path d="M 465 160 L 505 160" />
+    <path d="M 675 160 L 715 160" />
+  </g>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#484f58"/>
+    </marker>
+  </defs>
+
+  <!-- Loss labels on arrows -->
+  <text x="275" y="148" text-anchor="middle" fill="#f85149" font-size="9" font-style="italic">lose order</text>
+  <text x="485" y="148" text-anchor="middle" fill="#f85149" font-size="9" font-style="italic">lose commutativity</text>
+  <text x="695" y="148" text-anchor="middle" fill="#f85149" font-size="9" font-style="italic">lose associativity</text>
+
+  <!-- ℝ Box -->
+  <rect x="75" y="100" width="180" height="120" rx="12" fill="url(#realG)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="165" y="132" text-anchor="middle" fill="white" font-size="28" font-weight="bold">ℝ</text>
+  <text x="165" y="155" text-anchor="middle" fill="#d2f4d3" font-size="12">Dim 1 · Norm: a²</text>
+  <line x1="100" y1="168" x2="230" y2="168" stroke="#d2f4d3" stroke-width="0.5" opacity="0.5"/>
+  <text x="165" y="185" text-anchor="middle" fill="#d2f4d3" font-size="10">Total order</text>
+  <text x="165" y="200" text-anchor="middle" fill="#d2f4d3" font-size="10">Trivial factoring</text>
+
+  <!-- ℂ Box -->
+  <rect x="285" y="100" width="180" height="120" rx="12" fill="url(#complexG)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="375" y="132" text-anchor="middle" fill="white" font-size="28" font-weight="bold">ℂ</text>
+  <text x="375" y="155" text-anchor="middle" fill="#c8e1ff" font-size="12">Dim 2 · Norm: a²+b²</text>
+  <line x1="310" y1="168" x2="440" y2="168" stroke="#c8e1ff" stroke-width="0.5" opacity="0.5"/>
+  <text x="375" y="185" text-anchor="middle" fill="#c8e1ff" font-size="10">Commutative</text>
+  <text x="375" y="200" text-anchor="middle" fill="#c8e1ff" font-size="10">Fermat (p ≡ 1 mod 4)</text>
+
+  <!-- ℍ Box -->
+  <rect x="495" y="100" width="180" height="120" rx="12" fill="url(#quatG)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="585" y="132" text-anchor="middle" fill="white" font-size="28" font-weight="bold">ℍ</text>
+  <text x="585" y="155" text-anchor="middle" fill="#d8b4fe" font-size="12">Dim 4 · Norm: Σaᵢ²</text>
+  <line x1="520" y1="168" x2="650" y2="168" stroke="#d8b4fe" stroke-width="0.5" opacity="0.5"/>
+  <text x="585" y="185" text-anchor="middle" fill="#d8b4fe" font-size="10">Non-commutative</text>
+  <text x="585" y="200" text-anchor="middle" fill="#d8b4fe" font-size="10">Universal (Lagrange)</text>
+
+  <!-- 𝕆 Box -->
+  <rect x="705" y="100" width="180" height="120" rx="12" fill="url(#octG)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="795" y="132" text-anchor="middle" fill="white" font-size="28" font-weight="bold">𝕆</text>
+  <text x="795" y="155" text-anchor="middle" fill="#ffa198" font-size="12">Dim 8 · Norm: Σaᵢ²</text>
+  <line x1="730" y1="168" x2="860" y2="168" stroke="#ffa198" stroke-width="0.5" opacity="0.5"/>
+  <text x="795" y="185" text-anchor="middle" fill="#ffa198" font-size="10">Non-associative</text>
+  <text x="795" y="200" text-anchor="middle" fill="#ffa198" font-size="10">254 partial masks</text>
+
+  <!-- Detail cards below -->
+  <!-- ℝ detail -->
+  <rect x="75" y="270" width="180" height="100" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="165" y="295" text-anchor="middle" fill="#8b949e" font-size="10" font-weight="bold">FACTORING LEVERAGE</text>
+  <text x="165" y="315" text-anchor="middle" fill="#7ee787" font-size="11">None — just trial division</text>
+  <text x="165" y="340" text-anchor="middle" fill="#8b949e" font-size="9">Only 1 norm representation</text>
+  <text x="165" y="358" text-anchor="middle" fill="#8b949e" font-size="9">per integer</text>
+
+  <!-- ℂ detail -->
+  <rect x="285" y="270" width="180" height="100" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="375" y="295" text-anchor="middle" fill="#8b949e" font-size="10" font-weight="bold">FACTORING LEVERAGE</text>
+  <text x="375" y="315" text-anchor="middle" fill="#58a6ff" font-size="11">GCD in ℤ[i] → factors</text>
+  <text x="375" y="340" text-anchor="middle" fill="#8b949e" font-size="9">Works for ~31% of primes</text>
+  <text x="375" y="358" text-anchor="middle" fill="#8b949e" font-size="9">(those ≡ 1 mod 4)</text>
+
+  <!-- ℍ detail -->
+  <rect x="495" y="270" width="180" height="100" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="585" y="295" text-anchor="middle" fill="#8b949e" font-size="10" font-weight="bold">FACTORING LEVERAGE</text>
+  <text x="585" y="315" text-anchor="middle" fill="#bc8cff" font-size="11">Lattice + 4-square = GCD</text>
+  <text x="585" y="340" text-anchor="middle" fill="#8b949e" font-size="9">Universal: every N has a rep</text>
+  <text x="585" y="358" text-anchor="middle" fill="#8b949e" font-size="9">Optimal α ≈ 0.25–0.28</text>
+
+  <!-- 𝕆 detail -->
+  <rect x="705" y="270" width="180" height="100" rx="8" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="795" y="295" text-anchor="middle" fill="#8b949e" font-size="10" font-weight="bold">FACTORING LEVERAGE</text>
+  <text x="795" y="315" text-anchor="middle" fill="#ffa198" font-size="11">70 quaternionic slices</text>
+  <text x="795" y="340" text-anchor="middle" fill="#8b949e" font-size="9">Combinatorial mask search</text>
+  <text x="795" y="358" text-anchor="middle" fill="#8b949e" font-size="9">Highest success rate</text>
+
+  <!-- Bottom: Key insight -->
+  <rect x="120" y="420" width="660" height="90" rx="10" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="450" y="448" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold">
+    KEY INSIGHT: Multiplicativity of the Norm
+  </text>
+  <text x="450" y="472" text-anchor="middle" fill="#c9d1d9" font-size="12">
+    N(q₁ · q₂) = N(q₁) · N(q₂)   →   Factor the quaternion, factor the integer
+  </text>
+  <text x="450" y="494" text-anchor="middle" fill="#8b949e" font-size="11">
+    Higher dimensions = more representations = more chances to find factors via lattice reduction
+  </text>
+
+  <!-- Footer -->
+  <text x="450" y="560" text-anchor="middle" fill="#484f58" font-size="10">
+    Figure 1: The four normed division algebras and their factoring capabilities
+  </text>
+  <text x="450" y="578" text-anchor="middle" fill="#484f58" font-size="9">
+    Research: Factoring Through Higher-Dimensional Lenses (2025)
+  </text>
+</svg>

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f0f2d"/>
+      <stop offset="100%" stop-color="#1a1a3d"/>
+    </linearGradient>
+    <linearGradient id="box1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1a4a"/>
+      <stop offset="100%" stop-color="#1a1030"/>
+    </linearGradient>
+    <linearGradient id="box2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a3a4a"/>
+      <stop offset="100%" stop-color="#102030"/>
+    </linearGradient>
+    <linearGradient id="box3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a2a1a"/>
+      <stop offset="100%" stop-color="#201810"/>
+    </linearGradient>
+    <linearGradient id="box4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a4a2a"/>
+      <stop offset="100%" stop-color="#103020"/>
+    </linearGradient>
+    <linearGradient id="box5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a1a2a"/>
+      <stop offset="100%" stop-color="#301020"/>
+    </linearGradient>
+    <filter id="boxshadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowR" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+      <polygon points="0 0, 12 4, 0 8" fill="#6688cc"/>
+    </marker>
+    <marker id="arrowD" markerWidth="8" markerHeight="12" refX="4" refY="12" orient="auto">
+      <polygon points="0 0, 4 12, 8 0" fill="#6688cc"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="550" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#e0e0ff" font-size="22" font-weight="bold">
+    Hybrid Geometric Factoring Pipeline
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#7788aa" font-size="13">
+    Three geometric perspectives converge to factor n
+  </text>
+
+  <!-- INPUT -->
+  <rect x="370" y="75" width="160" height="45" rx="10" fill="url(#box1)" stroke="#8866cc" stroke-width="2" filter="url(#boxshadow)"/>
+  <text x="450" y="98" text-anchor="middle" fill="#ccbbff" font-size="16" font-weight="bold">Input: n</text>
+  <text x="450" y="112" text-anchor="middle" fill="#9988cc" font-size="10">composite integer</text>
+
+  <!-- Arrow down from input -->
+  <line x1="450" y1="120" x2="450" y2="155" stroke="#6688cc" stroke-width="2" marker-end="url(#arrowD)"/>
+
+  <!-- Three parallel branches -->
+  <!-- Branch 1: Orbit Sequences -->
+  <rect x="30" y="160" width="250" height="100" rx="10" fill="url(#box2)" stroke="#44aacc" stroke-width="2" filter="url(#boxshadow)"/>
+  <text x="155" y="185" text-anchor="middle" fill="#88ddff" font-size="15" font-weight="bold">① Orbit Sequences</text>
+  <text x="155" y="205" text-anchor="middle" fill="#668899" font-size="11">Squaring map: x → x² mod n</text>
+  <text x="155" y="222" text-anchor="middle" fill="#668899" font-size="11">Pollard map: x → x² + c mod n</text>
+  <text x="155" y="239" text-anchor="middle" fill="#668899" font-size="11">CRT decomposition of orbits</text>
+
+  <!-- Branch 2: Lattice Reduction -->
+  <rect x="325" y="160" width="250" height="100" rx="10" fill="url(#box3)" stroke="#ccaa44" stroke-width="2" filter="url(#boxshadow)"/>
+  <text x="450" y="185" text-anchor="middle" fill="#ffdd88" font-size="15" font-weight="bold">② Lattice Reduction</text>
+  <text x="450" y="205" text-anchor="middle" fill="#998866" font-size="11">Build factoring lattice L(a,n)</text>
+  <text x="450" y="222" text-anchor="middle" fill="#998866" font-size="11">LLL → short vectors → smooth #s</text>
+  <text x="450" y="239" text-anchor="middle" fill="#998866" font-size="11">Quadratic form composition</text>
+
+  <!-- Branch 3: Hyperbolic Geometry -->
+  <rect x="620" y="160" width="250" height="100" rx="10" fill="url(#box4)" stroke="#44cc66" stroke-width="2" filter="url(#boxshadow)"/>
+  <text x="745" y="185" text-anchor="middle" fill="#88ffaa" font-size="15" font-weight="bold">③ Hyperbolic Geom.</text>
+  <text x="745" y="205" text-anchor="middle" fill="#669966" font-size="11">Divisor hyperbola xy = n</text>
+  <text x="745" y="222" text-anchor="middle" fill="#669966" font-size="11">SL₂(ℤ) / continued fractions</text>
+  <text x="745" y="239" text-anchor="middle" fill="#669966" font-size="11">Farey neighbor detection</text>
+
+  <!-- Arrows from input to branches -->
+  <path d="M 370,97 L 280,160" fill="none" stroke="#6688cc" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <path d="M 530,97 L 620,160" fill="none" stroke="#6688cc" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Arrows down from branches -->
+  <line x1="155" y1="260" x2="155" y2="310" stroke="#44aacc" stroke-width="2" marker-end="url(#arrowD)"/>
+  <line x1="450" y1="260" x2="450" y2="310" stroke="#ccaa44" stroke-width="2" marker-end="url(#arrowD)"/>
+  <line x1="745" y1="260" x2="745" y2="310" stroke="#44cc66" stroke-width="2" marker-end="url(#arrowD)"/>
+
+  <!-- Quadruple Detection (middle layer) -->
+  <rect x="100" y="315" width="700" height="55" rx="10" fill="url(#box5)" stroke="#cc4488" stroke-width="2" filter="url(#boxshadow)"/>
+  <text x="450" y="340" text-anchor="middle" fill="#ff88bb" font-size="16" font-weight="bold">
+    Factor Quadruple Detection &amp; GCD Extraction
+  </text>
+  <text x="450" y="358" text-anchor="middle" fill="#995577" font-size="11">
+    For each pair (aᵢ, aⱼ): if ab = cd, compute gcd(a,c). If 1 &lt; gcd &lt; n → factor found!
+  </text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="370" x2="450" y2="400" stroke="#cc4488" stroke-width="2" marker-end="url(#arrowD)"/>
+
+  <!-- Smooth Relation Collection -->
+  <rect x="200" y="405" width="500" height="50" rx="10" fill="url(#box2)" stroke="#44aacc" stroke-width="2" filter="url(#boxshadow)"/>
+  <text x="450" y="428" text-anchor="middle" fill="#88ddff" font-size="15" font-weight="bold">
+    Smooth Relation Collection → GF(2) Linear Algebra
+  </text>
+  <text x="450" y="445" text-anchor="middle" fill="#668899" font-size="11">
+    Combine smooth residues to find x² ≡ y² (mod n)
+  </text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="455" x2="450" y2="485" stroke="#44aacc" stroke-width="2" marker-end="url(#arrowD)"/>
+
+  <!-- Output -->
+  <rect x="320" y="490" width="260" height="45" rx="10" fill="url(#box4)" stroke="#44ff88" stroke-width="3" filter="url(#boxshadow)"/>
+  <text x="450" y="513" text-anchor="middle" fill="#88ffaa" font-size="18" font-weight="bold">
+    gcd(x − y, n) = p
+  </text>
+  <text x="450" y="528" text-anchor="middle" fill="#44aa66" font-size="11">nontrivial factor</text>
+
+  <!-- Cross-connections between branches -->
+  <path d="M 280,210 L 325,210" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M 575,210 L 620,210" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>

@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="channelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b35"/>
+      <stop offset="100%" style="stop-color:#f7c948"/>
+    </linearGradient>
+    <linearGradient id="cascadeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4ecdc4"/>
+      <stop offset="100%" style="stop-color:#44aa99"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">GCD CASCADE FRAMEWORK</text>
+  <text x="500" y="62" text-anchor="middle" fill="#8899bb" font-size="13">Multi-Representation Factor Extraction via Integer Sphere Geometry</text>
+
+  <!-- Central Sphere -->
+  <circle cx="500" cy="320" r="120" fill="none" stroke="#4466aa" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"/>
+  <circle cx="500" cy="320" r="118" fill="none" stroke="#6688cc" stroke-width="0.5" opacity="0.3"/>
+  <text x="500" y="316" text-anchor="middle" fill="#6688cc" font-size="11">d-sphere</text>
+  <text x="500" y="332" text-anchor="middle" fill="#8899bb" font-size="10">a² + b² + c² = d²</text>
+
+  <!-- Representation points on sphere -->
+  <circle cx="420" cy="240" r="8" fill="#ff6b35" filter="url(#glow)"/>
+  <text x="405" y="228" text-anchor="middle" fill="#ff9966" font-size="10">v₁=(a₁,b₁,c₁)</text>
+
+  <circle cx="580" cy="250" r="8" fill="#4ecdc4" filter="url(#glow)"/>
+  <text x="600" y="238" text-anchor="middle" fill="#66ddcc" font-size="10">v₂=(a₂,b₂,c₂)</text>
+
+  <circle cx="460" cy="420" r="8" fill="#f7c948" filter="url(#glow)"/>
+  <text x="440" y="440" text-anchor="middle" fill="#ffdd66" font-size="10">v₃=(a₃,b₃,c₃)</text>
+
+  <circle cx="560" cy="400" r="8" fill="#cc44aa" filter="url(#glow)"/>
+  <text x="582" y="418" text-anchor="middle" fill="#dd66bb" font-size="10">v₄=(a₄,b₄,c₄)</text>
+
+  <!-- Distance lines -->
+  <line x1="420" y1="240" x2="580" y2="250" stroke="#ff6b35" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="420" y1="240" x2="460" y2="420" stroke="#f7c948" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="580" y1="250" x2="560" y2="400" stroke="#4ecdc4" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+  <!-- Left Panel: Channels -->
+  <rect x="20" y="90" width="220" height="260" rx="8" fill="#11113a" stroke="#334466" stroke-width="1"/>
+  <text x="130" y="115" text-anchor="middle" fill="url(#channelGrad)" font-size="14" font-weight="bold">CHANNELS</text>
+
+  <text x="35" y="140" fill="#ff9966" font-size="11">Channel AB:</text>
+  <text x="35" y="158" fill="#ccccdd" font-size="10">a²+b² = (d−c)(d+c)</text>
+
+  <text x="35" y="185" fill="#ff9966" font-size="11">Channel AC:</text>
+  <text x="35" y="203" fill="#ccccdd" font-size="10">a²+c² = (d−b)(d+b)</text>
+
+  <text x="35" y="230" fill="#ff9966" font-size="11">Channel BC:</text>
+  <text x="35" y="248" fill="#ccccdd" font-size="10">b²+c² = (d−a)(d+a)</text>
+
+  <line x1="35" y1="262" x2="225" y2="262" stroke="#334466" stroke-width="0.5"/>
+
+  <text x="35" y="282" fill="#aabbcc" font-size="10">Channel Sum = 2d²</text>
+  <text x="35" y="300" fill="#aabbcc" font-size="10">Each channel ≤ d²</text>
+  <text x="35" y="318" fill="#aabbcc" font-size="10">Triangle: ch₁ ≤ ch₂ + ch₃</text>
+  <text x="35" y="336" fill="#88aaff" font-size="10" font-weight="bold">If p|d, p|c ⇒ p²|ch(ab)</text>
+
+  <!-- Right Panel: Cascade -->
+  <rect x="760" y="90" width="220" height="260" rx="8" fill="#11113a" stroke="#334466" stroke-width="1"/>
+  <text x="870" y="115" text-anchor="middle" fill="url(#cascadeGrad)" font-size="14" font-weight="bold">GCD CASCADE</text>
+
+  <text x="775" y="140" fill="#66ddcc" font-size="11">Extraction:</text>
+  <text x="775" y="158" fill="#ccccdd" font-size="10">g|d−c₁, g|d−c₂ ⇒ g|c₂−c₁</text>
+
+  <text x="775" y="185" fill="#66ddcc" font-size="11">Cross-Sign:</text>
+  <text x="775" y="203" fill="#ccccdd" font-size="10">g|d−c₁, g|d+c₂ ⇒ g|c₁+c₂</text>
+
+  <text x="775" y="230" fill="#66ddcc" font-size="11">Transitivity:</text>
+  <text x="775" y="248" fill="#ccccdd" font-size="10">g|d−c₁, g|c₂−c₁ ⇒ g|d−c₂</text>
+
+  <line x1="775" y1="262" x2="965" y2="262" stroke="#334466" stroke-width="0.5"/>
+
+  <text x="775" y="282" fill="#aabbcc" font-size="10">k reps → C(k,2) GCDs</text>
+  <text x="775" y="300" fill="#aabbcc" font-size="10">Each GCD ∣ component diff</text>
+  <text x="775" y="318" fill="#aabbcc" font-size="10">Check gcd(g, d) for factors</text>
+  <text x="775" y="336" fill="#88aaff" font-size="10" font-weight="bold">Factors propagate!</text>
+
+  <!-- Bottom Panel: Key Results -->
+  <rect x="20" y="480" width="960" height="200" rx="8" fill="#11113a" stroke="#334466" stroke-width="1"/>
+  <text x="500" y="505" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">KEY FORMALLY VERIFIED RESULTS</text>
+
+  <!-- Results grid -->
+  <rect x="35" y="520" width="290" height="65" rx="5" fill="#1a1a3e" stroke="#ff6b35" stroke-width="1"/>
+  <text x="180" y="540" text-anchor="middle" fill="#ff9966" font-size="11" font-weight="bold">Channel Product Simplified</text>
+  <text x="180" y="558" text-anchor="middle" fill="#ccccdd" font-size="10">(d²−a²)(d²−b²)(d²−c²) =</text>
+  <text x="180" y="574" text-anchor="middle" fill="#ccccdd" font-size="10">d²(a²b²+a²c²+b²c²) − a²b²c²</text>
+
+  <rect x="355" y="520" width="290" height="65" rx="5" fill="#1a1a3e" stroke="#4ecdc4" stroke-width="1"/>
+  <text x="500" y="540" text-anchor="middle" fill="#66ddcc" font-size="11" font-weight="bold">Prime Dichotomy</text>
+  <text x="500" y="558" text-anchor="middle" fill="#ccccdd" font-size="10">p prime, p|d: either p|c (both</text>
+  <text x="500" y="574" text-anchor="middle" fill="#ccccdd" font-size="10">d±c divisible) or Euclid applies</text>
+
+  <rect x="675" y="520" width="290" height="65" rx="5" fill="#1a1a3e" stroke="#f7c948" stroke-width="1"/>
+  <text x="820" y="540" text-anchor="middle" fill="#ffdd66" font-size="11" font-weight="bold">Orthogonal Maximum</text>
+  <text x="820" y="558" text-anchor="middle" fill="#ccccdd" font-size="10">⟨v₁,v₂⟩ = 0 ⇒ dist² = 2d²</text>
+  <text x="820" y="574" text-anchor="middle" fill="#ccccdd" font-size="10">Maximizes cascade effectiveness</text>
+
+  <rect x="35" y="595" width="290" height="65" rx="5" fill="#1a1a3e" stroke="#cc44aa" stroke-width="1"/>
+  <text x="180" y="615" text-anchor="middle" fill="#dd66bb" font-size="11" font-weight="bold">No Balanced Quadruple</text>
+  <text x="180" y="633" text-anchor="middle" fill="#ccccdd" font-size="10">3a² = d² has no nonzero solutions</text>
+  <text x="180" y="649" text-anchor="middle" fill="#ccccdd" font-size="10">(√3 is irrational)</text>
+
+  <rect x="355" y="595" width="290" height="65" rx="5" fill="#1a1a3e" stroke="#88aaff" stroke-width="1"/>
+  <text x="500" y="615" text-anchor="middle" fill="#aabbff" font-size="11" font-weight="bold">General Channel Sum</text>
+  <text x="500" y="633" text-anchor="middle" fill="#ccccdd" font-size="10">n spatial dims: Σ pair-channels</text>
+  <text x="500" y="649" text-anchor="middle" fill="#ccccdd" font-size="10">= (n−1)d² (verified n=3..6)</text>
+
+  <rect x="675" y="595" width="290" height="65" rx="5" fill="#1a1a3e" stroke="#44aa99" stroke-width="1"/>
+  <text x="820" y="615" text-anchor="middle" fill="#66cc99" font-size="11" font-weight="bold">Factor Orbit Descent</text>
+  <text x="820" y="633" text-anchor="middle" fill="#ccccdd" font-size="10">p|a, p|b, p|c ⇒ p²|d²</text>
+  <text x="820" y="649" text-anchor="middle" fill="#ccccdd" font-size="10">Descend to primitive quadruple</text>
+
+  <!-- Connecting arrows -->
+  <path d="M 240 220 Q 340 200 410 240" fill="none" stroke="#ff6b35" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M 760 220 Q 660 200 590 250" fill="none" stroke="#4ecdc4" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#aabbcc"/>
+    </marker>
+  </defs>
+
+  <!-- Annotations -->
+  <text x="330" y="390" text-anchor="middle" fill="#aabbcc" font-size="9" transform="rotate(-20, 330, 390)">dist² = 2d² − 2⟨v,v'⟩</text>
+
+  <!-- Legend -->
+  <text x="500" y="460" text-anchor="middle" fill="#8899bb" font-size="11">70+ theorems · 0 sorry · Machine-verified in Lean 4 + Mathlib</text>
+</svg>

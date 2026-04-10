@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="channel1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ee5a24"/>
+    </linearGradient>
+    <linearGradient id="channel2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#48dbfb"/>
+      <stop offset="100%" style="stop-color:#0abde3"/>
+    </linearGradient>
+    <linearGradient id="channel3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#feca57"/>
+      <stop offset="100%" style="stop-color:#ff9f43"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold" font-family="Georgia">
+    GCD Cascade Framework
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#aaa" font-size="14" font-family="Georgia">
+    Multi-Channel Factor Extraction from Pythagorean Quadruples
+  </text>
+
+  <!-- Central equation -->
+  <rect x="280" y="85" width="340" height="40" rx="8" fill="#222" stroke="#555" stroke-width="1"/>
+  <text x="450" y="112" text-anchor="middle" fill="#fff" font-size="18" font-family="monospace">
+    a² + b² + c² = d²
+  </text>
+
+  <!-- Three channels -->
+  <!-- Channel 1 -->
+  <rect x="30" y="160" width="260" height="80" rx="10" fill="none" stroke="url(#channel1)" stroke-width="2"/>
+  <text x="160" y="185" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="bold">Channel 1</text>
+  <text x="160" y="205" text-anchor="middle" fill="#ccc" font-size="13" font-family="monospace">(d−c)(d+c) = a²+b²</text>
+  <text x="160" y="228" text-anchor="middle" fill="#888" font-size="11">Removes c from equation</text>
+
+  <!-- Channel 2 -->
+  <rect x="320" y="160" width="260" height="80" rx="10" fill="none" stroke="url(#channel2)" stroke-width="2"/>
+  <text x="450" y="185" text-anchor="middle" fill="#48dbfb" font-size="14" font-weight="bold">Channel 2</text>
+  <text x="450" y="205" text-anchor="middle" fill="#ccc" font-size="13" font-family="monospace">(d−b)(d+b) = a²+c²</text>
+  <text x="450" y="228" text-anchor="middle" fill="#888" font-size="11">Removes b from equation</text>
+
+  <!-- Channel 3 -->
+  <rect x="610" y="160" width="260" height="80" rx="10" fill="none" stroke="url(#channel3)" stroke-width="2"/>
+  <text x="740" y="185" text-anchor="middle" fill="#feca57" font-size="14" font-weight="bold">Channel 3</text>
+  <text x="740" y="205" text-anchor="middle" fill="#ccc" font-size="13" font-family="monospace">(d−a)(d+a) = b²+c²</text>
+  <text x="740" y="228" text-anchor="middle" fill="#888" font-size="11">Removes a from equation</text>
+
+  <!-- Channel sum constraint -->
+  <rect x="200" y="260" width="500" height="35" rx="6" fill="#1a1a3e" stroke="#444" stroke-width="1"/>
+  <text x="450" y="283" text-anchor="middle" fill="#aaf" font-size="13" font-family="monospace">
+    Ch₁ + Ch₂ + Ch₃ = 2d² (Channel Sum Theorem)
+  </text>
+
+  <!-- GCD Cascade section -->
+  <text x="450" y="325" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">GCD Cascade</text>
+
+  <!-- GCD arrows between channels -->
+  <line x1="290" y1="200" x2="320" y2="200" stroke="#ff9f43" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="580" y1="200" x2="610" y2="200" stroke="#ff9f43" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- Cascade steps -->
+  <rect x="50" y="345" width="250" height="60" rx="8" fill="#1a2a1a" stroke="#4a4" stroke-width="1.5"/>
+  <text x="175" y="368" text-anchor="middle" fill="#6d6" font-size="12" font-weight="bold">Step 1: Cross-Channel GCD</text>
+  <text x="175" y="393" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">gcd(Ch₁,Ch₂) | (b²−c²)</text>
+
+  <rect x="325" y="345" width="250" height="60" rx="8" fill="#1a2a1a" stroke="#4a4" stroke-width="1.5"/>
+  <text x="450" y="368" text-anchor="middle" fill="#6d6" font-size="12" font-weight="bold">Step 2: Euclid's Lemma</text>
+  <text x="450" y="393" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">p | (b−c) or p | (b+c)</text>
+
+  <rect x="600" y="345" width="250" height="60" rx="8" fill="#1a2a1a" stroke="#4a4" stroke-width="1.5"/>
+  <text x="725" y="368" text-anchor="middle" fill="#6d6" font-size="12" font-weight="bold">Step 3: Factor of d</text>
+  <text x="725" y="393" text-anchor="middle" fill="#aaa" font-size="11" font-family="monospace">gcd(channel, d) → factor</text>
+
+  <!-- Arrows -->
+  <polygon points="310,375 320,370 320,380" fill="#4a4"/>
+  <polygon points="590,375 600,370 600,380" fill="#4a4"/>
+
+  <!-- Example -->
+  <rect x="50" y="430" width="800" height="120" rx="10" fill="#0d0d2a" stroke="#555" stroke-width="1"/>
+  <text x="450" y="455" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Example: d = 35 = 5 × 7</text>
+
+  <text x="80" y="480" fill="#ff6b6b" font-size="12" font-family="monospace">Q = (6, 10, 33, 35)</text>
+  <text x="80" y="500" fill="#48dbfb" font-size="12" font-family="monospace">Ch₂: (35−10)(35+10) = 25 × 45</text>
+  <text x="80" y="520" fill="#feca57" font-size="12" font-family="monospace">gcd(25, 45) = 5 → gcd(5, 35) = 5 → FACTOR FOUND!</text>
+
+  <text x="500" y="480" fill="#ff6b6b" font-size="12" font-family="monospace">Q = (6, 9, 18, 21)</text>
+  <text x="500" y="500" fill="#48dbfb" font-size="12" font-family="monospace">Ch₁: (21−18)(21+18) = 3 × 39</text>
+  <text x="500" y="520" fill="#feca57" font-size="12" font-family="monospace">gcd(3, 39) = 3 → gcd(3, 21) = 3 → FACTOR!</text>
+
+  <!-- Key theorems box -->
+  <rect x="50" y="570" width="380" height="115" rx="8" fill="#1a1a3e" stroke="#66f" stroke-width="1.5"/>
+  <text x="240" y="595" text-anchor="middle" fill="#88f" font-size="14" font-weight="bold">Key Verified Theorems</text>
+  <text x="70" y="615" fill="#ccc" font-size="11">• Channel Product: (d±a)(d±b)(d±c) = Π(chᵢ)</text>
+  <text x="70" y="633" fill="#ccc" font-size="11">• Brahmagupta: (a²+b²)(a²+c²) = a²d²+b²c²</text>
+  <text x="70" y="651" fill="#ccc" font-size="11">• No Balanced: 3a² ≠ d² (for a≠0)</text>
+  <text x="70" y="669" fill="#ccc" font-size="11">• Cascade: g|(d−c₁), g|(c₂−c₁) → g|(d−c₂)</text>
+
+  <!-- Verification stamp -->
+  <rect x="470" y="570" width="380" height="115" rx="8" fill="#1a2a1a" stroke="#4a4" stroke-width="1.5"/>
+  <text x="660" y="595" text-anchor="middle" fill="#6d6" font-size="14" font-weight="bold">Formal Verification</text>
+  <text x="490" y="618" fill="#ccc" font-size="12">Proof Assistant: Lean 4 + Mathlib</text>
+  <text x="490" y="638" fill="#ccc" font-size="12">Total theorems: 45+</text>
+  <text x="490" y="658" fill="#6f6" font-size="14" font-weight="bold">Sorry statements: 0 ✓</text>
+  <text x="490" y="678" fill="#ccc" font-size="12">All proofs kernel-checked</text>
+</svg>

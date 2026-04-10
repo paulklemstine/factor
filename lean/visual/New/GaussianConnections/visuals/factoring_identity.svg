@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+  <defs>
+    <style>
+      .box { fill: #f0f0ff; stroke: #333; stroke-width: 2; rx: 10; }
+      .box-highlight { fill: #e8f5e9; stroke: #2e7d32; stroke-width: 2; rx: 10; }
+      .formula { fill: #333; font-family: 'Times New Roman', serif; font-size: 18px; text-anchor: middle; dominant-baseline: central; }
+      .formula-large { fill: #1a1a2e; font-family: 'Times New Roman', serif; font-size: 24px; font-weight: bold; text-anchor: middle; dominant-baseline: central; }
+      .arrow { stroke: #333; stroke-width: 2; fill: #333; }
+      .fig-title { fill: #1a1a2e; font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
+      .annotation { fill: #666; font-family: Arial, sans-serif; font-size: 13px; text-anchor: middle; font-style: italic; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="700" height="400" fill="#fafafa"/>
+  <text x="350" y="35" class="fig-title">The Factoring Identity: From Pythagorean Triples to Factors</text>
+
+  <rect x="50" y="70" width="250" height="60" class="box"/>
+  <text x="175" y="90" class="formula">Pythagorean Triple</text>
+  <text x="175" y="115" class="formula-large">a² + b² = c²</text>
+  <line x1="175" y1="130" x2="175" y2="165" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="50" y="170" width="250" height="60" class="box"/>
+  <text x="175" y="190" class="formula">Difference of Squares</text>
+  <text x="175" y="215" class="formula-large">(c−b)(c+b) = a²</text>
+  <line x1="300" y1="200" x2="380" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <rect x="390" y="170" width="260" height="60" class="box-highlight"/>
+  <text x="520" y="190" class="formula">Factor Extraction</text>
+  <text x="520" y="215" class="formula-large">gcd(c−b, N) → factor</text>
+  <rect x="50" y="270" width="600" height="80" class="box" style="fill:#fff8e1;stroke:#f57f17;"/>
+  <text x="350" y="295" class="formula" style="fill:#e65100;">Example: N = 65 = 5 × 13</text>
+  <text x="350" y="320" class="formula">Triple (5, 12, 13): (13−12)(13+12) = 1×25 = 5² → gcd(25, 65) = 5 ✓</text>
+  <text x="350" y="380" class="annotation">The Berggren tree descent finds triples where legs share factors with the target number N</text>
+</svg>

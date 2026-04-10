@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <radialGradient id="diskBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a1a3e"/>
+      <stop offset="85%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#050520"/>
+    </radialGradient>
+    <linearGradient id="geodesic1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#44a08d;stop-opacity:0.2"/>
+    </linearGradient>
+    <linearGradient id="geodesic2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#ee5a24;stop-opacity:0.2"/>
+    </linearGradient>
+    <linearGradient id="geodesic3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#a29bfe;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#6c5ce7;stop-opacity:0.2"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="diskClip">
+      <circle cx="500" cy="480" r="380"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Title -->
+  <text x="500" y="40" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold">
+    Hyperbolic Shortcuts in the Poincaré Disk Model
+  </text>
+  <text x="500" y="68" text-anchor="middle" fill="#aaa" font-size="14">
+    Berggren tree paths as geodesics in H²
+  </text>
+  
+  <!-- Poincaré Disk boundary -->
+  <circle cx="500" cy="480" r="382" fill="none" stroke="#444" stroke-width="3"/>
+  <circle cx="500" cy="480" r="380" fill="url(#diskBg)"/>
+  
+  <!-- Hyperbolic grid lines (concentric circles in disk model) -->
+  <g clip-path="url(#diskClip)" opacity="0.15">
+    <circle cx="500" cy="480" r="100" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="500" cy="480" r="180" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="500" cy="480" r="250" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="500" cy="480" r="310" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="500" cy="480" r="350" fill="none" stroke="#666" stroke-width="0.5"/>
+    <circle cx="500" cy="480" r="370" fill="none" stroke="#666" stroke-width="0.5"/>
+    <!-- Radial lines -->
+    <line x1="120" y1="480" x2="880" y2="480" stroke="#666" stroke-width="0.5"/>
+    <line x1="500" y1="100" x2="500" y2="860" stroke="#666" stroke-width="0.5"/>
+    <line x1="212" y1="172" x2="788" y2="788" stroke="#666" stroke-width="0.5"/>
+    <line x1="788" y1="172" x2="212" y2="788" stroke="#666" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Geodesic arcs representing Berggren paths -->
+  <!-- These are circular arcs in the Poincaré disk model -->
+  
+  <!-- B1 branch (left/upward) -->
+  <g clip-path="url(#diskClip)">
+    <!-- Main B1 geodesic -->
+    <path d="M 500 480 Q 380 350 310 250" fill="none" stroke="#4ecdc4" stroke-width="3" filter="url(#glow2)"/>
+    <!-- B1→B1 -->
+    <path d="M 310 250 Q 260 200 230 160" fill="none" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <!-- B1→B2 -->
+    <path d="M 310 250 Q 310 190 350 150" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.7"/>
+    <!-- B1→B3 -->
+    <path d="M 310 250 Q 250 240 200 280" fill="none" stroke="#a29bfe" stroke-width="2" opacity="0.7"/>
+    
+    <!-- B2 branch (center/upward) -->
+    <path d="M 500 480 Q 500 360 500 280" fill="none" stroke="#ff6b6b" stroke-width="3" filter="url(#glow2)"/>
+    <!-- B2→B1 -->
+    <path d="M 500 280 Q 460 220 420 190" fill="none" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <!-- B2→B2 -->
+    <path d="M 500 280 Q 500 210 500 170" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.7"/>
+    <!-- B2→B3 -->
+    <path d="M 500 280 Q 540 220 580 190" fill="none" stroke="#a29bfe" stroke-width="2" opacity="0.7"/>
+    
+    <!-- B3 branch (right/upward) -->
+    <path d="M 500 480 Q 620 350 690 250" fill="none" stroke="#a29bfe" stroke-width="3" filter="url(#glow2)"/>
+    <!-- B3→B1 -->
+    <path d="M 690 250 Q 750 240 800 280" fill="none" stroke="#4ecdc4" stroke-width="2" opacity="0.7"/>
+    <!-- B3→B2 -->
+    <path d="M 690 250 Q 690 190 650 150" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.7"/>
+    <!-- B3→B3 -->
+    <path d="M 690 250 Q 740 200 770 160" fill="none" stroke="#a29bfe" stroke-width="2" opacity="0.7"/>
+  </g>
+  
+  <!-- SHORTCUT ARC: Direct geodesic from root to a deep node -->
+  <g clip-path="url(#diskClip)">
+    <path d="M 500 480 Q 250 300 230 160" fill="none" stroke="#ffd93d" stroke-width="3" 
+          stroke-dasharray="10,5" filter="url(#glow2)"/>
+    <text x="310" y="310" fill="#ffd93d" font-size="14" font-weight="bold" transform="rotate(-45, 310, 310)">
+      SHORTCUT
+    </text>
+  </g>
+  
+  <!-- Node points -->
+  <!-- Root -->
+  <circle cx="500" cy="480" r="8" fill="#fff" filter="url(#glow2)"/>
+  <text x="520" y="500" fill="#fff" font-size="13" font-weight="bold">(3,4,5)</text>
+  
+  <!-- Level 1 -->
+  <circle cx="310" cy="250" r="6" fill="#4ecdc4" filter="url(#glow2)"/>
+  <text x="240" y="245" fill="#4ecdc4" font-size="12">(5,12,13)</text>
+  
+  <circle cx="500" cy="280" r="6" fill="#ff6b6b" filter="url(#glow2)"/>
+  <text x="515" y="275" fill="#ff6b6b" font-size="12">(21,20,29)</text>
+  
+  <circle cx="690" cy="250" r="6" fill="#a29bfe" filter="url(#glow2)"/>
+  <text x="705" y="245" fill="#a29bfe" font-size="12">(15,8,17)</text>
+  
+  <!-- Level 2 (selected) -->
+  <circle cx="230" cy="160" r="5" fill="#4ecdc4" opacity="0.8"/>
+  <text x="155" y="155" fill="#4ecdc4" font-size="11">(7,24,25)</text>
+  
+  <circle cx="350" cy="150" r="5" fill="#ff6b6b" opacity="0.8"/>
+  <text x="355" y="145" fill="#ff6b6b" font-size="11">(55,48,73)</text>
+  
+  <circle cx="200" cy="280" r="5" fill="#a29bfe" opacity="0.8"/>
+  <text x="130" y="295" fill="#a29bfe" font-size="11">(45,28,53)</text>
+  
+  <circle cx="500" cy="170" r="5" fill="#ff6b6b" opacity="0.8"/>
+  <text x="510" y="165" fill="#ff6b6b" font-size="11">(119,120,169)</text>
+  
+  <circle cx="770" cy="160" r="5" fill="#a29bfe" opacity="0.8"/>
+  <text x="775" y="155" fill="#a29bfe" font-size="11">(35,12,37)</text>
+  
+  <!-- Explanation boxes -->
+  <rect x="50" y="880" width="280" height="100" rx="10" fill="#151540" stroke="#4ecdc4" stroke-width="1" opacity="0.9"/>
+  <text x="190" y="905" text-anchor="middle" fill="#4ecdc4" font-size="14" font-weight="bold">Standard Path</text>
+  <text x="190" y="925" text-anchor="middle" fill="#aaa" font-size="12">Root → B₁ → B₁ → (7,24,25)</text>
+  <text x="190" y="945" text-anchor="middle" fill="#aaa" font-size="12">2 matrix multiplications</text>
+  <text x="190" y="965" text-anchor="middle" fill="#aaa" font-size="12">2 intermediate nodes visited</text>
+  
+  <rect x="360" y="880" width="280" height="100" rx="10" fill="#151540" stroke="#ffd93d" stroke-width="1" opacity="0.9"/>
+  <text x="500" y="905" text-anchor="middle" fill="#ffd93d" font-size="14" font-weight="bold">Hyperbolic Shortcut</text>
+  <text x="500" y="925" text-anchor="middle" fill="#ffd93d" font-size="12">Root → (7,24,25) directly</text>
+  <text x="500" y="945" text-anchor="middle" fill="#aaa" font-size="12">1 matrix multiplication (B₁²)</text>
+  <text x="500" y="965" text-anchor="middle" fill="#aaa" font-size="12">0 intermediate nodes visited</text>
+  
+  <rect x="670" y="880" width="280" height="100" rx="10" fill="#151540" stroke="#ff6b6b" stroke-width="1" opacity="0.9"/>
+  <text x="810" y="905" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="bold">Geometric Meaning</text>
+  <text x="810" y="925" text-anchor="middle" fill="#aaa" font-size="12">Shortcut = geodesic in H²</text>
+  <text x="810" y="945" text-anchor="middle" fill="#aaa" font-size="12">Preserves Lorentz form Q</text>
+  <text x="810" y="965" text-anchor="middle" fill="#aaa" font-size="12">Composition → matrix product</text>
+</svg>

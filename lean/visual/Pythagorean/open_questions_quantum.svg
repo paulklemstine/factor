@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="qbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0d0d3b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a3e;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#4ecdc4;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="550" fill="url(#qbg)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    Question 4: Quantum Acceleration — Grover on Branch Sequences
+  </text>
+
+  <!-- Classical tree (left) -->
+  <g transform="translate(50, 80)">
+    <text x="175" y="0" text-anchor="middle" fill="#ff6b6b" font-size="16" font-weight="bold">
+      Classical Search: O(3^k)
+    </text>
+
+    <!-- Tree structure -->
+    <!-- Root -->
+    <circle cx="175" cy="40" r="12" fill="#ff6b6b" stroke="#ff8888" stroke-width="2"/>
+    <text x="175" y="45" text-anchor="middle" fill="#fff" font-size="9">root</text>
+
+    <!-- Level 1 -->
+    <line x1="175" y1="52" x2="75" y2="90" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+    <line x1="175" y1="52" x2="175" y2="90" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+    <line x1="175" y1="52" x2="275" y2="90" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="75" cy="100" r="8" fill="#ff6b6b" opacity="0.7"/>
+    <circle cx="175" cy="100" r="8" fill="#ff6b6b" opacity="0.7"/>
+    <circle cx="275" cy="100" r="8" fill="#ff6b6b" opacity="0.7"/>
+
+    <!-- Level 2 (9 nodes) -->
+    <line x1="75" y1="108" x2="25" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="75" y1="108" x2="75" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="75" y1="108" x2="125" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="175" y1="108" x2="150" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="175" y1="108" x2="175" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="175" y1="108" x2="200" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="275" y1="108" x2="225" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="275" y1="108" x2="275" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+    <line x1="275" y1="108" x2="325" y2="145" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+
+    <!-- 9 level-2 nodes -->
+    <circle cx="25" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="75" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="125" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="150" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="175" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="200" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="225" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="275" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+    <circle cx="325" cy="155" r="5" fill="#ff6b6b" opacity="0.5"/>
+
+    <!-- "..." for deeper levels -->
+    <text x="175" y="195" text-anchor="middle" fill="#ff6b6b" font-size="20">⋮</text>
+    <text x="175" y="225" text-anchor="middle" fill="#ff8888" font-size="13">
+      3^k nodes to search
+    </text>
+
+    <!-- Cost labels -->
+    <text x="175" y="260" text-anchor="middle" fill="#ffaaaa" font-size="12">
+      k=5: 243 evaluations
+    </text>
+    <text x="175" y="280" text-anchor="middle" fill="#ffaaaa" font-size="12">
+      k=10: 59,049 evaluations
+    </text>
+    <text x="175" y="300" text-anchor="middle" fill="#ffaaaa" font-size="12">
+      k=20: ~3.5 billion evaluations
+    </text>
+  </g>
+
+  <!-- Arrow -->
+  <g transform="translate(420, 200)">
+    <polygon points="0,0 40,20 0,40" fill="#4ecdc4" opacity="0.8"/>
+    <text x="20" y="65" text-anchor="middle" fill="#4ecdc4" font-size="14" font-weight="bold">
+      Grover
+    </text>
+    <text x="20" y="85" text-anchor="middle" fill="#7eddd6" font-size="11">
+      √ speedup
+    </text>
+  </g>
+
+  <!-- Quantum search (right) -->
+  <g transform="translate(500, 80)">
+    <text x="175" y="0" text-anchor="middle" fill="#4ecdc4" font-size="16" font-weight="bold">
+      Quantum Search: O(3^(k/2))
+    </text>
+
+    <!-- Superposition glow -->
+    <ellipse cx="175" cy="130" rx="150" ry="80" fill="url(#glow1)"/>
+
+    <!-- Quantum superposition nodes -->
+    <circle cx="175" cy="40" r="12" fill="#4ecdc4" stroke="#7eddd6" stroke-width="2"/>
+    <text x="175" y="45" text-anchor="middle" fill="#fff" font-size="9">|ψ⟩</text>
+
+    <!-- Superposition lines (wavy) -->
+    <path d="M175,52 Q100,70 90,100" stroke="#4ecdc4" stroke-width="1.5" fill="none" opacity="0.5"
+          stroke-dasharray="3,3"/>
+    <path d="M175,52 Q175,70 175,100" stroke="#4ecdc4" stroke-width="1.5" fill="none" opacity="0.5"
+          stroke-dasharray="3,3"/>
+    <path d="M175,52 Q250,70 260,100" stroke="#4ecdc4" stroke-width="1.5" fill="none" opacity="0.5"
+          stroke-dasharray="3,3"/>
+
+    <!-- Superposed nodes -->
+    <circle cx="90" cy="110" r="8" fill="#4ecdc4" opacity="0.4" stroke="#7eddd6" stroke-width="1"/>
+    <circle cx="175" cy="110" r="8" fill="#4ecdc4" opacity="0.4" stroke="#7eddd6" stroke-width="1"/>
+    <circle cx="260" cy="110" r="8" fill="#4ecdc4" opacity="0.4" stroke="#7eddd6" stroke-width="1"/>
+
+    <!-- Amplitude amplification -->
+    <path d="M90,120 Q175,180 260,120" stroke="#ffe66d" stroke-width="2" fill="none"
+          stroke-dasharray="5,3"/>
+    <text x="175" y="175" text-anchor="middle" fill="#ffe66d" font-size="11">
+      amplitude amplification
+    </text>
+
+    <!-- Result -->
+    <circle cx="175" cy="200" r="12" fill="#4ecdc4" stroke="#ffe66d" stroke-width="3"/>
+    <text x="175" y="205" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">✓</text>
+
+    <!-- Cost labels -->
+    <text x="175" y="260" text-anchor="middle" fill="#7eddd6" font-size="12">
+      k=5: ~16 queries
+    </text>
+    <text x="175" y="280" text-anchor="middle" fill="#7eddd6" font-size="12">
+      k=10: ~243 queries
+    </text>
+    <text x="175" y="300" text-anchor="middle" fill="#7eddd6" font-size="12">
+      k=20: ~59,049 queries
+    </text>
+  </g>
+
+  <!-- Comparison table -->
+  <g transform="translate(50, 420)">
+    <rect x="0" y="0" width="800" height="100" fill="#151540" rx="10" stroke="#333366" stroke-width="1"/>
+
+    <text x="400" y="25" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">
+      Speedup Summary: Classical 3^k → Quantum 3^(k/2) = √(3^k) ≈ (1.73)^k
+    </text>
+
+    <text x="100" y="55" text-anchor="middle" fill="#ff6b6b" font-size="12">Classical: O(3^k)</text>
+    <text x="300" y="55" text-anchor="middle" fill="#4ecdc4" font-size="12">Quantum: O(3^(k/2))</text>
+    <text x="500" y="55" text-anchor="middle" fill="#ffe66d" font-size="12">Speedup: O(3^(k/2))</text>
+    <text x="700" y="55" text-anchor="middle" fill="#aaaacc" font-size="12">Per-level: √3 ≈ 1.73×</text>
+
+    <text x="400" y="85" text-anchor="middle" fill="#888899" font-size="11" font-style="italic">
+      Proven: (3^k)² = 9^k and 3^(k/2) · 3^(k/2) ≤ 3^k — formally verified in Lean 4
+    </text>
+  </g>
+</svg>

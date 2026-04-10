@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Arial, sans-serif">
+  <defs>
+    <radialGradient id="node_grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2196F3" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#1565C0" stop-opacity="0.9"/>
+    </radialGradient>
+    <filter id="node_shadow">
+      <feDropShadow dx="1" dy="1" stdDeviation="4" flood-color="#2196F3" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#0a0a1a" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#e0e0e0" font-size="22" font-weight="bold">
+    The Idempotency Web: Connecting Complexity Frameworks
+  </text>
+  <text x="400" y="55" text-anchor="middle" fill="#888" font-size="13">
+    f(x, x) = x — the unifying algebraic property
+  </text>
+
+  <!-- Connection lines -->
+  <!-- Center to all -->
+  <line x1="400" y1="300" x2="200" y2="150" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="400" y1="300" x2="600" y2="150" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="400" y1="300" x2="150" y2="380" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="400" y1="300" x2="650" y2="380" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="400" y1="300" x2="400" y2="500" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- Cross connections -->
+  <line x1="200" y1="150" x2="150" y2="380" stroke="#333" stroke-width="1" stroke-dasharray="3,5"/>
+  <line x1="600" y1="150" x2="650" y2="380" stroke="#333" stroke-width="1" stroke-dasharray="3,5"/>
+  <line x1="200" y1="150" x2="600" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="3,5"/>
+  <line x1="150" y1="380" x2="400" y2="500" stroke="#333" stroke-width="1" stroke-dasharray="3,5"/>
+  <line x1="650" y1="380" x2="400" y2="500" stroke="#333" stroke-width="1" stroke-dasharray="3,5"/>
+
+  <!-- Central node: Idempotency -->
+  <circle cx="400" cy="300" r="55" fill="#9C27B0" filter="url(#node_shadow)" opacity="0.9"/>
+  <text x="400" y="295" text-anchor="middle" fill="white" font-size="14" font-weight="bold">IDEMPOTENCY</text>
+  <text x="400" y="315" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="11">f(x,x) = x</text>
+
+  <!-- Tropical Circuits -->
+  <circle cx="200" cy="150" r="45" fill="#FF5722" filter="url(#node_shadow)" opacity="0.9"/>
+  <text x="200" y="145" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Tropical</text>
+  <text x="200" y="162" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10">Circuits</text>
+
+  <!-- Spectral Collapse -->
+  <circle cx="600" cy="150" r="45" fill="#2196F3" filter="url(#node_shadow)" opacity="0.9"/>
+  <text x="600" y="145" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Spectral</text>
+  <text x="600" y="162" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10">Collapse</text>
+
+  <!-- Proof Complexity -->
+  <circle cx="150" cy="380" r="45" fill="#4CAF50" filter="url(#node_shadow)" opacity="0.9"/>
+  <text x="150" y="375" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Proof</text>
+  <text x="150" y="392" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10">Complexity</text>
+
+  <!-- Coherence Tiers -->
+  <circle cx="650" cy="380" r="45" fill="#FFC107" filter="url(#node_shadow)" opacity="0.9"/>
+  <text x="650" y="375" text-anchor="middle" fill="#333" font-size="12" font-weight="bold">Coherence</text>
+  <text x="650" y="392" text-anchor="middle" fill="rgba(0,0,0,0.7)" font-size="10">Tiers</text>
+
+  <!-- Parameterized -->
+  <circle cx="400" cy="500" r="45" fill="#00BCD4" filter="url(#node_shadow)" opacity="0.9"/>
+  <text x="400" y="495" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Parameterized</text>
+  <text x="400" y="512" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10">Complexity</text>
+
+  <!-- Edge labels -->
+  <text x="280" y="210" text-anchor="middle" fill="#FF8A65" font-size="10" transform="rotate(-30 280 210)">
+    min(a,a)=a
+  </text>
+  <text x="520" y="210" text-anchor="middle" fill="#64B5F6" font-size="10" transform="rotate(30 520 210)">
+    χ²=1
+  </text>
+  <text x="255" y="345" text-anchor="middle" fill="#81C784" font-size="10" transform="rotate(50 255 345)">
+    resolution
+  </text>
+  <text x="545" y="345" text-anchor="middle" fill="#FFD54F" font-size="10" transform="rotate(-50 545 345)">
+    communication
+  </text>
+  <text x="400" y="415" text-anchor="middle" fill="#4DD0E1" font-size="10">
+    FPT ↔ compactification
+  </text>
+
+  <!-- Verification badge -->
+  <rect x="250" y="560" width="300" height="30" rx="15" fill="#1a2332" stroke="#4CAF50" stroke-width="1"/>
+  <text x="400" y="580" text-anchor="middle" fill="#4CAF50" font-size="12">
+    ✓ 61 theorems machine-verified in Lean 4
+  </text>
+</svg>

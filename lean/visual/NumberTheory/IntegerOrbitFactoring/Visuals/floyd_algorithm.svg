@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2563eb"/>
+    </marker>
+    <linearGradient id="floyd-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdf4"/>
+      <stop offset="100%" style="stop-color:#ecfdf5"/>
+    </linearGradient>
+    <filter id="node-shadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="550" fill="url(#floyd-bg)" rx="10"/>
+  
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#14532d">
+    Floyd's Tortoise and Hare: Cycle Detection in O(1) Space
+  </text>
+  
+  <!-- Step-by-step visualization -->
+  <!-- Show 4 snapshots of the algorithm -->
+  
+  <!-- Snapshot 1: Step 0 -->
+  <rect x="30" y="60" width="170" height="200" rx="8" fill="white" stroke="#86efac" stroke-width="1.5" filter="url(#node-shadow)"/>
+  <text x="115" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">Step 0: Start</text>
+  
+  <!-- Mini orbit: nodes at fixed positions -->
+  <circle cx="60" cy="130" r="12" fill="#bbf7d0" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="60" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#14532d">2</text>
+  <circle cx="100" cy="115" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="100" y="119" text-anchor="middle" font-size="9" fill="#475569">5</text>
+  <circle cx="140" cy="115" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="140" y="119" text-anchor="middle" font-size="9" fill="#475569">26</text>
+  <circle cx="170" cy="140" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="170" y="144" text-anchor="middle" font-size="9" fill="#475569">40</text>
+  <circle cx="170" cy="180" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="170" y="184" text-anchor="middle" font-size="9" fill="#475569">52</text>
+  <circle cx="140" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="140" y="214" text-anchor="middle" font-size="9" fill="#475569">64</text>
+  <circle cx="100" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="100" y="214" text-anchor="middle" font-size="9" fill="#475569">1</text>
+  
+  <!-- Tortoise and Hare markers -->
+  <text x="60" y="160" text-anchor="middle" font-size="18">🐢</text>
+  <text x="60" y="108" text-anchor="middle" font-size="18">🐇</text>
+  <text x="115" y="245" text-anchor="middle" font-size="10" fill="#166534">T=2, H=2 (both at start)</text>
+  
+  <!-- Snapshot 2: Step 1 -->
+  <rect x="220" y="60" width="170" height="200" rx="8" fill="white" stroke="#86efac" stroke-width="1.5" filter="url(#node-shadow)"/>
+  <text x="305" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">Step 1</text>
+  
+  <circle cx="250" cy="130" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="250" y="134" text-anchor="middle" font-size="9" fill="#475569">2</text>
+  <circle cx="290" cy="115" r="12" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="290" y="119" text-anchor="middle" font-size="9" font-weight="bold" fill="#1d4ed8">5</text>
+  <circle cx="330" cy="115" r="12" fill="#fecaca" stroke="#ef4444" stroke-width="2"/>
+  <text x="330" y="119" text-anchor="middle" font-size="9" font-weight="bold" fill="#b91c1c">26</text>
+  <circle cx="360" cy="140" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="360" y="144" text-anchor="middle" font-size="9" fill="#475569">40</text>
+  <circle cx="360" cy="180" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="360" y="184" text-anchor="middle" font-size="9" fill="#475569">52</text>
+  <circle cx="330" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="330" y="214" text-anchor="middle" font-size="9" fill="#475569">64</text>
+  <circle cx="290" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="290" y="214" text-anchor="middle" font-size="9" fill="#475569">1</text>
+  
+  <text x="290" y="100" text-anchor="middle" font-size="14">🐢</text>
+  <text x="330" y="100" text-anchor="middle" font-size="14">🐇</text>
+  <text x="305" y="245" text-anchor="middle" font-size="10" fill="#166534">T=5, H=26</text>
+  
+  <!-- Snapshot 3: Step 3 -->
+  <rect x="410" y="60" width="170" height="200" rx="8" fill="white" stroke="#86efac" stroke-width="1.5" filter="url(#node-shadow)"/>
+  <text x="495" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">Step 3</text>
+  
+  <circle cx="440" cy="130" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="440" y="134" text-anchor="middle" font-size="9" fill="#475569">2</text>
+  <circle cx="480" cy="115" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="480" y="119" text-anchor="middle" font-size="9" fill="#475569">5</text>
+  <circle cx="520" cy="115" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="520" y="119" text-anchor="middle" font-size="9" fill="#475569">26</text>
+  <circle cx="550" cy="140" r="12" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="550" y="144" text-anchor="middle" font-size="9" font-weight="bold" fill="#1d4ed8">40</text>
+  <circle cx="550" cy="180" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="550" y="184" text-anchor="middle" font-size="9" fill="#475569">52</text>
+  <circle cx="520" cy="210" r="12" fill="#fecaca" stroke="#ef4444" stroke-width="2"/>
+  <text x="520" y="214" text-anchor="middle" font-size="9" font-weight="bold" fill="#b91c1c">64</text>
+  <circle cx="480" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="480" y="214" text-anchor="middle" font-size="9" fill="#475569">1</text>
+  
+  <text x="550" y="125" text-anchor="middle" font-size="14">🐢</text>
+  <text x="520" y="230" text-anchor="middle" font-size="14">🐇</text>
+  <text x="495" y="245" text-anchor="middle" font-size="10" fill="#166534">T=40, H=64</text>
+  
+  <!-- Snapshot 4: Collision! -->
+  <rect x="600" y="60" width="170" height="200" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2" filter="url(#node-shadow)"/>
+  <text x="685" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#991b1b">💥 Collision!</text>
+  
+  <circle cx="630" cy="130" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="630" y="134" text-anchor="middle" font-size="9" fill="#475569">2</text>
+  <circle cx="670" cy="115" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="670" y="119" text-anchor="middle" font-size="9" fill="#475569">5</text>
+  <circle cx="710" cy="115" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="710" y="119" text-anchor="middle" font-size="9" fill="#475569">26</text>
+  <circle cx="740" cy="140" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="740" y="144" text-anchor="middle" font-size="9" fill="#475569">40</text>
+  <circle cx="740" cy="180" r="12" fill="#fef08a" stroke="#eab308" stroke-width="2.5"/>
+  <text x="740" y="184" text-anchor="middle" font-size="9" font-weight="bold" fill="#854d0e">52</text>
+  <circle cx="710" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="710" y="214" text-anchor="middle" font-size="9" fill="#475569">64</text>
+  <circle cx="670" cy="210" r="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="670" y="214" text-anchor="middle" font-size="9" fill="#475569">1</text>
+  
+  <text x="740" y="165" text-anchor="middle" font-size="12">🐢🐇</text>
+  <text x="685" y="245" text-anchor="middle" font-size="10" fill="#991b1b">T=H=52! gcd reveals factor</text>
+  
+  <!-- Algorithm description -->
+  <rect x="40" y="290" width="720" height="100" rx="10" fill="white" stroke="#22c55e" stroke-width="1.5" filter="url(#node-shadow)"/>
+  <text x="400" y="315" text-anchor="middle" font-size="14" font-weight="bold" fill="#166534">Floyd's Algorithm</text>
+  
+  <text x="60" y="340" font-size="12" fill="#334155">
+    <tspan x="60" dy="0">1. Initialize: tortoise = x₀, hare = x₀</tspan>
+    <tspan x="60" dy="18">2. Each step: tortoise = f(tortoise),  hare = f(f(hare))    [tortoise moves 1 step, hare moves 2]</tspan>
+    <tspan x="60" dy="18">3. Compute d = gcd(|tortoise − hare|, n).  If 1 &lt; d &lt; n → found factor!  If d = 1 → continue.</tspan>
+  </text>
+  
+  <!-- Complexity box -->
+  <rect x="40" y="410" width="340" height="70" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="210" y="435" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">⏱ Time Complexity</text>
+  <text x="210" y="458" text-anchor="middle" font-size="12" fill="#334155">O(√p) steps where p is smallest factor</text>
+  <text x="210" y="473" text-anchor="middle" font-size="11" fill="#64748b">→ O(n^{1/4}) for balanced semiprimes</text>
+  
+  <rect x="420" y="410" width="340" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="590" y="435" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">💾 Space Complexity</text>
+  <text x="590" y="458" text-anchor="middle" font-size="12" fill="#334155">O(1) — only store tortoise + hare</text>
+  <text x="590" y="473" text-anchor="middle" font-size="11" fill="#64748b">No need to store entire orbit history!</text>
+  
+  <!-- Legend -->
+  <rect x="40" y="500" width="720" height="35" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <circle cx="70" cy="518" r="8" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="85" y="522" font-size="10" fill="#334155">🐢 Tortoise</text>
+  <circle cx="175" cy="518" r="8" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="190" y="522" font-size="10" fill="#334155">🐇 Hare</text>
+  <circle cx="260" cy="518" r="8" fill="#fef08a" stroke="#eab308" stroke-width="2"/>
+  <text x="275" y="522" font-size="10" fill="#334155">💥 Collision point</text>
+  <text x="450" y="522" font-size="10" fill="#64748b">Proven in Lean 4: ∃ k, 0 &lt; k ∧ k ≤ |α| ∧ f^[k](x₀) = f^[2k](x₀)</text>
+</svg>

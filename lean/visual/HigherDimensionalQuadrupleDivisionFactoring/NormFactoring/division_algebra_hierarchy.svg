@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dim1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#666;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#999;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="dim2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2196F3;stop-opacity:0.85" />
+      <stop offset="100%" style="stop-color:#64B5F6;stop-opacity:0.85" />
+    </linearGradient>
+    <linearGradient id="dim4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:0.85" />
+      <stop offset="100%" style="stop-color:#FFB74D;stop-opacity:0.85" />
+    </linearGradient>
+    <linearGradient id="dim8" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E91E63;stop-opacity:0.85" />
+      <stop offset="100%" style="stop-color:#F48FB1;stop-opacity:0.85" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold">
+    The Division Algebra Factoring Hierarchy
+  </text>
+  <text x="450" y="70" text-anchor="middle" fill="#aaa" font-size="14">
+    Dimensions 1, 2, 4, 8 — The Only Normed Division Algebras (Hurwitz 1898)
+  </text>
+
+  <!-- Dimension 1: ℝ -->
+  <rect x="50" y="100" width="800" height="110" rx="12" fill="url(#dim1)" stroke="#888" stroke-width="2"/>
+  <text x="80" y="130" fill="#fff" font-size="20" font-weight="bold">Dim 1: ℝ (Reals)</text>
+  <text x="80" y="155" fill="#ddd" font-size="14">N = N • 1 point on S⁰</text>
+  <text x="80" y="175" fill="#ddd" font-size="14">Channels: 1 | Collisions: 0 | Identity: trivial</text>
+  <text x="80" y="195" fill="#ff6666" font-size="13" font-style="italic">No geometric structure — no factoring information</text>
+  <text x="770" y="155" text-anchor="end" fill="#fff" font-size="36" font-weight="bold">ℝ</text>
+
+  <!-- Dimension 2: ℂ -->
+  <rect x="50" y="225" width="800" height="110" rx="12" fill="url(#dim2)" stroke="#42A5F5" stroke-width="2"/>
+  <text x="80" y="255" fill="#fff" font-size="20" font-weight="bold">Dim 2: ℂ (Complex / Gaussian Integers)</text>
+  <text x="80" y="280" fill="#ddd" font-size="14">N = a² + b² • Points on S¹(√N) • Brahmagupta-Fibonacci identity</text>
+  <text x="80" y="300" fill="#ddd" font-size="14">Channels: 2/rep | Cross-collisions: 3/pair | Exists iff p≡3(4) even power</text>
+  <text x="80" y="320" fill="#90EE90" font-size="13" font-style="italic">Collision → gcd(ad-bc, N) yields factor • (ad-bc)²+(ac+bd)²=N²</text>
+  <text x="770" y="280" text-anchor="end" fill="#fff" font-size="36" font-weight="bold">ℂ</text>
+
+  <!-- Dimension 4: ℍ -->
+  <rect x="50" y="350" width="800" height="110" rx="12" fill="url(#dim4)" stroke="#FFA726" stroke-width="2"/>
+  <text x="80" y="380" fill="#fff" font-size="20" font-weight="bold">Dim 4: ℍ (Quaternions / Hurwitz Integers)</text>
+  <text x="80" y="405" fill="#ddd" font-size="14">N = a²+b²+c²+d² • Points on S³(√N) • Euler 4-square identity</text>
+  <text x="80" y="425" fill="#ddd" font-size="14">Channels: 4/rep | Cross-collisions: 10/pair | ALWAYS exists (Lagrange)</text>
+  <text x="80" y="445" fill="#90EE90" font-size="13" font-style="italic">Universal: works for ALL integers • Hurwitz has unique factorization</text>
+  <text x="770" y="405" text-anchor="end" fill="#fff" font-size="36" font-weight="bold">ℍ</text>
+
+  <!-- Dimension 8: 𝕆 -->
+  <rect x="50" y="475" width="800" height="110" rx="12" fill="url(#dim8)" stroke="#EC407A" stroke-width="2"/>
+  <text x="80" y="505" fill="#fff" font-size="20" font-weight="bold">Dim 8: 𝕆 (Octonions / Cayley Integers)</text>
+  <text x="80" y="530" fill="#ddd" font-size="14">N = Σaᵢ² • Points on S⁷(√N) • Degen 8-square identity • E₈ lattice</text>
+  <text x="80" y="550" fill="#ddd" font-size="14">Channels: 8/rep | Cross-collisions: 36/pair | Richest geometry</text>
+  <text x="80" y="570" fill="#90EE90" font-size="13" font-style="italic">Non-associative but norm-multiplicative • Maximum collision density</text>
+  <text x="770" y="530" text-anchor="end" fill="#fff" font-size="36" font-weight="bold">𝕆</text>
+
+  <!-- Arrows -->
+  <line x1="450" y1="210" x2="450" y2="225" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="335" x2="450" y2="350" stroke="#fff" stroke-width="2"/>
+  <line x1="450" y1="460" x2="450" y2="475" stroke="#fff" stroke-width="2"/>
+
+  <!-- Bottom summary -->
+  <rect x="50" y="610" width="800" height="70" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="450" y="635" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">
+    Hurwitz's Theorem: No composition identity exists for k ∉ {1, 2, 4, 8}
+  </text>
+  <text x="450" y="660" text-anchor="middle" fill="#aaa" font-size="13">
+    Higher dimensions → more factoring channels → richer collision geometry → more GCD opportunities
+  </text>
+</svg>

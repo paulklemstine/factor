@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a2a4a;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" fill="url(#gold)" font-family="Georgia" font-size="28" font-weight="bold" filter="url(#glow)">
+    Five Open Problems in Berggren-Ramanujan Theory
+  </text>
+  <text x="600" y="78" text-anchor="middle" fill="#88aacc" font-family="Arial" font-size="14">
+    Machine-Verified in Lean 4 with Mathlib — 60+ Theorems, 0 Sorry
+  </text>
+
+  <!-- Problem 1: Density -->
+  <rect x="30" y="110" width="350" height="220" rx="12" fill="#1a2a4a" stroke="#4488cc" stroke-width="2"/>
+  <text x="205" y="140" text-anchor="middle" fill="#66ccff" font-family="Arial" font-size="16" font-weight="bold">
+    Problem 1: Ramanujan Primes
+  </text>
+  <text x="50" y="170" fill="#aaccee" font-family="monospace" font-size="12">
+    p=5:  G₅  12 vertices  ✓ RAM
+  </text>
+  <text x="50" y="190" fill="#aaccee" font-family="monospace" font-size="12">
+    p=7:  G₇  24 vertices  ✓ RAM
+  </text>
+  <text x="50" y="210" fill="#ff8888" font-family="monospace" font-size="12">
+    p=11: G₁₁ 60 vertices  ✗ NOT
+  </text>
+  <text x="50" y="240" fill="#88ddaa" font-family="Arial" font-size="11">
+    Conjecture: density of Ramanujan
+  </text>
+  <text x="50" y="258" fill="#88ddaa" font-family="Arial" font-size="11">
+    primes is 0 (finitely many)
+  </text>
+  <text x="50" y="285" fill="#ffdd88" font-family="monospace" font-size="10">
+    ord(B₂ mod 5) = 6, ord(B₂ mod 13) = 14
+  </text>
+  <text x="50" y="305" fill="#ffdd88" font-family="monospace" font-size="10">
+    Lorentz ✓ for p = 5,7,...,43
+  </text>
+
+  <!-- Problem 2: Chebyshev -->
+  <rect x="420" y="110" width="350" height="220" rx="12" fill="#1a2a4a" stroke="#44cc88" stroke-width="2"/>
+  <text x="595" y="140" text-anchor="middle" fill="#66ffaa" font-family="Arial" font-size="16" font-weight="bold">
+    Problem 4: Chebyshev Extension
+  </text>
+  <text x="440" y="170" fill="#aaeedd" font-family="monospace" font-size="12">
+    tr(B₂ⁿ) = (-1)ⁿ + 2·Tₙ(3)
+  </text>
+  <text x="440" y="195" fill="#aaeedd" font-family="monospace" font-size="12">
+    tr((B₁B₂)ⁿ) = (-1)ⁿ + 2·Tₙ(9)
+  </text>
+  <text x="440" y="220" fill="#aaeedd" font-family="monospace" font-size="12">
+    tr((B₁B₃)ⁿ) = 1 + 2·Tₙ(7)
+  </text>
+  <text x="440" y="255" fill="#88ddaa" font-family="Arial" font-size="11">
+    Universal: det=-1 → eigenvalue -1
+  </text>
+  <text x="440" y="273" fill="#88ddaa" font-family="Arial" font-size="11">
+              det=+1 → eigenvalue +1
+  </text>
+  <text x="440" y="305" fill="#ffdd88" font-family="monospace" font-size="10">
+    Char poly: (λ±1)(λ²-2cλ+1)
+  </text>
+
+  <!-- Problem 3: -1 eigenvalue -->
+  <rect x="810" y="110" width="360" height="220" rx="12" fill="#1a2a4a" stroke="#cc8844" stroke-width="2"/>
+  <text x="990" y="140" text-anchor="middle" fill="#ffaa66" font-family="Arial" font-size="16" font-weight="bold">
+    Problem 5: The -1 Eigenvalue
+  </text>
+  <text x="830" y="170" fill="#eeccaa" font-family="monospace" font-size="12">
+    B₂ eigenvalues: -1, 3±2√2
+  </text>
+  <text x="830" y="195" fill="#eeccaa" font-family="monospace" font-size="12">
+    Eigvec of -1: (1,-1,0) spacelike
+  </text>
+  <text x="830" y="225" fill="#88ddaa" font-family="Arial" font-size="11">
+    B₂ = reflection × boost
+  </text>
+  <text x="830" y="245" fill="#88ddaa" font-family="Arial" font-size="11">
+    Even powers: pure boost ((-1)²=1)
+  </text>
+  <text x="830" y="265" fill="#88ddaa" font-family="Arial" font-size="11">
+    Odd powers: boost + reflection
+  </text>
+  <text x="830" y="295" fill="#ffdd88" font-family="monospace" font-size="10">
+    Beneficial for spectral gap:
+  </text>
+  <text x="830" y="313" fill="#ffdd88" font-family="monospace" font-size="10">
+    destructive interference ↓ λ_max
+  </text>
+
+  <!-- Problem 4: 5D Completeness -->
+  <rect x="30" y="360" width="540" height="220" rx="12" fill="#1a2a4a" stroke="#cc44cc" stroke-width="2"/>
+  <text x="300" y="390" text-anchor="middle" fill="#ff88ff" font-family="Arial" font-size="16" font-weight="bold">
+    Problem 2: 5D Generator Completeness
+  </text>
+  <text x="50" y="420" fill="#ddaadd" font-family="monospace" font-size="12">
+    6 generators K₁...K₆ ∈ O(4,1;ℤ)
+  </text>
+  <text x="50" y="445" fill="#ddaadd" font-family="monospace" font-size="12">
+    Root (1,1,1,1,2): 259 quintuples at depth 3
+  </text>
+  <text x="50" y="470" fill="#ff8888" font-family="monospace" font-size="12">
+    Cannot reach (1,0,0,0,1) — parity obstruction
+  </text>
+  <text x="50" y="500" fill="#88ddaa" font-family="Arial" font-size="11">
+    Parabolic: K₁,K₃,K₄ (det=+1, unipotent, (K-I)³=0)
+  </text>
+  <text x="50" y="520" fill="#88ddaa" font-family="Arial" font-size="11">
+    Hyperbolic: K₂,K₅,K₆ (det=-1, exponential growth)
+  </text>
+  <text x="50" y="550" fill="#ffdd88" font-family="monospace" font-size="10">
+    Conclusion: Forest with multiple roots needed
+  </text>
+
+  <!-- Problem 5: Quaternion/Pell -->
+  <rect x="610" y="360" width="560" height="220" rx="12" fill="#1a2a4a" stroke="#44cccc" stroke-width="2"/>
+  <text x="890" y="390" text-anchor="middle" fill="#66ffff" font-family="Arial" font-size="16" font-weight="bold">
+    Problem 3: Quaternion-Algebraic Construction
+  </text>
+  <text x="630" y="420" fill="#aadddd" font-family="monospace" font-size="12">
+    (3+2√2) = (1+√2)² → Pell equation
+  </text>
+  <text x="630" y="445" fill="#aadddd" font-family="monospace" font-size="12">
+    Tₙ(3) = Pell x-coordinates:
+  </text>
+  <text x="630" y="470" fill="#aadddd" font-family="monospace" font-size="12">
+    3²-2·2²=1, 17²-2·12²=1, 99²-2·70²=1
+  </text>
+  <text x="630" y="500" fill="#88ddaa" font-family="Arial" font-size="11">
+    Berggren group ↪ PGL(2, ℤ[√2])
+  </text>
+  <text x="630" y="520" fill="#88ddaa" font-family="Arial" font-size="11">
+    Quaternion algebra: H(-1,-2|ℚ)
+  </text>
+  <text x="630" y="550" fill="#ffdd88" font-family="monospace" font-size="10">
+    y-recurrence: y_{n+1} = 6y_n - y_{n-1}
+  </text>
+
+  <!-- Central Connection Diagram -->
+  <rect x="200" y="610" width="800" height="260" rx="15" fill="#0d1a2d" stroke="#ffd700" stroke-width="2"/>
+  <text x="600" y="645" text-anchor="middle" fill="url(#gold)" font-family="Georgia" font-size="20" font-weight="bold">
+    Unifying Theme: Spectral Gap Monotonicity
+  </text>
+
+  <!-- Spectral gap bars -->
+  <text x="230" y="680" fill="#aaccee" font-family="monospace" font-size="12">d=3:</text>
+  <rect x="290" y="668" width="8" height="14" fill="#4488cc"/>
+  <text x="310" y="680" fill="#aaccee" font-family="monospace" font-size="11">0.17</text>
+
+  <text x="230" y="705" fill="#aaccee" font-family="monospace" font-size="12">d=6:</text>
+  <rect x="290" y="693" width="46" height="14" fill="#44cc88"/>
+  <text x="345" y="705" fill="#aaccee" font-family="monospace" font-size="11">1.53</text>
+
+  <text x="230" y="730" fill="#aaccee" font-family="monospace" font-size="12">d=12:</text>
+  <rect x="290" y="718" width="161" height="14" fill="#cc8844"/>
+  <text x="460" y="730" fill="#aaccee" font-family="monospace" font-size="11">5.37</text>
+
+  <text x="230" y="755" fill="#aaccee" font-family="monospace" font-size="12">d=50:</text>
+  <rect x="290" y="743" width="300" height="14" fill="#cc44cc"/>
+  <text x="600" y="755" fill="#aaccee" font-family="monospace" font-size="11">&gt;35</text>
+
+  <text x="230" y="780" fill="#aaccee" font-family="monospace" font-size="12">d=1000:</text>
+  <rect x="290" y="768" width="550" height="14" fill="#ffd700"/>
+  <text x="850" y="780" fill="#aaccee" font-family="monospace" font-size="11">&gt;930</text>
+
+  <!-- Formula -->
+  <text x="600" y="820" text-anchor="middle" fill="#ffdd88" font-family="Georgia" font-size="16" font-style="italic">
+    Relative gap (d - 2√(d-1))/d → 1 as d → ∞
+  </text>
+  <text x="600" y="845" text-anchor="middle" fill="#88aacc" font-family="Arial" font-size="13">
+    Higher-dimensional Berggren generalizations produce asymptotically perfect expanders
+  </text>
+</svg>

@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 850" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a3a;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="s3" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" style="stop-color:#2a1a4f;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#0a0a2e;stop-opacity:0.1" />
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="850" fill="url(#bg4)"/>
+
+  <text x="450" y="40" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">
+    Geometry of the Factoring Sphere
+  </text>
+  <text x="450" y="65" text-anchor="middle" fill="#aaa" font-size="14">
+    Lattice points on S^{k-1}(√N) encode the factorization of N
+  </text>
+
+  <!-- Three spheres side by side -->
+
+  <!-- S¹ (dim 2) - Circle -->
+  <g transform="translate(150, 250)">
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#2196F3" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <circle cx="0" cy="0" r="130" fill="url(#s3)"/>
+    <text x="0" y="-155" text-anchor="middle" fill="#2196F3" font-size="16" font-weight="bold">S¹(√N)</text>
+    <text x="0" y="-140" text-anchor="middle" fill="#64B5F6" font-size="12">Dimension 2</text>
+
+    <!-- Lattice points for N=65 -->
+    <circle cx="12" cy="-129" r="5" fill="#4CAF50"/>
+    <circle cx="-12" cy="-129" r="5" fill="#4CAF50"/>
+    <circle cx="129" cy="-12" r="5" fill="#4CAF50"/>
+    <circle cx="129" cy="12" r="5" fill="#4CAF50"/>
+    <circle cx="50" cy="-120" r="5" fill="#FF9800"/>
+    <circle cx="-50" cy="-120" r="5" fill="#FF9800"/>
+    <circle cx="120" cy="-50" r="5" fill="#FF9800"/>
+    <circle cx="120" cy="50" r="5" fill="#FF9800"/>
+
+    <!-- Mirror points -->
+    <circle cx="-12" cy="129" r="5" fill="#4CAF50" opacity="0.5"/>
+    <circle cx="12" cy="129" r="5" fill="#4CAF50" opacity="0.5"/>
+    <circle cx="-129" cy="12" r="5" fill="#4CAF50" opacity="0.5"/>
+    <circle cx="-129" cy="-12" r="5" fill="#4CAF50" opacity="0.5"/>
+    <circle cx="-50" cy="120" r="5" fill="#FF9800" opacity="0.5"/>
+    <circle cx="50" cy="120" r="5" fill="#FF9800" opacity="0.5"/>
+    <circle cx="-120" cy="50" r="5" fill="#FF9800" opacity="0.5"/>
+    <circle cx="-120" cy="-50" r="5" fill="#FF9800" opacity="0.5"/>
+
+    <!-- Labels -->
+    <text x="30" y="-125" fill="#81C784" font-size="10">(1,8)</text>
+    <text x="65" y="-115" fill="#FFB74D" font-size="10">(4,7)</text>
+
+    <text x="0" y="175" text-anchor="middle" fill="#aaa" font-size="12">r₂(65) = 16 lattice points</text>
+    <text x="0" y="192" text-anchor="middle" fill="#aaa" font-size="11">2 essentially distinct reps</text>
+  </g>
+
+  <!-- S³ (dim 4) - projected sphere -->
+  <g transform="translate(450, 250)">
+    <ellipse cx="0" cy="0" rx="130" ry="130" fill="url(#s3)" stroke="#FF9800" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <ellipse cx="0" cy="0" rx="130" ry="50" fill="none" stroke="#FF9800" stroke-width="0.8" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="50" ry="130" fill="none" stroke="#FF9800" stroke-width="0.8" opacity="0.5"/>
+    <text x="0" y="-155" text-anchor="middle" fill="#FF9800" font-size="16" font-weight="bold">S³(√N)</text>
+    <text x="0" y="-140" text-anchor="middle" fill="#FFB74D" font-size="12">Dimension 4</text>
+
+    <!-- Many more lattice points (projected) -->
+    <circle cx="0" cy="-120" r="4" fill="#4CAF50"/>
+    <circle cx="30" cy="-110" r="4" fill="#FF9800"/>
+    <circle cx="-40" cy="-100" r="4" fill="#2196F3"/>
+    <circle cx="80" cy="-80" r="4" fill="#E91E63"/>
+    <circle cx="-90" cy="-60" r="4" fill="#9C27B0"/>
+    <circle cx="110" cy="-30" r="4" fill="#4CAF50"/>
+    <circle cx="-120" cy="10" r="4" fill="#FF9800"/>
+    <circle cx="100" cy="50" r="4" fill="#2196F3"/>
+    <circle cx="-80" cy="80" r="4" fill="#E91E63"/>
+    <circle cx="50" cy="100" r="4" fill="#9C27B0"/>
+    <circle cx="-30" cy="110" r="4" fill="#4CAF50"/>
+    <circle cx="0" cy="120" r="4" fill="#FF9800"/>
+    <circle cx="60" cy="-95" r="4" fill="#2196F3"/>
+    <circle cx="-70" cy="-75" r="4" fill="#E91E63"/>
+    <circle cx="95" cy="20" r="4" fill="#9C27B0"/>
+    <circle cx="-100" cy="-40" r="4" fill="#4CAF50"/>
+
+    <text x="0" y="175" text-anchor="middle" fill="#aaa" font-size="12">r₄(65) = 1040 lattice points</text>
+    <text x="0" y="192" text-anchor="middle" fill="#aaa" font-size="11">Many distinct reps → rich collisions</text>
+  </g>
+
+  <!-- S⁷ (dim 8) - projected sphere -->
+  <g transform="translate(750, 250)">
+    <circle cx="0" cy="0" r="130" fill="url(#s3)" stroke="#E91E63" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <ellipse cx="0" cy="0" rx="130" ry="40" fill="none" stroke="#E91E63" stroke-width="0.5" opacity="0.4"/>
+    <ellipse cx="0" cy="0" rx="40" ry="130" fill="none" stroke="#E91E63" stroke-width="0.5" opacity="0.4"/>
+    <ellipse cx="0" cy="0" rx="100" ry="90" fill="none" stroke="#E91E63" stroke-width="0.5" opacity="0.3" transform="rotate(45)"/>
+    <ellipse cx="0" cy="0" rx="100" ry="90" fill="none" stroke="#E91E63" stroke-width="0.5" opacity="0.3" transform="rotate(-45)"/>
+    <text x="0" y="-155" text-anchor="middle" fill="#E91E63" font-size="16" font-weight="bold">S⁷(√N)</text>
+    <text x="0" y="-140" text-anchor="middle" fill="#F48FB1" font-size="12">Dimension 8</text>
+
+    <!-- Dense cloud of points -->
+    <g opacity="0.8">
+      <circle cx="15" cy="-125" r="3" fill="#4CAF50"/>
+      <circle cx="-25" cy="-118" r="3" fill="#FF9800"/>
+      <circle cx="45" cy="-108" r="3" fill="#2196F3"/>
+      <circle cx="-60" cy="-98" r="3" fill="#E91E63"/>
+      <circle cx="78" cy="-85" r="3" fill="#9C27B0"/>
+      <circle cx="-95" cy="-65" r="3" fill="#4CAF50"/>
+      <circle cx="105" cy="-45" r="3" fill="#FF9800"/>
+      <circle cx="-115" cy="-20" r="3" fill="#2196F3"/>
+      <circle cx="120" cy="5" r="3" fill="#E91E63"/>
+      <circle cx="-118" cy="30" r="3" fill="#9C27B0"/>
+      <circle cx="108" cy="55" r="3" fill="#4CAF50"/>
+      <circle cx="-92" cy="75" r="3" fill="#FF9800"/>
+      <circle cx="70" cy="95" r="3" fill="#2196F3"/>
+      <circle cx="-48" cy="110" r="3" fill="#E91E63"/>
+      <circle cx="20" cy="122" r="3" fill="#9C27B0"/>
+      <circle cx="-10" cy="125" r="3" fill="#4CAF50"/>
+      <circle cx="35" cy="-115" r="3" fill="#FF9800"/>
+      <circle cx="-75" cy="-90" r="3" fill="#2196F3"/>
+      <circle cx="98" cy="-55" r="3" fill="#E91E63"/>
+      <circle cx="-110" cy="15" r="3" fill="#9C27B0"/>
+      <circle cx="85" cy="80" r="3" fill="#4CAF50"/>
+      <circle cx="-35" cy="115" r="3" fill="#FF9800"/>
+      <circle cx="55" cy="-100" r="3" fill="#9C27B0"/>
+      <circle cx="-82" cy="68" r="3" fill="#4CAF50"/>
+    </g>
+
+    <text x="0" y="175" text-anchor="middle" fill="#aaa" font-size="12">r₈(65) — thousands of points</text>
+    <text x="0" y="192" text-anchor="middle" fill="#aaa" font-size="11">Maximally dense collision cloud</text>
+  </g>
+
+  <!-- Bottom: Key insight -->
+  <rect x="50" y="500" width="800" height="130" rx="12" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)"/>
+  <text x="450" y="530" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">
+    The Geometric Insight
+  </text>
+  <text x="450" y="555" text-anchor="middle" fill="#ccc" font-size="13">
+    Each lattice point on S^{k-1}(√N) is a sum-of-k-squares representation of N.
+  </text>
+  <text x="450" y="575" text-anchor="middle" fill="#ccc" font-size="13">
+    Any two distinct points produce collision terms whose GCD with N may reveal a factor.
+  </text>
+  <text x="450" y="595" text-anchor="middle" fill="#ccc" font-size="13">
+    Higher dimensions → exponentially more lattice points → richer collision geometry → more factoring opportunities.
+  </text>
+  <text x="450" y="620" text-anchor="middle" fill="#FFD54F" font-size="12" font-style="italic">
+    Constraint: finding "independent" representations remains the computational bottleneck.
+  </text>
+
+  <!-- Composition identity flow -->
+  <rect x="50" y="650" width="800" height="170" rx="12" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)"/>
+  <text x="450" y="680" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">
+    Parent → Child Descent on the Factoring Tree
+  </text>
+
+  <!-- Tree nodes -->
+  <circle cx="450" cy="720" r="20" fill="rgba(76,175,80,0.3)" stroke="#4CAF50" stroke-width="2"/>
+  <text x="450" y="725" text-anchor="middle" fill="#4CAF50" font-size="11">N</text>
+
+  <line x1="430" y1="735" x2="300" y2="770" stroke="#666" stroke-width="1.5"/>
+  <line x1="450" y1="740" x2="450" y2="770" stroke="#666" stroke-width="1.5"/>
+  <line x1="470" y1="735" x2="600" y2="770" stroke="#666" stroke-width="1.5"/>
+
+  <circle cx="300" cy="785" r="16" fill="rgba(33,150,243,0.3)" stroke="#2196F3" stroke-width="1.5"/>
+  <text x="300" y="790" text-anchor="middle" fill="#2196F3" font-size="10">p</text>
+
+  <circle cx="450" cy="785" r="16" fill="rgba(255,152,0,0.3)" stroke="#FF9800" stroke-width="1.5"/>
+  <text x="450" y="790" text-anchor="middle" fill="#FF9800" font-size="10">q</text>
+
+  <circle cx="600" cy="785" r="16" fill="rgba(233,30,99,0.3)" stroke="#E91E63" stroke-width="1.5"/>
+  <text x="600" y="790" text-anchor="middle" fill="#E91E63" font-size="10">r</text>
+
+  <text x="200" y="800" fill="#888" font-size="11">factor</text>
+  <text x="380" y="805" fill="#888" font-size="11">factor</text>
+  <text x="530" y="800" fill="#888" font-size="11">factor</text>
+
+  <text x="750" y="730" fill="#aaa" font-size="11">Descent along the</text>
+  <text x="750" y="745" fill="#aaa" font-size="11">Pythagorean tree reveals</text>
+  <text x="750" y="760" fill="#aaa" font-size="11">factorization structure</text>
+  <text x="750" y="775" fill="#aaa" font-size="11">at each parent→child step.</text>
+</svg>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e27;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1e3a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="real" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3" />
+      <stop offset="100%" style="stop-color:#1976D2" />
+    </linearGradient>
+    <linearGradient id="complex" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50" />
+      <stop offset="100%" style="stop-color:#388E3C" />
+    </linearGradient>
+    <linearGradient id="quat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9800" />
+      <stop offset="100%" style="stop-color:#F57C00" />
+    </linearGradient>
+    <linearGradient id="oct" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E91E63" />
+      <stop offset="100%" style="stop-color:#C2185B" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="45" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="24" font-weight="bold">
+    Division Algebra Hierarchy
+  </text>
+  <text x="450" y="72" text-anchor="middle" fill="#aabbcc" font-family="Georgia, serif" font-size="14">
+    ℝ → ℂ → ℍ → 𝕆 : Cayley-Dickson Construction
+  </text>
+
+  <!-- Connecting arrows (curved) -->
+  <path d="M 195 200 Q 300 140 395 200" fill="none" stroke="#4CAF50" stroke-width="2" stroke-dasharray="8,4" opacity="0.7"/>
+  <path d="M 395 200 Q 500 140 595 200" fill="none" stroke="#FF9800" stroke-width="2" stroke-dasharray="8,4" opacity="0.7"/>
+  <path d="M 595 200 Q 700 140 795 200" fill="none" stroke="#E91E63" stroke-width="2" stroke-dasharray="8,4" opacity="0.7"/>
+
+  <!-- Arrow labels -->
+  <text x="295" y="148" text-anchor="middle" fill="#4CAF50" font-family="monospace" font-size="11">Cayley-Dickson</text>
+  <text x="495" y="148" text-anchor="middle" fill="#FF9800" font-family="monospace" font-size="11">Cayley-Dickson</text>
+  <text x="695" y="148" text-anchor="middle" fill="#E91E63" font-family="monospace" font-size="11">Cayley-Dickson</text>
+
+  <!-- ℝ Box -->
+  <rect x="95" y="170" width="200" height="180" rx="15" fill="url(#real)" opacity="0.9" filter="url(#shadow)"/>
+  <text x="195" y="205" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="32" font-weight="bold">ℝ</text>
+  <text x="195" y="228" text-anchor="middle" fill="#E3F2FD" font-family="monospace" font-size="12">Dimension 1</text>
+  <line x1="120" y1="240" x2="270" y2="240" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="195" y="260" text-anchor="middle" fill="#E3F2FD" font-family="monospace" font-size="11">✓ Commutative</text>
+  <text x="195" y="278" text-anchor="middle" fill="#E3F2FD" font-family="monospace" font-size="11">✓ Associative</text>
+  <text x="195" y="296" text-anchor="middle" fill="#E3F2FD" font-family="monospace" font-size="11">✓ Ordered</text>
+  <text x="195" y="320" text-anchor="middle" fill="#BBDEFB" font-family="monospace" font-size="10">Identity: a·b = ab</text>
+  <text x="195" y="340" text-anchor="middle" fill="#90CAF9" font-family="monospace" font-size="10">0 GCD channels</text>
+
+  <!-- ℂ Box -->
+  <rect x="295" y="170" width="200" height="180" rx="15" fill="url(#complex)" opacity="0.9" filter="url(#shadow)"/>
+  <text x="395" y="205" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="32" font-weight="bold">ℂ</text>
+  <text x="395" y="228" text-anchor="middle" fill="#E8F5E9" font-family="monospace" font-size="12">Dimension 2</text>
+  <line x1="320" y1="240" x2="470" y2="240" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="395" y="260" text-anchor="middle" fill="#E8F5E9" font-family="monospace" font-size="11">✓ Commutative</text>
+  <text x="395" y="278" text-anchor="middle" fill="#E8F5E9" font-family="monospace" font-size="11">✓ Associative</text>
+  <text x="395" y="296" text-anchor="middle" fill="#E8F5E9" font-family="monospace" font-size="11">✗ Not ordered</text>
+  <text x="395" y="320" text-anchor="middle" fill="#C8E6C9" font-family="monospace" font-size="10">Brahmagupta-Fibonacci</text>
+  <text x="395" y="340" text-anchor="middle" fill="#A5D6A7" font-family="monospace" font-size="10">1 GCD channel</text>
+
+  <!-- ℍ Box -->
+  <rect x="495" y="170" width="200" height="180" rx="15" fill="url(#quat)" opacity="0.9" filter="url(#shadow)"/>
+  <text x="595" y="205" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="32" font-weight="bold">ℍ</text>
+  <text x="595" y="228" text-anchor="middle" fill="#FFF3E0" font-family="monospace" font-size="12">Dimension 4</text>
+  <line x1="520" y1="240" x2="670" y2="240" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="595" y="260" text-anchor="middle" fill="#FFF3E0" font-family="monospace" font-size="11">✗ Non-commutative</text>
+  <text x="595" y="278" text-anchor="middle" fill="#FFF3E0" font-family="monospace" font-size="11">✓ Associative</text>
+  <text x="595" y="296" text-anchor="middle" fill="#FFF3E0" font-family="monospace" font-size="11">✗ Not ordered</text>
+  <text x="595" y="320" text-anchor="middle" fill="#FFE0B2" font-family="monospace" font-size="10">Euler 4-Square</text>
+  <text x="595" y="340" text-anchor="middle" fill="#FFCC80" font-family="monospace" font-size="10">3 GCD channels</text>
+
+  <!-- 𝕆 Box -->
+  <rect x="695" y="170" width="200" height="180" rx="15" fill="url(#oct)" opacity="0.9" filter="url(#shadow)"/>
+  <text x="795" y="205" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="32" font-weight="bold">𝕆</text>
+  <text x="795" y="228" text-anchor="middle" fill="#FCE4EC" font-family="monospace" font-size="12">Dimension 8</text>
+  <line x1="720" y1="240" x2="870" y2="240" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="795" y="260" text-anchor="middle" fill="#FCE4EC" font-family="monospace" font-size="11">✗ Non-commutative</text>
+  <text x="795" y="278" text-anchor="middle" fill="#FCE4EC" font-family="monospace" font-size="11">✗ Non-associative</text>
+  <text x="795" y="296" text-anchor="middle" fill="#FCE4EC" font-family="monospace" font-size="11">✓ Alternative</text>
+  <text x="795" y="320" text-anchor="middle" fill="#F8BBD0" font-family="monospace" font-size="10">Degen 8-Square</text>
+  <text x="795" y="340" text-anchor="middle" fill="#F48FB1" font-family="monospace" font-size="10">7 GCD channels</text>
+
+  <!-- Channel Growth Chart -->
+  <rect x="60" y="400" width="380" height="220" rx="10" fill="#151933" stroke="#334" stroke-width="1"/>
+  <text x="250" y="428" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="16" font-weight="bold">
+    Channel Growth
+  </text>
+
+  <!-- Axes -->
+  <line x1="100" y1="580" x2="400" y2="580" stroke="#556" stroke-width="1"/>
+  <line x1="100" y1="580" x2="100" y2="445" stroke="#556" stroke-width="1"/>
+
+  <!-- Bars: Channels (blue) -->
+  <rect x="135" y="570" width="25" height="10" fill="#2196F3" opacity="0.8"/>
+  <rect x="205" y="565" width="25" height="15" fill="#2196F3" opacity="0.8"/>
+  <rect x="275" y="555" width="25" height="25" fill="#2196F3" opacity="0.8"/>
+  <rect x="345" y="530" width="25" height="50" fill="#2196F3" opacity="0.8"/>
+
+  <!-- Bars: Cross-collision pairs (orange) -->
+  <rect x="162" y="570" width="25" height="10" fill="#FF9800" opacity="0.8"/>
+  <rect x="232" y="560" width="25" height="20" fill="#FF9800" opacity="0.8"/>
+  <rect x="302" y="540" width="25" height="40" fill="#FF9800" opacity="0.8"/>
+  <rect x="372" y="465" width="25" height="115" fill="#FF9800" opacity="0.8"/>
+
+  <!-- Labels -->
+  <text x="160" y="598" text-anchor="middle" fill="#aaa" font-family="monospace" font-size="11">k=3</text>
+  <text x="230" y="598" text-anchor="middle" fill="#aaa" font-family="monospace" font-size="11">k=4</text>
+  <text x="300" y="598" text-anchor="middle" fill="#aaa" font-family="monospace" font-size="11">k=5</text>
+  <text x="370" y="598" text-anchor="middle" fill="#aaa" font-family="monospace" font-size="11">k=8</text>
+
+  <!-- Values -->
+  <text x="148" y="565" text-anchor="middle" fill="#2196F3" font-family="monospace" font-size="9">2</text>
+  <text x="218" y="560" text-anchor="middle" fill="#2196F3" font-family="monospace" font-size="9">3</text>
+  <text x="288" y="550" text-anchor="middle" fill="#2196F3" font-family="monospace" font-size="9">4</text>
+  <text x="358" y="525" text-anchor="middle" fill="#2196F3" font-family="monospace" font-size="9">7</text>
+
+  <text x="175" y="565" text-anchor="middle" fill="#FF9800" font-family="monospace" font-size="9">1</text>
+  <text x="245" y="555" text-anchor="middle" fill="#FF9800" font-family="monospace" font-size="9">3</text>
+  <text x="315" y="535" text-anchor="middle" fill="#FF9800" font-family="monospace" font-size="9">6</text>
+  <text x="385" y="460" text-anchor="middle" fill="#FF9800" font-family="monospace" font-size="9">21</text>
+
+  <!-- Legend -->
+  <rect x="120" y="440" width="12" height="12" fill="#2196F3" opacity="0.8"/>
+  <text x="138" y="451" fill="#aaa" font-family="monospace" font-size="10">Channels (k−1)</text>
+  <rect x="260" y="440" width="12" height="12" fill="#FF9800" opacity="0.8"/>
+  <text x="278" y="451" fill="#aaa" font-family="monospace" font-size="10">Cross pairs C(k−1,2)</text>
+
+  <!-- Octonion Feature Box -->
+  <rect x="460" y="400" width="420" height="220" rx="10" fill="#151933" stroke="#334" stroke-width="1"/>
+  <text x="670" y="428" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="16" font-weight="bold">
+    Octonion Non-Associativity: A Feature
+  </text>
+
+  <text x="480" y="458" fill="#E91E63" font-family="monospace" font-size="12">For n input octets:</text>
+  <text x="480" y="480" fill="#F48FB1" font-family="monospace" font-size="11">  n=2: C₁ = 1 association  → 1 tuple</text>
+  <text x="480" y="500" fill="#F48FB1" font-family="monospace" font-size="11">  n=3: C₂ = 2 associations → 2 tuples</text>
+  <text x="480" y="520" fill="#F48FB1" font-family="monospace" font-size="11">  n=4: C₃ = 5 associations → ≤5 tuples</text>
+  <text x="480" y="540" fill="#F48FB1" font-family="monospace" font-size="11">  n=5: C₄ = 14 associations → ≤14 tuples</text>
+
+  <text x="480" y="570" fill="#4CAF50" font-family="monospace" font-size="12">✓ All tuples share the SAME norm</text>
+  <text x="480" y="590" fill="#4CAF50" font-family="monospace" font-size="12">✓ Different COMPONENTS → independent</text>
+  <text x="504" y="607" fill="#4CAF50" font-family="monospace" font-size="12">factor extraction channels!</text>
+
+  <!-- Hurwitz bound note -->
+  <text x="450" y="640" text-anchor="middle" fill="#667788" font-family="Georgia, serif" font-size="12" font-style="italic">
+    Hurwitz (1898): Bilinear norm-multiplicative identities exist ONLY in dimensions 1, 2, 4, 8
+  </text>
+</svg>

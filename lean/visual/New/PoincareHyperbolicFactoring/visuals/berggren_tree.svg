@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ecdc4"/>
+      <stop offset="100%" style="stop-color:#44a08d"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ee5a24"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a29bfe"/>
+      <stop offset="100%" style="stop-color:#6c5ce7"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" fill="#fff" font-size="28" font-weight="bold" filter="url(#glow)">
+    The Berggren Tree of Pythagorean Triples
+  </text>
+  <text x="600" y="72" text-anchor="middle" fill="#aaa" font-size="14">
+    Every primitive Pythagorean triple appears exactly once
+  </text>
+  
+  <!-- Edges (drawn first, behind nodes) -->
+  <!-- Level 0 → Level 1 -->
+  <line x1="600" y1="140" x2="200" y2="260" stroke="#4ecdc4" stroke-width="2" opacity="0.6"/>
+  <line x1="600" y1="140" x2="600" y2="260" stroke="#ff6b6b" stroke-width="2" opacity="0.6"/>
+  <line x1="600" y1="140" x2="1000" y2="260" stroke="#a29bfe" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Level 1 → Level 2 (from B1 child) -->
+  <line x1="200" y1="310" x2="80" y2="430" stroke="#4ecdc4" stroke-width="1.5" opacity="0.4"/>
+  <line x1="200" y1="310" x2="200" y2="430" stroke="#ff6b6b" stroke-width="1.5" opacity="0.4"/>
+  <line x1="200" y1="310" x2="320" y2="430" stroke="#a29bfe" stroke-width="1.5" opacity="0.4"/>
+  
+  <!-- Level 1 → Level 2 (from B2 child) -->
+  <line x1="600" y1="310" x2="480" y2="430" stroke="#4ecdc4" stroke-width="1.5" opacity="0.4"/>
+  <line x1="600" y1="310" x2="600" y2="430" stroke="#ff6b6b" stroke-width="1.5" opacity="0.4"/>
+  <line x1="600" y1="310" x2="720" y2="430" stroke="#a29bfe" stroke-width="1.5" opacity="0.4"/>
+  
+  <!-- Level 1 → Level 2 (from B3 child) -->
+  <line x1="1000" y1="310" x2="880" y2="430" stroke="#4ecdc4" stroke-width="1.5" opacity="0.4"/>
+  <line x1="1000" y1="310" x2="1000" y2="430" stroke="#ff6b6b" stroke-width="1.5" opacity="0.4"/>
+  <line x1="1000" y1="310" x2="1120" y2="430" stroke="#a29bfe" stroke-width="1.5" opacity="0.4"/>
+  
+  <!-- Edge labels -->
+  <text x="370" y="195" fill="#4ecdc4" font-size="13" font-weight="bold" transform="rotate(-25, 370, 195)">B₁</text>
+  <text x="595" y="200" fill="#ff6b6b" font-size="13" font-weight="bold">B₂</text>
+  <text x="830" y="195" fill="#a29bfe" font-size="13" font-weight="bold" transform="rotate(25, 830, 195)">B₃</text>
+  
+  <!-- ROOT: (3, 4, 5) -->
+  <rect x="530" y="95" width="140" height="50" rx="10" fill="url(#nodeGrad)" filter="url(#shadow)"/>
+  <text x="600" y="118" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">(3, 4, 5)</text>
+  <text x="600" y="136" text-anchor="middle" fill="#d4fffa" font-size="11">9 + 16 = 25</text>
+  
+  <!-- Level 1: B1 child (5, 12, 13) -->
+  <rect x="125" y="260" width="150" height="50" rx="10" fill="url(#nodeGrad)" filter="url(#shadow)"/>
+  <text x="200" y="283" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">(5, 12, 13)</text>
+  <text x="200" y="301" text-anchor="middle" fill="#d4fffa" font-size="11">25 + 144 = 169</text>
+  
+  <!-- Level 1: B2 child (21, 20, 29) -->
+  <rect x="522" y="260" width="155" height="50" rx="10" fill="url(#nodeGrad2)" filter="url(#shadow)"/>
+  <text x="600" y="283" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">(21, 20, 29)</text>
+  <text x="600" y="301" text-anchor="middle" fill="#ffd4d4" font-size="11">441 + 400 = 841</text>
+  
+  <!-- Level 1: B3 child (15, 8, 17) -->
+  <rect x="925" y="260" width="150" height="50" rx="10" fill="url(#nodeGrad3)" filter="url(#shadow)"/>
+  <text x="1000" y="283" text-anchor="middle" fill="#fff" font-size="15" font-weight="bold">(15, 8, 17)</text>
+  <text x="1000" y="301" text-anchor="middle" fill="#e0d4ff" font-size="11">225 + 64 = 289</text>
+  
+  <!-- Level 2 nodes (smaller) -->
+  <!-- From (5,12,13): B1→(7,24,25), B2→(55,48,73), B3→(45,28,53) -->
+  <rect x="15" y="430" width="130" height="42" rx="8" fill="url(#nodeGrad)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="80" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(7, 24, 25)</text>
+  <text x="80" y="467" text-anchor="middle" fill="#d4fffa" font-size="9">49+576=625</text>
+  
+  <rect x="135" y="430" width="130" height="42" rx="8" fill="url(#nodeGrad2)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="200" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(55, 48, 73)</text>
+  <text x="200" y="467" text-anchor="middle" fill="#ffd4d4" font-size="9">3025+2304=5329</text>
+  
+  <rect x="255" y="430" width="130" height="42" rx="8" fill="url(#nodeGrad3)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="320" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(45, 28, 53)</text>
+  <text x="320" y="467" text-anchor="middle" fill="#e0d4ff" font-size="9">2025+784=2809</text>
+  
+  <!-- From (21,20,29): B1→(39,80,89), B2→(119,120,169), B3→(77,36,85) -->
+  <rect x="410" y="430" width="140" height="42" rx="8" fill="url(#nodeGrad)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="480" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(39, 80, 89)</text>
+  <text x="480" y="467" text-anchor="middle" fill="#d4fffa" font-size="9">1521+6400=7921</text>
+  
+  <rect x="540" y="430" width="120" height="42" rx="8" fill="url(#nodeGrad2)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="600" y="453" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">(119,120,169)</text>
+  <text x="600" y="467" text-anchor="middle" fill="#ffd4d4" font-size="9">14161+14400=28561</text>
+  
+  <rect x="660" y="430" width="120" height="42" rx="8" fill="url(#nodeGrad3)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="720" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(77, 36, 85)</text>
+  <text x="720" y="467" text-anchor="middle" fill="#e0d4ff" font-size="9">5929+1296=7225</text>
+  
+  <!-- From (15,8,17): B1→(9,40,41), B2→(65,72,97), B3→(35,12,37) -->
+  <rect x="815" y="430" width="130" height="42" rx="8" fill="url(#nodeGrad)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="880" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(9, 40, 41)</text>
+  <text x="880" y="467" text-anchor="middle" fill="#d4fffa" font-size="9">81+1600=1681</text>
+  
+  <rect x="935" y="430" width="130" height="42" rx="8" fill="url(#nodeGrad2)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="1000" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(65, 72, 97)</text>
+  <text x="1000" y="467" text-anchor="middle" fill="#ffd4d4" font-size="9">4225+5184=9409</text>
+  
+  <rect x="1055" y="430" width="130" height="42" rx="8" fill="url(#nodeGrad3)" opacity="0.85" filter="url(#shadow)"/>
+  <text x="1120" y="453" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">(35, 12, 37)</text>
+  <text x="1120" y="467" text-anchor="middle" fill="#e0d4ff" font-size="9">1225+144=1369</text>
+  
+  <!-- Legend -->
+  <rect x="40" y="560" width="350" height="200" rx="12" fill="#151540" stroke="#333" stroke-width="1" opacity="0.9"/>
+  <text x="215" y="590" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Berggren Matrices</text>
+  
+  <rect x="60" y="610" width="14" height="14" rx="3" fill="url(#nodeGrad)"/>
+  <text x="82" y="622" fill="#4ecdc4" font-size="13">B₁ = [[1,-2,2],[2,-1,2],[2,-2,3]]</text>
+  <text x="82" y="638" fill="#888" font-size="11">det = 1, preserves orientation</text>
+  
+  <rect x="60" y="650" width="14" height="14" rx="3" fill="url(#nodeGrad2)"/>
+  <text x="82" y="662" fill="#ff6b6b" font-size="13">B₂ = [[1,2,2],[2,1,2],[2,2,3]]</text>
+  <text x="82" y="678" fill="#888" font-size="11">det = -1, reverses orientation</text>
+  
+  <rect x="60" y="690" width="14" height="14" rx="3" fill="url(#nodeGrad3)"/>
+  <text x="82" y="702" fill="#a29bfe" font-size="13">B₃ = [[-1,2,2],[-2,1,2],[-2,2,3]]</text>
+  <text x="82" y="718" fill="#888" font-size="11">det = 1, preserves orientation</text>
+  
+  <!-- Properties box -->
+  <rect x="430" y="560" width="350" height="200" rx="12" fill="#151540" stroke="#333" stroke-width="1" opacity="0.9"/>
+  <text x="605" y="590" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Key Properties (Verified in Lean 4)</text>
+  
+  <text x="450" y="618" fill="#4ecdc4" font-size="13">✓ Bᵢᵀ Q Bᵢ = Q (Lorentz preservation)</text>
+  <text x="450" y="642" fill="#ff6b6b" font-size="13">✓ a² + b² = c² at every node</text>
+  <text x="450" y="666" fill="#a29bfe" font-size="13">✓ |det(Bᵢ)| = 1 (unit volume)</text>
+  <text x="450" y="690" fill="#ffd93d" font-size="13">✓ Shortcuts compose: M(p++q) = M(p)·M(q)</text>
+  <text x="450" y="714" fill="#6bff6b" font-size="13">✓ Information-preserving (injective maps)</text>
+  <text x="450" y="738" fill="#ff9ff3" font-size="13">✓ (c-b)(c+b) = a² (factoring identity)</text>
+  
+  <!-- Shortcut illustration -->
+  <rect x="820" y="560" width="350" height="200" rx="12" fill="#151540" stroke="#333" stroke-width="1" opacity="0.9"/>
+  <text x="995" y="590" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Hyperbolic Shortcut</text>
+  
+  <!-- Shortcut arrow -->
+  <text x="840" y="618" fill="#ffd93d" font-size="13">Path: L → M → R (3 steps)</text>
+  <text x="840" y="642" fill="#aaa" font-size="12">Shortcut matrix: B₁ · B₂ · B₃</text>
+  <text x="840" y="666" fill="#aaa" font-size="12">= single matrix multiplication</text>
+  
+  <!-- Curved shortcut arrow -->
+  <path d="M 870 690 Q 995 660 1120 690" fill="none" stroke="#ffd93d" stroke-width="2" stroke-dasharray="6,3"/>
+  <polygon points="1120,690 1112,684 1112,696" fill="#ffd93d"/>
+  
+  <text x="870" y="710" fill="#888" font-size="11">(3,4,5)</text>
+  <text x="1070" y="710" fill="#ffd93d" font-size="11">target triple</text>
+  <text x="995" y="740" text-anchor="middle" fill="#ffd93d" font-size="12" font-style="italic">
+    "Teleport along a geodesic in H²"
+  </text>
+</svg>

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f23"/>
+      <stop offset="100%" style="stop-color:#1a1a3e"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg4)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#f783ac" font-size="22" font-weight="bold">
+    NEURAL COLLAPSE → SIMPLEX ETF
+  </text>
+  <text x="400" y="58" text-anchor="middle" fill="#888" font-size="13">
+    Optimal classifiers converge to equiangular tight frames
+  </text>
+  
+  <!-- K=2: Line segment -->
+  <text x="120" y="110" text-anchor="middle" fill="#ddd" font-size="14" font-weight="bold">K = 2</text>
+  <text x="120" y="128" text-anchor="middle" fill="#888" font-size="10">margin = 2</text>
+  <circle cx="80" cy="180" r="6" fill="#e94560"/>
+  <circle cx="160" cy="180" r="6" fill="#00d2ff"/>
+  <line x1="86" y1="180" x2="154" y2="180" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <text x="80" y="200" text-anchor="middle" fill="#e94560" font-size="10">class 1</text>
+  <text x="160" y="200" text-anchor="middle" fill="#00d2ff" font-size="10">class 2</text>
+  
+  <!-- K=3: Equilateral triangle -->
+  <text x="320" y="110" text-anchor="middle" fill="#ddd" font-size="14" font-weight="bold">K = 3</text>
+  <text x="320" y="128" text-anchor="middle" fill="#888" font-size="10">margin = 3/2</text>
+  <polygon points="320,145 275,220 365,220" fill="none" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <circle cx="320" cy="145" r="6" fill="#e94560"/>
+  <circle cx="275" cy="220" r="6" fill="#00d2ff"/>
+  <circle cx="365" cy="220" r="6" fill="#51cf66"/>
+  <text x="320" y="140" text-anchor="middle" fill="#e94560" font-size="10">1</text>
+  <text x="265" y="237" text-anchor="middle" fill="#00d2ff" font-size="10">2</text>
+  <text x="375" y="237" text-anchor="middle" fill="#51cf66" font-size="10">3</text>
+  
+  <!-- K=4: Tetrahedron (2D projection) -->
+  <text x="540" y="110" text-anchor="middle" fill="#ddd" font-size="14" font-weight="bold">K = 4</text>
+  <text x="540" y="128" text-anchor="middle" fill="#888" font-size="10">margin = 4/3</text>
+  <polygon points="540,145 490,220 590,220" fill="none" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="540" y1="145" x2="540" y2="195" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="490" y1="220" x2="540" y2="195" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="590" y1="220" x2="540" y2="195" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <circle cx="540" cy="145" r="6" fill="#e94560"/>
+  <circle cx="490" cy="220" r="6" fill="#00d2ff"/>
+  <circle cx="590" cy="220" r="6" fill="#51cf66"/>
+  <circle cx="540" cy="195" r="6" fill="#ffd43b"/>
+  
+  <!-- K=5: Pentagon -->
+  <text x="720" y="110" text-anchor="middle" fill="#ddd" font-size="14" font-weight="bold">K = 5</text>
+  <text x="720" y="128" text-anchor="middle" fill="#888" font-size="10">margin = 5/4</text>
+  <polygon points="720,148 680,172 692,218 748,218 760,172" fill="none" stroke="#444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <circle cx="720" cy="148" r="5" fill="#e94560"/>
+  <circle cx="680" cy="172" r="5" fill="#00d2ff"/>
+  <circle cx="692" cy="218" r="5" fill="#51cf66"/>
+  <circle cx="748" cy="218" r="5" fill="#ffd43b"/>
+  <circle cx="760" cy="172" r="5" fill="#f783ac"/>
+  
+  <!-- Gram Matrix -->
+  <text x="200" y="280" text-anchor="middle" fill="#ddd" font-size="16" font-weight="bold">Gram Matrix (K=4)</text>
+  
+  <!-- Matrix grid -->
+  <rect x="100" y="295" width="200" height="160" fill="none" stroke="#555" stroke-width="2" rx="4"/>
+  
+  <!-- Row/Col headers -->
+  <text x="140" y="312" text-anchor="middle" fill="#888" font-size="11">1</text>
+  <text x="180" y="312" text-anchor="middle" fill="#888" font-size="11">2</text>
+  <text x="220" y="312" text-anchor="middle" fill="#888" font-size="11">3</text>
+  <text x="260" y="312" text-anchor="middle" fill="#888" font-size="11">4</text>
+  
+  <!-- Matrix entries -->
+  <!-- Row 1 -->
+  <text x="140" y="340" text-anchor="middle" fill="#00d2ff" font-size="13" font-weight="bold">1</text>
+  <text x="180" y="340" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="220" y="340" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="260" y="340" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <!-- Row 2 -->
+  <text x="140" y="370" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="180" y="370" text-anchor="middle" fill="#00d2ff" font-size="13" font-weight="bold">1</text>
+  <text x="220" y="370" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="260" y="370" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <!-- Row 3 -->
+  <text x="140" y="400" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="180" y="400" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="220" y="400" text-anchor="middle" fill="#00d2ff" font-size="13" font-weight="bold">1</text>
+  <text x="260" y="400" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <!-- Row 4 -->
+  <text x="140" y="430" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="180" y="430" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="220" y="430" text-anchor="middle" fill="#e94560" font-size="11">-⅓</text>
+  <text x="260" y="430" text-anchor="middle" fill="#00d2ff" font-size="13" font-weight="bold">1</text>
+  
+  <!-- Properties -->
+  <rect x="380" y="290" width="380" height="170" rx="8" fill="#0f0f23" stroke="#333" stroke-width="1"/>
+  <text x="570" y="315" text-anchor="middle" fill="#f783ac" font-size="14" font-weight="bold">Proved Properties (Lean 4)</text>
+  
+  <text x="400" y="345" fill="#ddd" font-size="12">✓ G_ii = 1 (unit norm vectors)</text>
+  <text x="400" y="370" fill="#ddd" font-size="12">✓ G_ij = -1/(K-1) for i ≠ j (equiangular)</text>
+  <text x="400" y="395" fill="#ddd" font-size="12">✓ G is symmetric (self-adjoint frame)</text>
+  <text x="400" y="420" fill="#ddd" font-size="12">✓ Max margin = K/(K-1) (optimal geometry)</text>
+  <text x="400" y="445" fill="#ddd" font-size="12">✓ Bottleneck dim = K-1 (compression)</text>
+  
+  <!-- Bottom formula -->
+  <text x="400" y="485" text-anchor="middle" fill="#f783ac" font-size="14">
+    G_ij = δ_ij − 1/(K−1) • (1−δ_ij)   |   margin = K/(K−1)
+  </text>
+</svg>

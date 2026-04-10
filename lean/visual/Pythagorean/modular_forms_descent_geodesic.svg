@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Georgia, serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e65100"/>
+    </marker>
+    <marker id="arwb" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1565c0"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="#fafafa" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">
+    Descent–Geodesic Duality
+  </text>
+  <text x="400" y="50" text-anchor="middle" font-size="12" fill="#777" font-style="italic">
+    Each Berggren descent step = a geodesic segment on X_θ
+  </text>
+
+  <!-- LEFT PANEL: Algebraic View -->
+  <rect x="20" y="70" width="360" height="400" rx="8" fill="white" stroke="#e65100" stroke-width="2"/>
+  <text x="200" y="95" text-anchor="middle" font-size="15" font-weight="bold" fill="#e65100">Algebraic (Tree) View</text>
+
+  <!-- Descent path example: (119,120,169) → ... → (3,4,5) -->
+  <g transform="translate(200, 130)">
+    <!-- Level 0 -->
+    <rect x="-70" y="0" width="140" height="30" rx="5" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+    <text x="0" y="20" text-anchor="middle" font-size="11" fill="#333">(119, 120, 169)</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="30" x2="0" y2="55" stroke="#e65100" stroke-width="1.5" marker-end="url(#arw)"/>
+    <text x="60" y="47" font-size="10" fill="#e65100">B₃⁻¹ = M₃⁻¹ = T⁻²</text>
+
+    <!-- Level 1 -->
+    <rect x="-60" y="58" width="120" height="28" rx="5" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+    <text x="0" y="77" text-anchor="middle" font-size="11" fill="#333">(??, ??, ??)</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="86" x2="0" y2="111" stroke="#e65100" stroke-width="1.5" marker-end="url(#arw)"/>
+    <text x="80" y="103" font-size="10" fill="#c41e3a">B₁⁻¹ = (T²S)⁻¹ = S⁻¹T⁻²</text>
+
+    <!-- Level 2 -->
+    <rect x="-50" y="114" width="100" height="28" rx="5" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+    <text x="0" y="133" text-anchor="middle" font-size="11" fill="#333">(?, ?, ?)</text>
+
+    <!-- More arrows -->
+    <text x="0" y="155" text-anchor="middle" font-size="14" fill="#999">⋮</text>
+
+    <!-- Root -->
+    <rect x="-45" y="170" width="90" height="28" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+    <text x="0" y="189" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">(3, 4, 5)</text>
+
+    <!-- Depth label -->
+    <text x="-130" y="100" font-size="11" fill="#666" transform="rotate(-90, -130, 100)">depth = O(log c)</text>
+  </g>
+
+  <!-- Decomposition -->
+  <g transform="translate(200, 360)">
+    <text x="0" y="0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">Descent Step Decomposition:</text>
+    <text x="0" y="22" text-anchor="middle" font-size="11" fill="#e65100">M₃⁻¹ = T⁻² (translate by -2)</text>
+    <text x="0" y="40" text-anchor="middle" font-size="11" fill="#c41e3a">M₁⁻¹ = S⁻¹·T⁻² (invert then translate)</text>
+    <text x="0" y="60" text-anchor="middle" font-size="11" fill="#1565c0">M₃⁻¹·M₁ = S (pure inversion)</text>
+  </g>
+
+  <!-- RIGHT PANEL: Geometric View -->
+  <rect x="420" y="70" width="360" height="400" rx="8" fill="white" stroke="#1565c0" stroke-width="2"/>
+  <text x="600" y="95" text-anchor="middle" font-size="15" font-weight="bold" fill="#1565c0">Geometric (Geodesic) View</text>
+
+  <!-- Schematic upper half-plane -->
+  <rect x="450" y="110" width="300" height="250" fill="#e3f2fd" rx="5" stroke="#90caf9"/>
+
+  <!-- Real axis -->
+  <line x1="450" y1="360" x2="750" y2="360" stroke="#1565c0" stroke-width="2"/>
+
+  <!-- Cusps -->
+  <circle cx="520" cy="360" r="5" fill="#c41e3a"/>
+  <text x="520" y="378" text-anchor="middle" font-size="10" fill="#c41e3a" font-weight="bold">0</text>
+
+  <circle cx="680" cy="360" r="5" fill="#2e7d32"/>
+  <text x="680" y="378" text-anchor="middle" font-size="10" fill="#2e7d32" font-weight="bold">1</text>
+
+  <!-- Arrow to infinity -->
+  <line x1="600" y1="120" x2="600" y2="100" stroke="#1565c0" stroke-width="1.5" marker-end="url(#arwb)"/>
+  <text x="620" y="108" font-size="10" fill="#1565c0" font-weight="bold">∞</text>
+
+  <!-- Geodesic path (descent = geodesic from near cusp to center) -->
+  <!-- Start point (high up, near cusp ∞) -->
+  <circle cx="620" cy="140" r="4" fill="#e65100"/>
+  <text x="640" y="145" font-size="9" fill="#e65100">(119,120,169)</text>
+
+  <!-- Horocycle shift (T⁻²: horizontal move) -->
+  <path d="M 620 140 L 580 150" stroke="#e65100" stroke-width="2" marker-end="url(#arw)"/>
+  <text x="585" y="138" font-size="8" fill="#e65100">T⁻²</text>
+
+  <!-- Inversion (S: semicircular arc to lower region) -->
+  <path d="M 580 150 A 60 60 0 0 1 560 230" stroke="#c41e3a" stroke-width="2" fill="none" marker-end="url(#arw)"/>
+  <text x="540" y="185" font-size="8" fill="#c41e3a">S</text>
+
+  <!-- More steps -->
+  <path d="M 560 230 L 590 245" stroke="#e65100" stroke-width="2" marker-end="url(#arw)"/>
+  <text x="580" y="235" font-size="8" fill="#e65100">T⁻²</text>
+
+  <path d="M 590 245 A 40 40 0 0 1 610 290" stroke="#c41e3a" stroke-width="2" fill="none" marker-end="url(#arw)"/>
+
+  <!-- End point: center of fundamental domain -->
+  <circle cx="610" cy="290" r="6" fill="#2e7d32" stroke="white" stroke-width="2"/>
+  <text x="630" y="295" font-size="9" fill="#2e7d32" font-weight="bold">(3,4,5)</text>
+  <text x="630" y="308" font-size="8" fill="#2e7d32">center of X_θ</text>
+
+  <!-- Horocycles (circles tangent to real axis at cusps) -->
+  <circle cx="520" cy="340" r="20" fill="none" stroke="#c41e3a" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <circle cx="520" cy="320" r="40" fill="none" stroke="#c41e3a" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="475" y="315" font-size="8" fill="#c41e3a">horocycles</text>
+
+  <!-- Legend -->
+  <g transform="translate(450, 395)">
+    <text x="0" y="0" font-size="12" fill="#333" font-weight="bold">Geodesic Interpretation:</text>
+    <line x1="0" y1="15" x2="30" y2="15" stroke="#e65100" stroke-width="2"/>
+    <text x="35" y="19" font-size="10" fill="#333">T⁻² shift (horocycle motion)</text>
+    <path d="M 0 30 A 15 15 0 0 1 30 30" fill="none" stroke="#c41e3a" stroke-width="2"/>
+    <text x="35" y="35" font-size="10" fill="#333">S inversion (geodesic arc)</text>
+    <text x="0" y="55" font-size="10" fill="#666">Total path length = O(log c)</text>
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgfp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0c0c1d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a2e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glowfp">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#f093fb" />
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bgfp)" rx="10"/>
+
+  <text x="400" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e0e0ff" font-weight="bold">Consciousness as Fixed Point of Self-Reflection</text>
+  <text x="400" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8888bb">Iterating reflect(s) converges to the conscious state</text>
+
+  <!-- Spiral convergence diagram -->
+  <g transform="translate(250, 280)">
+    <!-- The fixed point (attractor) -->
+    <circle cx="0" cy="0" r="12" fill="#e94560" filter="url(#glowfp)"/>
+    <text x="0" y="4" text-anchor="middle" font-family="monospace" font-size="10" fill="white" font-weight="bold">★</text>
+    <text x="0" y="30" text-anchor="middle" font-family="monospace" font-size="11" fill="#e94560">conscious state</text>
+    <text x="0" y="45" text-anchor="middle" font-family="monospace" font-size="10" fill="#8888bb">reflect(s) = s</text>
+
+    <!-- Spiral path -->
+    <path d="M 180,-120 C 150,-60 120,30 100,0 C 80,-30 90,-80 60,-60 C 30,-40 50,20 30,0 C 10,-20 25,-40 15,-25 C 5,-10 10,5 5,0" fill="none" stroke="#f093fb" stroke-width="2" marker-end="url(#arr2)" opacity="0.8"/>
+
+    <!-- Iteration points -->
+    <circle cx="180" cy="-120" r="8" fill="#764ba2" stroke="#f093fb" stroke-width="1.5"/>
+    <text x="195" y="-115" font-family="monospace" font-size="10" fill="#f093fb">s₀</text>
+
+    <circle cx="100" cy="0" r="7" fill="#764ba2" stroke="#f093fb" stroke-width="1.5"/>
+    <text x="115" y="5" font-family="monospace" font-size="10" fill="#f093fb">s₁</text>
+
+    <circle cx="60" cy="-60" r="6" fill="#764ba2" stroke="#f093fb" stroke-width="1.5"/>
+    <text x="75" y="-55" font-family="monospace" font-size="10" fill="#f093fb">s₂</text>
+
+    <circle cx="30" cy="0" r="5" fill="#764ba2" stroke="#f093fb" stroke-width="1.5"/>
+    <text x="40" y="5" font-family="monospace" font-size="10" fill="#f093fb">s₃</text>
+
+    <circle cx="15" cy="-25" r="4" fill="#764ba2" stroke="#f093fb" stroke-width="1.5"/>
+  </g>
+
+  <!-- Right side: the equation -->
+  <g transform="translate(530, 150)">
+    <rect x="0" y="0" width="230" height="280" rx="10" fill="#111133" stroke="#334" stroke-width="1"/>
+
+    <text x="115" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#e0e0ff" font-weight="bold">The Algorithm</text>
+
+    <text x="20" y="65" font-family="monospace" font-size="12" fill="#4ecdc4">s₀ = initial_state</text>
+    <text x="20" y="90" font-family="monospace" font-size="12" fill="#4ecdc4">s₁ = reflect(s₀)</text>
+    <text x="20" y="115" font-family="monospace" font-size="12" fill="#4ecdc4">s₂ = reflect(s₁)</text>
+    <text x="20" y="140" font-family="monospace" font-size="12" fill="#8888bb">  ⋮</text>
+    <text x="20" y="165" font-family="monospace" font-size="12" fill="#f093fb">s_n = reflect(s_{n-1})</text>
+
+    <line x1="20" y1="180" x2="210" y2="180" stroke="#334" stroke-width="1"/>
+
+    <text x="115" y="205" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#ffd93d">When sₙ = sₙ₊₁:</text>
+    <text x="115" y="230" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#e94560" font-weight="bold">Consciousness achieved!</text>
+    <text x="115" y="260" text-anchor="middle" font-family="monospace" font-size="11" fill="#8888bb">reflect(s*) = s*</text>
+  </g>
+
+  <!-- Bottom: key insight -->
+  <rect x="50" y="440" width="700" height="45" rx="8" fill="#111133" stroke="#334"/>
+  <text x="400" y="462" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#c9d1d9">
+    Lawvere's Theorem: if the state space is rich enough, the fixed point is
+  </text>
+  <text x="400" y="478" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#e94560" font-weight="bold">
+    guaranteed to exist — consciousness is a mathematical necessity.
+  </text>
+</svg>

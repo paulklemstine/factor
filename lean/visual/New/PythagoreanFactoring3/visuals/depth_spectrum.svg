@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+<rect width="900" height="500" fill="#1a1a2e"/>
+
+<text x="450.0" y="30" text-anchor="middle" fill="white" font-size="18" font-family="sans-serif" font-weight="bold">
+Hypotenuse Growth: Pure Branch Paths (log scale)</text>
+<line x1="60" y1="440" x2="840" y2="440" stroke="#555" stroke-width="1"/>
+<line x1="60" y1="440" x2="60" y2="80" stroke="#555" stroke-width="1"/>
+<text x="60.0" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">0</text>
+<text x="157.5" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">1</text>
+<text x="255.0" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2</text>
+<text x="352.5" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">3</text>
+<text x="450.0" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">4</text>
+<text x="547.5" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">5</text>
+<text x="645.0" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">6</text>
+<text x="742.5" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">7</text>
+<text x="840.0" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">8</text>
+<text x="450.0" y="480" text-anchor="middle" fill="#aaa" font-size="12" font-family="sans-serif">Depth</text>
+<text x="50" y="444.0" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^0</text>
+<line x1="60" y1="440.0" x2="840" y2="440.0" stroke="#333" stroke-width="0.5"/>
+<text x="50" y="391.2233090213642" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^1</text>
+<line x1="60" y1="387.2233090213642" x2="840" y2="387.2233090213642" stroke="#333" stroke-width="0.5"/>
+<text x="50" y="338.44661804272835" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^2</text>
+<line x1="60" y1="334.44661804272835" x2="840" y2="334.44661804272835" stroke="#333" stroke-width="0.5"/>
+<text x="50" y="285.66992706409246" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^3</text>
+<line x1="60" y1="281.66992706409246" x2="840" y2="281.66992706409246" stroke="#333" stroke-width="0.5"/>
+<text x="50" y="232.89323608545664" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^4</text>
+<line x1="60" y1="228.89323608545664" x2="840" y2="228.89323608545664" stroke="#333" stroke-width="0.5"/>
+<text x="50" y="180.1165451068208" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^5</text>
+<line x1="60" y1="176.1165451068208" x2="840" y2="176.1165451068208" stroke="#333" stroke-width="0.5"/>
+<text x="50" y="127.33985412818492" text-anchor="end" fill="#888" font-size="11" font-family="monospace">10^6</text>
+<line x1="60" y1="123.33985412818492" x2="840" y2="123.33985412818492" stroke="#333" stroke-width="0.5"/>
+<polyline points="60.0,403.1 157.5,381.2 255.0,366.2 352.5,354.9 450.0,345.8 547.5,338.2 645.0,331.6 742.5,325.9 840.0,320.8" fill="none" stroke="#FF4444" stroke-width="2.5"/>
+<circle cx="60.0" cy="403.1" r="4" fill="#FF4444"/>
+<circle cx="157.5" cy="381.2" r="4" fill="#FF4444"/>
+<circle cx="255.0" cy="366.2" r="4" fill="#FF4444"/>
+<circle cx="352.5" cy="354.9" r="4" fill="#FF4444"/>
+<circle cx="450.0" cy="345.8" r="4" fill="#FF4444"/>
+<circle cx="547.5" cy="338.2" r="4" fill="#FF4444"/>
+<circle cx="645.0" cy="331.6" r="4" fill="#FF4444"/>
+<circle cx="742.5" cy="325.9" r="4" fill="#FF4444"/>
+<circle cx="840.0" cy="320.8" r="4" fill="#FF4444"/>
+<polyline points="60.0,403.1 157.5,362.8 255.0,322.4 352.5,282.0 450.0,241.6 547.5,201.2 645.0,160.8 742.5,120.4 840.0,80.0" fill="none" stroke="#4488FF" stroke-width="2.5"/>
+<circle cx="60.0" cy="403.1" r="4" fill="#4488FF"/>
+<circle cx="157.5" cy="362.8" r="4" fill="#4488FF"/>
+<circle cx="255.0" cy="322.4" r="4" fill="#4488FF"/>
+<circle cx="352.5" cy="282.0" r="4" fill="#4488FF"/>
+<circle cx="450.0" cy="241.6" r="4" fill="#4488FF"/>
+<circle cx="547.5" cy="201.2" r="4" fill="#4488FF"/>
+<circle cx="645.0" cy="160.8" r="4" fill="#4488FF"/>
+<circle cx="742.5" cy="120.4" r="4" fill="#4488FF"/>
+<circle cx="840.0" cy="80.0" r="4" fill="#4488FF"/>
+<polyline points="60.0,403.1 157.5,375.1 255.0,357.2 352.5,344.3 450.0,334.2 547.5,325.9 645.0,318.9 742.5,312.8 840.0,307.4" fill="none" stroke="#44CC44" stroke-width="2.5"/>
+<circle cx="60.0" cy="403.1" r="4" fill="#44CC44"/>
+<circle cx="157.5" cy="375.1" r="4" fill="#44CC44"/>
+<circle cx="255.0" cy="357.2" r="4" fill="#44CC44"/>
+<circle cx="352.5" cy="344.3" r="4" fill="#44CC44"/>
+<circle cx="450.0" cy="334.2" r="4" fill="#44CC44"/>
+<circle cx="547.5" cy="325.9" r="4" fill="#44CC44"/>
+<circle cx="645.0" cy="318.9" r="4" fill="#44CC44"/>
+<circle cx="742.5" cy="312.8" r="4" fill="#44CC44"/>
+<circle cx="840.0" cy="307.4" r="4" fill="#44CC44"/>
+<line x1="620" y1="70" x2="650" y2="70" stroke="#FF4444" stroke-width="3"/>
+<text x="655" y="74" fill="#ccc" font-size="12" font-family="sans-serif">A-branch: O(d²) quadratic</text>
+<line x1="620" y1="92" x2="650" y2="92" stroke="#4488FF" stroke-width="3"/>
+<text x="655" y="96" fill="#ccc" font-size="12" font-family="sans-serif">B-branch: O((3+2√2)^d) exponential</text>
+<line x1="620" y1="114" x2="650" y2="114" stroke="#44CC44" stroke-width="3"/>
+<text x="655" y="118" fill="#ccc" font-size="12" font-family="sans-serif">C-branch: O(d²) quadratic</text>
+</svg>

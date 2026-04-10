@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 550" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#152238"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="550" fill="url(#bg3)"/>
+
+  <text x="425" y="35" text-anchor="middle" fill="#ffd700" font-size="20" font-weight="bold">
+    Three Peel Channels: The Quadruple Advantage
+  </text>
+  <text x="425" y="55" text-anchor="middle" fill="#88aacc" font-size="12">
+    a² + b² + c² = d²  ⟹  3 independent factoring identities
+  </text>
+
+  <!-- Central quadruple -->
+  <rect x="320" y="80" width="210" height="60" rx="10" fill="#1a2a4e" stroke="#ffd700" stroke-width="2"/>
+  <text x="425" y="105" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">
+    (a, b, c, d)
+  </text>
+  <text x="425" y="125" text-anchor="middle" fill="#aabbcc" font-size="11">
+    a² + b² + c² = d²
+  </text>
+
+  <!-- Peel Channel 1: Remove a -->
+  <line x1="370" y1="140" x2="170" y2="200" stroke="#ff6b35" stroke-width="2"/>
+  <rect x="50" y="190" width="240" height="120" rx="8" fill="#1a1a3e" stroke="#ff6b35" stroke-width="1.5"/>
+  <text x="170" y="215" text-anchor="middle" fill="#ff6b35" font-size="14" font-weight="bold">
+    Peel Channel 1 (remove a)
+  </text>
+  <text x="170" y="240" text-anchor="middle" fill="#ddd" font-size="13">
+    (d − a)(d + a) = b² + c²
+  </text>
+  <text x="170" y="262" text-anchor="middle" fill="#aaa" font-size="11">
+    GCD(d−a, b²+c²) → factor of d
+  </text>
+  <text x="170" y="282" text-anchor="middle" fill="#888" font-size="10">
+    Cross: {b,c} collision pair
+  </text>
+  <text x="170" y="298" text-anchor="middle" fill="#ff6b35" font-size="10">
+    ✓ Formally verified: peel_channel_a
+  </text>
+
+  <!-- Peel Channel 2: Remove b -->
+  <line x1="425" y1="140" x2="425" y2="200" stroke="#4ecdc4" stroke-width="2"/>
+  <rect x="305" y="340" width="240" height="120" rx="8" fill="#1a1a3e" stroke="#4ecdc4" stroke-width="1.5"/>
+  <text x="425" y="365" text-anchor="middle" fill="#4ecdc4" font-size="14" font-weight="bold">
+    Peel Channel 2 (remove b)
+  </text>
+  <text x="425" y="390" text-anchor="middle" fill="#ddd" font-size="13">
+    (d − b)(d + b) = a² + c²
+  </text>
+  <text x="425" y="412" text-anchor="middle" fill="#aaa" font-size="11">
+    GCD(d−b, a²+c²) → factor of d
+  </text>
+  <text x="425" y="432" text-anchor="middle" fill="#888" font-size="10">
+    Cross: {a,c} collision pair
+  </text>
+  <text x="425" y="448" text-anchor="middle" fill="#4ecdc4" font-size="10">
+    ✓ Formally verified: peel_channel_b
+  </text>
+  <line x1="425" y1="200" x2="425" y2="340" stroke="#4ecdc4" stroke-width="2"/>
+
+  <!-- Peel Channel 3: Remove c -->
+  <line x1="480" y1="140" x2="680" y2="200" stroke="#e056a0" stroke-width="2"/>
+  <rect x="560" y="190" width="240" height="120" rx="8" fill="#1a1a3e" stroke="#e056a0" stroke-width="1.5"/>
+  <text x="680" y="215" text-anchor="middle" fill="#e056a0" font-size="14" font-weight="bold">
+    Peel Channel 3 (remove c)
+  </text>
+  <text x="680" y="240" text-anchor="middle" fill="#ddd" font-size="13">
+    (d − c)(d + c) = a² + b²
+  </text>
+  <text x="680" y="262" text-anchor="middle" fill="#aaa" font-size="11">
+    GCD(d−c, a²+b²) → factor of d
+  </text>
+  <text x="680" y="282" text-anchor="middle" fill="#888" font-size="10">
+    Cross: {a,b} collision pair
+  </text>
+  <text x="680" y="298" text-anchor="middle" fill="#e056a0" font-size="10">
+    ✓ Formally verified: peel_channel_c
+  </text>
+
+  <!-- Comparison with triples -->
+  <rect x="50" y="480" width="340" height="50" rx="6" fill="#1a1a3e" stroke="#666" stroke-width="1"/>
+  <text x="220" y="500" text-anchor="middle" fill="#888" font-size="11">
+    Pythagorean Triple: a² + b² = c²
+  </text>
+  <text x="220" y="518" text-anchor="middle" fill="#666" font-size="10">
+    Only 1 peel: (c−a)(c+a) = b² → 1 channel
+  </text>
+
+  <rect x="420" y="480" width="380" height="50" rx="6" fill="#1a1a3e" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="610" y="500" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold">
+    Pythagorean Quadruple: a² + b² + c² = d²
+  </text>
+  <text x="610" y="518" text-anchor="middle" fill="#ffd700" font-size="10">
+    3 peels × 3 crosses × 3 GCDs = 9 channels → 3× advantage
+  </text>
+</svg>

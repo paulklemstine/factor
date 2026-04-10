@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a28"/>
+      <stop offset="100%" stop-color="#141438"/>
+    </linearGradient>
+    <filter id="g5">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg5)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#ffd700" font-size="20" font-weight="bold">
+    The Unified Picture: Quaternions → Quantum Gates
+  </text>
+  <text x="450" y="55" text-anchor="middle" fill="#aa9944" font-size="12">
+    Five connections between number theory and quantum computing, formally verified
+  </text>
+
+  <!-- Central node: DESCENT TREE -->
+  <g filter="url(#g5)">
+    <rect x="325" y="250" width="250" height="70" rx="15" fill="#2a2a6a" stroke="#ffd700" stroke-width="2"/>
+    <text x="450" y="278" text-anchor="middle" fill="#ffd700" font-size="18" font-weight="bold">DESCENT TREE</text>
+    <text x="450" y="300" text-anchor="middle" fill="#ccaa44" font-size="12">α = σ·γ + ρ, |ρ|² &lt; |α|²</text>
+  </g>
+
+  <!-- Q1: Quotient structure (top-left) -->
+  <rect x="30" y="80" width="220" height="100" rx="10" fill="#1a1a4a" stroke="#4ecdc4" stroke-width="1.5"/>
+  <text x="140" y="105" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="bold">Q1: Lattice Quotient</text>
+  <text x="140" y="125" text-anchor="middle" fill="#88bbcc" font-size="11">ℍ(ℤ)/(σ) structure</text>
+  <text x="140" y="143" text-anchor="middle" fill="#88bbcc" font-size="10">r₃(d²) = branching at level d</text>
+  <text x="140" y="160" text-anchor="middle" fill="#4ecdc4" font-size="9">✓ sigma_equiv_same_hyp_mod</text>
+  <line x1="200" y1="180" x2="370" y2="255" stroke="#4ecdc4" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Q2: Hurwitz (top-right) -->
+  <rect x="650" y="80" width="220" height="100" rx="10" fill="#1a1a4a" stroke="#a29bfe" stroke-width="1.5"/>
+  <text x="760" y="105" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="bold">Q2: Hurwitz D₄</text>
+  <text x="760" y="125" text-anchor="middle" fill="#8888cc" font-size="11">24-cell ⊃ cross-polytope</text>
+  <text x="760" y="143" text-anchor="middle" fill="#8888cc" font-size="10">3× denser, 2.4× shallower</text>
+  <text x="760" y="160" text-anchor="middle" fill="#a29bfe" font-size="9">✓ hurwitz_24cell, r4_two</text>
+  <line x1="700" y1="180" x2="530" y2="255" stroke="#a29bfe" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Q3: Octonion obstruction (bottom-left) -->
+  <rect x="30" y="400" width="220" height="100" rx="10" fill="#1a1a4a" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="140" y="425" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">Q3: Octonion Block</text>
+  <text x="140" y="445" text-anchor="middle" fill="#cc8888" font-size="11">η(1,...,1) = 6, need 3 | η(x,s)</text>
+  <text x="140" y="463" text-anchor="middle" fill="#cc8888" font-size="10">Non-assoc kills tree structure</text>
+  <text x="140" y="480" text-anchor="middle" fill="#ff6b6b" font-size="9">✓ octonion_obstruction</text>
+  <line x1="200" y1="400" x2="370" y2="320" stroke="#ff6b6b" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Q4: Quantum gates (bottom-center/right) — HIGHLIGHTED -->
+  <g filter="url(#g5)">
+    <rect x="310" y="390" width="290" height="120" rx="12" fill="#2a1a4a" stroke="#ff9f43" stroke-width="2"/>
+    <text x="455" y="415" text-anchor="middle" fill="#ff9f43" font-size="14" font-weight="bold">Q4: QUANTUM GATE SYNTHESIS</text>
+    <text x="455" y="438" text-anchor="middle" fill="#ddaa66" font-size="11">Integer SU(2) points → gate decomposition</text>
+    <text x="455" y="458" text-anchor="middle" fill="#ddaa66" font-size="10">Clifford+T: T = (1,1,0,0), |T|² = 2</text>
+    <text x="455" y="478" text-anchor="middle" fill="#ddaa66" font-size="10">Clifford+V: V = (2,1,0,0), |V|² = 5</text>
+    <text x="455" y="498" text-anchor="middle" fill="#ff9f43" font-size="9">✓ quantum_gate_optimization_master</text>
+  </g>
+  <line x1="450" y1="320" x2="450" y2="390" stroke="#ff9f43" stroke-width="2" opacity="0.8"/>
+
+  <!-- Q5: Modular forms (bottom-right) -->
+  <rect x="650" y="400" width="220" height="100" rx="10" fill="#1a1a4a" stroke="#55efc4" stroke-width="1.5"/>
+  <text x="760" y="425" text-anchor="middle" fill="#55efc4" font-size="13" font-weight="bold">Q5: Modular Forms</text>
+  <text x="760" y="445" text-anchor="middle" fill="#88ccaa" font-size="11">θ₃(q)³ controls branching</text>
+  <text x="760" y="463" text-anchor="middle" fill="#88ccaa" font-size="10">r₃(n) = 12·h(-4n) (sqfree)</text>
+  <text x="760" y="480" text-anchor="middle" fill="#55efc4" font-size="9">✓ branching_r3_connection</text>
+  <line x1="700" y1="400" x2="530" y2="320" stroke="#55efc4" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Key equations panel -->
+  <rect x="130" y="530" width="640" height="105" rx="10" fill="#0a0a28" stroke="#ffd700" stroke-width="1"/>
+  <text x="450" y="555" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">
+    Key Verified Results
+  </text>
+  <text x="180" y="578" fill="#4ecdc4" font-size="11">|α·β|² = |α|²·|β|²</text>
+  <text x="180" y="595" fill="#888" font-size="9">norm multiplicativity</text>
+  <text x="420" y="578" fill="#ff9f43" font-size="11">depth ≤ log₂(d) + 1</text>
+  <text x="420" y="595" fill="#888" font-size="9">gate count optimality</text>
+  <text x="630" y="578" fill="#a29bfe" font-size="11">log₅(d) ≤ log₂(d)</text>
+  <text x="630" y="595" fill="#888" font-size="9">V beats T in gate count</text>
+
+  <text x="300" y="622" fill="#55efc4" font-size="11">T⁸ = scalar (order 8)</text>
+  <text x="300" y="635" fill="#888" font-size="9">T gate periodicity</text>
+  <text x="560" y="622" fill="#ff6b6b" font-size="11">r₄(2) = 24 = 3 × r₄(1)</text>
+  <text x="560" y="635" fill="#888" font-size="9">Hurwitz density advantage</text>
+</svg>

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <radialGradient id="repulsor" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="attractor" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#51cf66;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#51cf66;stop-opacity:0"/>
+    </radialGradient>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b6b"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#51cf66"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg2)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ff6b6b" font-size="22" font-weight="bold">
+    GOODHART'S LAW AS A REPULSOR THEOREM
+  </text>
+  <text x="400" y="58" text-anchor="middle" fill="#888" font-size="13" font-style="italic">
+    "When a measure becomes a target, it ceases to be a good measure"
+  </text>
+  
+  <!-- Left panel: Repulsor -->
+  <text x="200" y="95" text-anchor="middle" fill="#ff6b6b" font-size="16" font-weight="bold">Proxy Optimum (Repulsor)</text>
+  
+  <!-- Repulsor glow -->
+  <circle cx="200" cy="250" r="80" fill="url(#repulsor)"/>
+  <circle cx="200" cy="250" r="6" fill="#ff6b6b" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="200" y="245" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="bold">PROXY</text>
+  <text x="200" y="258" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="bold">OPTIMUM</text>
+  
+  <!-- Arrows pointing AWAY from repulsor -->
+  <line x1="215" y1="235" x2="260" y2="200" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="220" y1="250" x2="270" y2="250" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="215" y1="265" x2="260" y2="300" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="185" y1="235" x2="140" y2="200" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="180" y1="250" x2="130" y2="250" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="185" y1="265" x2="140" y2="300" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="200" y1="230" x2="200" y2="180" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  <line x1="200" y1="270" x2="200" y2="320" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+  
+  <!-- Right panel: True Attractor -->
+  <text x="600" y="95" text-anchor="middle" fill="#51cf66" font-size="16" font-weight="bold">True Optimum (Attractor)</text>
+  
+  <!-- Attractor glow -->
+  <circle cx="600" cy="250" r="80" fill="url(#attractor)"/>
+  <circle cx="600" cy="250" r="6" fill="#51cf66" stroke="#51cf66" stroke-width="2"/>
+  <text x="600" y="245" text-anchor="middle" fill="#51cf66" font-size="10" font-weight="bold">TRUE</text>
+  <text x="600" y="258" text-anchor="middle" fill="#51cf66" font-size="10" font-weight="bold">OPTIMUM</text>
+  
+  <!-- Arrows pointing TOWARD attractor -->
+  <line x1="660" y1="200" x2="615" y2="235" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="670" y1="250" x2="620" y2="250" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="660" y1="300" x2="615" y2="265" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="540" y1="200" x2="585" y2="235" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="530" y1="250" x2="580" y2="250" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="540" y1="300" x2="585" y2="265" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="600" y1="180" x2="600" y2="230" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <line x1="600" y1="320" x2="600" y2="270" stroke="#51cf66" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  
+  <!-- Center: Contradiction -->
+  <text x="400" y="240" text-anchor="middle" fill="#ffd43b" font-size="28" font-weight="bold">≠</text>
+  <text x="400" y="270" text-anchor="middle" fill="#888" font-size="12">Cannot be both</text>
+  
+  <!-- Bottom: Alignment Decay -->
+  <rect x="100" y="360" width="600" height="120" rx="8" fill="#0d1117" stroke="#333"/>
+  <text x="400" y="385" text-anchor="middle" fill="#ffd43b" font-size="14" font-weight="bold">
+    ALIGNMENT DECAY: alignment(t) = c · r^t → 0
+  </text>
+  
+  <!-- Decay curve -->
+  <polyline points="140,420 180,422 220,425 260,430 300,438 340,448 380,456 420,462 460,466 500,468 540,469 580,470 620,470 660,470" 
+            fill="none" stroke="#ffd43b" stroke-width="2"/>
+  <text x="140" y="415" fill="#ffd43b" font-size="10">aligned</text>
+  <text x="620" y="465" fill="#888" font-size="10">misaligned</text>
+  <text x="400" y="415" fill="#888" font-size="11">t (optimization steps) →</text>
+</svg>

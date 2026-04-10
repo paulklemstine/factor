@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <marker id="arrow-down" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <polygon points="0 0, 8 0, 4 6" fill="#6366f1"/>
+    </marker>
+    <linearGradient id="lattice-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#faf5ff"/>
+      <stop offset="100%" style="stop-color:#f3e8ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#8b5cf6" flood-opacity="0.3"/>
+    </filter>
+    <filter id="soft-shadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#lattice-bg)" rx="12"/>
+  
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="bold" fill="#3b0764">
+    Hierarchical Orbit Decomposition Lattice
+  </text>
+  <text x="450" y="60" text-anchor="middle" font-size="13" fill="#7c3aed">
+    Theorem 4.3: The orbit lattice mirrors the divisor lattice of n = 2 × 3 × 5 × 7 = 210
+  </text>
+  
+  <!-- Level 0: n = 210 -->
+  <g filter="url(#glow)">
+    <rect x="365" y="85" width="170" height="50" rx="12" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+    <text x="450" y="107" text-anchor="middle" font-size="16" font-weight="bold" fill="white">ℤ/210ℤ</text>
+    <text x="450" y="125" text-anchor="middle" font-size="11" fill="#e9d5ff">λ₂₁₀ = lcm(λ₂,λ₃,λ₅,λ₇)</text>
+  </g>
+  
+  <!-- Level 1: Two-prime products -->
+  <!-- 2×3=6, 2×5=10, 2×7=14, 3×5=15, 3×7=21, 5×7=35 -->
+  <!-- Show just 4 representative ones -->
+  
+  <line x1="420" y1="135" x2="180" y2="185" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="440" y1="135" x2="370" y2="185" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="460" y1="135" x2="530" y2="185" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="480" y1="135" x2="720" y2="185" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <g filter="url(#soft-shadow)">
+    <rect x="110" y="185" width="140" height="45" rx="10" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="180" y="205" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ℤ/6ℤ</text>
+    <text x="180" y="222" text-anchor="middle" font-size="10" fill="#ede9fe">λ₆ = lcm(λ₂,λ₃)</text>
+  </g>
+  
+  <g filter="url(#soft-shadow)">
+    <rect x="300" y="185" width="140" height="45" rx="10" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="370" y="205" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ℤ/10ℤ</text>
+    <text x="370" y="222" text-anchor="middle" font-size="10" fill="#ede9fe">λ₁₀ = lcm(λ₂,λ₅)</text>
+  </g>
+  
+  <g filter="url(#soft-shadow)">
+    <rect x="460" y="185" width="140" height="45" rx="10" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="530" y="205" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ℤ/21ℤ</text>
+    <text x="530" y="222" text-anchor="middle" font-size="10" fill="#ede9fe">λ₂₁ = lcm(λ₃,λ₇)</text>
+  </g>
+  
+  <g filter="url(#soft-shadow)">
+    <rect x="650" y="185" width="140" height="45" rx="10" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="720" y="205" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ℤ/35ℤ</text>
+    <text x="720" y="222" text-anchor="middle" font-size="10" fill="#ede9fe">λ₃₅ = lcm(λ₅,λ₇)</text>
+  </g>
+  
+  <!-- Ellipsis for other products -->
+  <text x="450" y="260" text-anchor="middle" font-size="14" fill="#7c3aed">⋯ (6 two-factor products total) ⋯</text>
+  
+  <!-- Level 2: Primes -->
+  <line x1="180" y1="230" x2="130" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="180" y1="230" x2="320" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="370" y1="230" x2="130" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="370" y1="230" x2="510" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="530" y1="230" x2="320" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="530" y1="230" x2="700" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="720" y1="230" x2="510" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="720" y1="230" x2="700" y2="300" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <g filter="url(#glow)">
+    <rect x="65" y="300" width="130" height="50" rx="12" fill="#f43f5e" stroke="#be123c" stroke-width="2"/>
+    <text x="130" y="322" text-anchor="middle" font-size="16" font-weight="bold" fill="white">ℤ/2ℤ</text>
+    <text x="130" y="340" text-anchor="middle" font-size="11" fill="#fecdd3">λ₂ (tiny orbit)</text>
+  </g>
+  
+  <g filter="url(#glow)">
+    <rect x="255" y="300" width="130" height="50" rx="12" fill="#f97316" stroke="#c2410c" stroke-width="2"/>
+    <text x="320" y="322" text-anchor="middle" font-size="16" font-weight="bold" fill="white">ℤ/3ℤ</text>
+    <text x="320" y="340" text-anchor="middle" font-size="11" fill="#fed7aa">λ₃ (small orbit)</text>
+  </g>
+  
+  <g filter="url(#glow)">
+    <rect x="445" y="300" width="130" height="50" rx="12" fill="#eab308" stroke="#a16207" stroke-width="2"/>
+    <text x="510" y="322" text-anchor="middle" font-size="16" font-weight="bold" fill="white">ℤ/5ℤ</text>
+    <text x="510" y="340" text-anchor="middle" font-size="11" fill="#fef9c3">λ₅ (medium orbit)</text>
+  </g>
+  
+  <g filter="url(#glow)">
+    <rect x="635" y="300" width="130" height="50" rx="12" fill="#22c55e" stroke="#15803d" stroke-width="2"/>
+    <text x="700" y="322" text-anchor="middle" font-size="16" font-weight="bold" fill="white">ℤ/7ℤ</text>
+    <text x="700" y="340" text-anchor="middle" font-size="11" fill="#dcfce7">λ₇ (larger orbit)</text>
+  </g>
+  
+  <!-- Level 3: Trivial -->
+  <line x1="130" y1="350" x2="420" y2="410" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="320" y1="350" x2="430" y2="410" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="510" y1="350" x2="440" y2="410" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="700" y1="350" x2="450" y2="410" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+  
+  <g filter="url(#soft-shadow)">
+    <rect x="385" y="410" width="130" height="45" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="450" y="432" text-anchor="middle" font-size="14" font-weight="bold" fill="#475569">ℤ/1ℤ</text>
+    <text x="450" y="447" text-anchor="middle" font-size="10" fill="#64748b">trivial orbit</text>
+  </g>
+  
+  <!-- Key insight boxes -->
+  <rect x="50" y="490" width="380" height="100" rx="10" fill="white" stroke="#7c3aed" stroke-width="1.5" filter="url(#soft-shadow)"/>
+  <text x="240" y="515" text-anchor="middle" font-size="13" font-weight="bold" fill="#5b21b6">🔑 Key Insight: Period Divisibility</text>
+  <text x="240" y="535" text-anchor="middle" font-size="12" fill="#334155">For any d₁ | d₂ | n:  λ_{d₁} | λ_{d₂}</text>
+  <text x="240" y="555" text-anchor="middle" font-size="12" fill="#334155">For coprime d₁, d₂:  λ_{d₁·d₂} = lcm(λ_{d₁}, λ_{d₂})</text>
+  <text x="240" y="575" text-anchor="middle" font-size="11" fill="#64748b">The orbit lattice is isomorphic to the divisor lattice!</text>
+  
+  <rect x="470" y="490" width="380" height="100" rx="10" fill="white" stroke="#f43f5e" stroke-width="1.5" filter="url(#soft-shadow)"/>
+  <text x="660" y="515" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">🎯 Factoring Application</text>
+  <text x="660" y="535" text-anchor="middle" font-size="12" fill="#334155">Smallest factor p has shortest orbit shadow</text>
+  <text x="660" y="555" text-anchor="middle" font-size="12" fill="#334155">→ Collisions mod p happen first (after ~√p steps)</text>
+  <text x="660" y="575" text-anchor="middle" font-size="11" fill="#64748b">A single walk probes ALL levels simultaneously</text>
+  
+  <!-- Decorative: orbit icons -->
+  <text x="50" y="680" font-size="11" fill="#94a3b8">Integer Orbit Factoring — Hierarchical Decomposition (Theorem 4.3)</text>
+</svg>

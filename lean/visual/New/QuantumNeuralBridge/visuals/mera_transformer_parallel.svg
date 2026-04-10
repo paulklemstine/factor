@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="meraGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498DB;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#3498DB;stop-opacity:0.05" />
+    </linearGradient>
+    <linearGradient id="transGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E74C3C;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#E74C3C;stop-opacity:0.05" />
+    </linearGradient>
+  </defs>
+
+  <text x="500" y="35" text-anchor="middle" font-size="24" font-weight="bold" fill="#2C3E50">
+    MERA ↔ Transformer Structural Parallel
+  </text>
+
+  <!-- MERA Side -->
+  <rect x="20" y="60" width="460" height="620" rx="12" fill="url(#meraGrad)" stroke="#3498DB" stroke-width="2"/>
+  <text x="250" y="90" text-anchor="middle" font-size="18" font-weight="bold" fill="#2C3E50">MERA (Quantum)</text>
+
+  <!-- MERA tree structure -->
+  <!-- Layer 3 (top) - single node -->
+  <circle cx="250" cy="140" r="15" fill="#3498DB" stroke="#2C3E50" stroke-width="2"/>
+  <text x="250" y="145" text-anchor="middle" font-size="10" fill="white" font-weight="bold">ρ</text>
+  
+  <!-- Layer 2 - isometries -->
+  <rect x="160" y="185" width="30" height="20" rx="4" fill="#2ECC71" stroke="#2C3E50" stroke-width="1.5"/>
+  <rect x="310" y="185" width="30" height="20" rx="4" fill="#2ECC71" stroke="#2C3E50" stroke-width="1.5"/>
+  <text x="175" y="198" text-anchor="middle" font-size="8" fill="white" font-weight="bold">W</text>
+  <text x="325" y="198" text-anchor="middle" font-size="8" fill="white" font-weight="bold">W</text>
+  <line x1="250" y1="155" x2="175" y2="185" stroke="#2C3E50" stroke-width="1.5"/>
+  <line x1="250" y1="155" x2="325" y2="185" stroke="#2C3E50" stroke-width="1.5"/>
+  
+  <!-- Layer 2 - disentanglers -->
+  <rect x="115" y="230" width="30" height="20" rx="4" fill="#E67E22" stroke="#2C3E50" stroke-width="1.5"/>
+  <rect x="205" y="230" width="30" height="20" rx="4" fill="#E67E22" stroke="#2C3E50" stroke-width="1.5"/>
+  <rect x="265" y="230" width="30" height="20" rx="4" fill="#E67E22" stroke="#2C3E50" stroke-width="1.5"/>
+  <rect x="355" y="230" width="30" height="20" rx="4" fill="#E67E22" stroke="#2C3E50" stroke-width="1.5"/>
+  <text x="130" y="243" text-anchor="middle" font-size="8" fill="white" font-weight="bold">U</text>
+  <text x="220" y="243" text-anchor="middle" font-size="8" fill="white" font-weight="bold">U</text>
+  <text x="280" y="243" text-anchor="middle" font-size="8" fill="white" font-weight="bold">U</text>
+  <text x="370" y="243" text-anchor="middle" font-size="8" fill="white" font-weight="bold">U</text>
+  
+  <!-- Lines from isometries to disentanglers -->
+  <line x1="165" y1="205" x2="130" y2="230" stroke="#2C3E50" stroke-width="1"/>
+  <line x1="185" y1="205" x2="220" y2="230" stroke="#2C3E50" stroke-width="1"/>
+  <line x1="315" y1="205" x2="280" y2="230" stroke="#2C3E50" stroke-width="1"/>
+  <line x1="335" y1="205" x2="370" y2="230" stroke="#2C3E50" stroke-width="1"/>
+  
+  <!-- Bottom layer - physical qubits -->
+  <g transform="translate(0,30)">
+    <circle cx="85" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="130" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="175" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="220" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="265" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="310" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="355" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <circle cx="400" cy="290" r="8" fill="#3498DB" opacity="0.7"/>
+    <text x="250" y="320" text-anchor="middle" font-size="12" fill="#2C3E50">Physical qubits (n sites)</text>
+  </g>
+
+  <!-- MERA labels -->
+  <text x="45" y="200" font-size="11" fill="#2C3E50">Isometry</text>
+  <text x="45" y="215" font-size="10" fill="#27AE60" font-weight="bold">↳ Coarse-grain</text>
+  <text x="45" y="245" font-size="11" fill="#2C3E50">Disentangler</text>
+  <text x="45" y="260" font-size="10" fill="#E67E22" font-weight="bold">↳ Remove entanglement</text>
+
+  <!-- MERA properties -->
+  <text x="50" y="380" font-size="14" font-weight="bold" fill="#2C3E50">Properties:</text>
+  <text x="50" y="400" font-size="12" fill="#555">• Depth: O(log n) ✓</text>
+  <text x="50" y="418" font-size="12" fill="#555">• Gates: O(n) total ✓</text>
+  <text x="50" y="436" font-size="12" fill="#555">• Causal cone: O(log n)</text>
+  <text x="50" y="454" font-size="12" fill="#555">• Unitary evolution</text>
+  <text x="50" y="472" font-size="12" fill="#555">• Scale-invariant</text>
+
+  <!-- Transformer Side -->
+  <rect x="520" y="60" width="460" height="620" rx="12" fill="url(#transGrad)" stroke="#E74C3C" stroke-width="2"/>
+  <text x="750" y="90" text-anchor="middle" font-size="18" font-weight="bold" fill="#2C3E50">Transformer (Classical)</text>
+
+  <!-- Transformer layers -->
+  <!-- Output -->
+  <rect x="620" y="125" width="260" height="30" rx="6" fill="#E74C3C" opacity="0.3" stroke="#E74C3C" stroke-width="1.5"/>
+  <text x="750" y="145" text-anchor="middle" font-size="12" fill="#2C3E50" font-weight="bold">Output Projection</text>
+  
+  <!-- FFN Layer -->
+  <rect x="620" y="170" width="260" height="30" rx="6" fill="#2ECC71" opacity="0.3" stroke="#2ECC71" stroke-width="1.5"/>
+  <text x="750" y="190" text-anchor="middle" font-size="12" fill="#2C3E50" font-weight="bold">Feed-Forward (FFN)</text>
+  
+  <!-- Attention Layer -->
+  <rect x="620" y="215" width="260" height="30" rx="6" fill="#E67E22" opacity="0.3" stroke="#E67E22" stroke-width="1.5"/>
+  <text x="750" y="235" text-anchor="middle" font-size="12" fill="#2C3E50" font-weight="bold">Multi-Head Attention</text>
+  
+  <!-- Another block -->
+  <rect x="620" y="265" width="260" height="30" rx="6" fill="#2ECC71" opacity="0.3" stroke="#2ECC71" stroke-width="1.5"/>
+  <text x="750" y="285" text-anchor="middle" font-size="12" fill="#2C3E50" font-weight="bold">Feed-Forward (FFN)</text>
+  
+  <rect x="620" y="310" width="260" height="30" rx="6" fill="#E67E22" opacity="0.3" stroke="#E67E22" stroke-width="1.5"/>
+  <text x="750" y="330" text-anchor="middle" font-size="12" fill="#2C3E50" font-weight="bold">Multi-Head Attention</text>
+  
+  <!-- Input embeddings -->
+  <g>
+    <rect x="620" y="360" width="260" height="25" rx="6" fill="#3498DB" opacity="0.2" stroke="#3498DB" stroke-width="1"/>
+    <text x="750" y="377" text-anchor="middle" font-size="11" fill="#2C3E50">Input Embeddings (n tokens)</text>
+  </g>
+
+  <!-- Transformer properties -->
+  <text x="550" y="420" font-size="14" font-weight="bold" fill="#2C3E50">Properties:</text>
+  <text x="550" y="440" font-size="12" fill="#555">• Depth: L layers</text>
+  <text x="550" y="458" font-size="12" fill="#555">• Params: O(L·d²) ✓</text>
+  <text x="550" y="476" font-size="12" fill="#555">• Attention window: all-to-all</text>
+  <text x="550" y="494" font-size="12" fill="#555">• Softmax normalization</text>
+  <text x="550" y="512" font-size="12" fill="#555">• Residual connections</text>
+
+  <!-- Correspondence arrows -->
+  <text x="500" y="195" text-anchor="middle" font-size="16" fill="#9B59B6" font-weight="bold">↔</text>
+  <text x="500" y="240" text-anchor="middle" font-size="16" fill="#9B59B6" font-weight="bold">↔</text>
+
+  <!-- Correspondence table -->
+  <rect x="50" y="530" width="900" height="130" rx="10" fill="white" stroke="#9B59B6" stroke-width="2" opacity="0.9"/>
+  <text x="500" y="555" text-anchor="middle" font-size="16" font-weight="bold" fill="#8E44AD">Verified Correspondences</text>
+  
+  <text x="80" y="580" font-size="12" fill="#3498DB" font-weight="bold">MERA</text>
+  <text x="450" y="580" font-size="12" fill="#9B59B6" font-weight="bold">Bridge Theorem</text>
+  <text x="780" y="580" font-size="12" fill="#E74C3C" font-weight="bold">Transformer</text>
+  
+  <line x1="70" y1="588" x2="930" y2="588" stroke="#DDD" stroke-width="1"/>
+  
+  <text x="80" y="605" font-size="11" fill="#555">Disentanglers (U)</text>
+  <text x="450" y="605" font-size="11" fill="#555">Pairwise mixing</text>
+  <text x="780" y="605" font-size="11" fill="#555">Attention heads</text>
+  
+  <text x="80" y="625" font-size="11" fill="#555">Isometries (W)</text>
+  <text x="450" y="625" font-size="11" fill="#555">Dimension reduction</text>
+  <text x="780" y="625" font-size="11" fill="#555">FFN layers</text>
+  
+  <text x="80" y="645" font-size="11" fill="#555">Causal cone</text>
+  <text x="450" y="645" font-size="11" fill="#555">Information flow</text>
+  <text x="780" y="645" font-size="11" fill="#555">Causal masking</text>
+</svg>

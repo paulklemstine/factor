@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <radialGradient id="sphereGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#2a4a8a;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#0a1a3a;stop-opacity:0.1"/>
+    </radialGradient>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a"/>
+      <stop offset="100%" style="stop-color:#1b2d4a"/>
+    </linearGradient>
+    <filter id="ptGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="700" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">Sphere Collision Factor Extraction</text>
+  <text x="450" y="65" text-anchor="middle" fill="#7799bb" font-size="14">Two quadruples on the same sphere → algebraic constraints → factors</text>
+
+  <!-- The Sphere (d=9) -->
+  <g transform="translate(300, 310)">
+    <!-- Sphere wireframe -->
+    <ellipse cx="0" cy="0" rx="200" ry="200" fill="url(#sphereGrad)" stroke="#3366aa" stroke-width="1.5" opacity="0.4"/>
+    <ellipse cx="0" cy="0" rx="200" ry="60" fill="none" stroke="#3366aa" stroke-width="0.8" opacity="0.3"/>
+    <ellipse cx="0" cy="0" rx="60" ry="200" fill="none" stroke="#3366aa" stroke-width="0.8" opacity="0.3" transform="rotate(30)"/>
+    <ellipse cx="0" cy="0" rx="60" ry="200" fill="none" stroke="#3366aa" stroke-width="0.8" opacity="0.3" transform="rotate(-30)"/>
+
+    <!-- Label -->
+    <text x="0" y="-215" text-anchor="middle" fill="#6699cc" font-size="16" font-weight="bold">S²(9) : a² + b² + c² = 81</text>
+
+    <!-- Point 1: (1, 4, 8) -->
+    <circle cx="-120" cy="-80" r="8" fill="#ff6b6b" filter="url(#ptGlow)"/>
+    <text x="-120" y="-95" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">(1, 4, 8)</text>
+    <text x="-120" y="-110" text-anchor="middle" fill="#ff9999" font-size="11">1+16+64=81</text>
+
+    <!-- Point 2: (4, 4, 7) -->
+    <circle cx="100" cy="60" r="8" fill="#48dbfb" filter="url(#ptGlow)"/>
+    <text x="100" y="85" text-anchor="middle" fill="#48dbfb" font-size="13" font-weight="bold">(4, 4, 7)</text>
+    <text x="100" y="100" text-anchor="middle" fill="#88ccff" font-size="11">16+16+49=81</text>
+
+    <!-- Connection line -->
+    <line x1="-112" y1="-72" x2="92" y2="52" stroke="#ffffff" stroke-width="1" stroke-dasharray="5,5" opacity="0.4"/>
+
+    <!-- Cross identity arrow -->
+    <text x="-10" y="-20" text-anchor="middle" fill="#ffd32a" font-size="11" font-weight="bold">Cross Identity</text>
+  </g>
+
+  <!-- Cross Identity Box -->
+  <g transform="translate(550, 160)">
+    <rect x="0" y="0" width="320" height="200" rx="10" fill="none" stroke="#ffd32a" stroke-width="1.5" opacity="0.6"/>
+    <rect x="0" y="0" width="320" height="35" rx="10" fill="#ffd32a" opacity="0.15"/>
+    <text x="160" y="24" text-anchor="middle" fill="#ffd32a" font-size="14" font-weight="bold">Sphere Cross Identity</text>
+
+    <text x="20" y="60" fill="#ffffff" font-size="12">(a₁+a₂)(a₁−a₂) =</text>
+    <text x="30" y="80" fill="#ffffff" font-size="12">(b₂+b₁)(b₂−b₁) + (c₂+c₁)(c₂−c₁)</text>
+
+    <text x="20" y="115" fill="#ff6b6b" font-size="12">Point 1: (1, 4, 8)</text>
+    <text x="20" y="135" fill="#48dbfb" font-size="12">Point 2: (4, 4, 7)</text>
+
+    <text x="20" y="165" fill="#cccccc" font-size="12">(1+4)(1−4) = (4+4)(4−4) + (7+8)(7−8)</text>
+    <text x="20" y="185" fill="#88ff88" font-size="13" font-weight="bold">   −15    =     0      +    −15   ✓</text>
+  </g>
+
+  <!-- Factor Extraction -->
+  <g transform="translate(550, 400)">
+    <rect x="0" y="0" width="320" height="160" rx="10" fill="none" stroke="#88ff88" stroke-width="1.5" opacity="0.6"/>
+    <rect x="0" y="0" width="320" height="35" rx="10" fill="#88ff88" opacity="0.15"/>
+    <text x="160" y="24" text-anchor="middle" fill="#88ff88" font-size="14" font-weight="bold">Channel Cross-Analysis</text>
+
+    <text x="20" y="55" fill="#ff6b6b" font-size="12">Q₁: d−c = 9−8 = 1</text>
+    <text x="20" y="75" fill="#48dbfb" font-size="12">Q₂: d−c = 9−7 = 2</text>
+    <text x="20" y="100" fill="#cccccc" font-size="12">gcd(d−c₁, d−c₂) = gcd(1, 2) = 1</text>
+
+    <text x="20" y="125" fill="#ff6b6b" font-size="12">Q₁: d+c = 9+8 = 17</text>
+    <text x="20" y="145" fill="#48dbfb" font-size="12">Q₂: d+c = 9+7 = 16</text>
+  </g>
+
+  <!-- Key Theorem -->
+  <g transform="translate(50, 560)">
+    <rect x="0" y="0" width="800" height="60" rx="10" fill="none" stroke="#aabbdd" stroke-width="1" opacity="0.4"/>
+    <text x="400" y="25" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">Key Theorem: If p is prime and p | a²+b², then p | (d−c) or p | (d+c)</text>
+    <text x="400" y="48" text-anchor="middle" fill="#aabbcc" font-size="12">→ Each prime factor of a²+b² constrains d±c modulo that prime</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(50, 635)">
+    <circle cx="10" cy="8" r="5" fill="#ff6b6b"/>
+    <text x="25" y="13" fill="#cccccc" font-size="11">Quadruple 1</text>
+    <circle cx="130" cy="8" r="5" fill="#48dbfb"/>
+    <text x="145" y="13" fill="#cccccc" font-size="11">Quadruple 2</text>
+    <text x="260" y="13" fill="#ffd32a" font-size="11">● Cross constraints encode factor information</text>
+  </g>
+
+  <text x="450" y="690" text-anchor="middle" fill="#445566" font-size="10">Shared Factor Bridge — Machine-Verified Mathematics</text>
+</svg>

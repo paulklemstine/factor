@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="profitGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:0.3"/>
+      <stop offset="50%" style="stop-color:#22c55e;stop-opacity:0.05"/>
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:0.3"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">
+    Sandwich Attack Non-Monotonicity (Machine-Verified)
+  </text>
+  <text x="400" y="55" text-anchor="middle" font-size="12" fill="#64748b">
+    Theorem: ∃ f₁ &lt; f₂, NetProfit(f₂) &lt; NetProfit(f₁) — Proved in Lean 4
+  </text>
+
+  <!-- Axes -->
+  <line x1="80" y1="400" x2="750" y2="400" stroke="#334155" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="80" y1="400" x2="80" y2="70" stroke="#334155" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Axis labels -->
+  <text x="420" y="445" text-anchor="middle" font-size="14" fill="#334155">Front-run size (f)</text>
+  <text x="30" y="240" text-anchor="middle" font-size="14" fill="#334155" transform="rotate(-90, 30, 240)">Net Profit</text>
+
+  <!-- Zero line -->
+  <line x1="80" y1="280" x2="740" y2="280" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,5"/>
+  <text x="75" y="284" text-anchor="end" font-size="11" fill="#94a3b8">0</text>
+
+  <!-- Profit curve (non-monotone) -->
+  <!-- Rises from 0, peaks, then falls below 0 -->
+  <path d="M 80 280 Q 120 278 150 260 Q 200 220 250 180 Q 300 160 330 155 Q 370 160 410 180 Q 460 220 500 280 Q 540 340 580 370 Q 640 400 700 410"
+        fill="none" stroke="#3b82f6" stroke-width="3"/>
+
+  <!-- Gain curve (always positive, approaching 0) -->
+  <path d="M 80 280 Q 150 200 220 160 Q 300 130 380 120 Q 460 115 540 112 Q 620 110 700 110"
+        fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="8,4"/>
+
+  <!-- Slippage curve (quadratic growth) -->
+  <path d="M 80 280 Q 150 270 220 250 Q 300 215 380 170 Q 460 110 540 50"
+        fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="8,4"/>
+
+  <!-- Optimal point -->
+  <circle cx="330" cy="155" r="6" fill="#3b82f6" stroke="white" stroke-width="2"/>
+  <text x="340" y="140" font-size="12" fill="#3b82f6" font-weight="bold">f* (optimal)</text>
+  <text x="340" y="154" font-size="10" fill="#64748b">= √(x(x+v)) − x</text>
+
+  <!-- Zero crossing -->
+  <circle cx="500" cy="280" r="5" fill="#f59e0b" stroke="white" stroke-width="2"/>
+  <text x="510" y="270" font-size="11" fill="#f59e0b">break-even</text>
+
+  <!-- Non-monotonicity annotation -->
+  <circle cx="250" cy="180" r="4" fill="#8b5cf6"/>
+  <circle cx="600" cy="380" r="4" fill="#8b5cf6"/>
+  <line x1="250" y1="180" x2="250" y2="100" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="600" y1="380" x2="600" y2="100" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="250" y="95" text-anchor="middle" font-size="10" fill="#8b5cf6">f₁</text>
+  <text x="600" y="95" text-anchor="middle" font-size="10" fill="#8b5cf6">f₂</text>
+
+  <!-- Arrow showing non-monotonicity -->
+  <path d="M 260 95 L 590 95" fill="none" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="425" y="88" text-anchor="middle" font-size="10" fill="#8b5cf6" font-weight="bold">
+    f₁ &lt; f₂ but Profit(f₁) &gt; Profit(f₂)
+  </text>
+
+  <!-- Legend -->
+  <rect x="560" y="430" width="220" height="60" fill="white" stroke="#e2e8f0" rx="4"/>
+  <line x1="570" y1="445" x2="600" y2="445" stroke="#3b82f6" stroke-width="3"/>
+  <text x="610" y="449" font-size="11" fill="#334155">Net Profit</text>
+  <line x1="570" y1="462" x2="600" y2="462" stroke="#22c55e" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="610" y="466" font-size="11" fill="#334155">Gain (from victim)</text>
+  <line x1="570" y1="479" x2="600" y2="479" stroke="#ef4444" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="610" y="483" font-size="11" fill="#334155">Slippage Cost</text>
+
+  <!-- Regions -->
+  <rect x="81" y="155" width="419" height="125" fill="#22c55e" fill-opacity="0.05"/>
+  <text x="250" y="290" text-anchor="middle" font-size="10" fill="#22c55e">Profitable Region</text>
+  <rect x="500" y="280" width="240" height="130" fill="#ef4444" fill-opacity="0.05"/>
+  <text x="620" y="310" text-anchor="middle" font-size="10" fill="#ef4444">Loss Region</text>
+</svg>

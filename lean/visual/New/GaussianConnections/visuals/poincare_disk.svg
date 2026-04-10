@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <style>
+      .disk-boundary { fill: #fafafa; stroke: #333; stroke-width: 2; }
+      .hyp-point { stroke: #333; stroke-width: 1; }
+      .hyp-edge { stroke: #999; stroke-width: 1; stroke-opacity: 0.5; }
+      .hyp-label { fill: #333; font-family: 'Courier New', monospace; font-size: 8px; text-anchor: middle; dominant-baseline: central; }
+      .disk-title { fill: #333; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; }
+    </style>
+    <radialGradient id="diskGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8e8f0;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#f5f5fa"/>
+  <text x="400" y="30" class="disk-title">Berggren Tree in the Poincaré Disk</text>
+  <circle cx="400" cy="400" r="350" fill="url(#diskGrad)" stroke="#333" stroke-width="2"/>
+
+  <line x1="607.9" y1="122.8" x2="533.3" y2="80.2" class="hyp-edge"/>
+  <line x1="607.9" y1="122.8" x2="650.9" y2="161.0" class="hyp-edge"/>
+  <line x1="607.9" y1="122.8" x2="705.7" y2="236.9" class="hyp-edge"/>
+  <line x1="533.3" y1="80.2" x2="497.0" y2="67.4" class="hyp-edge"/>
+  <line x1="533.3" y1="80.2" x2="661.1" y2="172.2" class="hyp-edge"/>
+  <line x1="533.3" y1="80.2" x2="694.2" y2="216.9" class="hyp-edge"/>
+  <line x1="497.0" y1="67.4" x2="476.1" y2="62.0" class="hyp-edge"/>
+  <line x1="497.0" y1="67.4" x2="665.6" y2="177.4" class="hyp-edge"/>
+  <line x1="497.0" y1="67.4" x2="689.3" y2="209.3" class="hyp-edge"/>
+  <line x1="476.1" y1="62.0" x2="462.5" y2="59.2" class="hyp-edge"/>
+  <line x1="476.1" y1="62.0" x2="668.1" y2="180.5" class="hyp-edge"/>
+  <line x1="476.1" y1="62.0" x2="686.6" y2="205.2" class="hyp-edge"/>
+  <line x1="665.6" y1="177.4" x2="558.1" y2="91.7" class="hyp-edge"/>
+  <line x1="665.6" y1="177.4" x2="641.3" y2="151.3" class="hyp-edge"/>
+  <line x1="665.6" y1="177.4" x2="717.1" y2="260.3" class="hyp-edge"/>
+  <line x1="689.3" y1="209.3" x2="568.4" y2="97.1" class="hyp-edge"/>
+  <line x1="689.3" y1="209.3" x2="636.3" y2="146.6" class="hyp-edge"/>
+  <line x1="689.3" y1="209.3" x2="723.0" y2="274.5" class="hyp-edge"/>
+  <line x1="661.1" y1="172.2" x2="556.1" y2="90.7" class="hyp-edge"/>
+  <line x1="661.1" y1="172.2" x2="642.1" y2="152.2" class="hyp-edge"/>
+  <line x1="661.1" y1="172.2" x2="716.1" y2="258.0" class="hyp-edge"/>
+  <line x1="556.1" y1="90.7" x2="508.9" y2="71.1" class="hyp-edge"/>
+  <line x1="556.1" y1="90.7" x2="658.1" y2="168.8" class="hyp-edge"/>
+  <line x1="556.1" y1="90.7" x2="697.5" y2="222.3" class="hyp-edge"/>
+  <line x1="642.1" y1="152.2" x2="548.1" y2="86.7" class="hyp-edge"/>
+  <line x1="642.1" y1="152.2" x2="645.5" y2="155.5" class="hyp-edge"/>
+  <line x1="642.1" y1="152.2" x2="712.1" y2="249.5" class="hyp-edge"/>
+  <line x1="716.1" y1="258.0" x2="581.1" y2="104.6" class="hyp-edge"/>
+  <line x1="716.1" y1="258.0" x2="629.1" y2="140.1" class="hyp-edge"/>
+  <line x1="716.1" y1="258.0" x2="731.3" y2="298.3" class="hyp-edge"/>
+  <line x1="694.2" y1="216.9" x2="570.6" y2="98.4" class="hyp-edge"/>
+  <line x1="694.2" y1="216.9" x2="635.2" y2="145.5" class="hyp-edge"/>
+  <line x1="694.2" y1="216.9" x2="724.3" y2="278.0" class="hyp-edge"/>
+  <line x1="570.6" y1="98.4" x2="516.0" y2="73.5" class="hyp-edge"/>
+  <line x1="570.6" y1="98.4" x2="656.2" y2="166.7" class="hyp-edge"/>
+  <line x1="570.6" y1="98.4" x2="699.7" y2="226.0" class="hyp-edge"/>
+  <line x1="635.2" y1="145.5" x2="545.1" y2="85.4" class="hyp-edge"/>
+  <line x1="635.2" y1="145.5" x2="646.7" y2="156.7" class="hyp-edge"/>
+  <line x1="635.2" y1="145.5" x2="710.7" y2="246.6" class="hyp-edge"/>
+  <line x1="724.3" y1="278.0" x2="585.6" y2="107.4" class="hyp-edge"/>
+  <line x1="724.3" y1="278.0" x2="626.2" y2="137.5" class="hyp-edge"/>
+  <line x1="724.3" y1="278.0" x2="734.4" y2="309.2" class="hyp-edge"/>
+  <line x1="650.9" y1="161.0" x2="551.8" y2="88.5" class="hyp-edge"/>
+  <line x1="650.9" y1="161.0" x2="644.0" y2="154.0" class="hyp-edge"/>
+  <line x1="650.9" y1="161.0" x2="713.9" y2="253.2" class="hyp-edge"/>
+  <line x1="551.8" y1="88.5" x2="506.8" y2="70.4" class="hyp-edge"/>
+  <line x1="551.8" y1="88.5" x2="658.7" y2="169.5" class="hyp-edge"/>
+  <line x1="551.8" y1="88.5" x2="696.9" y2="221.3" class="hyp-edge"/>
+  <line x1="506.8" y1="70.4" x2="482.0" y2="63.3" class="hyp-edge"/>
+  <line x1="506.8" y1="70.4" x2="664.4" y2="176.0" class="hyp-edge"/>
+  <line x1="506.8" y1="70.4" x2="690.6" y2="211.2" class="hyp-edge"/>
+  <line x1="658.7" y1="169.5" x2="555.1" y2="90.2" class="hyp-edge"/>
+  <line x1="658.7" y1="169.5" x2="642.6" y2="152.6" class="hyp-edge"/>
+  <line x1="658.7" y1="169.5" x2="715.5" y2="256.9" class="hyp-edge"/>
+  <line x1="696.9" y1="221.3" x2="571.8" y2="99.1" class="hyp-edge"/>
+  <line x1="696.9" y1="221.3" x2="634.5" y2="144.9" class="hyp-edge"/>
+  <line x1="696.9" y1="221.3" x2="725.1" y2="280.1" class="hyp-edge"/>
+  <line x1="644.0" y1="154.0" x2="548.9" y2="87.1" class="hyp-edge"/>
+  <line x1="644.0" y1="154.0" x2="645.2" y2="155.2" class="hyp-edge"/>
+  <line x1="644.0" y1="154.0" x2="712.5" y2="250.2" class="hyp-edge"/>
+  <line x1="548.9" y1="87.1" x2="505.3" y2="69.9" class="hyp-edge"/>
+  <line x1="548.9" y1="87.1" x2="659.1" y2="169.9" class="hyp-edge"/>
+  <line x1="548.9" y1="87.1" x2="696.4" y2="220.6" class="hyp-edge"/>
+  <line x1="645.2" y1="155.2" x2="549.4" y2="87.4" class="hyp-edge"/>
+  <line x1="645.2" y1="155.2" x2="645.0" y2="155.0" class="hyp-edge"/>
+  <line x1="645.2" y1="155.2" x2="712.7" y2="250.7" class="hyp-edge"/>
+  <line x1="712.5" y1="250.2" x2="579.2" y2="103.4" class="hyp-edge"/>
+  <line x1="712.5" y1="250.2" x2="630.2" y2="141.1" class="hyp-edge"/>
+  <line x1="712.5" y1="250.2" x2="730.0" y2="294.3" class="hyp-edge"/>
+  <line x1="713.9" y1="253.2" x2="579.9" y2="103.9" class="hyp-edge"/>
+  <line x1="713.9" y1="253.2" x2="629.8" y2="140.7" class="hyp-edge"/>
+  <line x1="713.9" y1="253.2" x2="730.5" y2="295.8" class="hyp-edge"/>
+  <line x1="579.9" y1="103.9" x2="520.5" y2="75.1" class="hyp-edge"/>
+  <line x1="579.9" y1="103.9" x2="654.9" y2="165.3" class="hyp-edge"/>
+  <line x1="579.9" y1="103.9" x2="701.1" y2="228.6" class="hyp-edge"/>
+  <line x1="629.8" y1="140.7" x2="542.8" y2="84.3" class="hyp-edge"/>
+  <line x1="629.8" y1="140.7" x2="647.5" y2="157.5" class="hyp-edge"/>
+  <line x1="629.8" y1="140.7" x2="709.7" y2="244.6" class="hyp-edge"/>
+  <line x1="730.5" y1="295.8" x2="589.3" y2="109.8" class="hyp-edge"/>
+  <line x1="730.5" y1="295.8" x2="623.6" y2="135.3" class="hyp-edge"/>
+  <line x1="730.5" y1="295.8" x2="737.0" y2="319.6" class="hyp-edge"/>
+  <line x1="705.7" y1="236.9" x2="575.9" y2="101.5" class="hyp-edge"/>
+  <line x1="705.7" y1="236.9" x2="632.2" y2="142.8" class="hyp-edge"/>
+  <line x1="705.7" y1="236.9" x2="727.8" y2="287.6" class="hyp-edge"/>
+  <line x1="575.9" y1="101.5" x2="518.6" y2="74.4" class="hyp-edge"/>
+  <line x1="575.9" y1="101.5" x2="655.5" y2="165.9" class="hyp-edge"/>
+  <line x1="575.9" y1="101.5" x2="700.5" y2="227.5" class="hyp-edge"/>
+  <line x1="518.6" y1="74.4" x2="488.9" y2="65.1" class="hyp-edge"/>
+  <line x1="518.6" y1="74.4" x2="662.9" y2="174.3" class="hyp-edge"/>
+  <line x1="518.6" y1="74.4" x2="692.2" y2="213.7" class="hyp-edge"/>
+  <line x1="655.5" y1="165.9" x2="553.8" y2="89.5" class="hyp-edge"/>
+  <line x1="655.5" y1="165.9" x2="643.2" y2="153.2" class="hyp-edge"/>
+  <line x1="655.5" y1="165.9" x2="714.9" y2="255.3" class="hyp-edge"/>
+  <line x1="700.5" y1="227.5" x2="573.4" y2="100.0" class="hyp-edge"/>
+  <line x1="700.5" y1="227.5" x2="633.6" y2="144.1" class="hyp-edge"/>
+  <line x1="700.5" y1="227.5" x2="726.2" y2="283.0" class="hyp-edge"/>
+  <line x1="632.2" y1="142.8" x2="543.9" y2="84.8" class="hyp-edge"/>
+  <line x1="632.2" y1="142.8" x2="647.1" y2="157.1" class="hyp-edge"/>
+  <line x1="632.2" y1="142.8" x2="710.1" y2="245.5" class="hyp-edge"/>
+  <line x1="543.9" y1="84.8" x2="502.6" y2="69.1" class="hyp-edge"/>
+  <line x1="543.9" y1="84.8" x2="659.7" y2="170.6" class="hyp-edge"/>
+  <line x1="543.9" y1="84.8" x2="695.7" y2="219.4" class="hyp-edge"/>
+  <line x1="647.1" y1="157.1" x2="550.2" y2="87.8" class="hyp-edge"/>
+  <line x1="647.1" y1="157.1" x2="644.6" y2="154.6" class="hyp-edge"/>
+  <line x1="647.1" y1="157.1" x2="713.1" y2="251.6" class="hyp-edge"/>
+  <line x1="710.1" y1="245.5" x2="578.1" y2="102.8" class="hyp-edge"/>
+  <line x1="710.1" y1="245.5" x2="630.9" y2="141.7" class="hyp-edge"/>
+  <line x1="710.1" y1="245.5" x2="729.2" y2="291.9" class="hyp-edge"/>
+  <line x1="727.8" y1="287.6" x2="587.6" y2="108.7" class="hyp-edge"/>
+  <line x1="727.8" y1="287.6" x2="624.8" y2="136.3" class="hyp-edge"/>
+  <line x1="727.8" y1="287.6" x2="735.8" y2="314.7" class="hyp-edge"/>
+  <line x1="587.6" y1="108.7" x2="524.1" y2="76.5" class="hyp-edge"/>
+  <line x1="587.6" y1="108.7" x2="653.8" y2="164.2" class="hyp-edge"/>
+  <line x1="587.6" y1="108.7" x2="702.3" y2="230.7" class="hyp-edge"/>
+  <line x1="624.8" y1="136.3" x2="540.7" y2="83.3" class="hyp-edge"/>
+  <line x1="624.8" y1="136.3" x2="648.3" y2="158.4" class="hyp-edge"/>
+  <line x1="624.8" y1="136.3" x2="708.8" y2="242.7" class="hyp-edge"/>
+  <line x1="735.8" y1="314.7" x2="593.0" y2="112.2" class="hyp-edge"/>
+  <line x1="735.8" y1="314.7" x2="620.9" y2="133.0" class="hyp-edge"/>
+  <line x1="735.8" y1="314.7" x2="739.6" y2="331.4" class="hyp-edge"/>
+  <circle cx="607.9" cy="122.8" r="8" fill="#e94560" class="hyp-point"/>
+  <text x="607.9" y="140.8" class="hyp-label">(3,4,5)</text>
+  <circle cx="533.3" cy="80.2" r="7" fill="#0f3460" class="hyp-point"/>
+  <text x="533.3" y="97.2" class="hyp-label">(5,12,13)</text>
+  <circle cx="497.0" cy="67.4" r="6" fill="#0f3460" class="hyp-point"/>
+  <text x="497.0" y="83.4" class="hyp-label">(7,24,25)</text>
+  <circle cx="476.1" cy="62.0" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="462.5" cy="59.2" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="668.1" cy="180.5" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="686.6" cy="205.2" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="665.6" cy="177.4" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="558.1" cy="91.7" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="641.3" cy="151.3" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="717.1" cy="260.3" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="689.3" cy="209.3" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="568.4" cy="97.1" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="636.3" cy="146.6" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="723.0" cy="274.5" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="661.1" cy="172.2" r="6" fill="#533483" class="hyp-point"/>
+  <text x="661.1" y="188.2" class="hyp-label">(55,48,73)</text>
+  <circle cx="556.1" cy="90.7" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="508.9" cy="71.1" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="658.1" cy="168.8" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="697.5" cy="222.3" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="642.1" cy="152.2" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="548.1" cy="86.7" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="645.5" cy="155.5" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="712.1" cy="249.5" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="716.1" cy="258.0" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="581.1" cy="104.6" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="629.1" cy="140.1" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="731.3" cy="298.3" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="694.2" cy="216.9" r="6" fill="#e94560" class="hyp-point"/>
+  <text x="694.2" y="232.9" class="hyp-label">(45,28,53)</text>
+  <circle cx="570.6" cy="98.4" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="516.0" cy="73.5" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="656.2" cy="166.7" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="699.7" cy="226.0" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="635.2" cy="145.5" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="545.1" cy="85.4" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="646.7" cy="156.7" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="710.7" cy="246.6" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="724.3" cy="278.0" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="585.6" cy="107.4" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="626.2" cy="137.5" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="734.4" cy="309.2" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="650.9" cy="161.0" r="7" fill="#533483" class="hyp-point"/>
+  <text x="650.9" y="178.0" class="hyp-label">(21,20,29)</text>
+  <circle cx="551.8" cy="88.5" r="6" fill="#0f3460" class="hyp-point"/>
+  <text x="551.8" y="104.5" class="hyp-label">(39,80,89)</text>
+  <circle cx="506.8" cy="70.4" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="482.0" cy="63.3" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="664.4" cy="176.0" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="690.6" cy="211.2" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="658.7" cy="169.5" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="555.1" cy="90.2" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="642.6" cy="152.6" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="715.5" cy="256.9" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="696.9" cy="221.3" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="571.8" cy="99.1" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="634.5" cy="144.9" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="725.1" cy="280.1" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="644.0" cy="154.0" r="6" fill="#533483" class="hyp-point"/>
+  <text x="644.0" y="170.0" class="hyp-label">(119,120,169)</text>
+  <circle cx="548.9" cy="87.1" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="505.3" cy="69.9" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="659.1" cy="169.9" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="696.4" cy="220.6" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="645.2" cy="155.2" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="549.4" cy="87.4" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="645.0" cy="155.0" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="712.7" cy="250.7" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="712.5" cy="250.2" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="579.2" cy="103.4" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="630.2" cy="141.1" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="730.0" cy="294.3" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="713.9" cy="253.2" r="6" fill="#e94560" class="hyp-point"/>
+  <text x="713.9" y="269.2" class="hyp-label">(77,36,85)</text>
+  <circle cx="579.9" cy="103.9" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="520.5" cy="75.1" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="654.9" cy="165.3" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="701.1" cy="228.6" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="629.8" cy="140.7" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="542.8" cy="84.3" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="647.5" cy="157.5" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="709.7" cy="244.6" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="730.5" cy="295.8" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="589.3" cy="109.8" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="623.6" cy="135.3" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="737.0" cy="319.6" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="705.7" cy="236.9" r="7" fill="#e94560" class="hyp-point"/>
+  <text x="705.7" y="253.9" class="hyp-label">(15,8,17)</text>
+  <circle cx="575.9" cy="101.5" r="6" fill="#0f3460" class="hyp-point"/>
+  <text x="575.9" y="117.5" class="hyp-label">(33,56,65)</text>
+  <circle cx="518.6" cy="74.4" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="488.9" cy="65.1" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="662.9" cy="174.3" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="692.2" cy="213.7" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="655.5" cy="165.9" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="553.8" cy="89.5" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="643.2" cy="153.2" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="714.9" cy="255.3" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="700.5" cy="227.5" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="573.4" cy="100.0" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="633.6" cy="144.1" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="726.2" cy="283.0" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="632.2" cy="142.8" r="6" fill="#533483" class="hyp-point"/>
+  <text x="632.2" y="158.8" class="hyp-label">(65,72,97)</text>
+  <circle cx="543.9" cy="84.8" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="502.6" cy="69.1" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="659.7" cy="170.6" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="695.7" cy="219.4" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="647.1" cy="157.1" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="550.2" cy="87.8" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="644.6" cy="154.6" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="713.1" cy="251.6" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="710.1" cy="245.5" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="578.1" cy="102.8" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="630.9" cy="141.7" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="729.2" cy="291.9" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="727.8" cy="287.6" r="6" fill="#e94560" class="hyp-point"/>
+  <text x="727.8" y="303.6" class="hyp-label">(35,12,37)</text>
+  <circle cx="587.6" cy="108.7" r="5" fill="#0f3460" class="hyp-point"/>
+  <circle cx="524.1" cy="76.5" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="653.8" cy="164.2" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="702.3" cy="230.7" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="624.8" cy="136.3" r="5" fill="#533483" class="hyp-point"/>
+  <circle cx="540.7" cy="83.3" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="648.3" cy="158.4" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="708.8" cy="242.7" r="4" fill="#e94560" class="hyp-point"/>
+  <circle cx="735.8" cy="314.7" r="5" fill="#e94560" class="hyp-point"/>
+  <circle cx="593.0" cy="112.2" r="4" fill="#0f3460" class="hyp-point"/>
+  <circle cx="620.9" cy="133.0" r="4" fill="#533483" class="hyp-point"/>
+  <circle cx="739.6" cy="331.4" r="4" fill="#e94560" class="hyp-point"/>
+</svg>

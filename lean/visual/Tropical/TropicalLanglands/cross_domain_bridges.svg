@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="bridge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="50%" style="stop-color:#ffd93d"/>
+      <stop offset="100%" style="stop-color:#6bcf7f"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#bg)"/>
+
+  <text x="450" y="40" text-anchor="middle" fill="#ffd93d" font-size="22" font-weight="bold">
+    Cross-Domain Bridges &amp; the Langlands Program
+  </text>
+
+  <!-- Left domain: Number Theory -->
+  <rect x="30" y="70" width="250" height="520" rx="15" fill="none" stroke="#ff6b6b" stroke-width="2" opacity="0.7"/>
+  <text x="155" y="100" text-anchor="middle" fill="#ff6b6b" font-size="16" font-weight="bold">Number Theory</text>
+
+  <text x="50" y="135" fill="#ffaaaa" font-size="12">• Prime ideals of O_K</text>
+  <text x="50" y="160" fill="#ffaaaa" font-size="12">• Dedekind zeta ζ_K(s)</text>
+  <text x="50" y="185" fill="#ffaaaa" font-size="12">• Class group Cl(K)</text>
+  <text x="50" y="210" fill="#ffaaaa" font-size="12">• Galois representations</text>
+  <text x="50" y="235" fill="#ffaaaa" font-size="12">• L-functions</text>
+  <text x="50" y="260" fill="#ffaaaa" font-size="12">• Artin reciprocity</text>
+  <text x="50" y="285" fill="#ffaaaa" font-size="12">• Riemann Hypothesis</text>
+  <text x="50" y="310" fill="#ffaaaa" font-size="12">• Quadratic reciprocity</text>
+  <text x="50" y="335" fill="#ffaaaa" font-size="12">• Modularity theorem</text>
+
+  <!-- Center domain: Graph Theory -->
+  <rect x="325" y="70" width="250" height="520" rx="15" fill="none" stroke="#ffd93d" stroke-width="2" opacity="0.7"/>
+  <text x="450" y="100" text-anchor="middle" fill="#ffd93d" font-size="16" font-weight="bold">Graph Theory</text>
+
+  <text x="345" y="135" fill="#ffe88a" font-size="12">• Prime cycles in G</text>
+  <text x="345" y="160" fill="#ffe88a" font-size="12">• Ihara zeta ζ_G(u)</text>
+  <text x="345" y="185" fill="#ffe88a" font-size="12">• Chip-firing group K(G)</text>
+  <text x="345" y="210" fill="#ffe88a" font-size="12">• Graph automorphisms</text>
+  <text x="345" y="235" fill="#ffe88a" font-size="12">• Euler products</text>
+  <text x="345" y="260" fill="#ffe88a" font-size="12">• Spectral reciprocity</text>
+  <text x="345" y="285" fill="#ffe88a" font-size="12">• Ramanujan condition</text>
+  <text x="345" y="310" fill="#ffe88a" font-size="12">• Legendre symbol ↔ splitting</text>
+  <text x="345" y="335" fill="#ffe88a" font-size="12">• Adjacency spectrum</text>
+
+  <!-- Right domain: Tropical Geometry -->
+  <rect x="620" y="70" width="250" height="520" rx="15" fill="none" stroke="#6bcf7f" stroke-width="2" opacity="0.7"/>
+  <text x="745" y="100" text-anchor="middle" fill="#6bcf7f" font-size="16" font-weight="bold">Tropical Geometry</text>
+
+  <text x="640" y="135" fill="#a3e4b2" font-size="12">• Tropical curves</text>
+  <text x="640" y="160" fill="#a3e4b2" font-size="12">• Tropical zeta function</text>
+  <text x="640" y="185" fill="#a3e4b2" font-size="12">• Tropical Jacobian Jac(G)</text>
+  <text x="640" y="210" fill="#a3e4b2" font-size="12">• Trop. symmetries</text>
+  <text x="640" y="235" fill="#a3e4b2" font-size="12">• (min,+) polynomials</text>
+  <text x="640" y="260" fill="#a3e4b2" font-size="12">• Baker-Norine (Riemann-Roch)</text>
+  <text x="640" y="285" fill="#a3e4b2" font-size="12">• Tropical RH</text>
+  <text x="640" y="310" fill="#a3e4b2" font-size="12">• Tropical discriminant</text>
+  <text x="640" y="335" fill="#a3e4b2" font-size="12">• Tropical duality</text>
+
+  <!-- Bridge arrows -->
+  <g filter="url(#glow)">
+    <!-- Number Theory ↔ Graph Theory -->
+    <line x1="280" y1="130" x2="325" y2="130" stroke="url(#bridge)" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="280" y1="155" x2="325" y2="155" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="280" y1="180" x2="325" y2="180" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="280" y1="205" x2="325" y2="205" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="280" y1="230" x2="325" y2="230" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="280" y1="255" x2="325" y2="255" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="280" y1="280" x2="325" y2="280" stroke="url(#bridge)" stroke-width="2"/>
+
+    <!-- Graph Theory ↔ Tropical -->
+    <line x1="575" y1="130" x2="620" y2="130" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="575" y1="155" x2="620" y2="155" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="575" y1="180" x2="620" y2="180" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="575" y1="205" x2="620" y2="205" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="575" y1="230" x2="620" y2="230" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="575" y1="255" x2="620" y2="255" stroke="url(#bridge)" stroke-width="2"/>
+    <line x1="575" y1="280" x2="620" y2="280" stroke="url(#bridge)" stroke-width="2"/>
+  </g>
+
+  <!-- Bottom: Idempotent thread -->
+  <rect x="100" y="380" width="700" height="80" rx="10" fill="none" stroke="#c084fc" stroke-width="2" opacity="0.8"/>
+  <text x="450" y="405" text-anchor="middle" fill="#c084fc" font-size="15" font-weight="bold">
+    Idempotent Thread: e² = e
+  </text>
+  <text x="180" y="435" fill="#d4b0ff" font-size="11" text-anchor="middle">Hecke algebra</text>
+  <text x="180" y="450" fill="#d4b0ff" font-size="11" text-anchor="middle">projectors</text>
+  <text x="350" y="435" fill="#d4b0ff" font-size="11" text-anchor="middle">Karoubi</text>
+  <text x="350" y="450" fill="#d4b0ff" font-size="11" text-anchor="middle">envelope</text>
+  <text x="520" y="435" fill="#d4b0ff" font-size="11" text-anchor="middle">Temperley-Lieb</text>
+  <text x="520" y="450" fill="#d4b0ff" font-size="11" text-anchor="middle">idempotents</text>
+  <text x="690" y="435" fill="#d4b0ff" font-size="11" text-anchor="middle">Quantum</text>
+  <text x="690" y="450" fill="#d4b0ff" font-size="11" text-anchor="middle">projectors</text>
+
+  <!-- Bottom: Categorical framework -->
+  <rect x="100" y="480" width="700" height="80" rx="10" fill="none" stroke="#60a5fa" stroke-width="2" opacity="0.8"/>
+  <text x="450" y="505" text-anchor="middle" fill="#60a5fa" font-size="15" font-weight="bold">
+    Categorical Framework: Bridges as Adjunctions (F ⊣ G)
+  </text>
+  <text x="200" y="540" fill="#93c5fd" font-size="11" text-anchor="middle">Stone ↔ Gelfand</text>
+  <text x="370" y="540" fill="#93c5fd" font-size="11" text-anchor="middle">Tropical ↔ Motivic</text>
+  <text x="540" y="540" fill="#93c5fd" font-size="11" text-anchor="middle">Langlands ↔ Automorphic</text>
+  <text x="710" y="540" fill="#93c5fd" font-size="11" text-anchor="middle">HoTT (universal)</text>
+
+  <!-- Key -->
+  <text x="450" y="610" text-anchor="middle" fill="#888" font-size="11">
+    Each row in the three columns corresponds under the Langlands dictionary.
+  </text>
+  <text x="450" y="630" text-anchor="middle" fill="#888" font-size="11">
+    Formally verified in Lean 4 with Mathlib.
+  </text>
+</svg>

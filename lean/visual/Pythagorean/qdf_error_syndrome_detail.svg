@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a3e"/>
+      <stop offset="100%" stop-color="#0d0d2a"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="500" fill="url(#bg3)"/>
+  
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">QDF Error Syndrome Extraction</text>
+  <text x="400" y="55" text-anchor="middle" fill="#aaaacc" font-size="11">How Pythagorean quadruples detect and locate quantum errors</text>
+  
+  <!-- Clean state -->
+  <rect x="30" y="75" width="220" height="80" rx="10" fill="#55efc4" opacity="0.1" stroke="#55efc4" stroke-width="1.5"/>
+  <text x="140" y="97" text-anchor="middle" fill="#55efc4" font-size="13" font-weight="bold">Clean State</text>
+  <text x="140" y="117" text-anchor="middle" fill="#ffffff" font-size="12">(a, b, c, d) = (3, 4, 12, 13)</text>
+  <text x="140" y="137" text-anchor="middle" fill="#aaaacc" font-size="11">9 + 16 + 144 = 169 ✓</text>
+  
+  <!-- Arrow -->
+  <text x="280" y="115" fill="#ff6b6b" font-size="18">→ Error!</text>
+  
+  <!-- Corrupted state -->
+  <rect x="340" y="75" width="220" height="80" rx="10" fill="#ff6b6b" opacity="0.1" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="450" y="97" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold">Corrupted State</text>
+  <text x="450" y="117" text-anchor="middle" fill="#ffffff" font-size="12">(a+e, b, c, d) = (5, 4, 12, 13)</text>
+  <text x="450" y="137" text-anchor="middle" fill="#ffaaaa" font-size="11">25 + 16 + 144 = 185 ≠ 169</text>
+  
+  <!-- Arrow to syndrome -->
+  <text x="590" y="115" fill="#feca57" font-size="18">→ Detect</text>
+  
+  <!-- Syndrome -->
+  <rect x="640" y="75" width="140" height="80" rx="10" fill="#feca57" opacity="0.1" stroke="#feca57" stroke-width="1.5"/>
+  <text x="710" y="97" text-anchor="middle" fill="#feca57" font-size="13" font-weight="bold">Syndrome</text>
+  <text x="710" y="117" text-anchor="middle" fill="#ffffff" font-size="12">185 − 169 = 16</text>
+  <text x="710" y="137" text-anchor="middle" fill="#ffdd99" font-size="11">= e(2a+e) = 2·(6+2)</text>
+  
+  <!-- The three syndrome channels -->
+  <text x="400" y="190" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">Weight-1 Error Syndromes (e = ±1)</text>
+  
+  <!-- Channel A -->
+  <rect x="50" y="210" width="200" height="90" rx="8" fill="#ff6b6b" opacity="0.08" stroke="#ff6b6b" stroke-width="1"/>
+  <text x="150" y="232" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">Error on a</text>
+  <text x="150" y="252" text-anchor="middle" fill="#ffffff" font-size="11">(a±1)² + b² + c² − d²</text>
+  <text x="150" y="272" text-anchor="middle" fill="#ffaaaa" font-size="12" font-weight="bold">= 2a ± 1</text>
+  <text x="150" y="290" text-anchor="middle" fill="#aaaacc" font-size="10">a=3 → syndrome = 7</text>
+  
+  <!-- Channel B -->
+  <rect x="290" y="210" width="200" height="90" rx="8" fill="#48dbfb" opacity="0.08" stroke="#48dbfb" stroke-width="1"/>
+  <text x="390" y="232" text-anchor="middle" fill="#48dbfb" font-size="12" font-weight="bold">Error on b</text>
+  <text x="390" y="252" text-anchor="middle" fill="#ffffff" font-size="11">a² + (b±1)² + c² − d²</text>
+  <text x="390" y="272" text-anchor="middle" fill="#99ddff" font-size="12" font-weight="bold">= 2b ± 1</text>
+  <text x="390" y="290" text-anchor="middle" fill="#aaaacc" font-size="10">b=4 → syndrome = 9</text>
+  
+  <!-- Channel C -->
+  <rect x="530" y="210" width="200" height="90" rx="8" fill="#55efc4" opacity="0.08" stroke="#55efc4" stroke-width="1"/>
+  <text x="630" y="232" text-anchor="middle" fill="#55efc4" font-size="12" font-weight="bold">Error on c</text>
+  <text x="630" y="252" text-anchor="middle" fill="#ffffff" font-size="11">a² + b² + (c±1)² − d²</text>
+  <text x="630" y="272" text-anchor="middle" fill="#aaeedd" font-size="12" font-weight="bold">= 2c ± 1</text>
+  <text x="630" y="290" text-anchor="middle" fill="#aaaacc" font-size="10">c=12 → syndrome = 25</text>
+  
+  <!-- Distinguishability -->
+  <rect x="50" y="320" width="680" height="50" rx="10" fill="#feca57" opacity="0.08" stroke="#feca57" stroke-width="1"/>
+  <text x="390" y="342" text-anchor="middle" fill="#feca57" font-size="13" font-weight="bold">Distinguishability Theorem</text>
+  <text x="390" y="360" text-anchor="middle" fill="#ffffff" font-size="11">If a ≠ b ≠ c, then 2a+1, 2b+1, 2c+1 are all distinct → unique error identification</text>
+  
+  <!-- General syndrome formula -->
+  <rect x="50" y="390" width="330" height="90" rx="10" fill="#ffffff" opacity="0.05" stroke="#ffffff" stroke-width="0.5"/>
+  <text x="215" y="415" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">General Syndrome Formula</text>
+  <text x="70" y="438" fill="#dddddd" font-size="11">Multi-error (e₁, e₂, e₃):</text>
+  <text x="70" y="458" fill="#ffaaaa" font-size="11">S = 2ae₁ + e₁² + 2be₂ + e₂² + 2ce₃ + e₃²</text>
+  <text x="70" y="475" fill="#999999" font-size="10">Each error contributes independently!</text>
+  
+  <!-- Applications box -->
+  <rect x="410" y="390" width="360" height="90" rx="10" fill="#ffffff" opacity="0.05" stroke="#ffffff" stroke-width="0.5"/>
+  <text x="590" y="415" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">Quantum Code Properties</text>
+  <text x="430" y="438" fill="#55efc4" font-size="11">✓ Error detection: syndrome ≠ 0</text>
+  <text x="430" y="458" fill="#48dbfb" font-size="11">✓ Error location: distinct syndromes</text>
+  <text x="430" y="475" fill="#feca57" font-size="11">✓ Error correction: e ≈ S/(2a) for small e</text>
+</svg>

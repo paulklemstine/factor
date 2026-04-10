@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a2e"/>
+      <stop offset="100%" stop-color="#1a1a4e"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="600" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#FFD700" font-size="22" font-weight="bold" font-family="serif">
+    Chebyshev Trace Formula: tr(B₂ⁿ) = (-1)ⁿ + 2·Tₙ(3)
+  </text>
+
+  <!-- Eigenvalue diagram -->
+  <text x="100" y="80" fill="#88ccff" font-size="14" font-weight="bold">Eigenvalues of B₂</text>
+  <line x1="50" y1="130" x2="400" y2="130" stroke="#444" stroke-width="2"/>
+  <!-- -1 -->
+  <circle cx="100" cy="130" r="8" fill="#ff4444" filter="url(#glow3)"/>
+  <text x="100" y="155" text-anchor="middle" fill="#ff6666" font-size="12">λ₁ = -1</text>
+  <!-- 3-2√2 -->
+  <circle cx="175" cy="130" r="8" fill="#44ff44" filter="url(#glow3)"/>
+  <text x="175" y="155" text-anchor="middle" fill="#66ff66" font-size="11">λ₂ = 3-2√2</text>
+  <text x="175" y="170" text-anchor="middle" fill="#66ff66" font-size="10">≈ 0.172</text>
+  <!-- 3+2√2 -->
+  <circle cx="350" cy="130" r="8" fill="#4444ff" filter="url(#glow3)"/>
+  <text x="350" y="155" text-anchor="middle" fill="#6666ff" font-size="11">λ₃ = 3+2√2</text>
+  <text x="350" y="170" text-anchor="middle" fill="#6666ff" font-size="10">≈ 5.828</text>
+
+  <!-- Product identity -->
+  <rect x="430" y="85" width="440" height="80" rx="10" fill="#1a2a3a" stroke="#446688" stroke-width="1"/>
+  <text x="650" y="110" text-anchor="middle" fill="#aaddff" font-size="13" font-weight="bold">Key Identities</text>
+  <text x="650" y="132" text-anchor="middle" fill="#ccddee" font-size="12">λ₂ · λ₃ = (3-2√2)(3+2√2) = 9-8 = 1</text>
+  <text x="650" y="152" text-anchor="middle" fill="#ccddee" font-size="12">λ₂ + λ₃ = 6 → satisfy x² - 6x + 1 = 0</text>
+
+  <!-- Trace table -->
+  <text x="100" y="210" fill="#FFD700" font-size="16" font-weight="bold">Trace Sequence Verification</text>
+
+  <!-- Table header -->
+  <rect x="50" y="225" width="800" height="30" fill="#1a2a4a"/>
+  <text x="95" y="245" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">n</text>
+  <text x="195" y="245" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">tr(B₂ⁿ)</text>
+  <text x="320" y="245" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">(-1)ⁿ</text>
+  <text x="440" y="245" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">Tₙ(3)</text>
+  <text x="590" y="245" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">(-1)ⁿ + 2Tₙ(3)</text>
+  <text x="750" y="245" text-anchor="middle" fill="#FFD700" font-size="12" font-weight="bold">Match?</text>
+
+  <!-- Data rows -->
+  <g fill="#ddddee" font-size="12">
+    <rect x="50" y="257" width="800" height="25" fill="#0a1a2a"/>
+    <text x="95" y="274" text-anchor="middle">0</text>
+    <text x="195" y="274" text-anchor="middle">3</text>
+    <text x="320" y="274" text-anchor="middle">1</text>
+    <text x="440" y="274" text-anchor="middle">1</text>
+    <text x="590" y="274" text-anchor="middle">3</text>
+    <text x="750" y="274" text-anchor="middle" fill="#44ff44">✓</text>
+
+    <rect x="50" y="283" width="800" height="25" fill="#0a1a3a"/>
+    <text x="95" y="300" text-anchor="middle">1</text>
+    <text x="195" y="300" text-anchor="middle">5</text>
+    <text x="320" y="300" text-anchor="middle">-1</text>
+    <text x="440" y="300" text-anchor="middle">3</text>
+    <text x="590" y="300" text-anchor="middle">5</text>
+    <text x="750" y="300" text-anchor="middle" fill="#44ff44">✓</text>
+
+    <rect x="50" y="309" width="800" height="25" fill="#0a1a2a"/>
+    <text x="95" y="326" text-anchor="middle">2</text>
+    <text x="195" y="326" text-anchor="middle">35</text>
+    <text x="320" y="326" text-anchor="middle">1</text>
+    <text x="440" y="326" text-anchor="middle">17</text>
+    <text x="590" y="326" text-anchor="middle">35</text>
+    <text x="750" y="326" text-anchor="middle" fill="#44ff44">✓</text>
+
+    <rect x="50" y="335" width="800" height="25" fill="#0a1a3a"/>
+    <text x="95" y="352" text-anchor="middle">3</text>
+    <text x="195" y="352" text-anchor="middle">197</text>
+    <text x="320" y="352" text-anchor="middle">-1</text>
+    <text x="440" y="352" text-anchor="middle">99</text>
+    <text x="590" y="352" text-anchor="middle">197</text>
+    <text x="750" y="352" text-anchor="middle" fill="#44ff44">✓</text>
+
+    <rect x="50" y="361" width="800" height="25" fill="#0a1a2a"/>
+    <text x="95" y="378" text-anchor="middle">4</text>
+    <text x="195" y="378" text-anchor="middle">1155</text>
+    <text x="320" y="378" text-anchor="middle">1</text>
+    <text x="440" y="378" text-anchor="middle">577</text>
+    <text x="590" y="378" text-anchor="middle">1155</text>
+    <text x="750" y="378" text-anchor="middle" fill="#44ff44">✓</text>
+
+    <rect x="50" y="387" width="800" height="25" fill="#0a1a3a"/>
+    <text x="95" y="404" text-anchor="middle">5</text>
+    <text x="195" y="404" text-anchor="middle">6725</text>
+    <text x="320" y="404" text-anchor="middle">-1</text>
+    <text x="440" y="404" text-anchor="middle">3363</text>
+    <text x="590" y="404" text-anchor="middle">6725</text>
+    <text x="750" y="404" text-anchor="middle" fill="#44ff44">✓</text>
+
+    <rect x="50" y="413" width="800" height="25" fill="#0a1a2a"/>
+    <text x="95" y="430" text-anchor="middle">6</text>
+    <text x="195" y="430" text-anchor="middle">39203</text>
+    <text x="320" y="430" text-anchor="middle">1</text>
+    <text x="440" y="430" text-anchor="middle">19601</text>
+    <text x="590" y="430" text-anchor="middle">39203</text>
+    <text x="750" y="430" text-anchor="middle" fill="#44ff44">✓</text>
+  </g>
+
+  <!-- Characteristic polynomial -->
+  <rect x="50" y="460" width="800" height="120" rx="10" fill="#1a0a2a" stroke="#664488" stroke-width="2"/>
+  <text x="450" y="485" text-anchor="middle" fill="#cc88ff" font-size="15" font-weight="bold">
+    Characteristic Polynomial: λ³ - 5λ² - 5λ + 1 = (λ+1)(λ² - 6λ + 1)
+  </text>
+  <text x="450" y="510" text-anchor="middle" fill="#ddaaff" font-size="13">
+    Cayley-Hamilton: B₂³ = 5B₂² + 5B₂ - I  (machine-verified in Lean 4)
+  </text>
+  <text x="450" y="535" text-anchor="middle" fill="#ddaaff" font-size="13">
+    Chebyshev recurrence: Tₙ(3) = 6·Tₙ₋₁(3) - Tₙ₋₂(3)
+  </text>
+  <text x="450" y="560" text-anchor="middle" fill="#ffcc44" font-size="13" font-style="italic">
+    Corrected formula: NOT Uₙ(5/2) but (-1)ⁿ + 2·Tₙ(3)
+  </text>
+</svg>
