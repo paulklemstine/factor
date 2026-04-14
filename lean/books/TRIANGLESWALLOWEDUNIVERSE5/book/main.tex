@@ -1,0 +1,450 @@
+%!TEX program = xelatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  THE TRIANGLE THAT SWALLOWED THE UNIVERSE
+%%  By Paul Klemstine
+%%  A premium illustrated book — memoir class
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt,openright,twoside,extrafontsizes]{memoir}
+
+%% ─── Page geometry ───────────────────────────────────────────────────
+\setstocksize{9in}{7in}
+\settrimmedsize{9in}{7in}{*}
+\settrims{0pt}{0pt}
+\setlrmarginsandblock{1in}{0.85in}{*}
+\setulmarginsandblock{1in}{1.2in}{*}
+\setheadfoot{14pt}{26pt}
+\setheaderspaces{*}{10pt}{*}
+\checkandfixthelayout
+
+%% ─── Packages ────────────────────────────────────────────────────────
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[svgnames,dvipsnames,x11names]{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{imakeidx}
+\usepackage{listings}
+\usepackage[
+  bookmarks=true,
+  colorlinks=true,
+  linkcolor=DarkSlateBlue,
+  citecolor=DarkSlateBlue,
+  urlcolor=DarkSlateBlue,
+  pdfauthor={Paul Klemstine},
+  pdftitle={The Triangle That Swallowed the Universe},
+  pdfsubject={Mathematics, Number Theory, Pythagorean Triples},
+]{hyperref}
+
+%% ─── Fonts ───────────────────────────────────────────────────────────
+\setmainfont{TeX Gyre Pagella}[
+  Ligatures=TeX,
+]
+\setsansfont{Open Sans}[
+  Scale=MatchLowercase,
+  Ligatures=TeX,
+]
+\setmonofont{DejaVu Sans Mono}[
+  Scale=MatchLowercase,
+]
+
+%% ─── Colors ──────────────────────────────────────────────────────────
+\definecolor{chaptercolor}{HTML}{2E1A47}    % deep purple
+\definecolor{sectioncolor}{HTML}{4A2D6B}    % medium purple
+\definecolor{accentgold}{HTML}{C9A227}      % gold
+\definecolor{codebg}{HTML}{FAF8F0}          % warm cream
+\definecolor{codeframe}{HTML}{D4C5A0}       % tan
+\definecolor{pullquote}{HTML}{6B3FA0}       % violet
+
+%% ─── Chapter & section styles ────────────────────────────────────────
+\makechapterstyle{pythagoras}{%
+  \chapterstyle{default}
+  \renewcommand*{\chapnumfont}{\fontsize{60}{68}\selectfont\bfseries\color{accentgold}}
+  \renewcommand*{\chaptitlefont}{\Huge\bfseries\color{chaptercolor}}
+  \renewcommand*{\chapnamefont}{\large\scshape\color{sectioncolor}}
+  \renewcommand*{\printchaptername}{\centering\chapnamefont CHAPTER}
+  \renewcommand*{\printchapternum}{\centering\chapnumfont\thechapter\par\nobreak\vskip 6pt}
+  \renewcommand*{\printchaptertitle}[1]{%
+    \centering
+    {\color{accentgold}\rule{0.5\textwidth}{1.5pt}}\\[10pt]
+    \chaptitlefont ##1\\[8pt]
+    {\color{accentgold}\rule{0.5\textwidth}{1.5pt}}
+  }
+  \renewcommand*{\afterchapternum}{\par\nobreak\vskip 4pt}
+  \setlength{\beforechapskip}{40pt}
+  \setlength{\afterchapskip}{36pt}
+}
+\chapterstyle{pythagoras}
+
+\setsecheadstyle{\Large\bfseries\color{sectioncolor}}
+\setsubsecheadstyle{\large\bfseries\color{sectioncolor!80!black}}
+\setsubsubsecheadstyle{\normalsize\bfseries\itshape\color{sectioncolor!60!black}}
+
+%% ─── Headers & footers ──────────────────────────────────────────────
+\makepagestyle{bookstyle}
+\makeevenhead{bookstyle}{\small\thepage}{}{\small\itshape\leftmark}
+\makeoddhead{bookstyle}{\small\itshape\rightmark}{}{\small\thepage}
+\makeevenfoot{bookstyle}{}{}{}
+\makeoddfoot{bookstyle}{}{}{}
+\pagestyle{bookstyle}
+
+%% ─── Captions ────────────────────────────────────────────────────────
+\captionsetup{
+  font={small},
+  labelfont={bf,color=sectioncolor},
+  textfont={it},
+  format=hang,
+  margin=20pt,
+}
+
+%% ─── Listings (for Lean code) ────────────────────────────────────────
+\lstdefinelanguage{Lean4}{
+  morekeywords={def,theorem,lemma,example,instance,class,structure,
+    where,let,in,have,show,calc,by,sorry,import,open,namespace,
+    section,end,variable,noncomputable,private,protected,
+    if,then,else,match,with,do,return,fun,
+    inductive,abbrev,axiom,opaque,mutual,
+    Type,Prop,Sort,Set,Nat,Int,Bool,String,List,
+    true,false,rfl,exact,apply,intro,intros,cases,induction,
+    simp,ring,omega,norm_num,linarith,decide,rw,constructor},
+  sensitive=true,
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  morestring=[b]",
+  literate=
+    {→}{$\rightarrow$}1
+    {←}{$\leftarrow$}1
+    {↔}{$\leftrightarrow$}1
+    {∀}{$\forall$}1
+    {∃}{$\exists$}1
+    {λ}{$\lambda$}1
+    {⟨}{$\langle$}1
+    {⟩}{$\rangle$}1
+    {≤}{$\leq$}1
+    {≥}{$\geq$}1
+    {≠}{$\neq$}1
+    {ℕ}{$\mathbb{N}$}1
+    {ℤ}{$\mathbb{Z}$}1
+    {ℚ}{$\mathbb{Q}$}1
+    {ℝ}{$\mathbb{R}$}1
+    {ℂ}{$\mathbb{C}$}1
+    {∧}{$\wedge$}1
+    {∨}{$\vee$}1
+    {¬}{$\neg$}1
+    {⊢}{$\vdash$}1
+    {×}{$\times$}1
+    {·}{$\cdot$}1
+    {•}{$\bullet$}1,
+}
+
+\lstset{
+  language=Lean4,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries\color{DarkSlateBlue},
+  commentstyle=\itshape\color{OliveDrab},
+  stringstyle=\color{Sienna},
+  backgroundcolor=\color{codebg},
+  frame=single,
+  framesep=6pt,
+  rulecolor=\color{codeframe},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false,
+  tabsize=2,
+  xleftmargin=16pt,
+  xrightmargin=6pt,
+  aboveskip=12pt,
+  belowskip=12pt,
+  captionpos=b,
+  escapeinside={(*@}{@*)},
+}
+
+%% ─── Theorem environments ───────────────────────────────────────────
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+%% ─── Epigraph style ─────────────────────────────────────────────────
+\setlength{\epigraphwidth}{0.65\textwidth}
+\epigraphtextposition{flushright}
+
+%% ─── Index ──────────────────────────────────────────────────────────
+\makeindex[intoc, title=Index, columns=2]
+
+%% ─── Custom commands ────────────────────────────────────────────────
+\newcommand{\booktitle}{\emph{The Triangle That Swallowed the Universe}}
+\newcommand{\triplet}[3]{(#1,\,#2,\,#3)}
+
+%% Fix for pandoc-generated tables
+\providecommand{\toprule}{\hline}
+\providecommand{\midrule}{\hline}
+\providecommand{\bottomrule}{\hline}
+\providecommand{\endhead}{}
+\providecommand{\tightlist}{}
+
+%% Fix potential issues with longtable in memoir
+\makeatletter
+\@ifundefined{endlongtable}{%
+  \usepackage{longtable}
+}{}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%% ═══════════════════════════════════════════════════════════════════
+%%  FRONT MATTER
+%% ═══════════════════════════════════════════════════════════════════
+\frontmatter
+\pagestyle{empty}
+
+%% ─── Half title ──────────────────────────────────────────────────────
+\vspace*{\fill}
+\begin{center}
+{\sffamily\Huge\color{chaptercolor}%
+The Triangle That Swallowed\\[4pt]the Universe}
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
+
+%% ─── Full title page ────────────────────────────────────────────────
+\vspace*{0.8in}
+\begin{center}
+
+% Cover art
+\includegraphics[width=0.75\textwidth]{cover_front.png}
+
+\vspace{24pt}
+
+{\sffamily\fontsize{32}{38}\selectfont\bfseries\color{chaptercolor}%
+The Triangle That Swallowed\\[6pt]the Universe}
+
+\vspace{16pt}
+
+{\color{accentgold}\rule{0.4\textwidth}{2pt}}
+
+\vspace{16pt}
+
+{\sffamily\LARGE\itshape\color{sectioncolor}%
+How Pythagorean Triples Illuminate\\[4pt]
+Number Theory, Factoring, and Spacetime}
+
+\vspace{30pt}
+
+{\sffamily\Large\color{chaptercolor}%
+Paul Klemstine}
+
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
+
+%% ─── Copyright page ─────────────────────────────────────────────────
+\vspace*{\fill}
+\begin{flushleft}
+\small
+
+\textbf{\emph{The Triangle That Swallowed the Universe:}}\\
+\textbf{\emph{How Pythagorean Triples Illuminate Number Theory, Factoring, and Spacetime}}
+
+\vspace{12pt}
+
+Copyright \textcopyright\ 2025 Paul Klemstine. All rights reserved.
+
+\vspace{8pt}
+
+No part of this publication may be reproduced, distributed, or transmitted
+in any form or by any means, including photocopying, recording, or other
+electronic or mechanical methods, without the prior written permission of
+the author, except in the case of brief quotations embodied in critical
+reviews and certain other noncommercial uses permitted by copyright law.
+
+\vspace{12pt}
+
+ISBN 978-1-105-41110-6
+
+\vspace{12pt}
+
+First Edition, 2025.
+
+\vspace{8pt}
+
+Typeset in TeX Gyre Pagella with Open Sans display type.\\
+Illustrations by the author.\\
+Lean~4 formalizations verified with Mathlib.
+
+\vspace{8pt}
+
+Printed in the United States of America.
+
+\end{flushleft}
+\vspace*{\fill}
+\cleardoublepage
+
+%% ─── Dedication ──────────────────────────────────────────────────────
+\vspace*{\fill}
+\begin{center}
+{\sffamily\Large\itshape\color{chaptercolor}%
+Soli Deo Gloria}
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
+
+%% ─── Table of Contents ──────────────────────────────────────────────
+\pagestyle{bookstyle}
+\renewcommand{\contentsname}{Contents}
+\settocdepth{section}
+\tableofcontents*
+\cleardoublepage
+
+%% ─── List of Figures ────────────────────────────────────────────────
+\renewcommand{\listfigurename}{List of Figures}
+\listoffigures*
+\cleardoublepage
+
+%% ═══════════════════════════════════════════════════════════════════
+%%  MAIN MATTER
+%% ═══════════════════════════════════════════════════════════════════
+\mainmatter
+
+%% ─── Introduction ───────────────────────────────────────────────────
+\chapter*{Introduction: The Triangle That Swallowed the Universe}
+\addcontentsline{toc}{chapter}{Introduction: The Triangle That Swallowed the Universe}
+\markboth{Introduction}{Introduction}
+\input{introduction}
+
+%% ─── Chapter 1 ──────────────────────────────────────────────────────
+\chapter{The Tree That Grew Triangles}
+\input{chapter1}
+
+%% ─── Chapter 2 ──────────────────────────────────────────────────────
+\chapter{The Tree That Grew Into a Lattice}
+\input{chapter2}
+
+%% ─── Chapter 3 ──────────────────────────────────────────────────────
+\chapter{Hyperbolic Shortcuts: How Pythagoras Learned to Factor}
+\input{chapter3}
+
+%% ─── Chapter 4 ──────────────────────────────────────────────────────
+\chapter{Three Roads from Pythagoras}
+\input{chapter4}
+
+%% ─── Chapter 5 ──────────────────────────────────────────────────────
+\chapter{The Tree That Knew It Was a Spacetime}
+\input{chapter5}
+
+%% ─── Chapter 6 ──────────────────────────────────────────────────────
+\chapter{The Lock with Seven Keyholes}
+\input{chapter6}
+
+%% ─── Chapter 7 ──────────────────────────────────────────────────────
+\chapter{The One-Way Corridor}
+\input{chapter7}
+
+%% ─── Chapter 8 ──────────────────────────────────────────────────────
+\chapter{The Price of Descent}
+\input{chapter8}
+
+%% ─── Chapter 9 ──────────────────────────────────────────────────────
+\chapter{The Four-Rung Ladder: A Journey Through the Doubling Algebras}
+\input{chapter9}
+
+%% ─── Chapter 10 ─────────────────────────────────────────────────────
+\chapter{The Margin That Shook the World}
+\input{chapter10}
+
+%% ─── Chapter 11 ─────────────────────────────────────────────────────
+\chapter{The Magnificent Sieve}
+\input{chapter11}
+
+%% ─── Chapter 12 ─────────────────────────────────────────────────────
+\chapter{The Fourth Dimension of Pythagoras}
+\input{chapter12}
+
+%% ─── Chapter 13 ─────────────────────────────────────────────────────
+\chapter{The GCD Cascade}
+\input{chapter13}
+
+%% ─── Chapter 14 ─────────────────────────────────────────────────────
+\chapter{The Tree That Cracks Numbers}
+\input{chapter14}
+
+%% ─── Chapter 15 ─────────────────────────────────────────────────────
+\chapter{Tropical Geometry and the Shortest-Path Semiring}
+\input{chapter15}
+
+%% ─── Chapter 16 ─────────────────────────────────────────────────────
+\chapter{The Relativistic Secret of Right Triangles}
+\input{chapter16}
+
+%% ─── Conclusion ─────────────────────────────────────────────────────
+\chapter*{Conclusion: The Rosetta Stone}
+\addcontentsline{toc}{chapter}{Conclusion: The Rosetta Stone}
+\markboth{Conclusion}{Conclusion}
+\input{conclusion}
+
+%% ═══════════════════════════════════════════════════════════════════
+%%  BACK MATTER
+%% ═══════════════════════════════════════════════════════════════════
+\backmatter
+
+%% ─── Appendix: Lean Formalizations ──────────────────────────────────
+\appendix
+\chapter{Lean~4 Formalizations}
+
+The theorems and definitions in this book have been formalized in the
+Lean~4 interactive theorem prover, using the Mathlib mathematical library.
+The following source files contain machine-verified proofs that correspond
+to the mathematical content of each chapter.
+
+\vspace{6pt}
+
+\input{lean_appendix}
+
+%% ─── Index ──────────────────────────────────────────────────────────
+\printindex
+
+%% ─── Back cover with ISBN barcode ───────────────────────────────────
+\cleardoublepage
+\pagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+
+{\sffamily\Large\color{chaptercolor}\bfseries
+The Triangle That Swallowed the Universe}
+
+\vspace{12pt}
+
+{\small\itshape
+A journey from bathroom tiles to Einstein's spacetime,\\
+through the infinite tree of Pythagorean triples.}
+
+\vspace{30pt}
+
+\includegraphics[width=2in]{../ISBN/978-1-105-41110-6.png}
+
+\vspace{8pt}
+
+{\small ISBN 978-1-105-41110-6}
+
+\end{center}
+\vspace*{\fill}
+
+\end{document}

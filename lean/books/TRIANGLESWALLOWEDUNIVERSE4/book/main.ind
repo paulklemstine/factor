@@ -1,0 +1,144 @@
+\begin{theindex}
+
+  \item Berggren tree, \hyperpage{9}, \hyperpage{27}, \hyperpage{47}, 
+		\hyperpage{99}, \hyperpage{305}, \hyperpage{363}
+  \item Berggren, Barning, \hyperpage{9}, \hyperpage{27}, 
+		\hyperpage{47}, \hyperpage{99}, \hyperpage{305}
+  \item Brahmagupta, \hyperpage{199}, \hyperpage{287}, \hyperpage{363}
+  \item Brahmagupta--Fibonacci identity, \hyperpage{199}, 
+		\hyperpage{363}
+
+  \indexspace
+
+  \item Cayley, Arthur, \hyperpage{199}
+  \item Cayley--Dickson construction, \hyperpage{199}, \hyperpage{363}
+  \item complexity
+    \subitem $O(N^{1/4})$, \hyperpage{151}, \hyperpage{363}
+    \subitem $O(\sqrt{N})$, \hyperpage{171}, \hyperpage{363}
+  \item congruence of squares, \hyperpage{243}
+  \item continued fractions, \hyperpage{27}
+
+  \indexspace
+
+  \item Dickson, Leonard, \hyperpage{199}
+
+  \indexspace
+
+  \item Einstein, Albert, \hyperpage{99}, \hyperpage{343}, 
+		\hyperpage{363}
+  \item elliptic curves, \hyperpage{219}
+  \item Euclid, \hyperpage{1}, \hyperpage{9}, \hyperpage{27}, 
+		\hyperpage{75}
+  \item Euclid parametrization, \hyperpage{1}, \hyperpage{9}, 
+		\hyperpage{75}
+  \item Euclidean algorithm, \hyperpage{27}, \hyperpage{47}, 
+		\hyperpage{363}
+  \item Euler four-square identity, \hyperpage{199}, \hyperpage{363}
+  \item Euler, Leonhard, \hyperpage{75}, \hyperpage{199}, 
+		\hyperpage{219}
+
+  \indexspace
+
+  \item factoring, \hyperpage{47}, \hyperpage{75}, \hyperpage{171}, 
+		\hyperpage{243}, \hyperpage{305}
+    \subitem difference of squares, \hyperpage{47}, \hyperpage{243}, 
+		\hyperpage{363}
+    \subitem number field sieve, \hyperpage{363}
+    \subitem quadratic sieve, \hyperpage{243}, \hyperpage{363}
+  \item Fermat's Last Theorem, \hyperpage{219}, \hyperpage{363}
+  \item Fermat, Pierre de, \hyperpage{219}, \hyperpage{363}
+
+  \indexspace
+
+  \item Gardner, Martin, \hyperpage{363}
+  \item Gauss, Carl Friedrich, \hyperpage{27}, \hyperpage{75}
+  \item Gaussian integers, \hyperpage{75}, \hyperpage{199}, 
+		\hyperpage{363}
+  \item GCD cascade, \hyperpage{287}
+  \item Germain, Sophie, \hyperpage{219}
+  \item greatest common divisor, \hyperpage{47}, \hyperpage{287}, 
+		\hyperpage{363}
+  \item Grover's algorithm, \hyperpage{151}, \hyperpage{363}
+  \item Grover, Lov, \hyperpage{151}
+
+  \indexspace
+
+  \item Hamilton, William Rowan, \hyperpage{199}
+  \item Hurwitz's theorem, \hyperpage{199}, \hyperpage{363}
+  \item Hurwitz, Adolf, \hyperpage{199}, \hyperpage{363}
+  \item hyperbolic geometry, \hyperpage{47}, \hyperpage{99}, 
+		\hyperpage{343}
+
+  \indexspace
+
+  \item infinite descent, \hyperpage{219}, \hyperpage{363}
+
+  \indexspace
+
+  \item lattice, \hyperpage{27}, \hyperpage{269}
+    \subitem basis reduction, \hyperpage{27}, \hyperpage{363}
+  \item Lean 4, \hyperpage{363}
+  \item light cone, \hyperpage{47}, \hyperpage{99}, \hyperpage{343}, 
+		\hyperpage{363}
+  \item LLL algorithm, \hyperpage{27}, \hyperpage{363}
+  \item Lorentz group, \hyperpage{99}, \hyperpage{343}, \hyperpage{363}
+
+  \indexspace
+
+  \item min-plus semiring, \hyperpage{327}, \hyperpage{363}
+  \item Minkowski metric, \hyperpage{99}, \hyperpage{343}, 
+		\hyperpage{363}
+  \item Minkowski, Hermann, \hyperpage{99}, \hyperpage{343}, 
+		\hyperpage{363}
+  \item modular forms, \hyperpage{219}
+
+  \indexspace
+
+  \item Neugebauer, Otto, \hyperpage{1}
+  \item Newton polygon, \hyperpage{327}
+  \item norm multiplicativity, \hyperpage{199}
+  \item null cone, \hyperpage{99}, \hyperpage{343}, \hyperpage{363}
+
+  \indexspace
+
+  \item octonions, \hyperpage{199}, \hyperpage{363}
+
+  \indexspace
+
+  \item Pell equation, \hyperpage{99}
+  \item Plimpton 322, \hyperpage{1}, \hyperpage{9}
+  \item Poincar\'e disk, \hyperpage{343}
+  \item Pythagoras, \hyperpage{1}, \hyperpage{9}, \hyperpage{75}, 
+		\hyperpage{343}
+  \item Pythagorean quadruple, \hyperpage{269}, \hyperpage{287}, 
+		\hyperpage{363}
+  \item Pythagorean triple, \hyperpage{1}, \hyperpage{9}, 
+		\hyperpage{47}, \hyperpage{305}, \hyperpage{363}
+    \subitem primitive, \hyperpage{1}, \hyperpage{9}, \hyperpage{75}
+
+  \indexspace
+
+  \item quadratic form, \hyperpage{99}, \hyperpage{343}
+  \item quantum computing, \hyperpage{151}, \hyperpage{363}
+  \item quaternions, \hyperpage{199}, \hyperpage{363}
+
+  \indexspace
+
+  \item RSA cryptography, \hyperpage{75}, \hyperpage{171}
+
+  \indexspace
+
+  \item semiprime, \hyperpage{171}, \hyperpage{305}
+  \item Shor's algorithm, \hyperpage{171}, \hyperpage{363}
+  \item Shor, Peter, \hyperpage{171}, \hyperpage{363}
+
+  \indexspace
+
+  \item tropical geometry, \hyperpage{327}, \hyperpage{363}
+
+  \indexspace
+
+  \item Wigner, Eugene, \hyperpage{363}
+  \item Wiles, Andrew, \hyperpage{219}, \hyperpage{363}
+
+\end{theindex}

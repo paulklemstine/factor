@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <defs>
+    <radialGradient id="disk" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="85%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#000"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="30" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">HYPERBOLIC SHORTCUTS IN THE POINCARÉ DISK</text>
+  <text x="400" y="50" text-anchor="middle" fill="#8899aa" font-size="12">Path Concatenation = Matrix Multiplication → O(log k) Navigation</text>
+
+  <!-- Poincaré disk -->
+  <circle cx="300" cy="320" r="250" fill="url(#disk)" stroke="#4A90D9" stroke-width="2"/>
+
+  <!-- Hyperbolic geodesics (arcs) -->
+  <g stroke="#334455" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M 100 170 Q 300 280 500 170"/>
+    <path d="M 80 250 Q 280 350 520 250"/>
+    <path d="M 70 350 Q 300 420 530 350"/>
+    <path d="M 100 470 Q 300 380 500 470"/>
+    <path d="M 150 100 Q 280 300 150 540"/>
+    <path d="M 300 70 Q 310 320 300 570"/>
+    <path d="M 450 100 Q 320 300 450 540"/>
+  </g>
+
+  <!-- Tree nodes in disk -->
+  <g font-size="9" fill="#c4a35a">
+    <circle cx="300" cy="180" r="5" fill="#c4a35a"/>
+    <text x="310" y="175">(3,4,5)</text>
+
+    <circle cx="200" cy="250" r="4" fill="#4A90D9"/>
+    <text x="160" y="248" fill="#4A90D9">(5,12,13)</text>
+
+    <circle cx="350" cy="240" r="4" fill="#D94A6B"/>
+    <text x="360" y="238" fill="#D94A6B">(21,20,29)</text>
+
+    <circle cx="420" cy="280" r="4" fill="#4AD9A5"/>
+    <text x="430" y="278" fill="#4AD9A5">(15,8,17)</text>
+
+    <circle cx="160" cy="310" r="3" fill="#4A90D9" opacity="0.7"/>
+    <circle cx="230" cy="300" r="3" fill="#4A90D9" opacity="0.7"/>
+    <circle cx="310" cy="300" r="3" fill="#D94A6B" opacity="0.7"/>
+    <circle cx="380" cy="310" r="3" fill="#D94A6B" opacity="0.7"/>
+    <circle cx="440" cy="340" r="3" fill="#4AD9A5" opacity="0.7"/>
+    <circle cx="460" cy="310" r="3" fill="#4AD9A5" opacity="0.7"/>
+  </g>
+
+  <!-- Shortcut path (golden) -->
+  <path d="M 300 180 Q 250 220 200 250" stroke="#c4a35a" stroke-width="2" fill="none"/>
+  <path d="M 200 250 Q 180 280 160 310" stroke="#4A90D9" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+  <path d="M 300 180 C 320 240 350 270 380 310" stroke="#ff6b6b" stroke-width="2.5" fill="none"/>
+  <text x="340" y="260" fill="#ff6b6b" font-size="10" font-weight="bold">SHORTCUT</text>
+  <text x="335" y="275" fill="#ff6b6b" font-size="9">O(log k) via</text>
+  <text x="335" y="288" fill="#ff6b6b" font-size="9">repeated squaring</text>
+
+  <!-- Right panel: composition -->
+  <rect x="580" y="80" width="200" height="260" rx="8" fill="#0d1117" stroke="#c4a35a" stroke-width="1"/>
+  <text x="680" y="105" text-anchor="middle" fill="#c4a35a" font-size="13" font-weight="bold">Shortcut Algebra</text>
+
+  <text x="600" y="135" fill="#aabbcc" font-size="12">pathMat(p ++ q)</text>
+  <text x="620" y="155" fill="#c4a35a" font-size="12">= pathMat(p) · pathMat(q)</text>
+
+  <text x="600" y="185" fill="#aabbcc" font-size="12">tripleAt(p ++ q)</text>
+  <text x="620" y="205" fill="#c4a35a" font-size="12">= pathMat(p) ·ᵥ tripleAt(q)</text>
+
+  <line x1="600" y1="220" x2="760" y2="220" stroke="#334455"/>
+
+  <text x="600" y="245" fill="#8899aa" font-size="11">|det(pathMat p)| = 1</text>
+  <text x="600" y="265" fill="#8899aa" font-size="11">(pathMat p)ᵀ Q (pathMat p) = Q</text>
+  <text x="600" y="295" fill="#667788" font-size="10" font-style="italic">All machine-verified ✓</text>
+  <text x="600" y="315" fill="#667788" font-size="10" font-style="italic">by structural induction</text>
+
+  <!-- Bottom: Chebyshev -->
+  <rect x="580" y="370" width="200" height="200" rx="8" fill="#0d1117" stroke="#D94A6B" stroke-width="1"/>
+  <text x="680" y="395" text-anchor="middle" fill="#D94A6B" font-size="13" font-weight="bold">B₂-Branch Recurrence</text>
+  <text x="600" y="425" fill="#aabbcc" font-size="12">c₀ = 5</text>
+  <text x="600" y="445" fill="#aabbcc" font-size="12">c₁ = 29</text>
+  <text x="600" y="465" fill="#aabbcc" font-size="12">c₂ = 169 = 13²</text>
+  <text x="600" y="485" fill="#aabbcc" font-size="12">c₃ = 985</text>
+  <text x="600" y="515" fill="#c4a35a" font-size="12">cₙ₊₂ = 6cₙ₊₁ − cₙ</text>
+  <text x="600" y="545" fill="#8899aa" font-size="11" font-style="italic">Chebyshev / Pell</text>
+  <text x="600" y="560" fill="#8899aa" font-size="11" font-style="italic">recurrence verified ✓</text>
+</svg>

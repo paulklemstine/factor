@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">THE ARCHITECTURE OF FORMAL PROOF</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">Eight Theorems, Machine-Verified: From Matrices to Factoring</text>
+
+  <!-- Theorem dependency graph -->
+  <!-- Layer 1: Definitions -->
+  <rect x="50" y="80" width="140" height="50" rx="5" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="120" y="100" text-anchor="middle" fill="#4A90D9" font-size="11" font-weight="bold">BA, BB, BC</text>
+  <text x="120" y="118" text-anchor="middle" fill="#667788" font-size="9">Matrix Definitions</text>
+
+  <rect x="230" y="80" width="140" height="50" rx="5" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="300" y="100" text-anchor="middle" fill="#4A90D9" font-size="11" font-weight="bold">QLorentz</text>
+  <text x="300" y="118" text-anchor="middle" fill="#667788" font-size="9">diag(1, 1, −1)</text>
+
+  <rect x="410" y="80" width="140" height="50" rx="5" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="480" y="100" text-anchor="middle" fill="#4A90D9" font-size="11" font-weight="bold">root = (3,4,5)</text>
+  <text x="480" y="118" text-anchor="middle" fill="#667788" font-size="9">Starting Triple</text>
+
+  <!-- Layer 2: Preservation -->
+  <line x1="120" y1="130" x2="200" y2="180" stroke="#334455" stroke-width="1"/>
+  <line x1="300" y1="130" x2="200" y2="180" stroke="#334455" stroke-width="1"/>
+  <rect x="100" y="170" width="200" height="55" rx="5" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1.5"/>
+  <text x="200" y="190" text-anchor="middle" fill="#D94A6B" font-size="12" font-weight="bold">Thm 3.1: Lorentz Preservation</text>
+  <text x="200" y="210" text-anchor="middle" fill="#aabbcc" font-size="10">B_Aᵀ · Q · B_A = Q</text>
+
+  <line x1="120" y1="130" x2="480" y2="180" stroke="#334455" stroke-width="1"/>
+  <rect x="380" y="170" width="200" height="55" rx="5" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1.5"/>
+  <text x="480" y="190" text-anchor="middle" fill="#D94A6B" font-size="12" font-weight="bold">Determinants</text>
+  <text x="480" y="210" text-anchor="middle" fill="#aabbcc" font-size="10">det(BA)=1, det(BB)=−1</text>
+
+  <!-- Layer 3: Pythagorean Preservation -->
+  <line x1="200" y1="225" x2="200" y2="260" stroke="#334455" stroke-width="1"/>
+  <line x1="480" y1="130" x2="400" y2="260" stroke="#334455" stroke-width="1"/>
+  <rect x="100" y="255" width="380" height="55" rx="5" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1.5"/>
+  <text x="290" y="275" text-anchor="middle" fill="#c4a35a" font-size="12" font-weight="bold">Thm 3.2: Pythagorean Preservation</text>
+  <text x="290" y="295" text-anchor="middle" fill="#aabbcc" font-size="10">a²+b²=c² ⟹ (Ba)²+(Bb)²=(Bc)² for each B</text>
+
+  <!-- Layer 4: Tree Soundness & Factoring -->
+  <line x1="290" y1="310" x2="200" y2="350" stroke="#334455"/>
+  <line x1="290" y1="310" x2="500" y2="350" stroke="#334455"/>
+
+  <rect x="50" y="340" width="280" height="55" rx="5" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="1.5"/>
+  <text x="190" y="360" text-anchor="middle" fill="#4AD9A5" font-size="12" font-weight="bold">Thm 3.3: Tree Soundness</text>
+  <text x="190" y="380" text-anchor="middle" fill="#aabbcc" font-size="10">Every reachable triple is Pythagorean (induction)</text>
+
+  <rect x="380" y="340" width="280" height="55" rx="5" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="1.5"/>
+  <text x="520" y="360" text-anchor="middle" fill="#4AD9A5" font-size="12" font-weight="bold">Thm 3.4: Factoring Identity</text>
+  <text x="520" y="380" text-anchor="middle" fill="#aabbcc" font-size="10">(c−b)(c+b) = a²</text>
+
+  <!-- Layer 5: Pell & Descent -->
+  <line x1="190" y1="395" x2="300" y2="430" stroke="#334455"/>
+  <line x1="520" y1="395" x2="300" y2="430" stroke="#334455"/>
+
+  <rect x="100" y="425" width="400" height="55" rx="5" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2"/>
+  <text x="300" y="445" text-anchor="middle" fill="#c4a35a" font-size="13" font-weight="bold">Thm 4.1: Pell Recurrence</text>
+  <text x="300" y="465" text-anchor="middle" fill="#aabbcc" font-size="11">B-branch: cₙ₊₂ = 6cₙ₊₁ − cₙ</text>
+
+  <!-- Clean axiom audit -->
+  <rect x="50" y="510" width="700" height="70" rx="8" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="2"/>
+  <text x="400" y="535" text-anchor="middle" fill="#4AD9A5" font-size="14" font-weight="bold">CLEAN AXIOM AUDIT</text>
+  <text x="400" y="558" text-anchor="middle" fill="#aabbcc" font-size="12">Only standard axioms: propext, Classical.choice, Quot.sound</text>
+  <text x="400" y="573" text-anchor="middle" fill="#667788" font-size="10">No sorry · No custom axioms · Machine-verified in Lean 4 + Mathlib</text>
+</svg>

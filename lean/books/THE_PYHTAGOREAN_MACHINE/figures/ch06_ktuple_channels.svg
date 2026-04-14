@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">THE k-TUPLE CHANNEL HIERARCHY</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">Multi-Dimensional Pythagorean Factoring Channels</text>
+
+  <!-- k=3 Triple -->
+  <rect x="50" y="80" width="200" height="120" rx="8" fill="#1a1a2e" stroke="#4A90D9" stroke-width="2"/>
+  <text x="150" y="105" text-anchor="middle" fill="#4A90D9" font-size="14" font-weight="bold">k = 3: Triple</text>
+  <text x="70" y="130" fill="#aabbcc" font-size="11">a² + b² = N²</text>
+  <text x="70" y="150" fill="#c4a35a" font-size="11">1 channel:</text>
+  <text x="70" y="170" fill="#8899aa" font-size="10">(N−b)(N+b) = a²</text>
+  <text x="70" y="190" fill="#667788" font-size="9">gcd(N−b, N) → factor</text>
+
+  <!-- k=4 Quadruple -->
+  <rect x="300" y="80" width="200" height="120" rx="8" fill="#1a1a2e" stroke="#D94A6B" stroke-width="2"/>
+  <text x="400" y="105" text-anchor="middle" fill="#D94A6B" font-size="14" font-weight="bold">k = 4: Quadruple</text>
+  <text x="320" y="130" fill="#aabbcc" font-size="11">a² + b² + c² = N²</text>
+  <text x="320" y="150" fill="#c4a35a" font-size="11">3 primary + 3 pair channels</text>
+  <text x="320" y="170" fill="#8899aa" font-size="10">(N−c)(N+c) = a²+b²</text>
+  <text x="320" y="190" fill="#667788" font-size="9">R₁₁₁₁ reflection preserves</text>
+
+  <!-- k=5 Quintuplet -->
+  <rect x="550" y="80" width="200" height="120" rx="8" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="2"/>
+  <text x="650" y="105" text-anchor="middle" fill="#4AD9A5" font-size="14" font-weight="bold">k = 5: Quintuplet</text>
+  <text x="570" y="130" fill="#aabbcc" font-size="11">a²+b²+c²+d² = N²</text>
+  <text x="570" y="150" fill="#c4a35a" font-size="11">4 primary + 6 pair channels</text>
+  <text x="570" y="170" fill="#8899aa" font-size="10">(N−d)(N+d) = a²+b²+c²</text>
+  <text x="570" y="190" fill="#667788" font-size="9">Lagrange guarantees existence</text>
+
+  <!-- k=8 Octuplet -->
+  <rect x="200" y="230" width="400" height="100" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2"/>
+  <text x="400" y="255" text-anchor="middle" fill="#c4a35a" font-size="15" font-weight="bold">k = 8: Octuplet (The Crown)</text>
+  <text x="220" y="280" fill="#aabbcc" font-size="12">a₁² + a₂² + a₃² + a₄² + a₅² + a₆² + a₇² = N²</text>
+  <text x="220" y="300" fill="#c4a35a" font-size="12">7 primary channels + C(7,2) = 21 pairwise channels</text>
+  <text x="220" y="320" fill="#8899aa" font-size="11">Example: (1,2,3,4,5,6,3,10) → 1+4+9+16+25+36+9 = 100 ✓</text>
+
+  <!-- Arrows showing lifting -->
+  <path d="M 250 200 L 300 230" stroke="#c4a35a" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M 500 200 L 500 230" stroke="#c4a35a" stroke-width="1.5" fill="none"/>
+  <text x="260" y="220" fill="#c4a35a" font-size="9">lift</text>
+
+  <!-- Cross-dimensional lifting diagram -->
+  <rect x="50" y="360" width="340" height="220" rx="8" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1"/>
+  <text x="220" y="385" text-anchor="middle" fill="#4A90D9" font-size="14" font-weight="bold">Cross-Dimensional Lifting</text>
+
+  <text x="70" y="415" fill="#aabbcc" font-size="12">Triple → Quadruple (insert 0)</text>
+  <text x="90" y="435" fill="#8899aa" font-size="11">(a,b,c) → (a,b,0,c)</text>
+
+  <text x="70" y="465" fill="#aabbcc" font-size="12">Quadruple → Quintuplet (insert 0)</text>
+  <text x="90" y="485" fill="#8899aa" font-size="11">(a,b,c,d) → (a,b,c,0,d)</text>
+
+  <text x="70" y="515" fill="#c4a35a" font-size="12">Chain Lifting:</text>
+  <text x="90" y="535" fill="#8899aa" font-size="11">If a²+b²=c² and c²+d²=e²</text>
+  <text x="90" y="555" fill="#8899aa" font-size="11">then a²+b²+d²=e²</text>
+  <text x="90" y="570" fill="#4AD9A5" font-size="10">✓ All verified</text>
+
+  <!-- Euler four-square -->
+  <rect x="420" y="360" width="350" height="220" rx="8" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1"/>
+  <text x="595" y="385" text-anchor="middle" fill="#D94A6B" font-size="14" font-weight="bold">Composition Identities</text>
+
+  <text x="440" y="415" fill="#c4a35a" font-size="12">Brahmagupta-Fibonacci (k=2):</text>
+  <text x="440" y="435" fill="#8899aa" font-size="10">(a²+b²)(c²+d²) = (ac−bd)²+(ad+bc)²</text>
+
+  <text x="440" y="465" fill="#c4a35a" font-size="12">Euler Four-Square (k=4):</text>
+  <text x="440" y="485" fill="#8899aa" font-size="10">(∑aᵢ²)(∑bⱼ²) = ∑cₖ² via quaternions</text>
+
+  <text x="440" y="515" fill="#c4a35a" font-size="12">Channel Composition:</text>
+  <text x="440" y="535" fill="#8899aa" font-size="10">Compose two factoring channels</text>
+  <text x="440" y="555" fill="#8899aa" font-size="10">to get a third, independent one</text>
+  <text x="440" y="570" fill="#4AD9A5" font-size="10">✓ All verified via ring</text>
+</svg>

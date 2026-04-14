@@ -1,0 +1,379 @@
+# Chapter 14 — *The Tree That Cracks Numbers*
+## *How a Babylonian Equation Grows a Forest That Can Split Integers Apart*
+
+---
+
+## 1. The Puzzle of the Odd Number's Secret Triple
+
+Pick any odd number you like — say $N = 37$. I will instantly produce two other numbers, $b$ and $c$, such that $37^2 + b^2 = c^2$. No trial and error, no searching. A single formula, available to anyone with a pencil.
+
+Here it is. Set
+
+$$b = \frac{N^2 - 1}{2}, \qquad c = \frac{N^2 + 1}{2}.$$
+
+For $N = 37$: $b = (1369 - 1)/2 = 684$ and $c = (1369 + 1)/2 = 685$. Verify: $37^2 + 684^2 = 1369 + 467{,}856 = 469{,}225 = 685^2$. The trick works for *every* odd number — try it with your birthday, your house number, the digits of your phone bill. It never fails.
+
+Why not? Expand the right-hand side:
+
+$$\left(\frac{N^2 + 1}{2}\right)^{\!2} = \frac{N^4 + 2N^2 + 1}{4}.$$
+
+Now expand $N^2 + b^2$:
+
+$$N^2 + \left(\frac{N^2 - 1}{2}\right)^{\!2} = N^2 + \frac{N^4 - 2N^2 + 1}{4} = \frac{4N^2 + N^4 - 2N^2 + 1}{4} = \frac{N^4 + 2N^2 + 1}{4}.$$
+
+The two expressions are identical. The identity
+
+$$N^2 + \left(\frac{N^2 - 1}{2}\right)^{\!2} = \left(\frac{N^2 + 1}{2}\right)^{\!2}$$
+
+is not an accident, not a coincidence, but an algebraic certainty — as reliable as the commutative law.
+
+Notice that $N$ must be odd for the trick to produce integers. If $N$ is odd, $N^2$ is odd, so $N^2 - 1$ and $N^2 + 1$ are both even, and their halves are whole numbers. (Even numbers have their own formula — $a = 2m$, $b = m^2 - 1$, $c = m^2 + 1$ — but odd numbers are the ones that will concern us in this chapter, because factoring is hardest when the target is odd.)
+
+Let us call $(N,\, (N^2-1)/2,\, (N^2+1)/2)$ the **trivial triple** of $N$. Here is a small table of them:
+
+| $N$ | $b = (N^2-1)/2$ | $c = (N^2+1)/2$ |
+|:---:|:---:|:---:|
+| 3 | 4 | 5 |
+| 5 | 12 | 13 |
+| 7 | 24 | 25 |
+| 9 | 40 | 41 |
+| 11 | 60 | 61 |
+| 13 | 84 | 85 |
+| 15 | 112 | 113 |
+
+Every odd number owns one, automatically. The ancients knew this — or something very close to it. The Plimpton 322 tablet, a cracked rectangle of baked clay from Babylon circa 1800 BCE, records at least fifteen Pythagorean triples, some with legs in the thousands. Whether its scribes used the trivial-triple formula or Euclid's later parametrization $a = m^2 - n^2$, $b = 2mn$, $c = m^2 + n^2$ remains a matter of scholarly fencing, but the effect is the same: every odd number gets a right triangle for free.
+
+[ILLUSTRATION: A single right triangle with legs labeled $N$ and $(N^2-1)/2$ and hypotenuse $(N^2+1)/2$. Beside it, the seven-row table above is rendered as a neatly ruled card. The triangle for $N = 15$ is drawn larger and set slightly apart, with a question mark hovering above the leg $N = 15$ and faint dashed lines suggesting a hidden factorization $3 \times 5$ inside it.]
+
+And now the sting in the tail. Stare at the row $N = 15$. The trivial triple is $(15, 112, 113)$. The factors of $15$ — that is, $3$ and $5$ — are nowhere in sight. The number $112 = 2^4 \times 7$ has nothing to do with $3$ or $5$; nor does $113$, which is prime. The trivial triple wraps $N$ in a Pythagorean blanket so thick that its inner anatomy is invisible.
+
+But what if there were a way to *descend* from this triple to other, smaller triples — and somewhere along the way, a factor of $N$ would fall out like a coin from a shaken piggy bank?
+
+That is the question that will occupy us for the rest of this chapter. The answer, when it comes, will weave together Babylonian arithmetic, a Swedish mathematician's miraculous tree, the geometry of Einstein's light cone, and a factoring machine built entirely from right triangles.
+
+---
+
+## 2. The Difference-of-Squares Crowbar
+
+Here is a locksmith's trick that is almost embarrassingly simple. If someone tells you that $N^2 + b^2 = c^2$, you can rearrange the furniture:
+
+$$c^2 - b^2 = N^2.$$
+
+And the left-hand side factors — this is the old difference-of-squares identity, known to every student who ever took an algebra class:
+
+$$(c - b)(c + b) = N^2.$$
+
+That is our **crowbar**. It pries $N^2$ apart into two factors: set $d = c - b$ and $e = c + b$, so $d \cdot e = N^2$.
+
+For the trivial triple of $N = 15$: $d = 113 - 112 = 1$ and $e = 113 + 112 = 225$. Sure enough, $1 \times 225 = 225 = 15^2$. But this is the *trivial* factorization — $1$ times $N^2$. Useless for cracking $N$ open.
+
+What about a *different* Pythagorean triple containing $15$? Consider $(15, 8, 17)$. You can check: $225 + 64 = 289 = 17^2$. Now apply the crowbar: $d = 17 - 8 = 9$ and $e = 17 + 8 = 25$. We get $9 \times 25 = 225 = 15^2$. And look: $9 = 3^2$, $25 = 5^2$. The factors of $15$ have tumbled right out!
+
+Or try $(15, 36, 39)$. Check: $225 + 1296 = 1521 = 39^2$. Crowbar: $d = 39 - 36 = 3$, $e = 39 + 36 = 75$. Now $3 \times 75 = 225$, and $\gcd(3, 15) = 3$ — a non-trivial factor!
+
+The crowbar works in reverse, too. Given *any* factorization $N^2 = d \cdot e$ where $d$ and $e$ have the same parity (both odd or both even), we can reconstruct a Pythagorean triple:
+
+$$b = \frac{e - d}{2}, \qquad c = \frac{e + d}{2},$$
+
+and verify that $N^2 + b^2 = c^2$. The proof is a one-liner:
+
+$$c^2 - b^2 = \left(\frac{e+d}{2}\right)^{\!2} - \left(\frac{e-d}{2}\right)^{\!2} = \frac{(e+d)^2 - (e-d)^2}{4} = \frac{4de}{4} = de = N^2.$$
+
+So the Pythagorean triples containing $N$ as a leg are in exact correspondence with the same-parity divisor pairs of $N^2$. The number of such triples is governed by the divisor structure of $N^2$. The trivial triple corresponds to the trivial pair $(1, N^2)$. Every *other* triple corresponds to a *non-trivial* pair — and a non-trivial pair means a non-trivial factor of $N$ is lurking nearby.
+
+Pierre de Fermat, the seventeenth-century magistrate and prince of amateurs, knew this trick well. Around 1643 he proposed his "method of factoring by difference of squares": if you can write $N = x^2 - y^2 = (x-y)(x+y)$, you have cracked $N$ into factors. Our crowbar is the same idea in Pythagorean clothing. Fermat would have approved.
+
+[ILLUSTRATION: A visual "crowbar" diagram. On the left, a right triangle with sides labeled $N = 15$, $b$, $c$. An arrow labeled "subtract" points to the equation $(c-b)(c+b) = N^2$. On the right, the number $N^2 = 225$ is shown as a rectangular area being split into two factor strips of width $d = c - b$ and height $e = c + b$. Below, a three-row table: the trivial factorization $1 \times 225$ yields the trivial triple $(15, 112, 113)$; the factorization $9 \times 25$ yields the triple $(15, 8, 17)$; and the factorization $3 \times 75$ yields $(15, 36, 39)$. The factors $3$ and $5$ are circled in red wherever they appear as divisors.]
+
+The question, then, is not *whether* non-trivial triples reveal factors — they always do — but *how to find* those non-trivial triples in the first place. We have the trivial triple for free. We need a machine that can transform it, step by step, into other triples — smaller ones, different ones — until a factor shakes loose.
+
+As it happens, such a machine was discovered in 1934.
+
+---
+
+## 3. Berggren's Miraculous Tree
+
+In that year, a Swedish mathematician named B. Berggren published a short paper that has since become one of the quiet classics of number theory. Berggren discovered something astonishing: *every* primitive Pythagorean triple — that is, every triple $(a, b, c)$ with $\gcd(a, b) = 1$ — can be generated from the single seed $(3, 4, 5)$ by repeatedly applying just three transformation rules. The triples don't merely form a list; they form an infinite **ternary tree**, branching forever, missing nothing, repeating nothing.
+
+Here are the three rules. Given a triple $(a, b, c)$, produce three children:
+
+$$B_1:\; (a, b, c) \;\longmapsto\; (a - 2b + 2c,\;\; 2a - b + 2c,\;\; 2a - 2b + 3c)$$
+
+$$B_2:\; (a, b, c) \;\longmapsto\; (a + 2b + 2c,\;\; 2a + b + 2c,\;\; 2a + 2b + 3c)$$
+
+$$B_3:\; (a, b, c) \;\longmapsto\; (-a + 2b + 2c,\;\; -2a + b + 2c,\;\; -2a + 2b + 3c)$$
+
+These are not mystical formulae; they are concrete recipes. Feed in three numbers, get three new numbers out. Let us test them on the seed $(3, 4, 5)$:
+
+- $B_1(3,4,5) = (3 - 8 + 10,\; 6 - 4 + 10,\; 6 - 8 + 15) = (5, 12, 13)$.
+- $B_2(3,4,5) = (3 + 8 + 10,\; 6 + 4 + 10,\; 6 + 8 + 15) = (21, 20, 29)$.
+- $B_3(3,4,5) = (-3 + 8 + 10,\; -6 + 4 + 10,\; -6 + 8 + 15) = (15, 8, 17)$.
+
+Check each one: $5^2 + 12^2 = 169 = 13^2$; $21^2 + 20^2 = 841 = 29^2$; $15^2 + 8^2 = 289 = 17^2$. All Pythagorean. All primitive (their $\gcd$s are $1$). The miracle is that this never stops working, and the tree it produces is *complete*: every primitive triple appears exactly once, at exactly one node.
+
+Apply the rules again to each child, and the tree grows:
+
+| Parent | $B_1$ child | $B_2$ child | $B_3$ child |
+|:---:|:---:|:---:|:---:|
+| $(5,12,13)$ | $(7,24,25)$ | $(55,48,73)$ | $(45,28,53)$ |
+| $(21,20,29)$ | $(39,80,89)$ | $(119,120,169)$ | $(77,36,85)$ |
+| $(15,8,17)$ | $(33,56,65)$ | $(65,72,97)$ | $(35,12,37)$ |
+
+Nine grandchildren, each one Pythagorean, each one primitive, none repeated. The tree fans out forever, a ternary organism of perfect right triangles.
+
+[ILLUSTRATION: A ternary tree diagram, three levels deep, rooted at $(3,4,5)$ at the top. Three branches descend to the first-generation children: $(5,12,13)$, $(21,20,29)$, $(15,8,17)$. Each of these branches into three more children, giving nine second-generation nodes. Every node is displayed inside a small right triangle. The branches are labeled $B_1$, $B_2$, $B_3$ alternately in blue, green, and red. The tree has a lush, organic, fractal quality — like a great oak drawn upside down, its crown of leaves at the bottom.]
+
+[ILLUSTRATION: A small inset panel beside the tree. A single triple at a leaf node has an arrow pointing upward, labeled "$B^{-1}$", tracing the unique path back to the root $(3,4,5)$. Caption: "Climbing the tree: from any triple, there is exactly one path back to the root."]
+
+But we want to go the *other* way. We don't want to grow the tree downward from $(3,4,5)$; any fool with a calculator can do that. We want to start at a triple containing our target number $N$ and *climb upward* toward the root, hoping to stumble across a factor of $N$ along the way. For that, we need the inverse maps.
+
+---
+
+## 4. Climbing Back Up: The Three Inverse Maps
+
+Suppose I hand you the triple $(39, 80, 89)$ and ask: which of the three branches produced it? You must figure out its *parent* in the Berggren tree. There is a beautiful fact: you don't need to guess. The arithmetic tells you.
+
+Each of Berggren's three rules has an inverse — a formula that, when applied to a child, recovers the parent. Here they are:
+
+$$B_1^{-1}:\; (a,b,c) \;\longmapsto\; (a + 2b - 2c,\;\; -2a - b + 2c,\;\; -2a - 2b + 3c)$$
+
+$$B_2^{-1}:\; (a,b,c) \;\longmapsto\; (a + 2b - 2c,\;\; 2a + b - 2c,\;\; -2a - 2b + 3c)$$
+
+$$B_3^{-1}:\; (a,b,c) \;\longmapsto\; (-a - 2b + 2c,\;\; 2a + b - 2c,\;\; -2a - 2b + 3c)$$
+
+Notice the family resemblance — the third component, $c' = -2a - 2b + 3c$, is the *same* in all three. We shall see why that matters in a moment.
+
+First, a crucial fact: **these inverse maps preserve the Pythagorean relation.** If $a^2 + b^2 = c^2$, then the output $(a', b', c')$ of any inverse map also satisfies ${a'}^2 + {b'}^2 = {c'}^2$. Let us verify this for $B_1^{-1}$. Set $a' = a + 2b - 2c$, $b' = -2a - b + 2c$, $c' = -2a - 2b + 3c$. Then:
+
+$${a'}^2 + {b'}^2 = (a + 2b - 2c)^2 + (-2a - b + 2c)^2.$$
+
+Expand the first square: $a^2 + 4b^2 + 4c^2 + 4ab - 4ac - 8bc$.
+
+Expand the second: $4a^2 + b^2 + 4c^2 + 4ab - 8ac - 4bc$.
+
+Sum them: $5a^2 + 5b^2 + 8c^2 + 8ab - 12ac - 12bc$.
+
+Now compute ${c'}^2 = (-2a - 2b + 3c)^2 = 4a^2 + 4b^2 + 9c^2 + 8ab - 12ac - 12bc$.
+
+The difference is ${a'}^2 + {b'}^2 - {c'}^2 = (5-4)a^2 + (5-4)b^2 + (8-9)c^2 = a^2 + b^2 - c^2$. But we assumed $a^2 + b^2 - c^2 = 0$, so ${a'}^2 + {b'}^2 - {c'}^2 = 0$. The Pythagorean relation is inherited, exactly as promised.
+
+(The same calculation works for $B_2^{-1}$ and $B_3^{-1}$, with only sign changes in the cross terms — the key identity $a^2 + b^2 - c^2 = 0$ absorbs them all.)
+
+And the **round-trip property**: applying $B_1$ and then $B_1^{-1}$ returns you to where you started. Let us check one case. Start with $(3, 4, 5)$. Apply $B_1$: get $(5, 12, 13)$. Now apply $B_1^{-1}$ to $(5, 12, 13)$: $a' = 5 + 24 - 26 = 3$, $b' = -10 - 12 + 26 = 4$, $c' = -10 - 24 + 39 = 5$. Back to $(3, 4, 5)$. The map and its inverse are true mirror images — what one does, the other undoes.
+
+There is a deep reason for all of this, and it involves a geometry that would have delighted Einstein. The Pythagorean equation $a^2 + b^2 = c^2$ can be rewritten as $a^2 + b^2 - c^2 = 0$ — the equation of a *light cone* in $2+1$-dimensional spacetime. The Berggren transformations, and their inverses, are integer **Lorentz transformations**: they belong to the group $O(2,1;\mathbb{Z})$, the same symmetry group that governs special relativity, restricted to integer entries. We'll return to this cosmic connection in Section 8. For now, the point is practical: these maps are geometrically natural and algebraically exact.
+
+[ILLUSTRATION: A worked example shown as a vertical "ladder." Start at the bottom with the triple $(39, 80, 89)$. Apply $B_2^{-1}$: an upward arrow points to the parent $(21, 20, 29)$. Apply $B_2^{-1}$ again: another arrow climbs to $(3, 4, 5)$. Each rung displays the triple, and the arrows are labeled with the inverse map used. The hypotenuse values — $89$, $29$, $5$ — are shown decreasing at each step in a sidebar column, like a thermometer reading falling.]
+
+---
+
+## 5. The Hypotenuse Always Shrinks (Why the Climb Must End)
+
+Any child could tell you that if you keep climbing a finite tree, you must eventually reach the top. But how do we know the climb through the Berggren tree is "finite in the upward direction"? What if the inverse maps sent us spiraling sideways, never getting closer to the root?
+
+They don't, and the reason is a lovely inequality. Recall that the parent's hypotenuse, under *any* of the three inverse maps, is
+
+$$c' = -2a - 2b + 3c = 3c - 2(a + b).$$
+
+We need two things: that $c'$ is *positive* (we haven't fallen off the tree into nonsense), and that $c' < c$ (we are genuinely climbing upward). Let us prove both.
+
+**Claim 1: $c' < c$.** We need $3c - 2(a+b) < c$, which simplifies to $2c < 2(a+b)$, i.e., $c < a + b$. But this is just the **triangle inequality** — the hypotenuse of a triangle is always shorter than the sum of the other two sides! (In fact, for a *right* triangle with $a, b > 0$, the strict inequality $c < a + b$ is obvious: $c = \sqrt{a^2 + b^2} < \sqrt{(a+b)^2} = a + b$.) So $c' < c$, always.
+
+**Claim 2: $c' > 0$.** This is more delicate. We need $3c > 2(a+b)$, i.e., $a + b < \frac{3}{2}c$. Is this true? Use the Pythagorean relation: $a^2 + b^2 = c^2$. By the inequality of arithmetic and quadratic means, $(a + b)^2 \leq 2(a^2 + b^2) = 2c^2$, so $a + b \leq c\sqrt{2} \approx 1.414c < 1.5c = \frac{3}{2}c$. Therefore $c' = 3c - 2(a+b) > 3c - 3c = 0$... wait, that's not quite tight enough. Let's be more careful: $a + b \leq c\sqrt{2}$, so $c' = 3c - 2(a+b) \geq 3c - 2c\sqrt{2} = c(3 - 2\sqrt{2})$. Since $2\sqrt{2} \approx 2.828$, we get $c' \geq c(3 - 2.828\ldots) = c \cdot 0.172\ldots > 0$. Strictly positive.
+
+In fact, since $c \geq 5$ for any Pythagorean triple with $a, b > 0$, we have $c' \geq 5(3 - 2\sqrt{2}) \approx 0.86$. Since $c'$ is an integer, $c' \geq 1$.
+
+**The consequence** is devastating (in the best possible sense). The hypotenuse $c$ is a positive integer. At each step of the climb, $c$ strictly decreases but stays positive. A sequence of positive integers cannot decrease forever — it must terminate. The climb ends. And it ends at $(3, 4, 5)$, the root of the tree.
+
+This style of argument — showing that some positive integer quantity decreases at every step, so the process must halt — is one of the oldest and most powerful ideas in mathematics. Fermat called it the *méthode de descente infinie* — the method of infinite descent — and used it to prove, among other things, that no right triangle with integer sides can have an area equal to a perfect square. We are deploying the same weapon, aimed at a different target: here, the "descent" is literal, a climb up the Berggren tree, and the "quantity that decreases" is the hypotenuse.
+
+[ILLUSTRATION: A graph with the horizontal axis labeled "descent step" (showing values $0, 1, 2, 3, \ldots$) and the vertical axis labeled "hypotenuse $c$." A descending staircase of bold dots shows the hypotenuse shrinking at each step, always remaining above the horizontal axis. The region below $c = 0$ is shaded in soft red and labeled "forbidden zone." A small speech bubble from the final dot at $c = 5$ reads "Arrived!" A faint dashed curve $c' \geq c(3 - 2\sqrt{2})$ is drawn to show the guaranteed minimum drop at each step.]
+
+---
+
+## 6. Only One Door Opens: The Uniqueness of the Parent
+
+Here is a curious fact. When you apply the three inverse maps to a given triple, at most one of them produces a triple with *all* components positive. It's like a corridor with three doors: only one opens. The other two lead to triples with a negative leg — mathematical nonsense if we insist (as we do) that the sides of a triangle be positive.
+
+Why? Look at the second components of the three inverse maps:
+
+- $B_1^{-1}$ gives $b' = -2a - b + 2c$.
+- $B_2^{-1}$ gives $b' = 2a + b - 2c$.
+- $B_3^{-1}$ gives $b' = 2a + b - 2c$.
+
+Wait — the second and third have the *same* second component? Not quite; let us also look at the first components:
+
+- $B_2^{-1}$ gives $a' = a + 2b - 2c$.
+- $B_3^{-1}$ gives $a' = -a - 2b + 2c$.
+
+Notice that the first components of $B_2^{-1}$ and $B_3^{-1}$ are exact *negatives* of each other: $a'_2 = a + 2b - 2c$ and $a'_3 = -(a + 2b - 2c)$. If one is positive, the other is negative. They cannot both produce a triple with positive first component.
+
+Similarly, the second components of $B_1^{-1}$ and $B_2^{-1}$ are negatives: $b'_1 = -2a - b + 2c$ and $b'_2 = 2a + b - 2c$. If one is positive, the other is negative. (Their sum is zero — they annihilate each other.)
+
+So at most one of the three inverse maps yields a triple with both legs positive. And for any triple other than the root $(3, 4, 5)$, exactly one of them does. (At the root itself, all three produce a triple with a zero or negative component — that's how you know you've arrived.)
+
+The consequence: **the path from any triple back to the root is unique and deterministic.** There is no ambiguity, no backtracking, no choice. You compute all three inverse maps, pick the one with positive legs, and continue. It is an algorithm, not a search.
+
+[ILLUSTRATION: A triple $(a, b, c)$ displayed in a central circle. Three arrows radiate outward to three boxes labeled $B_1^{-1}(a,b,c)$, $B_2^{-1}(a,b,c)$, and $B_3^{-1}(a,b,c)$. Two of the boxes are shaded red and crossed out, showing a negative component (e.g., $(-7, 24, 25)$ with the $-7$ highlighted in red, and $(13, -4, 15)$ with the $-4$ in red). One box is shaded green and checked, showing all positive components. A caption reads: "Only one door opens."]
+
+---
+
+## 7. The Factoring Machine: GCDs Along the Climb
+
+Now we assemble the machine. We have all the parts: a starting triple, a way to climb the tree, and a guarantee that the climb will end. But where do the factors come from?
+
+The answer is: they hide in the $\gcd$.
+
+**Step 1 — Seeding.** Given an odd composite number $N$ to factor, construct its trivial triple:
+
+$$T_0 = \left(N,\;\frac{N^2 - 1}{2},\;\frac{N^2 + 1}{2}\right).$$
+
+This triple may not be primitive — if $N$ is composite, it almost certainly isn't. But it is Pythagorean, and it contains $N$ as a leg.
+
+**Step 2 — Climbing.** Apply the unique valid inverse Berggren map to get a new triple $T_1 = (a_1, b_1, c_1)$. Then do it again to get $T_2$, then $T_3$, and so on, climbing step by step toward the root.
+
+**Step 3 — Checking.** At each step $i$, compute $\gcd(a_i, N)$ and $\gcd(b_i, N)$. If either GCD lies strictly between $1$ and $N$ — that is, if it is a *non-trivial* divisor — we have cracked $N$. The factor drops out.
+
+Why should this work? Because as we climb the tree, the legs of the triples change in complex ways — they twist and recombine through the Berggren formulas. And a number's factors have a tendency to *show up* as common factors with other quantities, especially when those quantities are constructed by systematic linear combinations of the original number. Think of it this way: the inverse Berggren maps are stirring the arithmetic of the triple like a spoon in a cocktail. Eventually, a factor of $N$ "precipitates out" — it appears in one of the legs, not as $N$ itself, but as a submultiple.
+
+The **factor extraction theorem** is elementary: if $g = \gcd(d, N)$ and $1 < g < N$, then $g$ is a non-trivial divisor of $N$. This is the definition of $\gcd$ doing its job. The cleverness is not in the extraction but in the *search* — in climbing the tree until we encounter a leg value that happens to be divisible by one of $N$'s prime factors but not all of them.
+
+Let us see the machine in action on a small example.
+
+**Worked Example: $N = 15$.**
+
+1. Trivial triple: $T_0 = (15, 112, 113)$.
+2. Compute the three inverse maps. Pick the valid one (the one with positive legs).
+3. Check $\gcd(a_1, 15)$ and $\gcd(b_1, 15)$.
+4. If no factor found, climb again. Continue until a factor appears — or until we reach $(3, 4, 5)$.
+
+For $N = 15$, the descent is short. The Berggren tree knows that $15 = 3 \times 5$, and within a few steps a leg divisible by $3$ (but not $5$) or by $5$ (but not $3$) will appear. The GCD reveals the hidden factor.
+
+[ILLUSTRATION: A flowchart of the factoring algorithm. Start: "Input odd $N$." Box 1: "Compute trivial triple $(N, \frac{N^2-1}{2}, \frac{N^2+1}{2})$." Diamond: "Is $\gcd(a, N)$ or $\gcd(b, N)$ non-trivial?" If yes, arrow to: "Output factor!" If no, arrow to: "Compute parent triple via inverse Berggren." Arrow loops back to the diamond. A small "step counter" is shown incrementing at each loop. At the bottom, an exit labeled "Arrived at root with no factor found" (which in practice does not happen for composite $N$).]
+
+[ILLUSTRATION: A detailed worked example for $N = 77 = 7 \times 11$. A vertical sequence of triples is shown, each connected by an upward arrow. At each step, the values $\gcd(a_i, 77)$ and $\gcd(b_i, 77)$ are displayed alongside in small annotation boxes. The step where a GCD equals $7$ or $11$ is highlighted with a golden starburst and the caption "$77 = 7 \times 11$, found!"]
+
+---
+
+## 8. The Light Cone: Why the Lorentz Form Is Preserved
+
+There is a hidden geometry in all of this — a geometry that would have delighted Einstein, though it was discovered by algebraists, not physicists.
+
+We noted earlier that the Pythagorean equation $a^2 + b^2 = c^2$ can be rewritten as
+
+$$Q(a, b, c) \;=\; a^2 + b^2 - c^2 \;=\; 0.$$
+
+The function $Q$ is called the **Lorentz form** (or, more precisely, a quadratic form of signature $(2,1)$). In special relativity, the analogous quantity $x^2 + y^2 - (ct)^2$ measures the "spacetime interval" between events: zero on the light cone, positive inside it, negative outside. Our Pythagorean triples are the integer lattice points living on this cone.
+
+Here is the theorem that makes the whole tree work: **all three Berggren maps, and all three inverse maps, preserve the Lorentz form exactly.** That is, for each map $M$ (whether $B_i$ or $B_i^{-1}$):
+
+$$Q\bigl(M(a, b, c)\bigr) = Q(a, b, c),$$
+
+for *all* integer triples $(a, b, c)$, not just Pythagorean ones.
+
+We already proved this for $B_1^{-1}$ in Section 4, when we showed that ${a'}^2 + {b'}^2 - {c'}^2 = a^2 + b^2 - c^2$. The same algebra goes through for all six maps. The Berggren transformations are *isometries* of the Lorentz form — symmetries of the light cone that happen to have integer entries.
+
+In the language of group theory, these matrices belong to $O(2,1;\mathbb{Z})$, the **integer Lorentz group** — the same mathematical structure that, over the real numbers, governs the coordinate transformations between observers moving at different speeds in Einstein's theory. Over the integers, it governs the coordinate transformations between Pythagorean triples.
+
+The preservation of $Q$ is what *guarantees* that the children of a Pythagorean triple are always Pythagorean: if $Q(a,b,c) = 0$, then $Q(B_i(a,b,c)) = 0$. And it is what guarantees the climb never leaves the cone: if we start on the light cone, every inverse map keeps us on it.
+
+There is a beautiful geometric picture here. The light cone $a^2 + b^2 = c^2$ in three-dimensional space is, well, a cone — a surface that flares outward from the origin. If we slice this cone with the plane $c = \text{const}$, we get a circle of radius $c$. The Pythagorean triples with a given hypotenuse are the integer points on that circle. As we climb the Berggren tree, we hop from one such circle to a smaller one (since the hypotenuse decreases), spiraling inward along the cone's surface until we reach the tiny circle of radius $5$ — the root.
+
+Henri Poincaré discovered, in the 1880s, that the interior of such a cone is a model of *hyperbolic geometry* — the strange non-Euclidean geometry where parallel lines diverge and triangles have angle sums less than $180°$. The Berggren tree, from this vantage point, is a discrete tiling of the hyperbolic plane by ideal triangles. But that is a story for another chapter.
+
+[ILLUSTRATION: A three-dimensional wireframe cone, vertex at the origin, with the vertical axis labeled $c$ and the horizontal plane spanned by axes $a$ and $b$. The cone's surface is the locus $a^2 + b^2 = c^2$. Several Pythagorean triples are plotted as bright dots on the surface: $(3,4,5)$ near the apex, $(5,12,13)$ and $(15,8,17)$ and $(21,20,29)$ further down. Thin lines connecting parent–child pairs in the Berggren tree are drawn along the cone's surface, showing the tree structure embedded in the geometry of the light cone. The overall impression is of a constellation of stars on the surface of a trumpet-bell, connected by a web of threads.]
+
+---
+
+## 9. Running the Machine: Five Numbers Fall Apart
+
+Enough theory — let us watch the machine work. We'll feed it five composite numbers and see it split each one, step by step, like a nutcracker applied to increasingly hard shells.
+
+Our test subjects:
+
+| $N$ | Factorization | Character |
+|:---:|:---:|:---:|
+| $15$ | $3 \times 5$ | Small, easy |
+| $21$ | $3 \times 7$ | Small, slightly unbalanced |
+| $77$ | $7 \times 11$ | Medium |
+| $143$ | $11 \times 13$ | Balanced semiprime |
+| $323$ | $17 \times 19$ | Larger balanced semiprime |
+
+For each, the procedure is the same: compute the trivial triple, climb the tree, check GCDs.
+
+**$N = 15$.**
+Trivial triple: $(15, 112, 113)$. The hypotenuse is $113$. We begin climbing. Within a handful of steps, one of the leg values turns out to share a common factor with $15$. Suppose at some step we encounter a leg $a_k$ with $\gcd(a_k, 15) = 5$. Then we announce: $15 = 5 \times 3$. Done.
+
+**$N = 21$.**
+Trivial triple: $(21, 220, 221)$. The hypotenuse is $221 = 13 \times 17$ — already an interesting number! The descent takes somewhat more steps than for $15$, because $21$'s factors ($3$ and $7$) are more "unbalanced." But the GCD check eventually catches one of them.
+
+**$N = 77$.**
+Trivial triple: $(77, 2964, 2965)$. A heftier starting point. The descent ladder is longer — perhaps a dozen steps or more. But the machine grinds on, checking GCDs at every rung. Somewhere along the way, a leg value divisible by $7$ but not $11$ (or vice versa) appears, and $\gcd$ pounces.
+
+**$N = 143$.**
+Trivial triple: $(143, 10224, 10225)$. The factors $11$ and $13$ are close together — this is a "balanced" semiprime, traditionally harder to factor. The descent may require more steps, because the tree must "separate" two nearly equal factors. But the tree is patient, and the hypotenuse always shrinks.
+
+**$N = 323$.**
+Trivial triple: $(323, 52164, 52165)$. The factors $17$ and $19$ are even closer together — the hardest case for classical methods like trial division, which would need to test primes up to $\sqrt{323} \approx 17.97$. The descent is the longest yet, but the machine does not falter.
+
+How does the number of descent steps compare to trial division? For these small examples, the two methods are roughly comparable — both take on the order of $\sqrt{N}$ work. The Berggren descent is not a magic bullet for factoring (no one expects it to break RSA). Its charm lies elsewhere: in the *elegance* of the connection between right triangles and prime factors, in the way the same algebraic identity that fascinated Babylonian scribes four thousand years ago turns out to encode the divisor structure of the integers.
+
+For those interested in complexity, the number of descent steps grows roughly as $\Theta(\sqrt{N})$ for balanced semiprimes — a topic treated in detail in Chapter 8.
+
+[ILLUSTRATION: Five side-by-side "descent ladders," one for each of the five examples. Each ladder is a vertical chain of small boxes containing triples, connected by upward arrows. GCD values are annotated at each step in fine print to the right of each box. The "winning" step — where a non-trivial GCD first appears — is highlighted with a golden starburst. The five ladders have different heights, visually conveying that larger numbers require more steps. The ladders are arranged left to right in order of increasing $N$, growing taller as they go.]
+
+[ILLUSTRATION: A bar chart comparing "number of descent steps" (vertical axis) versus $N$ (horizontal axis, showing $15, 21, 77, 143, 323$). The bars increase in height. A faint dashed curve proportional to $\sqrt{N}$ is overlaid in gray, hinting at the asymptotic growth. A caption reads: "The climb gets longer — but always ends."]
+
+---
+
+## 10. Coda: The Deep Structure, and Questions That Remain
+
+We have built a factoring machine from right triangles and ancient algebra. But like all the best mathematical stories, the ending opens more doors than it closes.
+
+Let us take stock of what we've assembled. The logical chain has seven links:
+
+1. **Every odd $N$ has a trivial Pythagorean triple.** The identity $N^2 + \left(\frac{N^2-1}{2}\right)^2 = \left(\frac{N^2+1}{2}\right)^2$ hands us a starting point for free.
+
+2. **Pythagorean triples biject with same-parity divisor pairs of $N^2$.** The difference-of-squares crowbar $(c-b)(c+b) = N^2$ converts between triples and factorizations.
+
+3. **The Berggren tree organizes all primitive triples into a single ternary tree rooted at $(3,4,5)$.** Three transformation rules, discovered in 1934, generate every primitive triple exactly once.
+
+4. **Inverse Berggren maps let us climb from any triple toward the root.** Each inverse map preserves the Pythagorean relation, sending triples to triples.
+
+5. **The hypotenuse strictly decreases at every step.** The triangle inequality ensures $c' < c$, and the Pythagorean relation ensures $c' > 0$. By Fermat's principle of infinite descent, the climb must end.
+
+6. **Only one inverse branch produces valid output at each step.** The path from any triple to the root is unique and deterministic — no searching, no backtracking.
+
+7. **GCDs of leg values with $N$ may reveal non-trivial factors.** The Berggren maps, by linearly recombining the components, "stir" the arithmetic until a hidden factor precipitates.
+
+And beneath it all, like the bass note in an organ chord, lies the **Lorentz form** $Q(a,b,c) = a^2 + b^2 - c^2$, invariant under every Berggren transformation — connecting the four-thousand-year-old puzzle of right triangles to the geometry of Einstein's spacetime.
+
+What questions remain?
+
+- *How many descent steps are needed on average?* For balanced semiprimes, the answer is $\Theta(\sqrt{N})$ — comparable to trial division. The analysis, which involves the statistics of random walks on the Berggren tree, is the subject of Chapter 8.
+
+- *Can we take shortcuts through the tree?* Instead of climbing one step at a time, could we leap directly toward the root? Hyperbolic geodesics and matrix exponentiation suggest that one can — this is explored in Chapter 3.
+
+- *Can a quantum computer climb the tree faster?* The Grover speedup, which accelerates unstructured search from $O(\sqrt{N})$ to $O(N^{1/4})$, might apply to the tree descent. The details are in Chapter 7.
+
+- *What happens if we replace triples with quadruples or higher?* The generalization to $a_1^2 + a_2^2 + \cdots + a_k^2 = c^2$ yields higher-dimensional trees — the $k$-tuple generalization of Chapter 6.
+
+- *Is there a connection to lattice reduction?* The Berggren tree, viewed as a set of integer points on the light cone, is intimately related to shortest vectors in certain lattices. The Lattice-Tree Correspondence is developed in Chapter 2.
+
+Each of these questions opens a corridor leading deeper into the building. The tree that cracks numbers is also a tree that connects chapters — a root system linking algebra, geometry, physics, and computation into a single organism.
+
+I'll leave you with a challenge. The number
+
+$$N = 10{,}403$$
+
+is the product of two primes. Using nothing but the trivial triple, the three inverse Berggren maps, and a pocket calculator (or a patient afternoon with pencil and paper), can you factor it?
+
+The tree awaits your climb.
+
+[ILLUSTRATION: A grand, full-page composite image. At the center, a large ternary tree grows downward from $(3,4,5)$ at the top, extending four or five levels deep, its branches carrying labeled triples at every node. Superimposed on the tree is a translucent light cone from Section 8, showing that the tree lives on the cone's surface. To the upper left, a right triangle is drawn with legs $N$ and $(N^2-1)/2$, reminding the reader of the Pythagorean origins. To the upper right, a miniature flowchart of the factoring algorithm from Section 7. At the bottom center, the number $10{,}403$ sits inside a locked wooden box with a keyhole shaped like a small right triangle — inviting the reader to try the final puzzle. The overall palette is warm parchment tones, evoking an alchemist's workshop where ancient mathematics is transmuted into modern tools.]
+
+[ILLUSTRATION: A whimsical "map of the book" rendered in the style of a medieval cartographer's chart, with Chapter 14 drawn as a central island. Bridges radiate outward to neighboring islands labeled Chapter 2 (lattice reduction), Chapter 3 (hyperbolic shortcuts), Chapter 6 ($k$-tuples), Chapter 7 (quantum speedup), and Chapter 8 (complexity bounds). Each bridge is inscribed with the connecting concept. The sea between the islands is labeled with playful annotations: "Here be semiprimes" near Chapter 8, "Uncharted quadruples" near Chapter 6, and a tiny sea serpent near the quantum island. A compass rose in the corner points not to N/S/E/W but to "Algebra / Geometry / Physics / Computation."]
+
+---
+
+*The answer to the closing puzzle: $10{,}403 = 101 \times 103$. But don't take my word for it — climb the tree and see for yourself.*

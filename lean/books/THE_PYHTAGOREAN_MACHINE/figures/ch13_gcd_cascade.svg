@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">GCD CASCADES: THE WATERFALL OF FACTORS</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">Multi-Representation Factor Extraction via Channel Lattices</text>
+
+  <!-- Waterfall cascade diagram -->
+  <g>
+    <!-- Level 1: Input -->
+    <rect x="300" y="80" width="200" height="50" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2"/>
+    <text x="400" y="105" text-anchor="middle" fill="#c4a35a" font-size="14" font-weight="bold">N = target</text>
+    <text x="400" y="122" text-anchor="middle" fill="#667788" font-size="10">a² + b² + c² = N²</text>
+
+    <!-- Level 2: Three channels -->
+    <line x1="350" y1="130" x2="150" y2="170" stroke="#4A90D9" stroke-width="1.5"/>
+    <line x1="400" y1="130" x2="400" y2="170" stroke="#D94A6B" stroke-width="1.5"/>
+    <line x1="450" y1="130" x2="650" y2="170" stroke="#4AD9A5" stroke-width="1.5"/>
+
+    <rect x="50" y="170" width="200" height="45" rx="5" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1.5"/>
+    <text x="150" y="195" text-anchor="middle" fill="#4A90D9" font-size="11">Channel 1: N²−a²</text>
+
+    <rect x="300" y="170" width="200" height="45" rx="5" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1.5"/>
+    <text x="400" y="195" text-anchor="middle" fill="#D94A6B" font-size="11">Channel 2: N²−b²</text>
+
+    <rect x="550" y="170" width="200" height="45" rx="5" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="1.5"/>
+    <text x="650" y="195" text-anchor="middle" fill="#4AD9A5" font-size="11">Channel 3: N²−c²</text>
+
+    <!-- Level 3: Cross-channel GCDs -->
+    <line x1="150" y1="215" x2="275" y2="265" stroke="#c4a35a" stroke-width="1"/>
+    <line x1="400" y1="215" x2="275" y2="265" stroke="#c4a35a" stroke-width="1"/>
+    <line x1="400" y1="215" x2="525" y2="265" stroke="#c4a35a" stroke-width="1"/>
+    <line x1="650" y1="215" x2="525" y2="265" stroke="#c4a35a" stroke-width="1"/>
+
+    <rect x="175" y="260" width="200" height="40" rx="5" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1.5"/>
+    <text x="275" y="285" text-anchor="middle" fill="#c4a35a" font-size="11">gcd(Ch1, Ch2) | b²−a²</text>
+
+    <rect x="425" y="260" width="200" height="40" rx="5" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1.5"/>
+    <text x="525" y="285" text-anchor="middle" fill="#c4a35a" font-size="11">gcd(Ch2, Ch3) | c²−b²</text>
+
+    <!-- Level 4: Factor -->
+    <line x1="275" y1="300" x2="400" y2="340" stroke="#c4a35a" stroke-width="2"/>
+    <line x1="525" y1="300" x2="400" y2="340" stroke="#c4a35a" stroke-width="2"/>
+
+    <rect x="300" y="340" width="200" height="50" rx="8" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="2.5"/>
+    <text x="400" y="362" text-anchor="middle" fill="#4AD9A5" font-size="14" font-weight="bold">FACTOR FOUND</text>
+    <text x="400" y="382" text-anchor="middle" fill="#aabbcc" font-size="10">gcd(cross-channels, N)</text>
+  </g>
+
+  <!-- Theorems panel -->
+  <rect x="50" y="420" width="340" height="160" rx="8" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1"/>
+  <text x="220" y="445" text-anchor="middle" fill="#4A90D9" font-size="13" font-weight="bold">Verified Theorems</text>
+  <text x="70" y="475" fill="#aabbcc" font-size="11">• cross_channel_gcd: g|Ch1 ∧ g|Ch2 ⟹ g|b²−a²</text>
+  <text x="70" y="500" fill="#aabbcc" font-size="11">• triple_channel_gcd: g|all ⟹ g divides all diffs</text>
+  <text x="70" y="525" fill="#aabbcc" font-size="11">• channel_sum: Ch1+Ch2+Ch3 = 2d²</text>
+  <text x="70" y="550" fill="#aabbcc" font-size="11">• brahmagupta_fibonacci_channels</text>
+  <text x="70" y="570" fill="#4AD9A5" font-size="10">All machine-verified ✓</text>
+
+  <!-- Higher-dim panel -->
+  <rect x="420" y="420" width="340" height="160" rx="8" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1"/>
+  <text x="590" y="445" text-anchor="middle" fill="#D94A6B" font-size="13" font-weight="bold">5D and 6D Channels</text>
+  <text x="440" y="475" fill="#aabbcc" font-size="11">Quintuplets: a²+b²+c²+d²+e² = f²</text>
+  <text x="440" y="500" fill="#aabbcc" font-size="11">Sextuplets: verified for n=5,6</text>
+  <text x="440" y="525" fill="#c4a35a" font-size="11">More channels → richer cascade</text>
+  <text x="440" y="550" fill="#c4a35a" font-size="11">→ higher probability of factor</text>
+  <text x="440" y="570" fill="#667788" font-size="10">Quadruple parity classification complete</text>
+</svg>

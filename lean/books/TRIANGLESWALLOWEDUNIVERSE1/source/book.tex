@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper,openany]{book}
+
+% Encoding and fonts (XeLaTeX)
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\usepackage{microtype}
+
+% Math
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{unicode-math}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% Tables
+\usepackage{longtable,booktabs,array}
+\usepackage{calc}
+
+% Links
+\usepackage[colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!70!black,citecolor=green!50!black]{hyperref}
+
+% Page geometry
+\usepackage[margin=1in,headheight=14pt]{geometry}
+
+% Headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\textit{\nouppercase{\leftmark}}}
+\fancyhead[RO]{\textit{\nouppercase{\rightmark}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Chapter styling
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% Quote styling
+\usepackage{csquotes}
+
+% Float placement
+\usepackage{float}
+
+% Caption styling  
+\usepackage[font=small,labelfont=bf]{caption}
+
+% Allow wider figures
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+
+% Fix for pandoc's tightlist
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Custom colors for the book
+\definecolor{chaptercolor}{RGB}{0,51,102}
+
+\begin{document}
+
+% ---- Title page ----
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\Huge\bfseries\color{chaptercolor} The Triangle That\\[0.3cm] Swallowed the Universe\par}
+\vspace{1.5cm}
+{\Large\itshape Pythagorean Triples, Spacetime Geometry,\\[0.2cm] and the Hidden Architecture of Numbers\par}
+\vspace{3cm}
+{\large A Mathematical Journey in Sixteen Chapters\par}
+\vfill
+\vspace{1cm}
+\end{titlepage}
+
+% ---- Front matter ----
+\frontmatter
+\tableofcontents
+\clearpage
+
+% ---- Main matter ----
+\mainmatter
+
+\input{Introduction.tex}
+\input{Chapter1.tex}
+\input{Chapter2.tex}
+\input{Chapter3.tex}
+\input{Chapter4.tex}
+\input{Chapter5.tex}
+\input{Chapter6.tex}
+\input{Chapter7.tex}
+\input{Chapter8.tex}
+\input{Chapter9.tex}
+\input{Chapter10.tex}
+\input{Chapter11.tex}
+\input{Chapter12.tex}
+\input{Chapter13.tex}
+\input{Chapter14.tex}
+\input{Chapter15.tex}
+\input{Chapter16.tex}
+\input{Conclusion.tex}
+
+% ---- Back matter ----
+\backmatter
+
+\end{document}

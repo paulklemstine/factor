@@ -1,0 +1,313 @@
+%!TEX program = xelatex
+%% ─────────────────────────────────────────────────────────
+%%  THE TRIANGLE THAT SWALLOWED THE UNIVERSE
+%%  Paul Klemstine
+%%  A premium illustrated book — memoir class
+%% ─────────────────────────────────────────────────────────
+\documentclass[11pt,openany,twoside,extrafontsizes]{memoir}
+
+%%% ── Geometry ──────────────────────────────────────────
+\setstocksize{10in}{8in}            % oversized trim
+\settrimmedsize{10in}{8in}{*}
+\setlrmarginsandblock{1.2in}{1.0in}{*}
+\setulmarginsandblock{1.1in}{1.3in}{*}
+\setheadfoot{0.4in}{0.5in}
+\checkandfixthelayout
+
+%%% ── Fonts & Micro-typography ─────────────────────────
+\usepackage{fontspec}
+\setmainfont{Latin Modern Roman}[SmallCapsFont={Latin Modern Roman Caps}]
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}[Scale=0.9]
+\usepackage{microtype}
+
+%%% ── Mathematics ──────────────────────────────────────
+\usepackage{amsmath,amsthm,mathtools}
+% amssymb loaded after fontspec to avoid conflicts
+\usepackage{amssymb}
+
+%%% ── Graphics & Color ─────────────────────────────────
+\usepackage{graphicx}
+\usepackage[svgnames,dvipsnames,x11names]{xcolor}
+\graphicspath{
+  {../Introduction/images/}
+  {../Chapter1/images/}
+  {../Chapter2/images/}
+  {../Chapter3/images/}
+  {../Chapter4/images/}
+  {../Chapter5/images/}
+  {../Chapter6/images/}
+  {../Chapter7/images/}
+  {../Chapter8/images/}
+  {../Chapter9/images/}
+  {../Chapter10/images/}
+  {../Chapter11/images/}
+  {../Chapter12/images/}
+  {../Chapter13/images/}
+  {../Chapter14/images/}
+  {../Chapter15/images/}
+  {../Chapter16/images/}
+  {../Conclusion/images/}
+  {../ISBN/}
+}
+
+%%% ── Tables ───────────────────────────────────────────
+\usepackage{booktabs,longtable,array}
+
+%%% ── Code listings (Lean appendix) ───────────────────
+\usepackage{listings}
+\definecolor{leanBG}{HTML}{FAF8F0}
+\definecolor{leanKW}{HTML}{7B3294}
+\definecolor{leanCM}{HTML}{666666}
+\definecolor{leanST}{HTML}{1B7837}
+\definecolor{leanFrame}{HTML}{D9D2C0}
+\lstdefinelanguage{Lean}{
+  morekeywords={import,open,def,theorem,lemma,example,instance,class,structure,
+    namespace,section,end,where,match,with,if,then,else,do,return,let,have,
+    show,by,sorry,at,in,fun,noncomputable,variable,set_option,attribute,
+    inductive,mutual,private,protected,abbrev,macro,syntax,deriving,extends},
+  morekeywords=[2]{Prop,Type,Sort,Nat,Int,Bool,True,False,And,Or,Not,Iff,
+    Exists,List,Option,Fin,Matrix,ZMod,Finset},
+  sensitive=true,
+  morecomment=[l]{--},
+  morecomment=[n]{/-}{-/},
+  morestring=[b]",
+}
+\lstset{
+  language=Lean,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{leanKW}\bfseries,
+  keywordstyle=[2]\color{NavyBlue},
+  commentstyle=\color{leanCM}\itshape,
+  stringstyle=\color{leanST},
+  backgroundcolor=\color{leanBG},
+  frame=single,
+  rulecolor=\color{leanFrame},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=2,
+  showstringspaces=false,
+  xleftmargin=1.2em,
+  framexleftmargin=1.2em,
+  aboveskip=1.2em,
+  belowskip=0.8em,
+  literate={←}{$\leftarrow$}1 {→}{$\rightarrow$}1 {↔}{$\leftrightarrow$}1
+           {∀}{$\forall$}1 {∃}{$\exists$}1 {λ}{$\lambda$}1
+           {ℕ}{$\mathbb{N}$}1 {ℤ}{$\mathbb{Z}$}1 {ℚ}{$\mathbb{Q}$}1
+           {ℝ}{$\mathbb{R}$}1 {ℂ}{$\mathbb{C}$}1
+           {≤}{$\leq$}1 {≥}{$\geq$}1 {≠}{$\neq$}1
+           {⊢}{$\vdash$}1 {⟨}{$\langle$}1 {⟩}{$\rangle$}1
+           {∧}{$\wedge$}1 {∨}{$\vee$}1 {¬}{$\lnot$}1
+           {×}{$\times$}1 {⁻¹}{$^{-1}$}1
+           {▸}{$\blacktriangleright$}1
+           {²}{$^2$}1 {³}{$^3$}1,
+}
+
+%%% ── Indexing ─────────────────────────────────────────
+\usepackage{makeidx}
+\makeindex
+
+%%% ── Hyperlinks ───────────────────────────────────────
+\usepackage[
+  pdfauthor={Paul Klemstine},
+  pdftitle={The Triangle That Swallowed the Universe},
+  pdfsubject={Pythagorean Triples, Number Theory, Lorentz Group},
+  colorlinks=true,
+  linkcolor=DarkRed,
+  urlcolor=DarkBlue,
+  citecolor=DarkGreen,
+]{hyperref}
+
+%%% ── Chapter & Section Styling ────────────────────────
+\chapterstyle{veelo}
+\setsecheadstyle{\Large\scshape\raggedright}
+\setsubsecheadstyle{\large\itshape\raggedright}
+
+%%% ── Headers & Footers ───────────────────────────────
+\makepagestyle{bookstyle}
+\makeevenhead{bookstyle}{\small\scshape\leftmark}{}{}
+\makeoddhead{bookstyle}{}{}{\small\scshape\rightmark}
+\makeevenfoot{bookstyle}{\thepage}{}{}
+\makeoddfoot{bookstyle}{}{}{\thepage}
+\pagestyle{bookstyle}
+
+%%% ── Drop caps ────────────────────────────────────────
+\usepackage{lettrine}
+
+%%% ── Epigraphs ────────────────────────────────────────
+\setlength{\epigraphwidth}{0.65\textwidth}
+\epigraphposition{center}
+
+%%% ── Custom index entries ─────────────────────────────
+% We add key terms to the index throughout the text.
+% Additional index entries for important concepts:
+\newcommand{\ix}[1]{#1\index{#1}}
+
+%% ═══════════════════════════════════════════════════════
+%%  BEGIN DOCUMENT
+%% ═══════════════════════════════════════════════════════
+\begin{document}
+
+%%% ── Half Title ───────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\Huge\scshape The Triangle That\\[0.3em] Swallowed the Universe}
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
+
+%%% ── Frontispiece (blank verso) ───────────────────────
+\thispagestyle{empty}
+\mbox{}
+\cleardoublepage
+
+%%% ── Title Page ───────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{1.5in}
+\begin{center}
+{\fontsize{32}{38}\selectfont\scshape The Triangle That\\[0.4em] Swallowed the Universe}
+
+\vspace{1.5em}
+{\large\itshape How Pythagorean Triples Connect Number Theory,\\[0.3em]
+the Lorentz Group, and the Art of Breaking Numbers Apart}
+
+\vspace{3em}
+{\LARGE Paul Klemstine}
+
+\vspace*{\fill}
+{\large\itshape With Machine-Verified Proofs in Lean\,4}
+\end{center}
+\cleardoublepage
+
+%%% ── Copyright Page ───────────────────────────────────
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{flushleft}
+\small
+\textit{The Triangle That Swallowed the Universe}\\[0.6em]
+Copyright \textcopyright\ 2025 Paul Klemstine.\\
+All rights reserved.\\[1em]
+No part of this publication may be reproduced, distributed, or transmitted
+in any form or by any means, including photocopying, recording, or other
+electronic or mechanical methods, without the prior written permission of
+the author, except in the case of brief quotations embodied in critical
+reviews and certain other noncommercial uses permitted by copyright law.\\[1.5em]
+ISBN 978-1-105-41110-6\\[1em]
+\textit{First edition, 2025.}\\[1em]
+Typeset in Latin Modern with \LaTeX.\\
+Formal proofs verified in Lean\,4 with Mathlib.\\[1em]
+Cover design by the author.\\[2em]
+Printed in the United States of America.\\[1em]
+
+\begin{center}
+\includegraphics[height=0.9in]{../ISBN/978-1-105-41110-6.png}
+\end{center}
+\end{flushleft}
+\cleardoublepage
+
+%%% ── Dedication Page ──────────────────────────────────
+\thispagestyle{empty}
+\vspace*{3in}
+\begin{center}
+{\Large\itshape Soli Deo Gloria}
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
+
+%%% ── Table of Contents ────────────────────────────────
+\frontmatter
+\tableofcontents*
+\cleardoublepage
+
+%%% ── Main Matter ──────────────────────────────────────
+\mainmatter
+
+\input{ch_introduction}
+\cleardoublepage
+
+\input{ch_01}
+\cleardoublepage
+
+\input{ch_02}
+\cleardoublepage
+
+\input{ch_03}
+\cleardoublepage
+
+\input{ch_04}
+\cleardoublepage
+
+\input{ch_05}
+\cleardoublepage
+
+\input{ch_06}
+\cleardoublepage
+
+\input{ch_07}
+\cleardoublepage
+
+\input{ch_08}
+\cleardoublepage
+
+\input{ch_09}
+\cleardoublepage
+
+\input{ch_10}
+\cleardoublepage
+
+\input{ch_11}
+\cleardoublepage
+
+\input{ch_12}
+\cleardoublepage
+
+\input{ch_13}
+\cleardoublepage
+
+\input{ch_14}
+\cleardoublepage
+
+\input{ch_15}
+\cleardoublepage
+
+\input{ch_16}
+\cleardoublepage
+
+\input{ch_conclusion}
+\cleardoublepage
+
+%%% ── Appendices: Lean Source Code ─────────────────────
+\appendix
+\chapter{Lean\,4 Formal Proofs}
+\label{app:lean}
+
+\vspace{0.5em}
+The following appendix contains the complete Lean\,4 source code that
+formally verifies the key mathematical results presented in this book.
+Each file corresponds to one or more chapters and establishes its theorems
+with machine-checked proofs, built against the Mathlib library.
+
+\vspace{1em}
+
+\input{appendix_lean}
+
+\cleardoublepage
+
+%%% ── Index ────────────────────────────────────────────
+\backmatter
+\printindex
+
+%%% ── Final page: ISBN barcode ─────────────────────────
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\includegraphics[height=1.2in]{../ISBN/978-1-105-41110-6.png}\\[0.5em]
+{\small ISBN 978-1-105-41110-6}
+\end{center}
+
+\end{document}

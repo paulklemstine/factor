@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+
+  <!-- Old book page -->
+  <rect x="100" y="40" width="340" height="520" rx="3" fill="#f4e8c1" opacity="0.9"/>
+  <rect x="105" y="45" width="330" height="510" rx="2" fill="#efe0b0" opacity="0.8"/>
+
+  <!-- "Greek" text (Diophantus) -->
+  <text x="130" y="80" fill="#5a4a30" font-size="13" font-style="italic">Arithmetica, Liber II</text>
+  <text x="130" y="100" fill="#5a4a30" font-size="10" opacity="0.6">Quaestionem autem in duos</text>
+  <text x="130" y="115" fill="#5a4a30" font-size="10" opacity="0.6">quadratos dividere proposuit...</text>
+
+  <!-- Margin note (Fermat's) -->
+  <text x="130" y="160" fill="#8B0000" font-size="11" font-style="italic" font-weight="bold">Cubum autem in duos cubos,</text>
+  <text x="130" y="178" fill="#8B0000" font-size="11" font-style="italic">aut quadratoquadratum in duos</text>
+  <text x="130" y="196" fill="#8B0000" font-size="11" font-style="italic">quadratoquadratos, et generaliter</text>
+  <text x="130" y="214" fill="#8B0000" font-size="11" font-style="italic">nullam in infinitum ultra</text>
+  <text x="130" y="232" fill="#8B0000" font-size="11" font-style="italic">quadratum potestatem in duos</text>
+  <text x="130" y="250" fill="#8B0000" font-size="11" font-style="italic">eiusdem nominis fas est dividere.</text>
+
+  <text x="130" y="285" fill="#8B0000" font-size="11" font-style="italic" font-weight="bold">Cuius rei demonstrationem</text>
+  <text x="130" y="303" fill="#8B0000" font-size="11" font-style="italic" font-weight="bold">mirabilem sane detexi.</text>
+
+  <text x="130" y="335" fill="#8B0000" font-size="12" font-style="italic" font-weight="bold">Hanc marginis exiguitas</text>
+  <text x="130" y="355" fill="#8B0000" font-size="12" font-style="italic" font-weight="bold">non caperet.</text>
+
+  <!-- Translation -->
+  <text x="130" y="400" fill="#5a4a30" font-size="9" font-style="italic">"I have discovered a truly</text>
+  <text x="130" y="415" fill="#5a4a30" font-size="9" font-style="italic">marvelous proof of this, which</text>
+  <text x="130" y="430" fill="#5a4a30" font-size="9" font-style="italic">this margin is too narrow</text>
+  <text x="130" y="445" fill="#5a4a30" font-size="9" font-style="italic">to contain."</text>
+
+  <text x="280" y="480" fill="#5a4a30" font-size="10">— Pierre de Fermat, c. 1637</text>
+
+  <!-- Modern side -->
+  <rect x="480" y="40" width="280" height="240" rx="8" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="2"/>
+  <text x="620" y="68" text-anchor="middle" fill="#4AD9A5" font-size="15" font-weight="bold">What We CAN Prove</text>
+  <text x="620" y="88" text-anchor="middle" fill="#4AD9A5" font-size="11">in a Margin (Machine-Verified)</text>
+
+  <text x="500" y="115" fill="#c4a35a" font-size="12" font-weight="bold">n = 4 (Fermat, ~1640)</text>
+  <text x="500" y="135" fill="#aabbcc" font-size="10">Infinite descent on a⁴+b⁴=c²</text>
+  <text x="500" y="155" fill="#4AD9A5" font-size="10">✓ fermat_n4 verified</text>
+
+  <text x="500" y="180" fill="#c4a35a" font-size="12" font-weight="bold">n = 3 (Euler, 1770)</text>
+  <text x="500" y="200" fill="#aabbcc" font-size="10">Factoring in ℤ[ω]</text>
+  <text x="500" y="220" fill="#4AD9A5" font-size="10">✓ fermat_n3 verified</text>
+
+  <text x="500" y="250" fill="#c4a35a" font-size="12" font-weight="bold">Reduction to primes</text>
+  <text x="500" y="270" fill="#4AD9A5" font-size="10">✓ flt_multiple_of_exp verified</text>
+
+  <!-- The full theorem -->
+  <rect x="480" y="300" width="280" height="120" rx="8" fill="#1a1a2e" stroke="#D94A6B" stroke-width="2"/>
+  <text x="620" y="325" text-anchor="middle" fill="#D94A6B" font-size="14" font-weight="bold">The Full Theorem</text>
+  <text x="500" y="350" fill="#aabbcc" font-size="11">∀ n ≥ 3, ∄ a,b,c &gt; 0:</text>
+  <text x="500" y="370" fill="#c4a35a" font-size="13" font-weight="bold">aⁿ + bⁿ = cⁿ</text>
+  <text x="500" y="400" fill="#D94A6B" font-size="10">Wiles-Taylor (1995): 100+ pages</text>
+  <text x="500" y="415" fill="#667788" font-size="9">Modular forms, Galois representations,</text>
+
+  <!-- Bottom wisdom -->
+  <rect x="480" y="440" width="280" height="120" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1"/>
+  <text x="620" y="468" text-anchor="middle" fill="#c4a35a" font-size="13" font-weight="bold" font-style="italic">The Unique Factorization Trap</text>
+  <text x="500" y="495" fill="#8899aa" font-size="10">Fermat likely tried ℤ[ζₙ]</text>
+  <text x="500" y="515" fill="#8899aa" font-size="10">UFD fails at n = 23 (Kummer)</text>
+  <text x="500" y="540" fill="#c4a35a" font-size="11" font-style="italic">"The margin was not too small.</text>
+  <text x="500" y="555" fill="#c4a35a" font-size="11" font-style="italic"> The proof was too big."</text>
+</svg>

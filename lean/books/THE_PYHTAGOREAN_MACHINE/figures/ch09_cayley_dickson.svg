@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">THE CAYLEY-DICKSON STAIRCASE</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">What We Gain — and Lose — at Each Doubling</text>
+
+  <!-- Staircase -->
+  <!-- Step 1: ℝ -->
+  <rect x="50" y="430" width="150" height="80" rx="5" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2"/>
+  <text x="125" y="455" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">ℝ</text>
+  <text x="125" y="475" text-anchor="middle" fill="#aabbcc" font-size="11">dim = 1</text>
+  <text x="125" y="495" text-anchor="middle" fill="#4AD9A5" font-size="10">✓ ordered field</text>
+
+  <!-- Arrow 1 -->
+  <path d="M 200 430 L 230 380" stroke="#c4a35a" stroke-width="2" fill="none"/>
+  <text x="215" y="400" fill="#D94A6B" font-size="9" font-weight="bold">LOSE:</text>
+  <text x="215" y="412" fill="#D94A6B" font-size="8">ordering</text>
+
+  <!-- Step 2: ℂ -->
+  <rect x="230" y="350" width="150" height="80" rx="5" fill="#1a1a2e" stroke="#4A90D9" stroke-width="2"/>
+  <text x="305" y="375" text-anchor="middle" fill="#4A90D9" font-size="18" font-weight="bold">ℂ</text>
+  <text x="305" y="395" text-anchor="middle" fill="#aabbcc" font-size="11">dim = 2</text>
+  <text x="305" y="415" text-anchor="middle" fill="#4AD9A5" font-size="10">✓ commutative</text>
+
+  <!-- Arrow 2 -->
+  <path d="M 380 350 L 410 300" stroke="#4A90D9" stroke-width="2" fill="none"/>
+  <text x="395" y="320" fill="#D94A6B" font-size="9" font-weight="bold">LOSE:</text>
+  <text x="395" y="332" fill="#D94A6B" font-size="8">commutativity</text>
+
+  <!-- Step 3: ℍ -->
+  <rect x="410" y="270" width="150" height="80" rx="5" fill="#1a1a2e" stroke="#D94A6B" stroke-width="2"/>
+  <text x="485" y="295" text-anchor="middle" fill="#D94A6B" font-size="18" font-weight="bold">ℍ</text>
+  <text x="485" y="315" text-anchor="middle" fill="#aabbcc" font-size="11">dim = 4</text>
+  <text x="485" y="335" text-anchor="middle" fill="#4AD9A5" font-size="10">✓ associative</text>
+
+  <!-- Arrow 3 -->
+  <path d="M 560 270 L 590 220" stroke="#D94A6B" stroke-width="2" fill="none"/>
+  <text x="575" y="240" fill="#D94A6B" font-size="9" font-weight="bold">LOSE:</text>
+  <text x="575" y="252" fill="#D94A6B" font-size="8">associativity</text>
+
+  <!-- Step 4: 𝕆 -->
+  <rect x="590" y="190" width="150" height="80" rx="5" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="2"/>
+  <text x="665" y="215" text-anchor="middle" fill="#4AD9A5" font-size="18" font-weight="bold">𝕆</text>
+  <text x="665" y="235" text-anchor="middle" fill="#aabbcc" font-size="11">dim = 8</text>
+  <text x="665" y="255" text-anchor="middle" fill="#4AD9A5" font-size="10">✓ division algebra</text>
+
+  <!-- Arrow 4 (broken!) -->
+  <path d="M 665 190 L 665 140" stroke="#D94A6B" stroke-width="3" fill="none" stroke-dasharray="6,3"/>
+  <text x="665" y="155" text-anchor="middle" fill="#D94A6B" font-size="11" font-weight="bold">CHANNEL BREAKS</text>
+
+  <!-- Step 5: Sedenions (broken) -->
+  <rect x="590" y="80" width="150" height="50" rx="5" fill="#1a1a2e" stroke="#D94A6B" stroke-width="2" stroke-dasharray="4,4"/>
+  <text x="665" y="100" text-anchor="middle" fill="#667788" font-size="14">𝕊₁₆</text>
+  <text x="665" y="118" text-anchor="middle" fill="#D94A6B" font-size="10">LOSE: division!</text>
+
+  <!-- Composition identities -->
+  <rect x="50" y="530" width="700" height="55" rx="8" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1"/>
+  <text x="60" y="552" fill="#c4a35a" font-size="11" font-weight="bold">Channel 2:</text>
+  <text x="140" y="552" fill="#aabbcc" font-size="10">(a²+b²)(c²+d²) = (ac−bd)²+(ad+bc)²</text>
+  <text x="420" y="552" fill="#c4a35a" font-size="11" font-weight="bold">Channel 3:</text>
+  <text x="500" y="552" fill="#aabbcc" font-size="10">Euler 4-square identity</text>
+  <text x="60" y="575" fill="#c4a35a" font-size="11" font-weight="bold">Hurwitz:</text>
+  <text x="120" y="575" fill="#aabbcc" font-size="10">Only dims {1, 2, 4, 8} = {2⁰, 2¹, 2², 2³} admit composition algebras</text>
+
+  <!-- Gain annotations -->
+  <g font-size="9" fill="#4AD9A5" font-style="italic">
+    <text x="125" y="525" text-anchor="middle">GAIN: real line</text>
+    <text x="305" y="445" text-anchor="middle">GAIN: algebraic closure</text>
+    <text x="485" y="365" text-anchor="middle">GAIN: 3D rotations</text>
+    <text x="665" y="285" text-anchor="middle">GAIN: E₈ lattice</text>
+  </g>
+</svg>

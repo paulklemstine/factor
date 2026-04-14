@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">THE DESCENT: AN ALGORITHM IN ACTION</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">Factoring 77 = 7 × 11 via Pythagorean Tree Descent</text>
+
+  <!-- Algorithm flow -->
+  <rect x="50" y="80" width="300" height="50" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2"/>
+  <text x="200" y="100" text-anchor="middle" fill="#c4a35a" font-size="13" font-weight="bold">INPUT: N = 77</text>
+  <text x="200" y="118" text-anchor="middle" fill="#667788" font-size="10">Odd composite → eligible</text>
+
+  <line x1="200" y1="130" x2="200" y2="160" stroke="#c4a35a" stroke-width="1.5"/>
+
+  <!-- Step 1: Trivial triple -->
+  <rect x="50" y="160" width="300" height="60" rx="5" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="200" y="182" text-anchor="middle" fill="#4A90D9" font-size="12" font-weight="bold">Step 1: Trivial Triple</text>
+  <text x="70" y="205" fill="#aabbcc" font-size="11">m=39, n=38 → (77, 2964, 2965)</text>
+
+  <line x1="200" y1="220" x2="200" y2="250" stroke="#4A90D9" stroke-width="1.5"/>
+
+  <!-- Step 2: Descent loop -->
+  <rect x="50" y="250" width="300" height="80" rx="5" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1.5"/>
+  <text x="200" y="272" text-anchor="middle" fill="#D94A6B" font-size="12" font-weight="bold">Step 2: Descent Loop</text>
+  <text x="70" y="295" fill="#8899aa" font-size="10">At each node, check:</text>
+  <text x="80" y="312" fill="#aabbcc" font-size="10">gcd(a, N) ∈ {1,N}?  gcd(b, N) ∈ {1,N}?</text>
+
+  <line x1="200" y1="330" x2="200" y2="350" stroke="#D94A6B" stroke-width="1.5"/>
+
+  <!-- Descent steps -->
+  <rect x="50" y="350" width="300" height="100" rx="5" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="1.5"/>
+  <text x="200" y="372" text-anchor="middle" fill="#4AD9A5" font-size="12" font-weight="bold">Descent Path</text>
+  <text x="70" y="395" fill="#8899aa" font-size="10">(77, 2964, 2965) → parent</text>
+  <text x="70" y="410" fill="#8899aa" font-size="10">→ parent → parent → ...</text>
+  <text x="70" y="430" fill="#c4a35a" font-size="10">At some node: gcd(leg, 77) = 7 !</text>
+  <text x="70" y="445" fill="#4AD9A5" font-size="10" font-weight="bold">OUTPUT: 77 = 7 × 11</text>
+
+  <!-- Right panel: algorithm code -->
+  <rect x="400" y="80" width="370" height="370" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1"/>
+  <text x="585" y="108" text-anchor="middle" fill="#c4a35a" font-size="14" font-weight="bold">factorDescent (Lean 4)</text>
+
+  <g font-family="monospace" font-size="10" fill="#aabbcc">
+    <text x="420" y="135" fill="#667788">-- Check each leg's GCD with N</text>
+    <text x="420" y="155" fill="#4A90D9">let</text><text x="445" y="155"> gA := Nat.gcd a.natAbs N</text>
+    <text x="420" y="175" fill="#4A90D9">let</text><text x="445" y="175"> gB := Nat.gcd b.natAbs N</text>
+    <text x="420" y="200" fill="#D94A6B">if</text><text x="438" y="200"> 1 &lt; gA ∧ gA &lt; N</text>
+    <text x="430" y="220" fill="#4AD9A5">then</text><text x="460" y="220"> some (gA, N/gA)</text>
+    <text x="420" y="245" fill="#667788">-- Find unique valid parent</text>
+    <text x="420" y="265" fill="#D94A6B">else</text>
+    <text x="430" y="285"><text fill="#4A90D9">let</text> (_, pa, pb, pc) :=</text>
+    <text x="450" y="305">findParent' a b c</text>
+    <text x="430" y="325">go N pa pb pc (fuel-1)</text>
+  </g>
+
+  <line x1="420" y1="340" x2="750" y2="340" stroke="#334455"/>
+  <text x="420" y="365" fill="#c4a35a" font-size="11" font-weight="bold">Computational Verification:</text>
+  <text x="420" y="385" fill="#aabbcc" font-size="10">#eval factorDescent 15  → (3, 5)  ✓</text>
+  <text x="420" y="400" fill="#aabbcc" font-size="10">#eval factorDescent 21  → (3, 7)  ✓</text>
+  <text x="420" y="415" fill="#aabbcc" font-size="10">#eval factorDescent 77  → (7, 11) ✓</text>
+  <text x="420" y="430" fill="#aabbcc" font-size="10">#eval factorDescent 143 → (11,13) ✓</text>
+  <text x="420" y="445" fill="#aabbcc" font-size="10">#eval factorDescent 323 → (17,19) ✓</text>
+
+  <!-- Bottom: correctness theorems -->
+  <rect x="50" y="480" width="700" height="100" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1.5"/>
+  <text x="400" y="505" text-anchor="middle" fill="#c4a35a" font-size="14" font-weight="bold">PROVEN CORRECTNESS INVARIANTS</text>
+  <text x="80" y="530" fill="#aabbcc" font-size="11">• parent_hyp_decrease: 0 &lt; c' &lt; c (termination guaranteed)</text>
+  <text x="80" y="550" fill="#aabbcc" font-size="11">• inv_B*_preserves: inverse maps preserve Pythagorean property</text>
+  <text x="80" y="570" fill="#aabbcc" font-size="11">• inv_B1_B2_exclusive: at most one branch valid (determinism)</text>
+</svg>

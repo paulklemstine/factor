@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <defs>
+    <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4A90D9;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#4A90D9;stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">THE BERGGREN TREE OF PYTHAGOREAN TRIPLES</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">A Discrete Subgroup of the Integer Lorentz Group O(2,1;ℤ)</text>
+
+  <!-- Tree edges -->
+  <g stroke="#4A90D9" stroke-width="2" opacity="0.6">
+    <line x1="400" y1="110" x2="200" y2="230"/>
+    <line x1="400" y1="110" x2="400" y2="230"/>
+    <line x1="400" y1="110" x2="600" y2="230"/>
+    <line x1="200" y1="250" x2="110" y2="370"/>
+    <line x1="200" y1="250" x2="200" y2="370"/>
+    <line x1="200" y1="250" x2="290" y2="370"/>
+    <line x1="400" y1="250" x2="340" y2="370"/>
+    <line x1="400" y1="250" x2="400" y2="370"/>
+    <line x1="400" y1="250" x2="460" y2="370"/>
+    <line x1="600" y1="250" x2="510" y2="370"/>
+    <line x1="600" y1="250" x2="600" y2="370"/>
+    <line x1="600" y1="250" x2="690" y2="370"/>
+  </g>
+
+  <!-- Root node (3,4,5) -->
+  <circle cx="400" cy="100" r="45" fill="url(#nodeGlow)"/>
+  <circle cx="400" cy="100" r="35" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2.5" filter="url(#glow)"/>
+  <text x="400" y="96" text-anchor="middle" fill="#c4a35a" font-size="15" font-weight="bold">(3, 4, 5)</text>
+  <text x="400" y="113" text-anchor="middle" fill="#8899aa" font-size="10">root</text>
+
+  <!-- Level 1 nodes -->
+  <circle cx="200" cy="240" r="40" fill="#1a1a2e" stroke="#4A90D9" stroke-width="2"/>
+  <text x="200" y="236" text-anchor="middle" fill="#4A90D9" font-size="13" font-weight="bold">(5, 12, 13)</text>
+  <text x="200" y="253" text-anchor="middle" fill="#8899aa" font-size="10">B₁(root)</text>
+
+  <circle cx="400" cy="240" r="40" fill="#1a1a2e" stroke="#D94A6B" stroke-width="2"/>
+  <text x="400" y="236" text-anchor="middle" fill="#D94A6B" font-size="13" font-weight="bold">(21, 20, 29)</text>
+  <text x="400" y="253" text-anchor="middle" fill="#8899aa" font-size="10">B₂(root)</text>
+
+  <circle cx="600" cy="240" r="40" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="2"/>
+  <text x="600" y="236" text-anchor="middle" fill="#4AD9A5" font-size="13" font-weight="bold">(15, 8, 17)</text>
+  <text x="600" y="253" text-anchor="middle" fill="#8899aa" font-size="10">B₃(root)</text>
+
+  <!-- Level 2 hints -->
+  <g font-size="9" fill="#667788">
+    <text x="110" y="385" text-anchor="middle">(7,24,25)</text>
+    <text x="200" y="385" text-anchor="middle">(55,48,73)</text>
+    <text x="290" y="385" text-anchor="middle">(45,28,53)</text>
+    <text x="340" y="385" text-anchor="middle">(39,80,89)</text>
+    <text x="400" y="385" text-anchor="middle">(119,120,169)</text>
+    <text x="460" y="385" text-anchor="middle">(77,36,85)</text>
+    <text x="510" y="385" text-anchor="middle">(33,56,65)</text>
+    <text x="600" y="385" text-anchor="middle">(65,72,97)</text>
+    <text x="690" y="385" text-anchor="middle">(35,12,37)</text>
+  </g>
+
+  <!-- Lorentz form annotation -->
+  <rect x="40" y="430" width="320" height="150" rx="10" fill="#1a1a2e" stroke="#c4a35a" stroke-width="1" opacity="0.9"/>
+  <text x="200" y="455" text-anchor="middle" fill="#c4a35a" font-size="14" font-weight="bold">The Lorentz Quadratic Form</text>
+  <text x="60" y="480" fill="#aabbcc" font-size="13">Q(a, b, c) = a² + b² − c²</text>
+  <text x="60" y="505" fill="#8899aa" font-size="12">Pythagorean triples: Q = 0 (null cone)</text>
+  <text x="60" y="525" fill="#8899aa" font-size="12">Berggren matrices: B ∈ O(2,1;ℤ)</text>
+  <text x="60" y="545" fill="#8899aa" font-size="12">BᵀQB = Q  (Lorentz preservation)</text>
+  <text x="60" y="565" fill="#667788" font-size="11" font-style="italic">Machine-verified in Lean 4</text>
+
+  <!-- Matrix annotation -->
+  <rect x="440" y="430" width="320" height="150" rx="10" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1" opacity="0.9"/>
+  <text x="600" y="455" text-anchor="middle" fill="#4A90D9" font-size="14" font-weight="bold">The Three Generators</text>
+  <text x="460" y="480" fill="#4A90D9" font-size="11">B₁ = [ 1 −2  2;  2 −1  2;  2 −2  3]</text>
+  <text x="460" y="505" fill="#D94A6B" font-size="11">B₂ = [ 1  2  2;  2  1  2;  2  2  3]</text>
+  <text x="460" y="530" fill="#4AD9A5" font-size="11">B₃ = [−1  2  2; −2  1  2; −2  2  3]</text>
+  <text x="460" y="555" fill="#8899aa" font-size="11">det(B₁)=1  det(B₂)=−1  det(B₃)=1</text>
+  <text x="460" y="575" fill="#667788" font-size="11" font-style="italic">Elements of O(2,1;ℤ)</text>
+</svg>

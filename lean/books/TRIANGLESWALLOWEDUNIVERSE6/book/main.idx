@@ -1,0 +1,490 @@
+\indexentry{Section 1: The Puzzle on the Bathroom Tiles|hyperpage}{1}
+\indexentry{Pythagorean triple|hyperpage}{3}
+\indexentry{Plimpton 322|hyperpage}{3}
+\indexentry{Lean 4|hyperpage}{5}
+\indexentry{Euclid|hyperpage}{5}
+\indexentry{Pythagorean triple!primitive|hyperpage}{6}
+\indexentry{coprimality|hyperpage}{6}
+\indexentry{Einstein, Albert|hyperpage}{7}
+\indexentry{hyperbolic geometry|hyperpage}{7}
+\indexentry{A Puzzle for the Pharaohs|hyperpage}{9}
+\indexentry{Shor's algorithm|hyperpage}{9}
+\indexentry{Pythagorean triple|hyperpage}{10}
+\indexentry{Pythagorean triple!primitive|hyperpage}{10}
+\indexentry{The Shape of Nothing|hyperpage}{12}
+\indexentry{Lorentz group|hyperpage}{12}
+\indexentry{null cone|hyperpage}{12}
+\indexentry{Einstein, Albert|hyperpage}{13}
+\indexentry{Three Magic Mirrors|hyperpage}{13}
+\indexentry{An Infinite Family Tree|hyperpage}{16}
+\indexentry{Berggren tree|hyperpage}{16}
+\indexentry{Climbing Down the Tree|hyperpage}{18}
+\indexentry{descent|hyperpage}{18}
+\indexentry{Fermat, Pierre de|hyperpage}{18}
+\indexentry{Cracking Numbers with Triangles|hyperpage}{20}
+\indexentry{factorization|hyperpage}{20}
+\indexentry{difference of squares|hyperpage}{21}
+\indexentry{The Fast Lane|hyperpage}{21}
+\indexentry{ideal (ring theory)|hyperpage}{22}
+\indexentry{Lean 4|hyperpage}{22}
+\indexentry{Pell equation|hyperpage}{23}
+\indexentry{Euclid's Ancient Engine|hyperpage}{23}
+\indexentry{Euclid|hyperpage}{23}
+\indexentry{Spacetime Symmetry in Whole Numbers|hyperpage}{24}
+\indexentry{Berggren matrices|hyperpage}{24}
+\indexentry{Lorentz transformation|hyperpage}{24}
+\indexentry{hyperbolic geometry|hyperpage}{24}
+\indexentry{The Five Wonders|hyperpage}{24}
+\indexentry{factoring|hyperpage}{24}
+\indexentry{Cayley graph|hyperpage}{24}
+\indexentry{lattice|hyperpage}{25}
+\indexentry{The Puzzle of the Perfect Triangle Factory|hyperpage}{27}
+\indexentry{Pythagorean triple|hyperpage}{27}
+\indexentry{Pythagorean triple!primitive|hyperpage}{30}
+\indexentry{Euclid|hyperpage}{30}
+\indexentry{Berggren tree|hyperpage}{30}
+\indexentry{Why the Machines Never Jam|hyperpage}{31}
+\indexentry{lattice|hyperpage}{32}
+\indexentry{hyperbolic geometry|hyperpage}{33}
+\indexentry{Euclid's Oldest Algorithm Gets a Makeover|hyperpage}{33}
+\indexentry{greatest common divisor|hyperpage}{34}
+\indexentry{Euclidean algorithm|hyperpage}{34}
+\indexentry{continued fraction|hyperpage}{36}
+\indexentry{The Astonishing Coincidence|hyperpage}{36}
+\indexentry{descent|hyperpage}{39}
+\indexentry{The Speed of Descent|hyperpage}{40}
+\indexentry{factoring|hyperpage}{40}
+\indexentry{semiprime|hyperpage}{40}
+\indexentry{RSA cryptosystem|hyperpage}{41}
+\indexentry{factorization|hyperpage}{41}
+\indexentry{Gauss and the Shortest Vector|hyperpage}{41}
+\indexentry{Gauss, Carl Friedrich|hyperpage}{41}
+\indexentry{Shor's algorithm|hyperpage}{41}
+\indexentry{quadratic form|hyperpage}{42}
+\indexentry{The Wall at Two Dimensions|hyperpage}{43}
+\indexentry{Through the Looking Glass: Higher Dimensions|hyperpage}{44}
+\indexentry{The Quadruple Lattice|hyperpage}{45}
+\indexentry{Fermat, Pierre de|hyperpage}{45}
+\indexentry{The Map of the Journey|hyperpage}{46}
+\indexentry{Fermat's Last Theorem|hyperpage}{47}
+\indexentry{The Puzzle of the Broken Square|hyperpage}{49}
+\indexentry{Shor's algorithm|hyperpage}{52}
+\indexentry{factorization|hyperpage}{52}
+\indexentry{cryptography|hyperpage}{52}
+\indexentry{Berggren tree|hyperpage}{53}
+\indexentry{A Tree That Grows All Right Triangles|hyperpage}{53}
+\indexentry{Pythagorean triple|hyperpage}{54}
+\indexentry{Pythagorean triple!primitive|hyperpage}{54}
+\indexentry{Berggren matrices|hyperpage}{55}
+\indexentry{Lean 4|hyperpage}{56}
+\indexentry{The Light-Cone in the Living Room|hyperpage}{56}
+\indexentry{Minkowski metric|hyperpage}{57}
+\indexentry{quadratic form|hyperpage}{57}
+\indexentry{Lorentz group|hyperpage}{57}
+\indexentry{Lorentz transformation|hyperpage}{58}
+\indexentry{special relativity|hyperpage}{58}
+\indexentry{Einstein, Albert|hyperpage}{58}
+\indexentry{The Invariant That Refuses to Change|hyperpage}{58}
+\indexentry{Paths, Addresses, and the Art of Navigation|hyperpage}{60}
+\indexentry{Hyperbolic Shortcuts, or: How to Skip a Billion Generations|hyperpage}{63}
+\indexentry{hyperbolic geometry|hyperpage}{64}
+\indexentry{RSA cryptosystem|hyperpage}{65}
+\indexentry{The Elevator Going Up: Inverse Matrices and Tree Ascent|hyperpage}{65}
+\indexentry{Why the Hypotenuse Always Grows (and How Fast)|hyperpage}{69}
+\indexentry{Chebyshev's Secret Recurrence|hyperpage}{70}
+\indexentry{No Two Branches Bear the Same Fruit|hyperpage}{72}
+\indexentry{Euclid|hyperpage}{72}
+\indexentry{Cracking Numbers on the Light Cone|hyperpage}{72}
+\indexentry{factoring|hyperpage}{72}
+\indexentry{greatest common divisor|hyperpage}{73}
+\indexentry{Fermat, Pierre de|hyperpage}{74}
+\indexentry{Epilogue: Through the Wormhole|hyperpage}{74}
+\indexentry{light cone|hyperpage}{74}
+\indexentry{Gaussian integers|hyperpage}{75}
+\indexentry{The Puzzle of the Two Squares|hyperpage}{78}
+\indexentry{Pell equation|hyperpage}{80}
+\indexentry{Gaussian integers|hyperpage}{80}
+\indexentry{Brahmagupta--Fibonacci identity|hyperpage}{80}
+\indexentry{lattice|hyperpage}{81}
+\indexentry{A Factory for Pythagorean Triples|hyperpage}{81}
+\indexentry{Pythagorean triple|hyperpage}{81}
+\indexentry{Gauss, Carl Friedrich|hyperpage}{83}
+\indexentry{Euler's Jewel --- Cracking Numbers with Two Portraits|hyperpage}{83}
+\indexentry{Fermat, Pierre de|hyperpage}{83}
+\indexentry{greatest common divisor|hyperpage}{84}
+\indexentry{factorization|hyperpage}{85}
+\indexentry{Euler, Leonhard|hyperpage}{85}
+\indexentry{The Lorentz Form --- When Pythagoras Meets Einstein|hyperpage}{85}
+\indexentry{Einstein, Albert|hyperpage}{85}
+\indexentry{Lorentz group|hyperpage}{86}
+\indexentry{Berggren tree|hyperpage}{86}
+\indexentry{Lorentz transformation|hyperpage}{88}
+\indexentry{Berggren matrices|hyperpage}{88}
+\indexentry{The Berggren Tree --- An Infinite Family Album|hyperpage}{88}
+\indexentry{Pythagorean triple!primitive|hyperpage}{90}
+\indexentry{The Tree Sieve --- Shaking the Family Tree for Factors|hyperpage}{91}
+\indexentry{Semiprime Secrets --- Why N = p times q Is Special|hyperpage}{93}
+\indexentry{factoring|hyperpage}{93}
+\indexentry{semiprime|hyperpage}{94}
+\indexentry{cryptography|hyperpage}{94}
+\indexentry{The Exponential Climb --- How Fast the Tree Grows|hyperpage}{94}
+\indexentry{The Hidden Arithmetic of Products|hyperpage}{95}
+\indexentry{descent|hyperpage}{96}
+\indexentry{The Three Roads Converge --- A Factoring Toolkit|hyperpage}{96}
+\indexentry{quantum computation|hyperpage}{97}
+\indexentry{The Puzzle of the Prolific Triangle|hyperpage}{100}
+\indexentry{Pythagorean triple|hyperpage}{100}
+\indexentry{ternary tree|hyperpage}{101}
+\indexentry{Pythagorean triple!primitive|hyperpage}{101}
+\indexentry{coprimality|hyperpage}{102}
+\indexentry{Euclid|hyperpage}{102}
+\indexentry{Berggren matrices|hyperpage}{102}
+\indexentry{The Signature That Doesn't Change|hyperpage}{102}
+\indexentry{null cone|hyperpage}{103}
+\indexentry{Lorentz group|hyperpage}{104}
+\indexentry{quadratic form|hyperpage}{104}
+\indexentry{Lorentz transformation|hyperpage}{105}
+\indexentry{lattice|hyperpage}{105}
+\indexentry{Orientation --- The Subtle Art of the Determinant|hyperpage}{105}
+\indexentry{hyperbolic geometry|hyperpage}{106}
+\indexentry{Why Every Child Is Pythagorean|hyperpage}{107}
+\indexentry{Berggren tree|hyperpage}{109}
+\indexentry{Living on the Null Cone|hyperpage}{110}
+\indexentry{light cone|hyperpage}{110}
+\indexentry{A Factoring Machine Hidden in the Hypotenuse|hyperpage}{112}
+\indexentry{Fermat, Pierre de|hyperpage}{112}
+\indexentry{factoring|hyperpage}{112}
+\indexentry{difference of squares|hyperpage}{112}
+\indexentry{factorization|hyperpage}{114}
+\indexentry{Brahmagupta--Fibonacci identity|hyperpage}{114}
+\indexentry{Gaussian integers|hyperpage}{115}
+\indexentry{Euler, Leonhard|hyperpage}{115}
+\indexentry{Euclid's Master Formula|hyperpage}{115}
+\indexentry{greatest common divisor|hyperpage}{117}
+\indexentry{Plimpton 322|hyperpage}{117}
+\indexentry{The Staircase --- Descent Along the A-Branch|hyperpage}{117}
+\indexentry{descent|hyperpage}{117}
+\indexentry{The Pell Staircase Along the B-Branch|hyperpage}{118}
+\indexentry{Pell equation|hyperpage}{119}
+\indexentry{continued fraction|hyperpage}{119}
+\indexentry{RSA cryptosystem|hyperpage}{120}
+\indexentry{Gauss, Carl Friedrich|hyperpage}{120}
+\indexentry{Minkowski metric|hyperpage}{120}
+\indexentry{cryptography|hyperpage}{120}
+\indexentry{ideal (ring theory)|hyperpage}{121}
+\indexentry{The Locksmith's Dilemma|hyperpage}{123}
+\indexentry{factoring|hyperpage}{123}
+\indexentry{greatest common divisor|hyperpage}{126}
+\indexentry{Lorentz group|hyperpage}{126}
+\indexentry{null cone|hyperpage}{126}
+\indexentry{Pythagorean triple|hyperpage}{127}
+\indexentry{Minkowski metric|hyperpage}{128}
+\indexentry{A Menagerie of Pythagorean Creatures|hyperpage}{128}
+\indexentry{Euclid|hyperpage}{129}
+\indexentry{Fermat, Pierre de|hyperpage}{130}
+\indexentry{The Multi-Channel Theorem --- One Equation, Many Keys|hyperpage}{130}
+\indexentry{quantum computation|hyperpage}{130}
+\indexentry{factorization|hyperpage}{131}
+\indexentry{Comparing Tumblers --- The Pairwise Channel Theorem|hyperpage}{133}
+\indexentry{The Maze Run Backwards --- Inside-Out Factoring|hyperpage}{135}
+\indexentry{Sisyphus and the Number Theorist --- Climbing and Falling|hyperpage}{138}
+\indexentry{Pythagorean triple!primitive|hyperpage}{138}
+\indexentry{descent|hyperpage}{139}
+\indexentry{Shor's algorithm|hyperpage}{140}
+\indexentry{Lean 4|hyperpage}{142}
+\indexentry{Brahmagupta--Fibonacci identity|hyperpage}{144}
+\indexentry{Euler, Leonhard|hyperpage}{144}
+\indexentry{quaternions|hyperpage}{144}
+\indexentry{octonions|hyperpage}{145}
+\indexentry{Where All Roads Meet --- The Congruence of Squares|hyperpage}{145}
+\indexentry{quadratic sieve|hyperpage}{145}
+\indexentry{congruence of squares|hyperpage}{145}
+\indexentry{number field sieve|hyperpage}{146}
+\indexentry{lattice|hyperpage}{146}
+\indexentry{Hurwitz theorem|hyperpage}{147}
+\indexentry{Cayley--Dickson construction|hyperpage}{147}
+\indexentry{Exercises|hyperpage}{147}
+\indexentry{The Forking Labyrinth|hyperpage}{149}
+\indexentry{quantum computation|hyperpage}{149}
+\indexentry{Pythagorean triple|hyperpage}{150}
+\indexentry{factoring|hyperpage}{150}
+\indexentry{The Cancellation Trick|hyperpage}{155}
+\indexentry{A Parable of the Circular Library|hyperpage}{156}
+\indexentry{Grover's algorithm|hyperpage}{157}
+\indexentry{Shor's algorithm|hyperpage}{158}
+\indexentry{Searching for the Magic Depth|hyperpage}{158}
+\indexentry{greatest common divisor|hyperpage}{158}
+\indexentry{descent|hyperpage}{158}
+\indexentry{Balanced Semiprimes and the Fourth-Root Barrier|hyperpage}{161}
+\indexentry{semiprime|hyperpage}{161}
+\indexentry{Fermat, Pierre de|hyperpage}{162}
+\indexentry{A Gallery of Dead Ends|hyperpage}{162}
+\indexentry{Why Quantum Parallelism Fails at the Fork|hyperpage}{163}
+\indexentry{The Sum-to-Zero Principle|hyperpage}{163}
+\indexentry{RSA cryptosystem|hyperpage}{163}
+\indexentry{The Complexity Ladder|hyperpage}{164}
+\indexentry{Lean 4|hyperpage}{165}
+\indexentry{Open Corridors|hyperpage}{165}
+\indexentry{Berggren matrices|hyperpage}{166}
+\indexentry{octonions|hyperpage}{166}
+\indexentry{The Lazy Locksmith's Wager|hyperpage}{167}
+\indexentry{Pythagorean triple|hyperpage}{167}
+\indexentry{descent|hyperpage}{167}
+\indexentry{factoring|hyperpage}{169}
+\indexentry{Euclid|hyperpage}{171}
+\indexentry{Euclid's Staircase --- How Long Is the Climb?|hyperpage}{172}
+\indexentry{greatest common divisor|hyperpage}{173}
+\indexentry{Euclidean algorithm|hyperpage}{173}
+\indexentry{Shor's algorithm|hyperpage}{173}
+\indexentry{The Balanced Semiprime --- A Wolf in Sheep's Clothing|hyperpage}{174}
+\indexentry{semiprime|hyperpage}{174}
+\indexentry{Pythagorean triple!primitive|hyperpage}{174}
+\indexentry{RSA cryptosystem|hyperpage}{177}
+\indexentry{The Cost of a Handshake --- GCD at Every Node|hyperpage}{177}
+\indexentry{Multiplying the Bill --- The Total Cost of the Descent|hyperpage}{179}
+\indexentry{The Floor Beneath the Floor --- Why You Can't Go Faster|hyperpage}{180}
+\indexentry{Old Rivals --- Trial Division and Fermat's Method|hyperpage}{183}
+\indexentry{Fermat, Pierre de|hyperpage}{183}
+\indexentry{cryptography|hyperpage}{185}
+\indexentry{Shattering the Ceiling --- The Escape to Higher Dimensions|hyperpage}{185}
+\indexentry{lattice|hyperpage}{185}
+\indexentry{Minkowski metric|hyperpage}{185}
+\indexentry{LLL algorithm|hyperpage}{186}
+\indexentry{factorization|hyperpage}{186}
+\indexentry{number field sieve|hyperpage}{186}
+\indexentry{The Quantum Shortcut --- Grover and the Fourth Root|hyperpage}{187}
+\indexentry{Grover's algorithm|hyperpage}{187}
+\indexentry{quantum computation|hyperpage}{187}
+\indexentry{Berggren matrices|hyperpage}{188}
+\indexentry{light cone|hyperpage}{188}
+\indexentry{Lorentz group|hyperpage}{188}
+\indexentry{1. The Puzzle of the Vanishing Rules|hyperpage}{191}
+\indexentry{quaternions|hyperpage}{193}
+\indexentry{octonions|hyperpage}{193}
+\indexentry{Cayley--Dickson construction|hyperpage}{193}
+\indexentry{2. The Commutative Paradise --- Why C Is So Well-Behaved|hyperpage}{194}
+\indexentry{Brahmagupta--Fibonacci identity|hyperpage}{196}
+\indexentry{3. The Norm That Multiplies --- Brahmagupta's Ancient Gift|hyperpage}{196}
+\indexentry{Euler, Leonhard|hyperpage}{198}
+\indexentry{5. Euler's Grand Engine --- The Four-Square Identity|hyperpage}{201}
+\indexentry{Hurwitz theorem|hyperpage}{202}
+\indexentry{7. The Magic Dimensions --- Why 1, 2, 4, 8 and Nothing Else|hyperpage}{204}
+\indexentry{factorization|hyperpage}{208}
+\indexentry{modular forms|hyperpage}{209}
+\indexentry{quadratic form|hyperpage}{210}
+\indexentry{The Most Famous Scribble in History|hyperpage}{213}
+\indexentry{Pythagorean triple|hyperpage}{216}
+\indexentry{Fermat, Pierre de|hyperpage}{216}
+\indexentry{greatest common divisor|hyperpage}{216}
+\indexentry{Fermat's Last Theorem|hyperpage}{217}
+\indexentry{The Art of Narrowing the Battle --- Reduction to Primes|hyperpage}{217}
+\indexentry{Euler, Leonhard|hyperpage}{219}
+\indexentry{Fermat's Own Triumph --- The Case n = 4|hyperpage}{220}
+\indexentry{infinite descent|hyperpage}{222}
+\indexentry{descent|hyperpage}{222}
+\indexentry{Euler and the Cube --- The Case n = 3|hyperpage}{224}
+\indexentry{factorization|hyperpage}{226}
+\indexentry{ideal (ring theory)|hyperpage}{226}
+\indexentry{lattice|hyperpage}{226}
+\indexentry{Kummer, Ernst|hyperpage}{229}
+\indexentry{regular prime|hyperpage}{229}
+\indexentry{Gauss, Carl Friedrich|hyperpage}{231}
+\indexentry{elliptic curves|hyperpage}{232}
+\indexentry{modular forms|hyperpage}{233}
+\indexentry{Wiles's Proof --- The Margin That Took 358 Years to Fill|hyperpage}{233}
+\indexentry{Wiles, Andrew|hyperpage}{233}
+\indexentry{RSA cryptosystem|hyperpage}{234}
+\indexentry{What Remains --- Open Frontiers and the Eternal Margin|hyperpage}{235}
+\indexentry{coprimality|hyperpage}{236}
+\indexentry{1. The Puzzle of the Two Impostor Squares|hyperpage}{238}
+\indexentry{greatest common divisor|hyperpage}{238}
+\indexentry{Lean 4|hyperpage}{238}
+\indexentry{factoring|hyperpage}{239}
+\indexentry{2. Why the Trick Works --- The Algebra of Shared Factors|hyperpage}{241}
+\indexentry{Fermat, Pierre de|hyperpage}{241}
+\indexentry{factorization|hyperpage}{242}
+\indexentry{congruence of squares|hyperpage}{243}
+\indexentry{3. Fermat's Method and Its Magnificent Slowness|hyperpage}{243}
+\indexentry{4. The Smooth Criminal --- Numbers With Only Small Sins|hyperpage}{245}
+\indexentry{5. The Factor Base --- Assembling Your Arsenal|hyperpage}{247}
+\indexentry{6. The Exponent Vector and the Magic of Modular Arithmetic|hyperpage}{251}
+\indexentry{quantum computation|hyperpage}{254}
+\indexentry{quadratic sieve|hyperpage}{255}
+\indexentry{Gauss, Carl Friedrich|hyperpage}{257}
+\indexentry{9. The Menagerie of Modern Sieves --- Dixon, QS, and NFS|hyperpage}{258}
+\indexentry{RSA cryptosystem|hyperpage}{258}
+\indexentry{lattice|hyperpage}{259}
+\indexentry{10. Philosophical Coda --- The Strange Democracy of Squares|hyperpage}{260}
+\indexentry{hyperbolic geometry|hyperpage}{261}
+\indexentry{1. A Puzzle in Four Parts|hyperpage}{263}
+\indexentry{Pythagorean triple|hyperpage}{265}
+\indexentry{factoring|hyperpage}{265}
+\indexentry{2. The Magician's Bridge|hyperpage}{267}
+\indexentry{quadratic sieve|hyperpage}{267}
+\indexentry{3. The Master Key|hyperpage}{267}
+\indexentry{quaternions|hyperpage}{269}
+\indexentry{4. The Collision Detector|hyperpage}{269}
+\indexentry{greatest common divisor|hyperpage}{270}
+\indexentry{cryptography|hyperpage}{270}
+\indexentry{5. Stretching the Quadruple|hyperpage}{271}
+\indexentry{6. The Lattice Detective|hyperpage}{273}
+\indexentry{lattice|hyperpage}{273}
+\indexentry{7. The Imaginary Witness|hyperpage}{276}
+\indexentry{Gaussian integers|hyperpage}{276}
+\indexentry{Gauss, Carl Friedrich|hyperpage}{276}
+\indexentry{Fermat, Pierre de|hyperpage}{276}
+\indexentry{8. The Prime Inquisitor|hyperpage}{276}
+\indexentry{Euclid|hyperpage}{277}
+\indexentry{coprimality|hyperpage}{277}
+\indexentry{9. The Mod Squad|hyperpage}{277}
+\indexentry{descent|hyperpage}{278}
+\indexentry{10. The Number Cruncher's Workbench|hyperpage}{278}
+\indexentry{Pythagorean triple!primitive|hyperpage}{279}
+\indexentry{Shor's algorithm|hyperpage}{279}
+\indexentry{The Eavesdropper's Puzzle|hyperpage}{281}
+\indexentry{greatest common divisor|hyperpage}{282}
+\indexentry{Three Channels, One Tower|hyperpage}{282}
+\indexentry{difference of squares|hyperpage}{282}
+\indexentry{Cross-Channel Eavesdropping|hyperpage}{284}
+\indexentry{The Prime Cascade|hyperpage}{285}
+\indexentry{Euclid|hyperpage}{286}
+\indexentry{factoring|hyperpage}{286}
+\indexentry{The Composite Tower|hyperpage}{287}
+\indexentry{Even, Odd, and the Rule of Four|hyperpage}{289}
+\indexentry{descent|hyperpage}{290}
+\indexentry{Many Witnesses, One Peak|hyperpage}{290}
+\indexentry{Brahmagupta's Ancient Trick|hyperpage}{293}
+\indexentry{Brahmagupta--Fibonacci identity|hyperpage}{293}
+\indexentry{factorization|hyperpage}{294}
+\indexentry{Euler, Leonhard|hyperpage}{294}
+\indexentry{The Factor Detective|hyperpage}{294}
+\indexentry{Infinite Descent Among the Quadruples|hyperpage}{295}
+\indexentry{Fermat, Pierre de|hyperpage}{295}
+\indexentry{The Balanced Quadruple That Doesn't Exist|hyperpage}{295}
+\indexentry{infinite descent|hyperpage}{295}
+\indexentry{Pell equation|hyperpage}{296}
+\indexentry{Higher Dimensions, Higher Channels|hyperpage}{296}
+\indexentry{Fingerprints and Sieves|hyperpage}{296}
+\indexentry{Putting It All Together|hyperpage}{297}
+\indexentry{coprimality|hyperpage}{298}
+\indexentry{1. The Puzzle of the Odd Number's Secret Triple|hyperpage}{300}
+\indexentry{factoring|hyperpage}{301}
+\indexentry{Pythagorean triple|hyperpage}{303}
+\indexentry{light cone|hyperpage}{303}
+\indexentry{2. The Difference-of-Squares Crowbar|hyperpage}{303}
+\indexentry{factorization|hyperpage}{304}
+\indexentry{greatest common divisor|hyperpage}{304}
+\indexentry{Fermat, Pierre de|hyperpage}{305}
+\indexentry{3. Berggren's Miraculous Tree|hyperpage}{306}
+\indexentry{Pythagorean triple!primitive|hyperpage}{306}
+\indexentry{4. Climbing Back Up: The Three Inverse Maps|hyperpage}{308}
+\indexentry{Berggren tree|hyperpage}{308}
+\indexentry{Lorentz group|hyperpage}{311}
+\indexentry{5. The Hypotenuse Always Shrinks (Why the Climb Must End)|hyperpage}{311}
+\indexentry{Shor's algorithm|hyperpage}{313}
+\indexentry{infinite descent|hyperpage}{313}
+\indexentry{6. Only One Door Opens: The Uniqueness of the Parent|hyperpage}{313}
+\indexentry{7. The Factoring Machine: GCDs Along the Climb|hyperpage}{315}
+\indexentry{descent|hyperpage}{316}
+\indexentry{8. The Light Cone: Why the Lorentz Form Is Preserved|hyperpage}{316}
+\indexentry{Einstein, Albert|hyperpage}{316}
+\indexentry{quadratic form|hyperpage}{317}
+\indexentry{Euclid|hyperpage}{317}
+\indexentry{9. Running the Machine: Five Numbers Fall Apart|hyperpage}{318}
+\indexentry{semiprime|hyperpage}{318}
+\indexentry{RSA cryptosystem|hyperpage}{318}
+\indexentry{10. Coda: The Deep Structure, and Questions That Remain|hyperpage}{319}
+\indexentry{ternary tree|hyperpage}{319}
+\indexentry{hyperbolic geometry|hyperpage}{320}
+\indexentry{Grover's algorithm|hyperpage}{320}
+\indexentry{lattice|hyperpage}{320}
+\indexentry{The Calculator That Forgot How to Add|hyperpage}{321}
+\indexentry{tropical geometry|hyperpage}{323}
+\indexentry{Euclid|hyperpage}{323}
+\indexentry{A Distributive Law That Actually Works|hyperpage}{323}
+\indexentry{RSA cryptosystem|hyperpage}{326}
+\indexentry{semiring|hyperpage}{326}
+\indexentry{When Infinity Is Your Friend|hyperpage}{326}
+\indexentry{Euler, Leonhard|hyperpage}{327}
+\indexentry{Two Candidates, One Winner|hyperpage}{328}
+\indexentry{Newton polygon|hyperpage}{328}
+\indexentry{The Tropical Convex Hull, or: The Winner Never Loses|hyperpage}{329}
+\indexentry{Shor's algorithm|hyperpage}{329}
+\indexentry{The Triangle Inequality in a World Without Triangles|hyperpage}{330}
+\indexentry{The Traveling Salesman's Secret Algebra|hyperpage}{331}
+\indexentry{From Shortest Paths to Factoring Numbers|hyperpage}{333}
+\indexentry{Pythagorean triple|hyperpage}{333}
+\indexentry{Berggren tree|hyperpage}{333}
+\indexentry{descent|hyperpage}{333}
+\indexentry{Puzzles, Paradoxes, and Open Questions|hyperpage}{333}
+\indexentry{Einstein, Albert|hyperpage}{335}
+\indexentry{§1. A Puzzle to Begin: The Form That Remembers|hyperpage}{335}
+\indexentry{Pythagorean triple|hyperpage}{335}
+\indexentry{§2. The Null Cone, or: Where Right Triangles Live|hyperpage}{338}
+\indexentry{null cone|hyperpage}{338}
+\indexentry{lattice|hyperpage}{339}
+\indexentry{§3. The Berggren Tree: A Family Album of Right Triangles|hyperpage}{340}
+\indexentry{Pythagorean triple!primitive|hyperpage}{342}
+\indexentry{Berggren tree|hyperpage}{342}
+\indexentry{coprimality|hyperpage}{342}
+\indexentry{Shor's algorithm|hyperpage}{342}
+\indexentry{quadratic form|hyperpage}{342}
+\indexentry{Lorentz group|hyperpage}{344}
+\indexentry{Lorentz transformation|hyperpage}{344}
+\indexentry{special relativity|hyperpage}{344}
+\indexentry{hyperbolic geometry|hyperpage}{345}
+\indexentry{Wigner, Eugene|hyperpage}{345}
+\indexentry{Berggren matrices|hyperpage}{346}
+\indexentry{descent|hyperpage}{346}
+\indexentry{§7. The Depth of a Prime: A Number-Theoretic Surprise|hyperpage}{350}
+\indexentry{factorization|hyperpage}{350}
+\indexentry{semiprime|hyperpage}{351}
+\indexentry{greatest common divisor|hyperpage}{352}
+\indexentry{§9. Tiling the Hyperbolic Plane|hyperpage}{353}
+\indexentry{Euclid|hyperpage}{353}
+\indexentry{ideal (ring theory)|hyperpage}{353}
+\indexentry{Poincaré disk model|hyperpage}{354}
+\indexentry{§10. The Grand Unification: Pythagoras Meets Einstein|hyperpage}{354}
+\indexentry{ternary tree|hyperpage}{354}
+\indexentry{Appendix A: The Reader's Toolkit --- Puzzles and Exercises|hyperpage}{355}
+\indexentry{factoring|hyperpage}{356}
+\indexentry{The Rope-Stretcher's Return|hyperpage}{357}
+\indexentry{Nine Faces of One Equation|hyperpage}{359}
+\indexentry{Pythagorean triple|hyperpage}{359}
+\indexentry{Berggren matrices|hyperpage}{360}
+\indexentry{Lorentz group|hyperpage}{360}
+\indexentry{Berggren tree|hyperpage}{360}
+\indexentry{descent|hyperpage}{360}
+\indexentry{factoring|hyperpage}{360}
+\indexentry{greatest common divisor|hyperpage}{360}
+\indexentry{factorization|hyperpage}{360}
+\indexentry{Cayley--Dickson construction|hyperpage}{361}
+\indexentry{Gaussian integers|hyperpage}{361}
+\indexentry{Grover's algorithm|hyperpage}{361}
+\indexentry{semiprime|hyperpage}{361}
+\indexentry{Shor's algorithm|hyperpage}{361}
+\indexentry{Fermat, Pierre de|hyperpage}{361}
+\indexentry{The Unreasonable Effectiveness of a Schoolchild's Equation|hyperpage}{362}
+\indexentry{Minkowski metric|hyperpage}{362}
+\indexentry{Fermat's Last Theorem|hyperpage}{362}
+\indexentry{The Puzzles That Remain|hyperpage}{362}
+\indexentry{octonions|hyperpage}{362}
+\indexentry{lattice|hyperpage}{363}
+\indexentry{A Last Puzzle|hyperpage}{363}
+\indexentry{modular forms|hyperpage}{364}
+\indexentry{Berggren--Lorentz Correspondence|hyperpage}{365}
+\indexentry{Lattice--Tree Correspondence|hyperpage}{372}
+\indexentry{Hyperbolic Shortcuts and Factoring|hyperpage}{375}
+\indexentry{Three Roads from Pythagoras|hyperpage}{383}
+\indexentry{Berggren--Lorentz Paper Proofs|hyperpage}{387}
+\indexentry{Higher $k$-Tuple Factoring|hyperpage}{392}
+\indexentry{Quantum Grover Tree Factoring|hyperpage}{405}
+\indexentry{Complexity Bounds|hyperpage}{408}
+\indexentry{Cayley--Dickson Hierarchy|hyperpage}{410}
+\indexentry{Fermat's Last Theorem|hyperpage}{414}
+\indexentry{Congruence of Squares Factoring|hyperpage}{420}
+\indexentry{Quadruple Factor Theory|hyperpage}{424}
+\indexentry{GCD Cascade Factor Extraction|hyperpage}{429}
+\indexentry{Pythagorean Tree Factoring Core|hyperpage}{438}
+\indexentry{Tropical Geometry Foundations|hyperpage}{442}
+\indexentry{Lorentz Group Structure|hyperpage}{443}

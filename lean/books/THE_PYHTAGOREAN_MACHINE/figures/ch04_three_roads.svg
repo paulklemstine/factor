@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">THREE ROADS FROM PYTHAGORAS</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">Independent Paths to Integer Factoring</text>
+
+  <!-- Central triangle (Pythagoras) -->
+  <polygon points="400,85 340,185 460,185" fill="none" stroke="#c4a35a" stroke-width="2"/>
+  <text x="400" y="155" text-anchor="middle" fill="#c4a35a" font-size="14" font-weight="bold">a² + b² = c²</text>
+  <text x="365" y="200" fill="#c4a35a" font-size="10">a</text>
+  <text x="435" y="200" fill="#c4a35a" font-size="10">b</text>
+  <text x="400" y="105" fill="#c4a35a" font-size="10">c</text>
+
+  <!-- Road 1: Euler -->
+  <path d="M 340 185 L 120 400" stroke="#4A90D9" stroke-width="3" fill="none"/>
+  <rect x="30" y="310" width="240" height="240" rx="10" fill="#0d1117" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="150" y="340" text-anchor="middle" fill="#4A90D9" font-size="15" font-weight="bold">Road I: Euler's Method</text>
+  <text x="50" y="370" fill="#aabbcc" font-size="11">Two sum-of-squares</text>
+  <text x="50" y="390" fill="#aabbcc" font-size="11">representations → factor</text>
+  <text x="50" y="420" fill="#8899aa" font-size="11">N = a₁²+b₁² = a₂²+b₂²</text>
+  <text x="50" y="445" fill="#8899aa" font-size="11">(a₁−a₂)(a₁+a₂)=(b₂−b₁)(b₂+b₁)</text>
+  <text x="50" y="475" fill="#c4a35a" font-size="11">gcd(a₁−a₂, N) → factor</text>
+  <text x="50" y="505" fill="#667788" font-size="10" font-style="italic">Brahmagupta-Fibonacci identity</text>
+  <text x="50" y="525" fill="#667788" font-size="10" font-style="italic">(a²+b²)(c²+d²) = (ac−bd)²+(ad+bc)²</text>
+  <text x="50" y="540" fill="#4AD9A5" font-size="10">✓ Verified</text>
+
+  <!-- Road 2: Gaussian Composition -->
+  <path d="M 400 185 L 400 400" stroke="#D94A6B" stroke-width="3" fill="none"/>
+  <rect x="290" y="310" width="240" height="240" rx="10" fill="#0d1117" stroke="#D94A6B" stroke-width="1.5"/>
+  <text x="410" y="340" text-anchor="middle" fill="#D94A6B" font-size="15" font-weight="bold">Road II: Composition</text>
+  <text x="310" y="370" fill="#aabbcc" font-size="11">Composing triples preserves</text>
+  <text x="310" y="390" fill="#aabbcc" font-size="11">the Pythagorean property</text>
+  <text x="310" y="420" fill="#8899aa" font-size="11">(a₁,b₁,c₁) ⊗ (a₂,b₂,c₂)</text>
+  <text x="310" y="445" fill="#8899aa" font-size="11">= (a₁a₂−b₁b₂, a₁b₂+b₁a₂, c₁c₂)</text>
+  <text x="310" y="475" fill="#c4a35a" font-size="11">Multiplicativity of Gaussian</text>
+  <text x="310" y="495" fill="#c4a35a" font-size="11">integer norm: N(z·w) = N(z)·N(w)</text>
+  <text x="310" y="525" fill="#667788" font-size="10" font-style="italic">Group law on Pythagorean triples</text>
+  <text x="310" y="540" fill="#4AD9A5" font-size="10">✓ Verified</text>
+
+  <!-- Road 3: Tree Sieve -->
+  <path d="M 460 185 L 680 400" stroke="#4AD9A5" stroke-width="3" fill="none"/>
+  <rect x="550" y="310" width="240" height="240" rx="10" fill="#0d1117" stroke="#4AD9A5" stroke-width="1.5"/>
+  <text x="670" y="340" text-anchor="middle" fill="#4AD9A5" font-size="15" font-weight="bold">Road III: Tree Sieve</text>
+  <text x="570" y="370" fill="#aabbcc" font-size="11">Systematic collection</text>
+  <text x="570" y="390" fill="#aabbcc" font-size="11">of smooth relations</text>
+  <text x="570" y="420" fill="#8899aa" font-size="11">Berggren tree generates</text>
+  <text x="570" y="440" fill="#8899aa" font-size="11">all primitive triples</text>
+  <text x="570" y="470" fill="#c4a35a" font-size="11">(c−b)(c+b) = a²</text>
+  <text x="570" y="495" fill="#c4a35a" font-size="11">gcd(c−b, N) → factor</text>
+  <text x="570" y="525" fill="#667788" font-size="10" font-style="italic">O(2,1;ℤ) Lorentz structure</text>
+  <text x="570" y="540" fill="#4AD9A5" font-size="10">✓ Verified</text>
+</svg>

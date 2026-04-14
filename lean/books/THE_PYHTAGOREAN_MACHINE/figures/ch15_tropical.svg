@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Georgia, serif">
+  <rect width="800" height="600" fill="#0d1117"/>
+  <text x="400" y="35" text-anchor="middle" fill="#c4a35a" font-size="18" font-weight="bold">TROPICAL GEOMETRY: MATHEMATICS IN THE SUN</text>
+  <text x="400" y="55" text-anchor="middle" fill="#8899aa" font-size="12">Where Addition Becomes Min and Multiplication Becomes +</text>
+
+  <!-- Tropical addition table -->
+  <rect x="50" y="80" width="300" height="200" rx="8" fill="#1a1a2e" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="200" y="105" text-anchor="middle" fill="#4A90D9" font-size="14" font-weight="bold">The Tropical Semiring</text>
+
+  <text x="70" y="135" fill="#c4a35a" font-size="13">a ⊕ b = min(a, b)</text>
+  <text x="70" y="160" fill="#c4a35a" font-size="13">a ⊙ b = a + b</text>
+
+  <text x="70" y="195" fill="#8899aa" font-size="11">Identity for ⊕: +∞  (= ⊤)</text>
+  <text x="70" y="215" fill="#8899aa" font-size="11">Identity for ⊙: 0</text>
+  <text x="70" y="245" fill="#4AD9A5" font-size="11">Verified: commutative, associative</text>
+  <text x="70" y="265" fill="#4AD9A5" font-size="11">Verified: ⊙ distributes over ⊕</text>
+
+  <!-- Newton polygon -->
+  <rect x="400" y="80" width="370" height="200" rx="8" fill="#1a1a2e" stroke="#D94A6B" stroke-width="1.5"/>
+  <text x="585" y="105" text-anchor="middle" fill="#D94A6B" font-size="14" font-weight="bold">Newton Polygon</text>
+
+  <!-- Axes -->
+  <line x1="430" y1="250" x2="730" y2="250" stroke="#334455" stroke-width="1"/>
+  <line x1="430" y1="250" x2="430" y2="120" stroke="#334455" stroke-width="1"/>
+
+  <!-- Points -->
+  <circle cx="450" cy="140" r="4" fill="#c4a35a"/>
+  <circle cx="530" cy="200" r="4" fill="#c4a35a"/>
+  <circle cx="650" cy="240" r="4" fill="#c4a35a"/>
+
+  <!-- Lower convex hull -->
+  <path d="M 450 140 L 530 200 L 650 240" stroke="#c4a35a" stroke-width="2" fill="none"/>
+
+  <text x="440" y="135" fill="#aabbcc" font-size="9">(0, a₀)</text>
+  <text x="535" y="195" fill="#aabbcc" font-size="9">(1, a₁)</text>
+  <text x="655" y="235" fill="#aabbcc" font-size="9">(2, a₂)</text>
+
+  <text x="470" y="170" fill="#D94A6B" font-size="9">slope</text>
+
+  <!-- Bellman equation -->
+  <rect x="50" y="310" width="700" height="120" rx="8" fill="#1a1a2e" stroke="#c4a35a" stroke-width="2"/>
+  <text x="400" y="340" text-anchor="middle" fill="#c4a35a" font-size="16" font-weight="bold">The Bellman Equation — Tropically</text>
+
+  <text x="80" y="375" fill="#aabbcc" font-size="14">d(v) = min( d(v),  d(0) + w(v) )</text>
+  <text x="80" y="400" fill="#8899aa" font-size="12">≡  d(v) = d(v) ⊕ (d(0) ⊙ w(v))    in tropical arithmetic</text>
+  <text x="80" y="420" fill="#667788" font-size="11">Shortest paths ARE tropical linear algebra!</text>
+
+  <!-- Properties box -->
+  <rect x="50" y="460" width="700" height="120" rx="8" fill="#1a1a2e" stroke="#4AD9A5" stroke-width="1"/>
+  <text x="400" y="490" text-anchor="middle" fill="#4AD9A5" font-size="14" font-weight="bold">Machine-Verified Properties (7 Theorems)</text>
+  <text x="80" y="520" fill="#aabbcc" font-size="11">• tropical_add_comm: min a b = min b a</text>
+  <text x="400" y="520" fill="#aabbcc" font-size="11">• tropical_add_assoc: min(min a b) c = min a (min b c)</text>
+  <text x="80" y="545" fill="#aabbcc" font-size="11">• tropical_zero: min a ⊤ = a</text>
+  <text x="400" y="545" fill="#aabbcc" font-size="11">• tropical_distrib: a + min b c = min(a+b)(a+c)</text>
+  <text x="80" y="570" fill="#aabbcc" font-size="11">• bellman_equation: d(v) ≤ d(0) + w(v)</text>
+  <text x="400" y="570" fill="#aabbcc" font-size="11">• newton_polygon_slope, tropical_convex_hull</text>
+</svg>

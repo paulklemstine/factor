@@ -1,0 +1,492 @@
+%!TEX program = xelatex
+\documentclass[11pt,openright,twoside]{book}
+
+% ═══════════════════════════════════════════════════════════════
+%  GEOMETRY & PAGE LAYOUT — Coffee-table book style (8.5 x 11)
+% ═══════════════════════════════════════════════════════════════
+\usepackage[
+  paperwidth=8.5in,
+  paperheight=11in,
+  inner=1.2in,
+  outer=0.9in,
+  top=1.0in,
+  bottom=1.1in,
+  headheight=14pt
+]{geometry}
+
+% ═══════════════════════════════════════════════════════════════
+%  FONTS — Elegant serif with math support
+% ═══════════════════════════════════════════════════════════════
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+\setmathfont{TeX Gyre Termes Math}
+
+% ═══════════════════════════════════════════════════════════════
+%  PACKAGES
+% ═══════════════════════════════════════════════════════════════
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{lettrine}       % Drop caps
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{framed}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{etoolbox}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage{makeidx}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{epigraph}
+\usepackage{afterpage}
+
+% ═══════════════════════════════════════════════════════════════
+%  COLORS — Rich, warm palette
+% ═══════════════════════════════════════════════════════════════
+\definecolor{chaptercolor}{RGB}{139, 69, 19}       % Saddle brown
+\definecolor{sectioncolor}{RGB}{70, 30, 10}         % Dark brown
+\definecolor{accentgold}{RGB}{184, 134, 11}         % Dark goldenrod
+\definecolor{linkblue}{RGB}{0, 51, 102}             % Navy
+\definecolor{codebackground}{RGB}{248, 245, 240}    % Cream
+\definecolor{codeborder}{RGB}{200, 180, 150}        % Tan
+\definecolor{quotebar}{RGB}{139, 69, 19}            % Brown
+\definecolor{pagebg}{RGB}{255, 253, 248}            % Warm off-white
+
+% ═══════════════════════════════════════════════════════════════
+%  HYPERLINKS
+% ═══════════════════════════════════════════════════════════════
+\pdfstringdefDisableCommands{%
+  \def\times{x}%
+  \def\cdot{.}%
+  \def\sqrt{sqrt}%
+  \def\log{log}%
+  \def\operatorname#1{#1}%
+  \def\mathbb#1{#1}%
+  \def\textit#1{#1}%
+  \def\textbf#1{#1}%
+  \def\gcd{gcd}%
+}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=linkblue,
+  citecolor=linkblue,
+  urlcolor=linkblue,
+  bookmarksdepth=3,
+  pdfauthor={Paul Klemstine},
+  pdftitle={The Triangle That Swallowed the Universe},
+  pdfsubject={Pythagorean Triples, Berggren Trees, Number Theory},
+}
+
+% ═══════════════════════════════════════════════════════════════
+%  INDEX
+% ═══════════════════════════════════════════════════════════════
+\makeindex
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER & SECTION FORMATTING — Elegant, luxurious
+% ═══════════════════════════════════════════════════════════════
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{chaptercolor}}
+  {\filright\Large\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge\filright}
+
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\huge\bfseries\color{chaptercolor}}
+  {}
+  {0pt}
+  {\Huge\filright}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{sectioncolor}}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{sectioncolor}}
+  {\thesubsection}{1em}{}
+
+% ═══════════════════════════════════════════════════════════════
+%  HEADERS & FOOTERS
+% ═══════════════════════════════════════════════════════════════
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\textit{\leftmark}}
+\fancyhead[RO]{\small\textit{\rightmark}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[C]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% ═══════════════════════════════════════════════════════════════
+%  FIGURE CAPTIONS
+% ═══════════════════════════════════════════════════════════════
+\captionsetup{
+  font={small,it},
+  labelfont={bf,color=chaptercolor},
+  labelsep=period,
+  margin=1cm,
+}
+
+% ═══════════════════════════════════════════════════════════════
+%  BLOCKQUOTE ENVIRONMENT
+% ═══════════════════════════════════════════════════════════════
+\renewenvironment{displayquote}{%
+  \begin{mdframed}[
+    topline=false,
+    bottomline=false,
+    rightline=false,
+    linewidth=3pt,
+    linecolor=quotebar,
+    innerleftmargin=15pt,
+    innerrightmargin=10pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    backgroundcolor=codebackground,
+    skipabove=\baselineskip,
+    skipbelow=\baselineskip
+  ]
+  \itshape
+}{%
+  \end{mdframed}
+}
+
+% ═══════════════════════════════════════════════════════════════
+%  CODE LISTINGS (for Lean appendix)
+% ═══════════════════════════════════════════════════════════════
+\lstdefinelanguage{Lean}{
+  morekeywords={theorem,lemma,def,definition,example,instance,class,structure,
+    where,let,in,have,show,by,sorry,import,open,variable,section,namespace,
+    end,if,then,else,match,with,do,return,fun,intro,apply,exact,simp,ring,
+    omega,norm_num,decide,rfl,calc,suffices,obtain,rcases,cases,induction,
+    rw,rewrite,ext,constructor,refine,use,push_neg,contrapose,contradiction,
+    noncomputable,private,protected,mutual,partial,unsafe,axiom,constant,
+    opaque,abbrev,set_option,attribute,deriving,extends,Type,Prop,Sort,
+    Nat,Int,Real,Complex,Finset,List,Set,true,false,True,False,And,Or,Not},
+  sensitive=true,
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  morestring=[b]",
+  literate={→}{{$\to$}}1 {←}{{$\leftarrow$}}1 {↔}{{$\leftrightarrow$}}1
+           {∀}{{$\forall$}}1 {∃}{{$\exists$}}1 {¬}{{$\lnot$}}1
+           {∧}{{$\land$}}1 {∨}{{$\lor$}}1 {⊢}{{$\vdash$}}1
+           {≤}{{$\le$}}1 {≥}{{$\ge$}}1 {≠}{{$\ne$}}1
+           {ℕ}{{$\mathbb{N}$}}1 {ℤ}{{$\mathbb{Z}$}}1 {ℝ}{{$\mathbb{R}$}}1 {ℂ}{{$\mathbb{C}$}}1
+           {λ}{{$\lambda$}}1 {⟨}{{$\langle$}}1 {⟩}{{$\rangle$}}1
+           {:=}{{$:=$}}2,
+}
+
+\lstset{
+  language=Lean,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\bfseries\color{linkblue},
+  commentstyle=\itshape\color{gray},
+  stringstyle=\color{chaptercolor},
+  backgroundcolor=\color{codebackground},
+  frame=single,
+  framerule=0.5pt,
+  rulecolor=\color{codeborder},
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false,
+  tabsize=2,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=\baselineskip,
+  belowskip=\baselineskip,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=6pt,
+}
+
+% ═══════════════════════════════════════════════════════════════
+%  SPACING
+% ═══════════════════════════════════════════════════════════════
+\setstretch{1.15}
+
+% Ensure \square is defined (QED symbol)
+\providecommand{\square}{\rule{0.5em}{0.5em}}
+\setlength{\parskip}{4pt plus 1pt minus 1pt}
+\setlength{\parindent}{1.5em}
+
+% ═══════════════════════════════════════════════════════════════
+%  TABLE OF CONTENTS STYLING
+% ═══════════════════════════════════════════════════════════════
+\contentsmargin{0pt}
+\titlecontents{chapter}[0pt]
+  {\addvspace{12pt}\bfseries\large\color{chaptercolor}}
+  {\contentslabel{2.3em}}
+  {\hspace*{-2.3em}}
+  {\hfill\contentspage}
+
+\titlecontents{section}[2.3em]
+  {\addvspace{2pt}\color{sectioncolor}}
+  {\contentslabel{2.3em}}
+  {\hspace*{-2.3em}}
+  {\titlerule*[0.5pc]{.}\contentspage}
+
+% ═══════════════════════════════════════════════════════════════
+%  DOCUMENT BEGINS
+% ═══════════════════════════════════════════════════════════════
+\begin{document}
+\frontmatter
+
+% ─── HALF TITLE ───────────────────────────────────────────────
+\thispagestyle{empty}
+\begin{center}
+\vspace*{3in}
+{\Huge\bfseries\color{chaptercolor} The Triangle That\\[8pt] Swallowed the Universe}
+\vfill
+\end{center}
+\cleardoublepage
+
+% ─── FULL TITLE PAGE ─────────────────────────────────────────
+\thispagestyle{empty}
+\begin{center}
+\vspace*{1.5in}
+
+{\fontsize{36}{42}\selectfont\bfseries\color{chaptercolor}
+The Triangle That\\[12pt]
+Swallowed the Universe}
+
+\vspace{0.5in}
+
+{\Large\color{sectioncolor}\textit{Pythagorean Triples, Berggren Trees,\\[6pt]
+and the Hidden Geometry of Everything}}
+
+\vspace{1.2in}
+
+{\LARGE Paul Klemstine}
+
+\vspace{0.5in}
+
+{\large\color{accentgold}\textit{With formal proofs verified in Lean~4}}
+
+\vfill
+
+\end{center}
+\cleardoublepage
+
+% ─── COPYRIGHT PAGE ──────────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\begin{minipage}{0.75\textwidth}
+\small
+\textcopyright\ 2025 Paul Klemstine. All rights reserved.
+
+\vspace{12pt}
+
+No part of this publication may be reproduced, distributed, or transmitted 
+in any form or by any means, including photocopying, recording, or other 
+electronic or mechanical methods, without the prior written permission of 
+the author.
+
+\vspace{12pt}
+
+The formal proofs in the appendices are released under the Apache 2.0 License 
+and may be freely used, modified, and distributed.
+
+\vspace{12pt}
+
+\textbf{ISBN 978-1-105-41110-6}
+
+\vspace{12pt}
+
+\begin{center}
+\includegraphics[width=1.5in]{../ISBN/978-1-105-41110-6.png}
+\end{center}
+
+\vspace{12pt}
+
+First Edition
+
+\vspace{6pt}
+
+Typeset in \TeX\ Gyre Termes.\\
+Formal proofs written in Lean~4 with Mathlib.
+
+\end{minipage}
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
+
+% ─── DEDICATION ──────────────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{3in}
+\begin{center}
+{\Large\itshape Soli Deo Gloria}
+
+\vspace{0.5in}
+
+{\normalsize\itshape To the glory of God alone,\\[4pt]
+in whom all truth, beauty, and mathematical\\[4pt]
+harmony find their source and consummation.}
+\end{center}
+\vfill
+\cleardoublepage
+
+% ─── EPIGRAPH PAGE ───────────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{2.5in}
+\begin{center}
+\begin{minipage}{0.65\textwidth}
+\begin{center}
+\Large\itshape
+``There is geometry in the humming of the strings,\\
+there is music in the spacing of the spheres.''
+\end{center}
+\begin{flushright}
+\normalsize --- Pythagoras
+\end{flushright}
+
+\vspace{1in}
+
+\begin{center}
+\Large\itshape
+``The book of nature is written in the\\
+language of mathematics.''
+\end{center}
+\begin{flushright}
+\normalsize --- Galileo Galilei
+\end{flushright}
+\end{minipage}
+\end{center}
+\vfill
+\cleardoublepage
+
+% ─── TABLE OF CONTENTS ───────────────────────────────────────
+\tableofcontents
+\cleardoublepage
+
+% List of figures omitted for brevity in this edition
+
+% ═══════════════════════════════════════════════════════════════
+%  MAIN MATTER
+% ═══════════════════════════════════════════════════════════════
+\mainmatter
+
+% ─── INTRODUCTION ────────────────────────────────────────────
+\input{introduction}
+\cleardoublepage
+
+% ─── PART I: THE TREE ────────────────────────────────────────
+\part{The Tree}
+\label{part:tree}
+
+\input{chapter1}   % The Tree That Grew Triangles
+\cleardoublepage
+\input{chapter2}   % The Tree That Grew Into a Lattice
+\cleardoublepage
+\input{chapter3}   % Hyperbolic Shortcuts
+\cleardoublepage
+\input{chapter4}   % Three Roads from Pythagoras
+\cleardoublepage
+
+% ─── PART II: THE GEOMETRY ───────────────────────────────────
+\part{The Geometry}
+\label{part:geometry}
+
+\input{chapter5}   % The Tree That Knew It Was a Spacetime
+\cleardoublepage
+\input{chapter6}   % The Lock with Seven Keyholes
+\cleardoublepage
+\input{chapter7}   % The One-Way Corridor
+\cleardoublepage
+\input{chapter8}   % The Price of Descent
+\cleardoublepage
+
+% ─── PART III: THE ALGEBRA ───────────────────────────────────
+\part{The Algebra}
+\label{part:algebra}
+
+\input{chapter9}   % The Four-Rung Ladder
+\cleardoublepage
+\input{chapter10}  % The Margin That Shook the World
+\cleardoublepage
+\input{chapter11}  % The Magnificent Sieve
+\cleardoublepage
+\input{chapter12}  % The Fourth Dimension of Pythagoras
+\cleardoublepage
+
+% ─── PART IV: THE FRONTIER ──────────────────────────────────
+\part{The Frontier}
+\label{part:frontier}
+
+\input{chapter13}  % The GCD Cascade
+\cleardoublepage
+\input{chapter14}  % The Tree That Cracks Numbers
+\cleardoublepage
+\input{chapter15}  % Tropical Geometry
+\cleardoublepage
+\input{chapter16}  % The Relativistic Secret
+\cleardoublepage
+
+% ─── CONCLUSION ──────────────────────────────────────────────
+\input{conclusion}
+\cleardoublepage
+
+% ═══════════════════════════════════════════════════════════════
+%  BACK MATTER
+% ═══════════════════════════════════════════════════════════════
+\backmatter
+
+% ─── APPENDICES: LEAN PROOFS ─────────────────────────────────
+\appendix
+\part*{Appendices: Formal Proofs in Lean~4}
+\addcontentsline{toc}{part}{Appendices: Formal Proofs in Lean~4}
+
+\chapter*{Note on the Formal Proofs}
+\addcontentsline{toc}{chapter}{Note on the Formal Proofs}
+\markboth{Formal Proofs}{Formal Proofs}
+
+The following appendices contain the complete Lean~4 source code for the formal 
+proofs referenced throughout this book. These proofs have been machine-verified 
+using the Lean~4 theorem prover with the Mathlib library, ensuring mathematical 
+certainty beyond what informal argument alone can provide.
+
+Each appendix corresponds to a chapter of the book. The proofs formalize the key 
+theorems, establishing with absolute rigor the mathematical claims made in the 
+narrative. The reader interested in verification may compile these files using 
+Lean~4 (version 4.x) with an appropriate Mathlib installation.
+
+\bigskip
+\noindent\textit{Notation guide:} In Lean~4, \texttt{theorem} and \texttt{lemma} 
+introduce proven statements, \texttt{def} introduces definitions, and \texttt{sorry} 
+marks statements that are asserted but not yet proven. The symbol \texttt{:=} 
+separates a declaration from its proof term, while \texttt{by} introduces a 
+tactic-mode proof.
+
+\cleardoublepage
+
+\input{appendix_lean}
+
+% ─── INDEX ───────────────────────────────────────────────────
+\cleardoublepage
+\printindex
+
+\end{document}

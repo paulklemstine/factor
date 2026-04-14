@@ -1,0 +1,315 @@
+\begin{theindex}
+
+  \item Andrew Wiles, \hyperpage{259}
+
+  \indexspace
+
+  \item balanced semiprime, \hyperpage{170}, \hyperpage{191}, 
+		\hyperpage{194}, \hyperpage{359}, \hyperpage{411}
+  \item Berggren, \hyperpage{lx}, \hyperpage{5}, \hyperpage{11}, 
+		\hyperpage{14}, \hyperpage{23}, \hyperpage{48}, 
+		\hyperpage{86, 87}, \hyperpage{104, 105}, 
+		\hyperpage{142, 143}, \hyperpage{159}, \hyperpage{161}, 
+		\hyperpage{175}, \hyperpage{180}, \hyperpage{197}, 
+		\hyperpage{207}, \hyperpage{346}, \hyperpage{349}, 
+		\hyperpage{379}, \hyperpage{381}, \hyperpage{385}, 
+		\hyperpage{387}, \hyperpage{409}, \hyperpage{411}
+  \item Berggren matrices, \hyperpage{14}, \hyperpage{16}, 
+		\hyperpage{49}, \hyperpage{52}, \hyperpage{55}, 
+		\hyperpage{87}, \hyperpage{104}, \hyperpage{108}, 
+		\hyperpage{161}, \hyperpage{180}, \hyperpage{207}, 
+		\hyperpage{393}, \hyperpage{402}, \hyperpage{411}
+  \item Berggren tree, \hyperpage{11}, \hyperpage{14}, \hyperpage{16}, 
+		\hyperpage{23}, \hyperpage{29}, \hyperpage{48}, 
+		\hyperpage{52, 53}, \hyperpage{86}, \hyperpage{90, 91}, 
+		\hyperpage{112, 113}, \hyperpage{119}, \hyperpage{142}, 
+		\hyperpage{159}, \hyperpage{349, 350}, \hyperpage{352}, 
+		\hyperpage{379}, \hyperpage{381}, \hyperpage{389, 390}, 
+		\hyperpage{392}, \hyperpage{409}, \hyperpage{411, 412}
+  \item Brahmagupta, \hyperpage{78, 79}, \hyperpage{116}, 
+		\hyperpage{149}, \hyperpage{215, 216}, \hyperpage{327}, 
+		\hyperpage{329}, \hyperpage{412}
+
+  \indexspace
+
+  \item Cayley-Dickson, \hyperpage{412, 413}
+  \item Chebyshev, \hyperpage{66, 67}
+  \item Complexity Bounds for Pythagorean Tree Factoring, 
+		\hyperpage{471}
+  \item congruence of squares, \hyperpage{160}, \hyperpage{269}, 
+		\hyperpage{287, 288}
+  \item Congruence of Squares Factoring -- Formal Foundations, 
+		\hyperpage{485}
+  \item continued fraction, \hyperpage{27, 28}, \hyperpage{123}, 
+		\hyperpage{126}, \hyperpage{187}, \hyperpage{292}
+  \item continued fractions, \hyperpage{27}, \hyperpage{126}
+  \item coprime, \hyperpage{lix}, \hyperpage{26}, \hyperpage{104}, 
+		\hyperpage{186}, \hyperpage{247}, \hyperpage{263}, 
+		\hyperpage{311}, \hyperpage{337}, \hyperpage{389}, 
+		\hyperpage{394}
+
+  \indexspace
+
+  \item descent, \hyperpage{9}, \hyperpage{27}, \hyperpage{29}, 
+		\hyperpage{142}, \hyperpage{144}, \hyperpage{168}, 
+		\hyperpage{170}, \hyperpage{183, 184}, \hyperpage{186}, 
+		\hyperpage{242}, \hyperpage{244}, \hyperpage{313}, 
+		\hyperpage{326}, \hyperpage{331}, \hyperpage{352, 353}, 
+		\hyperpage{379}, \hyperpage{381}, \hyperpage{393, 394}, 
+		\hyperpage{411, 412}
+
+  \indexspace
+
+  \item elliptic curve, \hyperpage{202}, \hyperpage{256}, 
+		\hyperpage{292}
+  \item elliptic curves, \hyperpage{25}, \hyperpage{42}, 
+		\hyperpage{256}
+  \item Euclid, \hyperpage{lviii, lix}, \hyperpage{14}, 
+		\hyperpage{21--23}, \hyperpage{68}, \hyperpage{104}, 
+		\hyperpage{110}, \hyperpage{118}, \hyperpage{132}, 
+		\hyperpage{184}, \hyperpage{186}, \hyperpage{189}, 
+		\hyperpage{309}, \hyperpage{312}, \hyperpage{321}, 
+		\hyperpage{342}, \hyperpage{369}, \hyperpage{404}, 
+		\hyperpage{411}, \hyperpage{414}
+  \item Euclidean algorithm, \hyperpage{26, 27}, \hyperpage{186}, 
+		\hyperpage{379}, \hyperpage{411}
+  \item Euler, \hyperpage{13}, \hyperpage{83, 84}, \hyperpage{116}, 
+		\hyperpage{123}, \hyperpage{149}, \hyperpage{151}, 
+		\hyperpage{216}, \hyperpage{241}, \hyperpage{245}, 
+		\hyperpage{298}, \hyperpage{302}, \hyperpage{309}, 
+		\hyperpage{329}, \hyperpage{333}, \hyperpage{372}, 
+		\hyperpage{412}
+
+  \indexspace
+
+  \item Fano plane, \hyperpage{212}
+  \item Fermat, \hyperpage{9}, \hyperpage{11}, \hyperpage{39}, 
+		\hyperpage{41}, \hyperpage{47, 48}, \hyperpage{70}, 
+		\hyperpage{83}, \hyperpage{86}, \hyperpage{114}, 
+		\hyperpage{116}, \hyperpage{132}, \hyperpage{140}, 
+		\hyperpage{170}, \hyperpage{198, 199}, 
+		\hyperpage{238, 239}, \hyperpage{269}, \hyperpage{271}, 
+		\hyperpage{309}, \hyperpage{331}, \hyperpage{333}, 
+		\hyperpage{344}, \hyperpage{352}, \hyperpage{413}
+  \item Fermat's Last Theorem, \hyperpage{42}, \hyperpage{240}, 
+		\hyperpage{242}, \hyperpage{250}, \hyperpage{413}
+  \item Fermat's Last Theorem: What Could Have Fit in the Margin?, 
+		\hyperpage{478}
+
+  \indexspace
+
+  \item Gaussian integer, \hyperpage{79--81}, \hyperpage{125}, 
+		\hyperpage{309, 310}, \hyperpage{412}
+  \item Gaussian integers, \hyperpage{79}, \hyperpage{81}, 
+		\hyperpage{116}, \hyperpage{309}, \hyperpage{412}
+  \item GCD, \hyperpage{47}, \hyperpage{69}, \hyperpage{86}, 
+		\hyperpage{130}, \hyperpage{136}, \hyperpage{186}, 
+		\hyperpage{266}, \hyperpage{268, 269}, \hyperpage{311}, 
+		\hyperpage{317}, \hyperpage{324}, \hyperpage{334}, 
+		\hyperpage{355}, \hyperpage{357}, \hyperpage{413}
+  \item GCD Cascades and Multi-Representation Factor Extraction, 
+		\hyperpage{496}
+  \item greatest common divisor, \hyperpage{25}, \hyperpage{183, 184}, 
+		\hyperpage{317}, \hyperpage{319}
+  \item Grover, \hyperpage{166}, \hyperpage{168}, \hyperpage{202}, 
+		\hyperpage{205}, \hyperpage{363}, \hyperpage{412}, 
+		\hyperpage{414}
+  \item Grover's algorithm, \hyperpage{168}, \hyperpage{175}, 
+		\hyperpage{205}
+
+  \indexspace
+
+  \item Hamilton, \hyperpage{66}, \hyperpage{151}, \hyperpage{212}, 
+		\hyperpage{302}
+  \item Higher k-Tuple Pythagorean Factoring: A Unified Framework, 
+		\hyperpage{452}
+  \item Hurwitz, \hyperpage{158}, \hyperpage{223}, \hyperpage{226}, 
+		\hyperpage{412}
+  \item Hurwitz's theorem, \hyperpage{234}
+  \item Hyperbolic Shortcuts and Integer Factoring via the Berggren Tree, 
+		\hyperpage{431}
+  \item hypotenuse, \hyperpage{lvi}, \hyperpage{3}, \hyperpage{8, 9}, 
+		\hyperpage{46}, \hyperpage{62}, \hyperpage{64}, 
+		\hyperpage{79}, \hyperpage{90}, \hyperpage{113}, 
+		\hyperpage{117}, \hyperpage{123}, \hyperpage{130}, 
+		\hyperpage{135}, \hyperpage{186}, \hyperpage{189}, 
+		\hyperpage{242}, \hyperpage{298}, \hyperpage{300, 301}, 
+		\hyperpage{317}, \hyperpage{319}, \hyperpage{343}, 
+		\hyperpage{350, 351}, \hyperpage{381}, 
+		\hyperpage{393--395}, \hyperpage{411}
+
+  \indexspace
+
+  \item infinite descent, \hyperpage{9}, \hyperpage{331}, 
+		\hyperpage{352}, \hyperpage{363}, \hyperpage{413}
+
+  \indexspace
+
+  \item lattice, \hyperpage{3}, \hyperpage{15}, \hyperpage{18}, 
+		\hyperpage{24, 25}, \hyperpage{53}, \hyperpage{74}, 
+		\hyperpage{80}, \hyperpage{108, 109}, \hyperpage{155}, 
+		\hyperpage{158, 159}, \hyperpage{200, 201}, 
+		\hyperpage{213}, \hyperpage{248}, \hyperpage{291, 292}, 
+		\hyperpage{295}, \hyperpage{298}, \hyperpage{307}, 
+		\hyperpage{332}, \hyperpage{358}, \hyperpage{363}, 
+		\hyperpage{366}, \hyperpage{379}, \hyperpage{387, 388}, 
+		\hyperpage{410, 411}
+  \item lattice reduction, \hyperpage{33}, \hyperpage{100}, 
+		\hyperpage{202}
+  \item Lattice-Tree Correspondence: Core Theorems, \hyperpage{427}
+  \item Leonhard Euler, \hyperpage{85}, \hyperpage{245}, 
+		\hyperpage{249}
+  \item light cone, \hyperpage{3, 4}, \hyperpage{18}, 
+		\hyperpage{52, 53}, \hyperpage{73}, \hyperpage{89}, 
+		\hyperpage{104}, \hyperpage{109, 110}, \hyperpage{130}, 
+		\hyperpage{207}, \hyperpage{343}, \hyperpage{358}, 
+		\hyperpage{392}, \hyperpage{405}, \hyperpage{410}, 
+		\hyperpage{414}
+  \item LLL, \hyperpage{37}, \hyperpage{202}, \hyperpage{379}, 
+		\hyperpage{411}
+  \item LLL algorithm, \hyperpage{411}
+  \item Lorentz, \hyperpage{6}, \hyperpage{14}, \hyperpage{52}, 
+		\hyperpage{86, 87}, \hyperpage{106--108}, 
+		\hyperpage{130}, \hyperpage{207}, \hyperpage{358}, 
+		\hyperpage{379}, \hyperpage{389}, \hyperpage{391}, 
+		\hyperpage{411}, \hyperpage{413}
+  \item Lorentz boost, \hyperpage{62}, \hyperpage{392}
+  \item Lorentz group, \hyperpage{16}, \hyperpage{59}, \hyperpage{73}, 
+		\hyperpage{108}, \hyperpage{207}, \hyperpage{379}, 
+		\hyperpage{391}, \hyperpage{393}, \hyperpage{411}
+
+  \indexspace
+
+  \item Minkowski, \hyperpage{18}, \hyperpage{52}, \hyperpage{54}, 
+		\hyperpage{107}, \hyperpage{126}, \hyperpage{130}, 
+		\hyperpage{201}, \hyperpage{392}, \hyperpage{405}, 
+		\hyperpage{411}, \hyperpage{413}
+  \item modular forms, \hyperpage{25}, \hyperpage{42}, \hyperpage{155}, 
+		\hyperpage{232}, \hyperpage{256}, \hyperpage{258, 259}, 
+		\hyperpage{415, 416}
+
+  \indexspace
+
+  \item Newton polygon, \hyperpage{373}, \hyperpage{412}
+  \item norm multiplicativity, \hyperpage{412}
+  \item null cone, \hyperpage{4}, \hyperpage{6}, \hyperpage{14}, 
+		\hyperpage{52}, \hyperpage{106}, \hyperpage{109}, 
+		\hyperpage{130}, \hyperpage{391}, \hyperpage{404}, 
+		\hyperpage{411}
+  \item number field sieve, \hyperpage{70}, \hyperpage{100}, 
+		\hyperpage{114}, \hyperpage{154, 155}, \hyperpage{202}, 
+		\hyperpage{207}
+
+  \indexspace
+
+  \item octonion, \hyperpage{214}, \hyperpage{235}
+  \item octonions, \hyperpage{154}, \hyperpage{158}, \hyperpage{182}, 
+		\hyperpage{212}, \hyperpage{412}, \hyperpage{415}
+
+  \indexspace
+
+  \item Pell, \hyperpage{13}, \hyperpage{78}, \hyperpage{122}, 
+		\hyperpage{333}
+  \item Pell equation, \hyperpage{13}, \hyperpage{122, 123}
+  \item Plimpton 322, \hyperpage{lvi}, \hyperpage{lxi}, \hyperpage{1}, 
+		\hyperpage{119}, \hyperpage{342}
+  \item primitive triple, \hyperpage{lix, lx}, \hyperpage{7}, 
+		\hyperpage{9}, \hyperpage{62}, \hyperpage{90}, 
+		\hyperpage{144}, \hyperpage{161}, \hyperpage{180}, 
+		\hyperpage{240}, \hyperpage{346}, \hyperpage{363}, 
+		\hyperpage{389}
+  \item primitive triples, \hyperpage{lix}, \hyperpage{15}, 
+		\hyperpage{363}, \hyperpage{389}, \hyperpage{400}, 
+		\hyperpage{402}
+  \item Pythagorean Quadruples and Integer Factoring: The Shared Factor Bridge, 
+		\hyperpage{490}
+  \item Pythagorean Tree Factoring -- Core Formalization, 
+		\hyperpage{507}
+  \item Pythagorean triple, \hyperpage{lvi, lvii}, \hyperpage{lix}, 
+		\hyperpage{3}, \hyperpage{5}, \hyperpage{21, 22}, 
+		\hyperpage{48, 49}, \hyperpage{52}, \hyperpage{79}, 
+		\hyperpage{104, 105}, \hyperpage{132}, \hyperpage{142}, 
+		\hyperpage{161, 162}, \hyperpage{168}, \hyperpage{183}, 
+		\hyperpage{189}, \hyperpage{192}, \hyperpage{242}, 
+		\hyperpage{244}, \hyperpage{298}, \hyperpage{344}, 
+		\hyperpage{346}, \hyperpage{383}, \hyperpage{386}, 
+		\hyperpage{389}, \hyperpage{409}, \hyperpage{411}
+  \item Pythagorean triples, \hyperpage{lviii, lix}, \hyperpage{3, 4}, 
+		\hyperpage{21}, \hyperpage{24}, \hyperpage{35}, 
+		\hyperpage{47, 48}, \hyperpage{52}, \hyperpage{79}, 
+		\hyperpage{81, 82}, \hyperpage{104}, \hyperpage{106}, 
+		\hyperpage{130}, \hyperpage{145}, \hyperpage{148}, 
+		\hyperpage{180}, \hyperpage{198}, \hyperpage{238}, 
+		\hyperpage{240}, \hyperpage{242}, \hyperpage{306}, 
+		\hyperpage{342}, \hyperpage{344}, \hyperpage{358}, 
+		\hyperpage{379}, \hyperpage{386, 387}, \hyperpage{411}
+
+  \indexspace
+
+  \item quadratic sieve, \hyperpage{70}, \hyperpage{100}, 
+		\hyperpage{154, 155}, \hyperpage{207}
+  \item Quantum Grover Acceleration for Pythagorean Tree Factoring, 
+		\hyperpage{468}
+  \item quaternion, \hyperpage{151}, \hyperpage{153}, \hyperpage{212}, 
+		\hyperpage{220, 221}
+  \item quaternions, \hyperpage{151}, \hyperpage{154}, \hyperpage{158}, 
+		\hyperpage{212}, \hyperpage{219}, \hyperpage{412}
+
+  \indexspace
+
+  \item right triangle, \hyperpage{lvi}, \hyperpage{lxi}, \hyperpage{2}, 
+		\hyperpage{6}, \hyperpage{8}, \hyperpage{45, 46}, 
+		\hyperpage{81}, \hyperpage{103}, \hyperpage{111}, 
+		\hyperpage{117}, \hyperpage{150}, \hyperpage{242}, 
+		\hyperpage{245}, \hyperpage{300}, \hyperpage{342, 343}, 
+		\hyperpage{345}, \hyperpage{389, 390}, \hyperpage{400}, 
+		\hyperpage{417}
+  \item right triangles, \hyperpage{2, 3}, \hyperpage{5}, 
+		\hyperpage{21, 22}, \hyperpage{56}, \hyperpage{70}, 
+		\hyperpage{73}, \hyperpage{86}, \hyperpage{95}, 
+		\hyperpage{104, 105}, \hyperpage{114}, \hyperpage{182}, 
+		\hyperpage{343}, \hyperpage{346}, \hyperpage{361}, 
+		\hyperpage{383}, \hyperpage{390, 391}
+  \item RSA, \hyperpage{31}, \hyperpage{61}, \hyperpage{91}, 
+		\hyperpage{96}, \hyperpage{170}, \hyperpage{172}, 
+		\hyperpage{180}, \hyperpage{190}, \hyperpage{291, 292}, 
+		\hyperpage{361}
+
+  \indexspace
+
+  \item semiprime, \hyperpage{91}, \hyperpage{170}, \hyperpage{189}, 
+		\hyperpage{191}, \hyperpage{194}, \hyperpage{359}, 
+		\hyperpage{399}, \hyperpage{401}, \hyperpage{411}
+  \item Shor, \hyperpage{100}, \hyperpage{168}, \hyperpage{170}, 
+		\hyperpage{205}
+  \item Shor's algorithm, \hyperpage{170}, \hyperpage{172}, 
+		\hyperpage{178}, \hyperpage{205}
+  \item Sophie Germain, \hyperpage{255}
+
+  \indexspace
+
+  \item ternary tree, \hyperpage{7, 8}, \hyperpage{50}, \hyperpage{90}, 
+		\hyperpage{104, 105}, \hyperpage{161}, \hyperpage{183}, 
+		\hyperpage{347}, \hyperpage{363}, \hyperpage{365}, 
+		\hyperpage{390}, \hyperpage{404}, \hyperpage{409, 410}, 
+		\hyperpage{414}
+  \item The Berggren-Lorentz Correspondence: Core Formalization, 
+		\hyperpage{419}
+  \item The Berggren-Lorentz Correspondence: Machine-Verified Proofs, 
+		\hyperpage{446}
+  \item The Cayley-Dickson Construction and Channel Boundaries, 
+		\hyperpage{473}
+  \item The Lorentz Group Structure of Berggren Matrices, 
+		\hyperpage{513}
+  \item Three Roads from Pythagoras: Foundational Theorems, 
+		\hyperpage{441}
+  \item tropical, \hyperpage{368, 369}, \hyperpage{413--415}
+  \item tropical geometry, \hyperpage{374}, \hyperpage{379}, 
+		\hyperpage{381}, \hyperpage{415}
+  \item Tropical Geometry and Min-Plus Algebra, \hyperpage{512}
+
+  \indexspace
+
+  \item Wiles, \hyperpage{254}, \hyperpage{259}, \hyperpage{413}
+
+\end{theindex}

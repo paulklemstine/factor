@@ -1,0 +1,36 @@
+\contentsline {chapter}{Introduction: The Triangle That Swallowed the Universe}{1}{chapter*.2}%
+\contentsline {chapter}{\chapternumberline {1}The Tree That Grew Triangles}{9}{chapter.1}%
+\contentsline {chapter}{\chapternumberline {2}The Tree That Grew Into a Lattice}{27}{chapter.2}%
+\contentsline {chapter}{\chapternumberline {3}Hyperbolic Shortcuts: How Pythagoras Learned to Factor}{49}{chapter.3}%
+\contentsline {chapter}{\chapternumberline {4}Three Roads from Pythagoras}{77}{chapter.4}%
+\contentsline {chapter}{\chapternumberline {5}The Tree That Knew It Was a Spacetime}{99}{chapter.5}%
+\contentsline {chapter}{\chapternumberline {6}The Lock with Seven Keyholes}{123}{chapter.6}%
+\contentsline {chapter}{\chapternumberline {7}The One-Way Corridor}{149}{chapter.7}%
+\contentsline {chapter}{\chapternumberline {8}The Price of Descent}{167}{chapter.8}%
+\contentsline {chapter}{\chapternumberline {9}The Four-Rung Ladder: A Journey Through the Doubling Algebras}{191}{chapter.9}%
+\contentsline {chapter}{\chapternumberline {10}The Margin That Shook the World}{213}{chapter.10}%
+\contentsline {chapter}{\chapternumberline {11}The Magnificent Sieve}{237}{chapter.11}%
+\contentsline {chapter}{\chapternumberline {12}The Fourth Dimension of Pythagoras: How Quadruples Crack Numbers}{263}{chapter.12}%
+\contentsline {chapter}{\chapternumberline {13}The GCD Cascade: Cracking Numbers Open with Pythagorean Channels}{281}{chapter.13}%
+\contentsline {chapter}{\chapternumberline {14}The Tree That Cracks Numbers}{299}{chapter.14}%
+\contentsline {chapter}{\chapternumberline {15}The Algebra Where Two Plus Three Equals Two: Tropical Geometry and the Shortest-Path Semiring}{321}{chapter.15}%
+\contentsline {chapter}{\chapternumberline {16}The Relativistic Secret of Right Triangles}{335}{chapter.16}%
+\contentsline {chapter}{Conclusion: The Rosetta Stone}{357}{chapter*.190}%
+\contentsline {appendix}{\chapternumberline {A}Lean\,4 Formal Proofs}{365}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Berggren--Lorentz Correspondence}{365}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Lattice--Tree Correspondence}{372}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Hyperbolic Shortcuts and Factoring}{375}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Three Roads from Pythagoras}{383}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Berggren--Lorentz Paper Proofs}{387}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Higher $k$-Tuple Factoring}{392}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Quantum Grover Tree Factoring}{405}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Complexity Bounds}{408}{section.A.8}%
+\contentsline {section}{\numberline {A.9}Cayley--Dickson Hierarchy}{410}{section.A.9}%
+\contentsline {section}{\numberline {A.10}Fermat's Last Theorem}{414}{section.A.10}%
+\contentsline {section}{\numberline {A.11}Congruence of Squares Factoring}{420}{section.A.11}%
+\contentsline {section}{\numberline {A.12}Quadruple Factor Theory}{424}{section.A.12}%
+\contentsline {section}{\numberline {A.13}GCD Cascade Factor Extraction}{429}{section.A.13}%
+\contentsline {section}{\numberline {A.14}Pythagorean Tree Factoring Core}{438}{section.A.14}%
+\contentsline {section}{\numberline {A.15}Tropical Geometry Foundations}{442}{section.A.15}%
+\contentsline {section}{\numberline {A.16}Lorentz Group Structure}{443}{section.A.16}%
+\contentsline {chapter}{Index}{447}{section*.196}%

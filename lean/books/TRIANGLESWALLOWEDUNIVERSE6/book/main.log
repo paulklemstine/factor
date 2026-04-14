@@ -1,0 +1,3541 @@
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2025/dev/Debian) (preloaded format=xelatex 2026.4.14)  14 APR 2026 19:36
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main.tex
+(./main.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(/usr/share/texlive/texmf-dist/tex/latex/memoir/memoir.cls
+Document Class: memoir 2025/03/06 v3.8.3 configurable book, report, article doc
+ument class
+(/usr/share/texlive/texmf-dist/tex/latex/xpatch/xpatch.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2025-01-18 L3 programming layer (loader) 
+
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
+\g__graphics_track_int=\count192
+\l__pdf_internal_box=\box52
+\g__pdf_backend_annotation_int=\count193
+\g__pdf_backend_link_int=\count194
+))
+Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
+
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2024-08-16 L3 Experimental document command parser
+)
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count195
+))
+\onelineskip=\skip49
+\lxvchars=\skip50
+\xlvchars=\skip51
+\@memcnta=\count196
+\c@@memmarkcntra=\count197
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+\trimtop=\skip52
+\trimedge=\skip53
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 76
+7.
+
+(/usr/share/texmf/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+(/usr/share/texlive/texmf-dist/tex/latex/memoir/mem11.clo
+File: mem11.clo 2022/07/29 v0.5 memoir class 11pt size option
+)
+(/usr/share/texmf/tex/latex/lm/lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+\binding=\skip54
+\spinemargin=\skip55
+\foremargin=\skip56
+\uppermargin=\skip57
+\lowermargin=\skip58
+\headdrop=\skip59
+\normalrulethickness=\skip60
+\mem@maxheadheight=\skip61
+\mem@maxfootheight=\skip62
+\headwidth=\skip63
+\c@storedpagenumber=\count198
+\memPD=\dimen141
+\m@mabparskip=\skip64
+\thanksmarkwidth=\skip65
+\thanksmarksep=\skip66
+\droptitle=\skip67
+\c@book=\count199
+\c@part=\count266
+\c@chapter=\count267
+\c@section=\count268
+\c@subsection=\count269
+\c@subsubsection=\count270
+\c@paragraph=\count271
+\c@subparagraph=\count272
+\beforechapskip=\skip68
+\midchapskip=\skip69
+\afterchapskip=\skip70
+\chapindent=\skip71
+\bottomsectionskip=\skip72
+\secindent=\skip73
+\beforesecskip=\skip74
+\aftersecskip=\skip75
+\subsecindent=\skip76
+\beforesubsecskip=\skip77
+\aftersubsecskip=\skip78
+\subsubsecindent=\skip79
+\beforesubsubsecskip=\skip80
+\aftersubsubsecskip=\skip81
+\paraindent=\skip82
+\beforeparaskip=\skip83
+\afterparaskip=\skip84
+\subparaindent=\skip85
+\beforesubparaskip=\skip86
+\aftersubparaskip=\skip87
+\pfbreakskip=\skip88
+\c@@ppsavesec=\count273
+\c@@ppsaveapp=\count274
+\ragrparindent=\dimen142
+\everylistparindent=\dimen143
+\parsepi=\skip89
+\topsepi=\skip90
+\itemsepi=\skip91
+\parsepii=\skip92
+\topsepii=\skip93
+\topsepiii=\skip94
+\itemsepii=\skip95
+\itemsepiii=\skip96
+\partopsepii=\skip97
+\partopsepiii=\skip98
+\m@msavetopsep=\skip99
+\m@msavepartopsep=\skip100
+\@enLab=\toks17
+\abstitleskip=\skip101
+\absleftindent=\skip102
+\abs@leftindent=\dimen144
+\absrightindent=\skip103
+\absparindent=\skip104
+\absparsep=\skip105
+\c@vslineno=\count275
+\c@poemline=\count276
+\c@modulo@vs=\count277
+\c@memfvsline=\count278
+\vleftskip=\skip106
+\vrightskip=\skip107
+\stanzaskip=\skip108
+\versewidth=\skip109
+\vgap=\skip110
+\vindent=\skip111
+\vleftmargin=\dimen145
+\c@verse=\count279
+\c@chrsinstr=\count280
+\beforepoemtitleskip=\skip112
+\afterpoemtitleskip=\skip113
+\c@poem=\count281
+\beforePoemTitleskip=\skip114
+\midPoemTitleskip=\skip115
+\afterPoemTitleskip=\skip116
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
+\col@sep=\dimen146
+\ar@mcellbox=\box53
+\extrarowheight=\dimen147
+\NC@list=\toks18
+\extratabsurround=\skip117
+\backup@length=\skip118
+\ar@cellbox=\box54
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/dcolumn.sty
+Package: dcolumn 2023/07/08 v1.06 decimal alignment package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/delarray.sty
+Package: delarray 2014/10/28 v1.01 array delimiter package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+\TX@col@width=\dimen148
+\TX@old@table=\dimen149
+\TX@old@col=\dimen150
+\TX@target=\dimen151
+\TX@delta=\dimen152
+\TX@cols=\count282
+\TX@ftn=\toks19
+)
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen153
+\lightrulewidth=\dimen154
+\cmidrulewidth=\dimen155
+\belowrulesep=\dimen156
+\belowbottomsep=\dimen157
+\aboverulesep=\dimen158
+\abovetopsep=\dimen159
+\cmidrulesep=\dimen160
+\cmidrulekern=\dimen161
+\defaultaddspace=\dimen162
+\@cmidla=\count283
+\@cmidlb=\count284
+\@aboverulesep=\dimen163
+\@belowrulesep=\dimen164
+\@thisruleclass=\count285
+\@lastruleclass=\count286
+\@thisrulewidth=\dimen165
+)
+\ctableftskip=\skip119
+\ctabrightskip=\skip120
+\abovecolumnspenalty=\count287
+\@linestogo=\count288
+\@cellstogo=\count289
+\@cellsincolumn=\count290
+\crtok=\toks20
+\@mincolumnwidth=\dimen166
+\c@newflo@tctr=\count291
+\mem@margin@floatbox=\box55
+\@contcwidth=\skip121
+\@contindw=\skip122
+\abovecaptionskip=\skip123
+\belowcaptionskip=\skip124
+\subfloattopskip=\skip125
+\subfloatcapskip=\skip126
+\subfloatcaptopadj=\skip127
+\subfloatbottomskip=\skip128
+\subfloatlabelskip=\skip129
+\subfloatcapmargin=\dimen167
+\c@@contsubnum=\count292
+\m@mscap@capbox=\box56
+\m@mscap@fbox=\box57
+\sidecapsep=\dimen168
+\sidecapwidth=\dimen169
+\m@m@tempdima=\dimen170
+\m@mscapraise=\dimen171
+\sidecapraise=\dimen172
+\m@mscapmainwidth=\dimen173
+\m@mscaplkern=\dimen174
+\beforeepigraphskip=\skip130
+\afterepigraphskip=\skip131
+\epigraphwidth=\skip132
+\epigraphrule=\skip133
+LaTeX Info: Redefining \em on input line 7017.
+LaTeX Info: Redefining \emph on input line 7025.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks21
+)
+(/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)))
+\c@section@level=\count293
+)
+\tocentryskip=\skip134
+\tocbaseline=\skip135
+\cftparskip=\skip136
+\cftbeforebookskip=\skip137
+\cftbookindent=\dimen175
+\cftbooknumwidth=\dimen176
+\cftbeforepartskip=\skip138
+\cftpartindent=\skip139
+\cftpartnumwidth=\skip140
+\cftbeforechapterskip=\skip141
+\cftchapterindent=\skip142
+\cftchapternumwidth=\skip143
+\cftbeforesectionskip=\skip144
+\cftsectionindent=\skip145
+\cftsectionnumwidth=\skip146
+\cftbeforesubsectionskip=\skip147
+\cftsubsectionindent=\skip148
+\cftsubsectionnumwidth=\skip149
+\cftbeforesubsubsectionskip=\skip150
+\cftsubsubsectionindent=\skip151
+\cftsubsubsectionnumwidth=\skip152
+\cftbeforeparagraphskip=\skip153
+\cftparagraphindent=\skip154
+\cftparagraphnumwidth=\skip155
+\cftbeforesubparagraphskip=\skip156
+\cftsubparagraphindent=\skip157
+\cftsubparagraphnumwidth=\skip158
+\prechapterprecisshift=\dimen177
+\c@maxsecnumdepth=\count294
+\bibindent=\dimen178
+\bibitemsep=\skip159
+\indexcolsep=\skip160
+\indexrule=\skip161
+\indexmarkstyle=\toks22
+\@indexbox=\insert252
+LaTeX Info: Redefining \raggedbottom on input line 8107.
+LaTeX Info: Redefining \flushbottom on input line 8111.
+\glossarycolsep=\dimen179
+\glossaryrule=\dimen180
+\sideparvshift=\skip162
+\sideins=\insert251
+\sidebartopsep=\skip163
+\sidebarhsep=\skip164
+\sidebarvsep=\skip165
+\sidebarwidth=\skip166
+\footmarkwidth=\skip167
+\footmarksep=\skip168
+\footparindent=\skip169
+\footinsdim=\skip170
+\footinsv@r=\insert250
+\@mpfootinsv@r=\insert249
+\m@m@k=\count295
+\m@m@h=\dimen181
+\m@mipn@skip=\skip171
+\sidefootins=\insert248
+\sidefootadjust=\skip172
+\sidefootheight=\skip173
+\sidefoothsep=\skip174
+\sidefootvsep=\skip175
+\sidefootwidth=\skip176
+\m@mdownsf=\skip177
+\c@sidefootnote=\count296
+\sidefootmarkwidth=\skip178
+\sidefootmarksep=\skip179
+\sidefootparindent=\skip180
+\c@pagenote=\count297
+\c@pagenoteshadow=\count298
+\mem@pn@lastkern=\skip181
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks23
+\verbatim@line=\toks24
+\verbatim@in@stream=\read2
+)
+\verbatimindent=\skip182
+\verbatim@out=\write3
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/shortvrb.sty
+Package: shortvrb 2024/10/23 v3.0q Standard LaTeX documentation package V3 (FMi
+)
+)
+\bvboxsep=\skip183
+\c@memfbvline=\count299
+\c@bvlinectr=\count300
+\bvnumlength=\skip184
+\fb@frw=\dimen182
+\fb@frh=\dimen183
+\FrameRule=\dimen184
+\FrameSep=\dimen185
+\c@cp@cntr=\count301
+\c@ism@mctr=\count302
+\c@xsm@mctr=\count303
+\c@csm@mctr=\count304
+\c@ksm@mctr=\count305
+\c@xksm@mctr=\count306
+\c@cksm@mctr=\count307
+\c@msm@mctr=\count308
+\c@xmsm@mctr=\count309
+\c@cmsm@mctr=\count310
+\c@bsm@mctr=\count311
+\c@workm@mctr=\count312
+\c@sheetsequence=\count313
+\c@lastsheet=\count314
+\c@lastpage=\count315
+
+(/usr/share/texlive/texmf-dist/tex/latex/textcase/textcase.sty
+Package: textcase 2025/02/16 v1.05 Text only upper/lower case changing (DPC)
+Package textcase Info: Defining Legacy names on input line 20.
+)
+\c@figure=\count316
+\c@lofdepth=\count317
+\cftbeforefigureskip=\skip185
+\cftfigureindent=\skip186
+\cftfigurenumwidth=\skip187
+\c@table=\count318
+\c@lotdepth=\count319
+\cftbeforetableskip=\skip188
+\cfttableindent=\skip189
+\cfttablenumwidth=\skip190
+Package abstract [2008/07/23] emulated by memoir.
+Package appendix [2008/07/23] emulated by memoir.
+Package ccaption [2008/07/23] emulated by memoir.
+Package changepage [2008/07/23] emulated by memoir.
+Package chngcntr [2008/07/23] emulated by memoir.
+Package chngpage [2008/07/23] emulated by memoir.
+Package crop emulated by memoir.
+Package enumerate [2008/07/23] emulated by memoir.
+Package epigraph [2008/07/23] emulated by memoir.
+Package ifmtarg [2008/07/23] emulated by memoir.
+Package index [2008/07/23] emulated by memoir.
+Package makeidx [2008/07/23] emulated by memoir.
+Package moreverb [2008/07/23] emulated by memoir.
+Package needspace [2008/07/23] emulated by memoir.
+Package newfile [2008/07/23] emulated by memoir.
+Package nextpage [2008/07/23] emulated by memoir.
+Package pagenote [2008/07/23] emulated by memoir.
+Package parskip [2008/07/23] emulated by memoir.
+Package patchcmd [2008/07/23] emulated by memoir.
+Package setspace [2008/07/23] emulated by memoir.
+Package showidx [2008/07/23] emulated by memoir.
+Package titleref [2008/07/23] emulated by memoir.
+Package titling [2008/07/23] emulated by memoir.
+Package tocbibind [2008/07/23] emulated by memoir.
+Package tocloft [2008/07/23] emulated by memoir.
+Package tocvsec2 [2008/07/23] emulated by memoir.
+Package verse [2008/07/23] emulated by memoir.
+)
+
+******************************************************
+Stock height and width: 722.7pt by 578.15999pt
+Top and edge trims: 0pt and 0pt
+Page height and width: 722.7pt by 578.15999pt
+Text height and width: 555.00024pt by 419pt
+Spine and edge margins: 86.72377pt and 72.26999pt
+Upper and lower margins: 79.49744pt and 88.20232pt
+Headheight and headsep: 28.90755pt and 19.8738pt
+Footskip: 36.135pt
+Columnsep and columnseprule: 10pt and 0pt
+Marginparsep and marginparwidth: 7pt and 58.26999pt
+Sidecapsep and sidecapwidth: 7pt and 111pt
+Sidebarhsep and sidebarwidth: 7pt and 111pt
+Sidebarvsep and sidebartopsep: 13.6pt and 0pt
+Sidebarheight: 539.9202pt
+Sidefoothsep and sidefootwidth: 7pt and 111pt
+Sidefootvsep and sidefootheight: 13.6pt and 539.9202pt
+******************************************************
+
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
+Package: fontspec 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+Package: fontspec-xetex 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTe
+X
+\l__fontspec_script_int=\count320
+\l__fontspec_language_int=\count321
+\l__fontspec_strnum_int=\count322
+\l__fontspec_tmp_int=\count323
+\l__fontspec_tmpa_int=\count324
+\l__fontspec_tmpb_int=\count325
+\l__fontspec_tmpc_int=\count326
+\l__fontspec_em_int=\count327
+\l__fontspec_emdef_int=\count328
+\l__fontspec_strong_int=\count329
+\l__fontspec_strongdef_int=\count330
+\l__fontspec_tmpa_dim=\dimen186
+\l__fontspec_tmpb_dim=\dimen187
+\l__fontspec_tmpc_dim=\dimen188
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+
+Package fontspec Info: 
+(fontspec)             Font family 'LatinModernRoman(0)' created for font
+(fontspec)             'Latin Modern Roman' with options
+(fontspec)             [Ligatures=TeX,SmallCapsFont={Latin Modern Roman
+(fontspec)             Caps}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Latin Modern
+(fontspec)             Roman/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: <->"Latin
+(fontspec)             Modern Roman
+(fontspec)             Caps/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Latin Modern
+(fontspec)             Roman/B/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: <->"Latin
+(fontspec)             Modern Roman
+(fontspec)             Caps/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"Latin Modern
+(fontspec)             Roman/I/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->"Latin Modern Roman
+(fontspec)             Caps/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Latin
+(fontspec)             Modern
+(fontspec)             Roman/BI/OT:script=latn;language=dflt;mapping=tex-text;"
+
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->"Latin Modern Roman
+(fontspec)             Caps/OT:script=latn;language=dflt;mapping=tex-text;"
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'LatinModernSans(0)' created for font
+(fontspec)             'Latin Modern Sans' with options [Ligatures=TeX].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Latin Modern
+(fontspec)             Sans/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Latin Modern
+(fontspec)             Sans/B/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"Latin Modern
+(fontspec)             Sans/I/OT:script=latn;language=dflt;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Latin
+(fontspec)             Modern
+(fontspec)             Sans/BI/OT:script=latn;language=dflt;mapping=tex-text;"
+
+
+Package fontspec Info: 
+(fontspec)             Latin Modern Mono scale = 0.9.
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "Latin Modern Mono/B" (it
+(fontspec)             probably doesn't exist).
+
+
+Package fontspec Info: 
+(fontspec)             Latin Modern Mono scale = 0.9.
+
+
+Package fontspec Info: 
+(fontspec)             Latin Modern Mono/I scale = 0.9.
+
+
+Package fontspec Info: 
+(fontspec)             Latin Modern Mono/BI scale = 0.9.
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'LatinModernMono(0)' created for font
+(fontspec)             'Latin Modern Mono' with options
+(fontspec)             [WordSpace={1,0,0},HyphenChar=None,PunctuationSpace=Word
+Space,Scale=0.9].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->s*[0.9]"Latin
+(fontspec)             Modern Mono/OT:script=latn;language=dflt;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.: <->s*[0.9]"Latin
+(fontspec)             Modern Mono/I/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->s*[0.9]"Latin Modern
+(fontspec)             Mono/BI/OT:script=latn;language=dflt;"
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
+\MT@toks=\toks25
+\MT@tempbox=\box58
+\MT@count=\count331
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
+LaTeX Info: Redefining \leftprotrusion on input line 1088.
+\MT@prot@toks=\toks26
+LaTeX Info: Redefining \rightprotrusion on input line 1107.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen189
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count332
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-xetex.def
+File: microtype-xetex.def 2025/02/11 v3.2a Definitions specific to xetex (RS)
+LaTeX Info: Redefining \lsstyle on input line 443.
+LaTeX Info: Redefining \lslig on input line 451.
+\MT@outer@space=\skip191
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2025/02/11 v3.2a microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip192
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks27
+\ex@=\dimen190
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen191
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count333
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count334
+\leftroot@=\count335
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count336
+\DOTSCASE@=\count337
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box59
+\strutbox@=\box60
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen192
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count338
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count339
+\dotsspace@=\muskip17
+\c@parentequation=\count340
+\dspbrk@lvl=\count341
+\tag@help=\toks28
+\row@=\count342
+\column@=\count343
+\maxfields@=\count344
+\andhelp@=\toks29
+\eqnshift@=\dimen193
+\alignsep@=\dimen194
+\tagshift@=\dimen195
+\tagwidth@=\dimen196
+\totwidth@=\dimen197
+\lineht@=\dimen198
+\@envbody=\toks30
+\multlinegap=\skip193
+\multlinetaggap=\skip194
+\mathdisplay@stack=\toks31
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks32
+\thm@bodyfont=\toks33
+\thm@headfont=\toks34
+\thm@notefont=\toks35
+\thm@headpunct=\toks36
+\thm@preskip=\skip195
+\thm@postskip=\skip196
+\thm@headsep=\skip197
+\dth@everypar=\toks37
+)
+(/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2024/10/04 v1.31 mathematical typesetting tools
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count345
+\calc@Bcount=\count346
+\calc@Adimen=\dimen199
+\calc@Bdimen=\dimen256
+\calc@Askip=\skip198
+\calc@Bskip=\skip199
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count347
+\calc@Cskip=\skip256
+)
+(/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+)
+\g_MT_multlinerow_int=\count348
+\l_MT_multwidth_dim=\dimen257
+\origjot=\skip257
+\l_MT_shortvdotswithinadjustabove_dim=\dimen258
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen259
+\l_MT_above_intertext_sep=\dimen260
+\l_MT_below_intertext_sep=\dimen261
+\l_MT_above_shortintertext_sep=\dimen262
+\l_MT_below_shortintertext_sep=\dimen263
+\xmathstrut@box=\box61
+\xmathstrut@dim=\dimen264
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: xetex.def on input line 106.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def
+File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
+))
+\Gin@req@height=\dimen265
+\Gin@req@width=\dimen266
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: xetex.def on input line 274.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/svgnam.def
+File: svgnam.def 2024/09/29 v3.02 Predefined colors according to SVG 1.1 (UK)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/x11nam.def
+File: x11nam.def 2024/09/29 v3.02 Predefined colors according to Unix/X11 (UK)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2024-10-27 v4.22 Multi-page Table package (DPC)
+\LTleft=\skip258
+\LTright=\skip259
+\LTpre=\skip260
+\LTpost=\skip261
+\LTchunksize=\count349
+\LTcapwidth=\dimen267
+\LT@head=\box62
+\LT@firsthead=\box63
+\LT@foot=\box64
+\LT@lastfoot=\box65
+\LT@gbox=\box66
+\LT@cols=\count350
+\LT@rows=\count351
+\c@LT@tables=\count352
+\c@LT@chunks=\count353
+\LT@p@ftn=\toks38
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count354
+\lst@gtempboxa=\box67
+\lst@token=\toks39
+\lst@length=\count355
+\lst@currlwidth=\dimen268
+\lst@column=\count356
+\lst@pos=\count357
+\lst@lostspace=\dimen269
+\lst@width=\dimen270
+\lst@newlines=\count358
+\lst@lineno=\count359
+\lst@maxwidth=\dimen271
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count360
+\lst@skipnumbers=\count361
+\lst@framebox=\box68
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
+))
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+\main@idxfile=\write4
+\openout4 = `main.idx'.
+
+
+Writing index file main.idx 
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode not found.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen272
+\Hy@linkcounter=\count362
+\Hy@pagecounter=\count363
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count364
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 4040.
+Package hyperref Info: Hyper figures OFF on input line 4157.
+Package hyperref Info: Link nesting OFF on input line 4162.
+Package hyperref Info: Hyper index ON on input line 4165.
+Package hyperref Info: Plain pages OFF on input line 4172.
+Package hyperref Info: Backreferencing OFF on input line 4177.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4424.
+\c@Hy@tempcnt=\count365
+
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen273
+
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count366
+\Field@Width=\dimen274
+\Fld@charsize=\dimen275
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring ON on input line 6060.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count367
+\c@Item=\count368
+\c@Hfootnote=\count369
+)
+Package hyperref Info: Driver (autodetected): hxetex.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+File: hxetex.def 2024-11-05 v7.01l Hyperref driver for XeTeX
+\pdfm@box=\box69
+\c@Hy@AnnotLevel=\count370
+\HyField@AnnotCount=\count371
+\Fld@listcount=\count372
+\c@bookmark@seq@number=\count373
+
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip262
+)
+(/usr/share/texlive/texmf-dist/tex/latex/memoir/memhfixc.sty
+Package: memhfixc 2025/03/06 v1.23 hyperref package fixes for memoir class
+\c@memhycontfloat=\count374
+\c@mem@Hpagenote=\count375
+)
+(/usr/share/texlive/texmf-dist/tex/latex/lettrine/lettrine.sty
+File: lettrine.sty 2025-01-30 v2.80 (Daniel Flipo)
+
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xfp/xfp.sty
+Package: xfp 2024-08-16 L3 Floating point unit
+)
+\c@DefaultLines=\count376
+\c@DefaultDepth=\count377
+\DefaultFindent=\dimen276
+\DefaultNindent=\dimen277
+\DefaultSlope=\dimen278
+\DiscardVskip=\dimen279
+\L@lettrine=\box70
+\L@lbox=\box71
+\L@tbox=\box72
+\c@L@lines=\count378
+\c@L@depth=\count379
+\L@Pindent=\dimen280
+\L@Findent=\dimen281
+\L@Nindent=\dimen282
+\L@lraise=\dimen283
+\L@first=\dimen284
+\L@next=\dimen285
+\L@slope=\dimen286
+\L@height=\dimen287
+\L@novskip=\dimen288
+\L@target@ht=\dimen289
+\L@target@dp=\dimen290
+\L@target@tht=\dimen291
+\LettrineWidth=\dimen292
+\LettrineHeight=\dimen293
+\LettrineDepth=\dimen294
+\L@finalht=\dimen295
+\L@finaldp=\dimen296
+
+Loading lettrine.cfg
+(/usr/share/texlive/texmf-dist/tex/latex/lettrine/lettrine.cfg)
+\Lettrine@tweaks=\toks40
+\Llist@everypar=\toks41
+) (./main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Info: Redefining \microtypecontext on input line 152.
+Package microtype Info: Applying patch `item' on input line 152.
+Package microtype Info: Applying patch `toc' on input line 152.
+Package microtype Info: Applying patch `eqnum' on input line 152.
+Package microtype Info: Applying patch `footnote' on input line 152.
+Package microtype Info: Applying patch `verbatim' on input line 152.
+LaTeX Info: Redefining \microtypesetup on input line 152.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of spacing.
+Package microtype Info: No adjustment of kerning.
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-LatinModernRoman.cfg
+File: mt-LatinModernRoman.cfg 2021/02/21 v1.1 microtype config. file: Latin Mod
+ern Roman (RS)
+)
+\c@lstlisting=\count380
+Package hyperref Info: Link coloring ON on input line 152.
+
+(./main.out) (./main.out)
+\@outlinefile=\write5
+\openout5 = `main.out'.
+
+
+
+[1
+
+]
+
+[2
+
+]
+
+[3]
+
+[4
+
+]
+
+[5]
+
+[6
+
+]
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
+01.
+ (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmr' (encoding: OT1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+01.
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+201.
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+201.
+
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 201.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 201.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 201.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 201
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 201
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+File: ../ISBN/978-1-105-41110-6.png Graphic file (type bmp)
+<../ISBN/978-1-105-41110-6.png>
+
+
+[7]
+
+[8
+
+]
+
+[9]
+
+[10
+
+] (./main.toc
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 1.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 1.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 1.
+
+Overfull \hbox (1.91623pt too wide) detected at line 7
+ \TU/LatinModernRoman(0)/b/n/10.95 123
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 8
+ \TU/LatinModernRoman(0)/b/n/10.95 149
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 9
+ \TU/LatinModernRoman(0)/b/n/10.95 167
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 10
+ \TU/LatinModernRoman(0)/b/n/10.95 191
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 11
+ \TU/LatinModernRoman(0)/b/n/10.95 213
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 12
+ \TU/LatinModernRoman(0)/b/n/10.95 237
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 13
+ \TU/LatinModernRoman(0)/b/n/10.95 263
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 14
+ \TU/LatinModernRoman(0)/b/n/10.95 281
+ []
+
+
+Overfull \hbox (2.40015pt too wide) in paragraph at lines 14--14
+ [][] [][][]\TU/LatinModernRoman(0)/b/n/10.95 The GCD Cascade: Cracking Numbers
+ Open with Pythagorean Chan- 
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 15
+ \TU/LatinModernRoman(0)/b/n/10.95 299
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 16
+ \TU/LatinModernRoman(0)/b/n/10.95 321
+ []
+
+
+
+[1
+
+]
+Overfull \hbox (1.91623pt too wide) detected at line 17
+ \TU/LatinModernRoman(0)/b/n/10.95 335
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 18
+ \TU/LatinModernRoman(0)/b/n/10.95 357
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 19
+ \TU/LatinModernRoman(0)/b/n/10.95 365
+ []
+
+
+Overfull \hbox (1.91623pt too wide) detected at line 36
+ \TU/LatinModernRoman(0)/b/n/10.95 447
+ []
+
+)
+
+[2] (./ch_introduction.tex
+File: ../Introduction/images/fig01_pythagorean_squares.png Graphic file (type b
+mp)
+<../Introduction/images/fig01_pythagorean_squares.png>
+File: ../Introduction/images/fig02_primitive_triples_table.png Graphic file (ty
+pe bmp)
+<../Introduction/images/fig02_primitive_triples_table.png>
+
+
+[1
+
+
+
+]
+
+[2]
+File: ../Introduction/images/fig03_bathroom_scene.png Graphic file (type bmp)
+<../Introduction/images/fig03_bathroom_scene.png>
+
+Overfull \hbox (20.86516pt too wide) detected at line 80
+\OML/lmm/m/it/10.95 a[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/it/10.95 b[] \OT1/lmr/m
+/n/10.95 = (\OML/lmm/m/it/10.95 m[] \OMS/lmsy/m/n/10.95 ^^@ \OML/lmm/m/it/10.95
+ n[]\OT1/lmr/m/n/10.95 )[] + (2\OML/lmm/m/it/10.95 mn\OT1/lmr/m/n/10.95 )[] = \
+OML/lmm/m/it/10.95 m[] \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 2\OML/lmm/m/i
+t/10.95 m[]n[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/it/10.95 n[] \OT1/lmr/m/n/10.95 
++ 4\OML/lmm/m/it/10.95 m[]n[] \OT1/lmr/m/n/10.95 = \OML/lmm/m/it/10.95 m[] \OT1
+/lmr/m/n/10.95 + 2\OML/lmm/m/it/10.95 m[]n[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/it
+/10.95 n[] \OT1/lmr/m/n/10.95 = (\OML/lmm/m/it/10.95 m[] \OT1/lmr/m/n/10.95 + \
+OML/lmm/m/it/10.95 n[]\OT1/lmr/m/n/10.95 )[] = \OML/lmm/m/it/10.95 c[]:
+ []
+
+
+
+[3]
+
+[4]
+
+[5]
+
+[6])
+
+[7]
+
+[8
+
+] (./ch_01.tex
+File: ../Chapter1/images/fig01_rope_triangle.png Graphic file (type bmp)
+<../Chapter1/images/fig01_rope_triangle.png>
+File: ../Chapter1/images/fig02_null_cone.png Graphic file (type bmp)
+<../Chapter1/images/fig02_null_cone.png>
+
+
+[9
+
+]
+
+[10]
+Underfull \vbox (badness 1859) has occurred while \output is active []
+
+
+
+[11]
+File: ../Chapter1/images/fig03_magic_mirrors.png Graphic file (type bmp)
+<../Chapter1/images/fig03_magic_mirrors.png>
+File: ../Chapter1/images/fig04_matrix_vector.png Graphic file (type bmp)
+<../Chapter1/images/fig04_matrix_vector.png>
+
+
+[12]
+File: ../Chapter1/images/fig05_berggren_tree.png Graphic file (type bmp)
+<../Chapter1/images/fig05_berggren_tree.png>
+File: ../Chapter1/images/fig06_descent_maze.png Graphic file (type bmp)
+<../Chapter1/images/fig06_descent_maze.png>
+
+
+[13]
+
+[14]
+
+[15]
+File: ../Chapter1/images/fig07_factoring_trick.png Graphic file (type bmp)
+<../Chapter1/images/fig07_factoring_trick.png>
+File: ../Chapter1/images/fig08_gnomon.png Graphic file (type bmp)
+<../Chapter1/images/fig08_gnomon.png>
+
+
+[16]
+File: ../Chapter1/images/fig09_b_branch.png Graphic file (type bmp)
+<../Chapter1/images/fig09_b_branch.png>
+File: ../Chapter1/images/fig10_euclid_grid.png Graphic file (type bmp)
+<../Chapter1/images/fig10_euclid_grid.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[17]
+
+[18]
+
+[19]
+File: ../Chapter1/images/fig11_poincare_disk.png Graphic file (type bmp)
+<../Chapter1/images/fig11_poincare_disk.png>
+File: ../Chapter1/images/fig12_light_cones.png Graphic file (type bmp)
+<../Chapter1/images/fig12_light_cones.png>
+
+
+[20]
+File: ../Chapter1/images/fig13_wonder_map.png Graphic file (type bmp)
+<../Chapter1/images/fig13_wonder_map.png>
+
+
+[21]
+
+[22]
+
+[23]
+
+[24])
+
+[25]
+
+[26
+
+] (./ch_02.tex
+File: ../Chapter2/images/fig01_factory_tree.png Graphic file (type bmp)
+<../Chapter2/images/fig01_factory_tree.png>
+File: ../Chapter2/images/fig02_lattice_shear.png Graphic file (type bmp)
+<../Chapter2/images/fig02_lattice_shear.png>
+File: ../Chapter2/images/fig03_euclid_staircase.png Graphic file (type bmp)
+<../Chapter2/images/fig03_euclid_staircase.png>
+File: ../Chapter2/images/fig04_tree_vs_euclid.png Graphic file (type bmp)
+<../Chapter2/images/fig04_tree_vs_euclid.png>
+
+
+[27
+
+]
+
+[28]
+
+[29]
+
+[30]
+File: ../Chapter2/images/fig05_complexity_graph.png Graphic file (type bmp)
+<../Chapter2/images/fig05_complexity_graph.png>
+File: ../Chapter2/images/fig06_gauss_reduction.png Graphic file (type bmp)
+<../Chapter2/images/fig06_gauss_reduction.png>
+
+
+[31]
+
+[32]
+File: ../Chapter2/images/fig07_2d_barrier.png Graphic file (type bmp)
+<../Chapter2/images/fig07_2d_barrier.png>
+File: ../Chapter2/images/fig08_lll_bargain.png Graphic file (type bmp)
+<../Chapter2/images/fig08_lll_bargain.png>
+
+
+[33]
+
+[34]
+
+[35]
+File: ../Chapter2/images/fig09_quadruple_lattice.png Graphic file (type bmp)
+<../Chapter2/images/fig09_quadruple_lattice.png>
+File: ../Chapter2/images/fig10_concept_map.png Graphic file (type bmp)
+<../Chapter2/images/fig10_concept_map.png>
+
+
+[36]
+
+[37]
+
+[38]
+
+[39]
+
+[40]
+
+[41]
+
+[42]
+
+[43]
+
+[44]
+
+[45]
+
+[46])
+
+[47]
+
+[48
+
+] (./ch_03.tex
+File: ../Chapter3/images/fig01_broken_square.png Graphic file (type bmp)
+<../Chapter3/images/fig01_broken_square.png>
+File: ../Chapter3/images/fig02_factor_table.png Graphic file (type bmp)
+<../Chapter3/images/fig02_factor_table.png>
+File: ../Chapter3/images/fig03_berggren_tree.png Graphic file (type bmp)
+<../Chapter3/images/fig03_berggren_tree.png>
+File: ../Chapter3/images/fig04_matrix_multiply.png Graphic file (type bmp)
+<../Chapter3/images/fig04_matrix_multiply.png>
+
+
+[49
+
+]
+
+[50]
+
+[51]
+
+[52]
+File: ../Chapter3/images/fig05_light_cone.png Graphic file (type bmp)
+<../Chapter3/images/fig05_light_cone.png>
+File: ../Chapter3/images/fig06_photon_blackboard.png Graphic file (type bmp)
+<../Chapter3/images/fig06_photon_blackboard.png>
+
+
+[53]
+Underfull \vbox (badness 2119) has occurred while \output is active []
+
+
+
+[54]
+
+[55]
+File: ../Chapter3/images/fig07_q_meter.png Graphic file (type bmp)
+<../Chapter3/images/fig07_q_meter.png>
+File: ../Chapter3/images/fig08_subway_map.png Graphic file (type bmp)
+<../Chapter3/images/fig08_subway_map.png>
+
+
+[56]
+
+[57]
+File: ../Chapter3/images/fig09_wormhole.png Graphic file (type bmp)
+<../Chapter3/images/fig09_wormhole.png>
+File: ../Chapter3/images/fig10_elevator.png Graphic file (type bmp)
+<../Chapter3/images/fig10_elevator.png>
+
+
+[58]
+
+[59]
+File: ../Chapter3/images/fig11_lorentz_adjoint.png Graphic file (type bmp)
+<../Chapter3/images/fig11_lorentz_adjoint.png>
+File: ../Chapter3/images/fig12_hypotenuse_bars.png Graphic file (type bmp)
+<../Chapter3/images/fig12_hypotenuse_bars.png>
+
+
+[60]
+
+[61]
+
+[62]
+File: ../Chapter3/images/fig13_chebyshev_line.png Graphic file (type bmp)
+<../Chapter3/images/fig13_chebyshev_line.png>
+File: ../Chapter3/images/fig14_three_subtrees.png Graphic file (type bmp)
+<../Chapter3/images/fig14_three_subtrees.png>
+
+
+[63]
+
+[64]
+File: ../Chapter3/images/fig15_factoring_flowchart.png Graphic file (type bmp)
+<../Chapter3/images/fig15_factoring_flowchart.png>
+
+
+LaTeX Warning: Float too large for page by 42.19922pt on input line 403.
+
+File: ../Chapter3/images/fig16_worked_example.png Graphic file (type bmp)
+<../Chapter3/images/fig16_worked_example.png>
+
+
+[65]
+
+[66]
+
+[67]
+
+[68]
+File: ../Chapter3/images/fig17_concept_map.png Graphic file (type bmp)
+<../Chapter3/images/fig17_concept_map.png>
+
+
+[69]
+
+[70]
+
+[71]
+
+[72]
+
+[73]
+
+[74]
+Overfull \hbox (21.19052pt too wide) in paragraph at lines 705--706
+[]\TU/LatinModernRoman(0)/b/it/10.95 Puzzle 4. \TU/LatinModernRoman(0)/m/it/10.
+95 Compute $\OML/lmm/m/it/10.95 B[]$ \TU/LatinModernRoman(0)/m/it/10.95 explici
+tly and verify that it sends $\OT1/lmr/m/n/10.95 (3\OML/lmm/m/it/10.95 ; \OT1/l
+mr/m/n/10.95 4\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 5)$ \TU/LatinModernRoman
+(0)/m/it/10.95 to $\OT1/lmr/m/n/10.95 (119\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10
+.95 120\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 169)$\TU/LatinModernRoman(0)/m/
+it/10.95 .
+ []
+
+)
+
+[75]
+
+[76
+
+] (./ch_04.tex
+File: ../Chapter4/images/fig01_rectangle_dissection.png Graphic file (type bmp)
+
+<../Chapter4/images/fig01_rectangle_dissection.png>
+File: ../Chapter4/images/fig02_gaussian_lattice.png Graphic file (type bmp)
+<../Chapter4/images/fig02_gaussian_lattice.png>
+File: ../Chapter4/images/fig03_triple_factory.png Graphic file (type bmp)
+<../Chapter4/images/fig03_triple_factory.png>
+
+
+[77
+
+]
+File: ../Chapter4/images/fig04_multiplication_table.png Graphic file (type bmp)
+
+<../Chapter4/images/fig04_multiplication_table.png>
+
+
+[78]
+
+[79]
+
+[80]
+File: ../Chapter4/images/fig05_euler_xray.png Graphic file (type bmp)
+<../Chapter4/images/fig05_euler_xray.png>
+File: ../Chapter4/images/fig06_euler_portrait.png Graphic file (type bmp)
+<../Chapter4/images/fig06_euler_portrait.png>
+
+Overfull \hbox (18.79456pt too wide) detected at line 113
+\OT1/lmr/m/n/10.95 (3 \OMS/lmsy/m/n/10.95 ^^A \OT1/lmr/m/n/10.95 5 \OMS/lmsy/m/
+n/10.95 ^^@ \OT1/lmr/m/n/10.95 4 \OMS/lmsy/m/n/10.95 ^^A \OT1/lmr/m/n/10.95 12)
+[] + (3 \OMS/lmsy/m/n/10.95 ^^A \OT1/lmr/m/n/10.95 12 + 4 \OMS/lmsy/m/n/10.95 ^
+^A \OT1/lmr/m/n/10.95 5)[] = (15 \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 48)
+[] + (36 + 20)[] = (\OMS/lmsy/m/n/10.95 ^^@\OT1/lmr/m/n/10.95 33)[] + 56[] = 10
+89 + 3136 = 4225 = 65[]\OML/lmm/m/it/10.95 :
+ []
+
+
+
+[81]
+
+[82]
+File: ../Chapter4/images/fig07_pythagorean_cone.png Graphic file (type bmp)
+<../Chapter4/images/fig07_pythagorean_cone.png>
+File: ../Chapter4/images/fig08_light_cones.png Graphic file (type bmp)
+<../Chapter4/images/fig08_light_cones.png>
+
+
+[83]
+
+[84]
+File: ../Chapter4/images/fig09_berggren_tree.png Graphic file (type bmp)
+<../Chapter4/images/fig09_berggren_tree.png>
+File: ../Chapter4/images/fig10_tree_sieve.png Graphic file (type bmp)
+<../Chapter4/images/fig10_tree_sieve.png>
+
+
+[85]
+
+[86]
+
+[87]
+Overfull \hbox (140.28204pt too wide) detected at line 250
+\OML/lmm/m/it/10.95 a[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/it/10.95 b[] \OMS/lmsy/
+m/n/10.95 ^^@ \OML/lmm/m/it/10.95 c[] \OT1/lmr/m/n/10.95 = (\OML/lmm/m/it/10.95
+ a[] \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/it/10.95 a[] \OMS/lmsy/m/n/10.95 ^^@ \OT1
+/lmr/m/n/10.95 4\OML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/10.95 ) + (\OMS/lmsy/m/n/10
+.95 ^^@\OT1/lmr/m/n/10.95 4\OML/lmm/m/it/10.95 ab \OMS/lmsy/m/n/10.95 ^^@ \OT1/
+lmr/m/n/10.95 4\OML/lmm/m/it/10.95 ab \OT1/lmr/m/n/10.95 + 8\OML/lmm/m/it/10.95
+ ab\OT1/lmr/m/n/10.95 ) + (4\OML/lmm/m/it/10.95 ac \OT1/lmr/m/n/10.95 + 8\OML/l
+mm/m/it/10.95 ac \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 12\OML/lmm/m/it/10.
+95 ac\OT1/lmr/m/n/10.95 ) + (4\OML/lmm/m/it/10.95 b[] \OT1/lmr/m/n/10.95 + \OML
+/lmm/m/it/10.95 b[] \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 4\OML/lmm/m/it/1
+0.95 b[]\OT1/lmr/m/n/10.95 ) + (\OMS/lmsy/m/n/10.95 ^^@\OT1/lmr/m/n/10.95 8\OML
+/lmm/m/it/10.95 bc \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 4\OML/lmm/m/it/10
+.95 bc \OT1/lmr/m/n/10.95 + 12\OML/lmm/m/it/10.95 bc\OT1/lmr/m/n/10.95 ) + (4\O
+ML/lmm/m/it/10.95 c[] \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/it/10.95 c[] \OMS/lmsy/m
+/n/10.95 ^^@ \OT1/lmr/m/n/10.95 9\OML/lmm/m/it/10.95 c[]\OT1/lmr/m/n/10.95 )
+ []
+
+File: ../Chapter4/images/fig11_divisor_arcs.png Graphic file (type bmp)
+<../Chapter4/images/fig11_divisor_arcs.png>
+File: ../Chapter4/images/fig12_three_roads_map.png Graphic file (type bmp)
+<../Chapter4/images/fig12_three_roads_map.png>
+
+
+[88]
+
+[89]
+File: ../Chapter4/images/fig13_exponential_climb.png Graphic file (type bmp)
+<../Chapter4/images/fig13_exponential_climb.png>
+
+
+[90]
+File: ../Chapter4/images/fig14_flower_diagram.png Graphic file (type bmp)
+<../Chapter4/images/fig14_flower_diagram.png>
+
+
+[91]
+
+[92]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <14.4> on input line 372.
+File: ../Chapter4/images/fig15_factoring_toolkit.png Graphic file (type bmp)
+<../Chapter4/images/fig15_factoring_toolkit.png>
+File: ../Chapter4/images/fig16_road_ahead.png Graphic file (type bmp)
+<../Chapter4/images/fig16_road_ahead.png>
+
+
+[93]
+Overfull \hbox (1.74835pt too wide) in paragraph at lines 402--403
+[]\TU/LatinModernRoman(0)/b/n/10.95 Road 3 — The Berggren Tree Sieve. \TU/Latin
+ModernRoman(0)/m/n/10.95 Systematically walk the tree of Pythagorean
+ []
+
+
+
+[94]
+
+[95]
+Overfull \hbox (309.14876pt too wide) in paragraph at lines 488--497
+ [] 
+ []
+
+
+
+[96]
+
+[97])
+
+[98] (./ch_05.tex
+File: ../Chapter5/images/fig01_berggren_tree.png Graphic file (type bmp)
+<../Chapter5/images/fig01_berggren_tree.png>
+File: ../Chapter5/images/fig02_three_triangles.png Graphic file (type bmp)
+<../Chapter5/images/fig02_three_triangles.png>
+
+
+[99
+
+
+]
+File: ../Chapter5/images/fig03_null_cone.png Graphic file (type bmp)
+<../Chapter5/images/fig03_null_cone.png>
+File: ../Chapter5/images/fig04_spacetime_comparison.png Graphic file (type bmp)
+
+<../Chapter5/images/fig04_spacetime_comparison.png>
+
+
+[100]
+
+[101]
+File: ../Chapter5/images/fig05_mirror_triangle.png Graphic file (type bmp)
+<../Chapter5/images/fig05_mirror_triangle.png>
+File: ../Chapter5/images/fig06_pythagorean_check.png Graphic file (type bmp)
+<../Chapter5/images/fig06_pythagorean_check.png>
+
+
+[102]
+
+[103]
+Overfull \hbox (32.71294pt too wide) detected at line 146
+\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 a[] \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/it
+/10.95 b[] \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/it/10.95 c[] \OMS/lmsy/m/n/10.95 ^^
+@ \OT1/lmr/m/n/10.95 4\OML/lmm/m/it/10.95 ab \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/i
+t/10.95 ac \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 8\OML/lmm/m/it/10.95 bc\O
+T1/lmr/m/n/10.95 ) + (4\OML/lmm/m/it/10.95 a[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/
+it/10.95 b[] \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/it/10.95 c[] \OMS/lmsy/m/n/10.95 
+^^@ \OT1/lmr/m/n/10.95 4\OML/lmm/m/it/10.95 ab \OT1/lmr/m/n/10.95 + 8\OML/lmm/m
+/it/10.95 ac \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 4\OML/lmm/m/it/10.95 bc
+\OT1/lmr/m/n/10.95 ) \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 (4\OML/lmm/m/it
+/10.95 a[] \OT1/lmr/m/n/10.95 + 4\OML/lmm/m/it/10.95 b[] \OT1/lmr/m/n/10.95 + 9
+\OML/lmm/m/it/10.95 c[] \OMS/lmsy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 8\OML/lmm/m/
+it/10.95 ab \OT1/lmr/m/n/10.95 + 12\OML/lmm/m/it/10.95 ac \OMS/lmsy/m/n/10.95 ^
+^@ \OT1/lmr/m/n/10.95 12\OML/lmm/m/it/10.95 bc\OT1/lmr/m/n/10.95 )\OML/lmm/m/it
+/10.95 :
+ []
+
+
+
+[104]
+File: ../Chapter5/images/fig07_null_cone_regions.png Graphic file (type bmp)
+<../Chapter5/images/fig07_null_cone_regions.png>
+File: ../Chapter5/images/fig08_factoring_vice.png Graphic file (type bmp)
+<../Chapter5/images/fig08_factoring_vice.png>
+
+
+[105]
+
+[106]
+File: ../Chapter5/images/fig09_brahmagupta_fibonacci.png Graphic file (type bmp
+)
+<../Chapter5/images/fig09_brahmagupta_fibonacci.png>
+File: ../Chapter5/images/fig10_euclid_grid.png Graphic file (type bmp)
+<../Chapter5/images/fig10_euclid_grid.png>
+
+
+[107]
+
+[108]
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[109]
+File: ../Chapter5/images/fig11_a_staircase.png Graphic file (type bmp)
+<../Chapter5/images/fig11_a_staircase.png>
+File: ../Chapter5/images/fig12_pell_number_line.png Graphic file (type bmp)
+<../Chapter5/images/fig12_pell_number_line.png>
+
+
+[110]
+
+[111]
+File: ../Chapter5/images/fig13_b_branch_vine.png Graphic file (type bmp)
+<../Chapter5/images/fig13_b_branch_vine.png>
+
+
+LaTeX Warning: Float too large for page by 24.76047pt on input line 336.
+
+File: ../Chapter5/images/fig14_grand_mosaic.png Graphic file (type bmp)
+<../Chapter5/images/fig14_grand_mosaic.png>
+
+
+[112]
+
+[113]
+Overfull \hbox (7.89125pt too wide) in paragraph at lines 366--367
+[]\TU/LatinModernRoman(0)/b/n/10.95 Theorem (The Brahmagupta–Fibonacci Identity
+). \TU/LatinModernRoman(0)/m/n/10.95 For any integers $\OML/lmm/m/it/10.95 a[];
+ b[]; a[]; b[]$\TU/LatinModernRoman(0)/m/n/10.95 ,[] 
+ []
+
+
+
+[114]
+File: ../Chapter5/images/fig15_cheat_sheet.png Graphic file (type bmp)
+<../Chapter5/images/fig15_cheat_sheet.png>
+
+
+[115]
+
+[116]
+Overfull \hbox (20.73929pt too wide) in paragraph at lines 440--441
+[]\TU/LatinModernRoman(0)/b/n/10.95 Theorem (A-Branch Consecutive Parameter Des
+cent). \TU/LatinModernRoman(0)/m/n/10.95 If a primitive Pythagorean
+ []
+
+
+
+[117]
+
+[118]
+
+[119]
+
+[120])
+
+[121]
+
+[122
+
+] (./ch_06.tex
+File: ../Chapter6/images/fig01_vault_seven_keyholes.png Graphic file (type bmp)
+
+<../Chapter6/images/fig01_vault_seven_keyholes.png>
+File: ../Chapter6/images/fig02_phylogenetic_tree.png Graphic file (type bmp)
+<../Chapter6/images/fig02_phylogenetic_tree.png>
+File: ../Chapter6/images/fig03_specimen_catalog.png Graphic file (type bmp)
+<../Chapter6/images/fig03_specimen_catalog.png>
+File: ../Chapter6/images/fig04_lock_N15.png Graphic file (type bmp)
+<../Chapter6/images/fig04_lock_N15.png>
+
+
+[123
+
+]
+
+[124]
+
+[125]
+
+[126]
+
+[127]
+File: ../Chapter6/images/fig05_lock_N21.png Graphic file (type bmp)
+<../Chapter6/images/fig05_lock_N21.png>
+File: ../Chapter6/images/fig06_K7_channels.png Graphic file (type bmp)
+<../Chapter6/images/fig06_K7_channels.png>
+
+
+[128]
+
+[129]
+File: ../Chapter6/images/fig07_inside_out.png Graphic file (type bmp)
+<../Chapter6/images/fig07_inside_out.png>
+File: ../Chapter6/images/fig08_maze.png Graphic file (type bmp)
+<../Chapter6/images/fig08_maze.png>
+
+
+[130]
+
+[131]
+
+[132]
+File: ../Chapter6/images/fig09_berggren_descent.png Graphic file (type bmp)
+<../Chapter6/images/fig09_berggren_descent.png>
+File: ../Chapter6/images/fig10_reflection_tetrahedra.png Graphic file (type bmp
+)
+<../Chapter6/images/fig10_reflection_tetrahedra.png>
+
+
+[133]
+
+[134]
+File: ../Chapter6/images/fig11_dimensional_elevator.png Graphic file (type bmp)
+
+<../Chapter6/images/fig11_dimensional_elevator.png>
+File: ../Chapter6/images/fig12_gear_machine.png Graphic file (type bmp)
+<../Chapter6/images/fig12_gear_machine.png>
+
+
+[135]
+
+[136]
+File: ../Chapter6/images/fig13_euler_table.png Graphic file (type bmp)
+<../Chapter6/images/fig13_euler_table.png>
+
+
+[137]
+File: ../Chapter6/images/fig14_venn_diagram.png Graphic file (type bmp)
+<../Chapter6/images/fig14_venn_diagram.png>
+
+
+[138]
+
+[139]
+File: ../Chapter6/images/fig15_rho_orbit.png Graphic file (type bmp)
+<../Chapter6/images/fig15_rho_orbit.png>
+File: ../Chapter6/images/fig16_octopus_garden.png Graphic file (type bmp)
+<../Chapter6/images/fig16_octopus_garden.png>
+
+
+[140]
+
+[141]
+
+[142]
+
+[143]
+Overfull \hbox (13.3772pt too wide) in paragraph at lines 500--501
+[]\TU/LatinModernRoman(0)/b/n/10.95 The Euler Four-Square Identity. \TU/LatinMo
+dernRoman(0)/m/n/10.95 For any eight integers $\OML/lmm/m/it/10.95 a[]; a[]; a[
+]; a[]$ \TU/LatinModernRoman(0)/m/n/10.95 and $\OML/lmm/m/it/10.95 b[]; b[]; b[
+]; b[]$\TU/LatinModernRoman(0)/m/n/10.95 :[] 
+ []
+
+
+
+[144]
+
+[145]
+
+[146]
+
+[147])
+
+[148] (./ch_07.tex
+File: ../Chapter7/images/fig01_ternary_labyrinth.png Graphic file (type bmp)
+<../Chapter7/images/fig01_ternary_labyrinth.png>
+File: ../Chapter7/images/fig02_triple_tree.png Graphic file (type bmp)
+<../Chapter7/images/fig02_triple_tree.png>
+File: ../Chapter7/images/fig03_seesaw.png Graphic file (type bmp)
+<../Chapter7/images/fig03_seesaw.png>
+File: ../Chapter7/images/fig04_venn_exclusive.png Graphic file (type bmp)
+<../Chapter7/images/fig04_venn_exclusive.png>
+
+
+[149
+
+
+]
+
+[150]
+
+[151]
+File: ../Chapter7/images/fig05_circular_library.png Graphic file (type bmp)
+<../Chapter7/images/fig05_circular_library.png>
+File: ../Chapter7/images/fig06_elevator_shaft.png Graphic file (type bmp)
+<../Chapter7/images/fig06_elevator_shaft.png>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[152]
+
+[153]
+
+[154]
+
+[155]
+File: ../Chapter7/images/fig07_complexity_plot.png Graphic file (type bmp)
+<../Chapter7/images/fig07_complexity_plot.png>
+File: ../Chapter7/images/fig08_descent_ledger.png Graphic file (type bmp)
+<../Chapter7/images/fig08_descent_ledger.png>
+
+
+[156]
+
+[157]
+File: ../Chapter7/images/fig09_maze_solvers.png Graphic file (type bmp)
+<../Chapter7/images/fig09_maze_solvers.png>
+File: ../Chapter7/images/fig10_mirror_curves.png Graphic file (type bmp)
+<../Chapter7/images/fig10_mirror_curves.png>
+
+
+[158]
+File: ../Chapter7/images/fig11_complexity_ladder.png Graphic file (type bmp)
+<../Chapter7/images/fig11_complexity_ladder.png>
+File: ../Chapter7/images/fig12_corridors_ahead.png Graphic file (type bmp)
+<../Chapter7/images/fig12_corridors_ahead.png>
+
+
+[159]
+
+[160]
+
+[161]
+
+[162]
+
+[163]
+
+[164]
+
+[165])
+
+[166] (./ch_08.tex
+File: ../Chapter8/images/fig01_locksmith_tree.png Graphic file (type bmp)
+<../Chapter8/images/fig01_locksmith_tree.png>
+File: ../Chapter8/images/fig02_euclid_staircase.png Graphic file (type bmp)
+<../Chapter8/images/fig02_euclid_staircase.png>
+File: ../Chapter8/images/fig03_step_count_plot.png Graphic file (type bmp)
+<../Chapter8/images/fig03_step_count_plot.png>
+File: ../Chapter8/images/fig04_danger_zone.png Graphic file (type bmp)
+<../Chapter8/images/fig04_danger_zone.png>
+
+
+[167
+
+
+]
+
+[168]
+
+[169]
+
+[170]
+File: ../Chapter8/images/fig05_nearly_square.png Graphic file (type bmp)
+<../Chapter8/images/fig05_nearly_square.png>
+File: ../Chapter8/images/fig06_gcd_node.png Graphic file (type bmp)
+<../Chapter8/images/fig06_gcd_node.png>
+
+
+[171]
+
+[172]
+
+[173]
+File: ../Chapter8/images/fig07_descent_clocks.png Graphic file (type bmp)
+<../Chapter8/images/fig07_descent_clocks.png>
+File: ../Chapter8/images/fig08_multiplication_rect.png Graphic file (type bmp)
+<../Chapter8/images/fig08_multiplication_rect.png>
+
+
+[174]
+
+[175]
+
+[176]
+File: ../Chapter8/images/fig09_complexity_vise.png Graphic file (type bmp)
+<../Chapter8/images/fig09_complexity_vise.png>
+File: ../Chapter8/images/fig10_three_way_race.png Graphic file (type bmp)
+<../Chapter8/images/fig10_three_way_race.png>
+
+
+[177]
+
+[178]
+File: ../Chapter8/images/fig11_comparison_table.png Graphic file (type bmp)
+<../Chapter8/images/fig11_comparison_table.png>
+File: ../Chapter8/images/fig12_dimensional_escape.png Graphic file (type bmp)
+<../Chapter8/images/fig12_dimensional_escape.png>
+
+
+[179]
+File: ../Chapter8/images/fig13_factoring_curves.png Graphic file (type bmp)
+<../Chapter8/images/fig13_factoring_curves.png>
+File: ../Chapter8/images/fig14_quantum_descent.png Graphic file (type bmp)
+<../Chapter8/images/fig14_quantum_descent.png>
+
+
+[180]
+
+[181]
+
+[182]
+File: ../Chapter8/images/fig15_full_recap.png Graphic file (type bmp)
+<../Chapter8/images/fig15_full_recap.png>
+
+
+[183]
+
+[184]
+
+[185]
+
+[186]
+
+[187]
+
+[188])
+
+[189]
+
+[190
+
+] (./ch_09.tex
+File: ../Chapter9/images/fig01_four_rung_ladder.png Graphic file (type bmp)
+<../Chapter9/images/fig01_four_rung_ladder.png>
+File: ../Chapter9/images/fig02_multiplication_tables.png Graphic file (type bmp
+)
+<../Chapter9/images/fig02_multiplication_tables.png>
+
+
+[191
+
+]
+
+[192]
+
+[193]
+File: ../Chapter9/images/fig03_argand_commutativity.png Graphic file (type bmp)
+
+<../Chapter9/images/fig03_argand_commutativity.png>
+File: ../Chapter9/images/fig04_brahmagupta_machine.png Graphic file (type bmp)
+<../Chapter9/images/fig04_brahmagupta_machine.png>
+
+
+[194]
+
+[195]
+File: ../Chapter9/images/fig05_quaternion_fano.png Graphic file (type bmp)
+<../Chapter9/images/fig05_quaternion_fano.png>
+File: ../Chapter9/images/fig06_rotation_demo.png Graphic file (type bmp)
+<../Chapter9/images/fig06_rotation_demo.png>
+
+Missing character: There is no ∎ (U+220E) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[196]
+
+[197]
+File: ../Chapter9/images/fig07_euler_gearbox.png Graphic file (type bmp)
+<../Chapter9/images/fig07_euler_gearbox.png>
+File: ../Chapter9/images/fig08_identity_comparison.png Graphic file (type bmp)
+<../Chapter9/images/fig08_identity_comparison.png>
+
+
+[198]
+
+[199]
+Missing character: There is no ∎ (U+220E) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[200]
+File: ../Chapter9/images/fig09_staircase.png Graphic file (type bmp)
+<../Chapter9/images/fig09_staircase.png>
+File: ../Chapter9/images/fig10_magic_dimensions.png Graphic file (type bmp)
+<../Chapter9/images/fig10_magic_dimensions.png>
+
+
+[201]
+File: ../Chapter9/images/fig11_venn_algebras.png Graphic file (type bmp)
+<../Chapter9/images/fig11_venn_algebras.png>
+
+
+[202]
+File: ../Chapter9/images/fig12_square_root_bandwidth.png Graphic file (type bmp
+)
+<../Chapter9/images/fig12_square_root_bandwidth.png>
+
+
+[203]
+File: ../Chapter9/images/fig13_jacobi_divisors.png Graphic file (type bmp)
+<../Chapter9/images/fig13_jacobi_divisors.png>
+File: ../Chapter9/images/fig14_representations_of_one.png Graphic file (type bm
+p)
+<../Chapter9/images/fig14_representations_of_one.png>
+
+
+[204]
+
+[205]
+File: ../Chapter9/images/fig15_cayley_dickson_map.png Graphic file (type bmp)
+<../Chapter9/images/fig15_cayley_dickson_map.png>
+
+
+[206]
+File: ../Chapter9/images/fig16_timeline.png Graphic file (type bmp)
+<../Chapter9/images/fig16_timeline.png>
+
+Missing character: There is no ∎ (U+220E) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[207]
+
+[208]
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[209]
+Missing character: There is no ❌ (U+274C) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[210])
+
+[211]
+
+[212
+
+] (./ch_10.tex
+File: ../Chapter10/images/fig01_near_miss_meter.png Graphic file (type bmp)
+<../Chapter10/images/fig01_near_miss_meter.png>
+File: ../Chapter10/images/fig02_fermat_margin.png Graphic file (type bmp)
+<../Chapter10/images/fig02_fermat_margin.png>
+File: ../Chapter10/images/fig03_factor_tree.png Graphic file (type bmp)
+<../Chapter10/images/fig03_factor_tree.png>
+File: ../Chapter10/images/fig04_descent_staircase.png Graphic file (type bmp)
+<../Chapter10/images/fig04_descent_staircase.png>
+
+
+[213
+
+]
+
+[214]
+
+[215]
+Overfull \hbox (5.60661pt too wide) in paragraph at lines 70--71
+[]\TU/LatinModernRoman(0)/m/it/10.95 Cubum autem in duos cubos, aut quadratoqua
+dratum in duos quadratoquadratos,
+ []
+
+
+
+[216]
+File: ../Chapter10/images/fig05_descent_flowchart.png Graphic file (type bmp)
+<../Chapter10/images/fig05_descent_flowchart.png>
+File: ../Chapter10/images/fig06_venn_diagram.png Graphic file (type bmp)
+<../Chapter10/images/fig06_venn_diagram.png>
+
+
+[217]
+
+[218]
+File: ../Chapter10/images/fig07_eisenstein_lattice.png Graphic file (type bmp)
+<../Chapter10/images/fig07_eisenstein_lattice.png>
+File: ../Chapter10/images/fig08_euler_portrait.png Graphic file (type bmp)
+<../Chapter10/images/fig08_euler_portrait.png>
+
+Underfull \vbox (badness 2065) has occurred while \output is active []
+
+
+
+[219]
+
+[220]
+
+[221]
+Overfull \hbox (11.5158pt too wide) in paragraph at lines 180--181
+[]\TU/LatinModernRoman(0)/m/n/10.95 Infinite descent anticipates the well-order
+ing principle — the axiom that every nonempty
+ []
+
+File: ../Chapter10/images/fig09_factorization_comparison.png Graphic file (type
+ bmp)
+<../Chapter10/images/fig09_factorization_comparison.png>
+File: ../Chapter10/images/fig10_uf_trap.png Graphic file (type bmp)
+<../Chapter10/images/fig10_uf_trap.png>
+
+
+[222]
+
+[223]
+File: ../Chapter10/images/fig11_proof_lengths.png Graphic file (type bmp)
+<../Chapter10/images/fig11_proof_lengths.png>
+File: ../Chapter10/images/fig12_germain_portrait.png Graphic file (type bmp)
+<../Chapter10/images/fig12_germain_portrait.png>
+
+
+[224]
+
+[225]
+File: ../Chapter10/images/fig13_elliptic_curve.png Graphic file (type bmp)
+<../Chapter10/images/fig13_elliptic_curve.png>
+
+
+[226]
+File: ../Chapter10/images/fig14_bridge_diagram.png Graphic file (type bmp)
+<../Chapter10/images/fig14_bridge_diagram.png>
+
+
+[227]
+
+[228]
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[229]
+File: ../Chapter10/images/fig15_timeline.png Graphic file (type bmp)
+<../Chapter10/images/fig15_timeline.png>
+File: ../Chapter10/images/fig16_blackboard.png Graphic file (type bmp)
+<../Chapter10/images/fig16_blackboard.png>
+
+
+[230]
+File: ../Chapter10/images/fig17_landscape_beyond.png Graphic file (type bmp)
+<../Chapter10/images/fig17_landscape_beyond.png>
+
+
+[231]
+
+[232]
+
+[233]
+
+[234]
+
+[235])
+
+[236] (./ch_11.tex
+File: ../Chapter11/images/fig01_treasure_chest.png Graphic file (type bmp)
+<../Chapter11/images/fig01_treasure_chest.png>
+File: ../Chapter11/images/fig02_factorgram_table.png Graphic file (type bmp)
+<../Chapter11/images/fig02_factorgram_table.png>
+
+
+[237
+
+
+]
+File: ../Chapter11/images/fig03_venn_diagram.png Graphic file (type bmp)
+<../Chapter11/images/fig03_venn_diagram.png>
+File: ../Chapter11/images/fig04_fermat_margin.png Graphic file (type bmp)
+<../Chapter11/images/fig04_fermat_margin.png>
+
+
+[238]
+
+[239]
+
+[240]
+File: ../Chapter11/images/fig05_balanced_factors.png Graphic file (type bmp)
+<../Chapter11/images/fig05_balanced_factors.png>
+File: ../Chapter11/images/fig06_smoothness_spectrum.png Graphic file (type bmp)
+
+<../Chapter11/images/fig06_smoothness_spectrum.png>
+
+
+[241]
+
+[242]
+File: ../Chapter11/images/fig07_smooth_vs_rough.png Graphic file (type bmp)
+<../Chapter11/images/fig07_smooth_vs_rough.png>
+File: ../Chapter11/images/fig08_arsenal_rack.png Graphic file (type bmp)
+<../Chapter11/images/fig08_arsenal_rack.png>
+
+
+[243]
+
+[244]
+File: ../Chapter11/images/fig09_matrix_tableau.png Graphic file (type bmp)
+<../Chapter11/images/fig09_matrix_tableau.png>
+File: ../Chapter11/images/fig10_pigeonhole_cube.png Graphic file (type bmp)
+<../Chapter11/images/fig10_pigeonhole_cube.png>
+
+
+[245]
+
+[246]
+File: ../Chapter11/images/fig11_gaussian_elimination.png Graphic file (type bmp
+)
+<../Chapter11/images/fig11_gaussian_elimination.png>
+File: ../Chapter11/images/fig12_sieve_flowchart.png Graphic file (type bmp)
+<../Chapter11/images/fig12_sieve_flowchart.png>
+
+
+[247]
+
+[248]
+
+[249]
+Overfull \hbox (113.63985pt too wide) in paragraph at lines 287--288
+[]\TU/LatinModernRoman(0)/m/n/10.95 For example, $\OMS/lmsy/m/n/10.95 F\OT1/lmr
+/m/n/10.95 (13) = \OMS/lmsy/m/n/10.95 f\OT1/lmr/m/n/10.95 2\OML/lmm/m/it/10.95 
+; \OT1/lmr/m/n/10.95 3\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 5\OML/lmm/m/it/1
+0.95 ; \OT1/lmr/m/n/10.95 7\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 11\OML/lmm/
+m/it/10.95 ; \OT1/lmr/m/n/10.95 13\OMS/lmsy/m/n/10.95 g$\TU/LatinModernRoman(0)
+/m/n/10.95 , a modest six-element set. $\OMS/lmsy/m/n/10.95 F\OT1/lmr/m/n/10.95
+ (31) = \OMS/lmsy/m/n/10.95 f\OT1/lmr/m/n/10.95 2\OML/lmm/m/it/10.95 ; \OT1/lmr
+/m/n/10.95 3\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 5\OML/lmm/m/it/10.95 ; \OT
+1/lmr/m/n/10.95 7\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 11\OML/lmm/m/it/10.95
+ ; \OT1/lmr/m/n/10.95 13\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 17\OML/lmm/m/i
+t/10.95 ; \OT1/lmr/m/n/10.95 19\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 23\OML/
+lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 29\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 
+31\OMS/lmsy/m/n/10.95 g$\TU/LatinModernRoman(0)/m/n/10.95 ,
+ []
+
+File: ../Chapter11/images/fig13_sieving_table.png Graphic file (type bmp)
+<../Chapter11/images/fig13_sieving_table.png>
+File: ../Chapter11/images/fig14_gcd_gate.png Graphic file (type bmp)
+<../Chapter11/images/fig14_gcd_gate.png>
+
+
+[250]
+
+[251]
+File: ../Chapter11/images/fig15_timeline.png Graphic file (type bmp)
+<../Chapter11/images/fig15_timeline.png>
+File: ../Chapter11/images/fig16_triptych.png Graphic file (type bmp)
+<../Chapter11/images/fig16_triptych.png>
+
+Underfull \vbox (badness 2671) has occurred while \output is active []
+
+
+
+[252]
+
+[253]
+
+[254]
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+Underfull \vbox (badness 1902) has occurred while \output is active []
+
+
+
+[255]
+
+[256]
+Overfull \hbox (4.0507pt too wide) in paragraph at lines 499--500
+[]\TU/LatinModernRoman(0)/m/n/10.95 Check: $\OT1/lmr/m/n/10.95 (0\OML/lmm/m/it/
+10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/
+m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML
+/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0) + (0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/
+10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr
+/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT
+1/lmr/m/n/10.95 0) + (1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/
+10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/
+m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0) + 
+(0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/
+10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr
+/m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1) = (1\OML/lmm/m/it/10.95
+ ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m/it/
+10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/
+m/it/10.95 ; \OT1/lmr/m/n/10.95 1)$\TU/LatinModernRoman(0)/m/n/10.95 .
+ []
+
+
+Overfull \hbox (81.64503pt too wide) detected at line 507
+\OML/lmm/m/it/10.95 S \OT1/lmr/m/n/10.95 = \OMS/lmsy/m/n/10.95 f\OML/lmm/m/it/1
+0.95 R[]; R[]; R[]; R[]\OMS/lmsy/m/n/10.95 g \OT1/lmr/m/n/10.95 :  (1\OML/lmm/m
+/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/
+lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0
+\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0) + (1\OML/lmm/m/it/10.95 ; \OT1/lmr/
+m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1
+/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ;
+ \OT1/lmr/m/n/10.95 1) + (0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m
+/it/10.95 ; \OT1/lmr/m/n/10.95 1\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/
+lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0
+) + (0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/
+m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1
+/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 1) = (0\OML/lmm/m/it/1
+0.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m
+/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0\OML/
+lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 0)\OML/lmm/m/it/10.95 :[]
+ []
+
+
+
+[257]
+
+[258]
+
+[259]
+
+[260])
+
+[261]
+
+[262] (./ch_12.tex
+File: ../Chapter12/images/fig01_quadruple_table.png Graphic file (type bmp)
+<../Chapter12/images/fig01_quadruple_table.png>
+File: ../Chapter12/images/fig02_triangle_to_sphere.png Graphic file (type bmp)
+<../Chapter12/images/fig02_triangle_to_sphere.png>
+
+
+[263
+
+
+]
+
+[264]
+File: ../Chapter12/images/fig03_bridge.png Graphic file (type bmp)
+<../Chapter12/images/fig03_bridge.png>
+File: ../Chapter12/images/fig04_quadruple_machine.png Graphic file (type bmp)
+<../Chapter12/images/fig04_quadruple_machine.png>
+
+
+[265]
+
+[266]
+Overfull \hbox (19.56216pt too wide) in paragraph at lines 116--116
+[]\TU/LatinModernRoman(0)/b/it/10.95 The Difference-of-Squares Bridge. \TU/Lati
+nModernRoman(0)/m/it/10.95 For any Pythagorean quadruple $\OT1/lmr/m/n/10.95 (\
+OML/lmm/m/it/10.95 a; b; c; d\OT1/lmr/m/n/10.95 )$\TU/LatinModernRoman(0)/m/it/
+10.95 : 
+ []
+
+File: ../Chapter12/images/fig05_hypotenuse_decomposition.png Graphic file (type
+ bmp)
+<../Chapter12/images/fig05_hypotenuse_decomposition.png>
+File: ../Chapter12/images/fig06_collision_roads.png Graphic file (type bmp)
+<../Chapter12/images/fig06_collision_roads.png>
+
+
+[267]
+
+[268]
+File: ../Chapter12/images/fig07_scaling_tetrahedra.png Graphic file (type bmp)
+<../Chapter12/images/fig07_scaling_tetrahedra.png>
+File: ../Chapter12/images/fig08_lattice_sphere.png Graphic file (type bmp)
+<../Chapter12/images/fig08_lattice_sphere.png>
+
+
+[269]
+File: ../Chapter12/images/fig09_gaussian_plane.png Graphic file (type bmp)
+<../Chapter12/images/fig09_gaussian_plane.png>
+File: ../Chapter12/images/fig10_euclid_lever.png Graphic file (type bmp)
+<../Chapter12/images/fig10_euclid_lever.png>
+
+
+[270]
+
+[271]
+
+[272]
+File: ../Chapter12/images/fig11_mod4_grid.png Graphic file (type bmp)
+<../Chapter12/images/fig11_mod4_grid.png>
+File: ../Chapter12/images/fig12_workbench.png Graphic file (type bmp)
+<../Chapter12/images/fig12_workbench.png>
+File: ../Chapter12/images/fig13_histogram.png Graphic file (type bmp)
+<../Chapter12/images/fig13_histogram.png>
+
+
+[273]
+
+[274]
+
+[275]
+
+[276]
+
+[277]
+
+[278])
+
+[279]
+
+[280
+
+] (./ch_13.tex
+File: ../Chapter13/images/fig01_eavesdropper.png Graphic file (type bmp)
+<../Chapter13/images/fig01_eavesdropper.png>
+File: ../Chapter13/images/fig02_channel_tetrahedron.png Graphic file (type bmp)
+
+<../Chapter13/images/fig02_channel_tetrahedron.png>
+
+
+[281
+
+]
+File: ../Chapter13/images/fig03_triangulation_venn.png Graphic file (type bmp)
+<../Chapter13/images/fig03_triangulation_venn.png>
+File: ../Chapter13/images/fig04_cascade_waterfall.png Graphic file (type bmp)
+<../Chapter13/images/fig04_cascade_waterfall.png>
+
+
+[282]
+File: ../Chapter13/images/fig05_composite_tower.png Graphic file (type bmp)
+<../Chapter13/images/fig05_composite_tower.png>
+
+
+[283]
+File: ../Chapter13/images/fig06_parity_chessboard.png Graphic file (type bmp)
+<../Chapter13/images/fig06_parity_chessboard.png>
+
+
+[284]
+File: ../Chapter13/images/fig07_three_trails.png Graphic file (type bmp)
+<../Chapter13/images/fig07_three_trails.png>
+File: ../Chapter13/images/fig08_brahmagupta.png Graphic file (type bmp)
+<../Chapter13/images/fig08_brahmagupta.png>
+
+
+[285]
+
+[286]
+File: ../Chapter13/images/fig09_asymmetry.png Graphic file (type bmp)
+<../Chapter13/images/fig09_asymmetry.png>
+File: ../Chapter13/images/fig10_descent_spheres.png Graphic file (type bmp)
+<../Chapter13/images/fig10_descent_spheres.png>
+
+
+[287]
+
+[288]
+File: ../Chapter13/images/fig11_pell_staircase.png Graphic file (type bmp)
+<../Chapter13/images/fig11_pell_staircase.png>
+File: ../Chapter13/images/fig12_channel_graphs.png Graphic file (type bmp)
+<../Chapter13/images/fig12_channel_graphs.png>
+
+
+[289]
+File: ../Chapter13/images/fig13_modular_fingerprint.png Graphic file (type bmp)
+
+<../Chapter13/images/fig13_modular_fingerprint.png>
+File: ../Chapter13/images/fig14_gcd_flowchart.png Graphic file (type bmp)
+<../Chapter13/images/fig14_gcd_flowchart.png>
+
+
+[290]
+
+[291]
+
+[292]
+
+[293]
+
+[294]
+Overfull \hbox (110.61194pt too wide) in paragraph at lines 339--340
+[]\TU/LatinModernRoman(0)/m/n/10.95 This is the \TU/LatinModernRoman(0)/b/n/10.
+95 Pell equation\TU/LatinModernRoman(0)/m/n/10.95 ! Its solutions march onward 
+forever: $\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 a; d\OT1/lmr/m/n/10.95 ) = (2
+\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 3)\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/1
+0.95 (12\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 17)\OML/lmm/m/it/10.95 ; \OT1/
+lmr/m/n/10.95 (70\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 99)\OML/lmm/m/it/10.9
+5 ; \OT1/lmr/m/n/10.95 (408\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 577)\OML/lm
+m/m/it/10.95 ; []$\TU/LatinModernRoman(0)/m/n/10.95 ,
+ []
+
+
+Overfull \hbox (100.82527pt too wide) in paragraph at lines 339--340
+\TU/LatinModernRoman(0)/m/n/10.95 each pair generating the nearly-balanced quad
+ruple $\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 a; a; \OT1/lmr/m/n/10.95 1\OML/l
+mm/m/it/10.95 ; d\OT1/lmr/m/n/10.95 )$\TU/LatinModernRoman(0)/m/n/10.95 . The r
+atios $\OML/lmm/m/it/10.95 d=a \OT1/lmr/m/n/10.95 = 3\OML/lmm/m/it/10.95 =\OT1/
+lmr/m/n/10.95 2\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 17\OML/lmm/m/it/10.95 =
+\OT1/lmr/m/n/10.95 12\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 99\OML/lmm/m/it/1
+0.95 =\OT1/lmr/m/n/10.95 70\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 577\OML/lmm
+/m/it/10.95 =\OT1/lmr/m/n/10.95 408\OML/lmm/m/it/10.95 ; []$
+ []
+
+
+
+[295]
+
+[296]
+
+[297])
+Overfull \hbox (49.7143pt too wide) in paragraph at lines 424--269
+[]\TU/LatinModernRoman(0)/m/n/10.95 The eavesdropper’s puzzle from our opening 
+paragraph? The quadruple $\OT1/lmr/m/n/10.95 (390\OML/lmm/m/it/10.95 ; \OT1/lmr
+/m/n/10.95 1[]738\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.95 4[]122\OML/lmm/m/it/1
+0.95 ; \OT1/lmr/m/n/10.95 4[]579)$
+ []
+
+
+
+[298] (./ch_14.tex
+File: ../Chapter14/images/fig01_trivial_triple.png Graphic file (type bmp)
+<../Chapter14/images/fig01_trivial_triple.png>
+File: ../Chapter14/images/fig02_crowbar.png Graphic file (type bmp)
+<../Chapter14/images/fig02_crowbar.png>
+File: ../Chapter14/images/fig03_berggren_tree.png Graphic file (type bmp)
+<../Chapter14/images/fig03_berggren_tree.png>
+
+
+[299
+
+
+]
+File: ../Chapter14/images/fig04_reverse_climb.png Graphic file (type bmp)
+<../Chapter14/images/fig04_reverse_climb.png>
+
+
+[300]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[301]
+
+[302]
+File: ../Chapter14/images/fig05_descent_ladder.png Graphic file (type bmp)
+<../Chapter14/images/fig05_descent_ladder.png>
+File: ../Chapter14/images/fig06_hypotenuse_staircase.png Graphic file (type bmp
+)
+<../Chapter14/images/fig06_hypotenuse_staircase.png>
+
+
+[303]
+
+[304]
+
+[305]
+File: ../Chapter14/images/fig07_three_doors.png Graphic file (type bmp)
+<../Chapter14/images/fig07_three_doors.png>
+File: ../Chapter14/images/fig08_flowchart.png Graphic file (type bmp)
+<../Chapter14/images/fig08_flowchart.png>
+
+
+[306]
+
+[307]
+File: ../Chapter14/images/fig09_worked_77.png Graphic file (type bmp)
+<../Chapter14/images/fig09_worked_77.png>
+File: ../Chapter14/images/fig10_light_cone.png Graphic file (type bmp)
+<../Chapter14/images/fig10_light_cone.png>
+
+
+[308]
+
+[309]
+
+[310]
+File: ../Chapter14/images/fig11_five_ladders.png Graphic file (type bmp)
+<../Chapter14/images/fig11_five_ladders.png>
+File: ../Chapter14/images/fig12_bar_chart.png Graphic file (type bmp)
+<../Chapter14/images/fig12_bar_chart.png>
+
+
+[311]
+
+[312]
+File: ../Chapter14/images/fig13_grand_composite.png Graphic file (type bmp)
+<../Chapter14/images/fig13_grand_composite.png>
+File: ../Chapter14/images/fig14_book_map.png Graphic file (type bmp)
+<../Chapter14/images/fig14_book_map.png>
+
+
+[313]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[314]
+
+[315]
+
+[316]
+
+[317]
+
+[318]
+
+[319])
+
+[320] (./ch_15.tex
+File: ../Chapter15/images/fig01_tropical_calculator.png Graphic file (type bmp)
+
+<../Chapter15/images/fig01_tropical_calculator.png>
+File: ../Chapter15/images/fig02_distributive_shift.png Graphic file (type bmp)
+<../Chapter15/images/fig02_distributive_shift.png>
+
+
+[321
+
+
+]
+
+[322]
+File: ../Chapter15/images/fig03_totem_pole.png Graphic file (type bmp)
+<../Chapter15/images/fig03_totem_pole.png>
+File: ../Chapter15/images/fig04_newton_polygon.png Graphic file (type bmp)
+<../Chapter15/images/fig04_newton_polygon.png>
+
+
+[323]
+
+[324]
+
+[325]
+File: ../Chapter15/images/fig05_convex_hulls.png Graphic file (type bmp)
+<../Chapter15/images/fig05_convex_hulls.png>
+File: ../Chapter15/images/fig06_triangle_inequality.png Graphic file (type bmp)
+
+<../Chapter15/images/fig06_triangle_inequality.png>
+
+
+[326]
+File: ../Chapter15/images/fig07_tropical_matrix.png Graphic file (type bmp)
+<../Chapter15/images/fig07_tropical_matrix.png>
+
+
+[327]
+File: ../Chapter15/images/fig08_bellman_ford.png Graphic file (type bmp)
+<../Chapter15/images/fig08_bellman_ford.png>
+File: ../Chapter15/images/fig09_book_map.png Graphic file (type bmp)
+<../Chapter15/images/fig09_book_map.png>
+
+
+[328]
+File: ../Chapter15/images/fig10_tropical_polynomial.png Graphic file (type bmp)
+
+<../Chapter15/images/fig10_tropical_polynomial.png>
+
+
+[329]
+
+[330]
+
+[331]
+
+[332]
+
+[333])
+
+[334] (./ch_16.tex
+File: ../Chapter16/images/fig01_magic_box.png Graphic file (type bmp)
+<../Chapter16/images/fig01_magic_box.png>
+File: ../Chapter16/images/fig02_q_table.png Graphic file (type bmp)
+<../Chapter16/images/fig02_q_table.png>
+
+
+[335
+
+
+]
+
+[336]
+
+[337]
+File: ../Chapter16/images/fig03_null_cone.png Graphic file (type bmp)
+<../Chapter16/images/fig03_null_cone.png>
+File: ../Chapter16/images/fig04_berggren_tree.png Graphic file (type bmp)
+<../Chapter16/images/fig04_berggren_tree.png>
+
+
+[338]
+File: ../Chapter16/images/fig05_minkowski_poincare.png Graphic file (type bmp)
+<../Chapter16/images/fig05_minkowski_poincare.png>
+
+
+[339]
+File: ../Chapter16/images/fig06_elevator_descent.png Graphic file (type bmp)
+<../Chapter16/images/fig06_elevator_descent.png>
+
+
+[340]
+
+[341]
+
+[342]
+File: ../Chapter16/images/fig07_a_highway.png Graphic file (type bmp)
+<../Chapter16/images/fig07_a_highway.png>
+File: ../Chapter16/images/fig08_prime_depth.png Graphic file (type bmp)
+<../Chapter16/images/fig08_prime_depth.png>
+
+
+[343]
+
+[344]
+File: ../Chapter16/images/fig09_factor_table.png Graphic file (type bmp)
+<../Chapter16/images/fig09_factor_table.png>
+File: ../Chapter16/images/fig10_triple_count.png Graphic file (type bmp)
+<../Chapter16/images/fig10_triple_count.png>
+
+
+[345]
+
+[346]
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+File: ../Chapter16/images/fig11_poincare_tessellation.png Graphic file (type bm
+p)
+<../Chapter16/images/fig11_poincare_tessellation.png>
+File: ../Chapter16/images/fig12_grand_diagram.png Graphic file (type bmp)
+<../Chapter16/images/fig12_grand_diagram.png>
+
+
+[347]
+Underfull \vbox (badness 4391) has occurred while \output is active []
+
+
+
+[348]
+Overfull \hbox (8.94676pt too wide) in paragraph at lines 358--359
+[]\TU/LatinModernRoman(0)/m/n/10.95 Now here is the key theorem: \TU/LatinModer
+nRoman(0)/b/n/10.95 applying the inverse matrix $\OML/lmm/m/it/10.95 A[]$ \TU/L
+atinModernRoman(0)/b/n/10.95 to the consecutive-
+ []
+
+
+
+[349]
+
+[350]
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[351]
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✗ (U+2717) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ✓ (U+2713) in font Latin Modern Roman 10 Regular
+/OT:script=latn;language=dflt;mapping=tex-text;!
+
+
+[352]
+
+[353]
+
+[354]
+Missing character: There is no ★ (U+2605) in font Latin Modern Roman 10 Bold/OT
+:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ★ (U+2605) in font Latin Modern Roman 10 Bold/OT
+:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ★ (U+2605) in font Latin Modern Roman 10 Bold/OT
+:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ★ (U+2605) in font Latin Modern Roman 10 Bold/OT
+:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ★ (U+2605) in font Latin Modern Roman 10 Bold/OT
+:script=latn;language=dflt;mapping=tex-text;!
+Missing character: There is no ★ (U+2605) in font Latin Modern Roman 10 Bold/OT
+:script=latn;language=dflt;mapping=tex-text;!
+
+
+[355])
+
+[356] (./ch_conclusion.tex
+File: ../Conclusion/images/fig01_rope_stretcher_return.png Graphic file (type b
+mp)
+<../Conclusion/images/fig01_rope_stretcher_return.png>
+File: ../Conclusion/images/fig02_rosetta_mandala.png Graphic file (type bmp)
+<../Conclusion/images/fig02_rosetta_mandala.png>
+
+
+[357
+
+
+]
+File: ../Conclusion/images/fig03_final_triangle.png Graphic file (type bmp)
+<../Conclusion/images/fig03_final_triangle.png>
+
+
+[358]
+
+[359]
+
+[360]
+
+[361]
+
+[362]
+
+[363])
+
+[364]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 285.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 1.82538pt
+(hyperref)                removed on input line 285.
+
+(./appendix_lean.tex
+LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 4.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `LatinModernMono' (encoding: TU).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 6.
+LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
+(Font)              scaled to size 9.85492pt on input line 6.
+LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 6.
+ (./lean_sanitized/01_BerggrenLorentzCorrespondence.lean
+
+LaTeX Font Warning: Font shape `TU/LatinModernMono(0)/b/n' undefined
+(Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 1.
+
+LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/m/it' will be
+(Font)              scaled to size 8.09995pt on input line 3.
+
+
+[365
+
+
+]
+LaTeX Font Info:    Font shape `TU/LatinModernMono(0)/b/n' will be
+(Font)              scaled to size 8.09995pt on input line 22.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[366]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[367]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[368]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[369]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[370])
+
+[371] (./lean_sanitized/02_LatticeTreeCorrespondence.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[372
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[373])
+
+[374] (./lean_sanitized/03_HyperbolicShortcutsFactoring.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[375
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[376]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[377]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[378]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[379]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[380]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[381])
+
+[382] (./lean_sanitized/04_ThreeRoadsFromPythagoras.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[383
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[384]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[385])
+
+[386] (./lean_sanitized/05_BerggrenLorentzPaperProofs.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[387
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[388]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[389]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[390])
+
+[391]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 46.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 46.
+
+(./lean_sanitized/06_HigherKTupleFactoring.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[392
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[393]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[394]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[395]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[396]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[397]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[398]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[399]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[400]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[401]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[402]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[403])
+
+[404] (./lean_sanitized/07_QuantumGroverTreeFactoring.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[405
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[406])
+
+[407] (./lean_sanitized/08_ComplexityBoundsProven.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[408
+
+])
+
+[409] (./lean_sanitized/09_CayleyDicksonHierarchy.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[410
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[411]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[412])
+
+[413] (./lean_sanitized/10_FermatLastTheorem.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[414
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[415]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[416]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[417])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[418]
+
+[419] (./lean_sanitized/11_CongruenceOfSquaresFactoring.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[420
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[421]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[422])
+
+[423] (./lean_sanitized/12_QuadrupleFactorTheory.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[424
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[425]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[426]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[427])
+
+[428] (./lean_sanitized/13_GCDCascadeFactorExtraction.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[429
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[430]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[431]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[432]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[433]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[434]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[435]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[436])
+
+[437] (./lean_sanitized/14_PythagoreanTreeFactoringCore.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[438
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[439]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[440])
+
+[441] (./lean_sanitized/15_TropicalGeometryFoundations.lean)
+
+[442
+
+] (./lean_sanitized/16_LorentzGroupStructure.lean
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[443
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[444])
+
+[445])
+
+[446
+
+
+] (./main.ind
+Overfull \hbox (10.85971pt too wide) in paragraph at lines 6--7
+[]\TU/LatinModernRoman(0)/m/n/10.95 1. The Puzzle of the Two Impostor Squares,
+ []
+
+
+Overfull \hbox (2.85196pt too wide) in paragraph at lines 8--10
+[]\TU/LatinModernRoman(0)/m/n/10.95 10. Coda: The Deep Structure, and Ques-
+ []
+
+
+
+
+Overfull \hbox (2.07779pt too wide) in paragraph at lines 33--35
+[]\TU/LatinModernRoman(0)/m/n/10.95 5. The Hypotenuse Always Shrinks (Why
+ []
+
+
+Overfull \hbox (0.93777pt too wide) in paragraph at lines 55--56
+[]\TU/LatinModernRoman(0)/m/n/10.95 A Distributive Law That Actually Works,
+ []
+
+
+
+[447
+
+
+
+]
+Overfull \hbox (5.41756pt too wide) in paragraph at lines 65--67
+[]\TU/LatinModernRoman(0)/m/n/10.95 Appendix A: The Reader’s Toolkit — Puz-
+ []
+
+
+Overfull \hbox (8.43973pt too wide) in paragraph at lines 70--72
+[]\TU/LatinModernRoman(0)/m/n/10.95 Balanced Semiprimes and the Fourth-Root
+ []
+
+
+Overfull \hbox (4.1298pt too wide) in paragraph at lines 81--84
+[]\TU/LatinModernRoman(0)/m/n/10.95 Brahmagupta–Fibonacci identity, [][]80[][],
+ [][]114[][],
+ []
+
+
+Overfull \hbox (14.90024pt too wide) in paragraph at lines 93--95
+[]\TU/LatinModernRoman(0)/m/n/10.95 Comparing Tumblers — The Pairwise Chan-
+ []
+
+
+
+
+Overfull \hbox (12.87451pt too wide) in paragraph at lines 129--130
+[]\TU/LatinModernRoman(0)/m/n/10.95 Euclid’s Oldest Algorithm Gets a Makeover,
+ []
+
+
+Overfull \hbox (1.06822pt too wide) in paragraph at lines 153--155
+[]\TU/LatinModernRoman(0)/m/n/10.95 Fermat’s Last Theorem, [][]47[][], [][]217[
+][], [][]362[][], [][]414[][] 
+ []
+
+
+
+[448]
+Overfull \hbox (3.2538pt too wide) in paragraph at lines 184--185
+[]\TU/LatinModernRoman(0)/m/n/10.95 Higher Dimensions, Higher Channels, [][]296
+[][] 
+ []
+
+
+
+
+Overfull \hbox (1.56316pt too wide) in paragraph at lines 248--250
+[]\TU/LatinModernRoman(0)/m/n/10.95 Old Rivals — Trial Division and Fermat’s
+ []
+
+
+Overfull \hbox (0.39586pt too wide) in paragraph at lines 262--263
+[]\TU/LatinModernRoman(0)/m/n/10.95 Puzzles, Paradoxes, and Open Questions,
+ []
+
+
+
+[449]
+
+
+Overfull \hbox (7.947pt too wide) in paragraph at lines 353--355
+[]\TU/LatinModernRoman(0)/m/n/10.95 The Multi-Channel Theorem — One Equa-
+ []
+
+
+Overfull \hbox (0.33894pt too wide) in paragraph at lines 367--368
+[]\TU/LatinModernRoman(0)/m/n/10.95 The Signature That Doesn’t Change, [][]102[
+][] 
+ []
+
+
+
+[450]
+Overfull \hbox (0.6543pt too wide) in paragraph at lines 373--374
+[]\TU/LatinModernRoman(0)/m/n/10.95 The Traveling Salesman’s Secret Algebra,
+ []
+
+
+Overfull \hbox (39.18735pt too wide) in paragraph at lines 380--382
+[]\TU/LatinModernRoman(0)/m/n/10.95 The Unreasonable Effectiveness of a Schoolc
+hild’s
+ []
+
+
+
+
+
+[451])
+
+[452
+
+
+]
+File: ../ISBN/978-1-105-41110-6.png Graphic file (type bmp)
+<../ISBN/978-1-105-41110-6.png>
+
+
+[453]
+\tf@toc=\write6
+\openout6 = `main.toc'.
+
+ (./main.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2020/03/25>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 1EC32BFA8F4E6FE1E77CFCC242CF220A;8135.
+ ) 
+Here is how much of TeX's memory you used:
+ 24010 strings out of 473835
+ 500774 string characters out of 5731946
+ 1721698 words of memory out of 5000000
+ 46373 multiletter control sequences out of 15000+600000
+ 617553 words of font info for 143 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 85i,15n,93p,1020b,2040s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on main.pdf (465 pages).
