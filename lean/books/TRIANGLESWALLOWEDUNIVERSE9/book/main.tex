@@ -1,0 +1,339 @@
+%% =============================================================================
+%%  THE TRIANGLE THAT SWALLOWED THE UNIVERSE
+%%  By Paul Klemstine
+%%  A Professional Academic Textbook
+%% =============================================================================
+\documentclass[11pt,openright,twoside]{book}
+
+%% ---------- Page geometry (Royal Octavo / 6×9 inch trim) ----------
+\usepackage[
+  paperwidth  = 6in,
+  paperheight = 9in,
+  inner       = 0.85in,
+  outer       = 0.65in,
+  top         = 0.8in,
+  bottom      = 0.85in,
+  headheight  = 14pt,
+  headsep     = 18pt,
+  footskip    = 30pt
+]{geometry}
+
+%% ---------- Fonts & encoding ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo}           % Palatino for body text + math
+\usepackage[scaled=0.88]{helvet}% Helvetica for sans
+\usepackage{courier}            % Courier for mono/code
+\linespread{1.08}               % Palatino needs a touch more leading
+
+%% ---------- Micro-typography ----------
+\usepackage[
+  activate={true,nocompatibility},
+  final,tracking=true,factor=1100,stretch=10,shrink=10
+]{microtype}
+
+%% ---------- Mathematics ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+%% ---------- Graphics ----------
+\usepackage{graphicx}
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+
+%% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+%% ---------- Captions ----------
+\usepackage[
+  font={small,sf},
+  labelfont={bf},
+  format=hang,
+  margin=1cm
+]{caption}
+
+%% ---------- Headers & footers ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\scshape\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\itshape\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+%% ---------- Chapter & section styling ----------
+\usepackage{titlesec}
+
+% Chapter style
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\scshape\color{MidnightBlue}}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{30pt}
+
+% Unnumbered chapters
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\huge\bfseries\scshape\color{MidnightBlue}}
+  {}{0pt}{\Huge}
+\titlespacing*{name=\chapter,numberless}{0pt}{-20pt}{30pt}
+
+% Section style
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{RoyalBlue}}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{MidnightBlue!80}}
+  {\thesubsection}{1em}{}
+
+%% ---------- Table of Contents styling ----------
+\usepackage{tocloft}
+\renewcommand{\cftchapfont}{\bfseries\scshape\color{MidnightBlue}}
+\renewcommand{\cftchappagefont}{\bfseries\color{MidnightBlue}}
+\renewcommand{\cftsecfont}{\color{black}}
+\setlength{\cftbeforechapskip}{8pt}
+\setlength{\cftbeforesecskip}{2pt}
+
+%% ---------- Hyperlinks ----------
+\usepackage[
+  colorlinks  = true,
+  linkcolor   = MidnightBlue,
+  citecolor   = RoyalBlue,
+  urlcolor    = RoyalBlue,
+  bookmarks   = true,
+  bookmarksnumbered = true,
+  pdfauthor   = {Paul Klemstine},
+  pdftitle    = {The Triangle That Swallowed the Universe},
+  pdfsubject  = {Pythagorean Triples and Number Theory},
+]{hyperref}
+\usepackage{bookmark}
+
+%% ---------- Index ----------
+\usepackage{imakeidx}
+\makeindex[intoc, title=Index, columns=2]
+
+%% ---------- Code listings (Lean appendix uses fancyvrb) ----------
+
+%% ---------- Decorative elements ----------
+\usepackage{tikz}
+\usetikzlibrary{decorations.fractals,calc}
+
+%% ---------- Epigraph for dedication ----------
+\usepackage{epigraph}
+\setlength{\epigraphwidth}{0.6\textwidth}
+
+%% ---------- Verbatim input (for Lean appendix) ----------
+\usepackage{fancyvrb}
+
+%% ---------- Drop caps ----------
+% \usepackage{lettrine}
+
+%% ---------- Blank page command ----------
+\newcommand{\blankpage}{%
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \newpage
+}
+
+%% =============================================================================
+%%                          BEGIN DOCUMENT
+%% =============================================================================
+\begin{document}
+\frontmatter
+
+%% ---------- Half title ----------
+\thispagestyle{empty}
+\begin{center}
+\vspace*{3cm}
+{\Huge\bfseries\scshape\color{MidnightBlue} The Triangle That\\[6pt] Swallowed the Universe}
+\vfill
+\end{center}
+\newpage
+\thispagestyle{empty}\mbox{}\newpage
+
+%% ---------- Full title page ----------
+\thispagestyle{empty}
+\begin{center}
+\vspace*{1.5cm}
+
+{\Huge\bfseries\scshape\color{MidnightBlue}
+The Triangle That\\[8pt]
+Swallowed the Universe}
+
+\vspace{1.2cm}
+
+{\large\itshape How Pythagorean Triples Connect\\[3pt]
+Number Theory, Spacetime, and the Art of Factoring}
+
+\vspace{2.5cm}
+
+{\LARGE Paul Klemstine}
+
+\vspace{0.6cm}
+
+{\small\itshape With formal proofs verified in Lean\,4 / Mathlib}
+
+\vfill
+
+\begin{tikzpicture}[scale=0.6]
+  \draw[MidnightBlue,line width=1.5pt] (0,0) -- (4,0) -- (0,3) -- cycle;
+  \node[below] at (2,0) {\small $4$};
+  \node[left] at (0,1.5) {\small $3$};
+  \node[above right] at (2,1.5) {\small $5$};
+  \draw[MidnightBlue,line width=0.8pt] (0,0) rectangle (0.3,0.3);
+\end{tikzpicture}
+
+\vspace{1cm}
+
+\end{center}
+\newpage
+
+%% ---------- Copyright page ----------
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{small}
+\noindent\textbf{The Triangle That Swallowed the Universe}\\
+\textit{How Pythagorean Triples Connect Number Theory, Spacetime, and the Art of Factoring}
+
+\bigskip
+\noindent Copyright \copyright\ 2025 Paul Klemstine.\\
+All rights reserved.
+
+\bigskip
+\noindent No part of this publication may be reproduced, distributed, or transmitted
+in any form or by any means, including photocopying, recording, or other electronic
+or mechanical methods, without the prior written permission of the author, except in
+the case of brief quotations embodied in critical reviews and certain other
+noncommercial uses permitted by copyright law.
+
+\bigskip
+\noindent The formal proofs in this book have been verified using the Lean\,4 theorem prover
+with the Mathlib mathematical library. Source files are included in the appendices.
+
+\bigskip
+\noindent\textbf{ISBN 978-1-105-41110-6}
+
+\bigskip
+\noindent First edition, 2025.
+
+\bigskip
+\noindent Typeset in Palatino with \LaTeX.
+
+\bigskip
+\noindent Cover design by the author.
+
+\end{small}
+\vspace{1cm}
+\newpage
+
+%% ---------- Dedication page ----------
+\thispagestyle{empty}
+\vspace*{4cm}
+\begin{center}
+{\Large\itshape Soli Deo Gloria}
+\end{center}
+\vfill
+\newpage
+\thispagestyle{empty}\mbox{}\newpage
+
+%% ---------- Table of Contents ----------
+\tableofcontents
+\newpage
+
+%% =============================================================================
+%%                           MAIN MATTER
+%% =============================================================================
+\mainmatter
+
+%% ---------- Introduction ----------
+\input{intro}
+
+%% ---------- Part I: The Tree ----------
+\part{The Pythagorean Tree}
+\label{part:tree}
+
+\input{ch01}
+\input{ch02}
+\input{ch03}
+\input{ch04}
+
+%% ---------- Part II: The Physics ----------
+\part{Spacetime and Symmetry}
+\label{part:physics}
+
+\input{ch05}
+\input{ch06}
+\input{ch07}
+\input{ch08}
+
+%% ---------- Part III: The Algebras ----------
+\part{Algebras and Arithmetic}
+\label{part:algebras}
+
+\input{ch09}
+\input{ch10}
+\input{ch11}
+\input{ch12}
+
+%% ---------- Part IV: The Applications ----------
+\part{Factoring and Beyond}
+\label{part:applications}
+
+\input{ch13}
+\input{ch14}
+\input{ch15}
+\input{ch16}
+
+%% ---------- Conclusion ----------
+\input{conclusion}
+
+%% =============================================================================
+%%                           BACK MATTER
+%% =============================================================================
+\backmatter
+
+%% ---------- Appendices: Lean Source Code ----------
+\appendix
+\chapter{Lean\,4 Formal Proof Sources}
+\label{appendix:lean}
+
+\noindent The following Lean\,4 source files contain the formal, machine-verified proofs
+of the key theorems presented in this book. Each file corresponds to a chapter or
+thematic unit. The proofs have been checked against the Mathlib mathematical library.
+
+\bigskip
+
+\input{appendix_lean}
+
+%% ---------- Index ----------
+\printindex
+
+%% ---------- Back page with ISBN barcode ----------
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\includegraphics[width=2in]{../ISBN/978-1-105-41110-6.png}
+
+\medskip
+{\small ISBN 978-1-105-41110-6}
+\end{center}
+\vspace{1in}
+
+\end{document}

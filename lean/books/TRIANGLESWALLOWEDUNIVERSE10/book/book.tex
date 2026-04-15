@@ -1,0 +1,304 @@
+\documentclass[11pt,twoside,openright]{book}
+
+%% ─────────────────────────────────────────────────────────────
+%%  PAGE GEOMETRY  (Royal Octavo: 6.125 × 9.25 in)
+%% ─────────────────────────────────────────────────────────────
+\usepackage[
+  paperwidth=6.125in,
+  paperheight=9.25in,
+  inner=1in,
+  outer=0.75in,
+  top=0.85in,
+  bottom=1in,
+  headheight=14pt,
+  headsep=0.3in,
+  footskip=0.4in
+]{geometry}
+
+%% ─────────────────────────────────────────────────────────────
+%%  FONTS & ENCODING
+%% ─────────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+%% ─────────────────────────────────────────────────────────────
+%%  MATHEMATICS
+%% ─────────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+%% ─────────────────────────────────────────────────────────────
+%%  GRAPHICS & COLOR
+%% ─────────────────────────────────────────────────────────────
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pdfpages}
+
+%% ─────────────────────────────────────────────────────────────
+%%  TABLES
+%% ─────────────────────────────────────────────────────────────
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+%% ─────────────────────────────────────────────────────────────
+%%  LISTS & FLOATS
+%% ─────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[font={small,it},labelfont={bf},skip=6pt]{caption}
+
+%% ─────────────────────────────────────────────────────────────
+%%  HEADERS & FOOTERS
+%% ─────────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\textsc{\leftmark}}
+\fancyhead[RO]{\small\textsc{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+%% ─────────────────────────────────────────────────────────────
+%%  CHAPTER & SECTION STYLING
+%% ─────────────────────────────────────────────────────────────
+\usepackage{titlesec}
+
+\definecolor{chaptercolor}{RGB}{100,20,60}
+\definecolor{sectioncolor}{RGB}{80,30,70}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{chaptercolor}}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{30pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{sectioncolor}}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{2.5ex plus 1ex minus .2ex}{1.2ex plus .2ex}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{sectioncolor!80!black}}
+  {\thesubsection}{1em}{}
+
+%% ─────────────────────────────────────────────────────────────
+%%  TABLE OF CONTENTS
+%% ─────────────────────────────────────────────────────────────
+\usepackage{tocloft}
+\renewcommand{\cftchapfont}{\bfseries\color{chaptercolor}}
+\renewcommand{\cftchappagefont}{\bfseries\color{chaptercolor}}
+\renewcommand{\cftsecfont}{\color{black!80}}
+\renewcommand{\cftsecpagefont}{\color{black!80}}
+\setlength{\cftbeforechapskip}{8pt}
+\setlength{\cftbeforesecskip}{2pt}
+
+%% ─────────────────────────────────────────────────────────────
+%%  EPIGRAPH
+%% ─────────────────────────────────────────────────────────────
+\usepackage{epigraph}
+\setlength{\epigraphwidth}{0.7\textwidth}
+
+%% ─────────────────────────────────────────────────────────────
+%%  INDEX
+%% ─────────────────────────────────────────────────────────────
+\usepackage{imakeidx}
+\makeindex[columns=2, title=Index, intoc, options=-s book.ist]
+
+%% ─────────────────────────────────────────────────────────────
+%%  HYPERLINKS
+%% ─────────────────────────────────────────────────────────────
+\usepackage[
+  colorlinks=true,
+  linkcolor=chaptercolor!70!black,
+  citecolor=chaptercolor!70!black,
+  urlcolor=chaptercolor!50!blue,
+  bookmarks=true,
+  bookmarksnumbered=true,
+  pdfauthor={Paul Klemstine},
+  pdftitle={The Triangle That Swallowed the Universe},
+  pdfsubject={Mathematics, Number Theory, Pythagorean Triples},
+]{hyperref}
+
+%% ─────────────────────────────────────────────────────────────
+%%  THEOREM ENVIRONMENTS
+%% ─────────────────────────────────────────────────────────────
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition_env}[theorem]{Definition}
+\newtheorem{exampleenv}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+%% ─────────────────────────────────────────────────────────────
+%%  CUSTOM
+%% ─────────────────────────────────────────────────────────────
+\newcommand{\ornbreak}{%
+  \par\bigskip
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[chaptercolor!40, line width=0.6pt] (-1.5,0) -- (-0.3,0);
+    \node[chaptercolor!60] at (0,0) {$\diamond$};
+    \draw[chaptercolor!40, line width=0.6pt] (0.3,0) -- (1.5,0);
+  \end{tikzpicture}
+  \end{center}
+  \par\bigskip
+}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\OO}{\mathbb{O}}
+
+%% =============================================================
+\begin{document}
+
+%% ─── HALF-TITLE ──────────────────────────────────────────────
+\thispagestyle{empty}
+\begin{center}
+\vspace*{3in}
+{\LARGE\textsc{The Triangle That Swallowed\\[6pt] the Universe}}
+\vfill
+\end{center}
+\cleardoublepage
+
+%% ─── TITLE PAGE ──────────────────────────────────────────────
+\thispagestyle{empty}
+\begin{center}
+\vspace*{1.2in}
+
+{\fontsize{28}{34}\selectfont\bfseries\color{chaptercolor}
+The Triangle That Swallowed\\[8pt]
+the Universe}
+
+\vspace{0.35in}
+
+{\Large\textit{Pythagorean Triples, Lorentz Symmetry,\\[4pt]
+and the Hidden Architecture of Number Theory}}
+
+\vspace{0.9in}
+
+{\Large Paul Klemstine}
+
+\vfill
+
+\begin{tikzpicture}[scale=1.2]
+  \fill[chaptercolor!8] (0,0) -- (3,0) -- (3,4) -- cycle;
+  \draw[line width=1.8pt, chaptercolor] (0,0) -- (3,0) -- (3,4) -- cycle;
+  \node[below, chaptercolor!80!black] at (1.5,-0.15) {\large$a$};
+  \node[right, chaptercolor!80!black] at (3.15,2) {\large$b$};
+  \node[above left, chaptercolor!80!black] at (1.2,2.3) {\large$c$};
+  \draw[chaptercolor, line width=0.8pt] (2.7,0) rectangle (3,0.3);
+\end{tikzpicture}
+
+\vspace{0.6in}
+
+{\small\textit{First Edition}}
+
+\vspace{0.3in}
+\end{center}
+\cleardoublepage
+
+%% ─── COPYRIGHT ───────────────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{flushleft}
+{\small
+
+\textbf{The Triangle That Swallowed the Universe}\\
+\textit{Pythagorean Triples, Lorentz Symmetry, and the Hidden Architecture of Number Theory}\\[12pt]
+
+Copyright \textcopyright{} 2025 Paul Klemstine. All rights reserved.\\[6pt]
+
+No part of this publication may be reproduced, distributed, or transmitted
+in any form or by any means, including photocopying, recording, or other
+electronic or mechanical methods, without the prior written permission of
+the author, except in the case of brief quotations embodied in critical
+reviews and certain other non-commercial uses permitted by copyright law.\\[12pt]
+
+\textbf{ISBN 978-1-105-41110-6}\\[12pt]
+
+First edition, 2025.\\[6pt]
+
+Typeset in Latin Modern using \LaTeX.\\[6pt]
+
+Printed in the United States of America.\\[12pt]
+
+10\quad 9\quad 8\quad 7\quad 6\quad 5\quad 4\quad 3\quad 2\quad 1
+}
+\end{flushleft}
+\cleardoublepage
+
+%% ─── DEDICATION ──────────────────────────────────────────────
+\thispagestyle{empty}
+\vspace*{3in}
+\begin{center}
+{\Large\textit{Soli Deo Gloria}}
+\end{center}
+\vfill
+\cleardoublepage
+
+%% ─── TABLE OF CONTENTS ──────────────────────────────────────
+\frontmatter
+\tableofcontents
+\cleardoublepage
+
+%% ─── MAIN MATTER ────────────────────────────────────────────
+\mainmatter
+
+\input{ch_introduction}
+
+\input{ch_chapter1}
+
+\input{ch_chapter2}
+
+\input{ch_chapter3}
+
+\input{ch_chapter4}
+
+\input{ch_chapter5}
+
+\input{ch_chapter6}
+
+\input{ch_chapter7}
+
+\input{ch_chapter8}
+
+\input{ch_chapter9}
+
+\input{ch_chapter10}
+
+\input{ch_chapter11}
+
+\input{ch_chapter12}
+
+\input{ch_chapter13}
+
+\input{ch_chapter14}
+
+\input{ch_chapter15}
+
+\input{ch_chapter16}
+
+\input{ch_conclusion}
+
+
+%% ─── INDEX ──────────────────────────────────────────────────
+\backmatter
+\cleardoublepage
+\printindex
+
+\end{document}

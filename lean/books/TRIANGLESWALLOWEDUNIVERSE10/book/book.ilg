@@ -1,0 +1,10 @@
+This is makeindex, version 2.17 [TeX Live 2025/dev] (kpathsea + Thai support).
+Scanning style file ./book.ist
+** Input style error (file = ./book.ist, line = 1):
+   -- Unknown specifier heading_flag.
+.....done (5 attributes redefined, 1 ignored).
+Scanning input file book.idx....done (237 entries accepted, 0 rejected).
+Sorting entries.....done (1983 comparisons).
+Generating output file book.ind....done (179 lines written, 0 warnings).
+Output written in book.ind.
+Transcript written in book.ilg.

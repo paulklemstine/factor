@@ -1,0 +1,202 @@
+\contentsline {chapter}{Introduction: The Triangle That Swallowed the Universe}{1}{chapter*.1}%
+\contentsline {section}{\numberline {0.1}The Puzzle on the Bathroom Tiles}{1}{section.0.1}%
+\contentsline {subsection}{\numberline {0.1.1}A Four-Thousand-Year-Old Secret}{2}{subsection.0.1.1}%
+\contentsline {subsection}{\numberline {0.1.2}Primitive vs. Imprimitive: The Genealogy of Triples}{5}{subsection.0.1.2}%
+\contentsline {subsection}{\numberline {0.1.3}The Question That Drives This Book}{6}{subsection.0.1.3}%
+\contentsline {chapter}{\numberline {1}The Tree That Grew Triangles}{9}{chapter.1}%
+\contentsline {section}{\numberline {1.1}A Puzzle for the Pharaohs}{9}{section.1.1}%
+\contentsline {section}{\numberline {1.2}The Shape of Nothing}{12}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Three Magic Mirrors}{14}{section.1.3}%
+\contentsline {section}{\numberline {1.4}An Infinite Family Tree}{16}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Climbing Down the Tree}{17}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Cracking Numbers with Triangles}{19}{section.1.6}%
+\contentsline {section}{\numberline {1.7}The Fast Lane}{21}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Euclid's Ancient Engine}{21}{section.1.8}%
+\contentsline {section}{\numberline {1.9}Spacetime Symmetry in Whole Numbers}{24}{section.1.9}%
+\contentsline {section}{\numberline {1.10}The Five Wonders}{24}{section.1.10}%
+\contentsline {subsection}{\numberline {1.10.1}Puzzles for the Reader}{27}{subsection.1.10.1}%
+\contentsline {chapter}{\numberline {2}The Tree That Grew Into a Lattice}{29}{chapter.2}%
+\contentsline {section}{\numberline {2.1}The Puzzle of the Perfect Triangle Factory}{29}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Why the Machines Never Jam}{32}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Euclid's Oldest Algorithm Gets a Makeover}{34}{section.2.3}%
+\contentsline {section}{\numberline {2.4}The Astonishing Coincidence}{36}{section.2.4}%
+\contentsline {section}{\numberline {2.5}The Speed of Descent}{39}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Gauss and the Shortest Vector}{41}{section.2.6}%
+\contentsline {section}{\numberline {2.7}The Wall at Two Dimensions}{43}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Through the Looking Glass: Higher Dimensions}{45}{section.2.8}%
+\contentsline {section}{\numberline {2.9}The Quadruple Lattice}{47}{section.2.9}%
+\contentsline {section}{\numberline {2.10}The Map of the Journey}{49}{section.2.10}%
+\contentsline {subsection}{\numberline {2.10.1}Puzzles for the Reader}{52}{subsection.2.10.1}%
+\contentsline {chapter}{\numberline {3}Hyperbolic Shortcuts: How Pythagoras Learned to Factor}{53}{chapter.3}%
+\contentsline {section}{\numberline {3.1}The Puzzle of the Broken Square}{53}{section.3.1}%
+\contentsline {section}{\numberline {3.2}A Tree That Grows All Right Triangles}{56}{section.3.2}%
+\contentsline {section}{\numberline {3.3}The Light-Cone in the Living Room}{59}{section.3.3}%
+\contentsline {section}{\numberline {3.4}The Invariant That Refuses to Change}{62}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Paths, Addresses, and the Art of Navigation}{63}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Hyperbolic Shortcuts, or: How to Skip a Billion Generations}{66}{section.3.6}%
+\contentsline {section}{\numberline {3.7}The Elevator Going Up: Inverse Matrices and Tree Ascent}{68}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Why the Hypotenuse Always Grows (and How Fast)}{69}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Chebyshev's Secret Recurrence}{72}{section.3.9}%
+\contentsline {section}{\numberline {3.10}No Two Branches Bear the Same Fruit}{74}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Cracking Numbers on the Light Cone}{75}{section.3.11}%
+\contentsline {section}{\numberline {3.12}Epilogue: Through the Wormhole}{77}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}Puzzles for the Reader}{81}{subsection.3.12.1}%
+\contentsline {chapter}{\numberline {4}Three Roads from Pythagoras}{83}{chapter.4}%
+\contentsline {section}{\numberline {4.1}The Puzzle of the Two Squares}{83}{section.4.1}%
+\contentsline {section}{\numberline {4.2}A Factory for Pythagorean Triples}{86}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Euler's Jewel --- Cracking Numbers with Two Portraits}{88}{section.4.3}%
+\contentsline {section}{\numberline {4.4}The Lorentz Form --- When Pythagoras Meets Einstein}{90}{section.4.4}%
+\contentsline {section}{\numberline {4.5}The Berggren Tree --- An Infinite Family Album}{93}{section.4.5}%
+\contentsline {section}{\numberline {4.6}The Tree Sieve --- Shaking the Family Tree for Factors}{95}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Semiprime Secrets --- Why $N = p \times q$ Is Special}{97}{section.4.7}%
+\contentsline {section}{\numberline {4.8}The Exponential Climb --- How Fast the Tree Grows}{99}{section.4.8}%
+\contentsline {section}{\numberline {4.9}The Hidden Arithmetic of Products}{100}{section.4.9}%
+\contentsline {section}{\numberline {4.10}The Three Roads Converge --- A Factoring Toolkit}{102}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Puzzles for the Reader}{104}{subsection.4.10.1}%
+\contentsline {chapter}{\numberline {5}The Tree That Knew It Was a Spacetime}{107}{chapter.5}%
+\contentsline {section}{\numberline {5.1}The Puzzle of the Prolific Triangle}{107}{section.5.1}%
+\contentsline {section}{\numberline {5.2}The Signature That Doesn't Change}{109}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Orientation --- The Subtle Art of the Determinant}{113}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Why Every Child Is Pythagorean}{114}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Living on the Null Cone}{117}{section.5.5}%
+\contentsline {section}{\numberline {5.6}A Factoring Machine Hidden in the Hypotenuse}{119}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Euclid's Master Formula}{122}{section.5.7}%
+\contentsline {section}{\numberline {5.8}The Staircase --- Descent Along the A-Branch}{123}{section.5.8}%
+\contentsline {section}{\numberline {5.9}The Pell Staircase Along the B-Branch}{126}{section.5.9}%
+\contentsline {section}{\numberline {5.10}The Grand Unification --- Eight Theorems and the View from Above}{127}{section.5.10}%
+\contentsline {chapter}{\numberline {6}The Lock with Seven Keyholes}{135}{chapter.6}%
+\contentsline {section}{\numberline {6.1}The Locksmith's Dilemma}{135}{section.6.1}%
+\contentsline {section}{\numberline {6.2}A Menagerie of Pythagorean Creatures}{138}{section.6.2}%
+\contentsline {section}{\numberline {6.3}The Multi-Channel Theorem --- One Equation, Many Keys}{140}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Comparing Tumblers --- The Pairwise Channel Theorem}{145}{section.6.4}%
+\contentsline {section}{\numberline {6.5}The Maze Run Backwards --- Inside-Out Factoring}{147}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Sisyphus and the Number Theorist --- Climbing and Falling}{148}{section.6.6}%
+\contentsline {section}{\numberline {6.7}The Hall of Mirrors --- The Reflection $R_{1111}$ and the Quadruple Forest}{150}{section.6.7}%
+\contentsline {section}{\numberline {6.8}The Elevator Between Floors --- Lifting, Projection, and Chain Composition}{153}{section.6.8}%
+\contentsline {section}{\numberline {6.9}The Magic Trick That's 1,400 Years Old --- Brahmagupta, Fibonacci, and Euler}{154}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Where All Roads Meet --- The Congruence of Squares}{158}{section.6.10}%
+\contentsline {section}{\numberline {6.11}The Octopus's Garden --- A Meditation on Dimension and Difficulty}{159}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Exercises}{162}{section.6.12}%
+\contentsline {chapter}{\numberline {7}The One-Way Corridor}{165}{chapter.7}%
+\contentsline {section}{\numberline {7.1}The Forking Labyrinth}{165}{section.7.1}%
+\contentsline {section}{\numberline {7.2}The Cancellation Trick}{166}{section.7.2}%
+\contentsline {section}{\numberline {7.3}A Parable of the Circular Library}{170}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Searching for the Magic Depth}{171}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Balanced Semiprimes and the Fourth-Root Barrier}{172}{section.7.5}%
+\contentsline {section}{\numberline {7.6}A Gallery of Dead Ends}{175}{section.7.6}%
+\contentsline {section}{\numberline {7.7}Why Quantum Parallelism Fails at the Fork}{176}{section.7.7}%
+\contentsline {section}{\numberline {7.8}The Sum-to-Zero Principle}{177}{section.7.8}%
+\contentsline {section}{\numberline {7.9}The Complexity Ladder}{179}{section.7.9}%
+\contentsline {section}{\numberline {7.10}Open Corridors}{182}{section.7.10}%
+\contentsline {chapter}{\numberline {8}The Price of Descent}{185}{chapter.8}%
+\contentsline {section}{\numberline {8.1}The Lazy Locksmith's Wager}{185}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Euclid's Staircase --- How Long Is the Climb?}{186}{section.8.2}%
+\contentsline {section}{\numberline {8.3}The Balanced Semiprime --- A Wolf in Sheep's Clothing}{190}{section.8.3}%
+\contentsline {section}{\numberline {8.4}The Cost of a Handshake --- GCD at Every Node}{192}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Multiplying the Bill --- The Total Cost of the Descent}{195}{section.8.5}%
+\contentsline {section}{\numberline {8.6}The Floor Beneath the Floor --- Why You Can't Go Faster}{196}{section.8.6}%
+\contentsline {section}{\numberline {8.7}Old Rivals --- Trial Division and Fermat's Method}{200}{section.8.7}%
+\contentsline {section}{\numberline {8.8}Shattering the Ceiling --- The Escape to Higher Dimensions}{203}{section.8.8}%
+\contentsline {section}{\numberline {8.9}The Quantum Shortcut --- Grover and the Fourth Root}{206}{section.8.9}%
+\contentsline {section}{\numberline {8.10}The Moral of the Tree --- What Complexity Tells Us About Structure}{207}{section.8.10}%
+\contentsline {chapter}{\numberline {9}The Four-Rung Ladder}{211}{chapter.9}%
+\contentsline {section}{\numberline {9.1}The Puzzle of the Vanishing Rules}{211}{section.9.1}%
+\contentsline {section}{\numberline {9.2}The Commutative Paradise --- Why $\mathbb {C}$ Is So Well-Behaved}{214}{section.9.2}%
+\contentsline {section}{\numberline {9.3}The Norm That Multiplies --- Brahmagupta's Ancient Gift}{216}{section.9.3}%
+\contentsline {section}{\numberline {9.4}The Day Commutativity Died --- Hamilton and the Quaternions}{217}{section.9.4}%
+\contentsline {section}{\numberline {9.5}Euler's Grand Engine --- The Four-Square Identity}{220}{section.9.5}%
+\contentsline {section}{\numberline {9.6}The Staircase of Squares --- How Channels Nest Inside One Another}{223}{section.9.6}%
+\contentsline {section}{\numberline {9.7}The Magic Dimensions --- Why $1, 2, 4, 8$ and Nothing Else}{224}{section.9.7}%
+\contentsline {section}{\numberline {9.8}Guarding the Gate --- How Many Ways Can a Number Be a Perfect Square?}{226}{section.9.8}%
+\contentsline {section}{\numberline {9.9}Jacobi's Magnificent Formula --- Counting Representations by Four Squares}{227}{section.9.9}%
+\contentsline {section}{\numberline {9.10}The View from the Summit --- Patterns, Paradoxes, and Open Doors}{230}{section.9.10}%
+\contentsline {chapter}{\numberline {10}The Margin That Shook the World}{235}{chapter.10}%
+\contentsline {section}{\numberline {10.1}The Most Famous Scribble in History}{235}{section.10.1}%
+\contentsline {section}{\numberline {10.2}The Art of Narrowing the Battle --- Reduction to Primes}{238}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Fermat's Own Triumph --- The Case $n = 4$}{240}{section.10.3}%
+\contentsline {section}{\numberline {10.4}The Stronger Weapon --- Why Squares Are Harder Than Fourth Powers}{241}{section.10.4}%
+\contentsline {section}{\numberline {10.5}Euler and the Cube --- The Case $n = 3$}{244}{section.10.5}%
+\contentsline {section}{\numberline {10.6}The Unique Factorization Trap --- Why Fermat Was (Almost Certainly) Wrong}{247}{section.10.6}%
+\contentsline {section}{\numberline {10.7}What Would Fit in a Margin? --- An Inventory of Elementary Proofs}{250}{section.10.7}%
+\contentsline {section}{\numberline {10.8}The Bridge from Geometry to Arithmetic --- Elliptic Curves and Modularity}{251}{section.10.8}%
+\contentsline {section}{\numberline {10.9}Wiles's Proof --- The Margin That Took 358 Years to Fill}{255}{section.10.9}%
+\contentsline {section}{\numberline {10.10}What Remains --- Open Frontiers and the Eternal Margin}{258}{section.10.10}%
+\contentsline {chapter}{\numberline {11}The Magnificent Sieve}{263}{chapter.11}%
+\contentsline {section}{\numberline {11.1}The Puzzle of the Two Impostor Squares}{263}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Why the Trick Works --- The Algebra of Shared Factors}{265}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Fermat's Method and Its Magnificent Slowness}{268}{section.11.3}%
+\contentsline {section}{\numberline {11.4}The Smooth Criminal --- Numbers With Only Small Sins}{270}{section.11.4}%
+\contentsline {section}{\numberline {11.5}The Factor Base --- Assembling Your Arsenal}{273}{section.11.5}%
+\contentsline {section}{\numberline {11.6}The Exponent Vector and the Magic of Modular Arithmetic}{274}{section.11.6}%
+\contentsline {section}{\numberline {11.7}The Birthday Bound --- Why $k + 1$ Relations Always Suffice}{276}{section.11.7}%
+\contentsline {section}{\numberline {11.8}A Worked Example --- Sieving $n = 15{,}347$ From Start to Finish}{281}{section.11.8}%
+\contentsline {section}{\numberline {11.9}The Menagerie of Modern Sieves --- Dixon, QS, and NFS}{285}{section.11.9}%
+\contentsline {section}{\numberline {11.10}Philosophical Coda --- The Strange Democracy of Squares}{288}{section.11.10}%
+\contentsline {chapter}{\numberline {12}The Fourth Dimension of Pythagoras}{291}{chapter.12}%
+\contentsline {section}{\numberline {12.1}A Puzzle in Four Parts}{291}{section.12.1}%
+\contentsline {section}{\numberline {12.2}The Magician's Bridge}{294}{section.12.2}%
+\contentsline {section}{\numberline {12.3}The Master Key}{295}{section.12.3}%
+\contentsline {section}{\numberline {12.4}The Collision Detector}{296}{section.12.4}%
+\contentsline {section}{\numberline {12.5}Stretching the Quadruple}{299}{section.12.5}%
+\contentsline {section}{\numberline {12.6}The Lattice Detective}{299}{section.12.6}%
+\contentsline {section}{\numberline {12.7}The Imaginary Witness}{302}{section.12.7}%
+\contentsline {section}{\numberline {12.8}The Prime Inquisitor}{303}{section.12.8}%
+\contentsline {section}{\numberline {12.9}The Mod Squad}{304}{section.12.9}%
+\contentsline {section}{\numberline {12.10}The Number Cruncher's Workbench}{305}{section.12.10}%
+\contentsline {chapter}{\numberline {13}The GCD Cascade}{311}{chapter.13}%
+\contentsline {section}{\numberline {13.1}The Eavesdropper's Puzzle}{311}{section.13.1}%
+\contentsline {section}{\numberline {13.2}Three Channels, One Tower}{312}{section.13.2}%
+\contentsline {section}{\numberline {13.3}Cross-Channel Eavesdropping}{313}{section.13.3}%
+\contentsline {section}{\numberline {13.4}The Prime Cascade}{314}{section.13.4}%
+\contentsline {section}{\numberline {13.5}The Composite Tower}{316}{section.13.5}%
+\contentsline {section}{\numberline {13.6}Even, Odd, and the Rule of Four}{317}{section.13.6}%
+\contentsline {section}{\numberline {13.7}Many Witnesses, One Peak}{319}{section.13.7}%
+\contentsline {section}{\numberline {13.8}Brahmagupta's Ancient Trick}{320}{section.13.8}%
+\contentsline {section}{\numberline {13.9}The Factor Detective}{321}{section.13.9}%
+\contentsline {section}{\numberline {13.10}Infinite Descent Among the Quadruples}{322}{section.13.10}%
+\contentsline {section}{\numberline {13.11}The Balanced Quadruple That Doesn't Exist}{324}{section.13.11}%
+\contentsline {section}{\numberline {13.12}Higher Dimensions, Higher Channels}{326}{section.13.12}%
+\contentsline {section}{\numberline {13.13}Fingerprints and Sieves}{327}{section.13.13}%
+\contentsline {section}{\numberline {13.14}Putting It All Together}{327}{section.13.14}%
+\contentsline {chapter}{\numberline {14}The Tree That Cracks Numbers}{331}{chapter.14}%
+\contentsline {section}{\numberline {14.1}\textit {How a Babylonian Equation Grows a Forest That Can Split Integers Apart}}{331}{section.14.1}%
+\contentsline {section}{\numberline {14.2}The Puzzle of the Odd Number's Secret Triple}{331}{section.14.2}%
+\contentsline {section}{\numberline {14.3}The Difference-of-Squares Crowbar}{333}{section.14.3}%
+\contentsline {section}{\numberline {14.4}Berggren's Miraculous Tree}{335}{section.14.4}%
+\contentsline {section}{\numberline {14.5}Climbing Back Up: The Three Inverse Maps}{337}{section.14.5}%
+\contentsline {section}{\numberline {14.6}The Hypotenuse Always Shrinks (Why the Climb Must End)}{341}{section.14.6}%
+\contentsline {section}{\numberline {14.7}Only One Door Opens: The Uniqueness of the Parent}{342}{section.14.7}%
+\contentsline {section}{\numberline {14.8}The Factoring Machine: GCDs Along the Climb}{343}{section.14.8}%
+\contentsline {section}{\numberline {14.9}The Light Cone: Why the Lorentz Form Is Preserved}{345}{section.14.9}%
+\contentsline {section}{\numberline {14.10}Running the Machine: Five Numbers Fall Apart}{349}{section.14.10}%
+\contentsline {section}{\numberline {14.11}Coda: The Deep Structure, and Questions That Remain}{351}{section.14.11}%
+\contentsline {chapter}{\numberline {15}The Algebra Where Two Plus Three Equals Two}{357}{chapter.15}%
+\contentsline {section}{\numberline {15.1}The Calculator That Forgot How to Add}{357}{section.15.1}%
+\contentsline {section}{\numberline {15.2}A Distributive Law That Actually Works}{359}{section.15.2}%
+\contentsline {section}{\numberline {15.3}When Infinity Is Your Friend}{360}{section.15.3}%
+\contentsline {section}{\numberline {15.4}Two Candidates, One Winner}{362}{section.15.4}%
+\contentsline {section}{\numberline {15.5}The Tropical Convex Hull, or: The Winner Never Loses}{364}{section.15.5}%
+\contentsline {section}{\numberline {15.6}The Triangle Inequality in a World Without Triangles}{365}{section.15.6}%
+\contentsline {section}{\numberline {15.7}The Traveling Salesman's Secret Algebra}{366}{section.15.7}%
+\contentsline {section}{\numberline {15.8}Bellman's Equation: The Optimality Principle in Tropical Dress}{367}{section.15.8}%
+\contentsline {section}{\numberline {15.9}From Shortest Paths to Factoring Numbers}{368}{section.15.9}%
+\contentsline {section}{\numberline {15.10}Puzzles, Paradoxes, and Open Questions}{370}{section.15.10}%
+\contentsline {chapter}{\numberline {16}The Relativistic Secret of Right Triangles}{373}{chapter.16}%
+\contentsline {section}{\numberline {16.1}A Puzzle to Begin: The Form That Remembers}{373}{section.16.1}%
+\contentsline {section}{\numberline {16.2}The Null Cone, or: Where Right Triangles Live}{376}{section.16.2}%
+\contentsline {section}{\numberline {16.3}The Berggren Tree: A Family Album of Right Triangles}{378}{section.16.3}%
+\contentsline {section}{\numberline {16.4}Enter the Lorentz Group --- or, What Physicists Knew All Along}{380}{section.16.4}%
+\contentsline {section}{\numberline {16.5}Climbing Down the Tree: The Inverse Matrices and Descent}{382}{section.16.5}%
+\contentsline {section}{\numberline {16.6}The Highway of Pure $A$'s: Consecutive Parameters and Depth}{385}{section.16.6}%
+\contentsline {section}{\numberline {16.7}The Depth of a Prime: A Number-Theoretic Surprise}{386}{section.16.7}%
+\contentsline {section}{\numberline {16.8}How Many Triples Does a Number Have? The Semiprime Surprise}{388}{section.16.8}%
+\contentsline {section}{\numberline {16.9}Tiling the Hyperbolic Plane}{390}{section.16.9}%
+\contentsline {section}{\numberline {16.10}The Grand Unification: Pythagoras Meets Einstein}{392}{section.16.10}%
+\contentsline {section}{\numberline {16.11}Appendix A: The Reader's Toolkit --- Puzzles and Exercises}{396}{section.16.11}%
+\contentsline {chapter}{Conclusion: The Rosetta Stone}{399}{chapter*.231}%
+\contentsline {section}{\numberline {16.12}The Rope-Stretcher's Return}{399}{section.16.12}%
+\contentsline {section}{\numberline {16.13}Nine Faces of One Equation}{399}{section.16.13}%
+\contentsline {section}{\numberline {16.14}The Unreasonable Effectiveness of a Schoolchild's Equation}{403}{section.16.14}%
+\contentsline {section}{\numberline {16.15}The Puzzles That Remain}{404}{section.16.15}%
+\contentsline {section}{\numberline {16.16}A Last Puzzle}{405}{section.16.16}%
+\contentsline {chapter}{Index}{409}{section*.235}%
