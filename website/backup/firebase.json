@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "paulklemstine",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "link_images.sh",
+      "**/.*"
+    ]
+  }
+}

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Papers -- B3 Pythagorean Tree Research</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .paper-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+    transition: box-shadow .2s;
+  }
+  .paper-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .paper-card h3 {
+    font-size: 1.15em;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .paper-card .author {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+  .paper-card .abstract {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .paper-card .links a {
+    display: inline-block;
+    margin-right: 16px;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+  .paper-card .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78em;
+    font-weight: 600;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .badge-algebra { background: #e8f0fe; color: #1a56db; }
+  .badge-zeta { background: #fef3c7; color: #92400e; }
+  .badge-codec { background: #d1fae5; color: #065f46; }
+  .badge-physics { background: #ede9fe; color: #5b21b6; }
+  .badge-compress { background: #fee2e2; color: #991b1b; }
+  .badge-millennium { background: #fce7f3; color: #9d174d; }
+  .badge-overview { background: #f3f4f6; color: #374151; }
+  .badge-identity { background: #e0e7ff; color: #3730a3; }
+  .badge-modular { background: #fef9c3; color: #854d0e; }
+  .badge-moonshine { background: #fce7f3; color: #831843; }
+  .pages-info {
+    font-size: 0.85em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#0a0e1a,#141830);border-bottom:1px solid rgba(99,134,255,0.3);padding:8px 24px;display:flex;align-items:center;justify-content:center;gap:16px;font-family:-apple-system,sans-serif;font-size:13px">
+  <a href="../index.html" style="color:#818cf8;text-decoration:none;font-weight:600">? Pythagorean Cosmos</a>
+  <span style="color:#555">|</span>
+  <a href="../pages/cosmos-theorems.html" style="color:#94a3b8;text-decoration:none">Theorems</a>
+  <a href="../pages/cosmos-library.html" style="color:#94a3b8;text-decoration:none">Library</a>
+  <a href="../pages/deep-dives/berggren-tree.html" style="color:#94a3b8;text-decoration:none">Deep Dives</a>
+  <a href="../pages/cosmos-team.html" style="color:#94a3b8;text-decoration:none">Team</a>
+</div>
+<div style="height:36px"></div>
+<div class="page-wrapper">
+
+<aside class="sidebar">
+  <div class="logo">
+    <h2>Breakthrough Mathematics</h2>
+    <span>Research Program</span>
+  </div>
+  <nav><ul>
+    <li class="section-label">Overview</li>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="visualizations.html">Visualizations</a></li>
+    <li class="section-label">Research</li>
+    <li><a href="theorems.html">Theorem Catalog</a></li>
+    <li><a href="pvsnp.html">P vs NP Investigation</a></li>
+    <li><a href="engine.html">Factoring Engines</a></li>
+    <li><a href="team.html">Research Team</a></li>
+    <li><a href="paper.html" class="active">Research Papers</a></li>
+    <li class="section-label">Gallery</li>
+    <li><a href="gallery.html">Full Image Gallery</a></li>
+    <li class="section-label">Code</li>
+    <li><a href="code.html">Source Code</a></li>
+    <li class="section-label">Downloads</li>
+    <li><a href="../paper/b3_paper.pdf" target="_blank">Overview Paper (PDF)</a></li>
+    <li><a href="paper.html">All 10 Papers</a></li>
+  </ul></nav>
+</aside>
+
+<div class="main-content">
+
+<nav class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span class="sep">/</span>
+  <span class="current">Research Papers</span>
+</nav>
+
+<h1 style="font-size:1.8em; margin-bottom:8px;">Research Papers</h1>
+<p style="color:var(--text-muted); margin-bottom:8px;">
+  Paul Klemstine &mdash; Independent Researcher, Menasha, WI &mdash; March 2026
+</p>
+<p style="margin-bottom:24px;">
+  Ten focused research papers covering the algebraic, analytic, physical, computational,
+  and geometric aspects of the Berggren Pythagorean triple tree, plus the original comprehensive overview.
+  Each paper is self-contained with its own abstract, theorems, proofs, and references.
+</p>
+
+<!-- Overview Paper -->
+<div class="paper-card">
+  <h3>Overview: Novel Algebraic and Number-Theoretic Properties of the Berggren Pythagorean Triple Tree</h3>
+  <div class="author">Paul Klemstine &mdash; 16 pages</div>
+  <span class="badge badge-overview">Overview</span>
+  <div class="abstract">
+    Comprehensive overview covering all results: group theory, analytic number theory,
+    spectral graph theory, continued fractions, elliptic curves, factoring algorithms,
+    and computational complexity. Establishes 100+ theorems across 315+ mathematical fields.
+    This is the original monolithic paper; the six papers below break it into focused,
+    journal-ready contributions.
+  </div>
+  <div class="links">
+    <a href="../paper/b3_paper.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/b3_paper.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<hr style="margin: 32px 0; border: none; border-top: 2px solid var(--border);">
+<h2 style="font-size:1.3em; margin-bottom:20px;">Focused Papers</h2>
+
+<!-- Paper 1: Algebra -->
+<div class="paper-card">
+  <h3>1. Algebraic Properties of the Berggren Pythagorean Triple Tree</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-algebra">Algebra</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <span class="badge badge-algebra">Spectral Graph Theory</span>
+  <div class="abstract">
+    The Berggren matrices form a free monoid of rank 3 whose group modulo a prime p
+    has order 2p(p&sup2;-1). The commutators [A,B] and [B,C] are unipotent of nilpotency
+    index 3 with order p mod every prime p &ge; 5, while [A,C] is not unipotent&mdash;a
+    striking additive-multiplicative dichotomy. The Cayley graph is Ramanujan (spectral
+    gap &asymp; 0.33), the tree is isometric to Z&#8323;, the representation on R&sup3; is
+    irreducible, and the first-order theory is decidable via Rabin's S3S.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_berggren_algebra.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_berggren_algebra.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 2: Zeta Machine -->
+<div class="paper-card">
+  <h3>2. A Pythagorean Prime Importance Sampling Method for Riemann Zeta Zeros</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-zeta">Analytic Number Theory</span>
+  <span class="badge badge-zeta">Zeta Function</span>
+  <div class="abstract">
+    393 tree primes locate all 649 non-trivial zeta zeros up to t = 1000 via a partial
+    Euler product (mean displacement 0.023). Includes a PrimeOracle estimator 33x better
+    than R(x), exact &Lambda;(n) reconstruction for n &le; 200, and GUE statistics
+    confirmation. Honest assessment: tree-prime detection is an importance-sampling
+    artifact at high t; Riemann-Siegel is required for t &gt; 10,000.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_zeta_machine.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_zeta_machine.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 3: CF-PPT Bijection -->
+<div class="paper-card">
+  <h3>3. A Bijection Between Binary Data and Pythagorean Triples via Continued Fractions</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-codec">Data Encoding</span>
+  <span class="badge badge-codec">Cryptography</span>
+  <div class="abstract">
+    An explicit bijection maps arbitrary binary data to unique primitive Pythagorean triples
+    and back, enabling a 30 MB/s streaming codec with CRC. The identity a&sup2;+b&sup2;=c&sup2;
+    provides built-in error detection (probability &gt; 1-2&sup{-30}). Eight cryptographic
+    protocols exploit the bijection: steganography, fingerprinting, commitment schemes,
+    and a homomorphic dual-output property. The CFRAC-tree equivalence theorem unifies
+    continued fractions and tree walks.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_cf_ppt_bijection.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_cf_ppt_bijection.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 4: Physics -->
+<div class="paper-card">
+  <h3>4. The Prime Gas: Bose-Einstein Condensation, Lee-Yang Theory, and Quantum Chaos</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-physics">Mathematical Physics</span>
+  <span class="badge badge-physics">Statistical Mechanics</span>
+  <div class="abstract">
+    Interpreting &zeta;(s) as the partition function of a Bose gas with energy levels
+    &epsilon;&#8346; = log p, the gas undergoes BEC at T<sub>BEC</sub> = 0.66 and RH
+    becomes a Lee-Yang theorem. The BGS conjecture is confirmed: PPT spacings are Poisson
+    (integrable) while zeta zeros are GUE (chaotic). The spectral form factor shows
+    dip-ramp-plateau. Critical exponents: &alpha; = 2, d<sub>eff</sub> = 0. The Hagedorn
+    temperature equals the pole at s = 1.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_physics.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_physics.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 5: Compression -->
+<div class="paper-card">
+  <h3>5. Pythagorean Wavelet and Adaptive Plane Compression for Floating-Point Data</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-compress">Compression</span>
+  <span class="badge badge-compress">Signal Processing</span>
+  <div class="abstract">
+    PPT wavelets use angle-dense triples as basis elements with integer lifting.
+    Adaptive plane selection wins on 13/25 benchmarks. Byte/nibble transpose exploits
+    IEEE 754 structure. Lossy: 90.9x on stock data, 85.1x on GPS. Lossless: 1.19x over
+    zlib-9. 22/25 datasets within 5% of the first-order entropy bound H&#8321;.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_compression.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_compression.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 6: Millennium -->
+<div class="paper-card">
+  <h3>6. Connections Between the Berggren Tree and Millennium Prize Problems</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-millennium">Millennium Problems</span>
+  <span class="badge badge-millennium">Complexity Theory</span>
+  <div class="abstract">
+    Factoring and BSD rank computation are Turing-equivalent for semiprimes: the Selmer
+    group of E<sub>n</sub>: y&sup2; = x&sup3; - n&sup2;x encodes the factorization of
+    n = pq. Every PPT maps to a rational point on a congruent number curve. For RH,
+    Hodge, NS, YM, and P vs NP, connections are analogical rather than substantive.
+    After 350+ fields, all approaches reduce to five complexity families. The Dickman
+    barrier is proven fundamental for generic sieves.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_millennium.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_millennium.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 7: Dessin-Berggren -->
+<div class="paper-card">
+  <h3>7. Dessins d'Enfants, Cayley Conjugacy, and the Berggren Tree</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-algebra">Algebraic Geometry</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <div class="abstract">
+    We prove that the Berggren Pythagorean triple tree admits an O(d) navigation
+    algorithm via an IFS of 3 Mobius transforms (Cayley conjugacy), yielding a
+    10<sup>13</sup>x speedup at depth 30 over naive traversal. The earlier conjecture
+    that this structure is a Belyi map is honestly disproved: the monodromy group is
+    dihedral D<sub>3<sup>d</sup></sub>, not the symmetric group required for a Belyi
+    dessin. We establish the Universal Trace Reversal theorem (tr(w<sup>rev</sup>) = tr(w)
+    for all O(p,q) and Sp(2n)), the Cayley-Chebyshev identity, the invariant measure
+    as a Cauchy distribution, and four practical applications: equivariant neural
+    networks (5.7x parameter reduction), FHE over Z[i] (5000x faster than Paillier),
+    combined pre-sieve (2x catch rate), and drift-free IMU navigation.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_dessin_berggren.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_dessin_berggren.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 8: Berggren Identity -->
+<div class="paper-card">
+  <h3>8. The Berggren Identity and Pythagorean Triple Combinatorics</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-identity">Combinatorics</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <div class="abstract">
+    A systematic investigation of algebraic identities satisfied by the Berggren
+    matrices and their consequences for the combinatorial structure of primitive
+    Pythagorean triples, including trace identities, commutator relations, and
+    the connection to Chebyshev polynomials.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_berggren_identity.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_berggren_identity.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 9: SL(2) Berggren -->
+<div class="paper-card">
+  <h3>9. The Berggren Group, the Theta Group, and Surjectivity onto SL(2,F<sub>p</sub>)</h3>
+  <div class="author">Paul Klemstine</div>
+  <span class="badge badge-modular">Modular Forms</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <div class="abstract">
+    The Berggren matrices admit a natural 2&times;2 representation generating the
+    theta group &Gamma;<sub>&theta;</sub> = &langle;S, T&sup2;&rangle;, an index-3
+    subgroup of SL(2,Z). We prove surjectivity onto SL(2,F<sub>p</sub>) for every
+    odd prime p via a two-line argument, verify computationally through p = 31,
+    and derive consequences: expander Cayley graphs (Bourgain&ndash;Gamburd), the
+    ADE classification via McKay (E<sub>6</sub> at p = 3, E<sub>8</sub> at p = 5),
+    and the Klein quartic at p = 7.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_sl2_berggren.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_sl2_berggren.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<!-- Paper 10: PPT to Monster -->
+<div class="paper-card">
+  <h3>10. From Pythagorean Triples to the Monster: A Tower of Exceptional Structures via the Theta Group</h3>
+  <div class="author">Paul Klemstine &mdash; 11 pages</div>
+  <span class="badge badge-moonshine">Moonshine</span>
+  <span class="badge badge-algebra">Group Theory</span>
+  <span class="badge badge-modular">Modular Forms</span>
+  <span class="badge badge-physics">Mathematical Physics</span>
+  <div class="abstract">
+    An explicit chain connects the elementary (3,4,5) Pythagorean triple to the
+    Monster group via eight stages: (3,4,5) &rarr; &Gamma;<sub>&theta;</sub> &rarr;
+    SL(2,F<sub>p</sub>) &rarr; E<sub>6</sub> (p=3) &rarr; E<sub>8</sub> (p=5) &rarr;
+    Klein quartic (p=7) &rarr; M<sub>11</sub> (p=11) &rarr; M<sub>24</sub> (p=23) &rarr;
+    Leech lattice &rarr; Monster. The Berggren generators produce the theta group, whose
+    Hauptmodul &lambda;=(&theta;<sub>2</sub>/&theta;<sub>3</sub>)<sup>4</sup> determines
+    the j-invariant j(&tau;) = 256(1&minus;&lambda;+&lambda;&sup2;)&sup3;/(&lambda;(1&minus;&lambda;))&sup2;,
+    connecting PPTs to monstrous moonshine. Physical interpretations include the bosonic
+    string partition function, E<sub>8</sub> heterotic strings, and (2+1)-dimensional
+    gravity. All finite-group claims are computationally verified.
+  </div>
+  <div class="links">
+    <a href="../paper/paper_ppt_monster.pdf" target="_blank">Download PDF</a>
+    <a href="../paper/paper_ppt_monster.tex" target="_blank">LaTeX Source</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  &copy; 2026 Paul Klemstine
+</footer>
+
+</div><!-- .main-content -->
+</div><!-- .page-wrapper -->
+</body>
+</html>

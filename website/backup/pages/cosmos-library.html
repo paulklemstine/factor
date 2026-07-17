@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Library — Pythagorean Cosmos</title>
+  <meta name="description" content="Complete collection of 263 research documents: papers, Scientific American articles, lab notebooks, and experimental code from the Pythagorean Cosmos project.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35' fill='%23fbbf24'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="cosmos-theorems.html">Theorems</a></li>
+        <li><a href="cosmos-library.html" class="active">Library</a></li>
+        <li><a href="deep-dives/berggren-tree.html">Deep Dives</a></li>
+        
+
+        <li><a href="cosmos-team.html">Team</a></li><li><a href="cosmos-about.html">About</a></li>
+      </ul>
+      <button class="nav-mobile-toggle">☰</button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Research <span class="gradient-text">Library</span></h1>
+    <p>263 research documents — papers, articles, lab notebooks, and code from the Pythagorean Cosmos project.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <!-- Controls -->
+      <div class="library-controls">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="paperSearch" placeholder="Search papers by title or keyword...">
+        </div>
+        <div class="filter-tabs" id="categoryTabs">
+          <button class="filter-tab active" data-cat="all">All</button>
+          <button class="filter-tab" data-cat="Research Paper">Papers</button>
+          <button class="filter-tab" data-cat="Scientific American">Sci Am</button>
+          <button class="filter-tab" data-cat="Lab Notebook">Lab Notes</button>
+          <button class="filter-tab" data-cat="Team Notes">Teams</button>
+          <button class="filter-tab" data-cat="Vision & Foundations">Vision</button>
+          <button class="filter-tab" data-cat="Catalog & Report">Reports</button>
+          <button class="filter-tab" data-cat="Code & Experiments">Code</button>
+        </div>
+      </div>
+
+      <div class="results-counter" id="resultsCounter">Showing <span>all</span> documents</div>
+
+      <!-- Paper grid -->
+      <div class="card-grid" id="paperGrid"></div>
+    </div>
+  </section>
+
+  <!-- Paper Viewer Modal -->
+  <div id="paperModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);overflow-y:auto">
+    <div style="max-width:900px;margin:0 auto;padding:80px 24px 40px">
+      <button id="closeModal" style="position:fixed;top:20px;right:24px;background:var(--bg-tertiary);border:1px solid var(--border-subtle);color:var(--text-primary);font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;z-index:201;display:flex;align-items:center;justify-content:center">✕</button>
+      <div class="paper-viewer" id="paperContent"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-bottom" style="margin-top:0;border-top:none">
+      <p>Verified with Lean 4.28.0 + Mathlib v4.28.0 · Standard axioms only</p>
+      <p>© 2025 Paul Klemstine</p>
+    </div>
+  </footer>
+
+  <script src="../js/app.js"></script>
+  <script>
+    // Paper list from the papers directory
+    const PAPERS = [
+      {file:'00_vision_and_overview.md',size:4347},{file:'01_mathematical_foundations.md',size:5058},{file:'02_qubit_algebra.md',size:5020},{file:'03_octonion_qubits.md',size:6391},{file:'04_rational_learning.md',size:8199},{file:'05_neural_network_architecture.md',size:8317},{file:'06_universality_theorems.md',size:6275},{file:'07_hypotheses.md',size:7440},{file:'08_experimental_results.md',size:7178},{file:'09_open_questions.md',size:5992},{file:'10_new_ideas_and_iterations.md',size:8685},
+      {file:'BERGGREN_HOMING_MISSILE_RESEARCH.md',size:12784},{file:'CHANNEL5_RESEARCH_PAPER.md',size:28930},{file:'CHANNEL6_RESEARCH_PAPER.md',size:26022},{file:'CHIMERA_FACTORING_REPORT.md',size:16429},{file:'CHIMERA_Paper.md',size:20488},{file:'CHIMERA_RESEARCH_REPORT.md',size:15445},{file:'CHIMERA_SciAm_Article.md',size:12496},{file:'CHRONOS_ResearchPaper.md',size:13580},{file:'CHRONOS_SciAm_Article.md',size:8201},
+      {file:'CMB_PYTHAGOREAN_LANDSCAPE_RESEARCH.md',size:19380},{file:'COMPREHENSIVE_RESEARCH_PAPER.md',size:22866},{file:'COMPRESSION_RESEARCH.md',size:15804},{file:'CRYSTALLIZER_DIMENSIONAL_LAB_NOTEBOOK.md',size:9351},{file:'CRYSTALLIZER_LAB_NOTEBOOK.md',size:6859},{file:'ECDLP_RESEARCH.md',size:13168},
+      {file:'EXPERIMENT_LOG.md',size:13244},{file:'EXPERIMENT_LOG_HOMING_MISSILE.md',size:4830},{file:'EXPERIMENT_LOG_PAIRING.md',size:6673},{file:'EXPERIMENT_LOG_UNIFIED.md',size:6115},
+      {file:'FINAL_CATALOG.md',size:20918},{file:'FINAL_RESEARCH_PAPER.md',size:21092},{file:'FINAL_SCIENTIFIC_AMERICAN.md',size:14291},
+      {file:'FRONTIER_LAB_NOTEBOOK.md',size:10622},{file:'FRONTIER_RESEARCH_PAPER.md',size:20839},{file:'FormalTime_LabNotebook.md',size:11850},{file:'FormalTime_ResearchPaper.md',size:16031},{file:'FormalTime_SciAm.md',size:8741},{file:'FormalTime_Team.md',size:3072},
+      {file:'FrontierResearchPaper.md',size:33266},{file:'GAP_MATTER_RESEARCH_PAPER.md',size:18678},{file:'GAP_MATTER_SCIENTIFIC_AMERICAN.md',size:9673},
+      {file:'GRAND_UNIFIED_CATALOG.md',size:21261},{file:'GRAND_UNIFIED_PAPER.md',size:20098},
+      {file:'GRAVITY_LIGHT_ORACLE_RESEARCH_PAPER.md',size:45456},{file:'GRAVITY_LIGHT_ORACLE_SCIAM.md',size:14791},
+      {file:'HOMING_MISSILE_RESEARCH.md',size:11060},{file:'INSIDE_OUT_FACTORING_COMPREHENSIVE_PAPER.md',size:19032},{file:'INSIDE_OUT_FACTORING_RESEARCH.md',size:20090},
+      {file:'INVERSE_STEREO_LAB_NOTEBOOK.md',size:12328},{file:'INVERSE_STEREO_MOBIUS_LAB_NOTEBOOK.md',size:9613},
+      {file:'InformationRichness_Research_Paper.md',size:19018},{file:'InformationRichness_SciAm.md',size:10714},
+      {file:'InversePythagoreanTree_ResearchPaper.md',size:13404},{file:'InversePythagoreanTree_SciAm.md',size:9127},
+      {file:'InverseStereoUniverse_LabNotebook.md',size:14621},{file:'InverseStereoUniverse_ResearchPaper.md',size:19479},{file:'InverseStereoUniverse_SciAm.md',size:11393},{file:'InverseStereoUniverse_Team.md',size:7482},
+      {file:'LANDSCAPE_LAB_NOTEBOOK.md',size:14857},{file:'LIGHT_CONE_LAB_NOTEBOOK.md',size:14889},
+      {file:'LLM_to_SingleGate_ResearchPaper.md',size:40248},{file:'LLM_to_SingleGate_SciAm.md',size:11925},{file:'LLM_to_SingleMatMul_ResearchPaper.md',size:28122},{file:'LLM_to_SingleMatMul_SciAm.md',size:12355},
+      {file:'LightDarkPrimes_ResearchPaper.md',size:11518},{file:'LightDarkPrimes_SciAm.md',size:8200},{file:'LightDarkPrimes_Team.md',size:6078},
+      {file:'MASTER_EXPERIMENT_LOG.md',size:10405},{file:'MOONSHOT_FUTURE_RESEARCH.md',size:18970},{file:'MOONSHOT_RESEARCH_PAPER.md',size:14696},
+      {file:'NEURAL_FRONTIER_LAB_NOTEBOOK.md',size:12033},{file:'NextFrontier_LabNotebook.md',size:7321},{file:'NextFrontier_ResearchPaper.md',size:15081},{file:'NextFrontier_SciAm.md',size:10766},{file:'NextFrontier_Team.md',size:3749},
+      {file:'ORACLE_SEARCH_REPORT.md',size:19467},{file:'OracleResearchPaper.md',size:16316},{file:'OracleScientificAmerican.md',size:11829},{file:'Oracle_Research_Paper2.md',size:25453},{file:'Oracle_SciAm_Article.md',size:13012},
+      {file:'PHOTON4_ResearchPaper.md',size:18414},{file:'PHOTON4_SciAm_Article.md',size:9226},{file:'PHOTONIC_FRONTIER_LAB_NOTEBOOK.md',size:11770},{file:'PHOTON_NETWORK_RESEARCH_REPORT.md',size:21529},{file:'PHOTON_RESEARCH_ROUND2_LAB_NOTEBOOK.md',size:10512},
+      {file:'PhotonNetworkResearchReport.md',size:15085},{file:'PhotonResearchPaper.md',size:17610},{file:'PhotonResearchPaper_v2.md',size:10667},
+      {file:'QUANTUM_AI_MAD_SCIENCE_REPORT.md',size:12331},{file:'QUANTUM_BERGGREN_RESEARCH.md',size:18496},{file:'QUANTUM_GATES_RESEARCH_REPORT.md',size:14291},{file:'QUANTUM_MATHEMATICAL_SIMULATION_RESEARCH.md',size:14152},{file:'QUANTUM_METARESEARCH_LAB_NOTEBOOK.md',size:11160},{file:'QUANTUM_PROOF_THEORY_REPORT.md',size:18982},{file:'QUANTUM_UNIVERSE_LAB_NOTEBOOK.md',size:11626},
+      {file:'QuantumOracleChain_LabNotebook.md',size:9182},{file:'QuantumOracleChain_ResearchPaper.md',size:15314},{file:'QuantumOracleChain_SciAm.md',size:9583},{file:'QuantumOracleChain_Team.md',size:5979},
+      {file:'REPULSOR_EXTENDED_RESEARCH_PAPER.md',size:25453},{file:'REPULSOR_EXTENDED_SCIENTIFIC_AMERICAN.md',size:12996},{file:'REPULSOR_RESEARCH_PAPER.md',size:23133},{file:'REPULSOR_SCIENTIFIC_AMERICAN.md',size:8773},
+      {file:'RESEARCH_PAPER.md',size:19807},{file:'RESEARCH_PAPER1.md',size:22338},{file:'RESEARCH_PAPER2.md',size:14714},{file:'RESEARCH_PAPER3.md',size:17899},{file:'RESEARCH_PAPER4.md',size:15552},{file:'RESEARCH_PAPER5.md',size:14841},{file:'RESEARCH_PAPERA.md',size:26624},{file:'RESEARCH_PAPER_COMPREHENSIVE.md',size:12960},{file:'RESEARCH_PAPER_LightNumberLine.md',size:26759},{file:'RESEARCH_PAPER_PYTHAGOREAN_PAIRING.md',size:15800},{file:'RESEARCH_PAPER_UNIFIED.md',size:13452},{file:'RESEARCH_REPORT.md',size:19495},
+      {file:'ResearchPaper-TetraBranchTree.md',size:11692},{file:'ResearchPaper-tropicalNN.md',size:24465},{file:'ResearchPaper.md',size:22152},{file:'ResearchPaper_IdempotentOracles.md',size:22225},{file:'ResearchPaper_OracleConvergence.md',size:21509},{file:'ResearchPaper_Session2.md',size:22734},
+      {file:'Research_Paper_LLM_Compilation.md',size:54201},
+      {file:'SCIENTIFIC_AMERICAN_ARTICLE.md',size:11681},{file:'SCIENTIFIC_AMERICAN_ARTICLES.md',size:17450},{file:'SCIENTIFIC_AMERICAN_CHANNEL5.md',size:14633},{file:'SCIENTIFIC_AMERICAN_CHANNEL6.md',size:15972},{file:'SCIENTIFIC_AMERICAN_GRAND_UNIFIED.md',size:11989},
+      {file:'SCIFI_APPLICATIONS_PAPER.md',size:17964},{file:'SCIAM_LightNumberLine.md',size:11498},{file:'SciAm_LLM_Compilation.md',size:14936},{file:'ScientificAmerican.md',size:8753},{file:'ScientificAmericanArticle.md',size:12003},{file:'ScientificAmericanArticle-tropicalNN.md',size:8325},{file:'ScientificAmericanTetraBranchTree.md',size:8668},{file:'ScientificAmerican_GravityTrainsAI.md',size:10128},{file:'ScientificAmerican_OracleConvergence.md',size:10714},{file:'ScientificAmerican_TropicalOracles.md',size:7339},
+      {file:'SpectralOracle_LabNotebook.md',size:8496},{file:'SpectralOracle_ResearchPaper.md',size:13773},{file:'SpectralOracle_SciAm.md',size:7679},{file:'SpectralOracle_Team.md',size:4385},
+      {file:'TEAM_RESEARCH_LAB_NOTEBOOK.md',size:12471},{file:'THEOREM_CATALOG.md',size:27207},
+      {file:'TropicalFactoring_Research_Paper.md',size:21251},{file:'TropicalFactoring_SciAm.md',size:9710},{file:'TropicalFrontier_Research_Paper.md',size:28840},{file:'TropicalFrontier_SciAm.md',size:17594},{file:'TropicalFrontier_TeamNotes.md',size:12553},
+      {file:'TropicalLLM_ResearchPaper.md',size:23670},{file:'TropicalLLM_SciAm.md',size:8439},
+      {file:'TropicalNN_Comprehensive_Research_Paper.md',size:28651},{file:'TropicalNN_Frontier_ResearchPaper.md',size:33637},{file:'TropicalNN_Frontier_SciAm.md',size:15239},{file:'TropicalNN_Scientific_American.md',size:10951},{file:'TropicalNN_TeamResearchNotes.md',size:6379},
+      {file:'TropicalOracle_ResearchNotes.md',size:8420},{file:'TropicalOracle_ResearchPaper.md',size:14088},{file:'TropicalOracle_SciAm.md',size:7725},{file:'TropicalOracle_TeamNotes.md',size:8227},
+      {file:'TropicalSemiring-ResearchPaper.md',size:21716},{file:'TropicalSemiringScientificAmericanArticle.md',size:10643},
+      {file:'TropicalTeamNotes.md',size:13190},{file:'TropicalTeamResearchPaper.md',size:25566},{file:'TropicalTeamSciAm.md',size:8952},
+      {file:'Tropical_NN_Compilation_Research_Paper.md',size:21768},{file:'Tropical_NN_Compilation_SciAm.md',size:10633},
+      {file:'TurboQuant_ResearchPaper.md',size:17940},{file:'TurboQuant_SciAm_Article.md',size:10006},
+      {file:'UNIVERSAL_DECODER_LAB_NOTEBOOK.md',size:12036},
+      {file:'consciousness_oracle_paper.md',size:26082},{file:'crystallizer_dimensional_paper.md',size:4522},{file:'crystallizer_paper.md',size:3946},{file:'discoveries_paper.md',size:12330},{file:'driftfreeimu.md',size:5868},
+      {file:'energy_descent_research_paper.md',size:30443},{file:'future_research_directions.md',size:18915},{file:'harmonic_network_paper.md',size:20559},{file:'hypotheses_and_frontier.md',size:13506},
+      {file:'inverse_stereo_mobius_paper.md',size:16698},{file:'inverse_stereo_mobius_sci_am.md',size:10612},{file:'inverse_stereo_research_paper.md',size:24065},
+      {file:'lab_notes.md',size:5669},{file:'landscape_research_paper.md',size:18114},{file:'landscape_sci_am_article.md',size:9694},{file:'light_cone_research_paper.md',size:31818},
+      {file:'math_deep_dive.md',size:21257},{file:'neural_frontier_research_paper.md',size:18922},
+      {file:'paper.md',size:15948},{file:'photonic_frontier_paper.md',size:33913},
+      {file:'quantum_universe_research_paper.md',size:19244},{file:'quantum_universe_sci_am.md',size:11328},
+      {file:'research_notes.md',size:16838},{file:'research_paper-tropicaloracle.md',size:11478}, {file:'scientific_american_article-consciousness.md',size:11691},{file:'scientific_american_article-tropicaloracle.md',size:5051},
+      {file:'team_research_paper.md',size:17541},{file:'universal_decoder_paper.md',size:27022},
+      {file:'ResearchExploration_TropicalTraining.md',size:9408},{file:'ResearchLog.md',size:11493},{file:'ResearchNotes.md',size:6713},
+      {file:'TropicalMoonshots_ResearchNotes.md',size:12807},{file:'Notes.md',size:13241},{file:'Notes_Session2.md',size:7253},
+      {file:'RESEARCH_PAPER-Light.md',size:28891},{file:'RESEARCH_PAPERlight.md',size:19270},
+      {file:'CLEANUP_NOTES.md',size:5508},{file:'RESEARCH_DIRECTIONS.md',size:5244},{file:'RESEARCH_LAB_NOTEBOOK.md',size:10109},
+      {file:'README.md',size:2685},
+    ];
+
+    // Enrich with category
+    PAPERS.forEach(p => {
+      p.category = categorizePaper(p.file);
+      p.title = formatPaperTitle(p.file);
+    });
+
+    let activeCategory = 'all';
+    let paperSearchQuery = '';
+
+    function renderPapers() {
+      let filtered = PAPERS;
+      if (activeCategory !== 'all') {
+        filtered = filtered.filter(p => p.category === activeCategory);
+      }
+      if (paperSearchQuery) {
+        const q = paperSearchQuery.toLowerCase();
+        filtered = filtered.filter(p =>
+          p.title.toLowerCase().includes(q) || p.file.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+        );
+      }
+
+      // Sort by size descending (larger = more substantial)
+      filtered.sort((a, b) => b.size - a.size);
+
+      document.getElementById('resultsCounter').innerHTML =
+        `Showing <span>${filtered.length}</span> of ${PAPERS.length} documents`;
+
+      const grid = document.getElementById('paperGrid');
+      grid.innerHTML = filtered.map(p => {
+        const catInfo = PAPER_CATEGORIES[p.category] || PAPER_CATEGORIES['Other'];
+        return `
+          <div class="paper-card" onclick="openPaper('${p.file}')">
+            <div class="paper-category" style="color:var(--accent-${catInfo.color})">${catInfo.icon} ${p.category}</div>
+            <h3>${p.title}</h3>
+            <p class="paper-size">${formatFileSize(p.size)}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Event listeners
+    document.getElementById('paperSearch').addEventListener('input', e => {
+      paperSearchQuery = e.target.value;
+      renderPapers();
+    });
+
+    document.getElementById('categoryTabs').addEventListener('click', e => {
+      if (e.target.classList.contains('filter-tab')) {
+        document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        activeCategory = e.target.dataset.cat;
+        renderPapers();
+      }
+    });
+
+    // Paper viewer
+    async function openPaper(filename) {
+      const modal = document.getElementById('paperModal');
+      const content = document.getElementById('paperContent');
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+
+      content.innerHTML = '<div style="text-align:center;padding:4rem"><div class="skeleton" style="width:200px;height:24px;margin:0 auto 1rem"></div><div class="skeleton" style="width:300px;height:16px;margin:0 auto"></div><p style="color:var(--text-tertiary);margin-top:2rem">Loading paper content...</p></div>';
+
+      try {
+        const resp = await fetch('../papers/' + filename);
+        if (!resp.ok) throw new Error('Could not load file');
+        const text = await resp.text();
+        content.innerHTML = renderMarkdown(text);
+      } catch (err) {
+        content.innerHTML = `
+          <h1>${formatPaperTitle(filename)}</h1>
+          <p style="color:var(--text-secondary);margin-top:1rem">This document is available in the <code>papers/</code> directory as <code>${filename}</code>.</p>
+          <p style="color:var(--text-tertiary);margin-top:0.5rem">File size: ${formatFileSize(PAPERS.find(p=>p.file===filename)?.size||0)}</p>
+          <div class="code-block" style="margin-top:2rem"><pre>papers/${filename}</pre></div>
+        `;
+      }
+      // Render LaTeX after content is loaded
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(content, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('paperModal').style.display = 'none';
+      document.body.style.overflow = '';
+    });
+
+    document.getElementById('paperModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('paperModal')) {
+        document.getElementById('paperModal').style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.getElementById('paperModal').style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    });
+
+    renderPapers();
+  </script>
+</body>
+</html>

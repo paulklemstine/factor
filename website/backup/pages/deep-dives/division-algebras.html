@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Division Algebras — Deep Dive — Pythagorean Cosmos</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav"><div class="nav-inner"><a href="../../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a><ul class="nav-links"><li><a href="../../index.html">Home</a></li><li><a href="../cosmos-theorems.html">Theorems</a></li><li><a href="../cosmos-library.html">Library</a></li><li><a href="berggren-tree.html" class="active">Deep Dives</a></li><li><a href="../cosmos-codebase.html">Codebase</a></li><li><a href="../cosmos-team.html">Team</a></li><li><a href="../cosmos-about.html">About</a></li></ul><button class="nav-mobile-toggle">☰</button></div></nav>
+  <div style="background:var(--bg-secondary);border-bottom:1px solid var(--border-subtle);padding:0.5rem 1.5rem;margin-top:64px;overflow-x:auto;white-space:nowrap"><div style="max-width:1400px;margin:0 auto;display:flex;gap:4px"><a href="berggren-tree.html" class="filter-tab" style="text-decoration:none">🌲 Berggren Tree</a><a href="grand-unification.html" class="filter-tab" style="text-decoration:none">🔗 Grand Unification</a><a href="quantum-gates.html" class="filter-tab" style="text-decoration:none">⚛️ Quantum Gates</a><a href="light-cone.html" class="filter-tab" style="text-decoration:none">💡 Light Cone</a><a href="stereographic.html" class="filter-tab" style="text-decoration:none">🔮 Stereographic</a><a href="division-algebras.html" class="filter-tab active" style="text-decoration:none">🔷 Division Algebras</a><a href="crystallizer.html" class="filter-tab" style="text-decoration:none">💎 Crystallizer</a><a href="factoring.html" class="filter-tab" style="text-decoration:none">⚙️ Factoring</a><a href="compression.html" class="filter-tab" style="text-decoration:none">🗜️ Compression</a><a href="applications.html" class="filter-tab" style="text-decoration:none">🚀 Applications</a></div></div>
+  <div class="deep-dive-hero" style="padding-top:var(--space-3xl)"><div class="hero-badge"><span class="pulse"></span>Deep Dive #6</div><h1>The <span class="gradient-text">Cayley-Dickson Tower</span></h1><p class="subtitle">ℝ → ℂ → ℍ → 𝕆 — the only four normed division algebras, and why the pattern stops.</p></div>
+  <div class="deep-dive-content">
+    <h2>The Tower</h2>
+    <div class="viz-container">
+      <div style="display:grid;gap:0;max-width:600px;margin:0 auto">
+        <div style="padding:1.5rem;background:rgba(129,140,248,0.06);border-left:4px solid var(--accent-indigo);border-bottom:1px solid var(--border-subtle)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--accent-indigo);font-size:1.1rem">ℝ — Reals</span><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">dim 1</span></div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Ordered, commutative, associative ✓ ✓ ✓</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:2px">Composition: n² (trivial)</div>
+        </div>
+        <div style="text-align:center;color:var(--text-tertiary);padding:4px;font-size:0.8rem">↓ Cayley-Dickson doubles dimension, loses ordering</div>
+        <div style="padding:1.5rem;background:rgba(34,211,238,0.06);border-left:4px solid var(--accent-cyan);border-bottom:1px solid var(--border-subtle)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--accent-cyan);font-size:1.1rem">ℂ — Complex Numbers</span><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">dim 2</span></div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Commutative, associative ✓ ✓ (lost ordering)</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:2px">Composition: (a²+b²)(c²+d²) = (ac−bd)²+(ad+bc)² — Brahmagupta-Fibonacci</div>
+        </div>
+        <div style="text-align:center;color:var(--text-tertiary);padding:4px;font-size:0.8rem">↓ Cayley-Dickson doubles dimension, loses commutativity</div>
+        <div style="padding:1.5rem;background:rgba(167,139,250,0.06);border-left:4px solid var(--accent-violet);border-bottom:1px solid var(--border-subtle)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--accent-violet);font-size:1.1rem">ℍ — Quaternions</span><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">dim 4</span></div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Associative ✓ (lost commutativity)</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:2px">Composition: Euler 4-square identity — 3D rotations, Hopf fibration S³→S²</div>
+        </div>
+        <div style="text-align:center;color:var(--text-tertiary);padding:4px;font-size:0.8rem">↓ Cayley-Dickson doubles dimension, loses associativity</div>
+        <div style="padding:1.5rem;background:rgba(251,191,36,0.06);border-left:4px solid var(--accent-amber)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:700;color:var(--accent-amber);font-size:1.1rem">𝕆 — Octonions</span><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">dim 8</span></div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Non-associative (exceptional structure)</div>
+          <div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:2px">Composition: 8-square identity — connects to E₈, M-theory, exceptional Lie groups</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Hurwitz Theorem</h2>
+    <div class="math-block">Normed division algebras exist in dimensions 1, 2, 4, 8 — and ONLY those.</div>
+    <p>This is one of the deepest results in algebra. The project proves it by showing norm multiplicativity at each level and demonstrating the composition identities fail at dimension 16 (sedenions have zero divisors).</p>
+
+    <h2>The Algebraic Backbone</h2>
+    <p>The Brahmagupta-Fibonacci identity — (a²+b²)(c²+d²) = (ac−bd)²+(ad+bc)² — appears <strong>16 times</strong> across the codebase. This one identity is the algebraic backbone connecting:</p>
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+      <div class="card"><h3 style="font-size:0.95rem">Gaussian integers</h3><p style="font-size:0.8rem">N(zw) = N(z)·N(w)</p></div>
+      <div class="card"><h3 style="font-size:0.95rem">Photon composition</h3><p style="font-size:0.8rem">Energy products close</p></div>
+      <div class="card"><h3 style="font-size:0.95rem">Quantum gates</h3><p style="font-size:0.8rem">Unitary gate products</p></div>
+      <div class="card"><h3 style="font-size:0.95rem">Hypotenuse closure</h3><p style="font-size:0.8rem">Product of hypotenuses is a hypotenuse</p></div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-bottom" style="margin-top:0;border-top:none"><p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p><p>© 2025 Paul Klemstine</p></div></footer>
+  <script src="../../js/app.js"></script>
+</body>
+</html>

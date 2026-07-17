@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lean Codebase — Pythagorean Cosmos</title>
+  <meta name="description" content="Explore 199 Lean 4 source files organized into 19 thematic modules — 33,700 lines of machine-verified proof.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav"><div class="nav-inner"><a href="../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a><ul class="nav-links"><li><a href="../index.html">Home</a></li><li><a href="cosmos-theorems.html">Theorems</a></li><li><a href="cosmos-library.html">Library</a></li><li><a href="deep-dives/berggren-tree.html">Deep Dives</a></li><li><a href="cosmos-codebase.html" class="active">Codebase</a></li><li><a href="cosmos-team.html">Team</a></li><li><a href="cosmos-about.html">About</a></li></ul><button class="nav-mobile-toggle">☰</button></div></nav>
+
+  <div class="page-header">
+    <h1>Lean <span class="gradient-text">Codebase</span></h1>
+    <p>199 Lean 4 source files organized into 19 thematic modules — 33,700 lines of machine-verified proof.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="stats-bar" style="margin-bottom:var(--space-2xl)">
+        <div class="stat-item"><div class="stat-number" data-count="199">0</div><div class="stat-label">Source Files</div></div>
+        <div class="stat-item"><div class="stat-number" data-count="19">0</div><div class="stat-label">Modules</div></div>
+        <div class="stat-item"><div class="stat-number" data-count="33700" data-format="comma">0</div><div class="stat-label">Lines of Lean</div></div>
+        <div class="stat-item"><div class="stat-number" data-count="3158" data-format="comma">0</div><div class="stat-label">Theorems</div></div>
+      </div>
+
+      <div class="unification-diagram" style="margin-bottom:var(--space-2xl);padding:var(--space-2xl)">
+        <div style="text-align:left;font-family:var(--font-mono);font-size:0.85rem;color:var(--text-secondary);line-height:1.8">
+          <span class="highlight">Numbers</span> ←→ <span class="cyan">Algebra</span> ←→ <span class="emerald">Geometry</span> ←→ <span class="amber">Topology</span> ←→ Computation<br>
+          &nbsp;&nbsp;<span class="highlight">(Gaussian)</span>&nbsp;&nbsp;<span class="cyan">(SL₂ℤ)</span>&nbsp;&nbsp;&nbsp;<span class="emerald">(Stereo)</span>&nbsp;&nbsp;&nbsp;<span class="amber">(Tropical)</span><br><br>
+          Every arrow represents dozens of formally verified theorems.
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card"><div class="card-icon indigo">🌲</div><h3>Core <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(24 files)</span></h3><p>Pythagorean triples, Berggren tree, Gaussian integers. The foundation of everything.</p></div>
+        <div class="card"><div class="card-icon cyan">💡</div><h3>PhotonNetworks <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(12 files)</span></h3><p>Sum-of-squares graph structures, brightness/darkness classification of primes.</p></div>
+        <div class="card"><div class="card-icon violet">🔮</div><h3>Stereographic <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(9 files)</span></h3><p>Projection, Möbius transforms, dimensional ladders.</p></div>
+        <div class="card"><div class="card-icon emerald">⚙️</div><h3>Factoring <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(10 files)</span></h3><p>Inside-out factoring, Fermat's method, energy descent.</p></div>
+        <div class="card"><div class="card-icon amber">🌴</div><h3>Tropical <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(20 files)</span></h3><p>Tropical semirings, ReLU bridge, neural network compilation.</p></div>
+        <div class="card"><div class="card-icon rose">⚛️</div><h3>Quantum <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(21 files)</span></h3><p>Gate synthesis, circuits, Berggren-quantum bridge.</p></div>
+        <div class="card"><div class="card-icon blue">🔷</div><h3>DivisionAlgebras <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(6 files)</span></h3><p>Cayley-Dickson tower, octonions, sedenions.</p></div>
+        <div class="card"><div class="card-icon indigo">📐</div><h3>Algebra <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(19 files)</span></h3><p>Categories, representation theory, K-theory, linear algebra.</p></div>
+        <div class="card"><div class="card-icon cyan">📊</div><h3>Analysis <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(9 files)</span></h3><p>Inequalities, spectral theory, operators.</p></div>
+        <div class="card"><div class="card-icon violet">🍩</div><h3>Topology <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(6 files)</span></h3><p>Algebraic topology, knot theory, descriptive sets.</p></div>
+        <div class="card"><div class="card-icon emerald">📐</div><h3>Geometry <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(8 files)</span></h3><p>Differential, symplectic, convex, Hodge, information geometry.</p></div>
+        <div class="card"><div class="card-icon amber">🕸️</div><h3>Combinatorics <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(11 files)</span></h3><p>Ramsey, extremal graphs, coding theory, matroids.</p></div>
+        <div class="card"><div class="card-icon rose">🔢</div><h3>NumberTheory <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(6 files)</span></h3><p>Algebraic, analytic, Moonshine connection.</p></div>
+        <div class="card"><div class="card-icon blue">🎲</div><h3>Probability <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(4 files)</span></h3><p>Entropy, information theory, stochastic processes.</p></div>
+        <div class="card"><div class="card-icon indigo">🌀</div><h3>Dynamics <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(3 files)</span></h3><p>Dynamical systems, ergodic theory, ODEs.</p></div>
+        <div class="card"><div class="card-icon cyan">🔧</div><h3>Applications <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(18 files)</span></h3><p>Crypto, compression, complexity, optimization, biology.</p></div>
+        <div class="card"><div class="card-icon violet">🔊</div><h3>HarmonicNetworks <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(10 files)</span></h3><p>Light cone theory, number line encoding, neural architecture.</p></div>
+        <div class="card"><div class="card-icon emerald">🔬</div><h3>Research <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(42 files)</span></h3><p>Oracle theory, crystallizer, holographic, strange loops.</p></div>
+        <div class="card"><div class="card-icon amber">🧠</div><h3>Meta <span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-tertiary)">(25 files)</span></h3><p>Deep connections, decoder, experiments, Millennium Prize connections.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="footer-bottom" style="margin-top:0;border-top:none"><p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p><p>© 2025 Paul Klemstine</p></div></footer>
+  <script src="../js/app.js"></script>
+</body>
+</html>

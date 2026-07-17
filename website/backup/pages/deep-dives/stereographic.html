@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stereographic Projection — Deep Dive — Pythagorean Cosmos</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav"><div class="nav-inner"><a href="../../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a><ul class="nav-links"><li><a href="../../index.html">Home</a></li><li><a href="../cosmos-theorems.html">Theorems</a></li><li><a href="../cosmos-library.html">Library</a></li><li><a href="berggren-tree.html" class="active">Deep Dives</a></li><li><a href="../cosmos-codebase.html">Codebase</a></li><li><a href="../cosmos-team.html">Team</a></li><li><a href="../cosmos-about.html">About</a></li></ul><button class="nav-mobile-toggle">☰</button></div></nav>
+  <div style="background:var(--bg-secondary);border-bottom:1px solid var(--border-subtle);padding:0.5rem 1.5rem;margin-top:64px;overflow-x:auto;white-space:nowrap"><div style="max-width:1400px;margin:0 auto;display:flex;gap:4px"><a href="berggren-tree.html" class="filter-tab" style="text-decoration:none">🌲 Berggren Tree</a><a href="grand-unification.html" class="filter-tab" style="text-decoration:none">🔗 Grand Unification</a><a href="quantum-gates.html" class="filter-tab" style="text-decoration:none">⚛️ Quantum Gates</a><a href="light-cone.html" class="filter-tab" style="text-decoration:none">💡 Light Cone</a><a href="stereographic.html" class="filter-tab active" style="text-decoration:none">🔮 Stereographic</a><a href="division-algebras.html" class="filter-tab" style="text-decoration:none">🔷 Division Algebras</a><a href="crystallizer.html" class="filter-tab" style="text-decoration:none">💎 Crystallizer</a><a href="factoring.html" class="filter-tab" style="text-decoration:none">⚙️ Factoring</a><a href="compression.html" class="filter-tab" style="text-decoration:none">🗜️ Compression</a><a href="applications.html" class="filter-tab" style="text-decoration:none">🚀 Applications</a></div></div>
+  <div class="deep-dive-hero" style="padding-top:var(--space-3xl)"><div class="hero-badge"><span class="pulse"></span>Deep Dive #5</div><h1><span class="gradient-text">Stereographic Projection</span> & Universal Decoder</h1><p class="subtitle">One formula connects everything: t ↦ ((1−t²)/(1+t²), 2t/(1+t²)).</p></div>
+  <div class="deep-dive-content">
+    <h2>The Single Formula</h2>
+    <div class="math-block" style="font-size:1.15rem">t &nbsp;↦&nbsp; ( (1 − t²)/(1 + t²), &nbsp; 2t/(1 + t²) )</div>
+    <p>This one formula — stereographic projection from the real line to the unit circle — is the Rosetta Stone of the entire project. It connects:</p>
+    <div class="card" style="margin:var(--space-xl) 0">
+      <ul style="color:var(--text-secondary);padding-left:1.5rem;line-height:2.2">
+        <li><strong>Pythagorean triples:</strong> Setting t = n/m produces all PPTs</li>
+        <li><strong>Weierstrass substitution:</strong> t = tan(x/2) unifies trigonometric integrals</li>
+        <li><strong>Cayley transform:</strong> Maps upper half-plane to unit disk in ℂ</li>
+        <li><strong>Bloch sphere:</strong> Parameterizes quantum states via stereographic S²</li>
+        <li><strong>Farey fractions:</strong> Ford circle tangency ↔ Farey neighbor condition</li>
+        <li><strong>Möbius transformations:</strong> Composition preserves determinant</li>
+      </ul>
+    </div>
+
+    <h2>Interactive Stereographic Map</h2>
+    <div class="viz-container">
+      <div style="text-align:center">
+        <label style="color:var(--text-secondary);font-size:0.85rem">Parameter t = </label>
+        <input type="range" id="stereoSlider" min="-500" max="500" value="75" style="width:300px;vertical-align:middle">
+        <span id="stereoT" style="font-family:var(--font-mono);color:var(--accent-indigo);margin-left:8px">0.75</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xl);margin-top:var(--space-lg);text-align:center">
+        <div>
+          <div style="color:var(--text-tertiary);font-size:0.8rem;margin-bottom:4px">x-coordinate</div>
+          <div style="font-family:var(--font-mono);font-size:1.5rem;color:var(--accent-cyan)" id="stereoX">0.4375</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary)">(1 − t²) / (1 + t²)</div>
+        </div>
+        <div>
+          <div style="color:var(--text-tertiary);font-size:0.8rem;margin-bottom:4px">y-coordinate</div>
+          <div style="font-family:var(--font-mono);font-size:1.5rem;color:var(--accent-violet)" id="stereoY">0.9375</div>
+          <div style="font-size:0.75rem;color:var(--text-tertiary)">2t / (1 + t²)</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:var(--space-md)">
+        <div style="color:var(--text-tertiary);font-size:0.8rem;margin-bottom:4px">Verification: x² + y² = </div>
+        <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--accent-emerald)" id="stereoVerify">1.000000</div>
+      </div>
+    </div>
+
+    <h2>Key Properties</h2>
+    <div class="discoveries-grid" style="grid-template-columns:1fr 1fr">
+      <div class="discovery-card"><h3><span class="theorem-id">INJ</span> Injective on ℚ</h3><p class="description">Distinct rationals map to distinct circle points — no information is lost.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">LIP</span> Lipschitz Bounded</h3><p class="description">Both components are Lipschitz with constant ≤ 2, ensuring stability.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">D2</span> D₂ Symmetry</h3><p class="description">The decoder has D₂ symmetry group, reflecting the four quadrants of the plane.</p></div>
+      <div class="discovery-card"><h3><span class="theorem-id">CR</span> Cross-Ratio Invariance</h3><p class="description">Cross-ratio is preserved under Möbius maps — the fundamental projective invariant.</p></div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-bottom" style="margin-top:0;border-top:none"><p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p><p>© 2025 Paul Klemstine</p></div></footer>
+  <script src="../../js/app.js"></script>
+  <script>
+    const slider = document.getElementById('stereoSlider');
+    function updateStereo() {
+      const t = parseInt(slider.value) / 100;
+      const t2 = t * t;
+      const denom = 1 + t2;
+      const x = (1 - t2) / denom;
+      const y = (2 * t) / denom;
+      document.getElementById('stereoT').textContent = t.toFixed(2);
+      document.getElementById('stereoX').textContent = x.toFixed(6);
+      document.getElementById('stereoY').textContent = y.toFixed(6);
+      document.getElementById('stereoVerify').textContent = (x*x + y*y).toFixed(6);
+    }
+    slider.addEventListener('input', updateStereo);
+    updateStereo();
+  </script>
+</body>
+</html>

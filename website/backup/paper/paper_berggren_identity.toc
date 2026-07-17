@@ -1,0 +1,23 @@
+\contentsline {section}{\tocsection {}{1}{Introduction}}{2}{section.1}%
+\contentsline {subsection}{\tocsubsection {}{}{Statement of results}}{2}{section*.2}%
+\contentsline {subsection}{\tocsubsection {}{}{Significance}}{3}{section*.3}%
+\contentsline {section}{\tocsection {}{2}{Preliminaries}}{3}{section.2}%
+\contentsline {subsection}{\tocsubsection {}{2.1}{The modular group and congruence subgroups}}{3}{subsection.2.1}%
+\contentsline {subsection}{\tocsubsection {}{2.2}{Bass--Serre theory}}{3}{subsection.2.2}%
+\contentsline {subsection}{\tocsubsection {}{2.3}{Manneville--Pomeau maps}}{3}{subsection.2.3}%
+\contentsline {section}{\tocsection {}{3}{The Berggren Group as $\Gamma _\theta $}}{3}{section.3}%
+\contentsline {section}{\tocsection {}{4}{The $\mathrm {SL}(2,\mathbb {F}_p)$ Theorem}}{4}{section.4}%
+\contentsline {section}{\tocsection {}{5}{The ADE Tower}}{5}{section.5}%
+\contentsline {section}{\tocsection {}{6}{Bass--Serre Theory and Ternary Structure}}{5}{section.6}%
+\contentsline {section}{\tocsection {}{7}{Spin Structure and Modular Forms}}{6}{section.7}%
+\contentsline {subsection}{\tocsubsection {}{7.1}{The Jacobi theta function}}{6}{subsection.7.1}%
+\contentsline {subsection}{\tocsubsection {}{7.2}{Spin structures}}{7}{subsection.7.2}%
+\contentsline {section}{\tocsection {}{8}{Manneville--Pomeau Dynamics}}{7}{section.8}%
+\contentsline {subsection}{\tocsubsection {}{8.1}{The Berggren--Gauss map}}{7}{subsection.8.1}%
+\contentsline {subsection}{\tocsubsection {}{8.2}{The Cayley conjugacy and Chebyshev polynomials}}{9}{subsection.8.2}%
+\contentsline {section}{\tocsection {}{9}{Computational Verification}}{9}{section.9}%
+\contentsline {section}{\tocsection {}{10}{Discussion and Open Problems}}{10}{section.10}%
+\contentsline {subsection}{\tocsubsection {}{10.1}{Summary}}{10}{subsection.10.1}%
+\contentsline {subsection}{\tocsubsection {}{10.2}{Open problems}}{10}{subsection.10.2}%
+\contentsline {section}{\tocsection {}{}{Acknowledgments}}{10}{section*.4}%
+\contentsline {section}{\tocsection {}{}{References}}{10}{section*.5}%

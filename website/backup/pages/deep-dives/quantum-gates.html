@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Gate Synthesis — Deep Dive — Pythagorean Cosmos</title>
+  <meta name="description" content="From Pythagorean rationals to universal quantum gates — the Berggren-quantum bridge.">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Cpolygon points=%2750,5 63,35 95,35 69,57 79,90 50,70 21,90 31,57 5,35 37,35%27 fill=%27%23fbbf24%27/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="bg-ambient"></div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../../index.html" class="nav-logo"><span class="logo-icon">&#9733;</span> Pythagorean Cosmos</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../cosmos-theorems.html">Theorems</a></li>
+        <li><a href="../cosmos-library.html">Library</a></li>
+        <li><a href="berggren-tree.html" class="active">Deep Dives</a></li>
+        <li><a href="../cosmos-codebase.html">Codebase</a></li>
+        
+        <li><a href="../cosmos-team.html">Team</a></li><li><a href="../cosmos-about.html">About</a></li>
+      </ul>
+      <button class="nav-mobile-toggle">☰</button>
+    </div>
+  </nav>
+  <div style="background:var(--bg-secondary);border-bottom:1px solid var(--border-subtle);padding:0.5rem 1.5rem;margin-top:64px;overflow-x:auto;white-space:nowrap">
+    <div style="max-width:1400px;margin:0 auto;display:flex;gap:4px">
+      <a href="berggren-tree.html" class="filter-tab" style="text-decoration:none">🌲 Berggren Tree</a>
+      <a href="grand-unification.html" class="filter-tab" style="text-decoration:none">🔗 Grand Unification</a>
+      <a href="quantum-gates.html" class="filter-tab active" style="text-decoration:none">⚛️ Quantum Gates</a>
+      <a href="light-cone.html" class="filter-tab" style="text-decoration:none">💡 Light Cone</a>
+      <a href="stereographic.html" class="filter-tab" style="text-decoration:none">🔮 Stereographic</a>
+      <a href="division-algebras.html" class="filter-tab" style="text-decoration:none">🔷 Division Algebras</a>
+      <a href="crystallizer.html" class="filter-tab" style="text-decoration:none">💎 Crystallizer</a>
+      <a href="factoring.html" class="filter-tab" style="text-decoration:none">⚙️ Factoring</a>
+      <a href="compression.html" class="filter-tab" style="text-decoration:none">🗜️ Compression</a>
+      <a href="applications.html" class="filter-tab" style="text-decoration:none">🚀 Applications</a>
+    </div>
+  </div>
+
+  <div class="deep-dive-hero" style="padding-top:var(--space-3xl)">
+    <div class="hero-badge"><span class="pulse"></span>Deep Dive #3</div>
+    <h1><span class="gradient-text">Quantum Gate</span> Synthesis</h1>
+    <p class="subtitle">The Berggren gates form a free group inside SU(2), connecting the ancient Pythagorean tree to universal quantum computation.</p>
+  </div>
+
+  <div class="deep-dive-content">
+    <h2>The Berggren Gate Group</h2>
+    <p>The Berggren matrices, when lifted to 2×2 form via their connection to SL(2,ℤ), become quantum gates. These gates are unitary, non-commutative, and generate a dense subgroup of SU(2).</p>
+
+    <div class="viz-container">
+      <h3 style="text-align:center;margin-bottom:var(--space-md);color:var(--accent-cyan)">Gate Algebra Explorer</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-md);max-width:500px;margin:0 auto">
+        <div style="text-align:center;padding:1rem;background:rgba(129,140,248,0.08);border-radius:var(--radius-md);border:1px solid var(--border-subtle)">
+          <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--accent-indigo)">BG₁</div>
+          <div style="font-size:0.7rem;color:var(--text-tertiary);margin-top:4px">det = 1</div>
+          <div style="font-size:0.7rem;color:var(--accent-emerald)">Unitary ✓</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:rgba(167,139,250,0.08);border-radius:var(--radius-md);border:1px solid var(--border-subtle)">
+          <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--accent-violet)">BG₂</div>
+          <div style="font-size:0.7rem;color:var(--text-tertiary);margin-top:4px">det = 1</div>
+          <div style="font-size:0.7rem;color:var(--accent-emerald)">Unitary ✓</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:rgba(34,211,238,0.08);border-radius:var(--radius-md);border:1px solid var(--border-subtle)">
+          <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--accent-cyan)">BG₃</div>
+          <div style="font-size:0.7rem;color:var(--text-tertiary);margin-top:4px">det = 1</div>
+          <div style="font-size:0.7rem;color:var(--accent-emerald)">Unitary ✓</div>
+        </div>
+      </div>
+      <div style="margin-top:var(--space-xl)">
+        <h4 style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:var(--space-sm)">Key Relations (Verified in Lean 4)</h4>
+        <div class="code-block" style="margin:0">
+          <pre>BG₁ · BG₁⁻¹ = I          -- invertibility
+BG₁ · BG₂⁻¹ · BG₁ = BG₂  -- conjugation
+BG₁ · BG₂ ≠ BG₂ · BG₁    -- non-commutativity
+R₁₂² = I                   -- reflections are involutions
+[BG₁, BG₃] ≠ I             -- non-trivial commutator</pre>
+        </div>
+      </div>
+    </div>
+
+    <h2>Theta Group Connection</h2>
+    <p>The Berggren-to-quantum bridge operates through the theta group Γθ and its connection to the modular group:</p>
+    <div class="math-block">S = M₃⁻¹ · M₁ &nbsp;&nbsp;|&nbsp;&nbsp; T² = M₃ &nbsp;&nbsp;|&nbsp;&nbsp; (S·T)³ = S² &nbsp;&nbsp;|&nbsp;&nbsp; S⁴ = I</div>
+
+    <h2>Universality</h2>
+    <div class="card" style="border-left:3px solid var(--accent-emerald)">
+      <h3 style="color:var(--accent-emerald)">CrystalBQP = BQP</h3>
+      <p>The crystallized quantum gates achieve computational universality — CrystalBQP equals standard BQP. This means the Pythagorean framework can simulate any quantum computation, with the additional benefit of exact rational arithmetic.</p>
+    </div>
+
+    <h2>Circuit Synthesis</h2>
+    <p>Circuits built from Berggren gates have provable properties:</p>
+    <div class="discoveries-grid" style="grid-template-columns:1fr 1fr">
+      <div class="discovery-card">
+        <h3><span class="theorem-id">DET</span> Determinant Preservation</h3>
+        <p class="description">Circuit evaluation preserves determinant. Every gate product has det = 1.</p>
+      </div>
+      <div class="discovery-card">
+        <h3><span class="theorem-id">SIMP</span> Circuit Simplification</h3>
+        <p class="description">B₁·B₂·B₁ = B₂ allows algebraic circuit optimization — reducing gate count.</p>
+      </div>
+      <div class="discovery-card">
+        <h3><span class="theorem-id">FACT</span> Factoring from Circuits</h3>
+        <p class="description">Circuit evaluation yields factorization: m²−n² = N ⟹ N = (m+n)(m−n).</p>
+      </div>
+      <div class="discovery-card">
+        <h3><span class="theorem-id">DEPTH</span> Depth Bounds</h3>
+        <p class="description">Gate count bounded by lattice rank — crystallized circuits have provable complexity bounds.</p>
+      </div>
+    </div>
+
+    <h2>Pauli & Clifford Connection</h2>
+    <div class="code-block">
+      <span class="lang-label">Lean 4</span>
+      <pre>-- Pauli matrices form Clifford algebra Cl(3)
+theorem pauli_anticommutation : {σᵢ, σⱼ} = 2δᵢⱼ · I
+
+-- Bloch sphere ≅ Stereographic S²
+theorem bloch_sphere_stereo : BlochSphere ≅ Stereo(S²)
+
+-- Holevo bound for crystallized states
+theorem quantum_compression_bound : χ(ρ) ≤ S(ρ)</pre>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-bottom" style="margin-top:0;border-top:none">
+      <p>Verified with Lean 4.28.0 + Mathlib · Standard axioms only</p>
+      <p>© 2025 Paul Klemstine</p>
+    </div>
+  </footer>
+  <script src="../../js/app.js"></script>
+</body>
+</html>

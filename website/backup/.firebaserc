@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "superacid"
+  },
+  "targets": {
+    "superacid": {
+      "hosting": {
+        "paulklemstine": [
+          "paulklemstine"
+        ]
+      }
+    }
+  }
+}

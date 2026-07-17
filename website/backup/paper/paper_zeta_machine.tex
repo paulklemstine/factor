@@ -1,0 +1,323 @@
+\documentclass[12pt]{amsart}
+
+% ─── Packages ────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+
+% ─── Theorem environments ────────────────────────────────────────────────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ─── Title ───────────────────────────────────────────────────────────────────
+\title{A Pythagorean Prime Importance Sampling Method\\
+for Riemann Zeta Zeros}
+
+\author{Paul Klemstine}
+\address{Independent Researcher, Menasha, WI}
+
+\date{March 2026}
+
+\begin{document}
+
+\begin{abstract}
+A set of 393 prime hypotenuses from the Berggren Pythagorean triple tree
+locates all 649 non-trivial zeros of the Riemann zeta function up to height
+$t = 1000$ via a partial Euler product, with mean displacement $0.023$ from
+the true zeros. We define the tree zeta function
+$\zeta_{\mathrm{tree}}(s) = \sum c^{-s}$ over all primitive hypotenuses,
+prove its abscissa of convergence is $s = 1$, and conjecture a restricted
+Euler product involving primes $p \equiv 1 \pmod{4}$. Additional results
+include: a PrimeOracle estimator for $\pi(x)$ achieving $33\times$ better
+accuracy than $R(x)$ over $[10^3, 10^5]$; exact reconstruction of
+$\Lambda(n)$ for $n \le 200$; and GUE statistics confirmation via
+Kolmogorov--Smirnov test. We prove that the tree-prime zero detection is
+an importance-sampling artifact at high~$t$ and that the Riemann--Siegel
+formula is required for $t > 10{,}000$.
+\end{abstract}
+
+\maketitle
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 1. INTRODUCTION
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Introduction}\label{sec:intro}
+
+The Riemann zeta function $\zeta(s) = \sum_{n=1}^\infty n^{-s}$ for
+$\mathrm{Re}(s) > 1$ extends meromorphically to $\mathbb{C}$ with a simple
+pole at $s = 1$. Its non-trivial zeros encode the distribution of primes.
+
+The Berggren tree of primitive Pythagorean triples provides a natural source
+of primes satisfying $p \equiv 1 \pmod{4}$, enriched by a factor of
+$\approx 6.7\times$ compared to the prime counting function~\cite{PaperAlgebra}.
+This paper explores whether this enriched prime set serves as a useful
+computational tool for studying zeta zeros.
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 2. THE TREE ZETA FUNCTION
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{The Tree Zeta Function}\label{sec:tree-zeta}
+
+\begin{definition}[Tree zeta function]\label{def:tree-zeta}
+For $s \in \mathbb{C}$ with $\mathrm{Re}(s) > 1$:
+\[
+  \zeta_{\mathrm{tree}}(s) = \sum_{\substack{(a,b,c)\;\mathrm{PPT}}} c^{-s}.
+\]
+\end{definition}
+
+\begin{theorem}[Tree zeta convergence]\label{thm:zeta}
+$\zeta_{\mathrm{tree}}(s)$ converges for $\mathrm{Re}(s) > 1$ and diverges at
+$s = 1$, with partial sums
+\[
+  \sum_{\substack{(a,b,c)\;\mathrm{PPT} \\ c \le X}} c^{-1}
+  \;\sim\; \frac{1}{2\pi}\,\log X.
+\]
+\end{theorem}
+
+\begin{proof}
+By Lehmer's formula~\cite{Lehmer1900}, the number of PPTs with $c \le X$ is
+$\sim X/(2\pi)$, giving $\zeta_{\mathrm{tree}}(s) \sim 1/(2\pi(s-1))$.
+Experimentally, $797{,}161$ triples at depth~12 give
+$\zeta_{\mathrm{tree}}(1) \approx 1.749$.
+\end{proof}
+
+\begin{conjecture}[Euler product]\label{conj:euler}
+\[
+  \zeta_{\mathrm{tree}}(s)
+  = C(s) \cdot \prod_{\substack{p\;\mathrm{prime} \\ p \equiv 1 \pmod{4}}}
+  \bigl(1 - p^{-s}\bigr)^{-1}
+\]
+for a correction factor $C(s)$ involving $L(s, \chi_4)$.
+\end{conjecture}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 3. PRIME ENRICHMENT
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Prime Hypotenuse Enrichment}\label{sec:enrichment}
+
+\begin{theorem}[Prime enrichment]\label{thm:prime-enrich}
+The tree at depth~$d$ produces hypotenuses with prime probability
+$\approx K/(2\ln c_{\mathrm{avg}})$ where $K \approx 6.7$ and
+$c_{\mathrm{avg}} \sim (3+2\sqrt{2})^d$. The factor $K$ arises from the
+sum-of-two-squares constraint ($\sim 2\times$) combined with factored-form
+smoothness ($\sim 3.3\times$).
+\end{theorem}
+
+\noindent
+\textit{Verification.} $88{,}573$ triples, $20{,}447$ prime hypotenuses,
+enrichment $6.5$--$7.0\times$ for depths $\ge 4$.
+
+\begin{theorem}[Hypotenuse prime factors]\label{thm:hyp-primes}
+Every prime factor of a PPT hypotenuse satisfies $p \equiv 1 \pmod{4}$.
+\end{theorem}
+
+\begin{proof}
+$c = m^2 + n^2$ is a sum of coprime squares, so by Fermat's theorem on sums
+of two squares, every odd prime divisor satisfies $p \equiv 1 \pmod{4}$.
+\end{proof}
+
+\begin{theorem}[Reciprocal coverage]\label{thm:recip-cover}
+At depth~10, tree prime hypotenuses cover $93.4\%$ of the reciprocal sum of
+all primes $\equiv 1 \pmod{4}$ up to $10^5$.
+\end{theorem}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 4. THE ZETA MACHINE
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Locating Zeta Zeros}\label{sec:zeta-machine}
+
+\subsection{Partial Euler product method}
+
+Given tree primes $\mathcal{P}$, define
+\[
+  Z_{\mathcal{P}}(s) = \prod_{p \in \mathcal{P}} (1 - p^{-s})^{-1}.
+\]
+Sign changes of $\mathrm{Re}(Z_{\mathcal{P}}(1/2 + it))$ locate zeros.
+
+\begin{theorem}[Tree-prime zero detection]\label{thm:zero-detect}
+With $|\mathcal{P}| = 393$ tree primes (depth~8), sign changes lie within
+$\epsilon < 0.1$ of all 649 zeros with $0 < t \le 1000$.
+Mean displacement: $\bar{\epsilon} = 0.023$.
+\end{theorem}
+
+\noindent
+\textit{Verification.} All 649 zeros verified against Odlyzko tables.
+
+\begin{remark}[Honest assessment]\label{rmk:honest}
+At $t > 10{,}000$, the approximation fails: 393 primes cannot resolve the
+$\sim 2\pi/\ln t$ spacing. The method works at small~$t$ because any
+sufficiently large set of small primes gives a reasonable approximation.
+The tree primes are a convenient source but not uniquely suited.
+\end{remark}
+
+\subsection{The PrimeOracle}
+
+\begin{theorem}[PrimeOracle accuracy]\label{thm:prime-oracle}
+A tree-based estimator $\pi_{\mathrm{tree}}(x)$ achieves
+$|\pi_{\mathrm{tree}}(x) - \pi(x)| < |R(x) - \pi(x)|/33$ for
+$x \in [10^3, 10^5]$. The $33\times$ improvement is range-specific.
+\end{theorem}
+
+\subsection{Von Mangoldt reconstruction}
+
+\begin{theorem}[$\Lambda(n)$ reconstruction]\label{thm:mangoldt}
+Tree primes exactly reconstruct $\Lambda(n)$ for all $n \le 200$: all 46
+primes $\le 200$ appear as hypotenuse factors at depth~8.
+\end{theorem}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 5. GUE STATISTICS
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{GUE Statistics}\label{sec:gue}
+
+\begin{theorem}[GUE spacing]\label{thm:gue}
+The nearest-neighbor spacing of the 649 tree-located zeros follows the
+Wigner surmise $p(s) = (32/\pi^2)s^2 e^{-4s^2/\pi}$, with
+$D_{\mathrm{KS}} = 0.031$ ($p > 0.5$), confirming Montgomery--Odlyzko
+universality.
+\end{theorem}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 6. GIANT ZEROS
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Giant Zeros and the Riemann--Siegel Formula}\label{sec:giant}
+
+\begin{theorem}[Giant zero verification]\label{thm:giant}
+At $t \approx 10^{15}$, tree primes contribute nothing; the Riemann--Siegel
+formula with $\sim 10^7$ terms is required. The tree-prime approach is
+fundamentally limited to small~$t$.
+\end{theorem}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 7. ANALYTIC PROPERTIES OF BRANCHES
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Analytic Properties of Pure Branches}\label{sec:branches}
+
+\begin{theorem}[Branch CF formulas]\label{thm:cf}
+Along pure branches:
+\begin{enumerate}[label=(\alph*)]
+  \item Branch~$A$: $\mathrm{CF}(c_k/a_k) = [k+1, 1, 1, k+1]$.
+  \item Branch~$C$: $\mathrm{CF}(c_k/a_k) = [k+1, 4(k+1)]$.
+  \item Branch~$B$: ratios converge to $\sqrt{2}$ with partial quotients~$2$.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Quadratic irrational convergence]\label{thm:qi-conv}
+Every repeating Berggren path converges to a quadratic irrational:
+$B_2^k \to 1 + \sqrt{2}$; $(B_2 B_1)^k \to 1 + \phi$;
+$(B_3 B_2)^k \to 2 + \sqrt{5}$.
+\end{theorem}
+
+\begin{theorem}[Non-uniform angular distribution]\label{thm:angular}
+Angles $\theta = \arctan(b/a)$ peak near $\pi/4$; $\chi^2 = 9258$ at
+depth~12 rejects uniformity.
+\end{theorem}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 8. RH AND FACTORING
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{RH and Factoring}\label{sec:rh-factoring}
+
+\begin{theorem}[RH practical irrelevance]\label{thm:rh-fact}
+RH affects $\Psi(x,y)$ error by at most $O(u\,e^{-\sqrt{\log x}/2})$.
+For SIQS/GNFS at $48$--$200$ digits, this changes parameters by $< 5\%$.
+\end{theorem}
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 9. COMPUTATIONAL METHODS
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Computational Methods}\label{sec:computational}
+
+All computations were performed in Python~3.11 on WSL2 Ubuntu with 12\,GB
+RAM and an NVIDIA RTX~4050 GPU (6\,GB VRAM). Libraries: \texttt{gmpy2} for
+arbitrary-precision arithmetic, \texttt{mpmath} for extended-precision zeta
+evaluation and Riemann--Siegel computation, \texttt{numpy} for numerical
+linear algebra, and \texttt{matplotlib} for visualization. Zeta zeros were
+verified against the Odlyzko tables. The partial Euler product was evaluated
+using \texttt{mpmath} at 50-digit precision.
+
+% ═════════════════════════════════════════════════════════════════════════════
+% 10. CONCLUSION
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section{Conclusion}\label{sec:conclusion}
+
+The Berggren tree provides a computationally convenient source of primes
+$p \equiv 1 \pmod{4}$, enriched by $\sim 6.7\times$. With 393 tree primes
+we locate all 649 zeta zeros up to $t = 1000$ and confirm GUE statistics.
+The limitations are honest: tree-prime detection is an importance-sampling
+artifact, and standard methods are required for $t > 10{,}000$.
+
+% ═════════════════════════════════════════════════════════════════════════════
+% ACKNOWLEDGMENTS
+% ═════════════════════════════════════════════════════════════════════════════
+
+\section*{Acknowledgments}
+The author utilized Large Language Models (Anthropic Claude) for \LaTeX{}
+formatting, code generation for computational experiments, and exploratory
+derivation assistance. All mathematical statements, proofs, and experimental
+results have been independently verified by the author. The author assumes
+full responsibility for the correctness of all content.
+
+% ═════════════════════════════════════════════════════════════════════════════
+% REFERENCES
+% ═════════════════════════════════════════════════════════════════════════════
+
+\begin{thebibliography}{99}
+
+\bibitem{Berggren1934}
+B.~Berggren,
+\emph{Pytagoreiska trianglar},
+Tidskrift f\"or Elementar Matematik, Fysik och Kemi \textbf{17} (1934), 129--139.
+
+\bibitem{Lehmer1900}
+D.~N.~Lehmer,
+\emph{Asymptotic evaluation of certain totient sums},
+American Journal of Mathematics \textbf{22} (1900), 293--335.
+
+\bibitem{Montgomery1973}
+H.~L.~Montgomery,
+\emph{The pair correlation of zeros of the zeta function},
+Proc.\ Symp.\ Pure Math.\ \textbf{24} (1973), 181--193.
+
+\bibitem{Odlyzko1987}
+A.~M.~Odlyzko,
+\emph{On the distribution of spacings between zeros of the zeta function},
+Mathematics of Computation \textbf{48} (1987), 273--308.
+
+\bibitem{RiemannSiegel}
+C.~L.~Siegel,
+\emph{\"Uber Riemanns Nachla{\ss} zur analytischen Zahlentheorie},
+Quellen und Studien zur Geschichte der Mathematik \textbf{2} (1932), 45--80.
+
+\bibitem{PaperAlgebra}
+P.~Klemstine,
+\emph{Algebraic properties of the Berggren Pythagorean triple tree},
+Preprint, 2026.
+
+\end{thebibliography}
+
+\end{document}
